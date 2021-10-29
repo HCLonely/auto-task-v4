@@ -1,8 +1,7 @@
-/* eslint-disable import/no-unresolved, import/extensions */
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 12:18:06
- * @LastEditTime : 2021-10-28 17:11:40
+ * @LastEditTime : 2021-10-29 19:42:12
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Youtube.ts
  * @Description  : Youtube 订阅/取消订阅频道，点赞/取消点赞视频
@@ -37,8 +36,8 @@ interface likeVideoData {
     },
     request: {
       sessionId: string,
-      internalExperimentFlags: Array<any>,
-      consistencyTokenJars: Array<any>
+      internalExperimentFlags: Array<unknown>,
+      consistencyTokenJars: Array<unknown>
     },
     user: object
   },

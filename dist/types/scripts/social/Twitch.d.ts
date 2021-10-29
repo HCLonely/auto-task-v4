@@ -2,8 +2,8 @@ import Social from './Social';
 declare class Twitch extends Social {
     constructor(id: string);
     init(): Promise<boolean>;
-    verifyToken(): Promise<boolean>;
-    updateToken(notice: boolean): void;
+    verifyAuth(): Promise<boolean>;
+    updateAuth(): Promise<boolean>;
     toggleChannel({ name, doTask }: {
         name: string;
         doTask: boolean;

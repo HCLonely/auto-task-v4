@@ -1,12 +1,12 @@
-/* eslint-disable import/no-unresolved, import/extensions */
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-15 10:48:42
- * @LastEditTime : 2021-10-28 16:33:30
+ * @LastEditTime : 2021-10-29 19:41:47
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Social.ts
  * @Description  :
  */
+
 import throwError from '../tools/throwError';
 import { unique } from '../tools/tools';
 

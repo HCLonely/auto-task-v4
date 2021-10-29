@@ -3,7 +3,7 @@ declare class Discord extends Social {
     constructor(id: string);
     init(): Promise<boolean>;
     verifyAuth(): Promise<boolean>;
-    updateAuth(): Promise<unknown>;
+    updateAuth(): Promise<boolean>;
     joinServer(inviteId: string): Promise<boolean>;
     leaveServer(inviteId: string): Promise<boolean>;
     getGuild(inviteId: string): Promise<boolean | string>;

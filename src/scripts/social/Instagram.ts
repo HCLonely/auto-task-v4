@@ -1,12 +1,12 @@
-/* eslint-disable import/no-unresolved, import/extensions */
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-29 12:54:16
- * @LastEditTime : 2021-10-28 16:32:27
+ * @LastEditTime : 2021-10-29 19:40:49
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Instagram.ts
  * @Description  : Instagram 关注&取关用户
  */
+
 import Social from './Social';
 import echoLog from '../echoLog';
 import throwError from '../tools/throwError';

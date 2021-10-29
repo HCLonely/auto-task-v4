@@ -27,6 +27,9 @@
     "unsafeWindow": true,
     "$": true
   },
+  "ignorePatterns": [
+    "dist/**/*"
+  ],
   "rules": {
     "indent": [
       "error",
@@ -126,22 +129,8 @@
       }
     ],
     "import/no-webpack-loader-syntax": "error",
-    "import/extensions": [
-      "error",
-      "always",
-      {
-        "ts": "never",
-        "tsx": "never",
-        "js": "never",
-        "jsx": "never"
-      }
-    ],
-    "import/no-unresolved": [
-      2,
-      {
-        "commonjs": true
-      }
-    ],
+    "import/extensions": 0,
+    "import/no-unresolved": 0,
     "no-iterator": "error",
     "generator-star-spacing": [
       "error",

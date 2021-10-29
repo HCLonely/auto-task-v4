@@ -2284,12 +2284,24 @@
                 return Twitch_generator(this, function(_a) {
                     switch (_a.label) {
                       case 0:
-                        _a.trys.push([ 0, 2, , 3 ]);
-                        return [ 4, this.verifyToken() ];
+                        _a.trys.push([ 0, 3, , 4 ]);
+                        return [ 4, this.verifyAuth() ];
 
                       case 1:
                         isVerified = _a.sent();
                         if (isVerified) {
+                            scripts_echoLog({
+                                text: "Init twitch success!"
+                            });
+                            return [ 2, true ];
+                        }
+                        GM_setValue("twitchAuth", {
+                            auth: null
+                        });
+                        return [ 4, this.updateAuth() ];
+
+                      case 2:
+                        if (_a.sent()) {
                             scripts_echoLog({
                                 text: "Init twitch success!"
                             });
@@ -2300,18 +2312,18 @@
                         });
                         return [ 2, false ];
 
-                      case 2:
+                      case 3:
                         error_1 = _a.sent();
                         throwError(error_1, "Twitch.init");
                         return [ 2, false ];
 
-                      case 3:
+                      case 4:
                         return [ 2 ];
                     }
                 });
             });
         };
-        Twitch.prototype.verifyToken = function() {
+        Twitch.prototype.verifyAuth = function() {
             var _a, _b, _c;
             return Twitch_awaiter(this, void 0, void 0, function() {
                 var logStatus, _d, result, statusText, status_1, data, error_2;
@@ -2350,7 +2362,7 @@
 
                       case 2:
                         error_2 = _e.sent();
-                        throwError(error_2, "Twitch.verifyToken");
+                        throwError(error_2, "Twitch.verifyAuth");
                         return [ 2, false ];
 
                       case 3:
@@ -2359,41 +2371,72 @@
                 });
             });
         };
-        Twitch.prototype.updateToken = function(notice) {
-            try {
-                var authToken = Cookies.get("auth-token");
-                var isLogin = !!Cookies.get("login");
-                if (authToken && isLogin) {
-                    this.auth.authToken = authToken;
-                    this.auth.clientId = commonOptions === null || commonOptions === void 0 ? void 0 : commonOptions.headers["Client-ID"];
-                    if (notice) {
-                        Swal.fire({
-                            title: i18n("updateTwitchInfoSuccess"),
-                            icon: "success"
+        Twitch.prototype.updateAuth = function() {
+            return Twitch_awaiter(this, void 0, void 0, function() {
+                var logStatus_1, error_3;
+                var _this = this;
+                return Twitch_generator(this, function(_a) {
+                    switch (_a.label) {
+                      case 0:
+                        _a.trys.push([ 0, 2, , 3 ]);
+                        logStatus_1 = scripts_echoLog({
+                            type: "text",
+                            text: "updateTwitchAuth"
                         });
+                        return [ 4, new Promise(function(resolve) {
+                            var newTab = GM_openInTab("https://www.twitch.tv/?updateTwitchAuth", {
+                                active: true,
+                                insert: true,
+                                setParent: true
+                            });
+                            newTab.onclose = function() {
+                                return Twitch_awaiter(_this, void 0, void 0, function() {
+                                    var auth, _a;
+                                    return Twitch_generator(this, function(_b) {
+                                        switch (_b.label) {
+                                          case 0:
+                                            auth = GM_getValue("twitchAuth");
+                                            if (!auth) return [ 3, 2 ];
+                                            this.auth = auth;
+                                            logStatus_1.success();
+                                            _a = resolve;
+                                            return [ 4, this.verifyAuth() ];
+
+                                          case 1:
+                                            _a.apply(void 0, [ _b.sent() ]);
+                                            return [ 3, 3 ];
+
+                                          case 2:
+                                            logStatus_1.error("Error: Update twitch auth failed!");
+                                            resolve(false);
+                                            _b.label = 3;
+
+                                          case 3:
+                                            return [ 2 ];
+                                        }
+                                    });
+                                });
+                            };
+                        }) ];
+
+                      case 1:
+                        return [ 2, _a.sent() ];
+
+                      case 2:
+                        error_3 = _a.sent();
+                        throwError(error_3, "Twitch.updateAuth");
+                        return [ 2, false ];
+
+                      case 3:
+                        return [ 2 ];
                     }
-                } else {
-                    if (notice) {
-                        Swal.fire({
-                            title: i18n("needLogin"),
-                            icon: "warning"
-                        });
-                    }
-                }
-            } catch (error) {
-                throwError(error, "Twitch.updateToken");
-                if (notice) {
-                    Swal.fire({
-                        title: i18n("updateTwitchInfoError"),
-                        icon: "error"
-                    });
-                }
-            }
+                });
+            });
         };
         Twitch.prototype.toggleChannel = function(_a) {
             var name = _a.name, _b = _a.doTask, doTask = _b === void 0 ? true : _b;
             return Twitch_awaiter(this, void 0, void 0, function() {
-                var channelId, logStatus, followData, unfollowData, _c, result, statusText, status_2, data, error_3;
+                var channelId, logStatus, followData, unfollowData, _c, result, statusText, status_2, data, error_4;
                 return Twitch_generator(this, function(_d) {
                     switch (_d.label) {
                       case 0:
@@ -2444,8 +2487,8 @@
                         return [ 2, false ];
 
                       case 3:
-                        error_3 = _d.sent();
-                        throwError(error_3, "Twitch.toggleChannel");
+                        error_4 = _d.sent();
+                        throwError(error_4, "Twitch.toggleChannel");
                         return [ 2, false ];
 
                       case 4:
@@ -2457,7 +2500,7 @@
         Twitch.prototype.getChannelId = function(name) {
             var _a, _b, _c, _d;
             return Twitch_awaiter(this, void 0, void 0, function() {
-                var logStatus, _e, result, statusText, status_3, data, channelId, error_4;
+                var logStatus, _e, result, statusText, status_3, data, channelId, error_5;
                 return Twitch_generator(this, function(_f) {
                     switch (_f.label) {
                       case 0:
@@ -2497,8 +2540,8 @@
                         return [ 2, false ];
 
                       case 2:
-                        error_4 = _f.sent();
-                        throwError(error_4, "Twitch.getChannelId");
+                        error_5 = _f.sent();
+                        throwError(error_5, "Twitch.getChannelId");
                         return [ 2, false ];
 
                       case 3:
@@ -2510,7 +2553,7 @@
         Twitch.prototype.toggle = function(_a) {
             var _b = _a.doTask, doTask = _b === void 0 ? true : _b, _c = _a.channels, channels = _c === void 0 ? [] : _c, _d = _a.channelLinks, channelLinks = _d === void 0 ? [] : _d;
             return Twitch_awaiter(this, void 0, void 0, function() {
-                var prom, realChannels, realChannels_1, realChannels_1_1, channel, e_1_1, error_5;
+                var prom, realChannels, realChannels_1, realChannels_1_1, channel, e_1_1, error_6;
                 var e_1, _e;
                 return Twitch_generator(this, function(_f) {
                     switch (_f.label) {
@@ -2570,8 +2613,8 @@
                         }) ];
 
                       case 9:
-                        error_5 = _f.sent();
-                        throwError(error_5, "Twitch.toggle");
+                        error_6 = _f.sent();
+                        throwError(error_6, "Twitch.toggle");
                         return [ 2, false ];
 
                       case 10:
@@ -4542,6 +4585,17 @@
         window.close();
     }
     window.onload = function() {
+        if (window.location.hostname === "www.twitch.tv" && window.location.search === "?updateTwitchAuth") {
+            var authToken = Cookies.get("auth-token");
+            var isLogin = !!Cookies.get("login");
+            if (isLogin) {
+                GM_setValue("twitchAuth", {
+                    authToken: authToken,
+                    clientId: commonOptions === null || commonOptions === void 0 ? void 0 : commonOptions.headers["Client-ID"]
+                });
+                window.close();
+            } else {}
+        }
         unsafeWindow.Discord = social_Discord;
         unsafeWindow.Instagram = social_Instagram;
         unsafeWindow.Reddit = social_Reddit;

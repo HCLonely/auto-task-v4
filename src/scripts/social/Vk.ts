@@ -1,12 +1,12 @@
-/* eslint-disable import/no-unresolved, import/extensions */
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 11:47:59
- * @LastEditTime : 2021-10-28 17:11:43
+ * @LastEditTime : 2021-10-29 19:42:03
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Vk.ts
  * @Description  : Vk 加入/退出群组，关注/取关用户，转发动态
  */
+
 import Social from './Social';
 import echoLog from '../echoLog';
 import throwError from '../tools/throwError';

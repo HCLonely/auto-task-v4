@@ -1,8 +1,7 @@
-/* eslint-disable import/no-unresolved, import/extensions */
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:00:41
- * @LastEditTime : 2021-10-28 16:40:38
+ * @LastEditTime : 2021-10-29 20:10:01
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitch.ts
  * @Description  : Twitch 关注/取关频道
@@ -12,14 +11,7 @@ import Social from './Social';
 import echoLog from '../echoLog';
 import throwError from '../tools/throwError';
 import httpRequest from '../tools/httpRequest';
-import getI18n from '../i18n/i18n';
 import { unique, delay } from '../tools/tools';
-
-declare const commonOptions: {
-  headers?: {
-    'Client-ID': string
-  }
-};
 
 class Twitch extends Social {
   // TODO: 任务识别
@@ -33,8 +25,13 @@ class Twitch extends Social {
   // 通用化,log
   async init(): Promise<boolean> {
     try {
-      const isVerified: boolean = await this.verifyToken();
+      const isVerified: boolean = await this.verifyAuth();
       if (isVerified) {
+        echoLog({ text: 'Init twitch success!' });
+        return true;
+      }
+      GM_setValue('twitchAuth', { auth: null }); // eslint-disable-line new-cap
+      if (await this.updateAuth()) {
         echoLog({ text: 'Init twitch success!' });
         return true;
       }
@@ -46,7 +43,7 @@ class Twitch extends Social {
     }
   }
 
-  async verifyToken(): Promise<boolean> {
+  async verifyAuth(): Promise<boolean> {
     try {
       const logStatus = echoLog({ type: 'text', text: 'verifyTwitchAuth' });
       const { result, statusText, status, data } = await httpRequest({
@@ -70,42 +67,32 @@ class Twitch extends Social {
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Twitch.verifyToken');
+      throwError(error, 'Twitch.verifyAuth');
       return false;
     }
   }
 
-  // 优化自动更新
-  updateToken(notice: boolean): void {
+  async updateAuth():Promise<boolean> {
     try {
-      const authToken = Cookies.get('auth-token');
-      const isLogin = !!Cookies.get('login');
-      if (authToken && isLogin) {
-        this.auth.authToken = authToken;
-        this.auth.clientId = commonOptions?.headers['Client-ID'];
-        // GM_setValue('twitchInfo', twitchInfo)
-        if (notice) {
-          Swal.fire({
-            title: getI18n('updateTwitchInfoSuccess'),
-            icon: 'success'
-          });
-        }
-      } else {
-        if (notice) {
-          Swal.fire({
-            title: getI18n('needLogin'),
-            icon: 'warning'
-          });
-        }
-      }
+      const logStatus = echoLog({ type: 'text', text: 'updateTwitchAuth' });
+      return await new Promise((resolve) => {
+        const newTab = GM_openInTab('https://www.twitch.tv/?updateTwitchAuth', // eslint-disable-line new-cap
+          { active: true, insert: true, setParent: true });
+        newTab.onclose = async () => {
+          const auth = GM_getValue<auth>('twitchAuth'); // eslint-disable-line new-cap
+          if (auth) {
+            this.auth = auth;
+            logStatus.success();
+            resolve(await this.verifyAuth());
+          } else {
+            logStatus.error('Error: Update twitch auth failed!');
+            resolve(false);
+          }
+        };
+      });
     } catch (error) {
-      throwError(error, 'Twitch.updateToken');
-      if (notice) {
-        Swal.fire({
-          title: getI18n('updateTwitchInfoError'),
-          icon: 'error'
-        });
-      }
+      throwError(error, 'Twitch.updateAuth');
+      return false;
     }
   }
 
@@ -216,40 +203,3 @@ class Twitch extends Social {
 }
 
 export default Twitch;
-/*
-function updateTwitchInfo(notice) {
-  try {
-    const authToken = Cookies.get('auth-token')
-    const isLogin = !!Cookies.get('login')
-    if (authToken && isLogin) {
-      twitchInfo.authToken = authToken
-      twitchInfo.isLogin = isLogin
-      twitchInfo.clientId = commonOptions?.headers['Client-ID']
-      twitchInfo.updateTime = new Date().getTime()
-      GM_setValue('twitchInfo', twitchInfo)
-      if (notice) {
-        Swal.fire({
-          title: getI18n('updateTwitchInfoSuccess'),
-          icon: 'success'
-        })
-      }
-    } else {
-      if (notice) {
-        Swal.fire({
-          title: getI18n('needLogin'),
-          icon: 'warning'
-        })
-      }
-    }
-  } catch (e) {
-    if (debug) console.error(e)
-    if (notice) {
-      Swal.fire({
-        title: getI18n('updateTwitchInfoError'),
-        icon: 'error'
-      })
-    }
-  }
-}
-
-*/

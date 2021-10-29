@@ -1,12 +1,12 @@
-/* eslint-disable import/no-unresolved, import/extensions */
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-30 09:43:32
- * @LastEditTime : 2021-10-28 16:33:25
+ * @LastEditTime : 2021-10-29 19:41:40
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Reddit.ts
  * @Description  : Reddit 订阅&取消订阅
  */
+
 import Social from './Social';
 import echoLog from '../echoLog';
 import throwError from '../tools/throwError';

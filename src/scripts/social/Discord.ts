@@ -1,8 +1,7 @@
-/* eslint-disable import/no-unresolved, import/extensions */
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2021-10-28 16:32:20
+ * @LastEditTime : 2021-10-29 19:44:59
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
@@ -74,7 +73,7 @@ class Discord extends Social {
     }
   }
 
-  async updateAuth() {
+  async updateAuth():Promise<boolean> {
     try {
       const logStatus = echoLog({ type: 'text', text: 'updateDiscordAuth' });
       return await new Promise((resolve) => {
