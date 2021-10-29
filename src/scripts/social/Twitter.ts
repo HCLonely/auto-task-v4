@@ -1,0 +1,228 @@
+/* eslint-disable import/no-unresolved, import/extensions */
+/*
+ * @Author       : HCLonely
+ * @Date         : 2021-10-04 10:36:57
+ * @LastEditTime : 2021-10-28 17:11:45
+ * @LastEditors  : HCLonely
+ * @FilePath     : /auto-task-new/src/scripts/social/Twitter.ts
+ * @Description  : Twitter 关注/取关用户,转推/取消转推推文
+ */
+
+import Social from './Social';
+import echoLog from '../echoLog';
+import throwError from '../tools/throwError';
+import httpRequest from '../tools/httpRequest';
+import { unique, delay } from '../tools/tools';
+
+class Twitter extends Social {
+  // TODO: 任务识别
+  constructor(id: string) {
+    super();
+    this.tasks = GM_getValue<socialTasks>(`Twitter-${id}`) || { users: [], retweets: [], likes: [] }; // eslint-disable-line new-cap
+    this.whiteList = GM_getValue<whiteList>('whiteList')?.twitter || { users: [], retweets: [], likes: [] }; // eslint-disable-line new-cap
+    this.auth = GM_getValue<auth>('twitterAuth') || {}; // eslint-disable-line new-cap
+  }
+
+  // 通用化,log
+  async init():Promise<boolean> {
+    try {
+      const isVerified = false;// await this.verifyToken(); // TODO
+      if (isVerified) {
+        echoLog({ text: 'Init twitter success!' });
+        return true;
+      }
+      echoLog({ text: 'Init twitter failed!' });
+      return false;
+    } catch (error) {
+      throwError(error, 'Twitter.init');
+      return false;
+    }
+  }
+
+  // TODO: 添加跳转
+  async updateToken():Promise<boolean> {
+    try {
+      if (!window.location.href.includes('login')) {
+        if (Cookies.get('twid')) {
+          const ct0 = Cookies.get('ct0');
+          if (ct0) {
+            this.auth.ct0 = ct0;
+            return true;
+          }
+          window.close();
+          return false;
+          // GM_setValue('twitterInfo', twitterInfo)
+        }
+      }
+      this.auth.isLogin = false;
+      // GM_setValue('twitterInfo', twitterInfo)
+      return false;
+    } catch (error) {
+      throwError(error, 'Twitter.updateToken');
+      return false;
+    }
+  }
+
+  async toggleUser({ name, doTask = true }: { name: string, doTask: boolean }): Promise<boolean> {
+    try {
+      if (!doTask && this.whiteList.users.includes(name)) {
+        // TODO: 直接echo
+        echoLog({ type: 'whiteList', text: name });
+        return true;
+      }
+      const userId: string | boolean = await this.getUserId(name);
+      if (!userId) return false;
+      const logStatus = echoLog({ type: `${doTask ? '' : 'un'}followTwitterUser`, text: name });
+      const { result, statusText, status, data } = await httpRequest({
+        url: `https://api.twitter.com/1.1/friendships/${doTask ? 'create' : 'destroy'}.json`,
+        method: 'POST',
+        headers: {
+          authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'x-csrf-token': this.auth.ct0
+        },
+        /* eslint-disable camelcase */
+        data: $.param({
+          include_profile_interstitial_type: 1,
+          include_blocking: 1,
+          include_blocked_by: 1,
+          include_followed_by: 1,
+          include_want_retweets: 1,
+          include_mute_edge: 1,
+          include_can_dm: 1,
+          include_can_media_tag: 1,
+          skip_status: 1,
+          id: userId
+        })
+        /* eslint-enable camelcase */
+      });
+      if (result === 'Success') {
+        if (data.status === 200) {
+          logStatus.success();
+          if (doTask) this.tasks.users = unique([...this.tasks.users, name]);
+          return true;
+        }
+        logStatus.error(`Error:${data.statusText}(${data.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error, 'Twitter.toggleUser');
+      return false;
+    }
+  }
+
+  async getUserId(name: string): Promise<string | boolean> {
+    try {
+      const logStatus = echoLog({ type: 'getTwitterUserId', text: name });
+      const { result, statusText, status, data } = await httpRequest({
+        url: (
+          'https://api.twitter.com/graphql/-xfUfZsnR_zqjFd-IfrN5A/UserByScreenName' +
+          `?variables=%7B%22screen_name%22%3A%22${name}%22%2C%22withHighlightedLabel%22%3Atrue%7D`
+        ),
+        method: 'GET',
+        headers: {
+          authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
+          'content-type': 'application/json'
+        },
+        responseType: 'json',
+        anonymous: true
+      });
+      if (result === 'Success') {
+        if (data.status === 200) {
+          let response = data.response || (typeof data.responseText === 'object' ? data.responseText : null);
+          if (!response) {
+            try {
+              response = JSON.parse(data.responseText);
+            } catch (error) {
+              response = null;
+            }
+          }
+          const userId = String(response?.data?.user?.rest_id); // eslint-disable-line camelcase
+          if (userId) {
+            logStatus.success();
+            return userId;
+          }
+          logStatus.error(`Error:${data.statusText}(${data.status})`);
+          return false;
+        }
+        logStatus.error(`Error:${data.statusText}(${data.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error, 'Twitter.getUserId');
+      return false;
+    }
+  }
+
+  async toggleRetweet({ retweetId, doTask = true }: { retweetId: string, doTask: boolean }): Promise<boolean> {
+    try {
+      if (!doTask && this.whiteList.retweets.includes(retweetId)) {
+        // TODO: 直接echo
+        echoLog({ type: 'whiteList', text: retweetId });
+        return true;
+      }
+      const logStatus = echoLog({ type: `${doTask ? '' : 'un'}retweet`, text: retweetId });
+      const { result, statusText, status, data } = await httpRequest({
+        url: `https://api.twitter.com/1.1/statuses/${doTask ? '' : 'un'}retweet.json`,
+        method: 'POST',
+        headers: {
+          authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'x-csrf-token': this.auth.ct0
+        },
+        data: $.param({
+          tweet_mode: 'extended', // eslint-disable-line camelcase
+          id: retweetId
+        }),
+        responseType: 'json'
+      });
+      if (result === 'Success') {
+        if (data.status === 200 || (data.status === 403 && data.response?.errors?.[0]?.code === 327)) {
+          logStatus.success();
+          if (doTask) this.tasks.retweets = unique([...this.tasks.retweets, name]);
+          return true;
+        }
+        logStatus.error(`Error:${data.statusText}(${data.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error, 'Twitter.toggleRetweet');
+      return false;
+    }
+  }
+
+  async toggle({ doTask = true, users = [], userLinks = [], retweets = [], retweetLinks = [] }:
+    { doTask: boolean, users: Array<string>, userLinks: Array<string>, retweets: Array<string>, retweetLinks: Array<string> }): Promise<boolean> {
+    try {
+      const prom = [];
+      const realUsers = this.getRealParams('users', users, userLinks, doTask, (link) => link.match(/https:\/\/twitter\.com\/(.+)/)?.[1]);
+      const realRetweets = this.getRealParams('retweets', retweets, retweetLinks, doTask,
+        (link) => link.match(/https:\/\/twitter\.com\/.*?\/status\/([\d]+)/)?.[1]);
+      if (realUsers.length > 0) {
+        for (const user of realUsers) {
+          prom.push(this.toggleUser({ name: user, doTask }));
+          await delay(1000);
+        }
+      }
+      if (realRetweets.length > 0) {
+        for (const retweet of realRetweets) {
+          prom.push(this.toggleRetweet({ retweetId: retweet, doTask }));
+          await delay(1000);
+        }
+      }
+      // TODO: 返回值处理
+      return Promise.all(prom).then(() => true);
+    } catch (error) {
+      throwError(error, 'Twitch.toggle');
+      return false;
+    }
+  }
+}
+
+export default Twitter;
