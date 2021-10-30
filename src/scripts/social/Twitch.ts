@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:00:41
- * @LastEditTime : 2021-10-29 20:10:01
+ * @LastEditTime : 2021-10-30 12:49:01
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitch.ts
  * @Description  : Twitch 关注/取关频道
@@ -14,10 +14,13 @@ import httpRequest from '../tools/httpRequest';
 import { unique, delay } from '../tools/tools';
 
 class Twitch extends Social {
+  tasks: twitchTasks;
+  whiteList: twitchTasks;
+
   // TODO: 任务识别
   constructor(id: string) {
     super();
-    this.tasks = GM_getValue<socialTasks>(`Twitch-${id}`) || { channels: [] }; // eslint-disable-line new-cap
+    this.tasks = GM_getValue<twitchTasks>(`Twitch-${id}`) || { channels: [] }; // eslint-disable-line new-cap
     this.whiteList = GM_getValue<whiteList>('whiteList')?.twitch || { channels: [] }; // eslint-disable-line new-cap
     this.auth = GM_getValue<auth>('twitchAuth') || {}; // eslint-disable-line new-cap
   }
@@ -25,6 +28,13 @@ class Twitch extends Social {
   // 通用化,log
   async init(): Promise<boolean> {
     try {
+      if (!this.auth.authToken) {
+        echoLog({ type: 'updateTwitchAuth' });
+        if (!(await this.updateAuth())) {
+          return false;
+        }
+        return true;
+      }
       const isVerified: boolean = await this.verifyAuth();
       if (isVerified) {
         echoLog({ text: 'Init twitch success!' });
@@ -38,7 +48,7 @@ class Twitch extends Social {
       echoLog({ text: 'Init twitch failed!' });
       return false;
     } catch (error) {
-      throwError(error, 'Twitch.init');
+      throwError(error as Error, 'Twitch.init');
       return false;
     }
   }
@@ -50,24 +60,24 @@ class Twitch extends Social {
         url: 'https://gql.twitch.tv/gql',
         method: 'POST',
         dataType: 'json',
-        headers: { Authorization: `OAuth ${this.auth.authToken}`, 'Client-Id': this.auth.clientId },
+        headers: { Authorization: `OAuth ${this.auth.authToken}`, 'Client-Id': this.auth.clientId as string },
         data: (
           '[{"operationName":"FrontPageNew_User","variables":{"limit":1},"extensions":{"persistedQuery":{"version":1,' +
           '"sha256Hash":"64bd07a2cbaca80699d62636d966cf6395a5d14a1f0a14282067dcb28b13eb11"}}}]'
         )
       });
       if (result === 'Success') {
-        if (data.status === 200 && data.response?.[0]?.data?.currentUser) {
+        if (data?.status === 200 && data.response?.[0]?.data?.currentUser) {
           logStatus.success();
           return true;
         }
-        logStatus.error(`Error:${data.statusText}(${data.status})`);
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Twitch.verifyAuth');
+      throwError(error as Error, 'Twitch.verifyAuth');
       return false;
     }
   }
@@ -76,7 +86,7 @@ class Twitch extends Social {
     try {
       const logStatus = echoLog({ type: 'text', text: 'updateTwitchAuth' });
       return await new Promise((resolve) => {
-        const newTab = GM_openInTab('https://www.twitch.tv/?updateTwitchAuth', // eslint-disable-line new-cap
+        const newTab = GM_openInTab('https://www.twitch.tv/#auth', // eslint-disable-line new-cap
           { active: true, insert: true, setParent: true });
         newTab.onclose = async () => {
           const auth = GM_getValue<auth>('twitchAuth'); // eslint-disable-line new-cap
@@ -91,7 +101,7 @@ class Twitch extends Social {
         };
       });
     } catch (error) {
-      throwError(error, 'Twitch.updateAuth');
+      throwError(error as Error, 'Twitch.updateAuth');
       return false;
     }
   }
@@ -122,20 +132,20 @@ class Twitch extends Social {
         data: doTask ? followData : unfollowData
       });
       if (result === 'Success') {
-        if (data.status === 200) {
+        if (data?.status === 200) {
           logStatus.success();
           if (doTask) {
             this.tasks.channels = unique([...this.tasks.channels, name]);
           }
           return true;
         }
-        logStatus.error(`Error:${data.statusText}(${data.status})`);
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Twitch.toggleChannel');
+      throwError(error as Error, 'Twitch.toggleChannel');
       return false;
     }
   }
@@ -146,7 +156,7 @@ class Twitch extends Social {
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://gql.twitch.tv/gql',
         method: 'POST',
-        headers: { Authorization: `OAuth ${this.auth.authToken}`, 'Client-Id': this.auth.clientId },
+        headers: { Authorization: `OAuth ${this.auth.authToken}`, 'Client-Id': this.auth.clientId as string },
         responseType: 'json',
         data: (
           `[{"operationName":"ActiveWatchParty","variables":{"channelLogin":"${name}"},` +
@@ -154,7 +164,7 @@ class Twitch extends Social {
         )
       });
       if (result === 'Success') {
-        if (data.status === 200) {
+        if (data?.status === 200) {
           const channelId = String(data.response?.[0]?.data?.user?.id);
           if (channelId) {
             logStatus.success();
@@ -163,13 +173,13 @@ class Twitch extends Social {
           logStatus.error(`Error:${data.statusText}(${data.status})`);
           return false;
         }
-        logStatus.error(`Error:${data.statusText}(${data.status})`);
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Twitch.getChannelId');
+      throwError(error as Error, 'Twitch.getChannelId');
       return false;
     }
   }
@@ -196,7 +206,7 @@ class Twitch extends Social {
       // TODO: 返回值处理
       return Promise.all(prom).then(() => true);
     } catch (error) {
-      throwError(error, 'Twitch.toggle');
+      throwError(error as Error, 'Twitch.toggle');
       return false;
     }
   }

@@ -1,14 +1,15 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 13:18:21
- * @LastEditTime : 2021-10-27 13:54:10
+ * @LastEditTime : 2021-10-30 12:44:05
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/global.d.ts
  */
 declare global {
-  var unsafeWindow: {
+  const unsafeWindow: {
     [name: string]: any
-  }
+  };
+
   interface MonkeyXhrResponse {
     finalUrl: string
     readyState: number
@@ -68,8 +69,41 @@ declare global {
     publics?: Array<string>
     walls?: Array<string>
   }
+  type taskTypes = 'servers' | 'users' | 'reddits' | 'channels' | 'retweets' | 'likes' | 'names' | 'groups' | 'publics' | 'walls'
+  interface discordTasks {
+    servers: Array<string>
+  }
+  interface instagramTasks {
+    users: Array<string>
+  }
+  interface redditTasks {
+    reddits: Array<string>
+  }
+  interface twitchTasks {
+    channels: Array<string>
+  }
+  interface twitterTasks {
+    users: Array<string>
+    retweets: Array<string>
+    likes: Array<string>
+  }
+  interface vkTasks {
+    groups: Array<string>
+    publics: Array<string>
+    walls: Array<string>
+  }
+  interface youtubeTasks {
+    channels: Array<string>
+    likes: Array<string>
+  }
   interface whiteList {
-    [name: string]: socialTasks
+    discord?: discordTasks
+    instagram?: instagramTasks
+    twitch?: twitchTasks
+    twitter?: twitterTasks
+    vk?: vkTasks
+    youtube?: youtubeTasks
+    reddit?: redditTasks
   }
   interface auth {
     token?: string
@@ -86,10 +120,10 @@ declare global {
     [name: string]: string
   }
 
-  function GM_xmlhttpRequest(details: MonkeyXhrDetails): { abort: () => void }
-  function GM_setValue(name: string, value: any): void
-  function GM_getValue<T>(name: string, defaultValue?: T): T
-  function GM_openInTab(url: string, options?: {
+  function GM_xmlhttpRequest(details: MonkeyXhrDetails): { abort: () => void } // eslint-disable-line camelcase
+  function GM_setValue(name: string, value: any): void // eslint-disable-line camelcase
+  function GM_getValue<T>(name: string, defaultValue?: T): T // eslint-disable-line camelcase
+  function GM_openInTab(url: string, options?: { // eslint-disable-line camelcase
     active?: boolean
     insert?: boolean
     setParent?: boolean
@@ -502,7 +536,7 @@ declare global {
     /**
      * SweetAlert2's version
      */
-    const version: string
+    const version: string;
   }
 
   interface SweetAlertHideShowClass {
@@ -1317,4 +1351,4 @@ declare global {
     scrollbarPadding?: boolean;
   }
 }
-export { }
+export { };

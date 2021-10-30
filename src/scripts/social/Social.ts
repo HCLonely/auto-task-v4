@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-15 10:48:42
- * @LastEditTime : 2021-10-29 19:41:47
+ * @LastEditTime : 2021-10-30 11:12:16
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Social.ts
  * @Description  :
@@ -11,15 +11,20 @@ import throwError from '../tools/throwError';
 import { unique } from '../tools/tools';
 
 class Social {
-  tasks: socialTasks;
-  whiteList: socialTasks;
-  auth: auth;
-  cache: cache;
+  tasks!: socialTasks;
+  auth!: auth;
+  cache!: cache;
 
   // 通用
-  getRealParams(name: string, params: Array<string>, links: Array<string>, doTask: boolean, link2param: (link: string) => string): Array<string> {
+  getRealParams(
+    name: taskTypes,
+    params: Array<string>,
+    links: Array<string>,
+    doTask: boolean,
+    link2param: (link: string) => string | undefined
+  ): Array<string> {
     try {
-      let realParams = [];
+      let realParams: Array<string> = [];
       if (params.length > 0) {
         realParams = [...params];
       }
@@ -28,18 +33,18 @@ class Social {
           ...realParams,
           ...links
             .map((link) => link2param(link))
-            .filter((link) => link)
+            .filter((link) => link) as Array<string>
         ];
       }
-      if (!doTask && this.tasks[name].length > 0) {
+      if (!doTask && (this.tasks[name] as Array<string>).length > 0) {
         realParams = [
           ...realParams,
-          ...this.tasks[name]
+          ...this.tasks[name] as Array<string>
         ];
       }
       return unique(realParams);
     } catch (error) {
-      throwError(error, 'Social.getRealParams');
+      throwError(error as Error, 'Social.getRealParams');
       return [];
     }
   }

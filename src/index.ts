@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-10-29 20:08:03
+ * @LastEditTime : 2021-10-30 12:46:27
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -12,11 +12,11 @@ import Instagram from './scripts/social/Instagram';
 import Reddit from './scripts/social/Reddit';
 import Twitch from './scripts/social/Twitch';
 import Twitter from './scripts/social/Twitter';
-import Vk from './scripts/social/Vk';
-import Youtube from './scripts/social/Youtube';
+// import Vk from './scripts/social/Vk';
+// import Youtube from './scripts/social/Youtube';
 
-if (window.location.hostname === 'discord.com' && window.location.search === '?updateDiscordAuth') { // todo: 登录
-  GM_setValue('discordAuth', { auth: window.localStorage.getItem('token').replace(/^"|"$/g, '') }); // eslint-disable-line new-cap
+if (window.location.hostname === 'discord.com' && window.location.hash === '#auth') { // todo: 登录
+  GM_setValue('discordAuth', { auth: window.localStorage.getItem('token')?.replace(/^"|"$/g, '') }); // eslint-disable-line new-cap
   window.close();
 }
 declare const commonOptions: {
@@ -25,11 +25,20 @@ declare const commonOptions: {
   }
 };
 window.onload = () => {
-  if (window.location.hostname === 'www.twitch.tv' && window.location.search === '?updateTwitchAuth') { // todo: 登录
+  if (window.location.hostname === 'www.twitch.tv' && window.location.hash === '#auth') { // todo: 登录
     const authToken = Cookies.get('auth-token');
     const isLogin = !!Cookies.get('login');
     if (isLogin) {
-      GM_setValue('twitchAuth', { authToken, clientId: commonOptions?.headers['Client-ID'] }); // eslint-disable-line new-cap
+      GM_setValue('twitchAuth', { authToken, clientId: commonOptions?.headers?.['Client-ID'] }); // eslint-disable-line new-cap
+      window.close();
+    } else {
+      // 需要登录
+    }
+  }
+  if (window.location.hostname === 'twitter.com' && window.location.hash === '#auth') { // todo: 登录
+    const ct0 = Cookies.get('ct0');
+    if (ct0) {
+      GM_setValue('twitterAuth', { ct0 }); // eslint-disable-line new-cap
       window.close();
     } else {
       // 需要登录
@@ -40,8 +49,8 @@ window.onload = () => {
   unsafeWindow.Reddit = Reddit;
   unsafeWindow.Twitch = Twitch;
   unsafeWindow.Twitter = Twitter;
-  unsafeWindow.Vk = Vk;
-  unsafeWindow.Youtube = Youtube;
+  // unsafeWindow.Vk = Vk;
+  // unsafeWindow.Youtube = Youtube;
 
   $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;"></div>');
 };

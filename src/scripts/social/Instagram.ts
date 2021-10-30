@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-29 12:54:16
- * @LastEditTime : 2021-10-29 19:40:49
+ * @LastEditTime : 2021-10-30 10:49:01
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Instagram.ts
  * @Description  : Instagram 关注&取关用户
@@ -15,10 +15,13 @@ import getI18n from '../i18n/i18n';
 import { unique, delay } from '../tools/tools';
 
 class Instagram extends Social {
+  tasks: instagramTasks;
+  whiteList: instagramTasks;
+
   // TODO: 任务识别
   constructor(id: string) {
     super();
-    this.tasks = GM_getValue<socialTasks>(`Instagram-${id}`) || { users: [] }; // eslint-disable-line new-cap
+    this.tasks = GM_getValue<instagramTasks>(`Instagram-${id}`) || { users: [] }; // eslint-disable-line new-cap
     this.whiteList = GM_getValue<whiteList>('whiteList')?.instagram || { users: [] }; // eslint-disable-line new-cap
   }
 
@@ -32,7 +35,7 @@ class Instagram extends Social {
       echoLog({ text: 'Init instagram failed!' });
       return false;
     } catch (error) {
-      throwError(error, 'Instagram.init');
+      throwError(error as Error, 'Instagram.init');
       return false;
     }
   }
@@ -45,16 +48,16 @@ class Instagram extends Social {
         method: 'GET'
       });
       if (result === 'Success') {
-        if (data.finalUrl.includes('accounts/login')) {
+        if (data?.finalUrl.includes('accounts/login')) {
           logStatus.error(`Error:${getI18n('loginIns')}`, true);
           return false;
-        } else if (data.finalUrl.includes('www.instagram.com/challenge')) {
+        } else if (data?.finalUrl.includes('www.instagram.com/challenge')) {
           logStatus.error(`Error:${getI18n('insBanned')}`);
           return false;
         }
-        if (data.status === 200) {
-          const csrftoken: string = data.responseText.match(/"csrf_token":"(.+?)"/)?.[1];
-          const hash: string = data.responseText.match(/"rollout_hash":"(.+?)"/)?.[1];
+        if (data?.status === 200) {
+          const csrftoken: string | undefined = data.responseText.match(/"csrf_token":"(.+?)"/)?.[1];
+          const hash: string | undefined = data.responseText.match(/"rollout_hash":"(.+?)"/)?.[1];
           if (name === 'instagram') {
             if (csrftoken && hash) {
               this.auth = { csrftoken, hash };
@@ -64,7 +67,7 @@ class Instagram extends Social {
           }
           this.auth.csrftoken = csrftoken || this.auth.csrftoken;
           this.auth.hash = csrftoken || this.auth.hash;
-          const id: string = data.responseText.match(/"profilePage_([\d]+?)"/)?.[1];
+          const id: string | undefined = data.responseText.match(/"profilePage_([\d]+?)"/)?.[1];
           if (id) {
             logStatus.success();
             return id;
@@ -75,8 +78,9 @@ class Instagram extends Social {
         logStatus.error(`${result}:${statusText}(${status})`);
         return false;
       }
+      return false;
     } catch (error) {
-      throwError(error, 'Instagram.getUserInfo');
+      throwError(error as Error, 'Instagram.getUserInfo');
       return false;
     }
   }
@@ -91,27 +95,27 @@ class Instagram extends Social {
         method: 'POST',
         dataType: 'json',
         headers: {
-          'x-csrftoken': this.auth.csrftoken,
+          'x-csrftoken': this.auth.csrftoken as string,
           origin: 'https://www.instagram.com',
           referer: `https://www.instagram.com/${name}/`,
           'content-type': 'application/x-www-form-urlencoded',
           'sec-fetch-site': 'same-origin',
-          'x-instagram-ajax': this.auth.hash
+          'x-instagram-ajax': this.auth.hash as string
         }
       });
       if (result === 'Success') {
-        if (data.status === 200 && data.response?.result === 'following') {
+        if (data?.status === 200 && data.response?.result === 'following') {
           logStatus.success();
           this.tasks.users = unique([...this.tasks.users, name]);
           return true;
         }
-        logStatus.error(`Error:${data.response?.feedback_message || (`${data.statusText}(${data.status})`)}`); // eslint-disable-line camelcase
+        logStatus.error(`Error:${data?.response?.feedback_message || (`${data?.statusText}(${data?.status})`)}`); // eslint-disable-line camelcase
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Instagram.followUser');
+      throwError(error as Error, 'Instagram.followUser');
       return false;
     }
   }
@@ -131,26 +135,26 @@ class Instagram extends Social {
         method: 'POST',
         dataType: 'json',
         headers: {
-          'x-csrftoken': this.auth.csrftoken,
+          'x-csrftoken': this.auth.csrftoken as string,
           origin: 'https://www.instagram.com',
           referer: `https://www.instagram.com/${name}/`,
           'content-type': 'application/x-www-form-urlencoded',
           'sec-fetch-site': 'same-origin',
-          'x-instagram-ajax': this.auth.hash
+          'x-instagram-ajax': this.auth.hash as string
         }
       });
       if (result === 'Success') {
-        if (data.status === 200 && data.response?.status === 'ok') {
+        if (data?.status === 200 && data.response?.status === 'ok') {
           logStatus.success();
           return true;
         }
-        logStatus.error(`Error:${data.statusText}(${data.status})`);
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Instagram.unfollowUser');
+      throwError(error as Error, 'Instagram.unfollowUser');
       return false;
     }
   }
@@ -170,7 +174,7 @@ class Instagram extends Social {
       // TODO: 返回值处理
       return await Promise.all(prom).then(() => true);
     } catch (error) {
-      throwError(error, 'Instagram.toggleUsers');
+      throwError(error as Error, 'Instagram.toggleUsers');
       return false;
     }
   }

@@ -1,10 +1,11 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:36:57
- * @LastEditTime : 2021-10-29 19:41:59
+ * @LastEditTime : 2021-10-30 13:04:25
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitter.ts
  * @Description  : Twitter 关注/取关用户,转推/取消转推推文
+ ! 功能验证
  */
 
 import Social from './Social';
@@ -14,33 +15,77 @@ import httpRequest from '../tools/httpRequest';
 import { unique, delay } from '../tools/tools';
 
 class Twitter extends Social {
+  tasks: twitterTasks;
+  whiteList: twitterTasks;
+  verifyId = '783214';
+
   // TODO: 任务识别
-  constructor(id: string) {
+  constructor(id: string, verifyId?:string) {
     super();
-    this.tasks = GM_getValue<socialTasks>(`Twitter-${id}`) || { users: [], retweets: [], likes: [] }; // eslint-disable-line new-cap
+    this.tasks = GM_getValue<twitterTasks>(`Twitter-${id}`) || { users: [], retweets: [], likes: [] }; // eslint-disable-line new-cap
     this.whiteList = GM_getValue<whiteList>('whiteList')?.twitter || { users: [], retweets: [], likes: [] }; // eslint-disable-line new-cap
     this.auth = GM_getValue<auth>('twitterAuth') || {}; // eslint-disable-line new-cap
+    if (verifyId) {
+      this.verifyId = verifyId;
+    }
   }
 
   // 通用化,log
-  async init():Promise<boolean> {
+  async init(): Promise<boolean> {
     try {
-      const isVerified = false;// await this.verifyToken(); // TODO
+      if (!this.auth.ct0) {
+        echoLog({ type: 'updateTwitterAuth' });
+        if (!(await this.updateAuth())) {
+          return false;
+        }
+        return true;
+      }
+      const isVerified = await this.verifyAuth(); // TODO
       if (isVerified) {
+        echoLog({ text: 'Init twitter success!' });
+        return true;
+      }
+      GM_setValue('twitterAuth', { auth: null }); // eslint-disable-line new-cap
+      if (await this.updateAuth()) {
         echoLog({ text: 'Init twitter success!' });
         return true;
       }
       echoLog({ text: 'Init twitter failed!' });
       return false;
     } catch (error) {
-      throwError(error, 'Twitter.init');
+      throwError(error as Error, 'Twitter.init');
+      return false;
+    }
+  }
+
+  async verifyAuth(): Promise<boolean> {
+    try {
+      return await this.toggleUser({ name: 'verify', doTask: true, verify: true });
+    } catch (error) {
+      throwError(error as Error, 'Twitter.verifyAuth');
       return false;
     }
   }
 
   // TODO: 添加跳转
-  async updateToken():Promise<boolean> {
+  async updateAuth(): Promise<boolean> {
     try {
+      const logStatus = echoLog({ type: 'text', text: 'updateTwitchAuth' });
+      return await new Promise((resolve) => {
+        const newTab = GM_openInTab('https://twitter.com/settings/account?k#auth', // eslint-disable-line new-cap
+          { active: true, insert: true, setParent: true });
+        newTab.onclose = async () => {
+          const auth = GM_getValue<auth>('twitterAuth'); // eslint-disable-line new-cap
+          if (auth) {
+            this.auth = auth;
+            logStatus.success();
+            resolve(await this.verifyAuth());
+          } else {
+            logStatus.error('Error: Update twitter auth failed!');
+            resolve(false);
+          }
+        };
+      });
       if (!window.location.href.includes('login')) {
         if (Cookies.get('twid')) {
           const ct0 = Cookies.get('ct0');
@@ -57,29 +102,32 @@ class Twitter extends Social {
       // GM_setValue('twitterInfo', twitterInfo)
       return false;
     } catch (error) {
-      throwError(error, 'Twitter.updateToken');
+      throwError(error as Error, 'Twitter.updateToken');
       return false;
     }
   }
 
-  async toggleUser({ name, doTask = true }: { name: string, doTask: boolean }): Promise<boolean> {
+  async toggleUser({ name, doTask = true, verify = false }: { name: string, doTask: boolean, verify?: boolean }): Promise<boolean> {
     try {
-      if (!doTask && this.whiteList.users.includes(name)) {
+      if (!doTask && !verify && this.whiteList.users.includes(name)) {
         // TODO: 直接echo
         echoLog({ type: 'whiteList', text: name });
         return true;
       }
-      const userId: string | boolean = await this.getUserId(name);
+      const userId: string | boolean = verify ? this.verifyId : (await this.getUserId(name));
       if (!userId) return false;
-      const logStatus = echoLog({ type: `${doTask ? '' : 'un'}followTwitterUser`, text: name });
+      const logStatus = verify ?
+        echoLog({ type: 'text', text: 'verifyTwitterAuth' }) :
+        echoLog({ type: `${doTask ? '' : 'un'}followTwitterUser`, text: name });
       const { result, statusText, status, data } = await httpRequest({
         url: `https://api.twitter.com/1.1/friendships/${doTask ? 'create' : 'destroy'}.json`,
         method: 'POST',
         headers: {
           authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
           'Content-Type': 'application/x-www-form-urlencoded',
-          'x-csrf-token': this.auth.ct0
+          'x-csrf-token': this.auth.ct0 as string
         },
+        responseType: 'json',
         /* eslint-disable camelcase */
         data: $.param({
           include_profile_interstitial_type: 1,
@@ -96,18 +144,23 @@ class Twitter extends Social {
         /* eslint-enable camelcase */
       });
       if (result === 'Success') {
-        if (data.status === 200) {
+        if (data?.status === 200) {
           logStatus.success();
-          if (doTask) this.tasks.users = unique([...this.tasks.users, name]);
+          if (doTask && !verify) {
+            this.tasks.users = unique([...this.tasks.users, name]);
+          }
           return true;
         }
-        logStatus.error(`Error:${data.statusText}(${data.status})`);
+        if (verify && data?.status === 403 && data.response?.errors?.[0]?.code === 158) {
+          return true;
+        }
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Twitter.toggleUser');
+      throwError(error as Error, 'Twitter.toggleUser');
       return false;
     }
   }
@@ -129,7 +182,7 @@ class Twitter extends Social {
         anonymous: true
       });
       if (result === 'Success') {
-        if (data.status === 200) {
+        if (data?.status === 200) {
           let response = data.response || (typeof data.responseText === 'object' ? data.responseText : null);
           if (!response) {
             try {
@@ -146,13 +199,13 @@ class Twitter extends Social {
           logStatus.error(`Error:${data.statusText}(${data.status})`);
           return false;
         }
-        logStatus.error(`Error:${data.statusText}(${data.status})`);
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Twitter.getUserId');
+      throwError(error as Error, 'Twitter.getUserId');
       return false;
     }
   }
@@ -171,7 +224,7 @@ class Twitter extends Social {
         headers: {
           authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
           'Content-Type': 'application/x-www-form-urlencoded',
-          'x-csrf-token': this.auth.ct0
+          'x-csrf-token': this.auth.ct0 as string
         },
         data: $.param({
           tweet_mode: 'extended', // eslint-disable-line camelcase
@@ -180,18 +233,18 @@ class Twitter extends Social {
         responseType: 'json'
       });
       if (result === 'Success') {
-        if (data.status === 200 || (data.status === 403 && data.response?.errors?.[0]?.code === 327)) {
+        if (data?.status === 200 || (data?.status === 403 && data.response?.errors?.[0]?.code === 327)) {
           logStatus.success();
-          if (doTask) this.tasks.retweets = unique([...this.tasks.retweets, name]);
+          if (doTask) this.tasks.retweets = unique([...this.tasks.retweets, retweetId]);
           return true;
         }
-        logStatus.error(`Error:${data.statusText}(${data.status})`);
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Twitter.toggleRetweet');
+      throwError(error as Error, 'Twitter.toggleRetweet');
       return false;
     }
   }
@@ -218,7 +271,7 @@ class Twitter extends Social {
       // TODO: 返回值处理
       return Promise.all(prom).then(() => true);
     } catch (error) {
-      throwError(error, 'Twitch.toggle');
+      throwError(error as Error, 'Twitch.toggle');
       return false;
     }
   }

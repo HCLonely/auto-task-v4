@@ -1,25 +1,23 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 14:58:11
- * @LastEditTime : 2021-10-26 15:01:18
+ * @LastEditTime : 2021-10-30 12:22:52
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/scripts/tools/mini.ts
+ * @FilePath     : /auto-task-new/src/scripts/tools/tools.ts
  * @Description  :
  */
-import throwError from "./throwError";
-function unique(array:Array<any>):Array<any> {
+import throwError from './throwError';
+const unique = (array:Array<any>):Array<any> => {
   try {
     return [...new Set(array)];
-  } catch (e) {
-    throwError(e, 'unique');
+  } catch (error) {
+    throwError(error as Error, 'unique');
     return [];
   }
-}
+};
 
-function delay(time:number = 1000):Promise<true> {
-  return new Promise(resolve => {
-    setTimeout(() => { resolve(true) }, time)
-  })
-}
+const delay = (time = 1000):Promise<true> => new Promise((resolve) => {
+  setTimeout(() => { resolve(true); }, time);
+});
 
-export { unique, delay }
+export { unique, delay };

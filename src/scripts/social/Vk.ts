@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 11:47:59
- * @LastEditTime : 2021-10-29 19:42:03
+ * @LastEditTime : 2021-10-30 12:35:57
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Vk.ts
  * @Description  : Vk 加入/退出群组，关注/取关用户，转发动态
@@ -24,10 +24,13 @@ interface dataParams {
   publicJoined?: boolean
 }
 class Vk extends Social {
+  tasks: vkTasks;
+  whiteList: vkTasks;
+
   // TODO: 任务识别
   constructor(id: string) {
     super();
-    this.tasks = GM_getValue<socialTasks>(`Vk-${id}`) || { groups: [], publics: [], walls: [] }; // eslint-disable-line new-cap
+    this.tasks = GM_getValue<vkTasks>(`Vk-${id}`) || { groups: [], publics: [], walls: [] }; // eslint-disable-line new-cap
     this.whiteList = GM_getValue<whiteList>('whiteList')?.vk || { groups: [], publics: [], walls: [] }; // eslint-disable-line new-cap
     this.auth = GM_getValue<auth>('vkAuth') || {}; // eslint-disable-line new-cap
   }
@@ -43,7 +46,7 @@ class Vk extends Social {
       echoLog({ text: 'Init vk failed!' });
       return false;
     } catch (error) {
-      throwError(error, 'Vk.init');
+      throwError(error as Error, 'Vk.init');
       return false;
     }
   }
@@ -56,21 +59,21 @@ class Vk extends Social {
         method: 'GET'
       });
       if (result === 'Success') {
-        if (data.finalUrl.includes('vk.com/login')) {
+        if (data?.finalUrl.includes('vk.com/login')) {
           logStatus.error(`Error:${getI18n('loginVk')}`, true);
           return false;
         }
-        if (data.status === 200) {
+        if (data?.status === 200) {
           logStatus.success();
           return true;
         }
-        logStatus.error(`Error:${data.statusText}(${data.status})`);
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Vk.verifyToken');
+      throwError(error as Error, 'Vk.verifyToken');
       return false;
     }
   }
@@ -91,8 +94,8 @@ class Vk extends Social {
       } = {
         act: doTask ? 'enter' : 'leave',
         al: 1,
-        gid: dataParam.groupId,
-        hash: dataParam.groupHash
+        gid: dataParam.groupId as string,
+        hash: dataParam.groupHash as string
       };
       if (doTask) reqData.context = '_';
       const { result, statusText, status, data } = await httpRequest({
@@ -106,18 +109,18 @@ class Vk extends Social {
         data: $.param(reqData)
       });
       if (result === 'Success') {
-        if (data.status === 200) {
+        if (data?.status === 200) {
           logStatus.success();
           if (doTask) this.tasks.groups = unique([...this.tasks.groups, name]);
           return true;
         }
-        logStatus.error(`Error:${data.statusText}(${data.status})`);
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Vk.toggleGroup');
+      throwError(error as Error, 'Vk.toggleGroup');
       return false;
     }
   }
@@ -145,18 +148,18 @@ class Vk extends Social {
         })
       });
       if (result === 'Success') {
-        if (data.status === 200) {
+        if (data?.status === 200) {
           logStatus.success();
           if (doTask) this.tasks.publics = unique([...this.tasks.publics, name]);
           return true;
         }
-        logStatus.error(`Error:${data.statusText}(${data.status})`);
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Vk.togglePublic');
+      throwError(error as Error, 'Vk.togglePublic');
       return false;
     }
   }
@@ -180,8 +183,8 @@ class Vk extends Social {
         })
       });
       if (result === 'Success') {
-        if (data.status === 200) {
-          const hash: string = data.responseText.match(/shHash:[\s]*'(.*?)'/)?.[1];
+        if (data?.status === 200) {
+          const hash = data.responseText.match(/shHash:[\s]*'(.*?)'/)?.[1];
           if (hash) {
             const { result: resultR, statusText: statusTextR, status: statusR, data: dataR } = await httpRequest({
               url: 'https://vk.com/like.php',
@@ -210,7 +213,7 @@ class Vk extends Social {
               /* eslint-enable camelcase */
             });
             if (resultR === 'Success') {
-              if (dataR.status === 200) {
+              if (dataR?.status === 200) {
                 const jsonData = JSON.parse(dataR.responseText?.replace('<!--', '') || '{}');
                 if (jsonData?.payload?.[1]?.[1]?.share_my === true) { // eslint-disable-line camelcase
                   logStatus.success();
@@ -218,7 +221,7 @@ class Vk extends Social {
                   return true;
                 }
               }
-              logStatus.error(`Error:${dataR.statusText}(${dataR.status})`);
+              logStatus.error(`Error:${dataR?.statusText}(${dataR?.status})`);
               return false;
             }
             logStatus.error(`${resultR}:${statusTextR}(${statusR})`);
@@ -227,13 +230,13 @@ class Vk extends Social {
           logStatus.error('Error: Get "hash" failed');
           return false;
         }
-        logStatus.error(`Error:${data.statusText}(${data.status})`);
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Vk.toggleWall');
+      throwError(error as Error, 'Vk.toggleWall');
       return false;
     }
   }
@@ -247,7 +250,7 @@ class Vk extends Social {
         method: 'GET'
       });
       if (result === 'Success') {
-        if (data.status === 200) {
+        if (data?.status === 200) {
           const [, groupAct, groupId, groupHash] = data.responseText.match(/Groups.(enter|leave)\(.*?,.*?([\d]+?), '(.*?)'/) || [];
           const publicHash = data.responseText.match(/"enterHash":"(.*?)"/)?.[1];
           const publicPid = data.responseText.match(/"public_id":([\d]+?),/)?.[1];
@@ -265,13 +268,13 @@ class Vk extends Social {
           logStatus.error('Error: Parameter "id" not found!');
           return false;
         }
-        logStatus.error(`Error:${data.statusText}(${data.status})`);
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Vk.getId');
+      throwError(error as Error, 'Vk.getId');
       return false;
     }
   }
@@ -285,7 +288,7 @@ class Vk extends Social {
       }
       const formatName: string = name.replace(/\/$/, '');
       const data = await this.getId(formatName);
-      if (!data) return;
+      if (!data) return false;
       switch (data.type) {
       case 'group':
         return await this.toggleGroup(formatName, data, doTask);
@@ -297,7 +300,7 @@ class Vk extends Social {
         return false;
       }
     } catch (error) {
-      throwError(error, 'Vk.toggleVk');
+      throwError(error as Error, 'Vk.toggleVk');
       return false;
     }
   }
@@ -315,7 +318,7 @@ class Vk extends Social {
       // TODO: 返回值处理
       return Promise.all(prom).then(() => true);
     } catch (error) {
-      throwError(error, 'Vk.toggle');
+      throwError(error as Error, 'Vk.toggle');
       return false;
     }
   }

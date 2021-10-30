@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2021-10-29 19:44:59
+ * @LastEditTime : 2021-10-30 12:49:12
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
@@ -15,10 +15,13 @@ import { unique, delay } from '../tools/tools';
 import echoLog from '../echoLog';
 
 class Discord extends Social {
+  tasks: discordTasks;
+  whiteList: discordTasks;
+
   // TODO: 任务识别
   constructor(id: string) {
     super();
-    this.tasks = GM_getValue<socialTasks>(`Discord-${id}`) || { servers: [] }; // eslint-disable-line new-cap
+    this.tasks = GM_getValue<discordTasks>(`Discord-${id}`) || { servers: [] }; // eslint-disable-line new-cap
     this.whiteList = GM_getValue<whiteList>('whiteList')?.discord || { servers: [] }; // eslint-disable-line new-cap
     this.cache = GM_getValue<cache>('discordCache') || {}; // eslint-disable-line new-cap
     this.auth = GM_getValue<auth>('discordAuth') || {}; // eslint-disable-line new-cap
@@ -28,7 +31,10 @@ class Discord extends Social {
     try {
       if (!this.auth.auth) {
         echoLog({ type: 'updateDiscordAuth' });
-        await this.updateAuth();
+        if (!(await this.updateAuth())) {
+          return false;
+        }
+        return true;
       }
       const isVerified: boolean = await this.verifyAuth();
       if (isVerified) {
@@ -43,7 +49,7 @@ class Discord extends Social {
       echoLog({ text: 'Init discord failed!' });
       return false;
     } catch (error) {
-      throwError(error, 'Discord.init');
+      throwError(error as Error, 'Discord.init');
       return false;
     }
   }
@@ -55,29 +61,29 @@ class Discord extends Social {
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://discord.com/api/v6/users/@me',
         method: 'HEAD',
-        headers: { authorization: this.auth.auth }
+        headers: { authorization: this.auth.auth as string }
       });
       if (result === 'Success') {
-        if (data.status === 200) {
+        if (data?.status === 200) {
           logStatus.success();
           return true;
         }
-        logStatus.error(`Error:${data.statusText}(${data.status})`);
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Discord.verifyAuth');
+      throwError(error as Error, 'Discord.verifyAuth');
       return false;
     }
   }
 
-  async updateAuth():Promise<boolean> {
+  async updateAuth(): Promise<boolean> {
     try {
       const logStatus = echoLog({ type: 'text', text: 'updateDiscordAuth' });
       return await new Promise((resolve) => {
-        const newTab = GM_openInTab('https://discord.com/channels/@me?updateDiscordAuth', // eslint-disable-line new-cap
+        const newTab = GM_openInTab('https://discord.com/channels/@me#auth', // eslint-disable-line new-cap
           { active: true, insert: true, setParent: true });
         newTab.onclose = async () => {
           const auth = GM_getValue<auth>('discordAuth')?.auth; // eslint-disable-line new-cap
@@ -92,7 +98,7 @@ class Discord extends Social {
         };
       });
     } catch (error) {
-      throwError(error, 'Discord.updateAuth');
+      throwError(error as Error, 'Discord.updateAuth');
       return false;
     }
   }
@@ -104,9 +110,9 @@ class Discord extends Social {
         url: `https://discord.com/api/v6/invites/${inviteId}`,
         method: 'POST',
         dataType: 'json',
-        headers: { authorization: this.auth.auth }
+        headers: { authorization: this.auth.auth as string }
       });
-      if (result === 'Success' && data.status === 200) {
+      if (result === 'Success' && data?.status === 200) {
         logStatus.success();
         const guild = String(data.response?.guild?.id);
         if (guild) {
@@ -119,7 +125,7 @@ class Discord extends Social {
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Discord.joinServer');
+      throwError(error as Error, 'Discord.joinServer');
       return false;
     }
   }
@@ -139,16 +145,16 @@ class Discord extends Social {
       const { result, statusText, status, data } = await httpRequest({
         url: `https://discord.com/api/v6/users/@me/guilds/${guild}`,
         method: 'DELETE',
-        headers: { authorization: this.auth.auth }
+        headers: { authorization: this.auth.auth as string }
       });
-      if (result === 'Success' && data.status === 204) {
+      if (result === 'Success' && data?.status === 204) {
         logStatus.success();
         return true;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Discord.leaveServer');
+      throwError(error as Error, 'Discord.leaveServer');
       return false;
     }
   }
@@ -165,7 +171,7 @@ class Discord extends Social {
         url: `https://discord.com/invite/${inviteId}`,
         method: 'GET'
       });
-      if (result === 'Success' && data.status === 200) {
+      if (result === 'Success' && data?.status === 200) {
         const guild = data.responseText.match(/https?:\/\/cdn\.discordapp\.com\/icons\/([\d]+?)\//)?.[1];
         if (guild) {
           logStatus.success();
@@ -178,7 +184,7 @@ class Discord extends Social {
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Discord.getGuild');
+      throwError(error as Error, 'Discord.getGuild');
       return false;
     }
   }
@@ -205,7 +211,7 @@ class Discord extends Social {
       // TODO: 返回值处理
       return await Promise.all(prom).then(() => true);
     } catch (error) {
-      throwError(error, 'Discord.toggleServers');
+      throwError(error as Error, 'Discord.toggleServers');
       return false;
     }
   }

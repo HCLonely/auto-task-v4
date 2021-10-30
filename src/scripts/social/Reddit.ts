@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-30 09:43:32
- * @LastEditTime : 2021-10-29 19:41:40
+ * @LastEditTime : 2021-10-30 12:43:41
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Reddit.ts
  * @Description  : Reddit 订阅&取消订阅
@@ -15,10 +15,13 @@ import getI18n from '../i18n/i18n';
 import { unique, delay } from '../tools/tools';
 
 class Reddit extends Social {
+  tasks: redditTasks;
+  whiteList: redditTasks;
+
   // TODO: 任务识别
   constructor(id: string) {
     super();
-    this.tasks = GM_getValue<socialTasks>(`Reddit-${id}`) || { reddits: [] }; // eslint-disable-line new-cap
+    this.tasks = GM_getValue<redditTasks>(`Reddit-${id}`) || { reddits: [] }; // eslint-disable-line new-cap
     this.whiteList = GM_getValue<whiteList>('whiteList')?.reddit || { reddits: [] }; // eslint-disable-line new-cap
     this.auth = GM_getValue<auth>('redditAuth') || {}; // eslint-disable-line new-cap
   }
@@ -34,7 +37,7 @@ class Reddit extends Social {
       echoLog({ text: 'Init reddit failed!' });
       return false;
     } catch (error) {
-      throwError(error, 'Reddit.init');
+      throwError(error as Error, 'Reddit.init');
       return false;
     }
   }
@@ -51,7 +54,7 @@ class Reddit extends Social {
         }
       });
       if (result === 'Success') {
-        if (data.status === 200) {
+        if (data?.status === 200) {
           if (data.responseText.includes('www.reddit.com/login/')) {
             logStatus.error(`Error:${getI18n('loginReddit')}`, true);
             return false;
@@ -65,13 +68,13 @@ class Reddit extends Social {
           logStatus.error('Error: Parameter "accessToken" not found!');
           return false;
         }
-        logStatus.error(`Error:${data.statusText}(${data.status})`);
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Reddit.updateToken');
+      throwError(error as Error, 'Reddit.updateToken');
       return false;
     }
   }
@@ -100,18 +103,18 @@ class Reddit extends Social {
         })
       });
       if (result === 'Success') {
-        if (data.status === 200) {
+        if (data?.status === 200) {
           logStatus.success();
           if (doTask) this.tasks.reddits = unique([...this.tasks.reddits, name]);
           return true;
         }
-        logStatus.error(`Error:${data.statusText}(${data.status})`);
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Reddit.toggleTask');
+      throwError(error as Error, 'Reddit.toggleTask');
       return false;
     }
   }
@@ -145,7 +148,7 @@ class Reddit extends Social {
       // TODO: 返回值处理
       return await Promise.all(prom).then(() => true);
     } catch (error) {
-      throwError(error, 'Reddit.toggle');
+      throwError(error as Error, 'Reddit.toggle');
       return false;
     }
   }

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 12:18:06
- * @LastEditTime : 2021-10-29 19:42:12
+ * @LastEditTime : 2021-10-30 12:42:04
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Youtube.ts
  * @Description  : Youtube 订阅/取消订阅频道，点赞/取消点赞视频
@@ -47,10 +47,13 @@ interface likeVideoData {
   params?: string
 }
 class Youtube extends Social {
+  tasks: youtubeTasks;
+  whiteList: youtubeTasks;
+
   // TODO: 任务识别
   constructor(id: string) {
     super();
-    this.tasks = GM_getValue<socialTasks>(`Youtube-${id}`) || { channels: [], likes: [] }; // eslint-disable-line new-cap
+    this.tasks = GM_getValue<youtubeTasks>(`Youtube-${id}`) || { channels: [], likes: [] }; // eslint-disable-line new-cap
     this.whiteList = GM_getValue<whiteList>('whiteList')?.youtube || { channels: [], likes: [] }; // eslint-disable-line new-cap
     this.auth = GM_getValue<auth>('youtubeAuth') || {}; // eslint-disable-line new-cap
   }
@@ -66,7 +69,7 @@ class Youtube extends Social {
       echoLog({ text: 'Init youtube failed!' });
       return false;
     } catch (error) {
-      throwError(error, 'Youtube.init');
+      throwError(error as Error, 'Youtube.init');
       return false;
     }
   }
@@ -79,12 +82,12 @@ class Youtube extends Social {
         method: 'GET'
       });
       if (result === 'Success') {
-        if (data.status === 200) {
+        if (data?.status === 200) {
           if (data.responseText.includes('accounts.google.com/ServiceLogin?service=youtube')) {
             logStatus.error(`Error:${getI18n('loginYtb')}`, true);
             return { needLogin: true };
           }
-          const apiKey: string = data.responseText.match(/"INNERTUBE_API_KEY":"(.*?)"/)?.[1];
+          const apiKey = data.responseText.match(/"INNERTUBE_API_KEY":"(.*?)"/)?.[1];
           const context: string = (
             (
               data.responseText.match(/\(\{"INNERTUBE_CONTEXT":([\w\W]*?)\}\)/) ||
@@ -103,8 +106,8 @@ class Youtube extends Social {
               logStatus.error('Error: Get "channelId" failed!');
               return {};
             } else if (type === 'likeVideo') {
-              const videoId: string = data.responseText.match(/<link rel="shortlinkUrl" href="https:\/\/youtu\.be\/(.*?)">/)?.[1];
-              const likeParams: string = data.responseText.match(/"likeParams":"(.*?)"/)?.[1];
+              const videoId = data.responseText.match(/<link rel="shortlinkUrl" href="https:\/\/youtu\.be\/(.*?)">/)?.[1];
+              const likeParams = data.responseText.match(/"likeParams":"(.*?)"/)?.[1];
               if (videoId) {
                 logStatus.success();
                 return { params: { apiKey, client, request, videoId, likeParams } };
@@ -118,13 +121,13 @@ class Youtube extends Social {
           logStatus.error('Error: Parameter "apiKey" not found!');
           return {};
         }
-        logStatus.error(`Error:${data.statusText}(${data.status})`);
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return {};
       }
       logStatus.error(`${result}:${statusText}(${status})`);
       return {};
     } catch (error) {
-      throwError(error, 'Youtube.getInfo');
+      throwError(error as Error, 'Youtube.getInfo');
       return {};
     }
   }
@@ -150,7 +153,7 @@ class Youtube extends Social {
         }
       }
     } catch (error) {
-      throwError(error, 'Youtube.getToken');
+      throwError(error as Error, 'Youtube.getToken');
       if (notice) {
         Swal.fire({
           title: getI18n('updateYtbInfoError'),
@@ -165,19 +168,19 @@ class Youtube extends Social {
       const { params, needLogin } = await this.getInfo(link, 'channel');
       const { apiKey, client, request, channelId } = params || {};
 
-      if (!doTask && this.whiteList.channels.includes(channelId)) {
-        // TODO: 直接echo
-        echoLog({ type: 'whiteList', text: channelId });
-        return true;
-      }
-
       if (needLogin) {
         echoLog({ type: 'custom', text: getI18n('loginYtb') });
         return false;
       }
-      if (!apiKey) {
+      if (!(apiKey && client && request && channelId)) {
         echoLog({ type: 'custom', text: '"getYtbToken" failed' });
         return false;
+      }
+
+      if (!doTask && this.whiteList.channels.includes(channelId)) {
+        // TODO: 直接echo
+        echoLog({ type: 'whiteList', text: channelId });
+        return true;
       }
 
       const logStatus = echoLog({ type: doTask ? 'followYtbChannel' : 'unfollowYtbChannel', text: channelId });
@@ -190,7 +193,7 @@ class Youtube extends Social {
           referer: `https://www.youtube.com/channel/${channelId}`,
           'content-type': 'application/json',
           'x-goog-authuser': '0',
-          'x-goog-visitor-id': client.visitorData,
+          'x-goog-visitor-id': client?.visitorData,
           'x-origin': 'https://www.youtube.com',
           authorization: `SAPISIDHASH ${nowTime}_${sha1(`${nowTime} ${this.auth.PAPISID} https://www.youtube.com`)}`
         },
@@ -198,7 +201,7 @@ class Youtube extends Social {
           context: {
             client,
             request: {
-              sessionId: request.sessionId,
+              sessionId: request?.sessionId,
               internalExperimentFlags: [],
               consistencyTokenJars: []
             },
@@ -209,7 +212,7 @@ class Youtube extends Social {
         })
       });
       if (result === 'Success') {
-        if (data.status === 200) {
+        if (data?.status === 200) {
           if (
             (
               doTask &&
@@ -223,13 +226,13 @@ class Youtube extends Social {
           logStatus.error(getI18n('tryUpdateYtbAuth'), true);
           return false;
         }
-        logStatus.error(`Error:${data.statusText}(${data.status})`);
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Youtube.toggleChannel');
+      throwError(error as Error, 'Youtube.toggleChannel');
       return false;
     }
   }
@@ -239,20 +242,20 @@ class Youtube extends Social {
       const { params, needLogin } = await this.getInfo(link, 'likeVideo');
       const { apiKey, client, request, videoId, likeParams } = params || {};
 
-      if (!doTask && this.whiteList.likes.includes(videoId)) {
-        // TODO: 直接echo
-        echoLog({ type: 'whiteList', text: link });
-        return true;
-      }
-
       if (needLogin) {
         echoLog({ type: 'text', text: `${getI18n('loginYtb')}` });
         return false;
       }
 
-      if (!apiKey) {
+      if (!(apiKey && client && request && videoId && likeParams)) {
         echoLog({ type: 'text', text: '"getYtbToken" failed' });
         return false;
+      }
+
+      if (!doTask && this.whiteList.likes.includes(videoId)) {
+        // TODO: 直接echo
+        echoLog({ type: 'whiteList', text: link });
+        return true;
       }
 
       const logStatus = echoLog({ type: doTask ? 'likeYtbVideo' : 'unlikeYtbVideo', text: videoId });
@@ -294,7 +297,7 @@ class Youtube extends Social {
         data: JSON.stringify(likeVideoData)
       });
       if (result === 'Success') {
-        if (data.status === 200) {
+        if (data?.status === 200) {
           if (
             (doTask && data.responseText.includes('Added to Liked videos')) ||
             (!doTask &&
@@ -308,13 +311,13 @@ class Youtube extends Social {
           logStatus.error(getI18n('tryUpdateYtbAuth'), true);
           return false;
         }
-        logStatus.error(`Error:${data.statusText}(${data.status})`);
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Youtube.toggleLikeVideo');
+      throwError(error as Error, 'Youtube.toggleLikeVideo');
       return false;
     }
   }
@@ -357,7 +360,7 @@ class Youtube extends Social {
       // TODO: 返回值处理
       return Promise.all(prom).then(() => true);
     } catch (error) {
-      throwError(error, 'Vk.toggle');
+      throwError(error as Error, 'Vk.toggle');
       return false;
     }
   }
