@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2021-10-30 12:49:12
+ * @LastEditTime : 2021-10-30 21:09:09
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
@@ -31,19 +31,22 @@ class Discord extends Social {
     try {
       if (!this.auth.auth) {
         echoLog({ type: 'updateDiscordAuth' });
-        if (!(await this.updateAuth())) {
-          return false;
+        if (await this.updateAuth()) {
+          this.initialized = true;
+          return true;
         }
-        return true;
+        return false;
       }
       const isVerified: boolean = await this.verifyAuth();
       if (isVerified) {
         echoLog({ text: 'Init discord success!' });
+        this.initialized = true;
         return true;
       }
       GM_setValue('discordAuth', { auth: null }); // eslint-disable-line new-cap
       if (await this.updateAuth()) {
         echoLog({ text: 'Init discord success!' });
+        this.initialized = true;
         return true;
       }
       echoLog({ text: 'Init discord failed!' });
@@ -162,7 +165,7 @@ class Discord extends Social {
   async getGuild(inviteId: string): Promise<boolean | string> {
     try {
       const logStatus = echoLog({ type: 'getDiscordGuild', text: inviteId });
-      const guild = this.getId(inviteId);
+      const guild = this.cache[inviteId];
       if (guild) {
         logStatus.success();
         return guild;
@@ -200,6 +203,10 @@ class Discord extends Social {
     serverLinks: Array<string>
   }): Promise<boolean> {
     try {
+      if (!this.initialized) {
+        echoLog({ type: 'text', text: '请先初始化' });
+        return false;
+      }
       const prom = [];
       const realServers = this.getRealParams('servers', servers, serverLinks, doTask, (link: string) => link.match(/invite\/(.+)/)?.[1]);
       if (realServers.length > 0) {
@@ -221,9 +228,6 @@ class Discord extends Social {
     GM_setValue('discordCache', this.cache); // eslint-disable-line new-cap
   }
 
-  getId(inviteId: string): string {
-    return this.cache[inviteId];
-  }
   // TODO: id转换
 }
 

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-15 10:48:42
- * @LastEditTime : 2021-10-30 11:12:16
+ * @LastEditTime : 2021-10-30 20:57:39
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Social.ts
  * @Description  :
@@ -14,6 +14,7 @@ class Social {
   tasks!: socialTasks;
   auth!: auth;
   cache!: cache;
+  initialized = false;
 
   // 通用
   getRealParams(

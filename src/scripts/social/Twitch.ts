@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:00:41
- * @LastEditTime : 2021-10-30 12:49:01
+ * @LastEditTime : 2021-10-30 21:03:46
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitch.ts
  * @Description  : Twitch 关注/取关频道
@@ -30,19 +30,22 @@ class Twitch extends Social {
     try {
       if (!this.auth.authToken) {
         echoLog({ type: 'updateTwitchAuth' });
-        if (!(await this.updateAuth())) {
-          return false;
+        if (await this.updateAuth()) {
+          this.initialized = true;
+          return true;
         }
-        return true;
+        return false;
       }
       const isVerified: boolean = await this.verifyAuth();
       if (isVerified) {
         echoLog({ text: 'Init twitch success!' });
+        this.initialized = true;
         return true;
       }
       GM_setValue('twitchAuth', { auth: null }); // eslint-disable-line new-cap
       if (await this.updateAuth()) {
         echoLog({ text: 'Init twitch success!' });
+        this.initialized = true;
         return true;
       }
       echoLog({ text: 'Init twitch failed!' });
@@ -194,6 +197,10 @@ class Twitch extends Social {
     channelLinks: Array<string>
   }): Promise<boolean> {
     try {
+      if (!this.initialized) {
+        echoLog({ type: 'text', text: '请先初始化' });
+        return false;
+      }
       const prom = [];
       const realChannels = this.getRealParams('channels', channels, channelLinks, doTask,
         (link) => link.match(/https:\/\/www\.twitch\.tv\/(.+)/)?.[1]);

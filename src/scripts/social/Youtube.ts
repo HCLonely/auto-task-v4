@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 12:18:06
- * @LastEditTime : 2021-10-30 12:42:04
+ * @LastEditTime : 2021-10-30 21:04:41
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Youtube.ts
  * @Description  : Youtube 订阅/取消订阅频道，点赞/取消点赞视频
@@ -64,6 +64,7 @@ class Youtube extends Social {
       const isVerified = false; // await this.verifyToken(); // TODO
       if (isVerified) {
         echoLog({ text: 'Init youtube success!' });
+        this.initialized = true;
         return true;
       }
       echoLog({ text: 'Init youtube failed!' });
@@ -332,6 +333,10 @@ class Youtube extends Social {
     videoLinks: Array<string>
   }): Promise<boolean> {
     try {
+      if (!this.initialized) {
+        echoLog({ type: 'text', text: '请先初始化' });
+        return false;
+      }
       const prom = [];
       const realChannels = this.getRealParams('channels', [], channelLinks, doTask, (link) => {
         if (/^https:\/\/www\.google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {

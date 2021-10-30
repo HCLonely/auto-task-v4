@@ -93,7 +93,9 @@
         return to.concat(ar || Array.prototype.slice.call(from));
     };
     var Social = function() {
-        function Social() {}
+        function Social() {
+            this.initialized = false;
+        }
         Social.prototype.getRealParams = function(name, params, links, doTask, link2param) {
             try {
                 var realParams = [];
@@ -786,10 +788,11 @@
                         return [ 4, this.updateAuth() ];
 
                       case 1:
-                        if (!_a.sent()) {
-                            return [ 2, false ];
+                        if (_a.sent()) {
+                            this.initialized = true;
+                            return [ 2, true ];
                         }
-                        return [ 2, true ];
+                        return [ 2, false ];
 
                       case 2:
                         return [ 4, this.verifyAuth() ];
@@ -800,6 +803,7 @@
                             scripts_echoLog({
                                 text: "Init discord success!"
                             });
+                            this.initialized = true;
                             return [ 2, true ];
                         }
                         GM_setValue("discordAuth", {
@@ -812,6 +816,7 @@
                             scripts_echoLog({
                                 text: "Init discord success!"
                             });
+                            this.initialized = true;
                             return [ 2, true ];
                         }
                         scripts_echoLog({
@@ -1052,7 +1057,7 @@
                             type: "getDiscordGuild",
                             text: inviteId
                         });
-                        guild = this.getId(inviteId);
+                        guild = this.cache[inviteId];
                         if (guild) {
                             logStatus.success();
                             return [ 2, guild ];
@@ -1098,6 +1103,13 @@
                     switch (_f.label) {
                       case 0:
                         _f.trys.push([ 0, 10, , 11 ]);
+                        if (!this.initialized) {
+                            scripts_echoLog({
+                                type: "text",
+                                text: "请先初始化"
+                            });
+                            return [ 2, false ];
+                        }
                         prom = [];
                         realServers = this.getRealParams("servers", servers, serverLinks, doTask, function(link) {
                             var _a;
@@ -1165,9 +1177,6 @@
         Discord.prototype.addId = function(inviteId, guild) {
             this.cache[inviteId] = guild;
             GM_setValue("discordCache", this.cache);
-        };
-        Discord.prototype.getId = function(inviteId) {
-            return this.cache[inviteId];
         };
         return Discord;
     }(social_Social);
@@ -1378,6 +1387,7 @@
                             scripts_echoLog({
                                 text: "Init instagram success!"
                             });
+                            this.initialized = true;
                             return [ 2, true ];
                         }
                         scripts_echoLog({
@@ -1595,6 +1605,13 @@
                     switch (_f.label) {
                       case 0:
                         _f.trys.push([ 0, 10, , 11 ]);
+                        if (!this.initialized) {
+                            scripts_echoLog({
+                                type: "text",
+                                text: "请先初始化"
+                            });
+                            return [ 2, false ];
+                        }
                         prom = [];
                         realUsers = this.getRealParams("users", users, userLinks, doTask, function(link) {
                             var _a;
@@ -1869,6 +1886,7 @@
                             scripts_echoLog({
                                 text: "Init reddit success!"
                             });
+                            this.initialized = true;
                             return [ 2, true ];
                         }
                         scripts_echoLog({
@@ -2296,10 +2314,11 @@
                         return [ 4, this.updateAuth() ];
 
                       case 1:
-                        if (!_a.sent()) {
-                            return [ 2, false ];
+                        if (_a.sent()) {
+                            this.initialized = true;
+                            return [ 2, true ];
                         }
-                        return [ 2, true ];
+                        return [ 2, false ];
 
                       case 2:
                         return [ 4, this.verifyAuth() ];
@@ -2310,6 +2329,7 @@
                             scripts_echoLog({
                                 text: "Init twitch success!"
                             });
+                            this.initialized = true;
                             return [ 2, true ];
                         }
                         GM_setValue("twitchAuth", {
@@ -2322,6 +2342,7 @@
                             scripts_echoLog({
                                 text: "Init twitch success!"
                             });
+                            this.initialized = true;
                             return [ 2, true ];
                         }
                         scripts_echoLog({
@@ -2576,6 +2597,13 @@
                     switch (_f.label) {
                       case 0:
                         _f.trys.push([ 0, 9, , 10 ]);
+                        if (!this.initialized) {
+                            scripts_echoLog({
+                                type: "text",
+                                text: "请先初始化"
+                            });
+                            return [ 2, false ];
+                        }
                         prom = [];
                         realChannels = this.getRealParams("channels", channels, channelLinks, doTask, function(link) {
                             var _a;
@@ -2857,10 +2885,11 @@
                         return [ 4, this.updateAuth() ];
 
                       case 1:
-                        if (!_a.sent()) {
-                            return [ 2, false ];
+                        if (_a.sent()) {
+                            this.initialized = true;
+                            return [ 2, true ];
                         }
-                        return [ 2, true ];
+                        return [ 2, false ];
 
                       case 2:
                         return [ 4, this.verifyAuth() ];
@@ -2871,6 +2900,7 @@
                             scripts_echoLog({
                                 text: "Init twitter success!"
                             });
+                            this.initialized = true;
                             return [ 2, true ];
                         }
                         GM_setValue("twitterAuth", {
@@ -2883,6 +2913,7 @@
                             scripts_echoLog({
                                 text: "Init twitter success!"
                             });
+                            this.initialized = true;
                             return [ 2, true ];
                         }
                         scripts_echoLog({
@@ -2930,7 +2961,7 @@
         };
         Twitter.prototype.updateAuth = function() {
             return Twitter_awaiter(this, void 0, void 0, function() {
-                var logStatus_1, ct0, error_3;
+                var logStatus_1, error_3;
                 var _this = this;
                 return Twitter_generator(this, function(_a) {
                     switch (_a.label) {
@@ -3212,6 +3243,13 @@
                     switch (_j.label) {
                       case 0:
                         _j.trys.push([ 0, 17, , 18 ]);
+                        if (!this.initialized) {
+                            scripts_echoLog({
+                                type: "text",
+                                text: "请先初始化"
+                            });
+                            return [ 2, false ];
+                        }
                         prom = [];
                         realUsers = this.getRealParams("users", users, userLinks, doTask, function(link) {
                             var _a;
@@ -3327,6 +3365,1521 @@
         return Twitter;
     }(social_Social);
     const social_Twitter = Twitter;
+    var Vk_extends = undefined && undefined.__extends || function() {
+        var extendStatics = function(d, b) {
+            extendStatics = Object.setPrototypeOf || {
+                __proto__: []
+            } instanceof Array && function(d, b) {
+                d.__proto__ = b;
+            } || function(d, b) {
+                for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p];
+            };
+            return extendStatics(d, b);
+        };
+        return function(d, b) {
+            if (typeof b !== "function" && b !== null) throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+            extendStatics(d, b);
+            function __() {
+                this.constructor = d;
+            }
+            d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+        };
+    }();
+    var Vk_awaiter = undefined && undefined.__awaiter || function(thisArg, _arguments, P, generator) {
+        function adopt(value) {
+            return value instanceof P ? value : new P(function(resolve) {
+                resolve(value);
+            });
+        }
+        return new (P || (P = Promise))(function(resolve, reject) {
+            function fulfilled(value) {
+                try {
+                    step(generator.next(value));
+                } catch (e) {
+                    reject(e);
+                }
+            }
+            function rejected(value) {
+                try {
+                    step(generator["throw"](value));
+                } catch (e) {
+                    reject(e);
+                }
+            }
+            function step(result) {
+                result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+            }
+            step((generator = generator.apply(thisArg, _arguments || [])).next());
+        });
+    };
+    var Vk_generator = undefined && undefined.__generator || function(thisArg, body) {
+        var _ = {
+            label: 0,
+            sent: function() {
+                if (t[0] & 1) throw t[1];
+                return t[1];
+            },
+            trys: [],
+            ops: []
+        }, f, y, t, g;
+        return g = {
+            next: verb(0),
+            throw: verb(1),
+            return: verb(2)
+        }, typeof Symbol === "function" && (g[Symbol.iterator] = function() {
+            return this;
+        }), g;
+        function verb(n) {
+            return function(v) {
+                return step([ n, v ]);
+            };
+        }
+        function step(op) {
+            if (f) throw new TypeError("Generator is already executing.");
+            while (_) try {
+                if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 
+                0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+                if (y = 0, t) op = [ op[0] & 2, t.value ];
+                switch (op[0]) {
+                  case 0:
+                  case 1:
+                    t = op;
+                    break;
+
+                  case 4:
+                    _.label++;
+                    return {
+                        value: op[1],
+                        done: false
+                    };
+
+                  case 5:
+                    _.label++;
+                    y = op[1];
+                    op = [ 0 ];
+                    continue;
+
+                  case 7:
+                    op = _.ops.pop();
+                    _.trys.pop();
+                    continue;
+
+                  default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+                        _ = 0;
+                        continue;
+                    }
+                    if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+                        _.label = op[1];
+                        break;
+                    }
+                    if (op[0] === 6 && _.label < t[1]) {
+                        _.label = t[1];
+                        t = op;
+                        break;
+                    }
+                    if (t && _.label < t[2]) {
+                        _.label = t[2];
+                        _.ops.push(op);
+                        break;
+                    }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop();
+                    continue;
+                }
+                op = body.call(thisArg, _);
+            } catch (e) {
+                op = [ 6, e ];
+                y = 0;
+            } finally {
+                f = t = 0;
+            }
+            if (op[0] & 5) throw op[1];
+            return {
+                value: op[0] ? op[1] : void 0,
+                done: true
+            };
+        }
+    };
+    var Vk_read = undefined && undefined.__read || function(o, n) {
+        var m = typeof Symbol === "function" && o[Symbol.iterator];
+        if (!m) return o;
+        var i = m.call(o), r, ar = [], e;
+        try {
+            while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+        } catch (error) {
+            e = {
+                error: error
+            };
+        } finally {
+            try {
+                if (r && !r.done && (m = i["return"])) m.call(i);
+            } finally {
+                if (e) throw e.error;
+            }
+        }
+        return ar;
+    };
+    var Vk_spreadArray = undefined && undefined.__spreadArray || function(to, from, pack) {
+        if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+            if (ar || !(i in from)) {
+                if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+                ar[i] = from[i];
+            }
+        }
+        return to.concat(ar || Array.prototype.slice.call(from));
+    };
+    var Vk_values = undefined && undefined.__values || function(o) {
+        var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+        if (m) return m.call(o);
+        if (o && typeof o.length === "number") return {
+            next: function() {
+                if (o && i >= o.length) o = void 0;
+                return {
+                    value: o && o[i++],
+                    done: !o
+                };
+            }
+        };
+        throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+    };
+    var Vk = function(_super) {
+        Vk_extends(Vk, _super);
+        function Vk(id) {
+            var _a;
+            var _this = _super.call(this) || this;
+            _this.username = "";
+            _this.tasks = GM_getValue("Vk-" + id) || {
+                names: []
+            };
+            _this.whiteList = ((_a = GM_getValue("whiteList")) === null || _a === void 0 ? void 0 : _a.vk) || {
+                names: []
+            };
+            _this.cache = GM_getValue("vkCache") || {};
+            return _this;
+        }
+        Vk.prototype.init = function() {
+            return Vk_awaiter(this, void 0, void 0, function() {
+                var isVerified, error_1;
+                return Vk_generator(this, function(_a) {
+                    switch (_a.label) {
+                      case 0:
+                        _a.trys.push([ 0, 2, , 3 ]);
+                        return [ 4, this.verifyAuth() ];
+
+                      case 1:
+                        isVerified = _a.sent();
+                        if (isVerified) {
+                            scripts_echoLog({
+                                text: "Init vk success!"
+                            });
+                            this.initialized = true;
+                            return [ 2, true ];
+                        }
+                        scripts_echoLog({
+                            text: "Init vk failed!"
+                        });
+                        return [ 2, false ];
+
+                      case 2:
+                        error_1 = _a.sent();
+                        throwError(error_1, "Vk.init");
+                        return [ 2, false ];
+
+                      case 3:
+                        return [ 2 ];
+                    }
+                });
+            });
+        };
+        Vk.prototype.verifyAuth = function() {
+            var _a;
+            return Vk_awaiter(this, void 0, void 0, function() {
+                var logStatus, _b, result, statusText, status_1, data, error_2;
+                return Vk_generator(this, function(_c) {
+                    switch (_c.label) {
+                      case 0:
+                        _c.trys.push([ 0, 2, , 3 ]);
+                        logStatus = scripts_echoLog({
+                            type: "text",
+                            text: "verifyVkLogin"
+                        });
+                        return [ 4, tools_httpRequest({
+                            url: "https://vk.com/im",
+                            method: "GET"
+                        }) ];
+
+                      case 1:
+                        _b = _c.sent(), result = _b.result, statusText = _b.statusText, status_1 = _b.status, 
+                        data = _b.data;
+                        if (result === "Success") {
+                            if (data === null || data === void 0 ? void 0 : data.finalUrl.includes("vk.com/login")) {
+                                logStatus.error("Error:" + i18n("loginVk"), true);
+                                return [ 2, false ];
+                            }
+                            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+                                this.username = ((_a = data.responseText.match(/TopNavBtn__profileLink" href="\/(.*?)"/)) === null || _a === void 0 ? void 0 : _a[1]) || "";
+                                logStatus.success();
+                                return [ 2, true ];
+                            }
+                            logStatus.error("Error:" + (data === null || data === void 0 ? void 0 : data.statusText) + "(" + (data === null || data === void 0 ? void 0 : data.status) + ")");
+                            return [ 2, false ];
+                        }
+                        logStatus.error(result + ":" + statusText + "(" + status_1 + ")");
+                        return [ 2, false ];
+
+                      case 2:
+                        error_2 = _c.sent();
+                        throwError(error_2, "Vk.verifyAuth");
+                        return [ 2, false ];
+
+                      case 3:
+                        return [ 2 ];
+                    }
+                });
+            });
+        };
+        Vk.prototype.toggleGroup = function(name, dataParam, doTask) {
+            if (doTask === void 0) {
+                doTask = true;
+            }
+            return Vk_awaiter(this, void 0, void 0, function() {
+                var logStatus, reqData, _a, result, statusText, status_2, data, error_3;
+                return Vk_generator(this, function(_b) {
+                    switch (_b.label) {
+                      case 0:
+                        _b.trys.push([ 0, 2, , 3 ]);
+                        logStatus = scripts_echoLog({
+                            type: doTask ? "joinVkGroup" : "leaveVkGroup",
+                            text: name
+                        });
+                        if (dataParam.groupAct === "enter" && !doTask || dataParam.groupAct === "leave" && doTask) {
+                            logStatus.success();
+                            return [ 2, true ];
+                        }
+                        reqData = {
+                            act: doTask ? "enter" : "leave",
+                            al: 1,
+                            gid: dataParam.groupId,
+                            hash: dataParam.groupHash
+                        };
+                        if (doTask) reqData.context = "_";
+                        return [ 4, tools_httpRequest({
+                            url: "https://vk.com/al_groups.php",
+                            method: "POST",
+                            headers: {
+                                origin: "https://vk.com",
+                                referer: "https://vk.com/" + name,
+                                "content-type": "application/x-www-form-urlencoded"
+                            },
+                            data: $.param(reqData)
+                        }) ];
+
+                      case 1:
+                        _a = _b.sent(), result = _a.result, statusText = _a.statusText, status_2 = _a.status, 
+                        data = _a.data;
+                        if (result === "Success") {
+                            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+                                logStatus.success();
+                                if (doTask) this.tasks.names = unique(Vk_spreadArray(Vk_spreadArray([], Vk_read(this.tasks.names), false), [ name ], false));
+                                return [ 2, true ];
+                            }
+                            logStatus.error("Error:" + (data === null || data === void 0 ? void 0 : data.statusText) + "(" + (data === null || data === void 0 ? void 0 : data.status) + ")");
+                            return [ 2, false ];
+                        }
+                        logStatus.error(result + ":" + statusText + "(" + status_2 + ")");
+                        return [ 2, false ];
+
+                      case 2:
+                        error_3 = _b.sent();
+                        throwError(error_3, "Vk.toggleGroup");
+                        return [ 2, false ];
+
+                      case 3:
+                        return [ 2 ];
+                    }
+                });
+            });
+        };
+        Vk.prototype.togglePublic = function(name, dataParam, doTask) {
+            if (doTask === void 0) {
+                doTask = true;
+            }
+            return Vk_awaiter(this, void 0, void 0, function() {
+                var logStatus, _a, result, statusText, status_3, data, error_4;
+                return Vk_generator(this, function(_b) {
+                    switch (_b.label) {
+                      case 0:
+                        _b.trys.push([ 0, 2, , 3 ]);
+                        logStatus = scripts_echoLog({
+                            type: doTask ? "joinVkPublic" : "leaveVkPublic",
+                            text: name
+                        });
+                        if (dataParam.publicJoined && doTask || !dataParam.publicJoined && !doTask) {
+                            logStatus.success();
+                            return [ 2, true ];
+                        }
+                        return [ 4, tools_httpRequest({
+                            url: "https://vk.com/al_public.php",
+                            method: "POST",
+                            headers: {
+                                origin: "https://vk.com",
+                                referer: "https://vk.com/" + name,
+                                "content-type": "application/x-www-form-urlencoded"
+                            },
+                            data: $.param({
+                                act: doTask ? "a_enter" : "a_leave",
+                                al: 1,
+                                pid: dataParam.publicPid,
+                                hash: dataParam.publicHash
+                            })
+                        }) ];
+
+                      case 1:
+                        _a = _b.sent(), result = _a.result, statusText = _a.statusText, status_3 = _a.status, 
+                        data = _a.data;
+                        if (result === "Success") {
+                            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+                                logStatus.success();
+                                if (doTask) this.tasks.names = unique(Vk_spreadArray(Vk_spreadArray([], Vk_read(this.tasks.names), false), [ name ], false));
+                                return [ 2, true ];
+                            }
+                            logStatus.error("Error:" + (data === null || data === void 0 ? void 0 : data.statusText) + "(" + (data === null || data === void 0 ? void 0 : data.status) + ")");
+                            return [ 2, false ];
+                        }
+                        logStatus.error(result + ":" + statusText + "(" + status_3 + ")");
+                        return [ 2, false ];
+
+                      case 2:
+                        error_4 = _b.sent();
+                        throwError(error_4, "Vk.togglePublic");
+                        return [ 2, false ];
+
+                      case 3:
+                        return [ 2 ];
+                    }
+                });
+            });
+        };
+        Vk.prototype.sendWall = function(name) {
+            var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
+            return Vk_awaiter(this, void 0, void 0, function() {
+                var logStatus, _m, result, statusText, status_4, data, hash, _o, resultR, statusTextR, statusR, dataR, jsonData, postId, ownerId, error_5;
+                return Vk_generator(this, function(_p) {
+                    switch (_p.label) {
+                      case 0:
+                        _p.trys.push([ 0, 6, , 7 ]);
+                        logStatus = scripts_echoLog({
+                            type: "sendVkWall",
+                            text: name
+                        });
+                        return [ 4, tools_httpRequest({
+                            url: "https://vk.com/like.php",
+                            method: "POST",
+                            headers: {
+                                origin: "https://vk.com",
+                                referer: "https://vk.com/" + name,
+                                "content-type": "application/x-www-form-urlencoded"
+                            },
+                            data: $.param({
+                                act: "publish_box",
+                                al: 1,
+                                object: name
+                            })
+                        }) ];
+
+                      case 1:
+                        _m = _p.sent(), result = _m.result, statusText = _m.statusText, status_4 = _m.status, 
+                        data = _m.data;
+                        if (!(result === "Success")) return [ 3, 5 ];
+                        if (!((data === null || data === void 0 ? void 0 : data.status) === 200)) return [ 3, 4 ];
+                        hash = (_a = data.responseText.match(/shHash:[\s]*'(.*?)'/)) === null || _a === void 0 ? void 0 : _a[1];
+                        if (!hash) return [ 3, 3 ];
+                        return [ 4, tools_httpRequest({
+                            url: "https://vk.com/like.php",
+                            method: "POST",
+                            headers: {
+                                origin: "https://vk.com",
+                                referer: "https://vk.com/" + name,
+                                "content-type": "application/x-www-form-urlencoded"
+                            },
+                            data: $.param({
+                                Message: "",
+                                act: "a_do_publish",
+                                al: 1,
+                                close_comments: 0,
+                                friends_only: 0,
+                                from: "box",
+                                hash: hash,
+                                list: "",
+                                mark_as_ads: 0,
+                                mute_notifications: 0,
+                                object: name,
+                                ret_data: 1,
+                                to: 0
+                            })
+                        }) ];
+
+                      case 2:
+                        _o = _p.sent(), resultR = _o.result, statusTextR = _o.statusText, statusR = _o.status, 
+                        dataR = _o.data;
+                        if (resultR === "Success") {
+                            if ((dataR === null || dataR === void 0 ? void 0 : dataR.status) === 200) {
+                                jsonData = JSON.parse(((_b = dataR.responseText) === null || _b === void 0 ? void 0 : _b.replace("\x3c!--", "")) || "{}");
+                                if (((_e = (_d = (_c = jsonData === null || jsonData === void 0 ? void 0 : jsonData.payload) === null || _c === void 0 ? void 0 : _c[1]) === null || _d === void 0 ? void 0 : _d[1]) === null || _e === void 0 ? void 0 : _e.share_my) === true) {
+                                    logStatus.success();
+                                    postId = String((_h = (_g = (_f = jsonData === null || jsonData === void 0 ? void 0 : jsonData.payload) === null || _f === void 0 ? void 0 : _f[1]) === null || _g === void 0 ? void 0 : _g[1]) === null || _h === void 0 ? void 0 : _h.post_id);
+                                    ownerId = String((_l = (_k = (_j = jsonData === null || jsonData === void 0 ? void 0 : jsonData.payload) === null || _j === void 0 ? void 0 : _j[1]) === null || _k === void 0 ? void 0 : _k[1]) === null || _l === void 0 ? void 0 : _l.owner_id);
+                                    if (postId && ownerId) {
+                                        this.addId(name, ownerId + "_" + postId);
+                                    }
+                                    this.tasks.names = unique(Vk_spreadArray(Vk_spreadArray([], Vk_read(this.tasks.names), false), [ name ], false));
+                                    return [ 2, true ];
+                                }
+                            }
+                            logStatus.error("Error:" + (dataR === null || dataR === void 0 ? void 0 : dataR.statusText) + "(" + (dataR === null || dataR === void 0 ? void 0 : dataR.status) + ")");
+                            return [ 2, false ];
+                        }
+                        logStatus.error(resultR + ":" + statusTextR + "(" + statusR + ")");
+                        return [ 2, false ];
+
+                      case 3:
+                        logStatus.error('Error: Get "hash" failed');
+                        return [ 2, false ];
+
+                      case 4:
+                        logStatus.error("Error:" + (data === null || data === void 0 ? void 0 : data.statusText) + "(" + (data === null || data === void 0 ? void 0 : data.status) + ")");
+                        return [ 2, false ];
+
+                      case 5:
+                        logStatus.error(result + ":" + statusText + "(" + status_4 + ")");
+                        return [ 2, false ];
+
+                      case 6:
+                        error_5 = _p.sent();
+                        throwError(error_5, "Vk.sendWall");
+                        return [ 2, false ];
+
+                      case 7:
+                        return [ 2 ];
+                    }
+                });
+            });
+        };
+        Vk.prototype.deleteWall = function(name, dataParams) {
+            var _a, _b, _c;
+            return Vk_awaiter(this, void 0, void 0, function() {
+                var logStatus, _d, result, statusText, status_5, data, jsonData, error_6;
+                return Vk_generator(this, function(_e) {
+                    switch (_e.label) {
+                      case 0:
+                        _e.trys.push([ 0, 2, , 3 ]);
+                        logStatus = scripts_echoLog({
+                            type: "deleteVkWall",
+                            text: name
+                        });
+                        return [ 4, tools_httpRequest({
+                            url: "https://vk.com/al_wall.php?act=delete",
+                            method: "POST",
+                            headers: {
+                                origin: "https://vk.com",
+                                referer: "https://vk.com/" + this.username + "?w=wall" + this.cache[name] + "%2Fall",
+                                "content-type": "application/x-www-form-urlencoded"
+                            },
+                            data: $.param({
+                                act: "delete",
+                                al: 1,
+                                confirm: 0,
+                                from: "wkview",
+                                hash: dataParams.wallHash,
+                                post: this.cache[name]
+                            })
+                        }) ];
+
+                      case 1:
+                        _d = _e.sent(), result = _d.result, statusText = _d.statusText, status_5 = _d.status, 
+                        data = _d.data;
+                        if (result === "Success") {
+                            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+                                jsonData = JSON.parse(((_a = data.responseText) === null || _a === void 0 ? void 0 : _a.replace("\x3c!--", "")) || "{}");
+                                if ((_c = (_b = jsonData === null || jsonData === void 0 ? void 0 : jsonData.payload) === null || _b === void 0 ? void 0 : _b[1]) === null || _c === void 0 ? void 0 : _c[1]) {
+                                    logStatus.success();
+                                    return [ 2, true ];
+                                }
+                                logStatus.error("Error:" + (data === null || data === void 0 ? void 0 : data.statusText) + "(" + (data === null || data === void 0 ? void 0 : data.status) + ")");
+                                return [ 2, false ];
+                            }
+                            logStatus.error("Error:" + (data === null || data === void 0 ? void 0 : data.statusText) + "(" + (data === null || data === void 0 ? void 0 : data.status) + ")");
+                            return [ 2, false ];
+                        }
+                        logStatus.error(result + ":" + statusText + "(" + status_5 + ")");
+                        return [ 2, false ];
+
+                      case 2:
+                        error_6 = _e.sent();
+                        throwError(error_6, "Vk.deleteWall");
+                        return [ 2, false ];
+
+                      case 3:
+                        return [ 2 ];
+                    }
+                });
+            });
+        };
+        Vk.prototype.getId = function(name, doTask) {
+            var _a, _b, _c;
+            return Vk_awaiter(this, void 0, void 0, function() {
+                var url, logStatus, _d, result, statusText, status_6, data, _e, groupAct, groupId, groupHash, publicHash, publicPid, publicJoined, wallHash, error_7;
+                return Vk_generator(this, function(_f) {
+                    switch (_f.label) {
+                      case 0:
+                        _f.trys.push([ 0, 2, , 3 ]);
+                        url = "https://vk.com/" + name;
+                        if (/^wall-/.test(name)) {
+                            if (doTask) {
+                                return [ 2, {
+                                    type: "sendWall"
+                                } ];
+                            }
+                            if (!this.cache[name]) {
+                                return [ 2, {
+                                    type: "unSupport"
+                                } ];
+                            }
+                            url = "https://vk.com/" + this.username + "?w=wall" + this.cache[name];
+                        }
+                        logStatus = scripts_echoLog({
+                            type: "getVkId",
+                            text: name
+                        });
+                        return [ 4, tools_httpRequest({
+                            url: url,
+                            method: "GET"
+                        }) ];
+
+                      case 1:
+                        _d = _f.sent(), result = _d.result, statusText = _d.statusText, status_6 = _d.status, 
+                        data = _d.data;
+                        if (result === "Success") {
+                            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+                                _e = Vk_read(data.responseText.match(/Groups.(enter|leave)\(.*?,.*?([\d]+?), '(.*?)'/) || [], 4), 
+                                groupAct = _e[1], groupId = _e[2], groupHash = _e[3];
+                                publicHash = (_a = data.responseText.match(/"enterHash":"(.*?)"/)) === null || _a === void 0 ? void 0 : _a[1];
+                                publicPid = (_b = data.responseText.match(/"public_id":([\d]+?),/)) === null || _b === void 0 ? void 0 : _b[1];
+                                publicJoined = !data.responseText.includes("Public.subscribe");
+                                if (groupAct && groupId && groupHash) {
+                                    logStatus.success();
+                                    return [ 2, {
+                                        groupAct: groupAct,
+                                        groupId: groupId,
+                                        groupHash: groupHash,
+                                        type: "group"
+                                    } ];
+                                } else if (publicHash && publicPid) {
+                                    logStatus.success();
+                                    return [ 2, {
+                                        publicHash: publicHash,
+                                        publicPid: publicPid,
+                                        publicJoined: publicJoined,
+                                        type: "public"
+                                    } ];
+                                } else if (data.responseText.includes("wall.deletePost") && !doTask) {
+                                    wallHash = (_c = data.responseText.match(/wall\.deletePost\(this, '.*?', '(.*?)'\)/)) === null || _c === void 0 ? void 0 : _c[1];
+                                    if (wallHash) {
+                                        logStatus.success();
+                                        return [ 2, {
+                                            type: "deleteWall",
+                                            wallHash: wallHash
+                                        } ];
+                                    }
+                                } else if (name.includes("wall") && doTask) {
+                                    logStatus.success();
+                                    return [ 2, {
+                                        type: "sendWall"
+                                    } ];
+                                }
+                                logStatus.error("Error: Parameters not found!");
+                                return [ 2, false ];
+                            }
+                            logStatus.error("Error:" + (data === null || data === void 0 ? void 0 : data.statusText) + "(" + (data === null || data === void 0 ? void 0 : data.status) + ")");
+                            return [ 2, false ];
+                        }
+                        logStatus.error(result + ":" + statusText + "(" + status_6 + ")");
+                        return [ 2, false ];
+
+                      case 2:
+                        error_7 = _f.sent();
+                        throwError(error_7, "Vk.getId");
+                        return [ 2, false ];
+
+                      case 3:
+                        return [ 2 ];
+                    }
+                });
+            });
+        };
+        Vk.prototype.toggleVk = function(_a) {
+            var name = _a.name, _b = _a.doTask, doTask = _b === void 0 ? true : _b;
+            return Vk_awaiter(this, void 0, void 0, function() {
+                var formatName, data, _c, _d, _e, error_8;
+                return Vk_generator(this, function(_f) {
+                    switch (_f.label) {
+                      case 0:
+                        _f.trys.push([ 0, 16, , 17 ]);
+                        if (!doTask && this.whiteList.names.includes(name)) {
+                            scripts_echoLog({
+                                type: "whiteList",
+                                text: name
+                            });
+                            return [ 2, true ];
+                        }
+                        formatName = name.replace(/\/$/, "");
+                        return [ 4, this.getId(formatName, doTask) ];
+
+                      case 1:
+                        data = _f.sent();
+                        if (!data) return [ 2, false ];
+                        _c = data.type;
+                        switch (_c) {
+                          case "group":
+                            return [ 3, 2 ];
+
+                          case "public":
+                            return [ 3, 4 ];
+
+                          case "sendWall":
+                            return [ 3, 6 ];
+
+                          case "deleteWall":
+                            return [ 3, 10 ];
+                        }
+                        return [ 3, 14 ];
+
+                      case 2:
+                        return [ 4, this.toggleGroup(formatName, data, doTask) ];
+
+                      case 3:
+                        return [ 2, _f.sent() ];
+
+                      case 4:
+                        return [ 4, this.togglePublic(formatName, data, doTask) ];
+
+                      case 5:
+                        return [ 2, _f.sent() ];
+
+                      case 6:
+                        if (!doTask) return [ 3, 8 ];
+                        return [ 4, this.sendWall(formatName) ];
+
+                      case 7:
+                        _d = _f.sent();
+                        return [ 3, 9 ];
+
+                      case 8:
+                        _d = true;
+                        _f.label = 9;
+
+                      case 9:
+                        return [ 2, _d ];
+
+                      case 10:
+                        if (!doTask) return [ 3, 11 ];
+                        _e = true;
+                        return [ 3, 13 ];
+
+                      case 11:
+                        return [ 4, this.deleteWall(formatName, data) ];
+
+                      case 12:
+                        _e = _f.sent();
+                        _f.label = 13;
+
+                      case 13:
+                        return [ 2, _e ];
+
+                      case 14:
+                        return [ 2, false ];
+
+                      case 15:
+                        return [ 3, 17 ];
+
+                      case 16:
+                        error_8 = _f.sent();
+                        throwError(error_8, "Vk.toggleVk");
+                        return [ 2, false ];
+
+                      case 17:
+                        return [ 2 ];
+                    }
+                });
+            });
+        };
+        Vk.prototype.toggle = function(_a) {
+            var _b = _a.doTask, doTask = _b === void 0 ? true : _b, _c = _a.names, names = _c === void 0 ? [] : _c, _d = _a.nameLinks, nameLinks = _d === void 0 ? [] : _d;
+            return Vk_awaiter(this, void 0, void 0, function() {
+                var prom, realNames, realNames_1, realNames_1_1, name_1, e_1_1, error_9;
+                var e_1, _e;
+                return Vk_generator(this, function(_f) {
+                    switch (_f.label) {
+                      case 0:
+                        _f.trys.push([ 0, 9, , 10 ]);
+                        if (!this.initialized) {
+                            scripts_echoLog({
+                                type: "text",
+                                text: "请先初始化"
+                            });
+                            return [ 2, false ];
+                        }
+                        prom = [];
+                        realNames = this.getRealParams("names", names, nameLinks, doTask, function(link) {
+                            var _a;
+                            return (_a = link.match(/https:\/\/vk\.com\/([^/]+)/)) === null || _a === void 0 ? void 0 : _a[1];
+                        });
+                        if (!(realNames.length > 0)) return [ 3, 8 ];
+                        _f.label = 1;
+
+                      case 1:
+                        _f.trys.push([ 1, 6, 7, 8 ]);
+                        realNames_1 = Vk_values(realNames), realNames_1_1 = realNames_1.next();
+                        _f.label = 2;
+
+                      case 2:
+                        if (!!realNames_1_1.done) return [ 3, 5 ];
+                        name_1 = realNames_1_1.value;
+                        prom.push(this.toggleVk({
+                            name: name_1,
+                            doTask: doTask
+                        }));
+                        return [ 4, delay(1e3) ];
+
+                      case 3:
+                        _f.sent();
+                        _f.label = 4;
+
+                      case 4:
+                        realNames_1_1 = realNames_1.next();
+                        return [ 3, 2 ];
+
+                      case 5:
+                        return [ 3, 8 ];
+
+                      case 6:
+                        e_1_1 = _f.sent();
+                        e_1 = {
+                            error: e_1_1
+                        };
+                        return [ 3, 8 ];
+
+                      case 7:
+                        try {
+                            if (realNames_1_1 && !realNames_1_1.done && (_e = realNames_1.return)) _e.call(realNames_1);
+                        } finally {
+                            if (e_1) throw e_1.error;
+                        }
+                        return [ 7 ];
+
+                      case 8:
+                        return [ 2, Promise.all(prom).then(function() {
+                            return true;
+                        }) ];
+
+                      case 9:
+                        error_9 = _f.sent();
+                        throwError(error_9, "Vk.toggle");
+                        return [ 2, false ];
+
+                      case 10:
+                        return [ 2 ];
+                    }
+                });
+            });
+        };
+        Vk.prototype.addId = function(name, postId) {
+            this.cache[name] = postId;
+            GM_setValue("vkCache", this.cache);
+        };
+        return Vk;
+    }(social_Social);
+    const social_Vk = Vk;
+    var Youtube_extends = undefined && undefined.__extends || function() {
+        var extendStatics = function(d, b) {
+            extendStatics = Object.setPrototypeOf || {
+                __proto__: []
+            } instanceof Array && function(d, b) {
+                d.__proto__ = b;
+            } || function(d, b) {
+                for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p];
+            };
+            return extendStatics(d, b);
+        };
+        return function(d, b) {
+            if (typeof b !== "function" && b !== null) throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+            extendStatics(d, b);
+            function __() {
+                this.constructor = d;
+            }
+            d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+        };
+    }();
+    var Youtube_awaiter = undefined && undefined.__awaiter || function(thisArg, _arguments, P, generator) {
+        function adopt(value) {
+            return value instanceof P ? value : new P(function(resolve) {
+                resolve(value);
+            });
+        }
+        return new (P || (P = Promise))(function(resolve, reject) {
+            function fulfilled(value) {
+                try {
+                    step(generator.next(value));
+                } catch (e) {
+                    reject(e);
+                }
+            }
+            function rejected(value) {
+                try {
+                    step(generator["throw"](value));
+                } catch (e) {
+                    reject(e);
+                }
+            }
+            function step(result) {
+                result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+            }
+            step((generator = generator.apply(thisArg, _arguments || [])).next());
+        });
+    };
+    var Youtube_generator = undefined && undefined.__generator || function(thisArg, body) {
+        var _ = {
+            label: 0,
+            sent: function() {
+                if (t[0] & 1) throw t[1];
+                return t[1];
+            },
+            trys: [],
+            ops: []
+        }, f, y, t, g;
+        return g = {
+            next: verb(0),
+            throw: verb(1),
+            return: verb(2)
+        }, typeof Symbol === "function" && (g[Symbol.iterator] = function() {
+            return this;
+        }), g;
+        function verb(n) {
+            return function(v) {
+                return step([ n, v ]);
+            };
+        }
+        function step(op) {
+            if (f) throw new TypeError("Generator is already executing.");
+            while (_) try {
+                if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 
+                0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+                if (y = 0, t) op = [ op[0] & 2, t.value ];
+                switch (op[0]) {
+                  case 0:
+                  case 1:
+                    t = op;
+                    break;
+
+                  case 4:
+                    _.label++;
+                    return {
+                        value: op[1],
+                        done: false
+                    };
+
+                  case 5:
+                    _.label++;
+                    y = op[1];
+                    op = [ 0 ];
+                    continue;
+
+                  case 7:
+                    op = _.ops.pop();
+                    _.trys.pop();
+                    continue;
+
+                  default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+                        _ = 0;
+                        continue;
+                    }
+                    if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+                        _.label = op[1];
+                        break;
+                    }
+                    if (op[0] === 6 && _.label < t[1]) {
+                        _.label = t[1];
+                        t = op;
+                        break;
+                    }
+                    if (t && _.label < t[2]) {
+                        _.label = t[2];
+                        _.ops.push(op);
+                        break;
+                    }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop();
+                    continue;
+                }
+                op = body.call(thisArg, _);
+            } catch (e) {
+                op = [ 6, e ];
+                y = 0;
+            } finally {
+                f = t = 0;
+            }
+            if (op[0] & 5) throw op[1];
+            return {
+                value: op[0] ? op[1] : void 0,
+                done: true
+            };
+        }
+    };
+    var Youtube_read = undefined && undefined.__read || function(o, n) {
+        var m = typeof Symbol === "function" && o[Symbol.iterator];
+        if (!m) return o;
+        var i = m.call(o), r, ar = [], e;
+        try {
+            while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+        } catch (error) {
+            e = {
+                error: error
+            };
+        } finally {
+            try {
+                if (r && !r.done && (m = i["return"])) m.call(i);
+            } finally {
+                if (e) throw e.error;
+            }
+        }
+        return ar;
+    };
+    var Youtube_spreadArray = undefined && undefined.__spreadArray || function(to, from, pack) {
+        if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+            if (ar || !(i in from)) {
+                if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+                ar[i] = from[i];
+            }
+        }
+        return to.concat(ar || Array.prototype.slice.call(from));
+    };
+    var Youtube_values = undefined && undefined.__values || function(o) {
+        var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+        if (m) return m.call(o);
+        if (o && typeof o.length === "number") return {
+            next: function() {
+                if (o && i >= o.length) o = void 0;
+                return {
+                    value: o && o[i++],
+                    done: !o
+                };
+            }
+        };
+        throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+    };
+    var Youtube = function(_super) {
+        Youtube_extends(Youtube, _super);
+        function Youtube(id) {
+            var _a;
+            var _this = _super.call(this) || this;
+            _this.tasks = GM_getValue("Youtube-" + id) || {
+                channels: [],
+                likes: []
+            };
+            _this.whiteList = ((_a = GM_getValue("whiteList")) === null || _a === void 0 ? void 0 : _a.youtube) || {
+                channels: [],
+                likes: []
+            };
+            _this.auth = GM_getValue("youtubeAuth") || {};
+            return _this;
+        }
+        Youtube.prototype.init = function() {
+            return Youtube_awaiter(this, void 0, void 0, function() {
+                var isVerified;
+                return Youtube_generator(this, function(_a) {
+                    try {
+                        isVerified = false;
+                        if (isVerified) {
+                            scripts_echoLog({
+                                text: "Init youtube success!"
+                            });
+                            this.initialized = true;
+                            return [ 2, true ];
+                        }
+                        scripts_echoLog({
+                            text: "Init youtube failed!"
+                        });
+                        return [ 2, false ];
+                    } catch (error) {
+                        throwError(error, "Youtube.init");
+                        return [ 2, false ];
+                    }
+                    return [ 2 ];
+                });
+            });
+        };
+        Youtube.prototype.getInfo = function(link, type) {
+            var _a, _b, _c, _d, _e;
+            return Youtube_awaiter(this, void 0, void 0, function() {
+                var logStatus, _f, result, statusText, status_1, data, apiKey, context, _g, client, request, channelId, videoId, likeParams, error_1;
+                return Youtube_generator(this, function(_h) {
+                    switch (_h.label) {
+                      case 0:
+                        _h.trys.push([ 0, 2, , 3 ]);
+                        logStatus = scripts_echoLog({
+                            type: "text",
+                            text: "getYtbToken"
+                        });
+                        return [ 4, tools_httpRequest({
+                            url: link,
+                            method: "GET"
+                        }) ];
+
+                      case 1:
+                        _f = _h.sent(), result = _f.result, statusText = _f.statusText, status_1 = _f.status, 
+                        data = _f.data;
+                        if (result === "Success") {
+                            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+                                if (data.responseText.includes("accounts.google.com/ServiceLogin?service=youtube")) {
+                                    logStatus.error("Error:" + i18n("loginYtb"), true);
+                                    return [ 2, {
+                                        needLogin: true
+                                    } ];
+                                }
+                                apiKey = (_a = data.responseText.match(/"INNERTUBE_API_KEY":"(.*?)"/)) === null || _a === void 0 ? void 0 : _a[1];
+                                context = ((_b = data.responseText.match(/\(\{"INNERTUBE_CONTEXT":([\w\W]*?)\}\)/) || data.responseText.match(/"INNERTUBE_CONTEXT":([\w\W]*?\}),"INNERTUBE/)) === null || _b === void 0 ? void 0 : _b[1]) || "{}";
+                                _g = JSON.parse(context), client = _g.client, request = _g.request;
+                                if (apiKey && client && request) {
+                                    client.hl = "en";
+                                    if (type === "channel") {
+                                        channelId = (_c = data.responseText.match(/<meta itemprop="channelId" content="(.+?)">/)) === null || _c === void 0 ? void 0 : _c[1];
+                                        if (channelId) {
+                                            logStatus.success();
+                                            return [ 2, {
+                                                params: {
+                                                    apiKey: apiKey,
+                                                    client: client,
+                                                    request: request,
+                                                    channelId: channelId
+                                                }
+                                            } ];
+                                        }
+                                        logStatus.error('Error: Get "channelId" failed!');
+                                        return [ 2, {} ];
+                                    } else if (type === "likeVideo") {
+                                        videoId = (_d = data.responseText.match(/<link rel="shortlinkUrl" href="https:\/\/youtu\.be\/(.*?)">/)) === null || _d === void 0 ? void 0 : _d[1];
+                                        likeParams = (_e = data.responseText.match(/"likeParams":"(.*?)"/)) === null || _e === void 0 ? void 0 : _e[1];
+                                        if (videoId) {
+                                            logStatus.success();
+                                            return [ 2, {
+                                                params: {
+                                                    apiKey: apiKey,
+                                                    client: client,
+                                                    request: request,
+                                                    videoId: videoId,
+                                                    likeParams: likeParams
+                                                }
+                                            } ];
+                                        }
+                                        logStatus.error('Error: Get "videoId" failed!');
+                                        return [ 2, {} ];
+                                    }
+                                    logStatus.error("Error: Unknown type");
+                                    return [ 2, {} ];
+                                }
+                                logStatus.error('Error: Parameter "apiKey" not found!');
+                                return [ 2, {} ];
+                            }
+                            logStatus.error("Error:" + (data === null || data === void 0 ? void 0 : data.statusText) + "(" + (data === null || data === void 0 ? void 0 : data.status) + ")");
+                            return [ 2, {} ];
+                        }
+                        logStatus.error(result + ":" + statusText + "(" + status_1 + ")");
+                        return [ 2, {} ];
+
+                      case 2:
+                        error_1 = _h.sent();
+                        throwError(error_1, "Youtube.getInfo");
+                        return [ 2, {} ];
+
+                      case 3:
+                        return [ 2 ];
+                    }
+                });
+            });
+        };
+        Youtube.prototype.getToken = function(notice) {
+            try {
+                var PAPISID = Cookies.get("__Secure-3PAPISID");
+                if (PAPISID) {
+                    this.auth.PAPISID = PAPISID;
+                    GM_setValue("youtubeInfo", this.auth);
+                    if (notice) {
+                        Swal.fire({
+                            title: i18n("updateYtbInfoSuccess"),
+                            icon: "success"
+                        });
+                    }
+                } else {
+                    if (notice) {
+                        Swal.fire({
+                            title: i18n("updateYtbInfoError"),
+                            icon: "error"
+                        });
+                    }
+                }
+            } catch (error) {
+                throwError(error, "Youtube.getToken");
+                if (notice) {
+                    Swal.fire({
+                        title: i18n("updateYtbInfoError"),
+                        icon: "error"
+                    });
+                }
+            }
+        };
+        Youtube.prototype.toggleChannel = function(_a) {
+            var link = _a.link, _b = _a.doTask, doTask = _b === void 0 ? true : _b;
+            return Youtube_awaiter(this, void 0, void 0, function() {
+                var _c, params, needLogin, _d, apiKey, client, request, channelId, logStatus, nowTime, _e, result, statusText, status_2, data, error_2;
+                return Youtube_generator(this, function(_f) {
+                    switch (_f.label) {
+                      case 0:
+                        _f.trys.push([ 0, 3, , 4 ]);
+                        return [ 4, this.getInfo(link, "channel") ];
+
+                      case 1:
+                        _c = _f.sent(), params = _c.params, needLogin = _c.needLogin;
+                        _d = params || {}, apiKey = _d.apiKey, client = _d.client, request = _d.request, 
+                        channelId = _d.channelId;
+                        if (needLogin) {
+                            scripts_echoLog({
+                                type: "custom",
+                                text: i18n("loginYtb")
+                            });
+                            return [ 2, false ];
+                        }
+                        if (!(apiKey && client && request && channelId)) {
+                            scripts_echoLog({
+                                type: "custom",
+                                text: '"getYtbToken" failed'
+                            });
+                            return [ 2, false ];
+                        }
+                        if (!doTask && this.whiteList.channels.includes(channelId)) {
+                            scripts_echoLog({
+                                type: "whiteList",
+                                text: channelId
+                            });
+                            return [ 2, true ];
+                        }
+                        logStatus = scripts_echoLog({
+                            type: doTask ? "followYtbChannel" : "unfollowYtbChannel",
+                            text: channelId
+                        });
+                        nowTime = parseInt(String(new Date().getTime() / 1e3), 10);
+                        return [ 4, tools_httpRequest({
+                            url: "https://www.youtube.com/youtubei/v1/subscription/" + (doTask ? "" : "un") + "subscribe?key=" + apiKey,
+                            method: "POST",
+                            headers: {
+                                origin: "https://www.youtube.com",
+                                referer: "https://www.youtube.com/channel/" + channelId,
+                                "content-type": "application/json",
+                                "x-goog-authuser": "0",
+                                "x-goog-visitor-id": client === null || client === void 0 ? void 0 : client.visitorData,
+                                "x-origin": "https://www.youtube.com",
+                                authorization: "SAPISIDHASH " + nowTime + "_" + sha1(nowTime + " " + this.auth.PAPISID + " https://www.youtube.com")
+                            },
+                            data: JSON.stringify({
+                                context: {
+                                    client: client,
+                                    request: {
+                                        sessionId: request === null || request === void 0 ? void 0 : request.sessionId,
+                                        internalExperimentFlags: [],
+                                        consistencyTokenJars: []
+                                    },
+                                    user: {}
+                                },
+                                channelIds: [ channelId ],
+                                params: doTask ? "EgIIAhgA" : "CgIIAhgA"
+                            })
+                        }) ];
+
+                      case 2:
+                        _e = _f.sent(), result = _e.result, statusText = _e.statusText, status_2 = _e.status, 
+                        data = _e.data;
+                        if (result === "Success") {
+                            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+                                if (doTask && (/"subscribed": true/.test(data.responseText) || data.responseText.includes("The subscription already exists")) || !doTask && /"subscribed": false/.test(data.responseText)) {
+                                    logStatus.success();
+                                    if (doTask) this.tasks.channels = unique(Youtube_spreadArray(Youtube_spreadArray([], Youtube_read(this.tasks.channels), false), [ link ], false));
+                                    return [ 2, true ];
+                                }
+                                logStatus.error(i18n("tryUpdateYtbAuth"), true);
+                                return [ 2, false ];
+                            }
+                            logStatus.error("Error:" + (data === null || data === void 0 ? void 0 : data.statusText) + "(" + (data === null || data === void 0 ? void 0 : data.status) + ")");
+                            return [ 2, false ];
+                        }
+                        logStatus.error(result + ":" + statusText + "(" + status_2 + ")");
+                        return [ 2, false ];
+
+                      case 3:
+                        error_2 = _f.sent();
+                        throwError(error_2, "Youtube.toggleChannel");
+                        return [ 2, false ];
+
+                      case 4:
+                        return [ 2 ];
+                    }
+                });
+            });
+        };
+        Youtube.prototype.toggleLikeVideo = function(_a) {
+            var link = _a.link, _b = _a.doTask, doTask = _b === void 0 ? true : _b;
+            return Youtube_awaiter(this, void 0, void 0, function() {
+                var _c, params, needLogin, _d, apiKey, client, request, videoId, likeParams, logStatus, nowTime, likeVideoData, _e, result, statusText, status_3, data, error_3;
+                return Youtube_generator(this, function(_f) {
+                    switch (_f.label) {
+                      case 0:
+                        _f.trys.push([ 0, 3, , 4 ]);
+                        return [ 4, this.getInfo(link, "likeVideo") ];
+
+                      case 1:
+                        _c = _f.sent(), params = _c.params, needLogin = _c.needLogin;
+                        _d = params || {}, apiKey = _d.apiKey, client = _d.client, request = _d.request, 
+                        videoId = _d.videoId, likeParams = _d.likeParams;
+                        if (needLogin) {
+                            scripts_echoLog({
+                                type: "text",
+                                text: "" + i18n("loginYtb")
+                            });
+                            return [ 2, false ];
+                        }
+                        if (!(apiKey && client && request && videoId && likeParams)) {
+                            scripts_echoLog({
+                                type: "text",
+                                text: '"getYtbToken" failed'
+                            });
+                            return [ 2, false ];
+                        }
+                        if (!doTask && this.whiteList.likes.includes(videoId)) {
+                            scripts_echoLog({
+                                type: "whiteList",
+                                text: link
+                            });
+                            return [ 2, true ];
+                        }
+                        logStatus = scripts_echoLog({
+                            type: doTask ? "likeYtbVideo" : "unlikeYtbVideo",
+                            text: videoId
+                        });
+                        nowTime = parseInt(String(new Date().getTime() / 1e3), 10);
+                        likeVideoData = {
+                            context: {
+                                client: client,
+                                request: {
+                                    sessionId: request.sessionId,
+                                    internalExperimentFlags: [],
+                                    consistencyTokenJars: []
+                                },
+                                user: {}
+                            },
+                            target: {
+                                videoId: videoId
+                            }
+                        };
+                        if (doTask) {
+                            if (likeParams) {
+                                likeVideoData.params = likeParams;
+                            } else {
+                                logStatus.error("Empty likeParams");
+                                return [ 2, false ];
+                            }
+                        }
+                        return [ 4, tools_httpRequest({
+                            url: "https://www.youtube.com/youtubei/v1/like/" + (doTask ? "" : "remove") + "like?key=" + apiKey,
+                            method: "POST",
+                            headers: {
+                                origin: "https://www.youtube.com",
+                                referer: "https://www.youtube.com/watch?v=" + videoId,
+                                "content-type": "application/json",
+                                "x-goog-authuser": "0",
+                                "x-goog-visitor-id": client.visitorData,
+                                "x-origin": "https://www.youtube.com",
+                                authorization: "SAPISIDHASH " + nowTime + "_" + sha1(nowTime + " " + this.auth.PAPISID + " https://www.youtube.com")
+                            },
+                            data: JSON.stringify(likeVideoData)
+                        }) ];
+
+                      case 2:
+                        _e = _f.sent(), result = _e.result, statusText = _e.statusText, status_3 = _e.status, 
+                        data = _e.data;
+                        if (result === "Success") {
+                            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+                                if (doTask && data.responseText.includes("Added to Liked videos") || !doTask && (data.responseText.includes("Removed from Liked videos") || data.responseText.includes("Dislike removed"))) {
+                                    logStatus.success();
+                                    if (doTask) this.tasks.likes = unique(Youtube_spreadArray(Youtube_spreadArray([], Youtube_read(this.tasks.likes), false), [ link ], false));
+                                    return [ 2, true ];
+                                }
+                                logStatus.error(i18n("tryUpdateYtbAuth"), true);
+                                return [ 2, false ];
+                            }
+                            logStatus.error("Error:" + (data === null || data === void 0 ? void 0 : data.statusText) + "(" + (data === null || data === void 0 ? void 0 : data.status) + ")");
+                            return [ 2, false ];
+                        }
+                        logStatus.error(result + ":" + statusText + "(" + status_3 + ")");
+                        return [ 2, false ];
+
+                      case 3:
+                        error_3 = _f.sent();
+                        throwError(error_3, "Youtube.toggleLikeVideo");
+                        return [ 2, false ];
+
+                      case 4:
+                        return [ 2 ];
+                    }
+                });
+            });
+        };
+        Youtube.prototype.toggle = function(_a) {
+            var _b = _a.doTask, doTask = _b === void 0 ? true : _b, _c = _a.channelLinks, channelLinks = _c === void 0 ? [] : _c, _d = _a.videoLinks, videoLinks = _d === void 0 ? [] : _d;
+            return Youtube_awaiter(this, void 0, void 0, function() {
+                var prom, realChannels, realLikes, realChannels_1, realChannels_1_1, channel, e_1_1, realLikes_1, realLikes_1_1, video, e_2_1, error_4;
+                var e_1, _e, e_2, _f;
+                return Youtube_generator(this, function(_g) {
+                    switch (_g.label) {
+                      case 0:
+                        _g.trys.push([ 0, 17, , 18 ]);
+                        if (!this.initialized) {
+                            scripts_echoLog({
+                                type: "text",
+                                text: "请先初始化"
+                            });
+                            return [ 2, false ];
+                        }
+                        prom = [];
+                        realChannels = this.getRealParams("channels", [], channelLinks, doTask, function(link) {
+                            var _a;
+                            if (/^https:\/\/www\.google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
+                                return (_a = link.match(/url=(https:\/\/www.youtube.com\/.*)/)) === null || _a === void 0 ? void 0 : _a[1];
+                            }
+                            return link;
+                        });
+                        realLikes = this.getRealParams("likes", [], videoLinks, doTask, function(link) {
+                            var _a;
+                            if (/^https:\/\/www\.google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
+                                return (_a = link.match(/url=(https:\/\/www.youtube.com\/.*)/)) === null || _a === void 0 ? void 0 : _a[1];
+                            }
+                            return link;
+                        });
+                        if (!(realChannels.length > 0)) return [ 3, 8 ];
+                        _g.label = 1;
+
+                      case 1:
+                        _g.trys.push([ 1, 6, 7, 8 ]);
+                        realChannels_1 = Youtube_values(realChannels), realChannels_1_1 = realChannels_1.next();
+                        _g.label = 2;
+
+                      case 2:
+                        if (!!realChannels_1_1.done) return [ 3, 5 ];
+                        channel = realChannels_1_1.value;
+                        prom.push(this.toggleChannel({
+                            link: channel,
+                            doTask: doTask
+                        }));
+                        return [ 4, delay(1e3) ];
+
+                      case 3:
+                        _g.sent();
+                        _g.label = 4;
+
+                      case 4:
+                        realChannels_1_1 = realChannels_1.next();
+                        return [ 3, 2 ];
+
+                      case 5:
+                        return [ 3, 8 ];
+
+                      case 6:
+                        e_1_1 = _g.sent();
+                        e_1 = {
+                            error: e_1_1
+                        };
+                        return [ 3, 8 ];
+
+                      case 7:
+                        try {
+                            if (realChannels_1_1 && !realChannels_1_1.done && (_e = realChannels_1.return)) _e.call(realChannels_1);
+                        } finally {
+                            if (e_1) throw e_1.error;
+                        }
+                        return [ 7 ];
+
+                      case 8:
+                        if (!(realLikes.length > 0)) return [ 3, 16 ];
+                        _g.label = 9;
+
+                      case 9:
+                        _g.trys.push([ 9, 14, 15, 16 ]);
+                        realLikes_1 = Youtube_values(realLikes), realLikes_1_1 = realLikes_1.next();
+                        _g.label = 10;
+
+                      case 10:
+                        if (!!realLikes_1_1.done) return [ 3, 13 ];
+                        video = realLikes_1_1.value;
+                        prom.push(this.toggleLikeVideo({
+                            link: video,
+                            doTask: doTask
+                        }));
+                        return [ 4, delay(1e3) ];
+
+                      case 11:
+                        _g.sent();
+                        _g.label = 12;
+
+                      case 12:
+                        realLikes_1_1 = realLikes_1.next();
+                        return [ 3, 10 ];
+
+                      case 13:
+                        return [ 3, 16 ];
+
+                      case 14:
+                        e_2_1 = _g.sent();
+                        e_2 = {
+                            error: e_2_1
+                        };
+                        return [ 3, 16 ];
+
+                      case 15:
+                        try {
+                            if (realLikes_1_1 && !realLikes_1_1.done && (_f = realLikes_1.return)) _f.call(realLikes_1);
+                        } finally {
+                            if (e_2) throw e_2.error;
+                        }
+                        return [ 7 ];
+
+                      case 16:
+                        return [ 2, Promise.all(prom).then(function() {
+                            return true;
+                        }) ];
+
+                      case 17:
+                        error_4 = _g.sent();
+                        throwError(error_4, "Vk.toggle");
+                        return [ 2, false ];
+
+                      case 18:
+                        return [ 2 ];
+                    }
+                });
+            });
+        };
+        return Youtube;
+    }(social_Social);
+    const social_Youtube = Youtube;
     var _a;
     if (window.location.hostname === "discord.com" && window.location.hash === "#auth") {
         GM_setValue("discordAuth", {
@@ -3361,6 +4914,8 @@
         unsafeWindow.Reddit = social_Reddit;
         unsafeWindow.Twitch = social_Twitch;
         unsafeWindow.Twitter = social_Twitter;
+        unsafeWindow.Vk = social_Vk;
+        unsafeWindow.Youtube = social_Youtube;
         $("body").append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;"></div>');
     };
     var __webpack_export_target__ = exports;

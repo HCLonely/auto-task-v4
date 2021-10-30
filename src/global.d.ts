@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 13:18:21
- * @LastEditTime : 2021-10-30 12:44:05
+ * @LastEditTime : 2021-10-30 13:28:23
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/global.d.ts
  */
@@ -88,9 +88,7 @@ declare global {
     likes: Array<string>
   }
   interface vkTasks {
-    groups: Array<string>
-    publics: Array<string>
-    walls: Array<string>
+    names: Array<string>
   }
   interface youtubeTasks {
     channels: Array<string>

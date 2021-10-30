@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:36:57
- * @LastEditTime : 2021-10-30 13:04:25
+ * @LastEditTime : 2021-10-30 21:04:27
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitter.ts
  * @Description  : Twitter 关注/取关用户,转推/取消转推推文
@@ -35,19 +35,22 @@ class Twitter extends Social {
     try {
       if (!this.auth.ct0) {
         echoLog({ type: 'updateTwitterAuth' });
-        if (!(await this.updateAuth())) {
-          return false;
+        if (await this.updateAuth()) {
+          this.initialized = true;
+          return true;
         }
-        return true;
+        return false;
       }
       const isVerified = await this.verifyAuth(); // TODO
       if (isVerified) {
         echoLog({ text: 'Init twitter success!' });
+        this.initialized = true;
         return true;
       }
       GM_setValue('twitterAuth', { auth: null }); // eslint-disable-line new-cap
       if (await this.updateAuth()) {
         echoLog({ text: 'Init twitter success!' });
+        this.initialized = true;
         return true;
       }
       echoLog({ text: 'Init twitter failed!' });
@@ -86,21 +89,6 @@ class Twitter extends Social {
           }
         };
       });
-      if (!window.location.href.includes('login')) {
-        if (Cookies.get('twid')) {
-          const ct0 = Cookies.get('ct0');
-          if (ct0) {
-            this.auth.ct0 = ct0;
-            return true;
-          }
-          window.close();
-          return false;
-          // GM_setValue('twitterInfo', twitterInfo)
-        }
-      }
-      this.auth.isLogin = false;
-      // GM_setValue('twitterInfo', twitterInfo)
-      return false;
     } catch (error) {
       throwError(error as Error, 'Twitter.updateToken');
       return false;
@@ -249,9 +237,24 @@ class Twitter extends Social {
     }
   }
 
-  async toggle({ doTask = true, users = [], userLinks = [], retweets = [], retweetLinks = [] }:
-    { doTask: boolean, users: Array<string>, userLinks: Array<string>, retweets: Array<string>, retweetLinks: Array<string> }): Promise<boolean> {
+  async toggle({
+    doTask = true,
+    users = [],
+    userLinks = [],
+    retweets = [],
+    retweetLinks = []
+  }:{
+      doTask: boolean,
+      users: Array<string>,
+      userLinks: Array<string>,
+      retweets: Array<string>,
+      retweetLinks: Array<string>
+    }): Promise<boolean> {
     try {
+      if (!this.initialized) {
+        echoLog({ type: 'text', text: '请先初始化' });
+        return false;
+      }
       const prom = [];
       const realUsers = this.getRealParams('users', users, userLinks, doTask, (link) => link.match(/https:\/\/twitter\.com\/(.+)/)?.[1]);
       const realRetweets = this.getRealParams('retweets', retweets, retweetLinks, doTask,

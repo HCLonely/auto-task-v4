@@ -1,10 +1,11 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 11:47:59
- * @LastEditTime : 2021-10-30 12:35:57
+ * @LastEditTime : 2021-10-30 21:08:52
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Vk.ts
  * @Description  : Vk 加入/退出群组，关注/取关用户，转发动态
+ ! 取消转发动态
  */
 
 import Social from './Social';
@@ -22,25 +23,28 @@ interface dataParams {
   publicHash?: string
   publicPid?: string
   publicJoined?: boolean
+  wallHash?: string
 }
 class Vk extends Social {
   tasks: vkTasks;
   whiteList: vkTasks;
+  username = '';
 
   // TODO: 任务识别
   constructor(id: string) {
     super();
-    this.tasks = GM_getValue<vkTasks>(`Vk-${id}`) || { groups: [], publics: [], walls: [] }; // eslint-disable-line new-cap
-    this.whiteList = GM_getValue<whiteList>('whiteList')?.vk || { groups: [], publics: [], walls: [] }; // eslint-disable-line new-cap
-    this.auth = GM_getValue<auth>('vkAuth') || {}; // eslint-disable-line new-cap
+    this.tasks = GM_getValue<vkTasks>(`Vk-${id}`) || { names: [] }; // eslint-disable-line new-cap
+    this.whiteList = GM_getValue<whiteList>('whiteList')?.vk || { names: [] }; // eslint-disable-line new-cap
+    this.cache = GM_getValue<cache>('vkCache') || {}; // eslint-disable-line new-cap
   }
 
   // 通用化,log
   async init(): Promise<boolean> {
     try {
-      const isVerified: boolean = await this.verifyToken(); // TODO
+      const isVerified: boolean = await this.verifyAuth(); // TODO
       if (isVerified) {
         echoLog({ text: 'Init vk success!' });
+        this.initialized = true;
         return true;
       }
       echoLog({ text: 'Init vk failed!' });
@@ -51,7 +55,7 @@ class Vk extends Social {
     }
   }
 
-  async verifyToken(): Promise<boolean> {
+  async verifyAuth(): Promise<boolean> {
     try {
       const logStatus = echoLog({ type: 'text', text: 'verifyVkLogin' });
       const { result, statusText, status, data } = await httpRequest({
@@ -64,6 +68,7 @@ class Vk extends Social {
           return false;
         }
         if (data?.status === 200) {
+          this.username = data.responseText.match(/TopNavBtn__profileLink" href="\/(.*?)"/)?.[1] || '';
           logStatus.success();
           return true;
         }
@@ -73,7 +78,7 @@ class Vk extends Social {
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error as Error, 'Vk.verifyToken');
+      throwError(error as Error, 'Vk.verifyAuth');
       return false;
     }
   }
@@ -111,7 +116,7 @@ class Vk extends Social {
       if (result === 'Success') {
         if (data?.status === 200) {
           logStatus.success();
-          if (doTask) this.tasks.groups = unique([...this.tasks.groups, name]);
+          if (doTask) this.tasks.names = unique([...this.tasks.names, name]);
           return true;
         }
         logStatus.error(`Error:${data?.statusText}(${data?.status})`);
@@ -150,7 +155,7 @@ class Vk extends Social {
       if (result === 'Success') {
         if (data?.status === 200) {
           logStatus.success();
-          if (doTask) this.tasks.publics = unique([...this.tasks.publics, name]);
+          if (doTask) this.tasks.names = unique([...this.tasks.names, name]);
           return true;
         }
         logStatus.error(`Error:${data?.statusText}(${data?.status})`);
@@ -164,10 +169,9 @@ class Vk extends Social {
     }
   }
 
-  async toggleWall(name: string, doTask: boolean): Promise<boolean> {
-    if (!doTask) return false;
+  async sendWall(name: string): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'repostVkWall', text: name });
+      const logStatus = echoLog({ type: 'sendVkWall', text: name });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://vk.com/like.php',
         method: 'POST',
@@ -217,7 +221,13 @@ class Vk extends Social {
                 const jsonData = JSON.parse(dataR.responseText?.replace('<!--', '') || '{}');
                 if (jsonData?.payload?.[1]?.[1]?.share_my === true) { // eslint-disable-line camelcase
                   logStatus.success();
-                  if (doTask) this.tasks.walls = unique([...this.tasks.walls, name]);
+                  const postId = String(jsonData?.payload?.[1]?.[1]?.post_id);
+                  const ownerId = String(jsonData?.payload?.[1]?.[1]?.owner_id);
+                  if (postId && ownerId) {
+                    // TODO: 优化
+                    this.addId(name, `${ownerId}_${postId}`);
+                  }
+                  this.tasks.names = unique([...this.tasks.names, name]);
                   return true;
                 }
               }
@@ -236,17 +246,67 @@ class Vk extends Social {
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error as Error, 'Vk.toggleWall');
+      throwError(error as Error, 'Vk.sendWall');
       return false;
     }
   }
 
-  async getId(name: string): Promise<dataParams | false> {
+  async deleteWall(name: string, dataParams: dataParams): Promise<boolean> {
     try {
-      if (/^wall-/.test(name)) return { type: 'wall' };
+      const logStatus = echoLog({ type: 'deleteVkWall', text: name });
+      const { result, statusText, status, data } = await httpRequest({
+        url: 'https://vk.com/al_wall.php?act=delete',
+        method: 'POST',
+        headers: {
+          origin: 'https://vk.com',
+          referer: `https://vk.com/${this.username}?w=wall${this.cache[name]}%2Fall`,
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        data: $.param({
+          act: 'delete',
+          al: 1,
+          confirm: 0,
+          from: 'wkview',
+          hash: dataParams.wallHash,
+          post: this.cache[name]
+        })
+      });
+      if (result === 'Success') {
+        if (data?.status === 200) {
+          const jsonData = JSON.parse(data.responseText?.replace('<!--', '') || '{}');
+          if (jsonData?.payload?.[1]?.[1]) {
+            logStatus.success();
+            return true;
+          }
+          logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+          return false;
+        }
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'Vk.deleteWall');
+      return false;
+    }
+  }
+
+  async getId(name: string, doTask: boolean): Promise<dataParams | false> {
+    try {
+      let url = `https://vk.com/${name}`;
+      if (/^wall-/.test(name)) {
+        if (doTask) {
+          return { type: 'sendWall' };
+        }
+        if (!this.cache[name]) {
+          return { type: 'unSupport' };
+        }
+        url = `https://vk.com/${this.username}?w=wall${this.cache[name]}`;
+      }
       const logStatus = echoLog({ type: 'getVkId', text: name });
       const { result, statusText, status, data } = await httpRequest({
-        url: `https://vk.com/${name}`,
+        url,
         method: 'GET'
       });
       if (result === 'Success') {
@@ -261,11 +321,17 @@ class Vk extends Social {
           } else if (publicHash && publicPid) {
             logStatus.success();
             return { publicHash, publicPid, publicJoined, type: 'public' };
-          } else if (data.responseText.includes('Wall.sendPost')) {
+          } else if (data.responseText.includes('wall.deletePost') && !doTask) {
+            const wallHash = data.responseText.match(/wall\.deletePost\(this, '.*?', '(.*?)'\)/)?.[1];
+            if (wallHash) {
+              logStatus.success();
+              return { type: 'deleteWall', wallHash };
+            }
+          } else if (name.includes('wall') && doTask) {
             logStatus.success();
-            return { type: 'wall' };
+            return { type: 'sendWall' };
           }
-          logStatus.error('Error: Parameter "id" not found!');
+          logStatus.error('Error: Parameters not found!');
           return false;
         }
         logStatus.error(`Error:${data?.statusText}(${data?.status})`);
@@ -281,21 +347,23 @@ class Vk extends Social {
 
   async toggleVk({ name, doTask = true }: { name: string, doTask: boolean }): Promise<boolean> {
     try {
-      if (!doTask && [...this.whiteList.groups, ...this.whiteList.publics, ...this.whiteList.walls].includes(name)) {
+      if (!doTask && this.whiteList.names.includes(name)) {
         // TODO: 直接echo
         echoLog({ type: 'whiteList', text: name });
         return true;
       }
       const formatName: string = name.replace(/\/$/, '');
-      const data = await this.getId(formatName);
+      const data = await this.getId(formatName, doTask);
       if (!data) return false;
       switch (data.type) {
       case 'group':
         return await this.toggleGroup(formatName, data, doTask);
       case 'public':
         return await this.togglePublic(formatName, data, doTask);
-      case 'wall':
-        return await this.toggleWall(formatName, doTask);
+      case 'sendWall':
+        return doTask ? await this.sendWall(formatName) : true;
+      case 'deleteWall':
+        return doTask ? true : await this.deleteWall(formatName, data);
       default:
         return false;
       }
@@ -307,6 +375,10 @@ class Vk extends Social {
 
   async toggle({ doTask = true, names = [], nameLinks = [] }: { doTask: boolean, names: Array<string>, nameLinks: Array<string> }): Promise<boolean> {
     try {
+      if (!this.initialized) {
+        echoLog({ type: 'text', text: '请先初始化' });
+        return false;
+      }
       const prom = [];
       const realNames = this.getRealParams('names', names, nameLinks, doTask, (link) => link.match(/https:\/\/vk\.com\/([^/]+)/)?.[1]);
       if (realNames.length > 0) {
@@ -322,52 +394,10 @@ class Vk extends Social {
       return false;
     }
   }
+  addId(name: string, postId: string): void {
+    this.cache[name] = postId;
+    GM_setValue('vkCache', this.cache); // eslint-disable-line new-cap
+  }
 }
 
 export default Vk;
-/*
-
-async function toggleVk(name, join = true) {
-  try {
-    if (whiteList.enable && !join && whiteList.vk.vk.includes(name)) {
-      return { result: 'Skiped', statusText: 'OK', status: 605 }
-    }
-    name = name.replace(/\/$/, '')
-    const data = await getVkId(name)
-    if (!data) return
-    switch (data.type) {
-      case 'group':
-        await toggleVkGroup(name, data, join)
-        break
-      case 'public':
-        await toggleVkPublic(name, data, join)
-        break
-      case 'wall':
-        await toggleVkWall(name, join)
-        break
-    }
-  } catch (e) {
-    throwError(e, 'toggleVk')
-  }
-}
-
-async function toggleVkActions({ website, type, elements, action, toFinalUrl = {} }) {
-  try {
-    const isLogin = await verifyVkLogin()
-    if (!isLogin) return
-    for (const element of unique(elements)) {
-      let name = element
-      if (website === 'giveawaysu' && toFinalUrl[element]) {
-        const toFinalUrlElement = toFinalUrl[element] || ''
-        name = toFinalUrlElement.match(/https:\/\/vk\.com\/([^/]+)/)?.[1]
-      }
-      if (name) {
-        await toggleVk(name, action === 'fuck')
-      }
-    }
-  } catch (e) {
-    throwError(e, 'toggleVkActions')
-  }
-}
-export { toggleVkActions }
-*/

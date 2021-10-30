@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-30 09:43:32
- * @LastEditTime : 2021-10-30 12:43:41
+ * @LastEditTime : 2021-10-30 20:58:58
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Reddit.ts
  * @Description  : Reddit 订阅&取消订阅
@@ -32,6 +32,7 @@ class Reddit extends Social {
       const isVerified: boolean = await this.updateToken();
       if (isVerified) {
         echoLog({ text: 'Init reddit success!' });
+        this.initialized = true;
         return true;
       }
       echoLog({ text: 'Init reddit failed!' });

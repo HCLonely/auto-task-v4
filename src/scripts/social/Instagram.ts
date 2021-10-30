@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-29 12:54:16
- * @LastEditTime : 2021-10-30 10:49:01
+ * @LastEditTime : 2021-10-30 21:03:01
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Instagram.ts
  * @Description  : Instagram 关注&取关用户
@@ -30,6 +30,7 @@ class Instagram extends Social {
       const isVerified = await this.getUserInfo();
       if (isVerified) {
         echoLog({ text: 'Init instagram success!' });
+        this.initialized = true;
         return true;
       }
       echoLog({ text: 'Init instagram failed!' });
@@ -162,6 +163,10 @@ class Instagram extends Social {
   // 改成处理任务
   async toggle({ doTask = true, users = [], userLinks = [] }: { doTask: boolean, users: Array<string>, userLinks: Array<string> }): Promise<boolean> {
     try {
+      if (!this.initialized) {
+        echoLog({ type: 'text', text: '请先初始化' });
+        return false;
+      }
       const prom = [];
       const realUsers = this.getRealParams('users', users, userLinks, doTask,
         (link) => link.match(/https:\/\/www\.instagram\.com\/(.+)?\//)?.[1]);
