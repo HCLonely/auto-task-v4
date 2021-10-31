@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-15 10:48:42
- * @LastEditTime : 2021-10-31 13:00:42
+ * @LastEditTime : 2021-10-31 16:20:28
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Social.ts
  * @Description  :
@@ -10,11 +10,14 @@
 import throwError from '../tools/throwError';
 import { unique } from '../tools/tools';
 
-class Social {
+interface toggleParams {
+  [name:string]:unknown
+}
+abstract class Social {
   tasks!: socialTasks;
 
   // 通用
-  getRealParams(
+  protected getRealParams(
     name: taskTypes,
     params: Array<string>,
     links: Array<string>,
@@ -46,6 +49,7 @@ class Social {
       return [];
     }
   }
+  abstract toggle(toggleParams: toggleParams):Promise<boolean>
 }
 
 export default Social;

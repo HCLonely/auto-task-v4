@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:00:41
- * @LastEditTime : 2021-10-31 13:04:56
+ * @LastEditTime : 2021-10-31 16:50:31
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitch.ts
  * @Description  : Twitch 关注/取关频道
@@ -44,7 +44,7 @@ class Twitch extends Social {
         this.#initialized = true;
         return true;
       }
-      GM_setValue('twitchAuth', { auth: null }); // eslint-disable-line new-cap
+      GM_setValue('twitchAuth', null); // eslint-disable-line new-cap
       if (await this.#updateAuth()) {
         echoLog({ text: 'Init twitch success!' });
         this.#initialized = true;

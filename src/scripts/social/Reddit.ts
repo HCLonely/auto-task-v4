@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-30 09:43:32
- * @LastEditTime : 2021-10-31 13:11:37
+ * @LastEditTime : 2021-10-31 18:02:53
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Reddit.ts
  * @Description  : Reddit 订阅&取消订阅
@@ -31,7 +31,7 @@ class Reddit extends Social {
   // 通用化
   async init(): Promise<boolean> {
     try {
-      const isVerified: boolean = await this.updateToken();
+      const isVerified: boolean = await this.#updateAuth();
       if (isVerified) {
         echoLog({ text: 'Init reddit success!' });
         this.#initialized = true;
@@ -45,9 +45,26 @@ class Reddit extends Social {
     }
   }
 
-  async updateToken(): Promise<boolean> {
+  async #useBeta(): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'text', text: 'updateRedditInfo' });
+      const logStatus = echoLog({ type: 'text', text: 'changeRedditVersion' });
+      GM_setValue('redditAuth', null); // eslint-disable-line new-cap
+      return await new Promise((resolve) => {
+        const newTab = GM_openInTab('https://www.reddit.com/#auth', // eslint-disable-line new-cap
+          { active: true, insert: true, setParent: true });
+        newTab.onclose = async () => {
+          logStatus.success();
+          resolve(await this.#updateAuth(true));
+        };
+      });
+    } catch (error) {
+      throwError(error as Error, 'Reddit.useBeta');
+      return false;
+    }
+  }
+  async #updateAuth(beta = false): Promise<boolean> {
+    try {
+      const logStatus = echoLog({ type: 'text', text: 'updateRedditAuth' });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://www.reddit.com/',
         method: 'GET',
@@ -57,14 +74,17 @@ class Reddit extends Social {
         }
       });
       if (result === 'Success') {
+        if (data?.responseText.includes('www.reddit.com/login/')) {
+          logStatus.error(`Error:${getI18n('loginReddit')}`, true);
+          return false;
+        }
         if (data?.status === 200) {
-          if (data.responseText.includes('www.reddit.com/login/')) {
-            logStatus.error(`Error:${getI18n('loginReddit')}`, true);
-            return false;
+          if (data.responseText.includes('redesign-beta-optin-btn') && !beta) {
+            return await this.#useBeta();
           }
-          const [, accessToken] = data.responseText.match(/"accessToken":"(.*?)","expires":"(.*?)"/) || [];
+          const accessToken = data.responseText.match(/"accessToken":"(.*?)","expires":"(.*?)"/)?.[1];
           if (accessToken) {
-            this.#auth.token = accessToken;
+            this.#auth = { token: accessToken };
             logStatus.success();
             return true;
           }
@@ -77,7 +97,7 @@ class Reddit extends Social {
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error as Error, 'Reddit.updateToken');
+      throwError(error as Error, 'Reddit.updateAuth');
       return false;
     }
   }
@@ -132,6 +152,10 @@ class Reddit extends Social {
     redditLinks: Array<string>
   }): Promise<boolean> {
     try {
+      if (!this.#initialized) {
+        echoLog({ type: 'text', text: '请先初始化' });
+        return false;
+      }
       const prom: Array<Promise<boolean>> = [];
       const realReddits: Array<string> = this.getRealParams('reddits', reddits, redditLinks, doTask,
         (link) => {

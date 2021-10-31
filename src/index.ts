@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-10-31 13:19:25
+ * @LastEditTime : 2021-10-31 18:03:08
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -52,6 +52,17 @@ window.onload = () => {
     } else {
       // 需要登录
     }
+  }
+  if (window.location.hostname === 'www.reddit.com' &&
+    (window.location.hash === '#auth' || GM_getValue('redditAuth') === '#auth')) { // eslint-disable-line new-cap
+    const betaButton = $('#redesign-beta-optin-btn');
+    if (betaButton.length > 0) {
+      GM_setValue('redditAuth', '#auth'); // eslint-disable-line new-cap
+      return betaButton[0].click();
+    }
+    GM_setValue('redditAuth', null); // eslint-disable-line new-cap
+    window.close();
+    Swal.fire('', '如果此页面没有自动关闭，请自行关闭本页面。');
   }
   unsafeWindow.Discord = Discord;
   unsafeWindow.Instagram = Instagram;

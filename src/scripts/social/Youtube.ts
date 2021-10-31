@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 12:18:06
- * @LastEditTime : 2021-10-31 13:40:53
+ * @LastEditTime : 2021-10-31 16:50:49
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Youtube.ts
  * @Description  : Youtube 订阅/取消订阅频道，点赞/取消点赞视频
@@ -81,7 +81,7 @@ class Youtube extends Social {
         this.#initialized = true;
         return true;
       }
-      GM_setValue('youtubeAuth', { auth: null }); // eslint-disable-line new-cap
+      GM_setValue('youtubeAuth', null); // eslint-disable-line new-cap
       if (await this.#updateAuth()) {
         echoLog({ text: 'Init youtube success!' });
         this.#initialized = true;

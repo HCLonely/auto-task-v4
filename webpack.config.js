@@ -2,11 +2,12 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 16:22:46
- * @LastEditTime : 2021-10-31 13:33:50
+ * @LastEditTime : 2021-10-31 18:23:06
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/webpack.config.js
  * @Description  :
  */
+const fs = require('fs');
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
@@ -61,7 +62,11 @@ module.exports = {
         compress: false,
         mangle: false,
         output: {
-          beautify: true
+          beautify: true,
+          indent_level: 2, // eslint-disable-line camelcase
+          braces: true,
+          quote_style: 1, // eslint-disable-line camelcase
+          preamble: fs.readFileSync('./src/header.js').toString()
         }
       }
     })]

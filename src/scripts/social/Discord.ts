@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2021-10-31 13:00:38
+ * @LastEditTime : 2021-10-31 16:22:34
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
@@ -204,7 +204,7 @@ class Discord extends Social {
     doTask: boolean,
     servers: Array<string>,
     serverLinks: Array<string>
-  }): Promise<boolean> {
+    }): Promise<boolean> {
     try {
       if (!this.#initialized) {
         echoLog({ type: 'text', text: '请先初始化' });

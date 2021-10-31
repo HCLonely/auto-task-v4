@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:36:57
- * @LastEditTime : 2021-10-31 13:40:26
+ * @LastEditTime : 2021-10-31 16:50:41
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitter.ts
  * @Description  : Twitter 关注/取关用户,转推/取消转推推文
@@ -49,7 +49,7 @@ class Twitter extends Social {
         this.#initialized = true;
         return true;
       }
-      GM_setValue('twitterAuth', { auth: null }); // eslint-disable-line new-cap
+      GM_setValue('twitterAuth', null); // eslint-disable-line new-cap
       if (await this.#updateAuth()) {
         echoLog({ text: 'Init twitter success!' });
         this.#initialized = true;
