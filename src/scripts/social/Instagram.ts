@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-29 12:54:16
- * @LastEditTime : 2021-10-30 21:03:01
+ * @LastEditTime : 2021-10-31 13:01:56
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Instagram.ts
  * @Description  : Instagram 关注&取关用户
@@ -17,6 +17,8 @@ import { unique, delay } from '../tools/tools';
 class Instagram extends Social {
   tasks: instagramTasks;
   whiteList: instagramTasks;
+  #auth!: auth;
+  #initialized = false;
 
   // TODO: 任务识别
   constructor(id: string) {
@@ -27,10 +29,10 @@ class Instagram extends Social {
 
   async init(): Promise<boolean> {
     try {
-      const isVerified = await this.getUserInfo();
+      const isVerified = await this.#getUserInfo();
       if (isVerified) {
         echoLog({ text: 'Init instagram success!' });
-        this.initialized = true;
+        this.#initialized = true;
         return true;
       }
       echoLog({ text: 'Init instagram failed!' });
@@ -41,7 +43,7 @@ class Instagram extends Social {
     }
   }
 
-  async getUserInfo(name = 'instagram'): Promise<string | boolean> {
+  async #getUserInfo(name = 'instagram'): Promise<string | boolean> {
     try {
       const logStatus = echoLog({ type: name === 'instagram' ? 'getInsInfo' : 'getInsUserId', text: name });
       const { result, statusText, status, data } = await httpRequest({
@@ -61,13 +63,13 @@ class Instagram extends Social {
           const hash: string | undefined = data.responseText.match(/"rollout_hash":"(.+?)"/)?.[1];
           if (name === 'instagram') {
             if (csrftoken && hash) {
-              this.auth = { csrftoken, hash };
+              this.#auth = { csrftoken, hash };
               return true;
             }
             return false;
           }
-          this.auth.csrftoken = csrftoken || this.auth.csrftoken;
-          this.auth.hash = csrftoken || this.auth.hash;
+          this.#auth.csrftoken = csrftoken || this.#auth.csrftoken;
+          this.#auth.hash = csrftoken || this.#auth.hash;
           const id: string | undefined = data.responseText.match(/"profilePage_([\d]+?)"/)?.[1];
           if (id) {
             logStatus.success();
@@ -86,9 +88,9 @@ class Instagram extends Social {
     }
   }
 
-  async followUser(name: string): Promise<boolean> {
+  async #followUser(name: string): Promise<boolean> {
     try {
-      const id: string | boolean = await this.getUserInfo(name);
+      const id: string | boolean = await this.#getUserInfo(name);
       if (!id) return false;
       const logStatus = echoLog({ type: 'followIns', text: name });
       const { result, statusText, status, data } = await httpRequest({
@@ -96,12 +98,12 @@ class Instagram extends Social {
         method: 'POST',
         dataType: 'json',
         headers: {
-          'x-csrftoken': this.auth.csrftoken as string,
+          'x-csrftoken': this.#auth.csrftoken as string,
           origin: 'https://www.instagram.com',
           referer: `https://www.instagram.com/${name}/`,
           'content-type': 'application/x-www-form-urlencoded',
           'sec-fetch-site': 'same-origin',
-          'x-instagram-ajax': this.auth.hash as string
+          'x-instagram-ajax': this.#auth.hash as string
         }
       });
       if (result === 'Success') {
@@ -121,14 +123,14 @@ class Instagram extends Social {
     }
   }
 
-  async unfollowUser(name: string): Promise<boolean> {
+  async #unfollowUser(name: string): Promise<boolean> {
     try {
       if (this.whiteList.users.includes(name)) {
         // TODO: 直接echo
         echoLog({ type: 'whiteList', text: name });
         return true;
       }
-      const id: string | boolean = await this.getUserInfo(name);
+      const id: string | boolean = await this.#getUserInfo(name);
       if (!id) return false;
       const logStatus = echoLog({ type: 'unfollowIns', text: name });
       const { result, statusText, status, data } = await httpRequest({
@@ -136,12 +138,12 @@ class Instagram extends Social {
         method: 'POST',
         dataType: 'json',
         headers: {
-          'x-csrftoken': this.auth.csrftoken as string,
+          'x-csrftoken': this.#auth.csrftoken as string,
           origin: 'https://www.instagram.com',
           referer: `https://www.instagram.com/${name}/`,
           'content-type': 'application/x-www-form-urlencoded',
           'sec-fetch-site': 'same-origin',
-          'x-instagram-ajax': this.auth.hash as string
+          'x-instagram-ajax': this.#auth.hash as string
         }
       });
       if (result === 'Success') {
@@ -163,7 +165,7 @@ class Instagram extends Social {
   // 改成处理任务
   async toggle({ doTask = true, users = [], userLinks = [] }: { doTask: boolean, users: Array<string>, userLinks: Array<string> }): Promise<boolean> {
     try {
-      if (!this.initialized) {
+      if (!this.#initialized) {
         echoLog({ type: 'text', text: '请先初始化' });
         return false;
       }
@@ -172,7 +174,11 @@ class Instagram extends Social {
         (link) => link.match(/https:\/\/www\.instagram\.com\/(.+)?\//)?.[1]);
       if (realUsers.length > 0) {
         for (const username of realUsers) {
-          prom.push(this[doTask ? 'followUser' : 'unfollowUser'](username));
+          if (doTask) {
+            prom.push(this.#followUser(username));
+          } else {
+            prom.push(this.#unfollowUser(username));
+          }
           await delay(1000);
         }
       }

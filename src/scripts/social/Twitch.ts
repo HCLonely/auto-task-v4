@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:00:41
- * @LastEditTime : 2021-10-30 21:03:46
+ * @LastEditTime : 2021-10-31 13:04:56
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitch.ts
  * @Description  : Twitch 关注/取关频道
@@ -16,36 +16,38 @@ import { unique, delay } from '../tools/tools';
 class Twitch extends Social {
   tasks: twitchTasks;
   whiteList: twitchTasks;
+  #auth: auth;
+  #initialized = false;
 
   // TODO: 任务识别
   constructor(id: string) {
     super();
     this.tasks = GM_getValue<twitchTasks>(`Twitch-${id}`) || { channels: [] }; // eslint-disable-line new-cap
     this.whiteList = GM_getValue<whiteList>('whiteList')?.twitch || { channels: [] }; // eslint-disable-line new-cap
-    this.auth = GM_getValue<auth>('twitchAuth') || {}; // eslint-disable-line new-cap
+    this.#auth = GM_getValue<auth>('twitchAuth') || {}; // eslint-disable-line new-cap
   }
 
   // 通用化,log
   async init(): Promise<boolean> {
     try {
-      if (!this.auth.authToken) {
+      if (!this.#auth.authToken) {
         echoLog({ type: 'updateTwitchAuth' });
-        if (await this.updateAuth()) {
-          this.initialized = true;
+        if (await this.#updateAuth()) {
+          this.#initialized = true;
           return true;
         }
         return false;
       }
-      const isVerified: boolean = await this.verifyAuth();
+      const isVerified: boolean = await this.#verifyAuth();
       if (isVerified) {
         echoLog({ text: 'Init twitch success!' });
-        this.initialized = true;
+        this.#initialized = true;
         return true;
       }
       GM_setValue('twitchAuth', { auth: null }); // eslint-disable-line new-cap
-      if (await this.updateAuth()) {
+      if (await this.#updateAuth()) {
         echoLog({ text: 'Init twitch success!' });
-        this.initialized = true;
+        this.#initialized = true;
         return true;
       }
       echoLog({ text: 'Init twitch failed!' });
@@ -56,14 +58,14 @@ class Twitch extends Social {
     }
   }
 
-  async verifyAuth(): Promise<boolean> {
+  async #verifyAuth(): Promise<boolean> {
     try {
       const logStatus = echoLog({ type: 'text', text: 'verifyTwitchAuth' });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://gql.twitch.tv/gql',
         method: 'POST',
         dataType: 'json',
-        headers: { Authorization: `OAuth ${this.auth.authToken}`, 'Client-Id': this.auth.clientId as string },
+        headers: { Authorization: `OAuth ${this.#auth.authToken}`, 'Client-Id': this.#auth.clientId as string },
         data: (
           '[{"operationName":"FrontPageNew_User","variables":{"limit":1},"extensions":{"persistedQuery":{"version":1,' +
           '"sha256Hash":"64bd07a2cbaca80699d62636d966cf6395a5d14a1f0a14282067dcb28b13eb11"}}}]'
@@ -85,7 +87,7 @@ class Twitch extends Social {
     }
   }
 
-  async updateAuth():Promise<boolean> {
+  async #updateAuth():Promise<boolean> {
     try {
       const logStatus = echoLog({ type: 'text', text: 'updateTwitchAuth' });
       return await new Promise((resolve) => {
@@ -94,9 +96,9 @@ class Twitch extends Social {
         newTab.onclose = async () => {
           const auth = GM_getValue<auth>('twitchAuth'); // eslint-disable-line new-cap
           if (auth) {
-            this.auth = auth;
+            this.#auth = auth;
             logStatus.success();
-            resolve(await this.verifyAuth());
+            resolve(await this.#verifyAuth());
           } else {
             logStatus.error('Error: Update twitch auth failed!');
             resolve(false);
@@ -109,14 +111,14 @@ class Twitch extends Social {
     }
   }
 
-  async toggleChannel({ name, doTask = true }: { name: string, doTask: boolean }): Promise<boolean> {
+  async #toggleChannel({ name, doTask = true }: { name: string, doTask: boolean }): Promise<boolean> {
     try {
       if (!doTask && this.whiteList.channels.includes(name)) {
         // TODO: 直接echo
         echoLog({ type: 'whiteList', text: name });
         return true;
       }
-      const channelId: string | boolean = await this.getChannelId(name);
+      const channelId: string | boolean = await this.#getChannelId(name);
       if (!channelId) return false;
       const logStatus = echoLog({ type: `${doTask ? '' : 'un'}followTwitchChannel`, text: name });
       const followData: string = (
@@ -131,7 +133,7 @@ class Twitch extends Social {
         url: 'https://gql.twitch.tv/gql',
         method: 'POST',
         dataType: 'json',
-        headers: { Authorization: `OAuth ${this.auth.authToken}` },
+        headers: { Authorization: `OAuth ${this.#auth.authToken}` },
         data: doTask ? followData : unfollowData
       });
       if (result === 'Success') {
@@ -153,13 +155,13 @@ class Twitch extends Social {
     }
   }
 
-  async getChannelId(name: string): Promise<string | boolean> {
+  async #getChannelId(name: string): Promise<string | boolean> {
     try {
       const logStatus = echoLog({ type: 'getTwitchChannelId', text: name });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://gql.twitch.tv/gql',
         method: 'POST',
-        headers: { Authorization: `OAuth ${this.auth.authToken}`, 'Client-Id': this.auth.clientId as string },
+        headers: { Authorization: `OAuth ${this.#auth.authToken}`, 'Client-Id': this.#auth.clientId as string },
         responseType: 'json',
         data: (
           `[{"operationName":"ActiveWatchParty","variables":{"channelLogin":"${name}"},` +
@@ -197,7 +199,7 @@ class Twitch extends Social {
     channelLinks: Array<string>
   }): Promise<boolean> {
     try {
-      if (!this.initialized) {
+      if (!this.#initialized) {
         echoLog({ type: 'text', text: '请先初始化' });
         return false;
       }
@@ -206,7 +208,7 @@ class Twitch extends Social {
         (link) => link.match(/https:\/\/www\.twitch\.tv\/(.+)/)?.[1]);
       if (realChannels.length > 0) {
         for (const channel of realChannels) {
-          prom.push(this.toggleChannel({ name: channel, doTask }));
+          prom.push(this.#toggleChannel({ name: channel, doTask }));
           await delay(1000);
         }
       }

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2021-10-30 21:09:09
+ * @LastEditTime : 2021-10-31 13:00:38
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
@@ -17,36 +17,39 @@ import echoLog from '../echoLog';
 class Discord extends Social {
   tasks: discordTasks;
   whiteList: discordTasks;
+  #auth: auth;
+  #cache: cache;
+  #initialized = false;
 
   // TODO: 任务识别
   constructor(id: string) {
     super();
     this.tasks = GM_getValue<discordTasks>(`Discord-${id}`) || { servers: [] }; // eslint-disable-line new-cap
     this.whiteList = GM_getValue<whiteList>('whiteList')?.discord || { servers: [] }; // eslint-disable-line new-cap
-    this.cache = GM_getValue<cache>('discordCache') || {}; // eslint-disable-line new-cap
-    this.auth = GM_getValue<auth>('discordAuth') || {}; // eslint-disable-line new-cap
+    this.#cache = GM_getValue<cache>('discordCache') || {}; // eslint-disable-line new-cap
+    this.#auth = GM_getValue<auth>('discordAuth') || {}; // eslint-disable-line new-cap
   }
   // TODO:优化
   async init(): Promise<boolean> {
     try {
-      if (!this.auth.auth) {
+      if (!this.#auth.auth) {
         echoLog({ type: 'updateDiscordAuth' });
-        if (await this.updateAuth()) {
-          this.initialized = true;
+        if (await this.#updateAuth()) {
+          this.#initialized = true;
           return true;
         }
         return false;
       }
-      const isVerified: boolean = await this.verifyAuth();
+      const isVerified: boolean = await this.#verifyAuth();
       if (isVerified) {
         echoLog({ text: 'Init discord success!' });
-        this.initialized = true;
+        this.#initialized = true;
         return true;
       }
       GM_setValue('discordAuth', { auth: null }); // eslint-disable-line new-cap
-      if (await this.updateAuth()) {
+      if (await this.#updateAuth()) {
         echoLog({ text: 'Init discord success!' });
-        this.initialized = true;
+        this.#initialized = true;
         return true;
       }
       echoLog({ text: 'Init discord failed!' });
@@ -58,13 +61,13 @@ class Discord extends Social {
   }
 
   // 验证discord凭证是否失效
-  async verifyAuth(): Promise<boolean> {
+  async #verifyAuth(): Promise<boolean> {
     try {
       const logStatus = echoLog({ type: 'text', text: 'verifyDiscordAuth' });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://discord.com/api/v6/users/@me',
         method: 'HEAD',
-        headers: { authorization: this.auth.auth as string }
+        headers: { authorization: this.#auth.auth as string }
       });
       if (result === 'Success') {
         if (data?.status === 200) {
@@ -82,7 +85,7 @@ class Discord extends Social {
     }
   }
 
-  async updateAuth(): Promise<boolean> {
+  async #updateAuth(): Promise<boolean> {
     try {
       const logStatus = echoLog({ type: 'text', text: 'updateDiscordAuth' });
       return await new Promise((resolve) => {
@@ -91,9 +94,9 @@ class Discord extends Social {
         newTab.onclose = async () => {
           const auth = GM_getValue<auth>('discordAuth')?.auth; // eslint-disable-line new-cap
           if (auth) {
-            this.auth = { auth };
+            this.#auth = { auth };
             logStatus.success();
-            resolve(await this.verifyAuth());
+            resolve(await this.#verifyAuth());
           } else {
             logStatus.error('Error: Update discord auth failed!');
             resolve(false);
@@ -106,21 +109,21 @@ class Discord extends Social {
     }
   }
 
-  async joinServer(inviteId: string): Promise<boolean> {
+  async #joinServer(inviteId: string): Promise<boolean> {
     try {
       const logStatus = echoLog({ type: 'joinDiscordServer', text: inviteId });
       const { result, statusText, status, data } = await httpRequest({
         url: `https://discord.com/api/v6/invites/${inviteId}`,
         method: 'POST',
         dataType: 'json',
-        headers: { authorization: this.auth.auth as string }
+        headers: { authorization: this.#auth.auth as string }
       });
       if (result === 'Success' && data?.status === 200) {
         logStatus.success();
         const guild = String(data.response?.guild?.id);
         if (guild) {
           // TODO: 优化
-          this.addId(inviteId, guild);
+          this.#addId(inviteId, guild);
           this.tasks.servers = unique([...this.tasks.servers, inviteId]);
         }
         return true;
@@ -133,14 +136,14 @@ class Discord extends Social {
     }
   }
 
-  async leaveServer(inviteId: string): Promise<boolean> {
+  async #leaveServer(inviteId: string): Promise<boolean> {
     try {
       if (this.whiteList.servers.includes(inviteId)) {
         // TODO: 直接echo
         echoLog({ type: 'whiteList', text: inviteId });
         return true;
       }
-      const guild = await this.getGuild(inviteId);
+      const guild = await this.#getGuild(inviteId);
       if (!guild) {
         return false;
       }
@@ -148,7 +151,7 @@ class Discord extends Social {
       const { result, statusText, status, data } = await httpRequest({
         url: `https://discord.com/api/v6/users/@me/guilds/${guild}`,
         method: 'DELETE',
-        headers: { authorization: this.auth.auth as string }
+        headers: { authorization: this.#auth.auth as string }
       });
       if (result === 'Success' && data?.status === 204) {
         logStatus.success();
@@ -162,10 +165,10 @@ class Discord extends Social {
     }
   }
 
-  async getGuild(inviteId: string): Promise<boolean | string> {
+  async #getGuild(inviteId: string): Promise<boolean | string> {
     try {
       const logStatus = echoLog({ type: 'getDiscordGuild', text: inviteId });
-      const guild = this.cache[inviteId];
+      const guild = this.#cache[inviteId];
       if (guild) {
         logStatus.success();
         return guild;
@@ -178,7 +181,7 @@ class Discord extends Social {
         const guild = data.responseText.match(/https?:\/\/cdn\.discordapp\.com\/icons\/([\d]+?)\//)?.[1];
         if (guild) {
           logStatus.success();
-          this.addId(inviteId, guild);
+          this.#addId(inviteId, guild);
           return guild;
         }
         logStatus.error(`${result}:${statusText}(${status})`);
@@ -193,7 +196,7 @@ class Discord extends Social {
   }
 
   // TODO:返回类型定义
-  async toggleServers({
+  async toggle({
     doTask = true,
     servers = [],
     serverLinks = []
@@ -203,7 +206,7 @@ class Discord extends Social {
     serverLinks: Array<string>
   }): Promise<boolean> {
     try {
-      if (!this.initialized) {
+      if (!this.#initialized) {
         echoLog({ type: 'text', text: '请先初始化' });
         return false;
       }
@@ -211,7 +214,11 @@ class Discord extends Social {
       const realServers = this.getRealParams('servers', servers, serverLinks, doTask, (link: string) => link.match(/invite\/(.+)/)?.[1]);
       if (realServers.length > 0) {
         for (const server of realServers) {
-          prom.push(this[doTask ? 'joinServer' : 'leaveServer'](server));
+          if (doTask) {
+            prom.push(this.#joinServer(server));
+          } else {
+            prom.push(this.#leaveServer(server));
+          }
           await delay(1000);
         }
       }
@@ -223,9 +230,9 @@ class Discord extends Social {
     }
   }
 
-  addId(inviteId: string, guild: string): void {
-    this.cache[inviteId] = guild;
-    GM_setValue('discordCache', this.cache); // eslint-disable-line new-cap
+  #addId(inviteId: string, guild: string): void {
+    this.#cache[inviteId] = guild;
+    GM_setValue('discordCache', this.#cache); // eslint-disable-line new-cap
   }
 
   // TODO: id转换

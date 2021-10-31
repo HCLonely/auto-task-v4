@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-30 09:43:32
- * @LastEditTime : 2021-10-30 20:58:58
+ * @LastEditTime : 2021-10-31 13:11:37
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Reddit.ts
  * @Description  : Reddit 订阅&取消订阅
@@ -17,13 +17,15 @@ import { unique, delay } from '../tools/tools';
 class Reddit extends Social {
   tasks: redditTasks;
   whiteList: redditTasks;
+  #auth: auth;
+  #initialized = false;
 
   // TODO: 任务识别
   constructor(id: string) {
     super();
     this.tasks = GM_getValue<redditTasks>(`Reddit-${id}`) || { reddits: [] }; // eslint-disable-line new-cap
     this.whiteList = GM_getValue<whiteList>('whiteList')?.reddit || { reddits: [] }; // eslint-disable-line new-cap
-    this.auth = GM_getValue<auth>('redditAuth') || {}; // eslint-disable-line new-cap
+    this.#auth = GM_getValue<auth>('redditAuth') || {}; // eslint-disable-line new-cap
   }
 
   // 通用化
@@ -32,7 +34,7 @@ class Reddit extends Social {
       const isVerified: boolean = await this.updateToken();
       if (isVerified) {
         echoLog({ text: 'Init reddit success!' });
-        this.initialized = true;
+        this.#initialized = true;
         return true;
       }
       echoLog({ text: 'Init reddit failed!' });
@@ -62,7 +64,7 @@ class Reddit extends Social {
           }
           const [, accessToken] = data.responseText.match(/"accessToken":"(.*?)","expires":"(.*?)"/) || [];
           if (accessToken) {
-            this.auth.token = accessToken;
+            this.#auth.token = accessToken;
             logStatus.success();
             return true;
           }
@@ -96,7 +98,7 @@ class Reddit extends Social {
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://oauth.reddit.com/api/subscribe?redditWebClient=desktop2x&app=desktop2x-client-production&raw_json=1&gilding_detail=1',
         method: 'POST',
-        headers: { authorization: `Bearer ${this.auth.token}`, 'content-type': 'application/x-www-form-urlencoded' },
+        headers: { authorization: `Bearer ${this.#auth.token}`, 'content-type': 'application/x-www-form-urlencoded' },
         data: $.param({
           action: doTask ? 'sub' : 'unsub',
           sr_name: name, // eslint-disable-line camelcase

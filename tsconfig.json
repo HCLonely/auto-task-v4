@@ -3,15 +3,12 @@
   "compilerOptions": {
     "outDir": "./dist/", // 打包到的目录
     "sourceMap": false, // 是否生成sourceMap（用于浏览器调试）
-    "noImplicitAny": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "strict": true,
     "declaration": false, // 是否生成声明文件
     "declarationMap": false, // 是否生成声明文件map文件（便于调试）
     "moduleResolution": "node",
     "module": "esnext",
-    "target": "es5", // 转化成的目标语言
+    "target": "esnext", // 转化成的目标语言
     "baseUrl": "./",
     "allowJs": true,
     "downlevelIteration":true

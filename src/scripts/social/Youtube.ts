@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 12:18:06
- * @LastEditTime : 2021-10-30 21:04:41
+ * @LastEditTime : 2021-10-31 13:40:53
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Youtube.ts
  * @Description  : Youtube 订阅/取消订阅频道，点赞/取消点赞视频
@@ -49,22 +49,42 @@ interface likeVideoData {
 class Youtube extends Social {
   tasks: youtubeTasks;
   whiteList: youtubeTasks;
+  #auth: auth;
+  #initialized = false;
+  #verifyChannel = 'https://www.youtube.com/channel/UCBR8-60-B28hp2BmDPdntcQ';
 
   // TODO: 任务识别
-  constructor(id: string) {
+  constructor(id: string, verifyChannel?: string) {
     super();
     this.tasks = GM_getValue<youtubeTasks>(`Youtube-${id}`) || { channels: [], likes: [] }; // eslint-disable-line new-cap
     this.whiteList = GM_getValue<whiteList>('whiteList')?.youtube || { channels: [], likes: [] }; // eslint-disable-line new-cap
-    this.auth = GM_getValue<auth>('youtubeAuth') || {}; // eslint-disable-line new-cap
+    this.#auth = GM_getValue<auth>('youtubeAuth') || {}; // eslint-disable-line new-cap
+    if (verifyChannel) {
+      this.#verifyChannel = verifyChannel;
+    }
   }
 
   // 通用化,log
   async init(): Promise<boolean> {
     try {
-      const isVerified = false; // await this.verifyToken(); // TODO
+      if (!this.#auth.PAPISID) {
+        echoLog({ type: 'updateYoutubeAuth' });
+        if (await this.#updateAuth()) {
+          this.#initialized = true;
+          return true;
+        }
+        return false;
+      }
+      const isVerified: boolean = await this.#verifyAuth();
       if (isVerified) {
         echoLog({ text: 'Init youtube success!' });
-        this.initialized = true;
+        this.#initialized = true;
+        return true;
+      }
+      GM_setValue('youtubeAuth', { auth: null }); // eslint-disable-line new-cap
+      if (await this.#updateAuth()) {
+        echoLog({ text: 'Init youtube success!' });
+        this.#initialized = true;
         return true;
       }
       echoLog({ text: 'Init youtube failed!' });
@@ -75,7 +95,39 @@ class Youtube extends Social {
     }
   }
 
-  async getInfo(link: string, type: string): Promise<youtubeInfo> {
+  async #verifyAuth(): Promise<boolean> {
+    try {
+      return await this.#toggleChannel({ link: this.#verifyChannel, doTask: true, verify: true });
+    } catch (error) {
+      throwError(error as Error, 'Youtube.verifyAuth');
+      return false;
+    }
+  }
+  async #updateAuth(): Promise<boolean> {
+    try {
+      const logStatus = echoLog({ type: 'text', text: 'updateYoutubeAuth' });
+      return await new Promise((resolve) => {
+        const newTab = GM_openInTab('https://www.youtube.com/#auth', // eslint-disable-line new-cap
+          { active: true, insert: true, setParent: true });
+        newTab.onclose = async () => {
+          const auth = GM_getValue<auth>('youtubeAuth'); // eslint-disable-line new-cap
+          if (auth) {
+            this.#auth = auth;
+            logStatus.success();
+            resolve(await this.#verifyAuth());
+          } else {
+            logStatus.error('Error: Update youtube auth failed!');
+            resolve(false);
+          }
+        };
+      });
+    } catch (error) {
+      throwError(error as Error, 'Discord.updateAuth');
+      return false;
+    }
+  }
+
+  async #getInfo(link: string, type: string): Promise<youtubeInfo> {
     try {
       const logStatus = echoLog({ type: 'text', text: 'getYtbToken' });
       const { result, statusText, status, data } = await httpRequest({
@@ -133,40 +185,9 @@ class Youtube extends Social {
     }
   }
 
-  getToken(notice: boolean): void {
+  async #toggleChannel({ link, doTask = true, verify = false }: { link: string, doTask: boolean, verify?: boolean }): Promise<boolean> {
     try {
-      const PAPISID = Cookies.get('__Secure-3PAPISID');
-      if (PAPISID) {
-        this.auth.PAPISID = PAPISID;
-        GM_setValue('youtubeInfo', this.auth); // eslint-disable-line new-cap
-        if (notice) {
-          Swal.fire({
-            title: getI18n('updateYtbInfoSuccess'),
-            icon: 'success'
-          });
-        }
-      } else {
-        if (notice) {
-          Swal.fire({
-            title: getI18n('updateYtbInfoError'),
-            icon: 'error'
-          });
-        }
-      }
-    } catch (error) {
-      throwError(error as Error, 'Youtube.getToken');
-      if (notice) {
-        Swal.fire({
-          title: getI18n('updateYtbInfoError'),
-          icon: 'error'
-        });
-      }
-    }
-  }
-
-  async toggleChannel({ link, doTask = true }: { link: string, doTask: boolean }): Promise<boolean> {
-    try {
-      const { params, needLogin } = await this.getInfo(link, 'channel');
+      const { params, needLogin } = await this.#getInfo(link, 'channel');
       const { apiKey, client, request, channelId } = params || {};
 
       if (needLogin) {
@@ -178,13 +199,15 @@ class Youtube extends Social {
         return false;
       }
 
-      if (!doTask && this.whiteList.channels.includes(channelId)) {
+      if (!doTask && !verify && this.whiteList.channels.includes(channelId)) {
         // TODO: 直接echo
         echoLog({ type: 'whiteList', text: channelId });
         return true;
       }
 
-      const logStatus = echoLog({ type: doTask ? 'followYtbChannel' : 'unfollowYtbChannel', text: channelId });
+      const logStatus = verify ?
+        echoLog({ type: 'text', text: 'verifyYoutubeAuth' }) :
+        echoLog({ type: doTask ? 'followYtbChannel' : 'unfollowYtbChannel', text: channelId });
       const nowTime = parseInt(String(new Date().getTime() / 1000), 10);
       const { result, statusText, status, data } = await httpRequest({
         url: `https://www.youtube.com/youtubei/v1/subscription/${doTask ? '' : 'un'}subscribe?key=${apiKey}`,
@@ -196,7 +219,7 @@ class Youtube extends Social {
           'x-goog-authuser': '0',
           'x-goog-visitor-id': client?.visitorData,
           'x-origin': 'https://www.youtube.com',
-          authorization: `SAPISIDHASH ${nowTime}_${sha1(`${nowTime} ${this.auth.PAPISID} https://www.youtube.com`)}`
+          authorization: `SAPISIDHASH ${nowTime}_${sha1(`${nowTime} ${this.#auth.PAPISID} https://www.youtube.com`)}`
         },
         data: JSON.stringify({
           context: {
@@ -221,7 +244,9 @@ class Youtube extends Social {
             ) || (!doTask && /"subscribed": false/.test(data.responseText))
           ) {
             logStatus.success();
-            if (doTask) this.tasks.channels = unique([...this.tasks.channels, link]);
+            if (doTask && !verify) {
+              this.tasks.channels = unique([...this.tasks.channels, link]);
+            }
             return true;
           }
           logStatus.error(getI18n('tryUpdateYtbAuth'), true);
@@ -238,9 +263,9 @@ class Youtube extends Social {
     }
   }
 
-  async toggleLikeVideo({ link, doTask = true }: { link: string, doTask: boolean }): Promise<boolean> {
+  async #toggleLikeVideo({ link, doTask = true }: { link: string, doTask: boolean }): Promise<boolean> {
     try {
-      const { params, needLogin } = await this.getInfo(link, 'likeVideo');
+      const { params, needLogin } = await this.#getInfo(link, 'likeVideo');
       const { apiKey, client, request, videoId, likeParams } = params || {};
 
       if (needLogin) {
@@ -293,7 +318,7 @@ class Youtube extends Social {
           'x-goog-authuser': '0',
           'x-goog-visitor-id': client.visitorData,
           'x-origin': 'https://www.youtube.com',
-          authorization: `SAPISIDHASH ${nowTime}_${sha1(`${nowTime} ${this.auth.PAPISID} https://www.youtube.com`)}`
+          authorization: `SAPISIDHASH ${nowTime}_${sha1(`${nowTime} ${this.#auth.PAPISID} https://www.youtube.com`)}`
         },
         data: JSON.stringify(likeVideoData)
       });
@@ -333,7 +358,7 @@ class Youtube extends Social {
     videoLinks: Array<string>
   }): Promise<boolean> {
     try {
-      if (!this.initialized) {
+      if (!this.#initialized) {
         echoLog({ type: 'text', text: '请先初始化' });
         return false;
       }
@@ -352,20 +377,20 @@ class Youtube extends Social {
       });
       if (realChannels.length > 0) {
         for (const channel of realChannels) {
-          prom.push(this.toggleChannel({ link: channel, doTask }));
+          prom.push(this.#toggleChannel({ link: channel, doTask }));
           await delay(1000);
         }
       }
       if (realLikes.length > 0) {
         for (const video of realLikes) {
-          prom.push(this.toggleLikeVideo({ link: video, doTask }));
+          prom.push(this.#toggleLikeVideo({ link: video, doTask }));
           await delay(1000);
         }
       }
       // TODO: 返回值处理
       return Promise.all(prom).then(() => true);
     } catch (error) {
-      throwError(error as Error, 'Vk.toggle');
+      throwError(error as Error, 'Youtubetoggle');
       return false;
     }
   }

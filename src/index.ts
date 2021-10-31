@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-10-30 13:14:09
+ * @LastEditTime : 2021-10-31 13:19:25
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -39,6 +39,15 @@ window.onload = () => {
     const ct0 = Cookies.get('ct0');
     if (ct0) {
       GM_setValue('twitterAuth', { ct0 }); // eslint-disable-line new-cap
+      window.close();
+    } else {
+      // 需要登录
+    }
+  }
+  if (window.location.hostname === 'www.youtube.com' && window.location.hash === '#auth') { // todo: 登录
+    const PAPISID = Cookies.get('__Secure-3PAPISID');
+    if (PAPISID) {
+      GM_setValue('youtubeAuth', { PAPISID }); // eslint-disable-line new-cap
       window.close();
     } else {
       // 需要登录
