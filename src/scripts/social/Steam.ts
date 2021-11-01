@@ -1,10 +1,11 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2021-11-01 14:31:20
+ * @LastEditTime : 2021-11-01 16:50:28
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
+ ! todo: id存储
  */
 /* eslint-disable id-length */
 
@@ -35,13 +36,20 @@ class Steam extends Social {
     workshops: [],
     curators: []
   };
-  #auth!: auth;
+  #auth: auth = {};
   #initialized = false;
 
   // TODO: 任务识别
   constructor(tasks: steamTasks) {
     super();
-    this.tasks = tasks || { groups: [] };
+    this.tasks = tasks || {
+      groups: [],
+      wishlists: [],
+      follows: [],
+      forums: [],
+      workshops: [],
+      curators: []
+    };
   }
 
   // 通用化,log
@@ -49,6 +57,7 @@ class Steam extends Social {
     try {
       const isVerified = (await this.#updateStoreAuth()) && await (this.#updateCommunityAuth());
       if (isVerified) {
+        this.#initialized = true;
         echoLog({ text: 'Init steam success!' });
         return true;
       }
@@ -69,7 +78,7 @@ class Steam extends Social {
       });
       if (result === 'Success') {
         if (data?.status === 200) {
-          if ($(data.responseText).find('a[href*="/login/"]').length > 0) {
+          if (data.responseText.includes('href="https://store.steampowered.com/login/')) {
             logStatus.error(`Error:${getI18n('loginSteamStore')}`, true);
             return false;
           }
@@ -102,7 +111,7 @@ class Steam extends Social {
       });
       if (result === 'Success') {
         if (data?.status === 200) {
-          if ($(data.responseText).find('a[href*="/login/home"]').length > 0) {
+          if (data.responseText.includes('href="https://steamcommunity.com/login/home/')) {
             logStatus.error(`Error:${getI18n('loginSteamCommunity')}`, true);
             return false;
           }
@@ -252,7 +261,8 @@ class Steam extends Social {
       });
       if (result === 'Success') {
         if (data?.status === 200 && data.finalUrl.includes('groups') &&
-          $(data.responseText.toLowerCase()).find(`a[href='https://steamcommunity.com/groups/${groupName.toLowerCase()}']`).length === 0) {
+          $(data.responseText.replace(/<img.*?>/g, '').toLowerCase())
+            .find(`a[href='https://steamcommunity.com/groups/${groupName.toLowerCase()}']`).length === 0) {
           logStatus.success();
           return true;
         }
@@ -470,8 +480,9 @@ class Steam extends Social {
       const forumId = await this.#getForumId(gameId);
       if (!forumId) return false;
       const logStatus = echoLog({ type: `${doTask ? '' : 'un'}subscribeForum`, text: gameId });
+      const [id, feature] = forumId.split('_');
       const { result, statusText, status, data } = await httpRequest({
-        url: `https://steamcommunity.com/forum/${forumId}/General/${doTask ? '' : 'un'}subscribe/0/`,
+        url: `https://steamcommunity.com/forum/${id}/General/${doTask ? '' : 'un'}subscribe/${feature || '0'}/`,
         method: 'POST',
         responseType: 'json',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
@@ -479,6 +490,9 @@ class Steam extends Social {
       });
       if (result === 'Success') {
         if (data?.status === 200 && (data.response?.success === 1 || data.response?.success === 29)) {
+          if (doTask) {
+            this.tasks.forums = unique([...this.tasks.forums, gameId]);
+          }
           logStatus.success();
           return true;
         }
@@ -493,7 +507,7 @@ class Steam extends Social {
     }
   }
   // TODO: 缓存
-  async #getForumId(gameId: string): Promise<boolean | string> {
+  async #getForumId(gameId: string): Promise<false | string> {
     try {
       const logStatus = echoLog({ type: 'getForumId', text: gameId });
       const { result, statusText, status, data } = await httpRequest({
@@ -502,7 +516,7 @@ class Steam extends Social {
       });
       if (result === 'Success') {
         if (data?.status === 200) {
-          const forumId = data.responseText?.match(/General_([\d]+)/)?.[1];
+          const forumId = data.responseText?.match(/General_([\d]+(_[\d]+)?)/)?.[1];
           if (forumId) {
             logStatus.success();
             return forumId;
@@ -542,6 +556,9 @@ class Steam extends Social {
       });
       if (result === 'Success') {
         if (data?.status === 200 && !data.responseText) {
+          if (doTask) {
+            this.tasks.workshops = unique([...this.tasks.workshops, id]);
+          }
           logStatus.success();
           return true;
         }
@@ -613,7 +630,7 @@ class Steam extends Social {
   }
 
   // INFO: 关注Steam鉴赏家/开发商/发行商
-  async toggleCurator(curatorId: string, logStatus: logStatus, doTask = true): Promise<boolean> {
+  async #toggleCurator(curatorId: string, logStatus: logStatus, doTask = true): Promise<boolean> {
     try {
       if (!doTask && this.whiteList.curators.includes(curatorId)) {
         // TODO: 直接echo
@@ -683,14 +700,14 @@ class Steam extends Social {
   }
 
   // INFO: 处理鉴赏家相关
-  async toggleCuratorLike(link: string, doTask = true): Promise<boolean> {
+  async #toggleCuratorLike(link: string, doTask = true): Promise<boolean> {
     try {
       // TODO: 鉴赏家链接处理
       const [name, path] = link;
       const curatorId = await this.#getCuratorId(name, path);
       if (curatorId) {
         const logStatus = echoLog({ type: `${doTask ? '' : 'un'}follow${path.replace(/^\S/, (s) => s.toUpperCase())}`, text: name });
-        return await this.toggleCurator(curatorId, logStatus, doTask);
+        return await this.#toggleCurator(curatorId, logStatus, doTask);
       }
       return false;
     } catch (error) {
@@ -702,13 +719,75 @@ class Steam extends Social {
   async toggle({
     doTask = true,
     groupLinks = [],
-    wishlistLinks = []
+    wishlistLinks = [],
+    followLinks = [],
+    forumLinks = [],
+    workshopLinks = [],
+    curatorLinks = []
   }: {
     doTask: boolean,
     groupLinks: Array<string>,
-    wishlistLinks: Array<string>
+    wishlistLinks: Array<string>,
+    followLinks: Array<string>,
+    forumLinks: Array<string>,
+    workshopLinks: Array<string>,
+    curatorLinks: Array<string>,
   }): Promise<boolean> {
-    return true;
+    try {
+      if (!this.#initialized) {
+        echoLog({ type: 'text', text: '请先初始化' });
+        return false;
+      }
+      const prom = [];
+      const realGroups = this.getRealParams('groups', [], groupLinks, doTask, (link) => link.match(/groups\/(.+)\/?/)?.[1]);
+      const realWishlists = this.getRealParams('wishlists', [], wishlistLinks, doTask, (link) => link.match(/app\/([\d]+)/)?.[1]);
+      const realFollows = this.getRealParams('follows', [], followLinks, doTask, (link) => link.match(/app\/([\d]+)/)?.[1]);
+      const realForums = this.getRealParams('forums', [], forumLinks, doTask, (link) => link.match(/app\/([\d]+)/)?.[1]);
+      const realWorkshops = this.getRealParams('workshops', [], workshopLinks, doTask, (link) => link.match(/\?id=([\d]+)/)?.[1]);
+      if (realGroups.length > 0) {
+        for (const group of realGroups) {
+          if (doTask) {
+            prom.push(this.#joinGroup(group));
+          } else {
+            prom.push(this.#leaveGroup(group));
+          }
+          await delay(1000);
+        }
+      }
+      if (realWishlists.length > 0) {
+        for (const game of realWishlists) {
+          if (doTask) {
+            prom.push(this.#addToWishlist(game));
+          } else {
+            prom.push(this.#removeFromWishlist(game));
+          }
+          await delay(1000);
+        }
+      }
+      if (realFollows.length > 0) {
+        for (const game of realFollows) {
+          prom.push(this.#toggleFollowGame(game, doTask));
+          await delay(1000);
+        }
+      }
+      if (realForums.length > 0) {
+        for (const forum of realForums) {
+          prom.push(this.#toggleForum(forum, doTask));
+          await delay(1000);
+        }
+      }
+      if (realWorkshops.length > 0) {
+        for (const workshop of realWorkshops) {
+          prom.push(this.#toggleFavoriteWorkshop(workshop, doTask));
+          await delay(1000);
+        }
+      }
+      // TODO: 返回值处理
+      return Promise.all(prom).then(() => true);
+    } catch (error) {
+      throwError(error as Error, 'Steam.toggle');
+      return false;
+    }
   }
 }
 

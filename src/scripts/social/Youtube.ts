@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 12:18:06
- * @LastEditTime : 2021-11-01 13:46:07
+ * @LastEditTime : 2021-11-01 15:48:45
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Youtube.ts
  * @Description  : Youtube 订阅/取消订阅频道，点赞/取消点赞视频
@@ -388,7 +388,7 @@ class Youtube extends Social {
       // TODO: 返回值处理
       return Promise.all(prom).then(() => true);
     } catch (error) {
-      throwError(error as Error, 'Youtubetoggle');
+      throwError(error as Error, 'Youtube.toggle');
       return false;
     }
   }

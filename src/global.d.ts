@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 13:18:21
- * @LastEditTime : 2021-11-01 14:27:34
+ * @LastEditTime : 2021-11-01 16:34:23
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/global.d.ts
  */
@@ -68,8 +68,14 @@ declare global {
     groups?: Array<string>
     publics?: Array<string>
     walls?: Array<string>
+    wishlists?: Array<string>
+    follows?: Array<string>
+    forums?: Array<string>
+    workshops?: Array<string>
+    curator?: Array<string>
   }
-  type taskTypes = 'servers' | 'users' | 'reddits' | 'channels' | 'retweets' | 'likes' | 'names' | 'groups' | 'publics' | 'walls'
+  type taskTypes = 'servers' | 'users' | 'reddits' | 'channels' | 'retweets' | 'likes' | 'names' | 'groups' | 'publics' | 'walls' |
+    'wishlists' | 'follows' | 'forums' | 'workshops' | 'curator'
   interface discordTasks {
     servers: Array<string>
   }

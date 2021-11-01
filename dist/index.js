@@ -1,13 +1,14 @@
 // ==UserScript==
-// @name         auto-task-new
-// @namespace    http://tampermonkey.net/
-// @version      0.1
-// @description  try to take over the world!
-// @author       HCLonely
-// @include      *://*/*
-// @include      https://auto-task.hclonely.com/setting.html
-// @run-at       document-start
-// @compatible   chrome 没有测试其他浏览器的兼容性
+// @name               auto-task-new
+// @namespace          http://tampermonkey.net/
+// @version            0.1
+// @description        try to take over the world!
+// @author             HCLonely
+// @include            *://*/*
+// @include            https://auto-task.hclonely.com/setting.html
+// @run-at             document-start
+// @compatible         chrome 没有测试其他浏览器的兼容性
+
 // @grant              GM_setValue
 // @grant              GM_getValue
 // @grant              GM_listValues
@@ -23,7 +24,7 @@
 // @grant              unsafeWindow
 // @grant              window.close
 // @grant              window.localStorage
-// @connect            auto-task-test.hclonely.com
+
 // @connect            cdn.jsdelivr.net
 // @connect            store.steampowered.com
 // @connect            steamcommunity.com
@@ -49,23 +50,23 @@
 // @connect            giveaway.su
 // @connect            google.com
 // @connect            *
-// @require     https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
-// @require     https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js
-// @require     https://cdn.jsdelivr.net/npm/regenerator-runtime@0.13.5/runtime.min.js
-// @require     https://cdn.jsdelivr.net/npm/js-sha1@0.6.0/src/sha1.min.js
+// @require            https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
+// @require            https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js
+// @require            https://cdn.jsdelivr.net/npm/regenerator-runtime@0.13.5/runtime.min.js
+// @require            https://cdn.jsdelivr.net/npm/js-sha1@0.6.0/src/sha1.min.js
 // ==/UserScript==
 
 (function() {
   'use strict';
   var __webpack_exports__ = {};
-  function throwError(error, name) {
+  function throwError_throwError(error, name) {
     console.log('%c%s', 'color:white;background:red', `${name}\n${error.stack}`);
   }
   const unique = array => {
     try {
       return [ ...new Set(array) ];
     } catch (error) {
-      throwError(error, 'unique');
+      throwError_throwError(error, 'unique');
       return [];
     }
   };
@@ -108,13 +109,13 @@
         }
         return unique(realParams);
       } catch (error) {
-        throwError(error, 'Social.getRealParams');
+        throwError_throwError(error, 'Social.getRealParams');
         return [];
       }
     }
   }
   const social_Social = Social;
-  const httpRequest = async function(options) {
+  const httpRequest_httpRequest = async function(options) {
     let times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
     try {
       const result = await new Promise(resolve => {
@@ -167,11 +168,11 @@
       });
       console.log('发送请求:', result);
       if (result.status !== 600 && times < 2) {
-        return await httpRequest(options, times + 1);
+        return await httpRequest_httpRequest(options, times + 1);
       }
       return result;
     } catch (error) {
-      throwError(error, 'httpRequest');
+      throwError_throwError(error, 'httpRequest');
       console.log('发送请求:', {
         errorMsg: error,
         options: options
@@ -185,7 +186,7 @@
       };
     }
   };
-  const tools_httpRequest = httpRequest;
+  const tools_httpRequest = httpRequest_httpRequest;
   function getI18n() {
     for (var _len = arguments.length, argvs = new Array(_len), _key = 0; _key < _len; _key++) {
       argvs[_key] = arguments[_key];
@@ -193,7 +194,7 @@
     return argvs.join(' ');
   }
   const i18n = getI18n;
-  const echoLog = _ref => {
+  const echoLog_echoLog = _ref => {
     let {
       type = 'text',
       text,
@@ -398,7 +399,7 @@
       };
       return status;
     } catch (error) {
-      throwError(error, 'echoLog');
+      throwError_throwError(error, 'echoLog');
       const status = {
         success: () => status,
         error: () => status,
@@ -409,7 +410,7 @@
       return status;
     }
   };
-  const scripts_echoLog = echoLog;
+  const scripts_echoLog = echoLog_echoLog;
   function _classPrivateMethodInitSpec(obj, privateSet) {
     _checkPrivateRedeclaration(obj, privateSet);
     privateSet.add(obj);
@@ -436,32 +437,10 @@
     }
     return obj;
   }
-  function _classPrivateMethodGet(receiver, privateSet, fn) {
-    if (!privateSet.has(receiver)) {
-      throw new TypeError('attempted to get private field on non-instance');
-    }
-    return fn;
-  }
-  function _classPrivateFieldGet(receiver, privateMap) {
-    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, 'get');
-    return _classApplyDescriptorGet(receiver, descriptor);
-  }
-  function _classApplyDescriptorGet(receiver, descriptor) {
-    if (descriptor.get) {
-      return descriptor.get.call(receiver);
-    }
-    return descriptor.value;
-  }
   function _classPrivateFieldSet(receiver, privateMap, value) {
     var descriptor = _classExtractFieldDescriptor(receiver, privateMap, 'set');
     _classApplyDescriptorSet(receiver, descriptor, value);
     return value;
-  }
-  function _classExtractFieldDescriptor(receiver, privateMap, action) {
-    if (!privateMap.has(receiver)) {
-      throw new TypeError('attempted to ' + action + ' private field on non-instance');
-    }
-    return privateMap.get(receiver);
   }
   function _classApplyDescriptorSet(receiver, descriptor, value) {
     if (descriptor.set) {
@@ -473,6 +452,28 @@
       descriptor.value = value;
     }
   }
+  function _classPrivateMethodGet(receiver, privateSet, fn) {
+    if (!privateSet.has(receiver)) {
+      throw new TypeError('attempted to get private field on non-instance');
+    }
+    return fn;
+  }
+  function _classPrivateFieldGet(receiver, privateMap) {
+    var descriptor = _classExtractFieldDescriptor(receiver, privateMap, 'get');
+    return _classApplyDescriptorGet(receiver, descriptor);
+  }
+  function _classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) {
+      throw new TypeError('attempted to ' + action + ' private field on non-instance');
+    }
+    return privateMap.get(receiver);
+  }
+  function _classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+      return descriptor.get.call(receiver);
+    }
+    return descriptor.value;
+  }
   var _auth = new WeakMap();
   var _cache = new WeakMap();
   var _initialized = new WeakMap();
@@ -483,7 +484,7 @@
   var _getGuild = new WeakSet();
   var _addId = new WeakSet();
   class Discord extends social_Social {
-    constructor(id) {
+    constructor(tasks) {
       var _GM_getValue;
       super();
       _classPrivateMethodInitSpec(this, _addId);
@@ -493,27 +494,24 @@
       _classPrivateMethodInitSpec(this, _updateAuth);
       _classPrivateMethodInitSpec(this, _verifyAuth);
       Discord_defineProperty(this, 'tasks', void 0);
-      Discord_defineProperty(this, 'whiteList', void 0);
+      Discord_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.discord) || {
+        servers: []
+      });
       _classPrivateFieldInitSpec(this, _auth, {
         writable: true,
-        value: void 0
+        value: GM_getValue('discordAuth') || {}
       });
       _classPrivateFieldInitSpec(this, _cache, {
         writable: true,
-        value: void 0
+        value: GM_getValue('discordCache') || {}
       });
       _classPrivateFieldInitSpec(this, _initialized, {
         writable: true,
         value: false
       });
-      this.tasks = GM_getValue(`Discord-${id}`) || {
+      this.tasks = tasks || {
         servers: []
       };
-      this.whiteList = ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.discord) || {
-        servers: []
-      };
-      _classPrivateFieldSet(this, _cache, GM_getValue('discordCache') || {});
-      _classPrivateFieldSet(this, _auth, GM_getValue('discordAuth') || {});
     }
     async init() {
       try {
@@ -550,7 +548,7 @@
         });
         return false;
       } catch (error) {
-        throwError(error, 'Discord.init');
+        throwError_throwError(error, 'Discord.init');
         return false;
       }
     }
@@ -585,7 +583,7 @@
         }
         return await Promise.all(prom).then(() => true);
       } catch (error) {
-        throwError(error, 'Discord.toggleServers');
+        throwError_throwError(error, 'Discord.toggleServers');
         return false;
       }
     }
@@ -619,7 +617,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Discord.verifyAuth');
+      throwError_throwError(error, 'Discord.verifyAuth');
       return false;
     }
   }
@@ -651,7 +649,7 @@
         };
       });
     } catch (error) {
-      throwError(error, 'Discord.updateAuth');
+      throwError_throwError(error, 'Discord.updateAuth');
       return false;
     }
   }
@@ -687,7 +685,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Discord.joinServer');
+      throwError_throwError(error, 'Discord.joinServer');
       return false;
     }
   }
@@ -727,7 +725,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Discord.leaveServer');
+      throwError_throwError(error, 'Discord.leaveServer');
       return false;
     }
   }
@@ -765,7 +763,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Discord.getGuild');
+      throwError_throwError(error, 'Discord.getGuild');
       return false;
     }
   }
@@ -843,14 +841,16 @@
   var _followUser = new WeakSet();
   var _unfollowUser = new WeakSet();
   class Instagram extends social_Social {
-    constructor(_id) {
+    constructor(tasks) {
       var _GM_getValue;
       super();
       Instagram_classPrivateMethodInitSpec(this, _unfollowUser);
       Instagram_classPrivateMethodInitSpec(this, _followUser);
       Instagram_classPrivateMethodInitSpec(this, _getUserInfo);
       Instagram_defineProperty(this, 'tasks', void 0);
-      Instagram_defineProperty(this, 'whiteList', void 0);
+      Instagram_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.instagram) || {
+        users: []
+      });
       Instagram_classPrivateFieldInitSpec(this, Instagram_auth, {
         writable: true,
         value: void 0
@@ -859,10 +859,7 @@
         writable: true,
         value: false
       });
-      this.tasks = GM_getValue(`Instagram-${_id}`) || {
-        users: []
-      };
-      this.whiteList = ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.instagram) || {
+      this.tasks = tasks || {
         users: []
       };
     }
@@ -881,7 +878,7 @@
         });
         return false;
       } catch (error) {
-        throwError(error, 'Instagram.init');
+        throwError_throwError(error, 'Instagram.init');
         return false;
       }
     }
@@ -916,7 +913,7 @@
         }
         return await Promise.all(prom).then(() => true);
       } catch (error) {
-        throwError(error, 'Instagram.toggleUsers');
+        throwError_throwError(error, 'Instagram.toggleUsers');
         return false;
       }
     }
@@ -974,7 +971,7 @@
       }
       return false;
     } catch (error) {
-      throwError(error, 'Instagram.getUserInfo');
+      throwError_throwError(error, 'Instagram.getUserInfo');
       return false;
     }
   }
@@ -1019,7 +1016,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Instagram.followUser');
+      throwError_throwError(error, 'Instagram.followUser');
       return false;
     }
   }
@@ -1070,7 +1067,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Instagram.unfollowUser');
+      throwError_throwError(error, 'Instagram.unfollowUser');
       return false;
     }
   }
@@ -1111,12 +1108,6 @@
     }
     return descriptor.value;
   }
-  function Reddit_classPrivateMethodGet(receiver, privateSet, fn) {
-    if (!privateSet.has(receiver)) {
-      throw new TypeError('attempted to get private field on non-instance');
-    }
-    return fn;
-  }
   function Reddit_classPrivateFieldSet(receiver, privateMap, value) {
     var descriptor = Reddit_classExtractFieldDescriptor(receiver, privateMap, 'set');
     Reddit_classApplyDescriptorSet(receiver, descriptor, value);
@@ -1138,33 +1129,37 @@
       descriptor.value = value;
     }
   }
+  function Reddit_classPrivateMethodGet(receiver, privateSet, fn) {
+    if (!privateSet.has(receiver)) {
+      throw new TypeError('attempted to get private field on non-instance');
+    }
+    return fn;
+  }
   var Reddit_auth = new WeakMap();
   var Reddit_initialized = new WeakMap();
   var _useBeta = new WeakSet();
   var Reddit_updateAuth = new WeakSet();
   class Reddit extends social_Social {
-    constructor(id) {
+    constructor(tasks) {
       var _GM_getValue;
       super();
       Reddit_classPrivateMethodInitSpec(this, Reddit_updateAuth);
       Reddit_classPrivateMethodInitSpec(this, _useBeta);
       Reddit_defineProperty(this, 'tasks', void 0);
-      Reddit_defineProperty(this, 'whiteList', void 0);
+      Reddit_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.reddit) || {
+        reddits: []
+      });
       Reddit_classPrivateFieldInitSpec(this, Reddit_auth, {
         writable: true,
-        value: void 0
+        value: GM_getValue('redditAuth') || {}
       });
       Reddit_classPrivateFieldInitSpec(this, Reddit_initialized, {
         writable: true,
         value: false
       });
-      this.tasks = GM_getValue(`Reddit-${id}`) || {
+      this.tasks = tasks || {
         reddits: []
       };
-      this.whiteList = ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.reddit) || {
-        reddits: []
-      };
-      Reddit_classPrivateFieldSet(this, Reddit_auth, GM_getValue('redditAuth') || {});
     }
     async init() {
       try {
@@ -1181,7 +1176,7 @@
         });
         return false;
       } catch (error) {
-        throwError(error, 'Reddit.init');
+        throwError_throwError(error, 'Reddit.init');
         return false;
       }
     }
@@ -1238,7 +1233,7 @@
         logStatus.error(`${result}:${statusText}(${status})`);
         return false;
       } catch (error) {
-        throwError(error, 'Reddit.toggleTask');
+        throwError_throwError(error, 'Reddit.toggleTask');
         return false;
       }
     }
@@ -1277,7 +1272,7 @@
         }
         return await Promise.all(prom).then(() => true);
       } catch (error) {
-        throwError(error, 'Reddit.toggle');
+        throwError_throwError(error, 'Reddit.toggle');
         return false;
       }
     }
@@ -1301,7 +1296,7 @@
         };
       });
     } catch (error) {
-      throwError(error, 'Reddit.useBeta');
+      throwError_throwError(error, 'Reddit.useBeta');
       return false;
     }
   }
@@ -1352,7 +1347,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Reddit.updateAuth');
+      throwError_throwError(error, 'Reddit.updateAuth');
       return false;
     }
   }
@@ -1383,32 +1378,10 @@
     }
     return obj;
   }
-  function Twitch_classPrivateMethodGet(receiver, privateSet, fn) {
-    if (!privateSet.has(receiver)) {
-      throw new TypeError('attempted to get private field on non-instance');
-    }
-    return fn;
-  }
-  function Twitch_classPrivateFieldGet(receiver, privateMap) {
-    var descriptor = Twitch_classExtractFieldDescriptor(receiver, privateMap, 'get');
-    return Twitch_classApplyDescriptorGet(receiver, descriptor);
-  }
-  function Twitch_classApplyDescriptorGet(receiver, descriptor) {
-    if (descriptor.get) {
-      return descriptor.get.call(receiver);
-    }
-    return descriptor.value;
-  }
   function Twitch_classPrivateFieldSet(receiver, privateMap, value) {
     var descriptor = Twitch_classExtractFieldDescriptor(receiver, privateMap, 'set');
     Twitch_classApplyDescriptorSet(receiver, descriptor, value);
     return value;
-  }
-  function Twitch_classExtractFieldDescriptor(receiver, privateMap, action) {
-    if (!privateMap.has(receiver)) {
-      throw new TypeError('attempted to ' + action + ' private field on non-instance');
-    }
-    return privateMap.get(receiver);
   }
   function Twitch_classApplyDescriptorSet(receiver, descriptor, value) {
     if (descriptor.set) {
@@ -1420,6 +1393,28 @@
       descriptor.value = value;
     }
   }
+  function Twitch_classPrivateMethodGet(receiver, privateSet, fn) {
+    if (!privateSet.has(receiver)) {
+      throw new TypeError('attempted to get private field on non-instance');
+    }
+    return fn;
+  }
+  function Twitch_classPrivateFieldGet(receiver, privateMap) {
+    var descriptor = Twitch_classExtractFieldDescriptor(receiver, privateMap, 'get');
+    return Twitch_classApplyDescriptorGet(receiver, descriptor);
+  }
+  function Twitch_classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) {
+      throw new TypeError('attempted to ' + action + ' private field on non-instance');
+    }
+    return privateMap.get(receiver);
+  }
+  function Twitch_classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+      return descriptor.get.call(receiver);
+    }
+    return descriptor.value;
+  }
   var Twitch_auth = new WeakMap();
   var Twitch_initialized = new WeakMap();
   var Twitch_verifyAuth = new WeakSet();
@@ -1427,7 +1422,7 @@
   var _toggleChannel = new WeakSet();
   var _getChannelId = new WeakSet();
   class Twitch extends social_Social {
-    constructor(id) {
+    constructor(tasks) {
       var _GM_getValue;
       super();
       Twitch_classPrivateMethodInitSpec(this, _getChannelId);
@@ -1435,22 +1430,20 @@
       Twitch_classPrivateMethodInitSpec(this, Twitch_updateAuth);
       Twitch_classPrivateMethodInitSpec(this, Twitch_verifyAuth);
       Twitch_defineProperty(this, 'tasks', void 0);
-      Twitch_defineProperty(this, 'whiteList', void 0);
+      Twitch_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.twitch) || {
+        channels: []
+      });
       Twitch_classPrivateFieldInitSpec(this, Twitch_auth, {
         writable: true,
-        value: void 0
+        value: GM_getValue('twitchAuth') || {}
       });
       Twitch_classPrivateFieldInitSpec(this, Twitch_initialized, {
         writable: true,
         value: false
       });
-      this.tasks = GM_getValue(`Twitch-${id}`) || {
+      this.tasks = tasks || {
         channels: []
       };
-      this.whiteList = ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.twitch) || {
-        channels: []
-      };
-      Twitch_classPrivateFieldSet(this, Twitch_auth, GM_getValue('twitchAuth') || {});
     }
     async init() {
       try {
@@ -1485,7 +1478,7 @@
         });
         return false;
       } catch (error) {
-        throwError(error, 'Twitch.init');
+        throwError_throwError(error, 'Twitch.init');
         return false;
       }
     }
@@ -1519,7 +1512,7 @@
         }
         return Promise.all(prom).then(() => true);
       } catch (error) {
-        throwError(error, 'Twitch.toggle');
+        throwError_throwError(error, 'Twitch.toggle');
         return false;
       }
     }
@@ -1557,7 +1550,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Twitch.verifyAuth');
+      throwError_throwError(error, 'Twitch.verifyAuth');
       return false;
     }
   }
@@ -1586,7 +1579,7 @@
         };
       });
     } catch (error) {
-      throwError(error, 'Twitch.updateAuth');
+      throwError_throwError(error, 'Twitch.updateAuth');
       return false;
     }
   }
@@ -1641,7 +1634,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Twitch.toggleChannel');
+      throwError_throwError(error, 'Twitch.toggleChannel');
       return false;
     }
   }
@@ -1683,7 +1676,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Twitch.getChannelId');
+      throwError_throwError(error, 'Twitch.getChannelId');
       return false;
     }
   }
@@ -1760,7 +1753,7 @@
   var _getUserId = new WeakSet();
   var _toggleRetweet = new WeakSet();
   class Twitter extends social_Social {
-    constructor(id, verifyId) {
+    constructor(tasks, verifyId) {
       var _GM_getValue;
       super();
       Twitter_classPrivateMethodInitSpec(this, _toggleRetweet);
@@ -1769,30 +1762,28 @@
       Twitter_classPrivateMethodInitSpec(this, Twitter_updateAuth);
       Twitter_classPrivateMethodInitSpec(this, Twitter_verifyAuth);
       Twitter_defineProperty(this, 'tasks', void 0);
-      Twitter_defineProperty(this, 'whiteList', void 0);
+      Twitter_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.twitter) || {
+        users: [],
+        retweets: [],
+        likes: []
+      });
       Twitter_classPrivateFieldInitSpec(this, _verifyId, {
         writable: true,
         value: '783214'
       });
       Twitter_classPrivateFieldInitSpec(this, Twitter_auth, {
         writable: true,
-        value: void 0
+        value: GM_getValue('twitterAuth') || {}
       });
       Twitter_classPrivateFieldInitSpec(this, Twitter_initialized, {
         writable: true,
         value: false
       });
-      this.tasks = GM_getValue(`Twitter-${id}`) || {
+      this.tasks = tasks || {
         users: [],
         retweets: [],
         likes: []
       };
-      this.whiteList = ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.twitter) || {
-        users: [],
-        retweets: [],
-        likes: []
-      };
-      Twitter_classPrivateFieldSet(this, Twitter_auth, GM_getValue('twitterAuth') || {});
       if (verifyId) {
         Twitter_classPrivateFieldSet(this, _verifyId, verifyId);
       }
@@ -1830,7 +1821,7 @@
         });
         return false;
       } catch (error) {
-        throwError(error, 'Twitter.init');
+        throwError_throwError(error, 'Twitter.init');
         return false;
       }
     }
@@ -1879,7 +1870,7 @@
         }
         return Promise.all(prom).then(() => true);
       } catch (error) {
-        throwError(error, 'Twitter.toggle');
+        throwError_throwError(error, 'Twitter.toggle');
         return false;
       }
     }
@@ -1892,7 +1883,7 @@
         verify: true
       });
     } catch (error) {
-      throwError(error, 'Twitter.verifyAuth');
+      throwError_throwError(error, 'Twitter.verifyAuth');
       return false;
     }
   }
@@ -1921,7 +1912,7 @@
         };
       });
     } catch (error) {
-      throwError(error, 'Twitter.updateToken');
+      throwError_throwError(error, 'Twitter.updateToken');
       return false;
     }
   }
@@ -1996,7 +1987,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Twitter.toggleUser');
+      throwError_throwError(error, 'Twitter.toggleUser');
       return false;
     }
   }
@@ -2046,7 +2037,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Twitter.getUserId');
+      throwError_throwError(error, 'Twitter.getUserId');
       return false;
     }
   }
@@ -2101,7 +2092,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Twitter.toggleRetweet');
+      throwError_throwError(error, 'Twitter.toggleRetweet');
       return false;
     }
   }
@@ -2142,12 +2133,6 @@
     }
     return descriptor.value;
   }
-  function Vk_classPrivateMethodGet(receiver, privateSet, fn) {
-    if (!privateSet.has(receiver)) {
-      throw new TypeError('attempted to get private field on non-instance');
-    }
-    return fn;
-  }
   function Vk_classPrivateFieldSet(receiver, privateMap, value) {
     var descriptor = Vk_classExtractFieldDescriptor(receiver, privateMap, 'set');
     Vk_classApplyDescriptorSet(receiver, descriptor, value);
@@ -2169,6 +2154,12 @@
       descriptor.value = value;
     }
   }
+  function Vk_classPrivateMethodGet(receiver, privateSet, fn) {
+    if (!privateSet.has(receiver)) {
+      throw new TypeError('attempted to get private field on non-instance');
+    }
+    return fn;
+  }
   var _username = new WeakMap();
   var Vk_cache = new WeakMap();
   var Vk_initialized = new WeakMap();
@@ -2181,7 +2172,7 @@
   var _toggleVk = new WeakSet();
   var Vk_addId = new WeakSet();
   class Vk extends social_Social {
-    constructor(id) {
+    constructor(tasks) {
       var _GM_getValue;
       super();
       Vk_classPrivateMethodInitSpec(this, Vk_addId);
@@ -2193,26 +2184,24 @@
       Vk_classPrivateMethodInitSpec(this, _toggleGroup);
       Vk_classPrivateMethodInitSpec(this, Vk_verifyAuth);
       Vk_defineProperty(this, 'tasks', void 0);
-      Vk_defineProperty(this, 'whiteList', void 0);
+      Vk_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.vk) || {
+        names: []
+      });
       Vk_classPrivateFieldInitSpec(this, _username, {
         writable: true,
         value: ''
       });
       Vk_classPrivateFieldInitSpec(this, Vk_cache, {
         writable: true,
-        value: void 0
+        value: GM_getValue('vkCache') || {}
       });
       Vk_classPrivateFieldInitSpec(this, Vk_initialized, {
         writable: true,
         value: false
       });
-      this.tasks = GM_getValue(`Vk-${id}`) || {
+      this.tasks = tasks || {
         names: []
       };
-      this.whiteList = ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.vk) || {
-        names: []
-      };
-      Vk_classPrivateFieldSet(this, Vk_cache, GM_getValue('vkCache') || {});
     }
     async init() {
       try {
@@ -2229,7 +2218,7 @@
         });
         return false;
       } catch (error) {
-        throwError(error, 'Vk.init');
+        throwError_throwError(error, 'Vk.init');
         return false;
       }
     }
@@ -2263,7 +2252,7 @@
         }
         return Promise.all(prom).then(() => true);
       } catch (error) {
-        throwError(error, 'Vk.toggle');
+        throwError_throwError(error, 'Vk.toggle');
         return false;
       }
     }
@@ -2300,7 +2289,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Vk.verifyAuth');
+      throwError_throwError(error, 'Vk.verifyAuth');
       return false;
     }
   }
@@ -2353,7 +2342,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Vk.toggleGroup');
+      throwError_throwError(error, 'Vk.toggleGroup');
       return false;
     }
   }
@@ -2402,7 +2391,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Vk.togglePublic');
+      throwError_throwError(error, 'Vk.togglePublic');
       return false;
     }
   }
@@ -2496,7 +2485,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Vk.sendWall');
+      throwError_throwError(error, 'Vk.sendWall');
       return false;
     }
   }
@@ -2545,7 +2534,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Vk.deleteWall');
+      throwError_throwError(error, 'Vk.deleteWall');
       return false;
     }
   }
@@ -2626,7 +2615,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Vk.getId');
+      throwError_throwError(error, 'Vk.getId');
       return false;
     }
   }
@@ -2665,7 +2654,7 @@
         return false;
       }
     } catch (error) {
-      throwError(error, 'Vk.toggleVk');
+      throwError_throwError(error, 'Vk.toggleVk');
       return false;
     }
   }
@@ -2746,7 +2735,7 @@
   var Youtube_toggleChannel = new WeakSet();
   var _toggleLikeVideo = new WeakSet();
   class Youtube extends social_Social {
-    constructor(id, verifyChannel) {
+    constructor(tasks, verifyChannel) {
       var _GM_getValue;
       super();
       Youtube_classPrivateMethodInitSpec(this, _toggleLikeVideo);
@@ -2755,10 +2744,13 @@
       Youtube_classPrivateMethodInitSpec(this, Youtube_updateAuth);
       Youtube_classPrivateMethodInitSpec(this, Youtube_verifyAuth);
       Youtube_defineProperty(this, 'tasks', void 0);
-      Youtube_defineProperty(this, 'whiteList', void 0);
+      Youtube_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.youtube) || {
+        channels: [],
+        likes: []
+      });
       Youtube_classPrivateFieldInitSpec(this, Youtube_auth, {
         writable: true,
-        value: void 0
+        value: GM_getValue('youtubeAuth') || {}
       });
       Youtube_classPrivateFieldInitSpec(this, Youtube_initialized, {
         writable: true,
@@ -2768,15 +2760,10 @@
         writable: true,
         value: 'https://www.youtube.com/channel/UCBR8-60-B28hp2BmDPdntcQ'
       });
-      this.tasks = GM_getValue(`Youtube-${id}`) || {
+      this.tasks = tasks || {
         channels: [],
         likes: []
       };
-      this.whiteList = ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.youtube) || {
-        channels: [],
-        likes: []
-      };
-      Youtube_classPrivateFieldSet(this, Youtube_auth, GM_getValue('youtubeAuth') || {});
       if (verifyChannel) {
         Youtube_classPrivateFieldSet(this, _verifyChannel, verifyChannel);
       }
@@ -2814,7 +2801,7 @@
         });
         return false;
       } catch (error) {
-        throwError(error, 'Youtube.init');
+        throwError_throwError(error, 'Youtube.init');
         return false;
       }
     }
@@ -2867,7 +2854,7 @@
         }
         return Promise.all(prom).then(() => true);
       } catch (error) {
-        throwError(error, 'Youtubetoggle');
+        throwError_throwError(error, 'Youtube.toggle');
         return false;
       }
     }
@@ -2880,7 +2867,7 @@
         verify: true
       });
     } catch (error) {
-      throwError(error, 'Youtube.verifyAuth');
+      throwError_throwError(error, 'Youtube.verifyAuth');
       return false;
     }
   }
@@ -2909,7 +2896,7 @@
         };
       });
     } catch (error) {
-      throwError(error, 'Discord.updateAuth');
+      throwError_throwError(error, 'Discord.updateAuth');
       return false;
     }
   }
@@ -2992,7 +2979,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return {};
     } catch (error) {
-      throwError(error, 'Youtube.getInfo');
+      throwError_throwError(error, 'Youtube.getInfo');
       return {};
     }
   }
@@ -3091,7 +3078,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Youtube.toggleChannel');
+      throwError_throwError(error, 'Youtube.toggleChannel');
       return false;
     }
   }
@@ -3197,11 +3184,1086 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Youtube.toggleLikeVideo');
+      throwError_throwError(error, 'Youtube.toggleLikeVideo');
       return false;
     }
   }
   const social_Youtube = Youtube;
+  function Steam_classPrivateMethodInitSpec(obj, privateSet) {
+    Steam_checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
+  }
+  function Steam_classPrivateFieldInitSpec(obj, privateMap, value) {
+    Steam_checkPrivateRedeclaration(obj, privateMap);
+    privateMap.set(obj, value);
+  }
+  function Steam_checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+      throw new TypeError('Cannot initialize the same private elements twice on an object');
+    }
+  }
+  function Steam_defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  function Steam_classPrivateFieldGet(receiver, privateMap) {
+    var descriptor = Steam_classExtractFieldDescriptor(receiver, privateMap, 'get');
+    return Steam_classApplyDescriptorGet(receiver, descriptor);
+  }
+  function Steam_classApplyDescriptorGet(receiver, descriptor) {
+    if (descriptor.get) {
+      return descriptor.get.call(receiver);
+    }
+    return descriptor.value;
+  }
+  function Steam_classPrivateFieldSet(receiver, privateMap, value) {
+    var descriptor = Steam_classExtractFieldDescriptor(receiver, privateMap, 'set');
+    Steam_classApplyDescriptorSet(receiver, descriptor, value);
+    return value;
+  }
+  function Steam_classExtractFieldDescriptor(receiver, privateMap, action) {
+    if (!privateMap.has(receiver)) {
+      throw new TypeError('attempted to ' + action + ' private field on non-instance');
+    }
+    return privateMap.get(receiver);
+  }
+  function Steam_classApplyDescriptorSet(receiver, descriptor, value) {
+    if (descriptor.set) {
+      descriptor.set.call(receiver, value);
+    } else {
+      if (!descriptor.writable) {
+        throw new TypeError('attempted to set read only private field');
+      }
+      descriptor.value = value;
+    }
+  }
+  function Steam_classPrivateMethodGet(receiver, privateSet, fn) {
+    if (!privateSet.has(receiver)) {
+      throw new TypeError('attempted to get private field on non-instance');
+    }
+    return fn;
+  }
+  var Steam_auth = new WeakMap();
+  var Steam_initialized = new WeakMap();
+  var _updateStoreAuth = new WeakSet();
+  var _updateCommunityAuth = new WeakSet();
+  var _getAreaInfo = new WeakSet();
+  var _changeArea = new WeakSet();
+  var _joinGroup = new WeakSet();
+  var _leaveGroup = new WeakSet();
+  var _getGroupId = new WeakSet();
+  var _addToWishlist = new WeakSet();
+  var _removeFromWishlist = new WeakSet();
+  var _toggleFollowGame = new WeakSet();
+  var _isFollowedGame = new WeakSet();
+  var _toggleForum = new WeakSet();
+  var _getForumId = new WeakSet();
+  var _toggleFavoriteWorkshop = new WeakSet();
+  var _getWorkshopAppId = new WeakSet();
+  var _voteupWorkshop = new WeakSet();
+  var _toggleCurator = new WeakSet();
+  var _getCuratorId = new WeakSet();
+  var _toggleCuratorLike = new WeakSet();
+  class Steam extends social_Social {
+    constructor(tasks) {
+      var _GM_getValue;
+      super();
+      Steam_classPrivateMethodInitSpec(this, _toggleCuratorLike);
+      Steam_classPrivateMethodInitSpec(this, _getCuratorId);
+      Steam_classPrivateMethodInitSpec(this, _toggleCurator);
+      Steam_classPrivateMethodInitSpec(this, _voteupWorkshop);
+      Steam_classPrivateMethodInitSpec(this, _getWorkshopAppId);
+      Steam_classPrivateMethodInitSpec(this, _toggleFavoriteWorkshop);
+      Steam_classPrivateMethodInitSpec(this, _getForumId);
+      Steam_classPrivateMethodInitSpec(this, _toggleForum);
+      Steam_classPrivateMethodInitSpec(this, _isFollowedGame);
+      Steam_classPrivateMethodInitSpec(this, _toggleFollowGame);
+      Steam_classPrivateMethodInitSpec(this, _removeFromWishlist);
+      Steam_classPrivateMethodInitSpec(this, _addToWishlist);
+      Steam_classPrivateMethodInitSpec(this, _getGroupId);
+      Steam_classPrivateMethodInitSpec(this, _leaveGroup);
+      Steam_classPrivateMethodInitSpec(this, _joinGroup);
+      Steam_classPrivateMethodInitSpec(this, _changeArea);
+      Steam_classPrivateMethodInitSpec(this, _getAreaInfo);
+      Steam_classPrivateMethodInitSpec(this, _updateCommunityAuth);
+      Steam_classPrivateMethodInitSpec(this, _updateStoreAuth);
+      Steam_defineProperty(this, 'tasks', void 0);
+      Steam_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.steam) || {
+        groups: [],
+        wishlists: [],
+        follows: [],
+        forums: [],
+        workshops: [],
+        curators: []
+      });
+      Steam_classPrivateFieldInitSpec(this, Steam_auth, {
+        writable: true,
+        value: {}
+      });
+      Steam_classPrivateFieldInitSpec(this, Steam_initialized, {
+        writable: true,
+        value: false
+      });
+      this.tasks = tasks || {
+        groups: [],
+        wishlists: [],
+        follows: [],
+        forums: [],
+        workshops: [],
+        curators: []
+      };
+    }
+    async init() {
+      try {
+        const isVerified = await Steam_classPrivateMethodGet(this, _updateStoreAuth, _updateStoreAuth2).call(this) && await Steam_classPrivateMethodGet(this, _updateCommunityAuth, _updateCommunityAuth2).call(this);
+        if (isVerified) {
+          Steam_classPrivateFieldSet(this, Steam_initialized, true);
+          scripts_echoLog({
+            text: 'Init steam success!'
+          });
+          return true;
+        }
+        scripts_echoLog({
+          text: 'Init steam failed!'
+        });
+        return false;
+      } catch (error) {
+        throwError_throwError(error, 'Steam.init');
+        return false;
+      }
+    }
+    async toggle(_ref) {
+      let {
+        doTask = true,
+        groupLinks = [],
+        wishlistLinks = [],
+        followLinks = [],
+        forumLinks = [],
+        workshopLinks = [],
+        curatorLinks = []
+      } = _ref;
+      try {
+        if (!Steam_classPrivateFieldGet(this, Steam_initialized)) {
+          scripts_echoLog({
+            type: 'text',
+            text: '请先初始化'
+          });
+          return false;
+        }
+        const prom = [];
+        const realGroups = this.getRealParams('groups', [], groupLinks, doTask, link => {
+          var _link$match;
+          return (_link$match = link.match(/groups\/(.+)\/?/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
+        });
+        const realWishlists = this.getRealParams('wishlists', [], wishlistLinks, doTask, link => {
+          var _link$match2;
+          return (_link$match2 = link.match(/app\/([\d]+)/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1];
+        });
+        const realFollows = this.getRealParams('follows', [], followLinks, doTask, link => {
+          var _link$match3;
+          return (_link$match3 = link.match(/app\/([\d]+)/)) === null || _link$match3 === void 0 ? void 0 : _link$match3[1];
+        });
+        const realForums = this.getRealParams('forums', [], forumLinks, doTask, link => {
+          var _link$match4;
+          return (_link$match4 = link.match(/app\/([\d]+)/)) === null || _link$match4 === void 0 ? void 0 : _link$match4[1];
+        });
+        const realWorkshops = this.getRealParams('workshops', [], workshopLinks, doTask, link => {
+          var _link$match5;
+          return (_link$match5 = link.match(/\?id=([\d]+)/)) === null || _link$match5 === void 0 ? void 0 : _link$match5[1];
+        });
+        if (realGroups.length > 0) {
+          for (const group of realGroups) {
+            if (doTask) {
+              prom.push(Steam_classPrivateMethodGet(this, _joinGroup, _joinGroup2).call(this, group));
+            } else {
+              prom.push(Steam_classPrivateMethodGet(this, _leaveGroup, _leaveGroup2).call(this, group));
+            }
+            await delay(1e3);
+          }
+        }
+        if (realWishlists.length > 0) {
+          for (const game of realWishlists) {
+            if (doTask) {
+              prom.push(Steam_classPrivateMethodGet(this, _addToWishlist, _addToWishlist2).call(this, game));
+            } else {
+              prom.push(Steam_classPrivateMethodGet(this, _removeFromWishlist, _removeFromWishlist2).call(this, game));
+            }
+            await delay(1e3);
+          }
+        }
+        if (realFollows.length > 0) {
+          for (const game of realFollows) {
+            prom.push(Steam_classPrivateMethodGet(this, _toggleFollowGame, _toggleFollowGame2).call(this, game, doTask));
+            await delay(1e3);
+          }
+        }
+        if (realForums.length > 0) {
+          for (const forum of realForums) {
+            prom.push(Steam_classPrivateMethodGet(this, _toggleForum, _toggleForum2).call(this, forum, doTask));
+            await delay(1e3);
+          }
+        }
+        if (realWorkshops.length > 0) {
+          for (const workshop of realWorkshops) {
+            prom.push(Steam_classPrivateMethodGet(this, _toggleFavoriteWorkshop, _toggleFavoriteWorkshop2).call(this, workshop, doTask));
+            await delay(1e3);
+          }
+        }
+        return Promise.all(prom).then(() => true);
+      } catch (error) {
+        throwError_throwError(error, 'Steam.toggle');
+        return false;
+      }
+    }
+  }
+  async function _updateStoreAuth2() {
+    try {
+      const logStatus = scripts_echoLog({
+        type: 'updateSteamStore'
+      });
+      const {
+        result,
+        statusText,
+        status,
+        data
+      } = await tools_httpRequest({
+        url: 'https://store.steampowered.com/stats/',
+        method: 'GET'
+      });
+      if (result === 'Success') {
+        if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+          var _data$responseText$ma;
+          if (data.responseText.includes('href="https://store.steampowered.com/login/')) {
+            logStatus.error(`Error:${i18n('loginSteamStore')}`, true);
+            return false;
+          }
+          const storeSessionID = (_data$responseText$ma = data.responseText.match(/g_sessionID = "(.+?)";/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
+          if (storeSessionID) {
+            Steam_classPrivateFieldGet(this, Steam_auth).storeSessionID = storeSessionID;
+            logStatus.success();
+            return true;
+          }
+          logStatus.error('Error: Get "sessionID" failed');
+          return false;
+        }
+        logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError_throwError(error, 'Steam.updateStoreAuth');
+      return false;
+    }
+  }
+  async function _updateCommunityAuth2() {
+    try {
+      const logStatus = scripts_echoLog({
+        type: 'updateSteamCommunity'
+      });
+      const {
+        result,
+        statusText,
+        status,
+        data
+      } = await tools_httpRequest({
+        url: 'https://steamcommunity.com/my',
+        method: 'GET'
+      });
+      if (result === 'Success') {
+        if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+          var _data$responseText$ma2, _data$responseText$ma3, _data$responseText$ma4;
+          if (data.responseText.includes('href="https://steamcommunity.com/login/home/')) {
+            logStatus.error(`Error:${i18n('loginSteamCommunity')}`, true);
+            return false;
+          }
+          const steam64Id = (_data$responseText$ma2 = data.responseText.match(/g_steamID = "(.+?)";/)) === null || _data$responseText$ma2 === void 0 ? void 0 : _data$responseText$ma2[1];
+          const communitySessionID = (_data$responseText$ma3 = data.responseText.match(/g_sessionID = "(.+?)";/)) === null || _data$responseText$ma3 === void 0 ? void 0 : _data$responseText$ma3[1];
+          const userName = (_data$responseText$ma4 = data.responseText.match(/steamcommunity.com\/id\/(.+?)\/friends\//)) === null || _data$responseText$ma4 === void 0 ? void 0 : _data$responseText$ma4[1];
+          if (steam64Id) {
+            Steam_classPrivateFieldGet(this, Steam_auth).steam64Id = steam64Id;
+          }
+          if (userName) {
+            Steam_classPrivateFieldGet(this, Steam_auth).userName = userName;
+          }
+          if (communitySessionID) {
+            Steam_classPrivateFieldGet(this, Steam_auth).communitySessionID = communitySessionID;
+            logStatus.success();
+            return true;
+          }
+          logStatus.error('Error: Get "sessionID" failed');
+          return false;
+        }
+        logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError_throwError(error, 'Steam.updateCommunityAuth');
+      return false;
+    }
+  }
+  async function _getAreaInfo2() {
+    try {
+      const logStatus = echoLog({
+        type: 'text',
+        text: 'getCountryInfo'
+      });
+      const {
+        result,
+        statusText,
+        status,
+        data
+      } = await httpRequest({
+        url: 'https://store.steampowered.com/cart/',
+        method: 'GET'
+      });
+      if (result === 'Success') {
+        if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+          var _data$responseText$ma5;
+          const currentArea = (_data$responseText$ma5 = data.responseText.match(/<input id="usercountrycurrency".*?value="(.+?)"/)) === null || _data$responseText$ma5 === void 0 ? void 0 : _data$responseText$ma5[1];
+          const areas = [ ...data.responseText.matchAll(/<div class="currency_change_option .*?" data-country="(.+?)" >/g) ].map(search => search[1]);
+          if (currentArea && areas.length > 0) {
+            logStatus.success();
+            return {
+              currentArea: currentArea,
+              areas: areas
+            };
+          }
+          logStatus.error('Error: get country info filed');
+          return {};
+        }
+        logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+        return {};
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return {};
+    } catch (error) {
+      throwError(error, 'Steam.getAreaInfo');
+      return {};
+    }
+  }
+  async function _changeArea2(area) {
+    try {
+      let aimedArea = area;
+      if (!area) {
+        const {
+          currentArea,
+          areas
+        } = await Steam_classPrivateMethodGet(this, _getAreaInfo, _getAreaInfo2).call(this);
+        if (!currentArea || !areas) {
+          return false;
+        }
+        if (currentArea !== 'CN') {
+          echoLog({
+            type: 'text',
+            text: 'notNeedChangeCountry'
+          });
+          return 'skip';
+        }
+        const anotherArea = areas.filter(area => area && area !== 'CN');
+        if (!anotherArea || anotherArea.length === 0) {
+          echoLog({
+            type: 'text',
+            text: 'noAnotherCountry'
+          });
+          return false;
+        }
+        [ aimedArea ] = anotherArea;
+      }
+      const logStatus = echoLog({
+        type: 'changeCountry',
+        text: aimedArea
+      });
+      const {
+        result,
+        statusText,
+        status,
+        data
+      } = await httpRequest({
+        url: 'https://store.steampowered.com/account/setcountry',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        data: $.param({
+          aimedArea: aimedArea,
+          sessionid: Steam_classPrivateFieldGet(this, Steam_auth).storeSessionID
+        })
+      });
+      if (result === 'Success') {
+        if ((data === null || data === void 0 ? void 0 : data.status) === 200 && data.responseText === 'true') {
+          const {
+            currentArea
+          } = await Steam_classPrivateMethodGet(this, _getAreaInfo, _getAreaInfo2).call(this);
+          if (currentArea === aimedArea) {
+            logStatus.success();
+            return currentArea;
+          }
+          logStatus.error('Error: change country filed');
+          return 'CN';
+        }
+        logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+        return 'CN';
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return 'CN';
+    } catch (error) {
+      throwError(error, 'Steam.changeArea');
+      return false;
+    }
+  }
+  async function _joinGroup2(groupName) {
+    try {
+      const logStatus = scripts_echoLog({
+        type: 'joinSteamGroup',
+        text: groupName
+      });
+      const {
+        result,
+        statusText,
+        status,
+        data
+      } = await tools_httpRequest({
+        url: `https://steamcommunity.com/groups/${groupName}`,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        data: $.param({
+          action: 'join',
+          sessionID: Steam_classPrivateFieldGet(this, Steam_auth).communitySessionID
+        })
+      });
+      if (result === 'Success') {
+        if ((data === null || data === void 0 ? void 0 : data.status) === 200 && !data.responseText.includes('grouppage_join_area')) {
+          logStatus.success();
+          this.tasks.groups = unique([ ...this.tasks.groups, groupName ]);
+          return true;
+        }
+        logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError_throwError(error, 'Steam.joinGroup');
+      return false;
+    }
+  }
+  async function _leaveGroup2(groupName) {
+    try {
+      if (this.whiteList.groups.includes(groupName)) {
+        scripts_echoLog({
+          type: 'whiteList',
+          text: groupName
+        });
+        return true;
+      }
+      const groupId = await Steam_classPrivateMethodGet(this, _getGroupId, _getGroupId2).call(this, groupName);
+      if (!groupId) {
+        return false;
+      }
+      const logStatus = scripts_echoLog({
+        type: 'leaveSteamGroup',
+        text: groupName
+      });
+      const {
+        result,
+        statusText,
+        status,
+        data
+      } = await tools_httpRequest({
+        url: `https://steamcommunity.com/id/${Steam_classPrivateFieldGet(this, Steam_auth).userName}/home_process`,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        data: $.param({
+          sessionID: Steam_classPrivateFieldGet(this, Steam_auth).communitySessionID,
+          action: 'leaveGroup',
+          groupId: groupId
+        })
+      });
+      if (result === 'Success') {
+        if ((data === null || data === void 0 ? void 0 : data.status) === 200 && data.finalUrl.includes('groups') && $(data.responseText.replace(/<img.*?>/g, '').toLowerCase()).find(`a[href='https://steamcommunity.com/groups/${groupName.toLowerCase()}']`).length === 0) {
+          logStatus.success();
+          return true;
+        }
+        logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError_throwError(error, 'Steam.leaveGroup');
+      return false;
+    }
+  }
+  async function _getGroupId2(groupName) {
+    try {
+      const logStatus = scripts_echoLog({
+        type: 'getSteamGroupId',
+        text: groupName
+      });
+      const {
+        result,
+        statusText,
+        status,
+        data
+      } = await tools_httpRequest({
+        url: `https://steamcommunity.com/groups/${groupName}`,
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+      });
+      if (result === 'Success') {
+        if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+          var _data$responseText$ma6;
+          const groupId = (_data$responseText$ma6 = data.responseText.match(/OpenGroupChat\( '([0-9]+)'/)) === null || _data$responseText$ma6 === void 0 ? void 0 : _data$responseText$ma6[1];
+          if (groupId) {
+            logStatus.success();
+            return groupId;
+          }
+          logStatus.error(`Error:${data.statusText}(${data.status})`);
+          return false;
+        }
+        logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError_throwError(error, 'Steam.getGroupID');
+      return false;
+    }
+  }
+  async function _addToWishlist2(gameId) {
+    try {
+      var _data$response;
+      const logStatus = scripts_echoLog({
+        type: 'addWishlist',
+        text: gameId
+      });
+      const {
+        result,
+        data
+      } = await tools_httpRequest({
+        url: 'https://store.steampowered.com/api/addtowishlist',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        data: $.param({
+          sessionid: Steam_classPrivateFieldGet(this, Steam_auth).storeSessionID,
+          appid: gameId
+        }),
+        dataType: 'json'
+      });
+      if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200 && ((_data$response = data.response) === null || _data$response === void 0 ? void 0 : _data$response.success) === true) {
+        logStatus.success();
+        this.tasks.wishlists = unique([ ...this.whiteList.wishlists, gameId ]);
+        return true;
+      }
+      const {
+        result: resultR,
+        statusText: statusTextR,
+        status: statusR,
+        data: dataR
+      } = await tools_httpRequest({
+        url: `https://store.steampowered.com/app/${gameId}`,
+        method: 'GET'
+      });
+      if (resultR === 'Success') {
+        if ((dataR === null || dataR === void 0 ? void 0 : dataR.status) === 200) {
+          if (dataR.responseText.includes('class="queue_actions_ctn"') && dataR.responseText.includes('class="already_in_library"')) {
+            logStatus.success();
+            this.tasks.wishlists = unique([ ...this.whiteList.wishlists, gameId ]);
+            return true;
+          } else if (dataR.responseText.includes('class="queue_actions_ctn"') && dataR.responseText.includes('id="add_to_wishlist_area_success" style="display: none;') || !dataR.responseText.includes('class="queue_actions_ctn"')) {
+            logStatus.error(`Error:${dataR.statusText}(${dataR.status})`);
+            return false;
+          }
+          logStatus.success();
+          this.tasks.wishlists = unique([ ...this.whiteList.wishlists, gameId ]);
+          return true;
+        }
+        logStatus.error(`Error:${dataR === null || dataR === void 0 ? void 0 : dataR.statusText}(${dataR === null || dataR === void 0 ? void 0 : dataR.status})`);
+        return false;
+      }
+      logStatus.error(`${resultR}:${statusTextR}(${statusR})`);
+      return false;
+    } catch (error) {
+      throwError_throwError(error, 'Steam.addToWishlist');
+      return false;
+    }
+  }
+  async function _removeFromWishlist2(gameId) {
+    try {
+      var _data$response2;
+      if (this.whiteList.wishlists.includes(gameId)) {
+        scripts_echoLog({
+          type: 'whiteList',
+          text: gameId
+        });
+        return true;
+      }
+      const logStatus = scripts_echoLog({
+        type: 'removeWishlist',
+        text: gameId
+      });
+      const {
+        result,
+        data
+      } = await tools_httpRequest({
+        url: 'https://store.steampowered.com/api/removefromwishlist',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        data: $.param({
+          sessionid: Steam_classPrivateFieldGet(this, Steam_auth).storeSessionID,
+          appid: gameId
+        }),
+        dataType: 'json'
+      });
+      if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200 && ((_data$response2 = data.response) === null || _data$response2 === void 0 ? void 0 : _data$response2.success) === true) {
+        logStatus.success();
+        return true;
+      }
+      const {
+        result: resultR,
+        statusText: statusTextR,
+        status: statusR,
+        data: dataR
+      } = await tools_httpRequest({
+        url: `https://store.steampowered.com/app/${gameId}`,
+        method: 'GET'
+      });
+      if (resultR === 'Success') {
+        if ((dataR === null || dataR === void 0 ? void 0 : dataR.status) === 200) {
+          if (dataR.responseText.includes('class="queue_actions_ctn"') && (dataR.responseText.includes('已在库中') || dataR.responseText.includes('添加至您的愿望单'))) {
+            logStatus.success();
+            return true;
+          }
+          logStatus.error(`Error:${dataR.statusText}(${dataR.status})`);
+          return false;
+        }
+        logStatus.error(`Error:${dataR === null || dataR === void 0 ? void 0 : dataR.statusText}(${dataR === null || dataR === void 0 ? void 0 : dataR.status})`);
+        return false;
+      }
+      logStatus.error(`${resultR}:${statusTextR}(${statusR})`);
+      return false;
+    } catch (error) {
+      throwError_throwError(error, 'Steam.removeFromWishlist');
+      return false;
+    }
+  }
+  async function _toggleFollowGame2(gameId, doTask) {
+    try {
+      if (!doTask && this.whiteList.follows.includes(gameId)) {
+        scripts_echoLog({
+          type: 'whiteList',
+          text: gameId
+        });
+        return true;
+      }
+      const logStatus = scripts_echoLog({
+        type: `${doTask ? '' : 'un'}followGame`,
+        text: gameId
+      });
+      const requestData = {
+        sessionid: Steam_classPrivateFieldGet(this, Steam_auth).storeSessionID,
+        appid: gameId
+      };
+      if (!doTask) {
+        requestData.unfollow = '1';
+      }
+      const {
+        result,
+        data
+      } = await tools_httpRequest({
+        url: 'https://store.steampowered.com/explore/followgame/',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        data: $.param(requestData)
+      });
+      if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200 && data.responseText === 'true') {
+        logStatus.success();
+        return true;
+      }
+      const followed = await Steam_classPrivateMethodGet(this, _isFollowedGame, _isFollowedGame2).call(this, gameId);
+      if (doTask === followed) {
+        logStatus.success();
+        if (doTask) {
+          this.tasks.follows = unique([ ...this.whiteList.follows, gameId ]);
+        }
+        return true;
+      }
+      logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+      return false;
+    } catch (error) {
+      throwError_throwError(error, 'Steam.toggleFollowGame');
+      return false;
+    }
+  }
+  async function _isFollowedGame2(gameId) {
+    try {
+      const {
+        result,
+        data
+      } = await tools_httpRequest({
+        url: `https://store.steampowered.com/app/${gameId}`,
+        method: 'GET'
+      });
+      if (result === 'Success') {
+        if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+          if ($(data.responseText.replace(/<img.*?>/g, '')).find('.queue_control_button.queue_btn_follow>.btnv6_blue_hoverfade.btn_medium.queue_btn_active').css('display') !== 'none') {
+            return true;
+          }
+          return false;
+        }
+        return false;
+      }
+      return false;
+    } catch (error) {
+      throwError_throwError(error, 'Steam.isFollowedGame');
+      return false;
+    }
+  }
+  async function _toggleForum2(gameId) {
+    let doTask = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+    try {
+      if (!doTask && this.whiteList.forums.includes(gameId)) {
+        scripts_echoLog({
+          type: 'whiteList',
+          text: gameId
+        });
+        return true;
+      }
+      const forumId = await Steam_classPrivateMethodGet(this, _getForumId, _getForumId2).call(this, gameId);
+      if (!forumId) {
+        return false;
+      }
+      const logStatus = scripts_echoLog({
+        type: `${doTask ? '' : 'un'}subscribeForum`,
+        text: gameId
+      });
+      const [ id, feature ] = forumId.split('_');
+      const {
+        result,
+        statusText,
+        status,
+        data
+      } = await tools_httpRequest({
+        url: `https://steamcommunity.com/forum/${id}/General/${doTask ? '' : 'un'}subscribe/${feature || '0'}/`,
+        method: 'POST',
+        responseType: 'json',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        data: $.param({
+          sessionid: Steam_classPrivateFieldGet(this, Steam_auth).communitySessionID
+        })
+      });
+      if (result === 'Success') {
+        var _data$response3, _data$response4;
+        if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (((_data$response3 = data.response) === null || _data$response3 === void 0 ? void 0 : _data$response3.success) === 1 || ((_data$response4 = data.response) === null || _data$response4 === void 0 ? void 0 : _data$response4.success) === 29)) {
+          if (doTask) {
+            this.tasks.forums = unique([ ...this.tasks.forums, gameId ]);
+          }
+          logStatus.success();
+          return true;
+        }
+        logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+        return true;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return true;
+    } catch (error) {
+      throwError_throwError(error, 'Steam.toggleForum');
+      return true;
+    }
+  }
+  async function _getForumId2(gameId) {
+    try {
+      const logStatus = scripts_echoLog({
+        type: 'getForumId',
+        text: gameId
+      });
+      const {
+        result,
+        statusText,
+        status,
+        data
+      } = await tools_httpRequest({
+        url: `https://steamcommunity.com/app/${gameId}/discussions/`,
+        method: 'GET'
+      });
+      if (result === 'Success') {
+        if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+          var _data$responseText, _data$responseText$ma7;
+          const forumId = (_data$responseText = data.responseText) === null || _data$responseText === void 0 ? void 0 : (_data$responseText$ma7 = _data$responseText.match(/General_([\d]+(_[\d]+)?)/)) === null || _data$responseText$ma7 === void 0 ? void 0 : _data$responseText$ma7[1];
+          if (forumId) {
+            logStatus.success();
+            return forumId;
+          }
+          logStatus.error(`Error:${data.statusText}(${data.status})`);
+          return false;
+        }
+        logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError_throwError(error, 'Steam.getForumId');
+      return false;
+    }
+  }
+  async function _toggleFavoriteWorkshop2(id) {
+    let doTask = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+    try {
+      if (!doTask && this.whiteList.workshops.includes(id)) {
+        scripts_echoLog({
+          type: 'whiteList',
+          text: id
+        });
+        return true;
+      }
+      const appid = await Steam_classPrivateMethodGet(this, _getWorkshopAppId, _getWorkshopAppId2).call(this, id);
+      if (!appid) {
+        return false;
+      }
+      const logStatus = scripts_echoLog({
+        type: doTask ? 'favoriteWorkshop' : 'unfavoriteWorkshop',
+        text: id
+      });
+      const {
+        result,
+        statusText,
+        status,
+        data
+      } = await tools_httpRequest({
+        url: `https://steamcommunity.com/sharedfiles/${doTask ? '' : 'un'}favorite`,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        data: $.param({
+          id: id,
+          appid: appid,
+          sessionid: Steam_classPrivateFieldGet(this, Steam_auth).communitySessionID
+        })
+      });
+      if (result === 'Success') {
+        if ((data === null || data === void 0 ? void 0 : data.status) === 200 && !data.responseText) {
+          if (doTask) {
+            this.tasks.workshops = unique([ ...this.tasks.workshops, id ]);
+          }
+          logStatus.success();
+          return true;
+        }
+        logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError_throwError(error, 'Steam.toggleFavoriteWorkshop');
+      return false;
+    }
+  }
+  async function _getWorkshopAppId2(id) {
+    try {
+      const logStatus = scripts_echoLog({
+        type: 'getWorkshopAppId',
+        text: id
+      });
+      const {
+        result,
+        statusText,
+        status,
+        data
+      } = await tools_httpRequest({
+        url: `https://steamcommunity.com/sharedfiles/filedetails/?id=${id}`,
+        method: 'GET'
+      });
+      if (result === 'Success') {
+        if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+          var _data$responseText$ma8;
+          const appid = (_data$responseText$ma8 = data.responseText.match(/<input type="hidden" name="appid" value="([\d]+?)" \/>/)) === null || _data$responseText$ma8 === void 0 ? void 0 : _data$responseText$ma8[1];
+          if (appid) {
+            logStatus.success();
+            return appid;
+          }
+          logStatus.error('Error: getWorkshopAppId failed');
+          return false;
+        }
+        logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError_throwError(error, 'Steam.getWorkshopAppId');
+      return false;
+    }
+  }
+  async function _voteupWorkshop2(id) {
+    try {
+      const logStatus = echoLog({
+        type: 'voteupWorkshop',
+        text: id
+      });
+      const {
+        result,
+        statusText,
+        status,
+        data
+      } = await httpRequest({
+        url: 'https://steamcommunity.com/sharedfiles/voteup',
+        method: 'POST',
+        responseType: 'json',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        data: $.param({
+          id: id,
+          sessionid: Steam_classPrivateFieldGet(this, Steam_auth).communitySessionID
+        })
+      });
+      if (result === 'Success') {
+        var _data$response5;
+        if ((data === null || data === void 0 ? void 0 : data.status) === 200 && ((_data$response5 = data.response) === null || _data$response5 === void 0 ? void 0 : _data$response5.success) === 1) {
+          logStatus.success();
+          return true;
+        }
+        logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+        return true;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return true;
+    } catch (error) {
+      throwError(error, 'Steam.voteupWorkshop');
+      return true;
+    }
+  }
+  async function _toggleCurator2(curatorId, logStatus) {
+    let doTask = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+    try {
+      if (!doTask && this.whiteList.curators.includes(curatorId)) {
+        echoLog({
+          type: 'whiteList',
+          text: curatorId
+        });
+        return true;
+      }
+      const {
+        result,
+        statusText,
+        status,
+        data
+      } = await httpRequest({
+        url: 'https://store.steampowered.com/curators/ajaxfollow',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        data: $.param({
+          clanid: curatorId,
+          sessionid: Steam_classPrivateFieldGet(this, Steam_auth).storeSessionID,
+          follow: doTask
+        }),
+        dataType: 'json'
+      });
+      if (result === 'Success') {
+        var _data$response6, _data$response6$succe, _data$response7;
+        if ((data === null || data === void 0 ? void 0 : data.status) === 200 && ((_data$response6 = data.response) === null || _data$response6 === void 0 ? void 0 : (_data$response6$succe = _data$response6.success) === null || _data$response6$succe === void 0 ? void 0 : _data$response6$succe.success) === 1) {
+          logStatus.success();
+          return true;
+        }
+        logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : (_data$response7 = data.response) === null || _data$response7 === void 0 ? void 0 : _data$response7.success}` || `${data === null || data === void 0 ? void 0 : data.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error, 'Steam.toggleCurator');
+      return false;
+    }
+  }
+  async function _getCuratorId2(developerName, path) {
+    try {
+      const logStatus = echoLog({
+        type: 'getCuratorId',
+        text: `${path}/${developerName}`
+      });
+      const {
+        result,
+        statusText,
+        status,
+        data
+      } = await httpRequest({
+        url: `https://store.steampowered.com/${path}/${developerName}`,
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+      });
+      if (result === 'Success') {
+        if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+          var _data$responseText$ma9;
+          const developerId = (_data$responseText$ma9 = data.responseText.match(/g_pagingData.*?"clanid":([\d]+)/)) === null || _data$responseText$ma9 === void 0 ? void 0 : _data$responseText$ma9[1];
+          if (developerId) {
+            logStatus.success();
+            return developerId;
+          }
+          logStatus.error(`Error:${data.statusText}(${data.status})`);
+          return false;
+        }
+        logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error, 'Steam.getCuratorID');
+      return false;
+    }
+  }
+  async function _toggleCuratorLike2(link) {
+    let doTask = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+    try {
+      const [ name, path ] = link;
+      const curatorId = await Steam_classPrivateMethodGet(this, _getCuratorId, _getCuratorId2).call(this, name, path);
+      if (curatorId) {
+        const logStatus = echoLog({
+          type: `${doTask ? '' : 'un'}follow${path.replace(/^\S/, s => s.toUpperCase())}`,
+          text: name
+        });
+        return await Steam_classPrivateMethodGet(this, _toggleCurator, _toggleCurator2).call(this, curatorId, logStatus, doTask);
+      }
+      return false;
+    } catch (error) {
+      throwError(error, 'Steam.toggleCuratorLike');
+      return false;
+    }
+  }
+  const social_Steam = Steam;
   if (window.location.hostname === 'discord.com' && window.location.hash === '#auth') {
     var _window$localStorage$;
     GM_setValue('discordAuth', {
@@ -3257,6 +4319,7 @@
     unsafeWindow.Twitter = social_Twitter;
     unsafeWindow.Vk = social_Vk;
     unsafeWindow.Youtube = social_Youtube;
+    unsafeWindow.Steam = social_Steam;
     $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;"></div>');
   };
 })();
