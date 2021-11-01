@@ -9,14 +9,6 @@
 import throwError from './tools/throwError';
 import getI18n from './i18n/i18n';
 
-interface logStatus {
-  font?: JQuery
-  success: (text?: string, html?: boolean) => logStatus
-  error: (text?: string, html?: boolean) => logStatus
-  warning: (text?: string, html?: boolean) => logStatus
-  info: (text?: string, html?: boolean) => logStatus
-  view: (text?: string, html?: boolean) => logStatus
-}
 const echoLog = ({ type = 'text', text, url, id }: { type?: string, text?: string, url?: string, id?: string }): logStatus => {
   try {
     let ele: JQuery;

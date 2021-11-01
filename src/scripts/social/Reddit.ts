@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-30 09:43:32
- * @LastEditTime : 2021-10-31 18:02:53
+ * @LastEditTime : 2021-11-01 13:43:00
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Reddit.ts
  * @Description  : Reddit 订阅&取消订阅
@@ -16,16 +16,14 @@ import { unique, delay } from '../tools/tools';
 
 class Reddit extends Social {
   tasks: redditTasks;
-  whiteList: redditTasks;
-  #auth: auth;
+  whiteList: redditTasks = GM_getValue<whiteList>('whiteList')?.reddit || { reddits: [] }; // eslint-disable-line new-cap
+  #auth: auth = GM_getValue<auth>('redditAuth') || {}; // eslint-disable-line new-cap
   #initialized = false;
 
   // TODO: 任务识别
-  constructor(id: string) {
+  constructor(tasks: redditTasks) {
     super();
-    this.tasks = GM_getValue<redditTasks>(`Reddit-${id}`) || { reddits: [] }; // eslint-disable-line new-cap
-    this.whiteList = GM_getValue<whiteList>('whiteList')?.reddit || { reddits: [] }; // eslint-disable-line new-cap
-    this.#auth = GM_getValue<auth>('redditAuth') || {}; // eslint-disable-line new-cap
+    this.tasks = tasks || { reddits: [] }; // eslint-disable-line new-cap
   }
 
   // 通用化

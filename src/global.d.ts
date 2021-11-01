@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 13:18:21
- * @LastEditTime : 2021-10-30 13:28:23
+ * @LastEditTime : 2021-11-01 14:27:34
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/global.d.ts
  */
@@ -79,6 +79,14 @@ declare global {
   interface redditTasks {
     reddits: Array<string>
   }
+  interface steamTasks {
+    groups: Array<string>
+    wishlists: Array<string>
+    follows: Array<string>
+    forums: Array<string>
+    workshops: Array<string>
+    curators: Array<string>
+  }
   interface twitchTasks {
     channels: Array<string>
   }
@@ -102,6 +110,7 @@ declare global {
     vk?: vkTasks
     youtube?: youtubeTasks
     reddit?: redditTasks
+    steam?: steamTasks
   }
   interface auth {
     token?: string
@@ -113,11 +122,23 @@ declare global {
     ct0?: string
     isLogin?: boolean
     PAPISID?: string
+    storeSessionID?: string
+    communitySessionID?: string
+    steam64Id?: string
+    userName?: string
   }
   interface cache {
     [name: string]: string
   }
 
+  interface logStatus {
+    font?: JQuery
+    success: (text?: string, html?: boolean) => logStatus
+    error: (text?: string, html?: boolean) => logStatus
+    warning: (text?: string, html?: boolean) => logStatus
+    info: (text?: string, html?: boolean) => logStatus
+    view: (text?: string, html?: boolean) => logStatus
+  }
   function GM_xmlhttpRequest(details: MonkeyXhrDetails): { abort: () => void } // eslint-disable-line camelcase
   function GM_setValue(name: string, value: any): void // eslint-disable-line camelcase
   function GM_getValue<T>(name: string, defaultValue?: T): T // eslint-disable-line camelcase

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 12:18:06
- * @LastEditTime : 2021-10-31 16:50:49
+ * @LastEditTime : 2021-11-01 13:46:07
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Youtube.ts
  * @Description  : Youtube 订阅/取消订阅频道，点赞/取消点赞视频
@@ -48,17 +48,15 @@ interface likeVideoData {
 }
 class Youtube extends Social {
   tasks: youtubeTasks;
-  whiteList: youtubeTasks;
-  #auth: auth;
+  whiteList: youtubeTasks = GM_getValue<whiteList>('whiteList')?.youtube || { channels: [], likes: [] }; // eslint-disable-line new-cap
+  #auth: auth = GM_getValue<auth>('youtubeAuth') || {}; // eslint-disable-line new-cap
   #initialized = false;
   #verifyChannel = 'https://www.youtube.com/channel/UCBR8-60-B28hp2BmDPdntcQ';
 
   // TODO: 任务识别
-  constructor(id: string, verifyChannel?: string) {
+  constructor(tasks: youtubeTasks, verifyChannel?: string) {
     super();
-    this.tasks = GM_getValue<youtubeTasks>(`Youtube-${id}`) || { channels: [], likes: [] }; // eslint-disable-line new-cap
-    this.whiteList = GM_getValue<whiteList>('whiteList')?.youtube || { channels: [], likes: [] }; // eslint-disable-line new-cap
-    this.#auth = GM_getValue<auth>('youtubeAuth') || {}; // eslint-disable-line new-cap
+    this.tasks = tasks || { channels: [], likes: [] }; // eslint-disable-line new-cap
     if (verifyChannel) {
       this.#verifyChannel = verifyChannel;
     }

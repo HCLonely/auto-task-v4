@@ -2,7 +2,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 16:22:46
- * @LastEditTime : 2021-10-31 18:23:06
+ * @LastEditTime : 2021-11-01 13:43:03
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/webpack.config.js
  * @Description  :
@@ -15,7 +15,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.ts', '.json']
   },
-  devtool: false, // 打包出的js文件是否生成map文件（方便浏览器调试）
+  devtool: false,
   mode: 'production',
   performance: {
     maxEntrypointSize: 512000,
@@ -25,7 +25,7 @@ module.exports = {
     index: './src/index.ts'
   },
   output: {
-    filename: '[name].js', // 生成的fiename需要与package.json中的main一致
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
     environment: {

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2021-10-31 16:22:34
+ * @LastEditTime : 2021-11-01 13:41:49
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
@@ -16,18 +16,15 @@ import echoLog from '../echoLog';
 
 class Discord extends Social {
   tasks: discordTasks;
-  whiteList: discordTasks;
-  #auth: auth;
-  #cache: cache;
+  whiteList: discordTasks = GM_getValue<whiteList>('whiteList')?.discord || { servers: [] }; // eslint-disable-line new-cap
+  #auth: auth = GM_getValue<auth>('discordAuth') || {}; // eslint-disable-line new-cap
+  #cache: cache = GM_getValue<cache>('discordCache') || {}; // eslint-disable-line new-cap
   #initialized = false;
 
   // TODO: 任务识别
-  constructor(id: string) {
+  constructor(tasks: discordTasks) {
     super();
-    this.tasks = GM_getValue<discordTasks>(`Discord-${id}`) || { servers: [] }; // eslint-disable-line new-cap
-    this.whiteList = GM_getValue<whiteList>('whiteList')?.discord || { servers: [] }; // eslint-disable-line new-cap
-    this.#cache = GM_getValue<cache>('discordCache') || {}; // eslint-disable-line new-cap
-    this.#auth = GM_getValue<auth>('discordAuth') || {}; // eslint-disable-line new-cap
+    this.tasks = tasks || { servers: [] }; // eslint-disable-line new-cap
   }
   // TODO:优化
   async init(): Promise<boolean> {

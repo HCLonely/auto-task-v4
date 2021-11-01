@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:00:41
- * @LastEditTime : 2021-10-31 16:50:31
+ * @LastEditTime : 2021-11-01 13:44:04
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitch.ts
  * @Description  : Twitch 关注/取关频道
@@ -15,16 +15,14 @@ import { unique, delay } from '../tools/tools';
 
 class Twitch extends Social {
   tasks: twitchTasks;
-  whiteList: twitchTasks;
-  #auth: auth;
+  whiteList: twitchTasks = GM_getValue<whiteList>('whiteList')?.twitch || { channels: [] }; // eslint-disable-line new-cap
+  #auth: auth = GM_getValue<auth>('twitchAuth') || {}; // eslint-disable-line new-cap
   #initialized = false;
 
   // TODO: 任务识别
-  constructor(id: string) {
+  constructor(tasks: twitchTasks) {
     super();
-    this.tasks = GM_getValue<twitchTasks>(`Twitch-${id}`) || { channels: [] }; // eslint-disable-line new-cap
-    this.whiteList = GM_getValue<whiteList>('whiteList')?.twitch || { channels: [] }; // eslint-disable-line new-cap
-    this.#auth = GM_getValue<auth>('twitchAuth') || {}; // eslint-disable-line new-cap
+    this.tasks = tasks || { channels: [] }; // eslint-disable-line new-cap
   }
 
   // 通用化,log

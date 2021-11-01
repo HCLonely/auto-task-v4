@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 11:47:59
- * @LastEditTime : 2021-10-31 13:06:34
+ * @LastEditTime : 2021-11-01 13:45:29
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Vk.ts
  * @Description  : Vk 加入/退出群组，关注/取关用户，转发动态
@@ -27,17 +27,15 @@ interface dataParams {
 }
 class Vk extends Social {
   tasks: vkTasks;
-  whiteList: vkTasks;
+  whiteList: vkTasks = GM_getValue<whiteList>('whiteList')?.vk || { names: [] }; // eslint-disable-line new-cap
   #username = '';
-  #cache: cache;
+  #cache: cache = GM_getValue<cache>('vkCache') || {}; // eslint-disable-line new-cap
   #initialized = false;
 
   // TODO: 任务识别
-  constructor(id: string) {
+  constructor(tasks: vkTasks) {
     super();
-    this.tasks = GM_getValue<vkTasks>(`Vk-${id}`) || { names: [] }; // eslint-disable-line new-cap
-    this.whiteList = GM_getValue<whiteList>('whiteList')?.vk || { names: [] }; // eslint-disable-line new-cap
-    this.#cache = GM_getValue<cache>('vkCache') || {}; // eslint-disable-line new-cap
+    this.tasks = tasks || { names: [] }; // eslint-disable-line new-cap
   }
 
   // 通用化,log

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-29 12:54:16
- * @LastEditTime : 2021-10-31 16:21:35
+ * @LastEditTime : 2021-11-01 13:42:23
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Instagram.ts
  * @Description  : Instagram 关注&取关用户
@@ -16,15 +16,14 @@ import { unique, delay } from '../tools/tools';
 
 class Instagram extends Social {
   tasks: instagramTasks;
-  whiteList: instagramTasks;
+  whiteList: instagramTasks = GM_getValue<whiteList>('whiteList')?.instagram || { users: [] }; // eslint-disable-line new-cap
   #auth!: auth;
   #initialized = false;
 
   // TODO: 任务识别
-  constructor(id: string) {
+  constructor(tasks: instagramTasks) {
     super();
-    this.tasks = GM_getValue<instagramTasks>(`Instagram-${id}`) || { users: [] }; // eslint-disable-line new-cap
-    this.whiteList = GM_getValue<whiteList>('whiteList')?.instagram || { users: [] }; // eslint-disable-line new-cap
+    this.tasks = tasks || { users: [] }; // eslint-disable-line new-cap
   }
 
   async init(): Promise<boolean> {
