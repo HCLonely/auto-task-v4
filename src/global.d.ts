@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 13:18:21
- * @LastEditTime : 2021-11-01 16:34:23
+ * @LastEditTime : 2021-11-02 14:07:50
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/global.d.ts
  */
@@ -56,7 +56,6 @@ declare global {
     data?: MonkeyXhrResponse
     error?: Error
   }
-
   interface socialTasks {
     servers?: Array<string>
     users?: Array<string>
@@ -72,10 +71,14 @@ declare global {
     follows?: Array<string>
     forums?: Array<string>
     workshops?: Array<string>
-    curator?: Array<string>
+    curators?: Array<string>
+    workshopVotes?: Array<string>
+    curatorLikes?: Array<string>
+    announcements?: Array<string>
   }
   type taskTypes = 'servers' | 'users' | 'reddits' | 'channels' | 'retweets' | 'likes' | 'names' | 'groups' | 'publics' | 'walls' |
-    'wishlists' | 'follows' | 'forums' | 'workshops' | 'curator'
+    'wishlists' | 'follows' | 'forums' | 'workshops' | 'curators' | 'workshopVotes' | 'curatorLikes' | 'announcements'
+
   interface discordTasks {
     servers: Array<string>
   }
@@ -92,6 +95,9 @@ declare global {
     forums: Array<string>
     workshops: Array<string>
     curators: Array<string>
+    workshopVotes: Array<string>
+    curatorLikes: Array<string>
+    announcements: Array<string>
   }
   interface twitchTasks {
     channels: Array<string>

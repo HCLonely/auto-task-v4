@@ -3273,10 +3273,14 @@
   var _toggleCurator = new WeakSet();
   var _getCuratorId = new WeakSet();
   var _toggleCuratorLike = new WeakSet();
+  var _getAnnouncementParams = new WeakSet();
+  var _likeAnnouncement = new WeakSet();
   class Steam extends social_Social {
     constructor(tasks) {
       var _GM_getValue;
       super();
+      Steam_classPrivateMethodInitSpec(this, _likeAnnouncement);
+      Steam_classPrivateMethodInitSpec(this, _getAnnouncementParams);
       Steam_classPrivateMethodInitSpec(this, _toggleCuratorLike);
       Steam_classPrivateMethodInitSpec(this, _getCuratorId);
       Steam_classPrivateMethodInitSpec(this, _toggleCurator);
@@ -3303,7 +3307,10 @@
         follows: [],
         forums: [],
         workshops: [],
-        curators: []
+        workshopVotes: [],
+        curators: [],
+        curatorLikes: [],
+        announcements: []
       });
       Steam_classPrivateFieldInitSpec(this, Steam_auth, {
         writable: true,
@@ -3319,7 +3326,10 @@
         follows: [],
         forums: [],
         workshops: [],
-        curators: []
+        workshopVotes: [],
+        curators: [],
+        curatorLikes: [],
+        announcements: []
       };
     }
     async init() {
@@ -3349,7 +3359,10 @@
         followLinks = [],
         forumLinks = [],
         workshopLinks = [],
-        curatorLinks = []
+        workshopVoteLinks = [],
+        curatorLinks = [],
+        curatorLikeLinks = [],
+        announcementLinks = []
       } = _ref;
       try {
         if (!Steam_classPrivateFieldGet(this, Steam_initialized)) {
@@ -3379,6 +3392,26 @@
         const realWorkshops = this.getRealParams('workshops', [], workshopLinks, doTask, link => {
           var _link$match5;
           return (_link$match5 = link.match(/\?id=([\d]+)/)) === null || _link$match5 === void 0 ? void 0 : _link$match5[1];
+        });
+        const realworkshopVotes = this.getRealParams('workshopVotes', [], workshopVoteLinks, doTask, link => {
+          var _link$match6;
+          return (_link$match6 = link.match(/\?id=([\d]+)/)) === null || _link$match6 === void 0 ? void 0 : _link$match6[1];
+        });
+        const realCurators = this.getRealParams('curators', [], curatorLinks, doTask, link => {
+          var _link$match7;
+          return (_link$match7 = link.match(/curator\/([\d]+)/)) === null || _link$match7 === void 0 ? void 0 : _link$match7[1];
+        });
+        const realCuratorLikes = this.getRealParams('curatorLikes', [], curatorLikeLinks, doTask, link => {
+          var _link$match8;
+          return (_link$match8 = link.match(/https?:\/\/store\.steampowered\.com\/(.*?)\/([^/?]+)/)) === null || _link$match8 === void 0 ? void 0 : _link$match8.slice(1, 3).join('/');
+        });
+        const realAnnouncements = this.getRealParams('announcements', [], announcementLinks, doTask, link => {
+          var _link$match10;
+          if (link.includes('store.steampowered.com')) {
+            var _link$match9;
+            return (_link$match9 = link.match(/store.steampowered.com\/news\/app\/([\d]+)\/view\/([\d]+)/)) === null || _link$match9 === void 0 ? void 0 : _link$match9.slice(1, 3).join('/');
+          }
+          return (_link$match10 = link.match(/steamcommunity.com\/games\/([\d]+)\/announcements\/detail\/([\d]+)/)) === null || _link$match10 === void 0 ? void 0 : _link$match10.slice(1, 3).join('/');
         });
         if (realGroups.length > 0) {
           for (const group of realGroups) {
@@ -3415,6 +3448,30 @@
         if (realWorkshops.length > 0) {
           for (const workshop of realWorkshops) {
             prom.push(Steam_classPrivateMethodGet(this, _toggleFavoriteWorkshop, _toggleFavoriteWorkshop2).call(this, workshop, doTask));
+            await delay(1e3);
+          }
+        }
+        if (doTask && realworkshopVotes.length > 0) {
+          for (const workshop of realworkshopVotes) {
+            prom.push(Steam_classPrivateMethodGet(this, _voteupWorkshop, _voteupWorkshop2).call(this, workshop));
+            await delay(1e3);
+          }
+        }
+        if (realCurators.length > 0) {
+          for (const curator of realCurators) {
+            prom.push(Steam_classPrivateMethodGet(this, _toggleCurator, _toggleCurator2).call(this, curator, null, doTask));
+            await delay(1e3);
+          }
+        }
+        if (realCuratorLikes.length > 0) {
+          for (const curatorLike of realCuratorLikes) {
+            prom.push(Steam_classPrivateMethodGet(this, _toggleCuratorLike, _toggleCuratorLike2).call(this, curatorLike, doTask));
+            await delay(1e3);
+          }
+        }
+        if (doTask && realAnnouncements.length > 0) {
+          for (const id of realAnnouncements) {
+            prom.push(Steam_classPrivateMethodGet(this, _likeAnnouncement, _likeAnnouncement2).call(this, id));
             await delay(1e3);
           }
         }
@@ -4125,7 +4182,7 @@
   }
   async function _voteupWorkshop2(id) {
     try {
-      const logStatus = echoLog({
+      const logStatus = scripts_echoLog({
         type: 'voteupWorkshop',
         text: id
       });
@@ -4134,7 +4191,7 @@
         statusText,
         status,
         data
-      } = await httpRequest({
+      } = await tools_httpRequest({
         url: 'https://steamcommunity.com/sharedfiles/voteup',
         method: 'POST',
         responseType: 'json',
@@ -4158,26 +4215,30 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return true;
     } catch (error) {
-      throwError(error, 'Steam.voteupWorkshop');
+      throwError_throwError(error, 'Steam.voteupWorkshop');
       return true;
     }
   }
-  async function _toggleCurator2(curatorId, logStatus) {
+  async function _toggleCurator2(curatorId, logStatusParam) {
     let doTask = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
     try {
       if (!doTask && this.whiteList.curators.includes(curatorId)) {
-        echoLog({
+        scripts_echoLog({
           type: 'whiteList',
           text: curatorId
         });
         return true;
       }
+      const logStatus = logStatusParam || scripts_echoLog({
+        type: doTask ? 'followCurator' : 'unfollowCurator',
+        text: curatorId
+      });
       const {
         result,
         statusText,
         status,
         data
-      } = await httpRequest({
+      } = await tools_httpRequest({
         url: 'https://store.steampowered.com/curators/ajaxfollow',
         method: 'POST',
         headers: {
@@ -4202,13 +4263,13 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Steam.toggleCurator');
+      throwError_throwError(error, 'Steam.toggleCurator');
       return false;
     }
   }
-  async function _getCuratorId2(developerName, path) {
+  async function _getCuratorId2(path, developerName) {
     try {
-      const logStatus = echoLog({
+      const logStatus = scripts_echoLog({
         type: 'getCuratorId',
         text: `${path}/${developerName}`
       });
@@ -4217,7 +4278,7 @@
         statusText,
         status,
         data
-      } = await httpRequest({
+      } = await tools_httpRequest({
         url: `https://store.steampowered.com/${path}/${developerName}`,
         method: 'GET',
         headers: {
@@ -4241,17 +4302,24 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error, 'Steam.getCuratorID');
+      throwError_throwError(error, 'Steam.getCuratorID');
       return false;
     }
   }
   async function _toggleCuratorLike2(link) {
     let doTask = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
     try {
-      const [ name, path ] = link;
-      const curatorId = await Steam_classPrivateMethodGet(this, _getCuratorId, _getCuratorId2).call(this, name, path);
+      const [ path, name ] = link.split('/');
+      if (!(path && name)) {
+        scripts_echoLog({
+          type: 'text',
+          text: 'Error link'
+        });
+        return false;
+      }
+      const curatorId = await Steam_classPrivateMethodGet(this, _getCuratorId, _getCuratorId2).call(this, path, name);
       if (curatorId) {
-        const logStatus = echoLog({
+        const logStatus = scripts_echoLog({
           type: `${doTask ? '' : 'un'}follow${path.replace(/^\S/, s => s.toUpperCase())}`,
           text: name
         });
@@ -4259,7 +4327,112 @@
       }
       return false;
     } catch (error) {
-      throwError(error, 'Steam.toggleCuratorLike');
+      throwError_throwError(error, 'Steam.toggleCuratorLike');
+      return false;
+    }
+  }
+  async function _getAnnouncementParams2(appId, viewId) {
+    try {
+      const logStatus = scripts_echoLog({
+        type: 'getAnnouncementParams',
+        text: viewId
+      });
+      const {
+        result,
+        statusText,
+        status,
+        data
+      } = await tools_httpRequest({
+        url: `https://store.steampowered.com/news/app/${appId}/view/${viewId}`,
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+      });
+      if (result === 'Success') {
+        if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+          var _data$responseText$ma10, _data$responseText$ma11, _data$responseText$ma12;
+          const authWgToken = (_data$responseText$ma10 = data.responseText.match(/authwgtoken&quot;:&quot;(.*?)&quot;/)) === null || _data$responseText$ma10 === void 0 ? void 0 : _data$responseText$ma10[1];
+          const clanId = (_data$responseText$ma11 = data.responseText.match(/clanAccountID&quot;:([\d]+?),/)) === null || _data$responseText$ma11 === void 0 ? void 0 : _data$responseText$ma11[1];
+          const gid = (_data$responseText$ma12 = data.responseText.match(/announcementGID&quot;:&quot;([\d]+?)&quot;/)) === null || _data$responseText$ma12 === void 0 ? void 0 : _data$responseText$ma12[1];
+          if (authWgToken && clanId) {
+            logStatus.success();
+            return {
+              authWgToken: authWgToken,
+              clanId: clanId,
+              gid: gid
+            };
+          }
+          logStatus.error(`Error:${data.statusText}(${data.status})`);
+          return {};
+        }
+        logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+        return {};
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return {};
+    } catch (error) {
+      throwError_throwError(error, 'Steam.likeAnnouncement');
+      return {};
+    }
+  }
+  async function _likeAnnouncement2(id) {
+    try {
+      const [ appId, viewId ] = id.split('/');
+      if (!(appId && viewId)) {
+        scripts_echoLog({
+          type: 'lost params',
+          text: id
+        });
+        return false;
+      }
+      const {
+        authWgToken,
+        clanId,
+        gid
+      } = await Steam_classPrivateMethodGet(this, _getAnnouncementParams, _getAnnouncementParams2).call(this, appId, viewId);
+      if (!(authWgToken && clanId)) {
+        return false;
+      }
+      const logStatus = scripts_echoLog({
+        type: 'likeAnnouncement',
+        text: id
+      });
+      const {
+        result,
+        statusText,
+        status,
+        data
+      } = await tools_httpRequest({
+        url: `https://store.steampowered.com/updated/ajaxrateupdate/${gid || viewId}`,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+          Host: 'store.steampowered.com',
+          Origin: 'https://store.steampowered.com',
+          Referer: `https://store.steampowered.com/news/app/${appId}/view/${viewId}`
+        },
+        data: $.param({
+          sessionid: Steam_classPrivateFieldGet(this, Steam_auth).storeSessionID,
+          wgauthtoken: authWgToken,
+          voteup: 1,
+          clanid: clanId,
+          ajax: 1
+        }),
+        dataType: 'json'
+      });
+      if (result === 'Success') {
+        if ((data === null || data === void 0 ? void 0 : data.status) === 200 && data.response.success === 1) {
+          logStatus.success();
+          return true;
+        }
+        logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError_throwError(error, 'Steam.likeAnnouncement');
       return false;
     }
   }

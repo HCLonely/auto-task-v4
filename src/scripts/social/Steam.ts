@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2021-11-01 16:50:28
+ * @LastEditTime : 2021-11-02 14:51:17
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -25,6 +25,11 @@ interface followGameRequestData {
   appid: string
   unfollow?: string
 }
+interface announcementParams {
+  authWgToken?: string
+  clanId?: string
+  gid?: string
+}
 // TODO: doTask 保存
 class Steam extends Social {
   tasks: steamTasks;
@@ -34,7 +39,10 @@ class Steam extends Social {
     follows: [],
     forums: [],
     workshops: [],
-    curators: []
+    workshopVotes: [],
+    curators: [],
+    curatorLikes: [],
+    announcements: []
   };
   #auth: auth = {};
   #initialized = false;
@@ -48,7 +56,10 @@ class Steam extends Social {
       follows: [],
       forums: [],
       workshops: [],
-      curators: []
+      workshopVotes: [],
+      curators: [],
+      curatorLikes: [],
+      announcements: []
     };
   }
 
@@ -600,7 +611,6 @@ class Steam extends Social {
     }
   }
   // 点赞创意工坊物品
-  // todo: 取消点赞
   async #voteupWorkshop(id: string): Promise<boolean | string> {
     try {
       const logStatus = echoLog({ type: 'voteupWorkshop', text: id });
@@ -630,14 +640,14 @@ class Steam extends Social {
   }
 
   // INFO: 关注Steam鉴赏家/开发商/发行商
-  async #toggleCurator(curatorId: string, logStatus: logStatus, doTask = true): Promise<boolean> {
+  async #toggleCurator(curatorId: string, logStatusParam: logStatus | null, doTask = true): Promise<boolean> {
     try {
       if (!doTask && this.whiteList.curators.includes(curatorId)) {
         // TODO: 直接echo
         echoLog({ type: 'whiteList', text: curatorId });
         return true;
       }
-      // logStatus = logStatus || echoLog({ type: follow ? 'followCurator' : 'unfollowCurator', text: curatorId })
+      const logStatus = logStatusParam || echoLog({ type: doTask ? 'followCurator' : 'unfollowCurator', text: curatorId });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://store.steampowered.com/curators/ajaxfollow',
         method: 'POST',
@@ -660,7 +670,7 @@ class Steam extends Social {
       return false;
     }
   }
-  async #getCuratorId(developerName: string, path: string): Promise<false | string> {
+  async #getCuratorId(path: string, developerName: string): Promise<false | string> {
     try {
       const logStatus = echoLog({ type: 'getCuratorId', text: `${path}/${developerName}` });
       // TODO: id存储
@@ -703,8 +713,12 @@ class Steam extends Social {
   async #toggleCuratorLike(link: string, doTask = true): Promise<boolean> {
     try {
       // TODO: 鉴赏家链接处理
-      const [name, path] = link;
-      const curatorId = await this.#getCuratorId(name, path);
+      const [path, name] = link.split('/');
+      if (!(path && name)) {
+        echoLog({ type: 'text', text: 'Error link' });
+        return false;
+      }
+      const curatorId = await this.#getCuratorId(path, name);
       if (curatorId) {
         const logStatus = echoLog({ type: `${doTask ? '' : 'un'}follow${path.replace(/^\S/, (s) => s.toUpperCase())}`, text: name });
         return await this.#toggleCurator(curatorId, logStatus, doTask);
@@ -716,6 +730,83 @@ class Steam extends Social {
     }
   }
 
+  async #getAnnouncementParams(appId: string, viewId: string): Promise<announcementParams> {
+    try {
+      const logStatus = echoLog({ type: 'getAnnouncementParams', text: viewId });
+      const { result, statusText, status, data } = await httpRequest({
+        url: `https://store.steampowered.com/news/app/${appId}/view/${viewId}`,
+        method: 'GET',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+      });
+      if (result === 'Success') {
+        if (data?.status === 200) {
+          const authWgToken = data.responseText.match(/authwgtoken&quot;:&quot;(.*?)&quot;/)?.[1];
+          const clanId = data.responseText.match(/clanAccountID&quot;:([\d]+?),/)?.[1];
+          const gid = data.responseText.match(/announcementGID&quot;:&quot;([\d]+?)&quot;/)?.[1];
+          if (authWgToken && clanId) {
+            logStatus.success();
+            return { authWgToken, clanId, gid };
+          }
+          logStatus.error(`Error:${data.statusText}(${data.status})`);
+          return {};
+        }
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+        return {};
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return {};
+    } catch (error) {
+      throwError(error as Error, 'Steam.likeAnnouncement');
+      return {};
+    }
+  }
+
+  async #likeAnnouncement(id: string):Promise<boolean> {
+    try {
+      const [appId, viewId] = id.split('/');
+      if (!(appId && viewId)) {
+        echoLog({ type: 'lost params', text: id });
+        return false;
+      }
+      const { authWgToken, clanId, gid } = await this.#getAnnouncementParams(appId, viewId);
+      if (!(authWgToken && clanId)) {
+        return false;
+      }
+      const logStatus = echoLog({ type: 'likeAnnouncement', text: id });
+      const { result, statusText, status, data } = await httpRequest({
+        url: `https://store.steampowered.com/updated/ajaxrateupdate/${gid || viewId}`,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+          Host: 'store.steampowered.com',
+          Origin: 'https://store.steampowered.com',
+          Referer: `https://store.steampowered.com/news/app/${appId}/view/${viewId}`
+        },
+        data: $.param({
+          sessionid: this.#auth.storeSessionID,
+          wgauthtoken: authWgToken,
+          voteup: 1,
+          clanid: clanId,
+          ajax: 1
+        }),
+        dataType: 'json'
+      });
+      if (result === 'Success') {
+        if (data?.status === 200 && data.response.success === 1) {
+          logStatus.success();
+          return true;
+        }
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'Steam.likeAnnouncement');
+      return false;
+    }
+  }
+
   async toggle({
     doTask = true,
     groupLinks = [],
@@ -723,15 +814,21 @@ class Steam extends Social {
     followLinks = [],
     forumLinks = [],
     workshopLinks = [],
-    curatorLinks = []
+    workshopVoteLinks = [],
+    curatorLinks = [],
+    curatorLikeLinks = [],
+    announcementLinks = []
   }: {
-    doTask: boolean,
-    groupLinks: Array<string>,
-    wishlistLinks: Array<string>,
-    followLinks: Array<string>,
-    forumLinks: Array<string>,
-    workshopLinks: Array<string>,
-    curatorLinks: Array<string>,
+    doTask?: boolean,
+    groupLinks?: Array<string>,
+    wishlistLinks?: Array<string>,
+    followLinks?: Array<string>,
+    forumLinks?: Array<string>,
+    workshopLinks?: Array<string>,
+    workshopVoteLinks?: Array<string>,
+    curatorLinks?: Array<string>,
+    curatorLikeLinks?: Array<string>,
+    announcementLinks?: Array<string>
   }): Promise<boolean> {
     try {
       if (!this.#initialized) {
@@ -744,6 +841,20 @@ class Steam extends Social {
       const realFollows = this.getRealParams('follows', [], followLinks, doTask, (link) => link.match(/app\/([\d]+)/)?.[1]);
       const realForums = this.getRealParams('forums', [], forumLinks, doTask, (link) => link.match(/app\/([\d]+)/)?.[1]);
       const realWorkshops = this.getRealParams('workshops', [], workshopLinks, doTask, (link) => link.match(/\?id=([\d]+)/)?.[1]);
+      const realworkshopVotes = this.getRealParams('workshopVotes', [], workshopVoteLinks, doTask, (link) => link.match(/\?id=([\d]+)/)?.[1]);
+      const realCurators = this.getRealParams('curators', [], curatorLinks, doTask, (link) => link.match(/curator\/([\d]+)/)?.[1]);
+      const realCuratorLikes = this.getRealParams('curatorLikes', [], curatorLikeLinks, doTask,
+        (link) => link.match(/https?:\/\/store\.steampowered\.com\/(.*?)\/([^/?]+)/)?.slice(1, 3)
+          .join('/'));
+      const realAnnouncements = this.getRealParams('announcements', [], announcementLinks, doTask,
+        (link) => {
+          if (link.includes('store.steampowered.com')) {
+            return link.match(/store.steampowered.com\/news\/app\/([\d]+)\/view\/([\d]+)/)?.slice(1, 3)
+              .join('/');
+          }
+          return link.match(/steamcommunity.com\/games\/([\d]+)\/announcements\/detail\/([\d]+)/)?.slice(1, 3)
+            .join('/');
+        });
       if (realGroups.length > 0) {
         for (const group of realGroups) {
           if (doTask) {
@@ -782,6 +893,30 @@ class Steam extends Social {
           await delay(1000);
         }
       }
+      if (doTask && realworkshopVotes.length > 0) {
+        for (const workshop of realworkshopVotes) {
+          prom.push(this.#voteupWorkshop(workshop));
+          await delay(1000);
+        }
+      }
+      if (realCurators.length > 0) {
+        for (const curator of realCurators) {
+          prom.push(this.#toggleCurator(curator, null, doTask));
+          await delay(1000);
+        }
+      }
+      if (realCuratorLikes.length > 0) {
+        for (const curatorLike of realCuratorLikes) {
+          prom.push(this.#toggleCuratorLike(curatorLike, doTask));
+          await delay(1000);
+        }
+      }
+      if (doTask && realAnnouncements.length > 0) {
+        for (const id of realAnnouncements) {
+          prom.push(this.#likeAnnouncement(id));
+          await delay(1000);
+        }
+      }
       // TODO: 返回值处理
       return Promise.all(prom).then(() => true);
     } catch (error) {
@@ -792,267 +927,3 @@ class Steam extends Social {
 }
 
 export default Steam;
-
-/*
-// INFO: Update steam info
-async function updateSteamCommunityInfo() {
-  try {
-    const logStatus = echoLog({ type: 'updateSteamCommunity' })
-    const { result, statusText, status, data } = await httpRequest({
-      url: 'https://steamcommunity.com/my',
-      method: 'GET'
-    })
-    if (result === 'Success') {
-      if (data.status === 200) {
-        if ($(data.responseText).find('a[href*="/login/home"]').length > 0) {
-          logStatus.error('Error:' + getI18n('loginSteamCommunity'), true)
-          return false
-        } else {
-          const steam64Id = data.responseText.match(/g_steamID = "(.+?)";/)?.[1]
-          const communitySessionID = data.responseText.match(/g_sessionID = "(.+?)";/)?.[1]
-          const userName = data.responseText.match(/steamcommunity.com\/id\/(.+?)\/friends\//)?.[1]
-          if (steam64Id) steamInfo.steam64Id = steam64Id
-          if (userName) steamInfo.userName = userName
-          if (communitySessionID) {
-            steamInfo.communitySessionID = communitySessionID
-            steamInfo.communityUpdateTime = new Date().getTime()
-            logStatus.success()
-            return true
-          } else {
-            logStatus.error('Error: Get "sessionID" failed')
-            return false
-          }
-        }
-      } else {
-        logStatus.error('Error:' + data.statusText + '(' + data.status + ')')
-        return false
-      }
-    } else {
-      logStatus.error(`${result}:${statusText}(${status})`)
-      return false
-    }
-  } catch (e) {
-    throwError(e, 'updateSteamCommunityInfo')
-  }
-}
-async function updateSteamStoreInfo() {
-  try {
-    const logStatus = echoLog({ type: 'updateSteamStore' })
-    const { result, statusText, status, data } = await httpRequest({
-      url: 'https://store.steampowered.com/stats/',
-      method: 'GET'
-    })
-    if (result === 'Success') {
-      if (data.status === 200) {
-        if ($(data.responseText).find('a[href*="/login/"]').length > 0) {
-          logStatus.error('Error:' + getI18n('loginSteamStore'), true)
-          return false
-        } else {
-          const storeSessionID = data.responseText.match(/g_sessionID = "(.+?)";/)?.[1]
-          if (storeSessionID) {
-            steamInfo.storeSessionID = storeSessionID
-            steamInfo.storeUpdateTime = new Date().getTime()
-            logStatus.success()
-            return true
-          } else {
-            logStatus.error('Error: Get "sessionID" failed')
-            return false
-          }
-        }
-      } else {
-        logStatus.error('Error:' + data.statusText + '(' + data.status + ')')
-        return false
-      }
-    } else {
-      logStatus.error(`${result}:${statusText}(${status})`)
-      return false
-    }
-  } catch (e) {
-    throwError(e, 'updateSteamStoreInfo')
-  }
-}
-function updateSteamInfo(type = 'all', update = false) {
-  try {
-    const pro = []
-    if ((new Date().getTime() - steamInfo.communityUpdateTime > 10 * 60 * 1000 || update) && (type === 'community' || type === 'all')) {
-      pro.push(updateSteamCommunityInfo())
-    }
-    if ((new Date().getTime() - steamInfo.storeUpdateTime > 10 * 60 * 1000 || update) && (type === 'store' || type === 'all')) {
-      pro.push(updateSteamStoreInfo())
-    }
-    return Promise.all(pro).then(data => {
-      GM_setValue('steamInfo', steamInfo)
-      const length = data.length
-      if (length === 1) {
-        return data[0]
-      } else if (length === 2) {
-        return data[0] && data[1]
-      } else {
-        return false
-      }
-    }).catch(() => {
-      return false
-    })
-  } catch (e) {
-    throwError(e, 'updateSteamInfo')
-  }
-}
-*/
-/*
-
-// INFO: Steam announcement
-async function likeAnnouncements(rawMatch) {
-  try {
-    let [url, logStatus, requestData] = ['', null, {}]
-    if (rawMatch.length === 5) {
-      logStatus = echoLog({ type: 'likeAnnouncements', url: rawMatch[1], id: rawMatch[2] })
-      url = 'https://store.steampowered.com/updated/ajaxrateupdate/' + rawMatch[2]
-      requestData = {
-        sessionid: steamInfo.storeSessionID,
-        wgauthtoken: rawMatch[3],
-        voteup: 1,
-        clanid: rawMatch[4],
-        ajax: 1
-      }
-    } else {
-      logStatus = echoLog({ type: 'likeAnnouncements', url: rawMatch.input, id: rawMatch[1] })
-      url = rawMatch.input.replace('/detail/', '/rate/')
-      requestData = { sessionid: steamInfo.communitySessionID, voteup: true }
-    }
-    const { result, statusText, status, data } = await httpRequest({
-      url: url,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
-      data: $.param(requestData),
-      dataType: 'json'
-    })
-    if (result === 'Success') {
-      if (data.status === 200 && data.response?.success === 1) {
-        logStatus.success()
-      } else {
-        logStatus.error('Error:' + (data.response?.msg || data.statusText) + '(' + (data.response?.success || data.status) + ')')
-      }
-    } else {
-      logStatus.error(`${result}:${statusText}(${status})`)
-    }
-  } catch (e) {
-    throwError(e, 'likeAnnouncements')
-  }
-}
-
-// INFO: Steam task assignment
-async function toggleSteamActions({ website, type, elements, action, toFinalUrl = {} }) {
-  try {
-    const pro = []
-    for (const element of unique(elements)) {
-      let elementName = Array.isArray(element) ? [null, ...element] : [null, element]
-      if (website === 'giveawaysu' && toFinalUrl[element]) {
-        const toFinalUrlElement = toFinalUrl[element] || ''
-        switch (type) {
-          case 'group':
-            elementName = toFinalUrlElement.match(/groups\/(.+)\/?/)
-            break
-          case 'forum':
-            elementName = toFinalUrlElement.match(/app\/([\d]+)/)
-            break
-          case 'curator':
-          case 'publisher':
-          case 'developer':
-          case 'franchise':
-            if (toFinalUrlElement.includes('curator')) {
-              type = 'curator'
-              elementName = toFinalUrlElement.match(/curator\/([\d]+)/)
-            } else if (toFinalUrlElement.includes('publisher')) {
-              type = 'publisher'
-              elementName = toFinalUrlElement.match(/publisher\/(.+)\/?/)
-            } else if (toFinalUrlElement.includes('developer')) {
-              type = 'developer'
-              elementName = toFinalUrlElement.match(/developer\/(.+)\/?/)
-            } else if (toFinalUrlElement.includes('pub')) {
-              type = 'pub'
-              elementName = toFinalUrlElement.match(/pub\/(.+)\/?/)
-            } else if (toFinalUrlElement.includes('dev')) {
-              type = 'dev'
-              elementName = toFinalUrlElement.match(/dev\/(.+)\/?/)
-            } else if (toFinalUrlElement.includes('franchise')) {
-              type = 'franchise'
-              elementName = toFinalUrlElement.match(/franchise\/(.+)\/?/)
-            }
-            break
-          /* disable
-        case 'publisher':
-        case 'developer':
-          elementName = (toFinalUrlElement.includes('publisher') ?
-          toFinalUrlElement.match(/publisher\/(.+)\/?/) :
-          toFinalUrlElement.includes('developer') ?
-          toFinalUrlElement.match(/developer\/(.+)\/?/) :
-          (toFinalUrlElement.match(/pub\/(.+)\/?/) || toFinalUrlElement.match(/dev\/(.+)\/?/))) || toFinalUrlElement.match(/curator\/([\d]+)/)
-          break
-        case 'franchise':
-          elementName = toFinalUrlElement.match(/franchise\/(.+)\/?/) || toFinalUrlElement.match(/curator\/([\d]+)/)
-          break
-          /
-          case 'game':
-          case 'wishlist':
-            elementName = toFinalUrlElement.match(/app\/([\d]+)/)
-            break
-          case 'favoriteWorkshop':
-          case 'voteupWorkshop':
-            elementName = toFinalUrlElement.match(/\?id=([\d]+)/)
-            break
-          case 'announcement': {
-            if (toFinalUrlElement.includes('announcements/detail')) {
-              elementName = toFinalUrlElement.match(/announcements\/detail\/([\d]+)/)
-            } else {
-              elementName = toFinalUrlElement
-              .match(/(https?:\/\/store\.steampowered\.com\/newshub\/app\/[\d]+\/view\/([\d]+))\?authwgtoken=(.+?)&clanid=(.+)/)
-            }
-            break
-          }
-        }
-      }
-      if (elementName?.[1]) {
-        switch (type) {
-          case 'group':
-            pro.push(action === 'fuck' ? joinSteamGroup(elementName[1]) : leaveSteamGroup(elementName[1]))
-            break
-          case 'forum':
-            pro.push(toggleForum(elementName[1], action === 'fuck'))
-            break
-          case 'curator':
-            pro.push(toggleCurator(elementName[1], action === 'fuck'))
-            break
-          case 'pub':
-          case 'dev':
-          case 'publisher':
-          case 'franchise':
-          case 'developer':
-            pro.push(toggleOtherCurator(elementName[1], type, action === 'fuck'))
-            break
-          case 'wishlist':
-            pro.push(action === 'fuck' ? addWishlist(elementName[1]) : removeWishlist(elementName[1]))
-            break
-          case 'game':
-            pro.push(toggleGame(elementName[1], action === 'fuck'))
-            break
-          case 'favoriteWorkshop':
-            pro.push(toggleFavoriteWorkshop(elementName[1], action === 'fuck'))
-            break
-          case 'voteupWorkshop':
-            pro.push(voteupWorkshop(elementName[1]))
-            break
-          case 'announcement':
-            pro.push(likeAnnouncements(elementName))
-            break
-        }
-      }
-      await delay(1000)
-    }
-    return Promise.all(pro)
-  } catch (e) {
-    throwError(e, 'toggleSteamActions')
-  }
-}
-
-export { updateSteamInfo, changeCountry, toggleSteamActions }
-*/

@@ -1,12 +1,13 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 /*
  * @Author       : HCLonely
- * @Date         : 2021-10-26 16:22:46
- * @LastEditTime : 2021-11-02 12:15:39
+ * @Date         : 2021-11-02 12:10:48
+ * @LastEditTime : 2021-11-02 12:10:49
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/webpack.config.js
+ * @FilePath     : /auto-task-new/webpack.production.js
  * @Description  :
  */
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 const fs = require('fs');
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
@@ -16,7 +17,7 @@ module.exports = {
     extensions: ['.js', '.ts', '.json']
   },
   devtool: false,
-  mode: 'production',
+  mode: 'development',
   performance: {
     maxEntrypointSize: 512000,
     maxAssetSize: 512000
@@ -25,7 +26,7 @@ module.exports = {
     index: './src/index.ts'
   },
   output: {
-    filename: 'auto-task.user.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
     environment: {
