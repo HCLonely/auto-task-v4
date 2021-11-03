@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-15 10:48:42
- * @LastEditTime : 2021-11-02 13:27:58
+ * @LastEditTime : 2021-11-03 11:39:10
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Social.ts
  * @Description  :
@@ -16,6 +16,8 @@ interface toggleParams {
 abstract class Social {
   tasks!: socialTasks;
 
+  abstract init(): Promise<boolean>
+  abstract toggle(toggleParams: toggleParams): Promise<boolean>
   // 通用
   protected getRealParams(
     name: taskTypes,
@@ -49,7 +51,6 @@ abstract class Social {
       return [];
     }
   }
-  abstract toggle(toggleParams: toggleParams):Promise<boolean>
 }
 
 export default Social;

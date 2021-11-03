@@ -15,16 +15,16 @@ import Twitter from './scripts/social/Twitter';
 import Vk from './scripts/social/Vk';
 import Youtube from './scripts/social/Youtube';
 import Steam from './scripts/social/Steam';
-
-if (window.location.hostname === 'discord.com' && window.location.hash === '#auth') { // todo: 登录
-  GM_setValue('discordAuth', { auth: window.localStorage.getItem('token')?.replace(/^"|"$/g, '') }); // eslint-disable-line new-cap
-  window.close();
-}
 declare const commonOptions: {
   headers?: {
     'Client-ID': string
   }
 };
+
+if (window.location.hostname === 'discord.com' && window.location.hash === '#auth') { // todo: 登录
+  GM_setValue('discordAuth', { auth: window.localStorage.getItem('token')?.replace(/^"|"$/g, '') }); // eslint-disable-line new-cap
+  window.close();
+}
 window.onload = () => {
   if (window.location.hostname === 'www.twitch.tv' && window.location.hash === '#auth') { // todo: 登录
     const authToken = Cookies.get('auth-token');
