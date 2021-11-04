@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2021-11-02 14:51:17
+ * @LastEditTime : 2021-11-04 11:21:45
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -43,6 +43,12 @@ class Steam extends Social {
     curators: [],
     curatorLikes: [],
     announcements: []
+  };
+  #cache: steamCache = GM_getValue<steamCache>('steamCache') || { // eslint-disable-line new-cap
+    group: {},
+    forum: {},
+    workshop: {},
+    curator: {}
   };
   #auth: auth = {};
   #initialized = false;
@@ -288,16 +294,14 @@ class Steam extends Social {
     }
   }
   // INFO: steam组名转id, 用于退组
-  async #getGroupId(groupName: string): Promise<boolean | string> {
+  async #getGroupId(groupName: string): Promise<false | string> {
     try {
       const logStatus = echoLog({ type: 'getSteamGroupId', text: groupName });
-      /* // todo
-      const groupNameToId = GM_getValue('groupNameToId') || {};
-      if (groupNameToId[groupName]) {
+      const groupId = this.#cache.group[groupName];
+      if (groupId) {
         logStatus.success();
-        return groupNameToId[groupName];
+        return groupId;
       }
-      */
       const { result, statusText, status, data } = await httpRequest({
         url: `https://steamcommunity.com/groups/${groupName}`,
         method: 'GET',
@@ -307,9 +311,8 @@ class Steam extends Social {
         if (data?.status === 200) {
           const groupId = data.responseText.match(/OpenGroupChat\( '([0-9]+)'/)?.[1];
           if (groupId) {
+            this.#setCache('group', groupName, groupId);
             logStatus.success();
-            // groupNameToId[groupName] = groupId;
-            // GM_setValue('groupNameToId', groupNameToId);
             return groupId;
           }
           logStatus.error(`Error:${data.statusText}(${data.status})`);
@@ -521,6 +524,11 @@ class Steam extends Social {
   async #getForumId(gameId: string): Promise<false | string> {
     try {
       const logStatus = echoLog({ type: 'getForumId', text: gameId });
+      const forumId = this.#cache.forum[gameId];
+      if (forumId) {
+        logStatus.success();
+        return forumId;
+      }
       const { result, statusText, status, data } = await httpRequest({
         url: `https://steamcommunity.com/app/${gameId}/discussions/`,
         method: 'GET'
@@ -529,6 +537,7 @@ class Steam extends Social {
         if (data?.status === 200) {
           const forumId = data.responseText?.match(/General_([\d]+(_[\d]+)?)/)?.[1];
           if (forumId) {
+            this.#setCache('forum', gameId, forumId);
             logStatus.success();
             return forumId;
           }
@@ -583,19 +592,25 @@ class Steam extends Social {
       return false;
     }
   }
-  async #getWorkshopAppId(id: string): Promise<boolean | string> {
+  async #getWorkshopAppId(id: string): Promise<false | string> {
     try {
       const logStatus = echoLog({ type: 'getWorkshopAppId', text: id });
+      const appId = this.#cache.workshop[id];
+      if (appId) {
+        logStatus.success();
+        return appId;
+      }
       const { result, statusText, status, data } = await httpRequest({
         url: `https://steamcommunity.com/sharedfiles/filedetails/?id=${id}`,
         method: 'GET'
       });
       if (result === 'Success') {
         if (data?.status === 200) {
-          const appid = data.responseText.match(/<input type="hidden" name="appid" value="([\d]+?)" \/>/)?.[1];
-          if (appid) {
+          const appId = data.responseText.match(/<input type="hidden" name="appid" value="([\d]+?)" \/>/)?.[1];
+          if (appId) {
+            this.#setCache('workshop', id, appId);
             logStatus.success();
-            return appid;
+            return appId;
           }
           logStatus.error('Error: getWorkshopAppId failed');
           return false;
@@ -673,14 +688,11 @@ class Steam extends Social {
   async #getCuratorId(path: string, developerName: string): Promise<false | string> {
     try {
       const logStatus = echoLog({ type: 'getCuratorId', text: `${path}/${developerName}` });
-      // TODO: id存储
-      /*
-      const developerNameToId = GM_getValue('developerNameToId') || {}; // eslint-disable-line new-cap
-      if (developerNameToId[developerName]) {
+      const curatorId = this.#cache.curator[`${path}/${developerName}`];
+      if (curatorId) {
         logStatus.success();
-        return developerNameToId[developerName];
+        return curatorId;
       }
-      */
       const { result, statusText, status, data } = await httpRequest({
         url: `https://store.steampowered.com/${path}/${developerName}`,
         method: 'GET',
@@ -688,12 +700,11 @@ class Steam extends Social {
       });
       if (result === 'Success') {
         if (data?.status === 200) {
-          const developerId = data.responseText.match(/g_pagingData.*?"clanid":([\d]+)/)?.[1];
-          if (developerId) {
+          const curatorId = data.responseText.match(/g_pagingData.*?"clanid":([\d]+)/)?.[1];
+          if (curatorId) {
+            this.#setCache('curator', `${path}/${developerName}`, curatorId);
             logStatus.success();
-            // developerNameToId[developerName] = developerId;
-            // GM_setValue('developerNameToId', developerNameToId); // eslint-disable-line new-cap
-            return developerId;
+            return curatorId;
           }
           logStatus.error(`Error:${data.statusText}(${data.status})`);
           return false;
@@ -922,6 +933,14 @@ class Steam extends Social {
     } catch (error) {
       throwError(error as Error, 'Steam.toggle');
       return false;
+    }
+  }
+  #setCache(type: steamCacheTypes, name: string, id: string): void {
+    try {
+      this.#cache[type][name] = id;
+      GM_setValue('steamCache', this.#cache); // eslint-disable-line new-cap
+    } catch (error) {
+      throwError(error as Error, 'Steam.setCache');
     }
   }
 }

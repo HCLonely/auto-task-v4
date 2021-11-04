@@ -1,11 +1,10 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 11:47:59
- * @LastEditTime : 2021-11-01 13:45:29
+ * @LastEditTime : 2021-11-04 11:04:22
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Vk.ts
- * @Description  : Vk 加入/退出群组，关注/取关用户，转发动态
- ! 取消转发动态
+ * @Description  : Vk 加入/退出群组，关注/取关用户，转发/取消转发动态
  */
 
 import Social from './Social';
@@ -225,7 +224,7 @@ class Vk extends Social {
                   const ownerId = String(jsonData?.payload?.[1]?.[1]?.owner_id);
                   if (postId && ownerId) {
                     // TODO: 优化
-                    this.#addId(name, `${ownerId}_${postId}`);
+                    this.#setCache(name, `${ownerId}_${postId}`);
                   }
                   this.tasks.names = unique([...this.tasks.names, name]);
                   return true;
@@ -394,9 +393,13 @@ class Vk extends Social {
       return false;
     }
   }
-  #addId(name: string, postId: string): void {
-    this.#cache[name] = postId;
-    GM_setValue('vkCache', this.#cache); // eslint-disable-line new-cap
+  #setCache(name: string, postId: string): void {
+    try {
+      this.#cache[name] = postId;
+      GM_setValue('vkCache', this.#cache); // eslint-disable-line new-cap
+    } catch (error) {
+      throwError(error as Error, 'Vk.setCache');
+    }
   }
 }
 

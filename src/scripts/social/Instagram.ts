@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-29 12:54:16
- * @LastEditTime : 2021-11-03 11:39:48
+ * @LastEditTime : 2021-11-04 10:58:41
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Instagram.ts
  * @Description  : Instagram 关注&取关用户
@@ -17,6 +17,7 @@ import { unique, delay } from '../tools/tools';
 class Instagram extends Social {
   tasks: instagramTasks;
   whiteList: instagramTasks = GM_getValue<whiteList>('whiteList')?.instagram || { users: [] }; // eslint-disable-line new-cap
+  #cache: cache = GM_getValue<cache>('instagramCache') || {}; // eslint-disable-line new-cap
   #auth: auth = {};
   #initialized = false;
 
@@ -45,6 +46,11 @@ class Instagram extends Social {
   async #getUserInfo(name = 'instagram'): Promise<string | boolean> {
     try {
       const logStatus = echoLog({ type: name === 'instagram' ? 'getInsInfo' : 'getInsUserId', text: name });
+      const userId = this.#cache[name];
+      if (userId && name !== 'instagram') {
+        logStatus.success();
+        return userId;
+      }
       const { result, statusText, status, data } = await httpRequest({
         url: `https://www.instagram.com/${name}/`,
         method: 'GET'
@@ -67,10 +73,11 @@ class Instagram extends Social {
             }
             return false;
           }
-          this.#auth.csrftoken = csrftoken || this.#auth.csrftoken;
-          this.#auth.hash = csrftoken || this.#auth.hash;
-          const id: string | undefined = data.responseText.match(/"profilePage_([\d]+?)"/)?.[1];
+          // this.#auth.csrftoken = csrftoken || this.#auth.csrftoken;
+          // this.#auth.hash = csrftoken || this.#auth.hash;
+          const id = data.responseText.match(/"profilePage_([\d]+?)"/)?.[1];
           if (id) {
+            this.#setCache(name, id);
             logStatus.success();
             return id;
           }
@@ -194,6 +201,14 @@ class Instagram extends Social {
     } catch (error) {
       throwError(error as Error, 'Instagram.toggleUsers');
       return false;
+    }
+  }
+  #setCache(name: string, id: string): void {
+    try {
+      this.#cache[name] = id;
+      GM_setValue('instagramCache', this.#cache); // eslint-disable-line new-cap
+    } catch (error) {
+      throwError(error as Error, 'Instagram.setCache');
     }
   }
 }

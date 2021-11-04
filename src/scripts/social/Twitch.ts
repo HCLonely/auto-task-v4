@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:00:41
- * @LastEditTime : 2021-11-01 13:44:04
+ * @LastEditTime : 2021-11-04 11:03:55
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitch.ts
  * @Description  : Twitch 关注/取关频道
@@ -17,6 +17,7 @@ class Twitch extends Social {
   tasks: twitchTasks;
   whiteList: twitchTasks = GM_getValue<whiteList>('whiteList')?.twitch || { channels: [] }; // eslint-disable-line new-cap
   #auth: auth = GM_getValue<auth>('twitchAuth') || {}; // eslint-disable-line new-cap
+  #cache: cache = GM_getValue<cache>('twitchCache') || {}; // eslint-disable-line new-cap
   #initialized = false;
 
   // TODO: 任务识别
@@ -85,7 +86,7 @@ class Twitch extends Social {
     }
   }
 
-  async #updateAuth():Promise<boolean> {
+  async #updateAuth(): Promise<boolean> {
     try {
       const logStatus = echoLog({ type: 'text', text: 'updateTwitchAuth' });
       return await new Promise((resolve) => {
@@ -153,9 +154,14 @@ class Twitch extends Social {
     }
   }
 
-  async #getChannelId(name: string): Promise<string | boolean> {
+  async #getChannelId(name: string): Promise<string | false> {
     try {
       const logStatus = echoLog({ type: 'getTwitchChannelId', text: name });
+      const channelId = this.#cache[name];
+      if (channelId) {
+        logStatus.success();
+        return channelId;
+      }
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://gql.twitch.tv/gql',
         method: 'POST',
@@ -170,6 +176,7 @@ class Twitch extends Social {
         if (data?.status === 200) {
           const channelId = String(data.response?.[0]?.data?.user?.id);
           if (channelId) {
+            this.#setCache(name, channelId);
             logStatus.success();
             return channelId;
           }
@@ -215,6 +222,14 @@ class Twitch extends Social {
     } catch (error) {
       throwError(error as Error, 'Twitch.toggle');
       return false;
+    }
+  }
+  #setCache(name: string, id: string): void {
+    try {
+      this.#cache[name] = id;
+      GM_setValue('twitchCache', this.#cache); // eslint-disable-line new-cap
+    } catch (error) {
+      throwError(error as Error, 'Twitch.setCache');
     }
   }
 }

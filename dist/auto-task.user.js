@@ -54,6 +54,7 @@
 // @require            https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js
 // @require            https://cdn.jsdelivr.net/npm/regenerator-runtime@0.13.5/runtime.min.js
 // @require            https://cdn.jsdelivr.net/npm/js-sha1@0.6.0/src/sha1.min.js
+// @require            https://cdn.jsdelivr.net/npm/sweetalert2@11
 // ==/UserScript==
 
 (function() {
@@ -482,12 +483,12 @@
   var _joinServer = new WeakSet();
   var _leaveServer = new WeakSet();
   var _getGuild = new WeakSet();
-  var _addId = new WeakSet();
+  var _setCache = new WeakSet();
   class Discord extends social_Social {
     constructor(tasks) {
       var _GM_getValue;
       super();
-      _classPrivateMethodInitSpec(this, _addId);
+      _classPrivateMethodInitSpec(this, _setCache);
       _classPrivateMethodInitSpec(this, _getGuild);
       _classPrivateMethodInitSpec(this, _leaveServer);
       _classPrivateMethodInitSpec(this, _joinServer);
@@ -677,7 +678,7 @@
         logStatus.success();
         const guild = String((_data$response = data.response) === null || _data$response === void 0 ? void 0 : (_data$response$guild = _data$response.guild) === null || _data$response$guild === void 0 ? void 0 : _data$response$guild.id);
         if (guild) {
-          _classPrivateMethodGet(this, _addId, _addId2).call(this, inviteId, guild);
+          _classPrivateMethodGet(this, _setCache, _setCache2).call(this, inviteId, guild);
           this.tasks.servers = unique([ ...this.tasks.servers, inviteId ]);
         }
         return true;
@@ -754,7 +755,7 @@
         const guild = (_data$responseText$ma = data.responseText.match(/https?:\/\/cdn\.discordapp\.com\/icons\/([\d]+?)\//)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
         if (guild) {
           logStatus.success();
-          _classPrivateMethodGet(this, _addId, _addId2).call(this, inviteId, guild);
+          _classPrivateMethodGet(this, _setCache, _setCache2).call(this, inviteId, guild);
           return guild;
         }
         logStatus.error(`${result}:${statusText}(${status})`);
@@ -767,9 +768,13 @@
       return false;
     }
   }
-  function _addId2(inviteId, guild) {
-    _classPrivateFieldGet(this, _cache)[inviteId] = guild;
-    GM_setValue('discordCache', _classPrivateFieldGet(this, _cache));
+  function _setCache2(inviteId, guild) {
+    try {
+      _classPrivateFieldGet(this, _cache)[inviteId] = guild;
+      GM_setValue('discordCache', _classPrivateFieldGet(this, _cache));
+    } catch (error) {
+      throwError_throwError(error, 'Discord.setCache');
+    }
   }
   const social_Discord = Discord;
   function Instagram_classPrivateMethodInitSpec(obj, privateSet) {
@@ -835,15 +840,18 @@
     }
     return fn;
   }
+  var Instagram_cache = new WeakMap();
   var Instagram_auth = new WeakMap();
   var Instagram_initialized = new WeakMap();
   var _getUserInfo = new WeakSet();
   var _followUser = new WeakSet();
   var _unfollowUser = new WeakSet();
+  var Instagram_setCache = new WeakSet();
   class Instagram extends social_Social {
     constructor(tasks) {
       var _GM_getValue;
       super();
+      Instagram_classPrivateMethodInitSpec(this, Instagram_setCache);
       Instagram_classPrivateMethodInitSpec(this, _unfollowUser);
       Instagram_classPrivateMethodInitSpec(this, _followUser);
       Instagram_classPrivateMethodInitSpec(this, _getUserInfo);
@@ -851,9 +859,13 @@
       Instagram_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.instagram) || {
         users: []
       });
+      Instagram_classPrivateFieldInitSpec(this, Instagram_cache, {
+        writable: true,
+        value: GM_getValue('instagramCache') || {}
+      });
       Instagram_classPrivateFieldInitSpec(this, Instagram_auth, {
         writable: true,
-        value: void 0
+        value: {}
       });
       Instagram_classPrivateFieldInitSpec(this, Instagram_initialized, {
         writable: true,
@@ -925,6 +937,11 @@
         type: name === 'instagram' ? 'getInsInfo' : 'getInsUserId',
         text: name
       });
+      const userId = Instagram_classPrivateFieldGet(this, Instagram_cache)[name];
+      if (userId && name !== 'instagram') {
+        logStatus.success();
+        return userId;
+      }
       const {
         result,
         statusText,
@@ -956,10 +973,9 @@
             }
             return false;
           }
-          Instagram_classPrivateFieldGet(this, Instagram_auth).csrftoken = csrftoken || Instagram_classPrivateFieldGet(this, Instagram_auth).csrftoken;
-          Instagram_classPrivateFieldGet(this, Instagram_auth).hash = csrftoken || Instagram_classPrivateFieldGet(this, Instagram_auth).hash;
           const id = (_data$responseText$ma3 = data.responseText.match(/"profilePage_([\d]+?)"/)) === null || _data$responseText$ma3 === void 0 ? void 0 : _data$responseText$ma3[1];
           if (id) {
+            Instagram_classPrivateMethodGet(this, Instagram_setCache, Instagram_setCache2).call(this, name, id);
             logStatus.success();
             return id;
           }
@@ -1071,6 +1087,14 @@
       return false;
     }
   }
+  function Instagram_setCache2(name, id) {
+    try {
+      Instagram_classPrivateFieldGet(this, Instagram_cache)[name] = id;
+      GM_setValue('instagramCache', Instagram_classPrivateFieldGet(this, Instagram_cache));
+    } catch (error) {
+      throwError_throwError(error, 'Instagram.setCache');
+    }
+  }
   const social_Instagram = Instagram;
   function Reddit_classPrivateMethodInitSpec(obj, privateSet) {
     Reddit_checkPrivateRedeclaration(obj, privateSet);
@@ -1151,7 +1175,7 @@
       });
       Reddit_classPrivateFieldInitSpec(this, Reddit_auth, {
         writable: true,
-        value: GM_getValue('redditAuth') || {}
+        value: void 0
       });
       Reddit_classPrivateFieldInitSpec(this, Reddit_initialized, {
         writable: true,
@@ -1416,15 +1440,18 @@
     return descriptor.value;
   }
   var Twitch_auth = new WeakMap();
+  var Twitch_cache = new WeakMap();
   var Twitch_initialized = new WeakMap();
   var Twitch_verifyAuth = new WeakSet();
   var Twitch_updateAuth = new WeakSet();
   var _toggleChannel = new WeakSet();
   var _getChannelId = new WeakSet();
+  var Twitch_setCache = new WeakSet();
   class Twitch extends social_Social {
     constructor(tasks) {
       var _GM_getValue;
       super();
+      Twitch_classPrivateMethodInitSpec(this, Twitch_setCache);
       Twitch_classPrivateMethodInitSpec(this, _getChannelId);
       Twitch_classPrivateMethodInitSpec(this, _toggleChannel);
       Twitch_classPrivateMethodInitSpec(this, Twitch_updateAuth);
@@ -1436,6 +1463,10 @@
       Twitch_classPrivateFieldInitSpec(this, Twitch_auth, {
         writable: true,
         value: GM_getValue('twitchAuth') || {}
+      });
+      Twitch_classPrivateFieldInitSpec(this, Twitch_cache, {
+        writable: true,
+        value: GM_getValue('twitchCache') || {}
       });
       Twitch_classPrivateFieldInitSpec(this, Twitch_initialized, {
         writable: true,
@@ -1644,6 +1675,11 @@
         type: 'getTwitchChannelId',
         text: name
       });
+      const channelId = Twitch_classPrivateFieldGet(this, Twitch_cache)[name];
+      if (channelId) {
+        logStatus.success();
+        return channelId;
+      }
       const {
         result,
         statusText,
@@ -1664,6 +1700,7 @@
           var _data$response2, _data$response2$, _data$response2$$data, _data$response2$$data2;
           const channelId = String((_data$response2 = data.response) === null || _data$response2 === void 0 ? void 0 : (_data$response2$ = _data$response2[0]) === null || _data$response2$ === void 0 ? void 0 : (_data$response2$$data = _data$response2$.data) === null || _data$response2$$data === void 0 ? void 0 : (_data$response2$$data2 = _data$response2$$data.user) === null || _data$response2$$data2 === void 0 ? void 0 : _data$response2$$data2.id);
           if (channelId) {
+            Twitch_classPrivateMethodGet(this, Twitch_setCache, Twitch_setCache2).call(this, name, channelId);
             logStatus.success();
             return channelId;
           }
@@ -1678,6 +1715,14 @@
     } catch (error) {
       throwError_throwError(error, 'Twitch.getChannelId');
       return false;
+    }
+  }
+  function Twitch_setCache2(name, id) {
+    try {
+      Twitch_classPrivateFieldGet(this, Twitch_cache)[name] = id;
+      GM_setValue('twitchCache', Twitch_classPrivateFieldGet(this, Twitch_cache));
+    } catch (error) {
+      throwError_throwError(error, 'Twitch.setCache');
     }
   }
   const social_Twitch = Twitch;
@@ -1746,16 +1791,19 @@
   }
   var _verifyId = new WeakMap();
   var Twitter_auth = new WeakMap();
+  var Twitter_cache = new WeakMap();
   var Twitter_initialized = new WeakMap();
   var Twitter_verifyAuth = new WeakSet();
   var Twitter_updateAuth = new WeakSet();
   var _toggleUser = new WeakSet();
   var _getUserId = new WeakSet();
   var _toggleRetweet = new WeakSet();
+  var Twitter_setCache = new WeakSet();
   class Twitter extends social_Social {
     constructor(tasks, verifyId) {
       var _GM_getValue;
       super();
+      Twitter_classPrivateMethodInitSpec(this, Twitter_setCache);
       Twitter_classPrivateMethodInitSpec(this, _toggleRetweet);
       Twitter_classPrivateMethodInitSpec(this, _getUserId);
       Twitter_classPrivateMethodInitSpec(this, _toggleUser);
@@ -1774,6 +1822,10 @@
       Twitter_classPrivateFieldInitSpec(this, Twitter_auth, {
         writable: true,
         value: GM_getValue('twitterAuth') || {}
+      });
+      Twitter_classPrivateFieldInitSpec(this, Twitter_cache, {
+        writable: true,
+        value: GM_getValue('twitterCache') || {}
       });
       Twitter_classPrivateFieldInitSpec(this, Twitter_initialized, {
         writable: true,
@@ -1997,6 +2049,11 @@
         type: 'getTwitterUserId',
         text: name
       });
+      const userId = Twitter_classPrivateFieldGet(this, Twitter_cache)[name];
+      if (userId) {
+        logStatus.success();
+        return userId;
+      }
       const {
         result,
         statusText,
@@ -2025,6 +2082,7 @@
           }
           const userId = String((_response = response) === null || _response === void 0 ? void 0 : (_response$data = _response.data) === null || _response$data === void 0 ? void 0 : (_response$data$user = _response$data.user) === null || _response$data$user === void 0 ? void 0 : _response$data$user.rest_id);
           if (userId) {
+            Twitter_classPrivateMethodGet(this, Twitter_setCache, Twitter_setCache2).call(this, name, userId);
             logStatus.success();
             return userId;
           }
@@ -2094,6 +2152,14 @@
     } catch (error) {
       throwError_throwError(error, 'Twitter.toggleRetweet');
       return false;
+    }
+  }
+  function Twitter_setCache2(name, id) {
+    try {
+      Twitter_classPrivateFieldGet(this, Twitter_cache)[name] = id;
+      GM_setValue('twitterCache', Twitter_classPrivateFieldGet(this, Twitter_cache));
+    } catch (error) {
+      throwError_throwError(error, 'Twitter.setCache');
     }
   }
   const social_Twitter = Twitter;
@@ -2170,12 +2236,12 @@
   var _deleteWall = new WeakSet();
   var _getId = new WeakSet();
   var _toggleVk = new WeakSet();
-  var Vk_addId = new WeakSet();
+  var Vk_setCache = new WeakSet();
   class Vk extends social_Social {
     constructor(tasks) {
       var _GM_getValue;
       super();
-      Vk_classPrivateMethodInitSpec(this, Vk_addId);
+      Vk_classPrivateMethodInitSpec(this, Vk_setCache);
       Vk_classPrivateMethodInitSpec(this, _toggleVk);
       Vk_classPrivateMethodInitSpec(this, _getId);
       Vk_classPrivateMethodInitSpec(this, _deleteWall);
@@ -2464,7 +2530,7 @@
                   const postId = String(jsonData === null || jsonData === void 0 ? void 0 : (_jsonData$payload2 = jsonData.payload) === null || _jsonData$payload2 === void 0 ? void 0 : (_jsonData$payload2$ = _jsonData$payload2[1]) === null || _jsonData$payload2$ === void 0 ? void 0 : (_jsonData$payload2$$ = _jsonData$payload2$[1]) === null || _jsonData$payload2$$ === void 0 ? void 0 : _jsonData$payload2$$.post_id);
                   const ownerId = String(jsonData === null || jsonData === void 0 ? void 0 : (_jsonData$payload3 = jsonData.payload) === null || _jsonData$payload3 === void 0 ? void 0 : (_jsonData$payload3$ = _jsonData$payload3[1]) === null || _jsonData$payload3$ === void 0 ? void 0 : (_jsonData$payload3$$ = _jsonData$payload3$[1]) === null || _jsonData$payload3$$ === void 0 ? void 0 : _jsonData$payload3$$.owner_id);
                   if (postId && ownerId) {
-                    Vk_classPrivateMethodGet(this, Vk_addId, Vk_addId2).call(this, name, `${ownerId}_${postId}`);
+                    Vk_classPrivateMethodGet(this, Vk_setCache, Vk_setCache2).call(this, name, `${ownerId}_${postId}`);
                   }
                   this.tasks.names = unique([ ...this.tasks.names, name ]);
                   return true;
@@ -2658,9 +2724,13 @@
       return false;
     }
   }
-  function Vk_addId2(name, postId) {
-    Vk_classPrivateFieldGet(this, Vk_cache)[name] = postId;
-    GM_setValue('vkCache', Vk_classPrivateFieldGet(this, Vk_cache));
+  function Vk_setCache2(name, postId) {
+    try {
+      Vk_classPrivateFieldGet(this, Vk_cache)[name] = postId;
+      GM_setValue('vkCache', Vk_classPrivateFieldGet(this, Vk_cache));
+    } catch (error) {
+      throwError_throwError(error, 'Vk.setCache');
+    }
   }
   const social_Vk = Vk;
   function Youtube_classPrivateMethodInitSpec(obj, privateSet) {
@@ -3252,6 +3322,7 @@
     }
     return fn;
   }
+  var Steam_cache = new WeakMap();
   var Steam_auth = new WeakMap();
   var Steam_initialized = new WeakMap();
   var _updateStoreAuth = new WeakSet();
@@ -3275,10 +3346,12 @@
   var _toggleCuratorLike = new WeakSet();
   var _getAnnouncementParams = new WeakSet();
   var _likeAnnouncement = new WeakSet();
+  var Steam_setCache = new WeakSet();
   class Steam extends social_Social {
     constructor(tasks) {
       var _GM_getValue;
       super();
+      Steam_classPrivateMethodInitSpec(this, Steam_setCache);
       Steam_classPrivateMethodInitSpec(this, _likeAnnouncement);
       Steam_classPrivateMethodInitSpec(this, _getAnnouncementParams);
       Steam_classPrivateMethodInitSpec(this, _toggleCuratorLike);
@@ -3311,6 +3384,15 @@
         curators: [],
         curatorLikes: [],
         announcements: []
+      });
+      Steam_classPrivateFieldInitSpec(this, Steam_cache, {
+        writable: true,
+        value: GM_getValue('steamCache') || {
+          group: {},
+          forum: {},
+          workshop: {},
+          curator: {}
+        }
       });
       Steam_classPrivateFieldInitSpec(this, Steam_auth, {
         writable: true,
@@ -3773,6 +3855,11 @@
         type: 'getSteamGroupId',
         text: groupName
       });
+      const groupId = Steam_classPrivateFieldGet(this, Steam_cache).group[groupName];
+      if (groupId) {
+        logStatus.success();
+        return groupId;
+      }
       const {
         result,
         statusText,
@@ -3790,6 +3877,7 @@
           var _data$responseText$ma6;
           const groupId = (_data$responseText$ma6 = data.responseText.match(/OpenGroupChat\( '([0-9]+)'/)) === null || _data$responseText$ma6 === void 0 ? void 0 : _data$responseText$ma6[1];
           if (groupId) {
+            Steam_classPrivateMethodGet(this, Steam_setCache, Steam_setCache2).call(this, 'group', groupName, groupId);
             logStatus.success();
             return groupId;
           }
@@ -4061,6 +4149,11 @@
         type: 'getForumId',
         text: gameId
       });
+      const forumId = Steam_classPrivateFieldGet(this, Steam_cache).forum[gameId];
+      if (forumId) {
+        logStatus.success();
+        return forumId;
+      }
       const {
         result,
         statusText,
@@ -4075,6 +4168,7 @@
           var _data$responseText, _data$responseText$ma7;
           const forumId = (_data$responseText = data.responseText) === null || _data$responseText === void 0 ? void 0 : (_data$responseText$ma7 = _data$responseText.match(/General_([\d]+(_[\d]+)?)/)) === null || _data$responseText$ma7 === void 0 ? void 0 : _data$responseText$ma7[1];
           if (forumId) {
+            Steam_classPrivateMethodGet(this, Steam_setCache, Steam_setCache2).call(this, 'forum', gameId, forumId);
             logStatus.success();
             return forumId;
           }
@@ -4150,6 +4244,11 @@
         type: 'getWorkshopAppId',
         text: id
       });
+      const appId = Steam_classPrivateFieldGet(this, Steam_cache).workshop[id];
+      if (appId) {
+        logStatus.success();
+        return appId;
+      }
       const {
         result,
         statusText,
@@ -4162,10 +4261,11 @@
       if (result === 'Success') {
         if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
           var _data$responseText$ma8;
-          const appid = (_data$responseText$ma8 = data.responseText.match(/<input type="hidden" name="appid" value="([\d]+?)" \/>/)) === null || _data$responseText$ma8 === void 0 ? void 0 : _data$responseText$ma8[1];
-          if (appid) {
+          const appId = (_data$responseText$ma8 = data.responseText.match(/<input type="hidden" name="appid" value="([\d]+?)" \/>/)) === null || _data$responseText$ma8 === void 0 ? void 0 : _data$responseText$ma8[1];
+          if (appId) {
+            Steam_classPrivateMethodGet(this, Steam_setCache, Steam_setCache2).call(this, 'workshop', id, appId);
             logStatus.success();
-            return appid;
+            return appId;
           }
           logStatus.error('Error: getWorkshopAppId failed');
           return false;
@@ -4273,6 +4373,11 @@
         type: 'getCuratorId',
         text: `${path}/${developerName}`
       });
+      const curatorId = Steam_classPrivateFieldGet(this, Steam_cache).curator[`${path}/${developerName}`];
+      if (curatorId) {
+        logStatus.success();
+        return curatorId;
+      }
       const {
         result,
         statusText,
@@ -4288,10 +4393,11 @@
       if (result === 'Success') {
         if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
           var _data$responseText$ma9;
-          const developerId = (_data$responseText$ma9 = data.responseText.match(/g_pagingData.*?"clanid":([\d]+)/)) === null || _data$responseText$ma9 === void 0 ? void 0 : _data$responseText$ma9[1];
-          if (developerId) {
+          const curatorId = (_data$responseText$ma9 = data.responseText.match(/g_pagingData.*?"clanid":([\d]+)/)) === null || _data$responseText$ma9 === void 0 ? void 0 : _data$responseText$ma9[1];
+          if (curatorId) {
+            Steam_classPrivateMethodGet(this, Steam_setCache, Steam_setCache2).call(this, 'curator', `${path}/${developerName}`, curatorId);
             logStatus.success();
-            return developerId;
+            return curatorId;
           }
           logStatus.error(`Error:${data.statusText}(${data.status})`);
           return false;
@@ -4436,13 +4542,25 @@
       return false;
     }
   }
+  function Steam_setCache2(type, name, id) {
+    try {
+      Steam_classPrivateFieldGet(this, Steam_cache)[type][name] = id;
+      GM_setValue('steamCache', Steam_classPrivateFieldGet(this, Steam_cache));
+    } catch (error) {
+      throwError_throwError(error, 'Steam.setCache');
+    }
+  }
   const social_Steam = Steam;
-  if (window.location.hostname === 'discord.com' && window.location.hash === '#auth') {
+  if (window.location.hostname === 'discord.com') {
     var _window$localStorage$;
+    const discordAuth = (_window$localStorage$ = window.localStorage.getItem('token')) === null || _window$localStorage$ === void 0 ? void 0 : _window$localStorage$.replace(/^"|"$/g, '');
     GM_setValue('discordAuth', {
-      auth: (_window$localStorage$ = window.localStorage.getItem('token')) === null || _window$localStorage$ === void 0 ? void 0 : _window$localStorage$.replace(/^"|"$/g, '')
+      auth: discordAuth
     });
-    window.close();
+    if (discordAuth && window.location.hash === '#auth') {
+      window.close();
+      Swal.fire('', '如果此页面没有自动关闭，请自行关闭本页面。');
+    }
   }
   window.onload = () => {
     if (window.location.hostname === 'www.twitch.tv' && window.location.hash === '#auth') {
@@ -4455,16 +4573,23 @@
           clientId: (_commonOptions = commonOptions) === null || _commonOptions === void 0 ? void 0 : (_commonOptions$header = _commonOptions.headers) === null || _commonOptions$header === void 0 ? void 0 : _commonOptions$header['Client-ID']
         });
         window.close();
-      } else {}
+        Swal.fire('', '如果此页面没有自动关闭，请自行关闭本页面。');
+      } else {
+        Swal.fire('', '请先登录！');
+      }
     }
     if (window.location.hostname === 'twitter.com' && window.location.hash === '#auth') {
       const ct0 = Cookies.get('ct0');
-      if (ct0) {
+      const isLogin = !!Cookies.get('twid');
+      if (isLogin && ct0) {
         GM_setValue('twitterAuth', {
           ct0: ct0
         });
         window.close();
-      } else {}
+        Swal.fire('', '如果此页面没有自动关闭，请自行关闭本页面。');
+      } else {
+        Swal.fire('', '请先登录！');
+      }
     }
     if (window.location.hostname === 'www.youtube.com' && window.location.hash === '#auth') {
       const PAPISID = Cookies.get('__Secure-3PAPISID');
@@ -4473,7 +4598,10 @@
           PAPISID: PAPISID
         });
         window.close();
-      } else {}
+        Swal.fire('', '如果此页面没有自动关闭，请自行关闭本页面。');
+      } else {
+        Swal.fire('', '请先登录！');
+      }
     }
     if (window.location.hostname === 'www.reddit.com' && (window.location.hash === '#auth' || GM_getValue('redditAuth') === '#auth')) {
       const betaButton = $('#redesign-beta-optin-btn');

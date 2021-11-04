@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2021-11-03 11:52:26
+ * @LastEditTime : 2021-11-04 12:09:46
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
@@ -120,7 +120,7 @@ class Discord extends Social {
         const guild = String(data.response?.guild?.id);
         if (guild) {
           // TODO: 优化
-          this.#addId(inviteId, guild);
+          this.#setCache(inviteId, guild);
           this.tasks.servers = unique([...this.tasks.servers, inviteId]);
         }
         return true;
@@ -178,7 +178,7 @@ class Discord extends Social {
         const guild = data.responseText.match(/https?:\/\/cdn\.discordapp\.com\/icons\/([\d]+?)\//)?.[1];
         if (guild) {
           logStatus.success();
-          this.#addId(inviteId, guild);
+          this.#setCache(inviteId, guild);
           return guild;
         }
         logStatus.error(`${result}:${statusText}(${status})`);
@@ -201,7 +201,7 @@ class Discord extends Social {
     doTask: boolean,
     servers: Array<string>,
     serverLinks: Array<string>
-    }): Promise<boolean> {
+  }): Promise<boolean> {
     try {
       if (!this.#initialized) {
         echoLog({ type: 'text', text: '请先初始化' });
@@ -227,12 +227,14 @@ class Discord extends Social {
     }
   }
 
-  #addId(inviteId: string, guild: string): void {
-    this.#cache[inviteId] = guild;
-    GM_setValue('discordCache', this.#cache); // eslint-disable-line new-cap
+  #setCache(inviteId: string, guild: string): void {
+    try {
+      this.#cache[inviteId] = guild;
+      GM_setValue('discordCache', this.#cache); // eslint-disable-line new-cap
+    } catch (error) {
+      throwError(error as Error, 'Discord.setCache');
+    }
   }
-
-  // TODO: id转换
 }
 
 export default Discord;

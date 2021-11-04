@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 13:18:21
- * @LastEditTime : 2021-11-02 14:07:50
+ * @LastEditTime : 2021-11-04 11:20:59
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/global.d.ts
  */
@@ -142,6 +142,14 @@ declare global {
   interface cache {
     [name: string]: string
   }
+  type steamCacheTypes = 'group' | 'forum' | 'workshop' | 'curator'
+
+  interface steamCache {
+    group: cache
+    forum: cache
+    workshop: cache
+    curator: cache
+  }
 
   interface logStatus {
     font?: JQuery
@@ -153,7 +161,7 @@ declare global {
   }
   function GM_xmlhttpRequest(details: MonkeyXhrDetails): { abort: () => void } // eslint-disable-line camelcase
   function GM_setValue(name: string, value: any): void // eslint-disable-line camelcase
-  function GM_getValue<T>(name: string, defaultValue?: T): T // eslint-disable-line camelcase
+  function GM_getValue<T>(name: string, defaultValue?: T): undefined | T // eslint-disable-line camelcase
   function GM_openInTab(url: string, options?: { // eslint-disable-line camelcase
     active?: boolean
     insert?: boolean

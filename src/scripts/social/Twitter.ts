@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:36:57
- * @LastEditTime : 2021-11-01 13:44:42
+ * @LastEditTime : 2021-11-04 11:04:08
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitter.ts
  * @Description  : Twitter 关注/取关用户,转推/取消转推推文
@@ -19,10 +19,11 @@ class Twitter extends Social {
   whiteList: twitterTasks = GM_getValue<whiteList>('whiteList')?.twitter || { users: [], retweets: [], likes: [] }; // eslint-disable-line new-cap
   #verifyId = '783214';
   #auth: auth = GM_getValue<auth>('twitterAuth') || {}; // eslint-disable-line new-cap
+  #cache: cache = GM_getValue<cache>('twitterCache') || {}; // eslint-disable-line new-cap
   #initialized = false;
 
   // TODO: 任务识别
-  constructor(tasks: twitterTasks, verifyId?:string) {
+  constructor(tasks: twitterTasks, verifyId?: string) {
     super();
     this.tasks = tasks || { users: [], retweets: [], likes: [] }; // eslint-disable-line new-cap
     if (verifyId) {
@@ -41,7 +42,7 @@ class Twitter extends Social {
         }
         return false;
       }
-      const isVerified = await this.#verifyAuth(); // TODO
+      const isVerified = await this.#verifyAuth();
       if (isVerified) {
         echoLog({ text: 'Init twitter success!' });
         this.#initialized = true;
@@ -154,9 +155,14 @@ class Twitter extends Social {
     }
   }
 
-  async #getUserId(name: string): Promise<string | boolean> {
+  async #getUserId(name: string): Promise<string | false> {
     try {
       const logStatus = echoLog({ type: 'getTwitterUserId', text: name });
+      const userId = this.#cache[name];
+      if (userId) {
+        logStatus.success();
+        return userId;
+      }
       const { result, statusText, status, data } = await httpRequest({
         url: (
           'https://api.twitter.com/graphql/-xfUfZsnR_zqjFd-IfrN5A/UserByScreenName' +
@@ -182,6 +188,7 @@ class Twitter extends Social {
           }
           const userId = String(response?.data?.user?.rest_id); // eslint-disable-line camelcase
           if (userId) {
+            this.#setCache(name, userId);
             logStatus.success();
             return userId;
           }
@@ -244,13 +251,13 @@ class Twitter extends Social {
     userLinks = [],
     retweets = [],
     retweetLinks = []
-  }:{
-      doTask: boolean,
-      users: Array<string>,
-      userLinks: Array<string>,
-      retweets: Array<string>,
-      retweetLinks: Array<string>
-    }): Promise<boolean> {
+  }: {
+    doTask: boolean,
+    users: Array<string>,
+    userLinks: Array<string>,
+    retweets: Array<string>,
+    retweetLinks: Array<string>
+  }): Promise<boolean> {
     try {
       if (!this.#initialized) {
         echoLog({ type: 'text', text: '请先初始化' });
@@ -277,6 +284,14 @@ class Twitter extends Social {
     } catch (error) {
       throwError(error as Error, 'Twitter.toggle');
       return false;
+    }
+  }
+  #setCache(name: string, id: string): void {
+    try {
+      this.#cache[name] = id;
+      GM_setValue('twitterCache', this.#cache); // eslint-disable-line new-cap
+    } catch (error) {
+      throwError(error as Error, 'Twitter.setCache');
     }
   }
 }
