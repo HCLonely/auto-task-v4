@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-15 10:48:42
- * @LastEditTime : 2021-11-03 11:39:10
+ * @LastEditTime : 2021-11-05 10:38:02
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Social.ts
  * @Description  :
@@ -21,16 +21,18 @@ abstract class Social {
   // 通用
   protected getRealParams(
     name: taskTypes,
-    params: Array<string>,
+    // params: Array<string>,
     links: Array<string>,
     doTask: boolean,
     link2param: (link: string) => string | undefined
   ): Array<string> {
     try {
       let realParams: Array<string> = [];
+      /*
       if (params.length > 0) {
         realParams = [...params];
       }
+      */
       if (links.length > 0) {
         realParams = [
           ...realParams,

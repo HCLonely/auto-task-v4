@@ -1,12 +1,13 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-11-04 13:06:30
+ * @LastEditTime : 2021-11-05 11:21:50
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
  */
-
+import Swal from 'sweetalert2';
+import * as Cookies from 'js-cookie';
 import Discord from './scripts/social/Discord';
 import Instagram from './scripts/social/Instagram';
 import Reddit from './scripts/social/Reddit';
@@ -15,6 +16,8 @@ import Twitter from './scripts/social/Twitter';
 import Vk from './scripts/social/Vk';
 import Youtube from './scripts/social/Youtube';
 import Steam from './scripts/social/Steam';
+import Freeanywhere from './scripts/website/freeanywhere';
+
 declare const commonOptions: {
   headers?: {
     'Client-ID': string
@@ -81,6 +84,7 @@ window.onload = () => {
   unsafeWindow.Vk = Vk;
   unsafeWindow.Youtube = Youtube;
   unsafeWindow.Steam = Steam;
+  unsafeWindow.Freeanywhere = Freeanywhere;
 
   $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;"></div>');
 };

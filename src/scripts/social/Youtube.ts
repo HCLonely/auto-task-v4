@@ -1,11 +1,14 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 12:18:06
- * @LastEditTime : 2021-11-01 15:48:45
+ * @LastEditTime : 2021-11-05 10:52:31
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Youtube.ts
  * @Description  : Youtube 订阅/取消订阅频道，点赞/取消点赞视频
  */
+
+// eslint-disable-next-line
+/// <reference path = "Youtube.d.ts" />
 
 import Social from './Social';
 import echoLog from '../echoLog';
@@ -14,49 +17,17 @@ import httpRequest from '../tools/httpRequest';
 import getI18n from '../i18n/i18n';
 import { unique, delay } from '../tools/tools';
 
-interface youtubeInfo {
-  params?: {
-    apiKey: string
-    client: {
-      visitorData: string
-    }
-    request: {
-      sessionId: string
-    }
-    videoId?: string
-    likeParams?: string
-    channelId?: string
-  }
-  needLogin?: boolean
-}
-interface likeVideoData {
-  context: {
-    client: {
-      visitorData: string
-    },
-    request: {
-      sessionId: string,
-      internalExperimentFlags: Array<unknown>,
-      consistencyTokenJars: Array<unknown>
-    },
-    user: object
-  },
-  target: {
-    videoId: string
-  },
-  params?: string
-}
+const defaultTasks: youtubeTasks = { channels: [], likes: [] };
 class Youtube extends Social {
-  tasks: youtubeTasks;
-  whiteList: youtubeTasks = GM_getValue<whiteList>('whiteList')?.youtube || { channels: [], likes: [] }; // eslint-disable-line new-cap
+  tasks = defaultTasks;
+  whiteList: youtubeTasks = GM_getValue<whiteList>('whiteList')?.youtube || defaultTasks; // eslint-disable-line new-cap
   #auth: auth = GM_getValue<auth>('youtubeAuth') || {}; // eslint-disable-line new-cap
   #initialized = false;
   #verifyChannel = 'https://www.youtube.com/channel/UCBR8-60-B28hp2BmDPdntcQ';
 
   // TODO: 任务识别
-  constructor(tasks: youtubeTasks, verifyChannel?: string) {
+  constructor(verifyChannel?: string) {
     super();
-    this.tasks = tasks || { channels: [], likes: [] }; // eslint-disable-line new-cap
     if (verifyChannel) {
       this.#verifyChannel = verifyChannel;
     }
@@ -65,6 +36,9 @@ class Youtube extends Social {
   // 通用化,log
   async init(): Promise<boolean> {
     try {
+      if (this.#initialized) {
+        return true;
+      }
       if (!this.#auth.PAPISID) {
         echoLog({ type: 'updateYoutubeAuth' });
         if (await this.#updateAuth()) {
@@ -361,13 +335,13 @@ class Youtube extends Social {
         return false;
       }
       const prom = [];
-      const realChannels = this.getRealParams('channels', [], channelLinks, doTask, (link) => {
+      const realChannels = this.getRealParams('channels', channelLinks, doTask, (link) => {
         if (/^https:\/\/www\.google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
           return link.match(/url=(https:\/\/www.youtube.com\/.*)/)?.[1];
         }
         return link;
       });
-      const realLikes = this.getRealParams('likes', [], videoLinks, doTask, (link) => {
+      const realLikes = this.getRealParams('likes', videoLinks, doTask, (link) => {
         if (/^https:\/\/www\.google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
           return link.match(/url=(https:\/\/www.youtube.com\/.*)/)?.[1];
         }

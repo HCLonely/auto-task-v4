@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-30 09:43:32
- * @LastEditTime : 2021-11-03 11:43:20
+ * @LastEditTime : 2021-11-05 10:43:21
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Reddit.ts
  * @Description  : Reddit 订阅&取消订阅
@@ -14,21 +14,19 @@ import httpRequest from '../tools/httpRequest';
 import getI18n from '../i18n/i18n';
 import { unique, delay } from '../tools/tools';
 
+const defaultTasks: redditTasks = { reddits: [] };
 class Reddit extends Social {
-  tasks: redditTasks;
-  whiteList: redditTasks = GM_getValue<whiteList>('whiteList')?.reddit || { reddits: [] }; // eslint-disable-line new-cap
+  tasks = defaultTasks;
+  whiteList: redditTasks = GM_getValue<whiteList>('whiteList')?.reddit || defaultTasks; // eslint-disable-line new-cap
   #auth!: auth;
   #initialized = false;
-
-  // TODO: 任务识别
-  constructor(tasks: redditTasks) {
-    super();
-    this.tasks = tasks || { reddits: [] }; // eslint-disable-line new-cap
-  }
 
   // 通用化
   async init(): Promise<boolean> {
     try {
+      if (this.#initialized) {
+        return true;
+      }
       const isVerified: boolean = await this.#updateAuth();
       if (isVerified) {
         echoLog({ text: 'Init reddit success!' });
@@ -142,11 +140,9 @@ class Reddit extends Social {
 
   async toggle({
     doTask = true,
-    reddits = [],
     redditLinks = []
   }: {
     doTask: boolean,
-    reddits: Array<string>,
     redditLinks: Array<string>
   }): Promise<boolean> {
     try {
@@ -155,7 +151,7 @@ class Reddit extends Social {
         return false;
       }
       const prom: Array<Promise<boolean>> = [];
-      const realReddits: Array<string> = this.getRealParams('reddits', reddits, redditLinks, doTask,
+      const realReddits: Array<string> = this.getRealParams('reddits', redditLinks, doTask,
         (link) => {
           const name = link.match(/https?:\/\/www\.reddit\.com\/r\/([^/]*)/)?.[1];
           const userName = link.match(/https?:\/\/www\.reddit\.com\/user\/([^/]*)/)?.[1];

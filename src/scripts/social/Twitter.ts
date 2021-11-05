@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:36:57
- * @LastEditTime : 2021-11-04 11:04:08
+ * @LastEditTime : 2021-11-05 10:49:27
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitter.ts
  * @Description  : Twitter 关注/取关用户,转推/取消转推推文
@@ -14,18 +14,18 @@ import throwError from '../tools/throwError';
 import httpRequest from '../tools/httpRequest';
 import { unique, delay } from '../tools/tools';
 
+const defaultTasks: twitterTasks = { users: [], retweets: [], likes: [] };
 class Twitter extends Social {
-  tasks: twitterTasks;
-  whiteList: twitterTasks = GM_getValue<whiteList>('whiteList')?.twitter || { users: [], retweets: [], likes: [] }; // eslint-disable-line new-cap
+  tasks = defaultTasks;
+  whiteList: twitterTasks = GM_getValue<whiteList>('whiteList')?.twitter || defaultTasks; // eslint-disable-line new-cap
   #verifyId = '783214';
   #auth: auth = GM_getValue<auth>('twitterAuth') || {}; // eslint-disable-line new-cap
   #cache: cache = GM_getValue<cache>('twitterCache') || {}; // eslint-disable-line new-cap
   #initialized = false;
 
   // TODO: 任务识别
-  constructor(tasks: twitterTasks, verifyId?: string) {
+  constructor(verifyId?: string) {
     super();
-    this.tasks = tasks || { users: [], retweets: [], likes: [] }; // eslint-disable-line new-cap
     if (verifyId) {
       this.#verifyId = verifyId;
     }
@@ -34,6 +34,9 @@ class Twitter extends Social {
   // 通用化,log
   async init(): Promise<boolean> {
     try {
+      if (this.#initialized) {
+        return true;
+      }
       if (!this.#auth.ct0) {
         echoLog({ type: 'updateTwitterAuth' });
         if (await this.#updateAuth()) {
@@ -247,15 +250,11 @@ class Twitter extends Social {
 
   async toggle({
     doTask = true,
-    users = [],
     userLinks = [],
-    retweets = [],
     retweetLinks = []
   }: {
     doTask: boolean,
-    users: Array<string>,
     userLinks: Array<string>,
-    retweets: Array<string>,
     retweetLinks: Array<string>
   }): Promise<boolean> {
     try {
@@ -264,8 +263,8 @@ class Twitter extends Social {
         return false;
       }
       const prom = [];
-      const realUsers = this.getRealParams('users', users, userLinks, doTask, (link) => link.match(/https:\/\/twitter\.com\/(.+)/)?.[1]);
-      const realRetweets = this.getRealParams('retweets', retweets, retweetLinks, doTask,
+      const realUsers = this.getRealParams('users', userLinks, doTask, (link) => link.match(/https:\/\/twitter\.com\/(.+)/)?.[1]);
+      const realRetweets = this.getRealParams('retweets', retweetLinks, doTask,
         (link) => link.match(/https:\/\/twitter\.com\/.*?\/status\/([\d]+)/)?.[1]);
       if (realUsers.length > 0) {
         for (const user of realUsers) {

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2021-11-04 12:09:46
+ * @LastEditTime : 2021-11-05 14:25:10
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
@@ -14,21 +14,21 @@ import throwError from '../tools/throwError';
 import { unique, delay } from '../tools/tools';
 import echoLog from '../echoLog';
 
+const defaultTasks: discordTasks = { servers: [] };
+
 class Discord extends Social {
-  tasks: discordTasks;
-  whiteList: discordTasks = GM_getValue<whiteList>('whiteList')?.discord || { servers: [] }; // eslint-disable-line new-cap
+  tasks = { ...defaultTasks };
+  whiteList: discordTasks = GM_getValue<whiteList>('whiteList')?.discord || { ...defaultTasks }; // eslint-disable-line new-cap
   #auth: auth = GM_getValue<auth>('discordAuth') || {}; // eslint-disable-line new-cap
   #cache: cache = GM_getValue<cache>('discordCache') || {}; // eslint-disable-line new-cap
   #initialized = false;
 
-  // TODO: 任务识别
-  constructor(tasks: discordTasks) {
-    super();
-    this.tasks = tasks || { servers: [] }; // eslint-disable-line new-cap
-  }
   // TODO:优化
   async init(): Promise<boolean> {
     try {
+      if (this.#initialized) {
+        return true;
+      }
       if (!this.#auth.auth) {
         echoLog({ type: 'updateDiscordAuth' });
         if (await this.#updateAuth()) {
@@ -195,11 +195,9 @@ class Discord extends Social {
   // TODO:返回类型定义
   async toggle({
     doTask = true,
-    servers = [],
     serverLinks = []
   }: {
     doTask: boolean,
-    servers: Array<string>,
     serverLinks: Array<string>
   }): Promise<boolean> {
     try {
@@ -208,7 +206,7 @@ class Discord extends Social {
         return false;
       }
       const prom = [];
-      const realServers = this.getRealParams('servers', servers, serverLinks, doTask, (link: string) => link.match(/invite\/(.+)/)?.[1]);
+      const realServers = this.getRealParams('servers', serverLinks, doTask, (link: string) => link.match(/invite\/(.+)/)?.[1]);
       if (realServers.length > 0) {
         for (const server of realServers) {
           if (doTask) {

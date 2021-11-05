@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-29 12:54:16
- * @LastEditTime : 2021-11-04 10:58:41
+ * @LastEditTime : 2021-11-05 10:42:22
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Instagram.ts
  * @Description  : Instagram 关注&取关用户
@@ -14,21 +14,19 @@ import httpRequest from '../tools/httpRequest';
 import getI18n from '../i18n/i18n';
 import { unique, delay } from '../tools/tools';
 
+const defaultTasks: instagramTasks = { users: [] };
 class Instagram extends Social {
-  tasks: instagramTasks;
-  whiteList: instagramTasks = GM_getValue<whiteList>('whiteList')?.instagram || { users: [] }; // eslint-disable-line new-cap
+  tasks = defaultTasks;
+  whiteList: instagramTasks = GM_getValue<whiteList>('whiteList')?.instagram || defaultTasks; // eslint-disable-line new-cap
   #cache: cache = GM_getValue<cache>('instagramCache') || {}; // eslint-disable-line new-cap
   #auth: auth = {};
   #initialized = false;
 
-  // TODO: 任务识别
-  constructor(tasks: instagramTasks) {
-    super();
-    this.tasks = tasks || { users: [] }; // eslint-disable-line new-cap
-  }
-
   async init(): Promise<boolean> {
     try {
+      if (this.#initialized) {
+        return true;
+      }
       const isVerified = await this.#getUserInfo();
       if (isVerified) {
         echoLog({ text: 'Init instagram success!' });
@@ -171,11 +169,9 @@ class Instagram extends Social {
   // 改成处理任务
   async toggle({
     doTask = true,
-    users = [],
     userLinks = []
   }: {
     doTask: boolean,
-    users: Array<string>,
     userLinks: Array<string>
     }): Promise<boolean> {
     try {
@@ -184,7 +180,7 @@ class Instagram extends Social {
         return false;
       }
       const prom = [];
-      const realUsers = this.getRealParams('users', users, userLinks, doTask,
+      const realUsers = this.getRealParams('users', userLinks, doTask,
         (link) => link.match(/https:\/\/www\.instagram\.com\/(.+)?\//)?.[1]);
       if (realUsers.length > 0) {
         for (const username of realUsers) {

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 11:47:59
- * @LastEditTime : 2021-11-04 11:04:22
+ * @LastEditTime : 2021-11-05 14:25:26
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Vk.ts
  * @Description  : Vk 加入/退出群组，关注/取关用户，转发/取消转发动态
@@ -24,22 +24,20 @@ interface dataParams {
   publicJoined?: boolean
   wallHash?: string
 }
+const defaultTasks: vkTasks = { names: [] };
 class Vk extends Social {
-  tasks: vkTasks;
-  whiteList: vkTasks = GM_getValue<whiteList>('whiteList')?.vk || { names: [] }; // eslint-disable-line new-cap
+  tasks = { ...defaultTasks };
+  whiteList: vkTasks = GM_getValue<whiteList>('whiteList')?.vk || { ...defaultTasks }; // eslint-disable-line new-cap
   #username = '';
   #cache: cache = GM_getValue<cache>('vkCache') || {}; // eslint-disable-line new-cap
   #initialized = false;
 
-  // TODO: 任务识别
-  constructor(tasks: vkTasks) {
-    super();
-    this.tasks = tasks || { names: [] }; // eslint-disable-line new-cap
-  }
-
   // 通用化,log
   async init(): Promise<boolean> {
     try {
+      if (this.#initialized) {
+        return true;
+      }
       const isVerified: boolean = await this.#verifyAuth(); // TODO
       if (isVerified) {
         echoLog({ text: 'Init vk success!' });
@@ -372,14 +370,20 @@ class Vk extends Social {
     }
   }
 
-  async toggle({ doTask = true, names = [], nameLinks = [] }: { doTask: boolean, names: Array<string>, nameLinks: Array<string> }): Promise<boolean> {
+  async toggle({
+    doTask = true,
+    nameLinks = []
+  }: {
+    doTask: boolean,
+    nameLinks?: Array<string>
+  }): Promise<boolean> {
     try {
       if (!this.#initialized) {
         echoLog({ type: 'text', text: '请先初始化' });
         return false;
       }
       const prom = [];
-      const realNames = this.getRealParams('names', names, nameLinks, doTask, (link) => link.match(/https:\/\/vk\.com\/([^/]+)/)?.[1]);
+      const realNames = this.getRealParams('names', nameLinks, doTask, (link) => link.match(/https:\/\/vk\.com\/([^/]+)/)?.[1]);
       if (realNames.length > 0) {
         for (const name of realNames) {
           prom.push(this.#toggleVk({ name, doTask }));

@@ -2,7 +2,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 16:22:46
- * @LastEditTime : 2021-11-02 12:15:39
+ * @LastEditTime : 2021-11-05 11:14:39
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/webpack.config.js
  * @Description  :
@@ -70,5 +70,9 @@ module.exports = {
         }
       }
     })]
+  },
+  externals: {
+    sweetalert2: 'Swal',
+    'js-cookie': 'Cookies'
   }
 };

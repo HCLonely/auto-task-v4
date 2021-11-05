@@ -1,12 +1,14 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2021-11-04 11:21:45
+ * @LastEditTime : 2021-11-05 14:25:19
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
  ! todo: id存储
  */
+// eslint-disable-next-line
+/// <reference path = "Steam.d.ts" />
 /* eslint-disable id-length */
 
 import Social from './Social';
@@ -16,34 +18,21 @@ import httpRequest from '../tools/httpRequest';
 import getI18n from '../i18n/i18n';
 import { unique, delay } from '../tools/tools';
 
-interface areas {
-  currentArea?: string
-  areas?: Array<string>
-}
-interface followGameRequestData {
-  sessionid: string
-  appid: string
-  unfollow?: string
-}
-interface announcementParams {
-  authWgToken?: string
-  clanId?: string
-  gid?: string
-}
+const defaultTasks: steamTasks = {
+  groups: [],
+  wishlists: [],
+  follows: [],
+  forums: [],
+  workshops: [],
+  workshopVotes: [],
+  curators: [],
+  curatorLikes: [],
+  announcements: []
+};
 // TODO: doTask 保存
 class Steam extends Social {
-  tasks: steamTasks;
-  whiteList: steamTasks = GM_getValue<whiteList>('whiteList')?.steam || { // eslint-disable-line new-cap
-    groups: [],
-    wishlists: [],
-    follows: [],
-    forums: [],
-    workshops: [],
-    workshopVotes: [],
-    curators: [],
-    curatorLikes: [],
-    announcements: []
-  };
+  tasks = { ...defaultTasks };
+  whiteList: steamTasks = GM_getValue<whiteList>('whiteList')?.steam || { ...defaultTasks }; // eslint-disable-line new-cap
   #cache: steamCache = GM_getValue<steamCache>('steamCache') || { // eslint-disable-line new-cap
     group: {},
     forum: {},
@@ -53,25 +42,12 @@ class Steam extends Social {
   #auth: auth = {};
   #initialized = false;
 
-  // TODO: 任务识别
-  constructor(tasks: steamTasks) {
-    super();
-    this.tasks = tasks || {
-      groups: [],
-      wishlists: [],
-      follows: [],
-      forums: [],
-      workshops: [],
-      workshopVotes: [],
-      curators: [],
-      curatorLikes: [],
-      announcements: []
-    };
-  }
-
   // 通用化,log
   async init(): Promise<boolean> {
     try {
+      if (this.#initialized) {
+        return true;
+      }
       const isVerified = (await this.#updateStoreAuth()) && await (this.#updateCommunityAuth());
       if (isVerified) {
         this.#initialized = true;
@@ -342,7 +318,7 @@ class Steam extends Social {
       });
       if (result === 'Success' && data?.status === 200 && data.response?.success === true) {
         logStatus.success();
-        this.tasks.wishlists = unique([...this.whiteList.wishlists, gameId]);
+        this.tasks.wishlists = unique([...this.tasks.wishlists, gameId]);
         return true;
       }
       const { result: resultR, statusText: statusTextR, status: statusR, data: dataR } = await httpRequest({
@@ -353,7 +329,7 @@ class Steam extends Social {
         if (dataR?.status === 200) {
           if (dataR.responseText.includes('class="queue_actions_ctn"') && dataR.responseText.includes('class="already_in_library"')) {
             logStatus.success();
-            this.tasks.wishlists = unique([...this.whiteList.wishlists, gameId]);
+            this.tasks.wishlists = unique([...this.tasks.wishlists, gameId]);
             return true;
           } else if (
             (dataR.responseText.includes('class="queue_actions_ctn"') &&
@@ -364,7 +340,7 @@ class Steam extends Social {
             return false;
           }
           logStatus.success();
-          this.tasks.wishlists = unique([...this.whiteList.wishlists, gameId]);
+          this.tasks.wishlists = unique([...this.tasks.wishlists, gameId]);
           return true;
         }
         logStatus.error(`Error:${dataR?.statusText}(${dataR?.status})`);
@@ -449,7 +425,7 @@ class Steam extends Social {
       const followed = await this.#isFollowedGame(gameId);
       if (doTask === followed) {
         logStatus.success();
-        if (doTask) this.tasks.follows = unique([...this.whiteList.follows, gameId]);
+        if (doTask) this.tasks.follows = unique([...this.tasks.follows, gameId]);
         return true;
       }
       logStatus.error(`Error:${data?.statusText}(${data?.status})`);
@@ -847,17 +823,17 @@ class Steam extends Social {
         return false;
       }
       const prom = [];
-      const realGroups = this.getRealParams('groups', [], groupLinks, doTask, (link) => link.match(/groups\/(.+)\/?/)?.[1]);
-      const realWishlists = this.getRealParams('wishlists', [], wishlistLinks, doTask, (link) => link.match(/app\/([\d]+)/)?.[1]);
-      const realFollows = this.getRealParams('follows', [], followLinks, doTask, (link) => link.match(/app\/([\d]+)/)?.[1]);
-      const realForums = this.getRealParams('forums', [], forumLinks, doTask, (link) => link.match(/app\/([\d]+)/)?.[1]);
-      const realWorkshops = this.getRealParams('workshops', [], workshopLinks, doTask, (link) => link.match(/\?id=([\d]+)/)?.[1]);
-      const realworkshopVotes = this.getRealParams('workshopVotes', [], workshopVoteLinks, doTask, (link) => link.match(/\?id=([\d]+)/)?.[1]);
-      const realCurators = this.getRealParams('curators', [], curatorLinks, doTask, (link) => link.match(/curator\/([\d]+)/)?.[1]);
-      const realCuratorLikes = this.getRealParams('curatorLikes', [], curatorLikeLinks, doTask,
+      const realGroups = this.getRealParams('groups', groupLinks, doTask, (link) => link.match(/groups\/(.+)\/?/)?.[1]);
+      const realWishlists = this.getRealParams('wishlists', wishlistLinks, doTask, (link) => link.match(/app\/([\d]+)/)?.[1]);
+      const realFollows = this.getRealParams('follows', followLinks, doTask, (link) => link.match(/app\/([\d]+)/)?.[1]);
+      const realForums = this.getRealParams('forums', forumLinks, doTask, (link) => link.match(/app\/([\d]+)/)?.[1]);
+      const realWorkshops = this.getRealParams('workshops', workshopLinks, doTask, (link) => link.match(/\?id=([\d]+)/)?.[1]);
+      const realworkshopVotes = this.getRealParams('workshopVotes', workshopVoteLinks, doTask, (link) => link.match(/\?id=([\d]+)/)?.[1]);
+      const realCurators = this.getRealParams('curators', curatorLinks, doTask, (link) => link.match(/curator\/([\d]+)/)?.[1]);
+      const realCuratorLikes = this.getRealParams('curatorLikes', curatorLikeLinks, doTask,
         (link) => link.match(/https?:\/\/store\.steampowered\.com\/(.*?)\/([^/?]+)/)?.slice(1, 3)
           .join('/'));
-      const realAnnouncements = this.getRealParams('announcements', [], announcementLinks, doTask,
+      const realAnnouncements = this.getRealParams('announcements', announcementLinks, doTask,
         (link) => {
           if (link.includes('store.steampowered.com')) {
             return link.match(/store.steampowered.com\/news\/app\/([\d]+)\/view\/([\d]+)/)?.slice(1, 3)

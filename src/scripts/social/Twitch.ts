@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:00:41
- * @LastEditTime : 2021-11-04 11:03:55
+ * @LastEditTime : 2021-11-05 10:48:30
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitch.ts
  * @Description  : Twitch 关注/取关频道
@@ -13,22 +13,20 @@ import throwError from '../tools/throwError';
 import httpRequest from '../tools/httpRequest';
 import { unique, delay } from '../tools/tools';
 
+const defaultTasks: twitchTasks = { channels: [] };
 class Twitch extends Social {
-  tasks: twitchTasks;
-  whiteList: twitchTasks = GM_getValue<whiteList>('whiteList')?.twitch || { channels: [] }; // eslint-disable-line new-cap
+  tasks = defaultTasks;
+  whiteList: twitchTasks = GM_getValue<whiteList>('whiteList')?.twitch || defaultTasks; // eslint-disable-line new-cap
   #auth: auth = GM_getValue<auth>('twitchAuth') || {}; // eslint-disable-line new-cap
   #cache: cache = GM_getValue<cache>('twitchCache') || {}; // eslint-disable-line new-cap
   #initialized = false;
 
-  // TODO: 任务识别
-  constructor(tasks: twitchTasks) {
-    super();
-    this.tasks = tasks || { channels: [] }; // eslint-disable-line new-cap
-  }
-
   // 通用化,log
   async init(): Promise<boolean> {
     try {
+      if (this.#initialized) {
+        return true;
+      }
       if (!this.#auth.authToken) {
         echoLog({ type: 'updateTwitchAuth' });
         if (await this.#updateAuth()) {
@@ -196,11 +194,9 @@ class Twitch extends Social {
 
   async toggle({
     doTask = true,
-    channels = [],
     channelLinks = []
   }: {
     doTask: boolean,
-    channels: Array<string>,
     channelLinks: Array<string>
   }): Promise<boolean> {
     try {
@@ -209,7 +205,7 @@ class Twitch extends Social {
         return false;
       }
       const prom = [];
-      const realChannels = this.getRealParams('channels', channels, channelLinks, doTask,
+      const realChannels = this.getRealParams('channels', channelLinks, doTask,
         (link) => link.match(/https:\/\/www\.twitch\.tv\/(.+)/)?.[1]);
       if (realChannels.length > 0) {
         for (const channel of realChannels) {
