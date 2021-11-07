@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:03:26
- * @LastEditTime : 2021-10-30 12:28:47
+ * @LastEditTime : 2021-11-07 10:05:31
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/echoLog.ts
  * @Description  :
@@ -134,7 +134,7 @@ const echoLog = ({ type = 'text', text, url, id }: { type?: string, text?: strin
       ele = $(text as string);
       break;
     default:
-      ele = $(`<li>${getI18n('unknown')}:${type}...<font></font></li>`);
+      ele = $(`<li>${getI18n('unknown')}:${type}(${text})...<font></font></li>`);
       break;
     }
     ele.addClass('card-text');
