@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-29 12:54:16
- * @LastEditTime : 2021-11-05 10:42:22
+ * @LastEditTime : 2021-11-08 11:01:43
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Instagram.ts
  * @Description  : Instagram 关注&取关用户
@@ -16,8 +16,8 @@ import { unique, delay } from '../tools/tools';
 
 const defaultTasks: instagramTasks = { users: [] };
 class Instagram extends Social {
-  tasks = defaultTasks;
-  whiteList: instagramTasks = GM_getValue<whiteList>('whiteList')?.instagram || defaultTasks; // eslint-disable-line new-cap
+  tasks = { ...defaultTasks };
+  whiteList: instagramTasks = GM_getValue<whiteList>('whiteList')?.instagram || { ...defaultTasks }; // eslint-disable-line new-cap
   #cache: cache = GM_getValue<cache>('instagramCache') || {}; // eslint-disable-line new-cap
   #auth: auth = {};
   #initialized = false;
@@ -172,7 +172,7 @@ class Instagram extends Social {
     userLinks = []
   }: {
     doTask: boolean,
-    userLinks: Array<string>
+    userLinks?: Array<string>
     }): Promise<boolean> {
     try {
       if (!this.#initialized) {

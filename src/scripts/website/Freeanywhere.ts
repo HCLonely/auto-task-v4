@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:03
- * @LastEditTime : 2021-11-05 14:31:40
+ * @LastEditTime : 2021-11-08 13:19:24
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/freeanywhere.ts
  * @Description  : https://freeanywhere.net
@@ -32,114 +32,13 @@ const defaultTasks: fawSocialTasks = {
 
 class Freeanywhere extends Website {
   tasks: Array<fawTaskInfo> = []
-  socialTasks: fawSocialTasks = defaultTasks
-  undoneTasks: fawSocialTasks = defaultTasks
-  giveawayId!: string
-  socialInitialized = false
-  #initialized = false
+  socialTasks: fawSocialTasks = { ...defaultTasks }
+  undoneTasks: fawSocialTasks = { ...defaultTasks }
 
-  test() {
+  test(): boolean {
     return window.location.host === 'freeanywhere.net';
   }
-  async doTask(): Promise<boolean> {
-    try {
-      if (!this.#initialized && !this.#init()) {
-        return false;
-      }
-      if (!(await this.#classifyTask('do'))) {
-        return false;
-      }
-      if (!this.socialInitialized && !(await this.initSocial('do'))) {
-        return false;
-      }
-      const pro = [];
-      if (this.social.steam) {
-        pro.push(this.social.steam.toggle({ doTask: true, ...this.undoneTasks.steam }));
-      }
-      if (this.social.vk) {
-        pro.push(this.social.vk.toggle({ doTask: true, ...this.undoneTasks.vk }));
-      }
-      return await Promise.all(pro).then(() => true);
-    } catch (error) {
-      throwError(error as Error, 'Freeanywhere.doTask');
-      return false;
-    }
-  }
-  async undoTask(): Promise<boolean> {
-    try {
-      if (!this.#initialized && !this.#init()) {
-        return false;
-      }
-      if (!(await this.#classifyTask('undo'))) {
-        return false;
-      }
-      if (!this.socialInitialized && !(await this.initSocial('undo'))) {
-        return false;
-      }
-      const pro = [];
-      if (this.social.steam) {
-        pro.push(this.social.steam.toggle({ doTask: false, ...this.socialTasks.steam }));
-      }
-      if (this.social.vk) {
-        pro.push(this.social.vk.toggle({ doTask: false, ...this.socialTasks.vk }));
-      }
-      return await Promise.all(pro).then(() => true);
-    } catch (error) {
-      throwError(error as Error, 'Freeanywhere.undoTask');
-      return false;
-    }
-  }
-  async verifyTask(): Promise<boolean> {
-    try {
-      if (!this.#initialized && !this.#init()) {
-        return false;
-      }
-      if (!(await this.#classifyTask('verify'))) {
-        return false;
-      }
-      const pro = [];
-      for (const task of this.tasks) {
-        pro.push(this.#verify(task));
-        await delay(1000);
-      }
-      return await Promise.all(pro).then(() => true);
-    } catch (error) {
-      throwError(error as Error, 'Freeanywhere.verifyTask');
-      return false;
-    }
-  }
-  async getKey(): Promise<void> {
-    const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('gettingKey')}...<font></font></li>` });
-    const { result, statusText, status, data } = await httpRequest({
-      url: `https://freeanywhere.net/api/v1/giveaway/${this.giveawayId}/reward/?format=json`,
-      method: 'GET',
-      dataType: 'json',
-      headers: {
-        authorization: `Token ${window.localStorage.getItem('token')}`
-      }
-    });
-    if (result === 'Success') {
-      if (data?.response?.reward) {
-        logStatus.success();
-        echoLog({ type: 'custom', text: `<li><font class="success">${data.response.reward}</font></li>` });
-      } else {
-        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
-      }
-    } else {
-      logStatus.error(`${result}:${statusText}(${status})`);
-    }
-  }
-
-  #getGiveawayId() {
-    const giveawayId = window.location.href.match(/\/giveaway\/([\d]+)/)?.[1];
-    if (giveawayId) {
-      this.giveawayId = giveawayId;
-      return true;
-    }
-    echoLog({ type: 'custom', text: `<li><font class="error">${getI18n('getGiveawayIdFailed')}</font></li>` });
-    return false;
-  }
-  #init() {
+  init(): boolean {
     try {
       const logStatus = echoLog({ type: 'init' });
       if ($('a[href="#/login"]').length > 0) {
@@ -161,7 +60,7 @@ class Freeanywhere extends Website {
         window.location.href = `https://freeanywhere.net/#/giveaway/${id}`;
       }
       if (!this.#getGiveawayId()) return false;
-      this.#initialized = true;
+      this.initialized = true;
       logStatus.success();
       return true;
     } catch (error) {
@@ -169,39 +68,11 @@ class Freeanywhere extends Website {
       return false;
     }
   }
-  async #verify(task: fawTaskInfo):Promise<boolean> {
-    try {
-      const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('verifyingTask')}${task.title.trim()}...<font></font></li>` });
-
-      const { result, statusText, status, data } = await httpRequest({
-        url: `https://freeanywhere.net/api/v1/giveaway/${this.giveawayId}/challenge-status/${task.id}/?format=json`,
-        method: 'GET',
-        dataType: 'json',
-        headers: {
-          authorization: `Token ${window.localStorage.getItem('token')}`,
-          'x-csrftoken': Cookies.get('csrftoken') as string
-        }
-      });
-      if (result === 'Success') {
-        if (data?.response?.status) {
-          logStatus.success();
-          return true;
-        }
-        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
-        return false;
-      }
-      logStatus.error(`${result}:${statusText}(${status})`);
-      return false;
-    } catch (error) {
-      throwError(error as Error, 'Freeanywhere.verify');
-      return false;
-    }
-  }
-  async #classifyTask(action: string) {
+  async classifyTask(action: string) {
     try {
       const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('getTasksInfo')}<font></font></li>` });
       // todo
-      this.undoneTasks = GM_getValue<fawSocialTasks>(`fawTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
+      this.undoneTasks = GM_getValue<fawSocialTasks>(`fawTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
 
       const { result, statusText, status, data } = await httpRequest({
         url: `https://freeanywhere.net/api/v1/giveaway/${this.giveawayId}/?format=json`,
@@ -279,6 +150,86 @@ class Freeanywhere extends Website {
       return false;
     } catch (error) {
       throwError(error as Error, 'Freeanywhere.classifyTask');
+      return false;
+    }
+  }
+  async verifyTask(): Promise<boolean> {
+    try {
+      if (!this.initialized && !this.init()) {
+        return false;
+      }
+      if (!(await this.classifyTask('verify'))) {
+        return false;
+      }
+      const pro = [];
+      for (const task of this.tasks) {
+        pro.push(this.#verify(task));
+        await delay(1000);
+      }
+      await Promise.all(pro);
+      echoLog({ type: 'custom', text: '<li>All tasks complete!<font></font></li>' });
+      return true;
+    } catch (error) {
+      throwError(error as Error, 'Freeanywhere.verifyTask');
+      return false;
+    }
+  }
+  async getKey(): Promise<void> {
+    const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('gettingKey')}...<font></font></li>` });
+    const { result, statusText, status, data } = await httpRequest({
+      url: `https://freeanywhere.net/api/v1/giveaway/${this.giveawayId}/reward/?format=json`,
+      method: 'GET',
+      dataType: 'json',
+      headers: {
+        authorization: `Token ${window.localStorage.getItem('token')}`
+      }
+    });
+    if (result === 'Success') {
+      if (data?.response?.reward) {
+        logStatus.success();
+        echoLog({ type: 'custom', text: `<li><font class="success">${data.response.reward}</font></li>` });
+      } else {
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+      }
+    } else {
+      logStatus.error(`${result}:${statusText}(${status})`);
+    }
+  }
+
+  #getGiveawayId() {
+    const giveawayId = window.location.href.match(/\/giveaway\/([\d]+)/)?.[1];
+    if (giveawayId) {
+      this.giveawayId = giveawayId;
+      return true;
+    }
+    echoLog({ type: 'custom', text: `<li><font class="error">${getI18n('getGiveawayIdFailed')}</font></li>` });
+    return false;
+  }
+  async #verify(task: fawTaskInfo):Promise<boolean> {
+    try {
+      const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('verifyingTask')}${task.title.trim()}...<font></font></li>` });
+
+      const { result, statusText, status, data } = await httpRequest({
+        url: `https://freeanywhere.net/api/v1/giveaway/${this.giveawayId}/challenge-status/${task.id}/?format=json`,
+        method: 'GET',
+        dataType: 'json',
+        headers: {
+          authorization: `Token ${window.localStorage.getItem('token')}`,
+          'x-csrftoken': Cookies.get('csrftoken') as string
+        }
+      });
+      if (result === 'Success') {
+        if (data?.response?.status) {
+          logStatus.success();
+          return true;
+        }
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'Freeanywhere.verify');
       return false;
     }
   }

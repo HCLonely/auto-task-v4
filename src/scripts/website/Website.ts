@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:28
- * @LastEditTime : 2021-11-05 14:28:05
+ * @LastEditTime : 2021-11-08 13:44:53
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Website.ts
  * @Description  :
@@ -20,11 +20,14 @@ import Vk from '../social/Vk';
 import Youtube from '../social/Youtube';
 import Steam from '../social/Steam';
 import { unique } from '../tools/tools';
+import echoLog from '../echoLog';
 
 abstract class Website {
-  protected socialInitialized = false;
   undoneTasks!: webSocialTasks;
   socialTasks!: webSocialTasks;
+  giveawayId!: string;
+  protected socialInitialized = false;
+  protected initialized = false;
   protected social: {
     discord?: Discord
     instagram?: Instagram
@@ -37,8 +40,8 @@ abstract class Website {
   } = {}
 
   abstract test(): boolean
-  abstract doTask(): Promise<boolean>
-  abstract undoTask(): Promise<boolean>
+  abstract classifyTask(action: 'do' | 'undo' | 'verify'): Promise<boolean>
+  abstract init(): boolean
 
   protected async initSocial(action: string): Promise<boolean> {
     try {
@@ -121,6 +124,73 @@ abstract class Website {
       }
     }
     return result;
+  }
+  protected async toggleTask(action: 'do' | 'undo'): Promise<boolean> {
+    try {
+      if (!this.initialized && !this.init()) {
+        return false;
+      }
+      if (!(await this.classifyTask(action))) {
+        return false;
+      }
+      if (!this.socialInitialized && !(await this.initSocial(action))) {
+        return false;
+      }
+      const pro = [];
+      const tasks = action === 'do' ? this.undoneTasks : this.socialTasks;
+      if (this.social.discord) {
+        pro.push(this.social.discord.toggle({ doTask: true, ...tasks.discord }));
+      }
+      if (this.social.instagram) {
+        pro.push(this.social.instagram.toggle({ doTask: true, ...tasks.instagram }));
+      }
+      if (this.social.reddit) {
+        pro.push(this.social.reddit.toggle({ doTask: true, ...tasks.reddit }));
+      }
+      if (this.social.twitch) {
+        pro.push(this.social.twitch.toggle({ doTask: true, ...tasks.twitch }));
+      }
+      if (this.social.twitter) {
+        pro.push(this.social.twitter.toggle({ doTask: true, ...tasks.twitter }));
+      }
+      if (this.social.vk) {
+        pro.push(this.social.vk.toggle({ doTask: true, ...tasks.vk }));
+      }
+      if (this.social.youtube) {
+        pro.push(this.social.youtube.toggle({ doTask: true, ...tasks.youtube }));
+      }
+      if (this.social.steam) {
+        pro.push(this.social.steam.toggle({ doTask: true, ...tasks.steam }));
+      }
+      await Promise.all(pro);
+      echoLog({ type: 'custom', text: '<li>All tasks complete!<font></font></li>' });
+      return true;
+    } catch (error) {
+      throwError(error as Error, 'Website.toggleTask');
+      return false;
+    }
+  }
+  protected async doTask(): Promise<boolean> {
+    try {
+      return await this.toggleTask('do');
+    } catch (error) {
+      throwError(error as Error, 'Website.doTask');
+      return false;
+    }
+  }
+  protected async undoTask(): Promise<boolean> {
+    try {
+      return await this.toggleTask('undo');
+    } catch (error) {
+      throwError(error as Error, 'Website.undoTask');
+      return false;
+    }
+  }
+  protected checkLogin(): boolean | Promise<boolean> {
+    return true;
+  }
+  protected checkLeftKey(): boolean | Promise<boolean> {
+    return true;
   }
 }
 

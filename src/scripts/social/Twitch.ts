@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:00:41
- * @LastEditTime : 2021-11-05 10:48:30
+ * @LastEditTime : 2021-11-08 11:02:30
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitch.ts
  * @Description  : Twitch 关注/取关频道
@@ -15,8 +15,8 @@ import { unique, delay } from '../tools/tools';
 
 const defaultTasks: twitchTasks = { channels: [] };
 class Twitch extends Social {
-  tasks = defaultTasks;
-  whiteList: twitchTasks = GM_getValue<whiteList>('whiteList')?.twitch || defaultTasks; // eslint-disable-line new-cap
+  tasks = { ...defaultTasks };
+  whiteList: twitchTasks = GM_getValue<whiteList>('whiteList')?.twitch || { ...defaultTasks }; // eslint-disable-line new-cap
   #auth: auth = GM_getValue<auth>('twitchAuth') || {}; // eslint-disable-line new-cap
   #cache: cache = GM_getValue<cache>('twitchCache') || {}; // eslint-disable-line new-cap
   #initialized = false;
@@ -197,7 +197,7 @@ class Twitch extends Social {
     channelLinks = []
   }: {
     doTask: boolean,
-    channelLinks: Array<string>
+    channelLinks?: Array<string>
   }): Promise<boolean> {
     try {
       if (!this.#initialized) {

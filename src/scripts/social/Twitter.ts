@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:36:57
- * @LastEditTime : 2021-11-05 10:49:27
+ * @LastEditTime : 2021-11-08 11:02:40
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitter.ts
  * @Description  : Twitter 关注/取关用户,转推/取消转推推文
@@ -16,8 +16,8 @@ import { unique, delay } from '../tools/tools';
 
 const defaultTasks: twitterTasks = { users: [], retweets: [], likes: [] };
 class Twitter extends Social {
-  tasks = defaultTasks;
-  whiteList: twitterTasks = GM_getValue<whiteList>('whiteList')?.twitter || defaultTasks; // eslint-disable-line new-cap
+  tasks = { ...defaultTasks };
+  whiteList: twitterTasks = GM_getValue<whiteList>('whiteList')?.twitter || { ...defaultTasks }; // eslint-disable-line new-cap
   #verifyId = '783214';
   #auth: auth = GM_getValue<auth>('twitterAuth') || {}; // eslint-disable-line new-cap
   #cache: cache = GM_getValue<cache>('twitterCache') || {}; // eslint-disable-line new-cap
@@ -254,8 +254,8 @@ class Twitter extends Social {
     retweetLinks = []
   }: {
     doTask: boolean,
-    userLinks: Array<string>,
-    retweetLinks: Array<string>
+    userLinks?: Array<string>,
+    retweetLinks?: Array<string>
   }): Promise<boolean> {
     try {
       if (!this.#initialized) {

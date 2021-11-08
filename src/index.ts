@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-11-05 11:21:50
+ * @LastEditTime : 2021-11-08 13:26:13
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -17,6 +17,7 @@ import Vk from './scripts/social/Vk';
 import Youtube from './scripts/social/Youtube';
 import Steam from './scripts/social/Steam';
 import Freeanywhere from './scripts/website/freeanywhere';
+import Giveawaysu from './scripts/website/Giveawaysu';
 
 declare const commonOptions: {
   headers?: {
@@ -85,6 +86,9 @@ window.onload = () => {
   unsafeWindow.Youtube = Youtube;
   unsafeWindow.Steam = Steam;
   unsafeWindow.Freeanywhere = Freeanywhere;
+  const gs = new Giveawaysu();
+  unsafeWindow.gs = gs;
 
   $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;"></div>');
+  gs.before();
 };

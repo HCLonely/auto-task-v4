@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 12:18:06
- * @LastEditTime : 2021-11-05 10:52:31
+ * @LastEditTime : 2021-11-08 13:38:54
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Youtube.ts
  * @Description  : Youtube 订阅/取消订阅频道，点赞/取消点赞视频
@@ -19,8 +19,8 @@ import { unique, delay } from '../tools/tools';
 
 const defaultTasks: youtubeTasks = { channels: [], likes: [] };
 class Youtube extends Social {
-  tasks = defaultTasks;
-  whiteList: youtubeTasks = GM_getValue<whiteList>('whiteList')?.youtube || defaultTasks; // eslint-disable-line new-cap
+  tasks = { ...defaultTasks };
+  whiteList: youtubeTasks = GM_getValue<whiteList>('whiteList')?.youtube || { ...defaultTasks }; // eslint-disable-line new-cap
   #auth: auth = GM_getValue<auth>('youtubeAuth') || {}; // eslint-disable-line new-cap
   #initialized = false;
   #verifyChannel = 'https://www.youtube.com/channel/UCBR8-60-B28hp2BmDPdntcQ';
@@ -86,7 +86,7 @@ class Youtube extends Social {
           if (auth) {
             this.#auth = auth;
             logStatus.success();
-            resolve(await this.#verifyAuth());
+            this.#verifyAuth().then((result) => { resolve(result); });
           } else {
             logStatus.error('Error: Update youtube auth failed!');
             resolve(false);
@@ -326,8 +326,8 @@ class Youtube extends Social {
     videoLinks = []
   }: {
     doTask: boolean,
-    channelLinks: Array<string>,
-    videoLinks: Array<string>
+    channelLinks?: Array<string>,
+    videoLinks?: Array<string>
   }): Promise<boolean> {
     try {
       if (!this.#initialized) {

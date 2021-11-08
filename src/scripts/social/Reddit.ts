@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-30 09:43:32
- * @LastEditTime : 2021-11-05 10:43:21
+ * @LastEditTime : 2021-11-08 11:01:53
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Reddit.ts
  * @Description  : Reddit 订阅&取消订阅
@@ -16,8 +16,8 @@ import { unique, delay } from '../tools/tools';
 
 const defaultTasks: redditTasks = { reddits: [] };
 class Reddit extends Social {
-  tasks = defaultTasks;
-  whiteList: redditTasks = GM_getValue<whiteList>('whiteList')?.reddit || defaultTasks; // eslint-disable-line new-cap
+  tasks = { ...defaultTasks };
+  whiteList: redditTasks = GM_getValue<whiteList>('whiteList')?.reddit || { ...defaultTasks }; // eslint-disable-line new-cap
   #auth!: auth;
   #initialized = false;
 
@@ -143,7 +143,7 @@ class Reddit extends Social {
     redditLinks = []
   }: {
     doTask: boolean,
-    redditLinks: Array<string>
+    redditLinks?: Array<string>
   }): Promise<boolean> {
     try {
       if (!this.#initialized) {

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2021-11-05 14:25:10
+ * @LastEditTime : 2021-11-08 11:01:20
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
@@ -198,7 +198,7 @@ class Discord extends Social {
     serverLinks = []
   }: {
     doTask: boolean,
-    serverLinks: Array<string>
+    serverLinks?: Array<string>
   }): Promise<boolean> {
     try {
       if (!this.#initialized) {
