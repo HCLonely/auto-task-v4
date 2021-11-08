@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 14:58:11
- * @LastEditTime : 2021-11-08 12:11:56
+ * @LastEditTime : 2021-11-08 15:16:28
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/tools/tools.ts
  * @Description  :
@@ -46,4 +46,24 @@ const getRedirectLink = async (link: string | undefined): Promise<string | null>
   }
 };
 
-export { unique, delay, getRedirectLink };
+interface urlQuery {
+  [name: string]: string
+}
+const getUrlQuery = (url?: string): urlQuery => {
+  try {
+    const query: urlQuery = {};
+    if (url) {
+      if (url.includes('?')) {
+        url.split('?')[1].replace(/([^?&=]+)=([^&]+)/g, (str, key, value) => { query[key] = value; return str; });
+      }
+    } else {
+      window.location.search.replace(/([^?&=]+)=([^&]+)/g, (str, key, value) => { query[key] = value; return str; });
+    }
+    return query;
+  } catch (error) {
+    throwError(error as Error, 'getUrlQuery');
+    return {};
+  }
+};
+
+export { unique, delay, getRedirectLink, getUrlQuery };

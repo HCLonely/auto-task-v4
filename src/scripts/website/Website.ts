@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:28
- * @LastEditTime : 2021-11-08 13:44:53
+ * @LastEditTime : 2021-11-08 15:24:44
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Website.ts
  * @Description  :
@@ -41,7 +41,7 @@ abstract class Website {
 
   abstract test(): boolean
   abstract classifyTask(action: 'do' | 'undo' | 'verify'): Promise<boolean>
-  abstract init(): boolean
+  abstract init(): boolean | Promise<boolean>
 
   protected async initSocial(action: string): Promise<boolean> {
     try {
