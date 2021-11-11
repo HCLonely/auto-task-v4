@@ -1,13 +1,15 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 14:58:11
- * @LastEditTime : 2021-11-08 15:16:28
+ * @LastEditTime : 2021-11-11 14:39:42
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/tools/tools.ts
  * @Description  :
  */
 import throwError from './throwError';
 import httpRequest from './httpRequest';
+import echoLog from '../echoLog';
+
 const unique = (array:Array<any>):Array<any> => {
   try {
     return [...new Set(array)];
@@ -45,6 +47,26 @@ const getRedirectLink = async (link: string | undefined): Promise<string | null>
     return null;
   }
 };
+const visitLink = async (link: string, options?: MonkeyXhrDetails): Promise<boolean> => {
+  try {
+    const logStatus = echoLog({ type: 'visitLink', text: link });
+    return await httpRequest({
+      url: link,
+      method: 'GET',
+      ...options
+    }).then(({ result, statusText, status }) => {
+      if (result === 'Success') {
+        logStatus.success();
+        return true;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    });
+  } catch (error) {
+    throwError(error as Error, 'visitLink');
+    return false;
+  }
+};
 
 interface urlQuery {
   [name: string]: string
@@ -66,4 +88,4 @@ const getUrlQuery = (url?: string): urlQuery => {
   }
 };
 
-export { unique, delay, getRedirectLink, getUrlQuery };
+export { unique, delay, getRedirectLink, getUrlQuery, visitLink };

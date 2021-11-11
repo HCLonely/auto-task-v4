@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-05 11:32:20
- * @LastEditTime : 2021-11-05 11:39:36
+ * @LastEditTime : 2021-11-11 14:23:27
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Website.d.ts
  * @Description  :
@@ -51,4 +51,5 @@ declare interface webSocialTasks {
   youtube?: youtubeWebTasks
   reddit?: redditWebTasks
   steam?: steamWebTasks
+  links?: Array<string>
 }

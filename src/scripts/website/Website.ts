@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:28
- * @LastEditTime : 2021-11-08 15:24:44
+ * @LastEditTime : 2021-11-11 14:37:40
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Website.ts
  * @Description  :
@@ -19,7 +19,7 @@ import Twitter from '../social/Twitter';
 import Vk from '../social/Vk';
 import Youtube from '../social/Youtube';
 import Steam from '../social/Steam';
-import { unique } from '../tools/tools';
+import { unique, visitLink } from '../tools/tools';
 import echoLog from '../echoLog';
 
 abstract class Website {
@@ -37,6 +37,7 @@ abstract class Website {
     vk?: Vk
     youtube?: Youtube
     steam?: Steam
+    visitLink?: (link: string, options?: MonkeyXhrDetails) => Promise<boolean>
   } = {}
 
   abstract test(): boolean
@@ -104,6 +105,9 @@ abstract class Website {
           pro.push(this.social.steam.init());
         }
       }
+      if (tasks.links && tasks.links.length > 0) {
+        this.social.visitLink = visitLink;
+      }
 
       this.socialInitialized = await Promise.all(pro).then((data) => !data.includes(false));
       return this.socialInitialized;
@@ -161,6 +165,11 @@ abstract class Website {
       }
       if (this.social.steam) {
         pro.push(this.social.steam.toggle({ doTask: true, ...tasks.steam }));
+      }
+      if (this.social.visitLink && tasks.links) {
+        for (const link of tasks.links) {
+          pro.push(this.social.visitLink(link));
+        }
       }
       await Promise.all(pro);
       echoLog({ type: 'custom', text: '<li>All tasks complete!<font></font></li>' });

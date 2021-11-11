@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:03
- * @LastEditTime : 2021-11-08 13:19:24
+ * @LastEditTime : 2021-11-11 14:08:20
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/freeanywhere.ts
  * @Description  : https://freeanywhere.net
@@ -197,15 +197,19 @@ class Freeanywhere extends Website {
   }
 
   #getGiveawayId() {
-    const giveawayId = window.location.href.match(/\/giveaway\/([\d]+)/)?.[1];
-    if (giveawayId) {
-      this.giveawayId = giveawayId;
-      return true;
+    try {
+      const giveawayId = window.location.href.match(/\/giveaway\/([\d]+)/)?.[1];
+      if (giveawayId) {
+        this.giveawayId = giveawayId;
+        return true;
+      }
+      echoLog({ type: 'custom', text: `<li><font class="error">${getI18n('getGiveawayIdFailed')}</font></li>` });
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'Keyhub.getGiveawayId');
     }
-    echoLog({ type: 'custom', text: `<li><font class="error">${getI18n('getGiveawayIdFailed')}</font></li>` });
-    return false;
   }
-  async #verify(task: fawTaskInfo):Promise<boolean> {
+  async #verify(task: fawTaskInfo): Promise<boolean> {
     try {
       const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('verifyingTask')}${task.title.trim()}...<font></font></li>` });
 

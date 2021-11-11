@@ -1,13 +1,13 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 14:37:33
- * @LastEditTime : 2021-11-08 15:26:22
+ * @LastEditTime : 2021-11-11 14:02:24
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Indiedb.ts
  * @Description  :
  */
 
-import Swal from 'sweetalert2';
+// todo: 未测试
 import Website from './Website';
 import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
