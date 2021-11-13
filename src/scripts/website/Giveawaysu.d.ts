@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:43:23
- * @LastEditTime : 2021-11-08 10:43:23
+ * @LastEditTime : 2021-11-13 09:49:39
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.d.ts
  * @Description  :
@@ -16,6 +16,7 @@ declare interface gasSocialTasks {
     followLinks: Array<string>
     forumLinks: Array<string>
     announcementLinks: Array<string>
+    workshopVoteLinks: Array<string>
   },
   discord: {
     serverLinks: Array<string>

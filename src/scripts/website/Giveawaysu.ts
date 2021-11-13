@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2021-11-08 13:45:44
+ * @LastEditTime : 2021-11-13 09:49:31
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.ts
  * @Description  :
@@ -25,7 +25,8 @@ const defaultTasks: gasSocialTasks = {
     curatorLikeLinks: [],
     followLinks: [],
     forumLinks: [],
-    announcementLinks: []
+    announcementLinks: [],
+    workshopVoteLinks: []
   },
   discord: {
     serverLinks: []
@@ -129,6 +130,8 @@ class Giveawaysu extends Website {
               this.undoneTasks.twitch.channelLinks.push(taskLink);
             } else if (taskIcon.includes('reddit') || /subscribe.*subreddit/gim.test(taskName) || /follow.*reddit/gim.test(taskName)) {
               this.undoneTasks.reddit.redditLinks.push(taskLink);
+            } else if (/watch.*art/gim.test(taskName)) {
+              this.undoneTasks.steam.workshopVoteLinks.push(taskLink);
             } else if (/subscribe.*youtube.*channel/gim.test(taskName)) {
               this.undoneTasks.youtube.channelLinks.push(taskLink);
             } else if (/(watch|like).*youtube.*video/gim.test(taskName) ||
