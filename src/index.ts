@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-11-08 13:26:13
+ * @LastEditTime : 2021-11-13 09:33:28
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -18,6 +18,8 @@ import Youtube from './scripts/social/Youtube';
 import Steam from './scripts/social/Steam';
 import Freeanywhere from './scripts/website/freeanywhere';
 import Giveawaysu from './scripts/website/Giveawaysu';
+import Indiedb from './scripts/website/Indiedb';
+import Keyhub from './scripts/website/keyhub';
 
 declare const commonOptions: {
   headers?: {
@@ -88,7 +90,9 @@ window.onload = () => {
   unsafeWindow.Freeanywhere = Freeanywhere;
   const gs = new Giveawaysu();
   unsafeWindow.gs = gs;
+  unsafeWindow.Indiedb = Indiedb;
+  unsafeWindow.Keyhub = Keyhub;
 
-  $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;"></div>');
+  $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;background-color:#fff;"></div>');
   gs.before();
 };

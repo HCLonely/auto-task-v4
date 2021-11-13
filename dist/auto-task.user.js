@@ -169,84 +169,6 @@
     }
   };
   const tools_httpRequest = httpRequest_httpRequest;
-  const unique = array => {
-    try {
-      return [ ...new Set(array) ];
-    } catch (error) {
-      throwError_throwError(error, 'unique');
-      return [];
-    }
-  };
-  const delay = function() {
-    let time = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1e3;
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(true);
-      }, time);
-    });
-  };
-  const getRedirectLink = async link => {
-    try {
-      if (!link) {
-        return null;
-      }
-      const redirectLinksCache = GM_getValue('redirectLinks') || {};
-      if (redirectLinksCache[link]) {
-        redirectLinksCache[link];
-      }
-      return await tools_httpRequest({
-        url: link,
-        method: 'GET'
-      }).then(_ref => {
-        let {
-          data
-        } = _ref;
-        if (data !== null && data !== void 0 && data.finalUrl) {
-          redirectLinksCache[link] = data.finalUrl;
-          GM_setValue('redirectLinks', redirectLinksCache);
-          return data.finalUrl;
-        }
-        return null;
-      });
-    } catch (error) {
-      throwError_throwError(error, 'getRedirectLink');
-      return null;
-    }
-  };
-  function _defineProperty(obj, key, value) {
-    if (key in obj) {
-      Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: true,
-        configurable: true,
-        writable: true
-      });
-    } else {
-      obj[key] = value;
-    }
-    return obj;
-  }
-  class Social {
-    constructor() {
-      _defineProperty(this, 'tasks', void 0);
-    }
-    getRealParams(name, links, doTask, link2param) {
-      try {
-        let realParams = [];
-        if (links.length > 0) {
-          realParams = [ ...realParams, ...links.map(link => link2param(link)).filter(link => link) ];
-        }
-        if (!doTask && this.tasks[name].length > 0) {
-          realParams = [ ...realParams, ...this.tasks[name] ];
-        }
-        return unique(realParams);
-      } catch (error) {
-        throwError_throwError(error, 'Social.getRealParams');
-        return [];
-      }
-    }
-  }
-  const social_Social = Social;
   function getI18n() {
     for (var _len = arguments.length, argvs = new Array(_len), _key = 0; _key < _len; _key++) {
       argvs[_key] = arguments[_key];
@@ -471,6 +393,134 @@
     }
   };
   const scripts_echoLog = echoLog_echoLog;
+  const unique = array => {
+    try {
+      return [ ...new Set(array) ];
+    } catch (error) {
+      throwError_throwError(error, 'unique');
+      return [];
+    }
+  };
+  const delay = function() {
+    let time = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1e3;
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(true);
+      }, time);
+    });
+  };
+  const getRedirectLink = async link => {
+    try {
+      if (!link) {
+        return null;
+      }
+      const redirectLinksCache = GM_getValue('redirectLinks') || {};
+      if (redirectLinksCache[link]) {
+        redirectLinksCache[link];
+      }
+      return await tools_httpRequest({
+        url: link,
+        method: 'GET'
+      }).then(_ref => {
+        let {
+          data
+        } = _ref;
+        if (data !== null && data !== void 0 && data.finalUrl) {
+          redirectLinksCache[link] = data.finalUrl;
+          GM_setValue('redirectLinks', redirectLinksCache);
+          return data.finalUrl;
+        }
+        return null;
+      });
+    } catch (error) {
+      throwError_throwError(error, 'getRedirectLink');
+      return null;
+    }
+  };
+  const visitLink = async (link, options) => {
+    try {
+      const logStatus = scripts_echoLog({
+        type: 'visitLink',
+        text: link
+      });
+      return await tools_httpRequest({
+        url: link,
+        method: 'GET',
+        ...options
+      }).then(_ref2 => {
+        let {
+          result,
+          statusText,
+          status
+        } = _ref2;
+        if (result === 'Success') {
+          logStatus.success();
+          return true;
+        }
+        logStatus.error(`${result}:${statusText}(${status})`);
+        return false;
+      });
+    } catch (error) {
+      throwError_throwError(error, 'visitLink');
+      return false;
+    }
+  };
+  const getUrlQuery = url => {
+    try {
+      const query = {};
+      if (url) {
+        if (url.includes('?')) {
+          url.split('?')[1].replace(/([^?&=]+)=([^&]+)/g, (str, key, value) => {
+            query[key] = value;
+            return str;
+          });
+        }
+      } else {
+        window.location.search.replace(/([^?&=]+)=([^&]+)/g, (str, key, value) => {
+          query[key] = value;
+          return str;
+        });
+      }
+      return query;
+    } catch (error) {
+      throwError_throwError(error, 'getUrlQuery');
+      return {};
+    }
+  };
+  function _defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  class Social {
+    constructor() {
+      _defineProperty(this, 'tasks', void 0);
+    }
+    getRealParams(name, links, doTask, link2param) {
+      try {
+        let realParams = [];
+        if (links.length > 0) {
+          realParams = [ ...realParams, ...links.map(link => link2param(link)).filter(link => link) ];
+        }
+        if (!doTask && this.tasks[name].length > 0) {
+          realParams = [ ...realParams, ...this.tasks[name] ];
+        }
+        return unique(realParams);
+      } catch (error) {
+        throwError_throwError(error, 'Social.getRealParams');
+        return [];
+      }
+    }
+  }
+  const social_Social = Social;
   function _classPrivateMethodInitSpec(obj, privateSet) {
     _checkPrivateRedeclaration(obj, privateSet);
     privateSet.add(obj);
@@ -4719,6 +4769,9 @@
             pro.push(this.social.steam.init());
           }
         }
+        if (tasks.links && tasks.links.length > 0) {
+          this.social.visitLink = visitLink;
+        }
         this.socialInitialized = await Promise.all(pro).then(data => !data.includes(false));
         return this.socialInitialized;
       } catch (error) {
@@ -4796,6 +4849,11 @@
             doTask: true,
             ...tasks.steam
           }));
+        }
+        if (this.social.visitLink && tasks.links) {
+          for (const link of tasks.links) {
+            pro.push(this.social.visitLink(link));
+          }
         }
         await Promise.all(pro);
         scripts_echoLog({
@@ -5104,17 +5162,21 @@
     }
   }
   function _getGiveawayId2() {
-    var _window$location$href2;
-    const giveawayId = (_window$location$href2 = window.location.href.match(/\/giveaway\/([\d]+)/)) === null || _window$location$href2 === void 0 ? void 0 : _window$location$href2[1];
-    if (giveawayId) {
-      this.giveawayId = giveawayId;
-      return true;
+    try {
+      var _window$location$href2;
+      const giveawayId = (_window$location$href2 = window.location.href.match(/\/giveaway\/([\d]+)/)) === null || _window$location$href2 === void 0 ? void 0 : _window$location$href2[1];
+      if (giveawayId) {
+        this.giveawayId = giveawayId;
+        return true;
+      }
+      scripts_echoLog({
+        type: 'custom',
+        text: `<li><font class="error">${i18n('getGiveawayIdFailed')}</font></li>`
+      });
+      return false;
+    } catch (error) {
+      throwError_throwError(error, 'Keyhub.getGiveawayId');
     }
-    scripts_echoLog({
-      type: 'custom',
-      text: `<li><font class="error">${i18n('getGiveawayIdFailed')}</font></li>`
-    });
-    return false;
   }
   async function _verify2(task) {
     try {
@@ -5392,6 +5454,511 @@
     return false;
   }
   const website_Giveawaysu = Giveawaysu;
+  class Indiedb extends website_Website {
+    test() {
+      return window.location.host === 'www.indiedb.com';
+    }
+    async before() {
+      try {
+        if (!this.checkLogin()) {
+          scripts_echoLog({
+            type: 'checkLoginFailed'
+          });
+        }
+      } catch (error) {
+        throwError_throwError(error, 'Indiedb.before');
+      }
+    }
+    async doTask() {
+      try {
+        if (!await this.init()) {
+          return false;
+        }
+        return await this.classifyTask();
+      } catch (error) {
+        throwError_throwError(error, 'Indiedb.doTask');
+        return false;
+      }
+    }
+    async init() {
+      try {
+        if ($('a.buttonenter:contains(Register to join)').length > 0) {
+          scripts_echoLog({
+            type: 'custom',
+            text: `<li><font class="error">${i18n('needLogin')}</font></li>`
+          });
+          return false;
+        }
+        const currentoption = $('a.buttonenter.buttongiveaway');
+        if (/join giveaway/gim.test(currentoption.text())) {
+          const logStatus = scripts_echoLog({
+            type: 'custom',
+            text: `<li>${i18n('joinGiveaway')}<font></font></li>`
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: currentoption.attr('href'),
+            method: 'POST',
+            data: 'ajax=t',
+            dataType: 'json',
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+              accept: 'application/json, text/javascript, */*; q=0.01',
+              origin: window.location.origin
+            }
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              var _data$response, _data$response4, _data$response5;
+              if ((_data$response = data.response) !== null && _data$response !== void 0 && _data$response.success) {
+                var _data$response2, _data$response3;
+                currentoption.addClass('buttonentered').text('Success - Giveaway joined');
+                $('#giveawaysjoined').slideDown();
+                $('#giveawaysrecommend').slideDown();
+                logStatus.success(`Success${(_data$response2 = data.response) !== null && _data$response2 !== void 0 && _data$response2.text ? `:${(_data$response3 = data.response) === null || _data$response3 === void 0 ? void 0 : _data$response3.text}` : ''}`);
+                return true;
+              }
+              logStatus.error(`Error${(_data$response4 = data.response) !== null && _data$response4 !== void 0 && _data$response4.text ? `:${(_data$response5 = data.response) === null || _data$response5 === void 0 ? void 0 : _data$response5.text}` : ''}`);
+              return false;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } else if (/success/gim.test($('a.buttonenter.buttongiveaway').text())) {
+          return true;
+        }
+        scripts_echoLog({
+          type: 'custom',
+          text: `<li><font class="error">${i18n('needJoinGiveaway')}</font></li>`
+        });
+        return false;
+      } catch (error) {
+        throwError_throwError(error, 'Indiedb.init');
+        return false;
+      }
+    }
+    async classifyTask() {
+      try {
+        const id = $('script').map((index, script) => {
+          if (/\$\(document\)/gim.test(script.innerHTML)) {
+            var _script$innerHTML$mat, _script$innerHTML$mat2, _script$innerHTML$mat3, _script$innerHTML$mat4, _script$innerHTML$mat5, _script$innerHTML$mat6;
+            return [ (_script$innerHTML$mat = script.innerHTML.match(/"\/[\d]+"/gim)) === null || _script$innerHTML$mat === void 0 ? void 0 : (_script$innerHTML$mat2 = _script$innerHTML$mat[0]) === null || _script$innerHTML$mat2 === void 0 ? void 0 : (_script$innerHTML$mat3 = _script$innerHTML$mat2.match(/[\d]+/)) === null || _script$innerHTML$mat3 === void 0 ? void 0 : _script$innerHTML$mat3[0], (_script$innerHTML$mat4 = script.innerHTML.match(/"\/newsletter\/ajax\/subscribeprofile\/optin\/[\d]+"/gim)) === null || _script$innerHTML$mat4 === void 0 ? void 0 : (_script$innerHTML$mat5 = _script$innerHTML$mat4[0]) === null || _script$innerHTML$mat5 === void 0 ? void 0 : (_script$innerHTML$mat6 = _script$innerHTML$mat5.match(/[\d]+/)) === null || _script$innerHTML$mat6 === void 0 ? void 0 : _script$innerHTML$mat6[0] ];
+          }
+          return null;
+        });
+        if (id.length === 2) {
+          const pro = [];
+          const tasks = $('#giveawaysjoined a[class*=promo]');
+          for (const task of tasks) {
+            const promo = $(task);
+            if (!promo.hasClass('buttonentered')) {
+              const status = scripts_echoLog({
+                type: 'custom',
+                text: `<li>${i18n('doing')}:${promo.parents('p').text()}...<font></font></li>`
+              });
+              if (/facebookpromo|twitterpromo|visitpromo/gim.test(task.className)) {
+                let text = '';
+                if (promo.hasClass('facebookpromo')) {
+                  text = 'facebookpromo';
+                } else if (promo.hasClass('twitterpromo')) {
+                  text = 'twitterpromo';
+                } else {
+                  text = 'visitpromo';
+                }
+                pro.push(new Promise(resolve => {
+                  $.ajax({
+                    type: 'POST',
+                    url: urlPath(`/giveaways/ajax/${text}/${id[0]}`),
+                    timeout: 6e4,
+                    dataType: 'json',
+                    data: {
+                      ajax: 't'
+                    },
+                    error(response, error, exception) {
+                      console.log({
+                        response: response,
+                        error: error,
+                        exception: exception
+                      });
+                      status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
+                      resolve(true);
+                    },
+                    success(response) {
+                      console.log(response);
+                      if (response.success) {
+                        status.success(`Success:${response.text}`);
+                        promo.addClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
+                        resolve(true);
+                      } else {
+                        status.error(`Error:${response.text}`);
+                        resolve(true);
+                      }
+                    }
+                  });
+                }));
+              } else if (promo.hasClass('emailoptinpromo')) {
+                pro.push(new Promise(resolve => {
+                  $.ajax({
+                    type: 'POST',
+                    url: urlPath(`/newsletter/ajax/subscribeprofile/optin/${id[1]}`),
+                    timeout: 6e4,
+                    dataType: 'json',
+                    data: {
+                      ajax: 't',
+                      emailsystoggle: 4
+                    },
+                    error(response, error, exception) {
+                      console.log({
+                        response: response,
+                        error: error,
+                        exception: exception
+                      });
+                      status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
+                      resolve(true);
+                    },
+                    success(response) {
+                      console.log(response);
+                      if (response.success) {
+                        status.success(`Success:${response.text}`);
+                        promo.toggleClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
+                        resolve(true);
+                      } else {
+                        status.error(`Error:${response.text}`);
+                        resolve(true);
+                      }
+                    }
+                  });
+                }));
+              } else if (promo.hasClass('watchingpromo')) {
+                pro.push(new Promise(resolve => {
+                  var _promo$attr;
+                  const data = getUrlQuery(promo.attr('href'));
+                  data.ajax = 't';
+                  $.ajax({
+                    type: 'POST',
+                    url: urlPath((_promo$attr = promo.attr('href')) === null || _promo$attr === void 0 ? void 0 : _promo$attr.split(/[?#]/)[0]),
+                    timeout: 6e4,
+                    dataType: 'json',
+                    data: data,
+                    error(response, error, exception) {
+                      console.log({
+                        response: response,
+                        error: error,
+                        exception: exception
+                      });
+                      status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
+                      resolve(true);
+                    },
+                    success(response) {
+                      console.log(response);
+                      if (response.success) {
+                        status.success(`Success:${response.text}`);
+                        promo.toggleClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
+                        resolve(true);
+                      } else {
+                        status.error(`Error:${response.text}`);
+                        resolve(true);
+                      }
+                    }
+                  });
+                }));
+              } else if (!/the-challenge-of-adblock/gim.test(promo.attr('href'))) {
+                pro.push(new Promise(resolve => {
+                  $.ajax({
+                    type: 'POST',
+                    url: urlPath(promo.attr('href')),
+                    timeout: 6e4,
+                    dataType: 'json',
+                    data: {
+                      ajax: 't'
+                    },
+                    error(response, error, exception) {
+                      console.log({
+                        response: response,
+                        error: error,
+                        exception: exception
+                      });
+                      status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
+                      resolve(true);
+                    },
+                    success(response) {
+                      console.log(response);
+                      if (response.success) {
+                        status.success(`Success:${response.text}`);
+                        promo.toggleClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
+                        resolve(true);
+                      } else {
+                        status.error(`Error:${response.text}`);
+                        resolve(true);
+                      }
+                    }
+                  });
+                }));
+              } else {
+                status.error(`Error:${i18n('unknowntype')}`);
+              }
+            }
+          }
+          await Promise.all(pro);
+          scripts_echoLog({
+            type: 'custom',
+            text: `<li><font class="warning">${i18n('allTasksComplete')}</font></li>`
+          });
+          return true;
+        }
+        scripts_echoLog({
+          type: 'custom',
+          text: `<li><font class="error">${i18n('getIdFailed')}</font></li>`
+        });
+        return false;
+      } catch (error) {
+        throwError_throwError(error, 'Indiedb.classifyTask');
+        return false;
+      }
+    }
+    checkLogin() {
+      try {
+        if ($('a.buttonenter:contains(Register to join)').length > 0) {
+          window.open('/members/login', '_self');
+        }
+        return true;
+      } catch (error) {
+        throwError_throwError(error, 'Indiedb.checkLogin');
+        return false;
+      }
+    }
+  }
+  const website_Indiedb = Indiedb;
+  function keyhub_classPrivateMethodInitSpec(obj, privateSet) {
+    keyhub_checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
+  }
+  function keyhub_checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+      throw new TypeError('Cannot initialize the same private elements twice on an object');
+    }
+  }
+  function keyhub_defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  function keyhub_classPrivateMethodGet(receiver, privateSet, fn) {
+    if (!privateSet.has(receiver)) {
+      throw new TypeError('attempted to get private field on non-instance');
+    }
+    return fn;
+  }
+  const keyhub_defaultTasks = {
+    steam: {
+      groupLinks: [],
+      wishlistLinks: []
+    },
+    links: []
+  };
+  var keyhub_getGiveawayId = new WeakSet();
+  class Keyhub extends website_Website {
+    constructor() {
+      super(...arguments);
+      keyhub_classPrivateMethodInitSpec(this, keyhub_getGiveawayId);
+      keyhub_defineProperty(this, 'tasks', []);
+      keyhub_defineProperty(this, 'socialTasks', {
+        ...keyhub_defaultTasks
+      });
+      keyhub_defineProperty(this, 'undoneTasks', {
+        ...keyhub_defaultTasks
+      });
+    }
+    test() {
+      return window.location.host === 'key-hub.eu';
+    }
+    async before() {
+      try {
+        if (!this.checkLogin()) {
+          scripts_echoLog({
+            type: 'checkLoginFailed'
+          });
+        }
+        if (!await this.checkLeftKey()) {
+          scripts_echoLog({
+            type: 'checkLeftKeyFailed'
+          });
+        }
+      } catch (error) {
+        throwError_throwError(error, 'Giveawaysu.before');
+      }
+    }
+    init() {
+      try {
+        const logStatus = scripts_echoLog({
+          type: 'init'
+        });
+        if ($('a[href*="/connect/steam"]').length > 0) {
+          window.open('/connect/steam', '_self');
+          logStatus.warning('请先登录');
+          return false;
+        }
+        if (!keyhub_classPrivateMethodGet(this, keyhub_getGiveawayId, keyhub_getGiveawayId2).call(this)) {
+          return false;
+        }
+        $('#VPNoverlay').hide();
+        $('#mainArticleSection').show();
+        this.initialized = true;
+        logStatus.success();
+        return true;
+      } catch (error) {
+        throwError_throwError(error, 'Keyhub.init');
+        return false;
+      }
+    }
+    async classifyTask(action) {
+      try {
+        const logStatus = scripts_echoLog({
+          type: 'custom',
+          text: `<li>${i18n('getTasksInfo')}<font></font></li>`
+        });
+        this.undoneTasks = GM_getValue(`khTasks-${this.giveawayId}`) || {
+          ...keyhub_defaultTasks
+        };
+        const pro = [];
+        const tasks = $('.task a');
+        for (const task of tasks) {
+          const link = $(task).attr('href');
+          const taskDes = $(task).text().trim();
+          if (!link) {
+            continue;
+          }
+          if (/steamcommunity\.com\/gid\//.test(link)) {
+            pro.push(getRedirectLink(link).then(taskLink => {
+              if (!taskLink) {
+                return false;
+              }
+              if (action === 'undo') {
+                this.socialTasks.steam.groupLinks.push(taskLink);
+              }
+              if (action === 'do') {
+                this.undoneTasks.steam.groupLinks.push(taskLink);
+              }
+            }));
+          } else if (/https?:\/\/key-hub\.eu\/connect\/discord/.test(link)) {
+            window.open(link, '_blank');
+          } else if (/steamcommunity\.com\/groups\//.test(link)) {
+            if (action === 'undo') {
+              this.socialTasks.steam.groupLinks.push(link);
+            }
+            if (action === 'do') {
+              this.undoneTasks.steam.groupLinks.push(link);
+            }
+          } else if (/store\.steampowered\.com\/app\//.test(link) && /wishlist/gim.test(taskDes)) {
+            if (action === 'undo') {
+              this.socialTasks.steam.wishlistLinks.push(link);
+            }
+            if (action === 'do') {
+              this.undoneTasks.steam.wishlistLinks.push(link);
+            }
+          } else if (/\/away\?data=.*/.test(link)) {
+            this.undoneTasks.links.push(link);
+          } else {
+            scripts_echoLog({
+              type: 'custom',
+              text: `<li>${i18n('unknownTaskType', `${taskDes}(${link})`)}<font></font></li>`
+            });
+          }
+        }
+        await Promise.all(pro);
+        logStatus.success();
+        this.undoneTasks = this.uniqueTasks(this.undoneTasks);
+        this.socialTasks = this.uniqueTasks(this.socialTasks);
+        GM_setValue(`khTasks${this.giveawayId}`, this.socialTasks);
+        return true;
+      } catch (error) {
+        throwError_throwError(error, 'Keyhub.classifyTask');
+        return false;
+      }
+    }
+    async verifyTask() {
+      try {
+        scripts_echoLog({
+          type: 'custom',
+          text: `<li>${i18n('verifyingTask')}...<font></font></li>`
+        });
+        $.get(window.location.href, res => {
+          VerifyTasks(res.match(/onclick="javascript:VerifyTasks\('(.*?)'\)"/)[1]);
+        });
+      } catch (error) {
+        throwError_throwError(error, 'keyhub.verifyTask');
+      }
+    }
+    async checkLeftKey() {
+      try {
+        const leftKey = $('#keysleft').text().trim();
+        if (leftKey === '0') {
+          await external_Swal_default().fire({
+            icon: 'warning',
+            title: i18n('notice'),
+            text: i18n('noKeysLeft'),
+            confirmButtonText: i18n('confirm'),
+            cancelButtonText: i18n('cancel'),
+            showCancelButton: true
+          }).then(_ref => {
+            let {
+              value
+            } = _ref;
+            if (value) {
+              window.close();
+            }
+          });
+        }
+        return true;
+      } catch (error) {
+        throwError_throwError(error, 'Keyhub.checkLeftKey');
+        return false;
+      }
+    }
+    checkLogin() {
+      try {
+        if ($('a[href*="/connect/steam"]').length > 0) {
+          window.open('/connect/steam', '_self');
+        }
+        return true;
+      } catch (error) {
+        throwError_throwError(error, 'Giveawaysu.checkLogin');
+        return false;
+      }
+    }
+  }
+  function keyhub_getGiveawayId2() {
+    try {
+      var _window$location$href;
+      const giveawayId = (_window$location$href = window.location.href.match(/giveaway\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
+      if (giveawayId) {
+        this.giveawayId = giveawayId;
+        return true;
+      }
+      scripts_echoLog({
+        type: 'custom',
+        text: `<li><font class="error">${i18n('getGiveawayIdFailed')}</font></li>`
+      });
+      return false;
+    } catch (error) {
+      throwError_throwError(error, 'Keyhub.getGiveawayId');
+    }
+  }
+  const keyhub = Keyhub;
   if (window.location.hostname === 'discord.com') {
     var _window$localStorage$;
     const discordAuth = (_window$localStorage$ = window.localStorage.getItem('token')) === null || _window$localStorage$ === void 0 ? void 0 : _window$localStorage$.replace(/^"|"$/g, '');
@@ -5465,6 +6032,8 @@
     unsafeWindow.Freeanywhere = freeanywhere;
     const gs = new website_Giveawaysu();
     unsafeWindow.gs = gs;
+    unsafeWindow.Indiedb = website_Indiedb;
+    unsafeWindow.Keyhub = keyhub;
     $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;"></div>');
     gs.before();
   };
