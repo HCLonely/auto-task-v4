@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-11-13 09:33:28
+ * @LastEditTime : 2021-11-13 19:49:24
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -16,10 +16,11 @@ import Twitter from './scripts/social/Twitter';
 import Vk from './scripts/social/Vk';
 import Youtube from './scripts/social/Youtube';
 import Steam from './scripts/social/Steam';
-import Freeanywhere from './scripts/website/freeanywhere';
-import Giveawaysu from './scripts/website/Giveawaysu';
+import Freeanywhere from './scripts/website/FreeAnyWhere';
+import Giveawaysu from './scripts/website/GiveawaySu';
 import Indiedb from './scripts/website/Indiedb';
-import Keyhub from './scripts/website/keyhub';
+import Keyhub from './scripts/website/Keyhub';
+import Givekey from './scripts/website/Givekey';
 
 declare const commonOptions: {
   headers?: {
@@ -92,6 +93,7 @@ window.onload = () => {
   unsafeWindow.gs = gs;
   unsafeWindow.Indiedb = Indiedb;
   unsafeWindow.Keyhub = Keyhub;
+  unsafeWindow.Givekey = Givekey;
 
   $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;background-color:#fff;"></div>');
   gs.before();

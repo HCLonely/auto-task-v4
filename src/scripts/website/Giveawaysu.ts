@@ -1,14 +1,14 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2021-11-13 09:49:31
+ * @LastEditTime : 2021-11-13 17:45:35
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.ts
  * @Description  :
  */
 
 // eslint-disable-next-line
-/// <reference path = "Giveawaysu.d.ts" />
+/// <reference path = "GiveawaySu.d.ts" />
 
 import Swal from 'sweetalert2';
 import Website from './Website';
@@ -49,7 +49,7 @@ const defaultTasks: gasSocialTasks = {
   }
 };
 
-class Giveawaysu extends Website {
+class GiveawaySu extends Website {
   socialTasks: gasSocialTasks = defaultTasks
   undoneTasks: gasSocialTasks = defaultTasks
 
@@ -215,4 +215,4 @@ class Giveawaysu extends Website {
   }
 }
 
-export default Giveawaysu;
+export default GiveawaySu;

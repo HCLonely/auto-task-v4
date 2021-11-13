@@ -1,9 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2021-11-11 14:48:53
+ * @LastEditTime : 2021-11-13 19:33:48
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
+ * @FilePath     : /auto-task-new/src/scripts/website/Keyhub.ts
  * @Description  :
  */
 // todo: 未测试
@@ -122,7 +122,7 @@ class Keyhub extends Website {
     }
   }
 
-  async verifyTask() {
+  verifyTask(): void {
     try {
       echoLog({ type: 'custom', text: `<li>${getI18n('verifyingTask')}...<font></font></li>` });
       $.get(window.location.href, (res) => {
@@ -133,7 +133,7 @@ class Keyhub extends Website {
     }
   }
 
-  #getGiveawayId() {
+  #getGiveawayId(): boolean {
     try {
       const giveawayId = window.location.href.match(/giveaway\/([\d]+)/)?.[1];
       if (giveawayId) {
@@ -144,6 +144,7 @@ class Keyhub extends Website {
       return false;
     } catch (error) {
       throwError(error as Error, 'Keyhub.getGiveawayId');
+      return false;
     }
   }
   async checkLeftKey(): Promise<boolean> {

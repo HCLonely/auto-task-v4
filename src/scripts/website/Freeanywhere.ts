@@ -1,14 +1,14 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:03
- * @LastEditTime : 2021-11-11 14:08:20
+ * @LastEditTime : 2021-11-13 19:30:08
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/scripts/website/freeanywhere.ts
+ * @FilePath     : /auto-task-new/src/scripts/website/FreeAnyWhere.ts
  * @Description  : https://freeanywhere.net
  */
 
 // eslint-disable-next-line
-/// <reference path = "Freeanywhere.d.ts" />
+/// <reference path = "FreeAnyWhere.d.ts" />
 
 import * as Cookies from 'js-cookie';
 import Website from './Website';
@@ -30,7 +30,7 @@ const defaultTasks: fawSocialTasks = {
   }
 };
 
-class Freeanywhere extends Website {
+class FreeAnyWhere extends Website {
   tasks: Array<fawTaskInfo> = []
   socialTasks: fawSocialTasks = { ...defaultTasks }
   undoneTasks: fawSocialTasks = { ...defaultTasks }
@@ -158,7 +158,7 @@ class Freeanywhere extends Website {
       if (!this.initialized && !this.init()) {
         return false;
       }
-      if (!(await this.classifyTask('verify'))) {
+      if (this.tasks.length === 0 && !(await this.classifyTask('verify'))) {
         return false;
       }
       const pro = [];
@@ -239,4 +239,4 @@ class Freeanywhere extends Website {
   }
 }
 
-export default Freeanywhere;
+export default FreeAnyWhere;
