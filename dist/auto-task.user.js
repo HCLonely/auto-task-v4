@@ -5457,7 +5457,28 @@
     });
     return false;
   }
-  class Indiedb extends website_Website {
+  function Indiedb_classPrivateMethodInitSpec(obj, privateSet) {
+    Indiedb_checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
+  }
+  function Indiedb_checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+      throw new TypeError('Cannot initialize the same private elements twice on an object');
+    }
+  }
+  function Indiedb_classPrivateMethodGet(receiver, privateSet, fn) {
+    if (!privateSet.has(receiver)) {
+      throw new TypeError('attempted to get private field on non-instance');
+    }
+    return fn;
+  }
+  var _join = new WeakSet();
+  var _do = new WeakSet();
+  class Indiedb {
+    constructor() {
+      Indiedb_classPrivateMethodInitSpec(this, _do);
+      Indiedb_classPrivateMethodInitSpec(this, _join);
+    }
     test() {
       return window.location.host === 'www.indiedb.com';
     }
@@ -5474,254 +5495,12 @@
     }
     async doTask() {
       try {
-        if (!await this.init()) {
+        if (!await Indiedb_classPrivateMethodGet(this, _join, _join2).call(this)) {
           return false;
         }
-        return await this.classifyTask();
+        return await Indiedb_classPrivateMethodGet(this, _do, _do2).call(this);
       } catch (error) {
         throwError_throwError(error, 'Indiedb.doTask');
-        return false;
-      }
-    }
-    async init() {
-      try {
-        if ($('a.buttonenter:contains(Register to join)').length > 0) {
-          scripts_echoLog({
-            type: 'custom',
-            text: `<li><font class="error">${i18n('needLogin')}</font></li>`
-          });
-          return false;
-        }
-        const currentoption = $('a.buttonenter.buttongiveaway');
-        if (/join giveaway/gim.test(currentoption.text())) {
-          const logStatus = scripts_echoLog({
-            type: 'custom',
-            text: `<li>${i18n('joinGiveaway')}<font></font></li>`
-          });
-          const {
-            result,
-            statusText,
-            status,
-            data
-          } = await tools_httpRequest({
-            url: currentoption.attr('href'),
-            method: 'POST',
-            data: 'ajax=t',
-            dataType: 'json',
-            headers: {
-              'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-              accept: 'application/json, text/javascript, */*; q=0.01',
-              origin: window.location.origin
-            }
-          });
-          if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$response, _data$response4, _data$response5;
-              if ((_data$response = data.response) !== null && _data$response !== void 0 && _data$response.success) {
-                var _data$response2, _data$response3;
-                currentoption.addClass('buttonentered').text('Success - Giveaway joined');
-                $('#giveawaysjoined').slideDown();
-                $('#giveawaysrecommend').slideDown();
-                logStatus.success(`Success${(_data$response2 = data.response) !== null && _data$response2 !== void 0 && _data$response2.text ? `:${(_data$response3 = data.response) === null || _data$response3 === void 0 ? void 0 : _data$response3.text}` : ''}`);
-                return true;
-              }
-              logStatus.error(`Error${(_data$response4 = data.response) !== null && _data$response4 !== void 0 && _data$response4.text ? `:${(_data$response5 = data.response) === null || _data$response5 === void 0 ? void 0 : _data$response5.text}` : ''}`);
-              return false;
-            }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-            return false;
-          }
-          logStatus.error(`${result}:${statusText}(${status})`);
-          return false;
-        } else if (/success/gim.test($('a.buttonenter.buttongiveaway').text())) {
-          return true;
-        }
-        scripts_echoLog({
-          type: 'custom',
-          text: `<li><font class="error">${i18n('needJoinGiveaway')}</font></li>`
-        });
-        return false;
-      } catch (error) {
-        throwError_throwError(error, 'Indiedb.init');
-        return false;
-      }
-    }
-    async classifyTask() {
-      try {
-        const id = $('script').map((index, script) => {
-          if (/\$\(document\)/gim.test(script.innerHTML)) {
-            var _script$innerHTML$mat, _script$innerHTML$mat2, _script$innerHTML$mat3, _script$innerHTML$mat4, _script$innerHTML$mat5, _script$innerHTML$mat6;
-            return [ (_script$innerHTML$mat = script.innerHTML.match(/"\/[\d]+"/gim)) === null || _script$innerHTML$mat === void 0 ? void 0 : (_script$innerHTML$mat2 = _script$innerHTML$mat[0]) === null || _script$innerHTML$mat2 === void 0 ? void 0 : (_script$innerHTML$mat3 = _script$innerHTML$mat2.match(/[\d]+/)) === null || _script$innerHTML$mat3 === void 0 ? void 0 : _script$innerHTML$mat3[0], (_script$innerHTML$mat4 = script.innerHTML.match(/"\/newsletter\/ajax\/subscribeprofile\/optin\/[\d]+"/gim)) === null || _script$innerHTML$mat4 === void 0 ? void 0 : (_script$innerHTML$mat5 = _script$innerHTML$mat4[0]) === null || _script$innerHTML$mat5 === void 0 ? void 0 : (_script$innerHTML$mat6 = _script$innerHTML$mat5.match(/[\d]+/)) === null || _script$innerHTML$mat6 === void 0 ? void 0 : _script$innerHTML$mat6[0] ];
-          }
-          return null;
-        });
-        if (id.length === 2) {
-          const pro = [];
-          const tasks = $('#giveawaysjoined a[class*=promo]');
-          for (const task of tasks) {
-            const promo = $(task);
-            if (!promo.hasClass('buttonentered')) {
-              const status = scripts_echoLog({
-                type: 'custom',
-                text: `<li>${i18n('doing')}:${promo.parents('p').text()}...<font></font></li>`
-              });
-              if (/facebookpromo|twitterpromo|visitpromo/gim.test(task.className)) {
-                let text = '';
-                if (promo.hasClass('facebookpromo')) {
-                  text = 'facebookpromo';
-                } else if (promo.hasClass('twitterpromo')) {
-                  text = 'twitterpromo';
-                } else {
-                  text = 'visitpromo';
-                }
-                pro.push(new Promise(resolve => {
-                  $.ajax({
-                    type: 'POST',
-                    url: urlPath(`/giveaways/ajax/${text}/${id[0]}`),
-                    timeout: 6e4,
-                    dataType: 'json',
-                    data: {
-                      ajax: 't'
-                    },
-                    error(response, error, exception) {
-                      console.log({
-                        response: response,
-                        error: error,
-                        exception: exception
-                      });
-                      status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
-                      resolve(true);
-                    },
-                    success(response) {
-                      console.log(response);
-                      if (response.success) {
-                        status.success(`Success:${response.text}`);
-                        promo.addClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
-                        resolve(true);
-                      } else {
-                        status.error(`Error:${response.text}`);
-                        resolve(true);
-                      }
-                    }
-                  });
-                }));
-              } else if (promo.hasClass('emailoptinpromo')) {
-                pro.push(new Promise(resolve => {
-                  $.ajax({
-                    type: 'POST',
-                    url: urlPath(`/newsletter/ajax/subscribeprofile/optin/${id[1]}`),
-                    timeout: 6e4,
-                    dataType: 'json',
-                    data: {
-                      ajax: 't',
-                      emailsystoggle: 4
-                    },
-                    error(response, error, exception) {
-                      console.log({
-                        response: response,
-                        error: error,
-                        exception: exception
-                      });
-                      status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
-                      resolve(true);
-                    },
-                    success(response) {
-                      console.log(response);
-                      if (response.success) {
-                        status.success(`Success:${response.text}`);
-                        promo.toggleClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
-                        resolve(true);
-                      } else {
-                        status.error(`Error:${response.text}`);
-                        resolve(true);
-                      }
-                    }
-                  });
-                }));
-              } else if (promo.hasClass('watchingpromo')) {
-                pro.push(new Promise(resolve => {
-                  var _promo$attr;
-                  const data = getUrlQuery(promo.attr('href'));
-                  data.ajax = 't';
-                  $.ajax({
-                    type: 'POST',
-                    url: urlPath((_promo$attr = promo.attr('href')) === null || _promo$attr === void 0 ? void 0 : _promo$attr.split(/[?#]/)[0]),
-                    timeout: 6e4,
-                    dataType: 'json',
-                    data: data,
-                    error(response, error, exception) {
-                      console.log({
-                        response: response,
-                        error: error,
-                        exception: exception
-                      });
-                      status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
-                      resolve(true);
-                    },
-                    success(response) {
-                      console.log(response);
-                      if (response.success) {
-                        status.success(`Success:${response.text}`);
-                        promo.toggleClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
-                        resolve(true);
-                      } else {
-                        status.error(`Error:${response.text}`);
-                        resolve(true);
-                      }
-                    }
-                  });
-                }));
-              } else if (!/the-challenge-of-adblock/gim.test(promo.attr('href'))) {
-                pro.push(new Promise(resolve => {
-                  $.ajax({
-                    type: 'POST',
-                    url: urlPath(promo.attr('href')),
-                    timeout: 6e4,
-                    dataType: 'json',
-                    data: {
-                      ajax: 't'
-                    },
-                    error(response, error, exception) {
-                      console.log({
-                        response: response,
-                        error: error,
-                        exception: exception
-                      });
-                      status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
-                      resolve(true);
-                    },
-                    success(response) {
-                      console.log(response);
-                      if (response.success) {
-                        status.success(`Success:${response.text}`);
-                        promo.toggleClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
-                        resolve(true);
-                      } else {
-                        status.error(`Error:${response.text}`);
-                        resolve(true);
-                      }
-                    }
-                  });
-                }));
-              } else {
-                status.error(`Error:${i18n('unknowntype')}`);
-              }
-            }
-          }
-          await Promise.all(pro);
-          scripts_echoLog({
-            type: 'custom',
-            text: `<li><font class="warning">${i18n('allTasksComplete')}</font></li>`
-          });
-          return true;
-        }
-        scripts_echoLog({
-          type: 'custom',
-          text: `<li><font class="error">${i18n('getIdFailed')}</font></li>`
-        });
-        return false;
-      } catch (error) {
-        throwError_throwError(error, 'Indiedb.classifyTask');
         return false;
       }
     }
@@ -5735,6 +5514,248 @@
         throwError_throwError(error, 'Indiedb.checkLogin');
         return false;
       }
+    }
+  }
+  async function _join2() {
+    try {
+      if ($('a.buttonenter:contains(Register to join)').length > 0) {
+        scripts_echoLog({
+          type: 'custom',
+          text: `<li><font class="error">${i18n('needLogin')}</font></li>`
+        });
+        return false;
+      }
+      const currentoption = $('a.buttonenter.buttongiveaway');
+      if (/join giveaway/gim.test(currentoption.text())) {
+        const logStatus = scripts_echoLog({
+          type: 'custom',
+          text: `<li>${i18n('joinGiveaway')}<font></font></li>`
+        });
+        const {
+          result,
+          statusText,
+          status,
+          data
+        } = await tools_httpRequest({
+          url: currentoption.attr('href'),
+          method: 'POST',
+          data: 'ajax=t',
+          dataType: 'json',
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            accept: 'application/json, text/javascript, */*; q=0.01',
+            origin: window.location.origin
+          }
+        });
+        if (result === 'Success') {
+          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+            var _data$response, _data$response4, _data$response5;
+            if ((_data$response = data.response) !== null && _data$response !== void 0 && _data$response.success) {
+              var _data$response2, _data$response3;
+              currentoption.addClass('buttonentered').text('Success - Giveaway joined');
+              $('#giveawaysjoined').slideDown();
+              $('#giveawaysrecommend').slideDown();
+              logStatus.success(`Success${(_data$response2 = data.response) !== null && _data$response2 !== void 0 && _data$response2.text ? `:${(_data$response3 = data.response) === null || _data$response3 === void 0 ? void 0 : _data$response3.text}` : ''}`);
+              return true;
+            }
+            logStatus.error(`Error${(_data$response4 = data.response) !== null && _data$response4 !== void 0 && _data$response4.text ? `:${(_data$response5 = data.response) === null || _data$response5 === void 0 ? void 0 : _data$response5.text}` : ''}`);
+            return false;
+          }
+          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+          return false;
+        }
+        logStatus.error(`${result}:${statusText}(${status})`);
+        return false;
+      } else if (/success/gim.test($('a.buttonenter.buttongiveaway').text())) {
+        return true;
+      }
+      scripts_echoLog({
+        type: 'custom',
+        text: `<li><font class="error">${i18n('needJoinGiveaway')}</font></li>`
+      });
+      return false;
+    } catch (error) {
+      throwError_throwError(error, 'Indiedb.init');
+      return false;
+    }
+  }
+  async function _do2() {
+    try {
+      const id = $('script').map((index, script) => {
+        if (/\$\(document\)/gim.test(script.innerHTML)) {
+          var _script$innerHTML$mat, _script$innerHTML$mat2, _script$innerHTML$mat3, _script$innerHTML$mat4, _script$innerHTML$mat5, _script$innerHTML$mat6;
+          return [ (_script$innerHTML$mat = script.innerHTML.match(/"\/[\d]+"/gim)) === null || _script$innerHTML$mat === void 0 ? void 0 : (_script$innerHTML$mat2 = _script$innerHTML$mat[0]) === null || _script$innerHTML$mat2 === void 0 ? void 0 : (_script$innerHTML$mat3 = _script$innerHTML$mat2.match(/[\d]+/)) === null || _script$innerHTML$mat3 === void 0 ? void 0 : _script$innerHTML$mat3[0], (_script$innerHTML$mat4 = script.innerHTML.match(/"\/newsletter\/ajax\/subscribeprofile\/optin\/[\d]+"/gim)) === null || _script$innerHTML$mat4 === void 0 ? void 0 : (_script$innerHTML$mat5 = _script$innerHTML$mat4[0]) === null || _script$innerHTML$mat5 === void 0 ? void 0 : (_script$innerHTML$mat6 = _script$innerHTML$mat5.match(/[\d]+/)) === null || _script$innerHTML$mat6 === void 0 ? void 0 : _script$innerHTML$mat6[0] ];
+        }
+        return null;
+      });
+      if (id.length === 2) {
+        const pro = [];
+        const tasks = $('#giveawaysjoined a[class*=promo]');
+        for (const task of tasks) {
+          const promo = $(task);
+          if (!promo.hasClass('buttonentered')) {
+            const status = scripts_echoLog({
+              type: 'custom',
+              text: `<li>${i18n('doing')}:${promo.parents('p').text()}...<font></font></li>`
+            });
+            if (/facebookpromo|twitterpromo|visitpromo/gim.test(task.className)) {
+              let text = '';
+              if (promo.hasClass('facebookpromo')) {
+                text = 'facebookpromo';
+              } else if (promo.hasClass('twitterpromo')) {
+                text = 'twitterpromo';
+              } else {
+                text = 'visitpromo';
+              }
+              pro.push(new Promise(resolve => {
+                $.ajax({
+                  type: 'POST',
+                  url: urlPath(`/giveaways/ajax/${text}/${id[0]}`),
+                  timeout: 6e4,
+                  dataType: 'json',
+                  data: {
+                    ajax: 't'
+                  },
+                  error(response, error, exception) {
+                    console.log({
+                      response: response,
+                      error: error,
+                      exception: exception
+                    });
+                    status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
+                    resolve(true);
+                  },
+                  success(response) {
+                    console.log(response);
+                    if (response.success) {
+                      status.success(`Success:${response.text}`);
+                      promo.addClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
+                      resolve(true);
+                    } else {
+                      status.error(`Error:${response.text}`);
+                      resolve(true);
+                    }
+                  }
+                });
+              }));
+            } else if (promo.hasClass('emailoptinpromo')) {
+              pro.push(new Promise(resolve => {
+                $.ajax({
+                  type: 'POST',
+                  url: urlPath(`/newsletter/ajax/subscribeprofile/optin/${id[1]}`),
+                  timeout: 6e4,
+                  dataType: 'json',
+                  data: {
+                    ajax: 't',
+                    emailsystoggle: 4
+                  },
+                  error(response, error, exception) {
+                    console.log({
+                      response: response,
+                      error: error,
+                      exception: exception
+                    });
+                    status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
+                    resolve(true);
+                  },
+                  success(response) {
+                    console.log(response);
+                    if (response.success) {
+                      status.success(`Success:${response.text}`);
+                      promo.toggleClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
+                      resolve(true);
+                    } else {
+                      status.error(`Error:${response.text}`);
+                      resolve(true);
+                    }
+                  }
+                });
+              }));
+            } else if (promo.hasClass('watchingpromo')) {
+              pro.push(new Promise(resolve => {
+                var _promo$attr;
+                const data = getUrlQuery(promo.attr('href'));
+                data.ajax = 't';
+                $.ajax({
+                  type: 'POST',
+                  url: urlPath((_promo$attr = promo.attr('href')) === null || _promo$attr === void 0 ? void 0 : _promo$attr.split(/[?#]/)[0]),
+                  timeout: 6e4,
+                  dataType: 'json',
+                  data: data,
+                  error(response, error, exception) {
+                    console.log({
+                      response: response,
+                      error: error,
+                      exception: exception
+                    });
+                    status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
+                    resolve(true);
+                  },
+                  success(response) {
+                    console.log(response);
+                    if (response.success) {
+                      status.success(`Success:${response.text}`);
+                      promo.toggleClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
+                      resolve(true);
+                    } else {
+                      status.error(`Error:${response.text}`);
+                      resolve(true);
+                    }
+                  }
+                });
+              }));
+            } else if (!/the-challenge-of-adblock/gim.test(promo.attr('href'))) {
+              pro.push(new Promise(resolve => {
+                $.ajax({
+                  type: 'POST',
+                  url: urlPath(promo.attr('href')),
+                  timeout: 6e4,
+                  dataType: 'json',
+                  data: {
+                    ajax: 't'
+                  },
+                  error(response, error, exception) {
+                    console.log({
+                      response: response,
+                      error: error,
+                      exception: exception
+                    });
+                    status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
+                    resolve(true);
+                  },
+                  success(response) {
+                    console.log(response);
+                    if (response.success) {
+                      status.success(`Success:${response.text}`);
+                      promo.toggleClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
+                      resolve(true);
+                    } else {
+                      status.error(`Error:${response.text}`);
+                      resolve(true);
+                    }
+                  }
+                });
+              }));
+            } else {
+              status.error(`Error:${i18n('unknowntype')}`);
+            }
+          }
+        }
+        await Promise.all(pro);
+        scripts_echoLog({
+          type: 'custom',
+          text: `<li><font class="warning">${i18n('allTasksComplete')}</font></li>`
+        });
+        return true;
+      }
+      scripts_echoLog({
+        type: 'custom',
+        text: `<li><font class="error">${i18n('getIdFailed')}</font></li>`
+      });
+      return false;
+    } catch (error) {
+      throwError_throwError(error, 'Indiedb.classifyTask');
+      return false;
     }
   }
   const website_Indiedb = Indiedb;
@@ -6256,27 +6277,7 @@
     }
   }
   const website_Givekey = Givekey;
-  function GiveeClub_classPrivateMethodInitSpec(obj, privateSet) {
-    GiveeClub_checkPrivateRedeclaration(obj, privateSet);
-    privateSet.add(obj);
-  }
-  function GiveeClub_checkPrivateRedeclaration(obj, privateCollection) {
-    if (privateCollection.has(obj)) {
-      throw new TypeError('Cannot initialize the same private elements twice on an object');
-    }
-  }
-  function GiveeClub_classPrivateMethodGet(receiver, privateSet, fn) {
-    if (!privateSet.has(receiver)) {
-      throw new TypeError('attempted to get private field on non-instance');
-    }
-    return fn;
-  }
-  var GiveeClub_verify = new WeakSet();
   class GiveeClub extends GiveawaySu {
-    constructor() {
-      super(...arguments);
-      GiveeClub_classPrivateMethodInitSpec(this, GiveeClub_verify);
-    }
     test() {
       return /^https?:\/\/givee\.club\/.*?\/event\/[\d]+/.test(window.location.href);
     }
@@ -6385,29 +6386,6 @@
         return false;
       }
     }
-    async verifyTask() {
-      try {
-        if (!this.initialized && !this.init()) {
-          return false;
-        }
-        const tasks = $('.event-actions tr:not(".hidden")');
-        for (const task of tasks) {
-          const data = $(task).attr('data-action');
-          if (!data) {
-            continue;
-          }
-          await GiveeClub_classPrivateMethodGet(this, GiveeClub_verify, GiveeClub_verify2).call(this, JSON.parse(atob(data)), $(task).find('button'));
-        }
-        scripts_echoLog({
-          type: 'custom',
-          text: '<li>All tasks complete!<font></font></li>'
-        });
-        return true;
-      } catch (error) {
-        throwError_throwError(error, 'GiveeClub.verifyTask');
-        return false;
-      }
-    }
     checkLogin() {
       try {
         if ($('a[href*="/account/auth"]').length > 0) {
@@ -6433,49 +6411,159 @@
       return false;
     }
   }
-  async function GiveeClub_verify2(data, button) {
-    try {
-      const logStatus = scripts_echoLog({
-        type: 'custom',
-        text: `<li>${i18n('verifyingTask')}${data.id}...<font></font></li>`
-      });
-      return await new Promise(resolve => {
-        $.ajax({
-          type: 'POST',
-          url: giveeClub.localeLink(`/action/check/${data.id}`),
-          data: data,
-          dataType: 'json',
-          timeout: 3e4,
-          error: xhr => {
-            logStatus.error(`Error:${xhr.statusText}(${xhr.status})`);
-            resolve(false);
-          },
-          success: response => {
-            if (response) {
-              if (response.status !== 'pending') {
-                button.removeClass('event-action-checking');
-                if (response.success && response.success === true) {
-                  button.attr('data-disabled', 'true').addClass('btn-success active').removeClass('btn-default').find('i').attr('class', 'glyphicon glyphicon-ok');
-                  logStatus.success();
-                  resolve(true);
-                } else if (response.error && typeof response.error === 'string') {
-                  logStatus.error(`Error: ${response.error}`);
-                  resolve(false);
-                }
-              }
-            } else {
-              logStatus.error('Error');
-              resolve(false);
-            }
-          }
-        });
-      });
-    } catch (error) {
-      throwError_throwError(error, 'GiveeClub.verify');
-      return false;
+  const website_GiveeClub = GiveeClub;
+  function OpiumPulses_classPrivateMethodInitSpec(obj, privateSet) {
+    OpiumPulses_checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
+  }
+  function OpiumPulses_checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+      throw new TypeError('Cannot initialize the same private elements twice on an object');
     }
   }
-  const website_GiveeClub = GiveeClub;
+  function OpiumPulses_defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  function OpiumPulses_classPrivateMethodGet(receiver, privateSet, fn) {
+    if (!privateSet.has(receiver)) {
+      throw new TypeError('attempted to get private field on non-instance');
+    }
+    return fn;
+  }
+  var _toggleTask = new WeakSet();
+  class OpiumPulses {
+    constructor(maxPoint) {
+      OpiumPulses_classPrivateMethodInitSpec(this, _toggleTask);
+      OpiumPulses_defineProperty(this, 'maxPoints', void 0);
+      OpiumPulses_defineProperty(this, 'myPoints', 0);
+      this.maxPoints = maxPoint;
+    }
+    test() {
+      return window.location.host === 'www.opiumpulses.com';
+    }
+    async before() {
+      try {
+        if (!this.checkLogin()) {
+          scripts_echoLog({
+            type: 'checkLoginFailed'
+          });
+        }
+      } catch (error) {
+        throwError_throwError(error, 'OpiumPulses.before');
+      }
+    }
+    async doFreeTask() {
+      try {
+        OpiumPulses_classPrivateMethodGet(this, _toggleTask, _toggleTask2).call(this, 'FREE');
+      } catch (error) {
+        throwError_throwError(error, 'OpiumPulses.doFreeTask');
+      }
+    }
+    async doPointTask() {
+      try {
+        var _$$text$match;
+        this.myPoints = parseInt(((_$$text$match = $('.page-header__nav-func-user-nav-items.points-items').text().match(/[\d]+/gim)) === null || _$$text$match === void 0 ? void 0 : _$$text$match[0]) || '0', 10);
+        OpiumPulses_classPrivateMethodGet(this, _toggleTask, _toggleTask2).call(this, 'points');
+      } catch (error) {
+        throwError_throwError(error, 'OpiumPulses.doPointTask');
+      }
+    }
+    init() {
+      return true;
+    }
+    classifyTask() {
+      return true;
+    }
+    checkLogin() {
+      try {
+        if ($('a[href*="/site/login"]').length > 0) {
+          window.open('/site/login', '_self');
+        }
+        return true;
+      } catch (error) {
+        throwError_throwError(error, 'OpiumPulses.checkLogin');
+        return false;
+      }
+    }
+  }
+  async function _toggleTask2(type) {
+    try {
+      const items = $(`.giveaways-page-item:contains('${type}'):not(:contains('ENTERED'))`);
+      for (const item of items) {
+        var _$$find$text$match;
+        const needPoints = parseInt(((_$$find$text$match = $(item).find('.giveaways-page-item-header-points').text().match(/[\d]+/gim)) === null || _$$find$text$match === void 0 ? void 0 : _$$find$text$match[0]) || '999999', 10);
+        if (type === 'points' && needPoints > this.myPoints) {
+          scripts_echoLog({
+            type: 'custom',
+            text: `<li><font class="warning">${i18n('noPoints')}</font></li>`
+          });
+        } else if (type === 'points' && !needPoints) {
+          scripts_echoLog({
+            type: 'custom',
+            text: `<li><font class="warning">${i18n('getNeedPointsFailed')}</font></li>`
+          });
+        } else if (!(type === 'points' && needPoints > this.maxPoints)) {
+          var _aElement$attr;
+          const logStatus = scripts_echoLog({
+            type: 'custom',
+            text: `<li>${i18n('joinLottery')}<a href="${$(item).find('a.giveaways-page-item-img-btn-more').attr('href')}" target="_blank">${$(item).find('.giveaways-page-item-footer-name').text().trim()}</a>...<font></font></li>`
+          });
+          const aElement = $(item).find('a.giveaways-page-item-img-btn-enter:contains(\'enter\')');
+          if (aElement !== null && aElement !== void 0 && (_aElement$attr = aElement.attr('onclick')) !== null && _aElement$attr !== void 0 && _aElement$attr.includes('checkUser')) {
+            var _aElement$attr2, _aElement$attr2$match;
+            const giveawayId = (_aElement$attr2 = aElement.attr('onclick')) === null || _aElement$attr2 === void 0 ? void 0 : (_aElement$attr2$match = _aElement$attr2.match(/[\d]+/)) === null || _aElement$attr2$match === void 0 ? void 0 : _aElement$attr2$match[0];
+            if (giveawayId) {
+              checkUser(giveawayId);
+            }
+          }
+          if (!aElement.attr('href')) {
+            logStatus.error('Error: No "href".');
+            continue;
+          }
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: aElement.attr('href'),
+            method: 'GET'
+          });
+          if (result === 'Success') {
+            if (data !== null && data !== void 0 && data.responseText && /You've entered this giveaway/gim.test(data.responseText)) {
+              var _data$responseText$ma;
+              logStatus.success();
+              const points = (_data$responseText$ma = data.responseText.match(/Points:[\s]*?([\d]+)/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
+              if (type === 'points' && points) {
+                this.myPoints = parseInt(points, 10);
+              }
+            } else {
+              logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            }
+          } else {
+            logStatus.error(`${result}:${statusText}(${status})`);
+          }
+        }
+      }
+      scripts_echoLog({
+        type: 'custom',
+        text: '<li>-----END-----</li>'
+      });
+    } catch (error) {
+      throwError_throwError(error, 'OpiumPulses.toggleTask');
+    }
+  }
+  const website_OpiumPulses = OpiumPulses;
   if (window.location.hostname === 'discord.com') {
     var _window$localStorage$;
     const discordAuth = (_window$localStorage$ = window.localStorage.getItem('token')) === null || _window$localStorage$ === void 0 ? void 0 : _window$localStorage$.replace(/^"|"$/g, '');
@@ -6553,7 +6641,7 @@
     unsafeWindow.Keyhub = website_Keyhub;
     unsafeWindow.Givekey = website_Givekey;
     unsafeWindow.GiveeClub = website_GiveeClub;
-    $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;background-color:#fff;"></div>');
-    gs.before();
+    unsafeWindow.OpiumPulses = website_OpiumPulses;
+    $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;max-height: 600px;overflow-y: auto;background-color:#fff;"></div>');
   };
 })();

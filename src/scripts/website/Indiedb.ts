@@ -1,14 +1,13 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 14:37:33
- * @LastEditTime : 2021-11-11 14:02:24
+ * @LastEditTime : 2021-11-14 17:48:58
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Indiedb.ts
  * @Description  :
  */
 
 // todo: 未测试
-import Website from './Website';
 import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
 import getI18n from '../i18n/i18n';
@@ -17,7 +16,7 @@ import httpRequest from '../tools/httpRequest';
 
 declare function urlPath(value?: string): string
 
-class Indiedb extends Website {
+class Indiedb {
   test(): boolean {
     return window.location.host === 'www.indiedb.com';
   }
@@ -32,16 +31,16 @@ class Indiedb extends Website {
   }
   async doTask(): Promise<boolean> {
     try {
-      if (!await this.init()) {
+      if (!await this.#join()) {
         return false;
       }
-      return await this.classifyTask();
+      return await this.#do();
     } catch (error) {
       throwError(error as Error, 'Indiedb.doTask');
       return false;
     }
   }
-  async init(): Promise<boolean> {
+  async #join(): Promise<boolean> {
     try {
       if ($('a.buttonenter:contains(Register to join)').length > 0) {
         echoLog({ type: 'custom', text: `<li><font class="error">${getI18n('needLogin')}</font></li>` });
@@ -88,7 +87,7 @@ class Indiedb extends Website {
       return false;
     }
   }
-  async classifyTask(): Promise<boolean> {
+  async #do(): Promise<boolean> {
     try {
       const id = $('script').map((index, script) => {
         if (/\$\(document\)/gim.test(script.innerHTML)) {

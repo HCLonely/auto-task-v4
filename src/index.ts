@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-11-14 12:59:16
+ * @LastEditTime : 2021-11-14 18:09:35
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -22,6 +22,7 @@ import Indiedb from './scripts/website/Indiedb';
 import Keyhub from './scripts/website/Keyhub';
 import Givekey from './scripts/website/Givekey';
 import GiveeClub from './scripts/website/GiveeClub';
+import OpiumPulses from './scripts/website/OpiumPulses';
 
 declare const commonOptions: {
   headers?: {
@@ -96,7 +97,8 @@ window.onload = () => {
   unsafeWindow.Keyhub = Keyhub;
   unsafeWindow.Givekey = Givekey;
   unsafeWindow.GiveeClub = GiveeClub;
+  unsafeWindow.OpiumPulses = OpiumPulses;
 
-  $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;background-color:#fff;"></div>');
-  gs.before();
+  $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;max-height: 600px;overflow-y: auto;background-color:#fff;"></div>'); // eslint-disable-line
+  // gs.before();
 };
