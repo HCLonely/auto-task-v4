@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2021-11-13 19:33:48
+ * @LastEditTime : 2021-11-14 20:30:23
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Keyhub.ts
  * @Description  :
@@ -33,7 +33,6 @@ const defaultTasks: khSocialTasks = {
 };
 
 class Keyhub extends Website {
-  tasks: Array<fawTaskInfo> = []
   socialTasks: khSocialTasks = { ...defaultTasks }
   undoneTasks: khSocialTasks = { ...defaultTasks }
 
@@ -49,7 +48,7 @@ class Keyhub extends Website {
         echoLog({ type: 'checkLeftKeyFailed' });
       }
     } catch (error) {
-      throwError(error as Error, 'Giveawaysu.before');
+      throwError(error as Error, 'Keyhub.before');
     }
   }
   init(): boolean {
@@ -178,7 +177,7 @@ class Keyhub extends Website {
       }
       return true;
     } catch (error) {
-      throwError(error as Error, 'Giveawaysu.checkLogin');
+      throwError(error as Error, 'Keyhub.checkLogin');
       return false;
     }
   }
