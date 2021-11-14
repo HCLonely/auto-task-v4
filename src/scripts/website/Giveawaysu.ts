@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2021-11-13 17:45:35
+ * @LastEditTime : 2021-11-14 11:53:09
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.ts
  * @Description  :
@@ -215,4 +215,4 @@ class GiveawaySu extends Website {
   }
 }
 
-export default GiveawaySu;
+export { GiveawaySu, defaultTasks };

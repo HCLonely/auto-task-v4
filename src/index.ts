@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-11-13 19:49:24
+ * @LastEditTime : 2021-11-14 12:59:16
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -17,10 +17,11 @@ import Vk from './scripts/social/Vk';
 import Youtube from './scripts/social/Youtube';
 import Steam from './scripts/social/Steam';
 import Freeanywhere from './scripts/website/FreeAnyWhere';
-import Giveawaysu from './scripts/website/GiveawaySu';
+import { GiveawaySu } from './scripts/website/GiveawaySu';
 import Indiedb from './scripts/website/Indiedb';
 import Keyhub from './scripts/website/Keyhub';
 import Givekey from './scripts/website/Givekey';
+import GiveeClub from './scripts/website/GiveeClub';
 
 declare const commonOptions: {
   headers?: {
@@ -89,11 +90,12 @@ window.onload = () => {
   unsafeWindow.Youtube = Youtube;
   unsafeWindow.Steam = Steam;
   unsafeWindow.Freeanywhere = Freeanywhere;
-  const gs = new Giveawaysu();
+  const gs = new GiveawaySu();
   unsafeWindow.gs = gs;
   unsafeWindow.Indiedb = Indiedb;
   unsafeWindow.Keyhub = Keyhub;
   unsafeWindow.Givekey = Givekey;
+  unsafeWindow.GiveeClub = GiveeClub;
 
   $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;background-color:#fff;"></div>');
   gs.before();

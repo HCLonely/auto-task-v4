@@ -4801,56 +4801,57 @@
           return false;
         }
         const pro = [];
-        const tasks = action === 'do' ? this.undoneTasks : this.socialTasks;
+        const doTask = action === 'do';
+        const tasks = doTask ? this.undoneTasks : this.socialTasks;
         if (this.social.discord) {
           pro.push(this.social.discord.toggle({
-            doTask: true,
+            doTask: doTask,
             ...tasks.discord
           }));
         }
         if (this.social.instagram) {
           pro.push(this.social.instagram.toggle({
-            doTask: true,
+            doTask: doTask,
             ...tasks.instagram
           }));
         }
         if (this.social.reddit) {
           pro.push(this.social.reddit.toggle({
-            doTask: true,
+            doTask: doTask,
             ...tasks.reddit
           }));
         }
         if (this.social.twitch) {
           pro.push(this.social.twitch.toggle({
-            doTask: true,
+            doTask: doTask,
             ...tasks.twitch
           }));
         }
         if (this.social.twitter) {
           pro.push(this.social.twitter.toggle({
-            doTask: true,
+            doTask: doTask,
             ...tasks.twitter
           }));
         }
         if (this.social.vk) {
           pro.push(this.social.vk.toggle({
-            doTask: true,
+            doTask: doTask,
             ...tasks.vk
           }));
         }
         if (this.social.youtube) {
           pro.push(this.social.youtube.toggle({
-            doTask: true,
+            doTask: doTask,
             ...tasks.youtube
           }));
         }
         if (this.social.steam) {
           pro.push(this.social.steam.toggle({
-            doTask: true,
+            doTask: doTask,
             ...tasks.steam
           }));
         }
-        if (this.social.visitLink && tasks.links) {
+        if (this.social.visitLink && tasks.links && doTask) {
           for (const link of tasks.links) {
             pro.push(this.social.visitLink(link));
           }
@@ -5456,7 +5457,6 @@
     });
     return false;
   }
-  const website_GiveawaySu = GiveawaySu;
   class Indiedb extends website_Website {
     test() {
       return window.location.host === 'www.indiedb.com';
@@ -6256,6 +6256,226 @@
     }
   }
   const website_Givekey = Givekey;
+  function GiveeClub_classPrivateMethodInitSpec(obj, privateSet) {
+    GiveeClub_checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
+  }
+  function GiveeClub_checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+      throw new TypeError('Cannot initialize the same private elements twice on an object');
+    }
+  }
+  function GiveeClub_classPrivateMethodGet(receiver, privateSet, fn) {
+    if (!privateSet.has(receiver)) {
+      throw new TypeError('attempted to get private field on non-instance');
+    }
+    return fn;
+  }
+  var GiveeClub_verify = new WeakSet();
+  class GiveeClub extends GiveawaySu {
+    constructor() {
+      super(...arguments);
+      GiveeClub_classPrivateMethodInitSpec(this, GiveeClub_verify);
+    }
+    test() {
+      return /^https?:\/\/givee\.club\/.*?\/event\/[\d]+/.test(window.location.href);
+    }
+    async before() {
+      try {
+        if (!this.checkLogin()) {
+          scripts_echoLog({
+            type: 'checkLoginFailed'
+          });
+        }
+      } catch (error) {
+        throwError_throwError(error, 'GiveeClub.before');
+      }
+    }
+    init() {
+      try {
+        const logStatus = scripts_echoLog({
+          type: 'init'
+        });
+        if (!this.checkLogin()) {
+          logStatus.warning('请先登录');
+          return false;
+        }
+        if (!this.getGiveawayId()) {
+          return false;
+        }
+        this.initialized = true;
+        logStatus.success();
+        return true;
+      } catch (error) {
+        throwError_throwError(error, 'GiveeClub.init');
+        return false;
+      }
+    }
+    async classifyTask() {
+      try {
+        const logStatus = scripts_echoLog({
+          type: 'custom',
+          text: `<li>${i18n('getTasksInfo')}<font></font></li>`
+        });
+        this.undoneTasks = GM_getValue(`gcTasks-${this.giveawayId}`) || GiveawaySu_defaultTasks;
+        const pro = [];
+        const tasks = $('.event-actions tr');
+        for (const task of tasks) {
+          pro.push(new Promise(resolve => {
+            const taskDes = $(task).find('.event-action-label a');
+            const taskIcon = $(task).find('.event-action-icon i').attr('class') || '';
+            const taskName = taskDes.text().trim();
+            if (taskIcon.includes('ban') || /AdBlock/i.test(taskName) || taskIcon.includes('envelope')) {
+              return resolve(true);
+            }
+            getRedirectLink(taskDes.attr('href')).then(taskLink => {
+              if (!taskLink) {
+                return resolve(false);
+              }
+              if (/^https?:\/\/steamcommunity\.com\/groups/.test(taskLink)) {
+                this.undoneTasks.steam.groupLinks.push(taskLink);
+              } else if (/like.*announcement/gi.test(taskName)) {
+                this.undoneTasks.steam.announcementLinks.push(taskLink);
+              } else if (taskIcon.includes('plus') && /^https?:\/\/store\.steampowered\.com\/app\//.test(taskLink)) {
+                this.undoneTasks.steam.wishlistLinks.push(taskLink);
+              } else if (/^https?:\/\/store\.steampowered\.com\/curator\//.test(taskLink)) {
+                this.undoneTasks.steam.curatorLinks.push(taskLink);
+              } else if (taskIcon.includes('steam') && /follow|subscribe/gim.test(taskName)) {
+                this.undoneTasks.steam.curatorLikeLinks.push(taskLink);
+              } else if (/subscribe.*steam.*forum/gim.test(taskName)) {
+                this.undoneTasks.steam.forumLinks.push(taskLink);
+              } else if (taskIcon.includes('discord')) {
+                this.undoneTasks.discord.serverLinks.push(taskLink);
+              } else if (taskIcon.includes('instagram')) {
+                this.undoneTasks.instagram.userLinks.push(taskLink);
+              } else if (taskIcon.includes('twitch')) {
+                this.undoneTasks.twitch.channelLinks.push(taskLink);
+              } else if (taskIcon.includes('reddit')) {
+                this.undoneTasks.reddit.redditLinks.push(taskLink);
+              } else if (/watch.*art/gim.test(taskName)) {
+                this.undoneTasks.steam.workshopVoteLinks.push(taskLink);
+              } else if (/subscribe.*youtube.*channel/gim.test(taskName)) {
+                this.undoneTasks.youtube.channelLinks.push(taskLink);
+              } else if (/(watch|like).*youtube.*video/gim.test(taskName) || (taskIcon.includes('youtube') || taskIcon.includes('thumbs-up')) && /(watch|like).*video/gim.test(taskName)) {
+                this.undoneTasks.youtube.likeLinks.push(taskLink);
+              } else if (taskIcon.includes('vk') || /join.*vk.*group/gim.test(taskName)) {
+                this.undoneTasks.vk.nameLinks.push(taskLink);
+              } else {
+                if (/(on twitter)|(Follow.*on.*Facebook)/gim.test(taskName)) {} else {
+                  if (/follow.*button/gim.test(taskName)) {
+                    this.undoneTasks.steam.followLinks.push(taskLink);
+                  }
+                }
+              }
+              resolve(true);
+            }).catch(error => {
+              throwError_throwError(error, 'GiveeClub.classifyTask->getRedirectLink');
+              return false;
+            });
+          }));
+        }
+        await Promise.all(pro);
+        logStatus.success();
+        this.undoneTasks = this.uniqueTasks(this.undoneTasks);
+        this.socialTasks = this.undoneTasks;
+        GM_setValue(`gcTasks${this.giveawayId}`, this.socialTasks);
+        return true;
+      } catch (error) {
+        throwError_throwError(error, 'GiveeClub.classifyTask');
+        return false;
+      }
+    }
+    async verifyTask() {
+      try {
+        if (!this.initialized && !this.init()) {
+          return false;
+        }
+        const tasks = $('.event-actions tr:not(".hidden")');
+        for (const task of tasks) {
+          const data = $(task).attr('data-action');
+          if (!data) {
+            continue;
+          }
+          await GiveeClub_classPrivateMethodGet(this, GiveeClub_verify, GiveeClub_verify2).call(this, JSON.parse(atob(data)), $(task).find('button'));
+        }
+        scripts_echoLog({
+          type: 'custom',
+          text: '<li>All tasks complete!<font></font></li>'
+        });
+        return true;
+      } catch (error) {
+        throwError_throwError(error, 'GiveeClub.verifyTask');
+        return false;
+      }
+    }
+    checkLogin() {
+      try {
+        if ($('a[href*="/account/auth"]').length > 0) {
+          window.open($('a[href*="/account/auth"]').attr('href'), '_self');
+        }
+        return true;
+      } catch (error) {
+        throwError_throwError(error, 'GiveeClub.checkLogin');
+        return false;
+      }
+    }
+    getGiveawayId() {
+      var _window$location$href;
+      const giveawayId = (_window$location$href = window.location.href.match(/\/event\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
+      if (giveawayId) {
+        this.giveawayId = giveawayId;
+        return true;
+      }
+      scripts_echoLog({
+        type: 'custom',
+        text: `<li><font class="error">${i18n('getGiveawayIdFailed')}</font></li>`
+      });
+      return false;
+    }
+  }
+  async function GiveeClub_verify2(data, button) {
+    try {
+      const logStatus = scripts_echoLog({
+        type: 'custom',
+        text: `<li>${i18n('verifyingTask')}${data.id}...<font></font></li>`
+      });
+      return await new Promise(resolve => {
+        $.ajax({
+          type: 'POST',
+          url: giveeClub.localeLink(`/action/check/${data.id}`),
+          data: data,
+          dataType: 'json',
+          timeout: 3e4,
+          error: xhr => {
+            logStatus.error(`Error:${xhr.statusText}(${xhr.status})`);
+            resolve(false);
+          },
+          success: response => {
+            if (response) {
+              if (response.status !== 'pending') {
+                button.removeClass('event-action-checking');
+                if (response.success && response.success === true) {
+                  button.attr('data-disabled', 'true').addClass('btn-success active').removeClass('btn-default').find('i').attr('class', 'glyphicon glyphicon-ok');
+                  logStatus.success();
+                  resolve(true);
+                } else if (response.error && typeof response.error === 'string') {
+                  logStatus.error(`Error: ${response.error}`);
+                  resolve(false);
+                }
+              }
+            } else {
+              logStatus.error('Error');
+              resolve(false);
+            }
+          }
+        });
+      });
+    } catch (error) {
+      throwError_throwError(error, 'GiveeClub.verify');
+      return false;
+    }
+  }
+  const website_GiveeClub = GiveeClub;
   if (window.location.hostname === 'discord.com') {
     var _window$localStorage$;
     const discordAuth = (_window$localStorage$ = window.localStorage.getItem('token')) === null || _window$localStorage$ === void 0 ? void 0 : _window$localStorage$.replace(/^"|"$/g, '');
@@ -6327,11 +6547,12 @@
     unsafeWindow.Youtube = social_Youtube;
     unsafeWindow.Steam = social_Steam;
     unsafeWindow.Freeanywhere = website_FreeAnyWhere;
-    const gs = new website_GiveawaySu();
+    const gs = new GiveawaySu();
     unsafeWindow.gs = gs;
     unsafeWindow.Indiedb = website_Indiedb;
     unsafeWindow.Keyhub = website_Keyhub;
     unsafeWindow.Givekey = website_Givekey;
+    unsafeWindow.GiveeClub = website_GiveeClub;
     $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;background-color:#fff;"></div>');
     gs.before();
   };

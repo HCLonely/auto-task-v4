@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:28
- * @LastEditTime : 2021-11-11 14:37:40
+ * @LastEditTime : 2021-11-14 13:08:08
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Website.ts
  * @Description  :
@@ -141,32 +141,33 @@ abstract class Website {
         return false;
       }
       const pro = [];
-      const tasks = action === 'do' ? this.undoneTasks : this.socialTasks;
+      const doTask = action === 'do';
+      const tasks = doTask ? this.undoneTasks : this.socialTasks;
       if (this.social.discord) {
-        pro.push(this.social.discord.toggle({ doTask: true, ...tasks.discord }));
+        pro.push(this.social.discord.toggle({ doTask, ...tasks.discord }));
       }
       if (this.social.instagram) {
-        pro.push(this.social.instagram.toggle({ doTask: true, ...tasks.instagram }));
+        pro.push(this.social.instagram.toggle({ doTask, ...tasks.instagram }));
       }
       if (this.social.reddit) {
-        pro.push(this.social.reddit.toggle({ doTask: true, ...tasks.reddit }));
+        pro.push(this.social.reddit.toggle({ doTask, ...tasks.reddit }));
       }
       if (this.social.twitch) {
-        pro.push(this.social.twitch.toggle({ doTask: true, ...tasks.twitch }));
+        pro.push(this.social.twitch.toggle({ doTask, ...tasks.twitch }));
       }
       if (this.social.twitter) {
-        pro.push(this.social.twitter.toggle({ doTask: true, ...tasks.twitter }));
+        pro.push(this.social.twitter.toggle({ doTask, ...tasks.twitter }));
       }
       if (this.social.vk) {
-        pro.push(this.social.vk.toggle({ doTask: true, ...tasks.vk }));
+        pro.push(this.social.vk.toggle({ doTask, ...tasks.vk }));
       }
       if (this.social.youtube) {
-        pro.push(this.social.youtube.toggle({ doTask: true, ...tasks.youtube }));
+        pro.push(this.social.youtube.toggle({ doTask, ...tasks.youtube }));
       }
       if (this.social.steam) {
-        pro.push(this.social.steam.toggle({ doTask: true, ...tasks.steam }));
+        pro.push(this.social.steam.toggle({ doTask, ...tasks.steam }));
       }
-      if (this.social.visitLink && tasks.links) {
+      if (this.social.visitLink && tasks.links && doTask) {
         for (const link of tasks.links) {
           pro.push(this.social.visitLink(link));
         }
