@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 14:58:11
- * @LastEditTime : 2021-11-11 14:39:42
+ * @LastEditTime : 2021-11-15 14:08:05
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/tools/tools.ts
  * @Description  :
@@ -88,4 +88,11 @@ const getUrlQuery = (url?: string): urlQuery => {
   }
 };
 
-export { unique, delay, getRedirectLink, getUrlQuery, visitLink };
+/**
+ * 生成一个用不重复的ID
+ * @param { Number } randomLength
+ */
+const getUuid = (randomLength = 8): string => Number(Math.random().toString()
+  .substr(2, randomLength) + Date.now()).toString(36);
+
+export { unique, delay, getRedirectLink, getUrlQuery, visitLink, getUuid };

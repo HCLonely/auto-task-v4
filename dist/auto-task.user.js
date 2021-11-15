@@ -487,6 +487,10 @@
       return {};
     }
   };
+  const getUuid = function() {
+    let randomLength = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 8;
+    return Number(Math.random().toString().substr(2, randomLength) + Date.now()).toString(36);
+  };
   function _defineProperty(obj, key, value) {
     if (key in obj) {
       Object.defineProperty(obj, key, {
@@ -5799,7 +5803,6 @@
     constructor() {
       super(...arguments);
       Keyhub_classPrivateMethodInitSpec(this, Keyhub_getGiveawayId);
-      Keyhub_defineProperty(this, 'tasks', []);
       Keyhub_defineProperty(this, 'socialTasks', {
         ...Keyhub_defaultTasks
       });
@@ -5823,7 +5826,7 @@
           });
         }
       } catch (error) {
-        throwError_throwError(error, 'Giveawaysu.before');
+        throwError_throwError(error, 'Keyhub.before');
       }
     }
     init() {
@@ -5960,7 +5963,7 @@
         }
         return true;
       } catch (error) {
-        throwError_throwError(error, 'Giveawaysu.checkLogin');
+        throwError_throwError(error, 'Keyhub.checkLogin');
         return false;
       }
     }
@@ -6564,9 +6567,236 @@
     }
   }
   const website_OpiumPulses = OpiumPulses;
+  function Keylol_classPrivateMethodInitSpec(obj, privateSet) {
+    Keylol_checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
+  }
+  function Keylol_checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+      throw new TypeError('Cannot initialize the same private elements twice on an object');
+    }
+  }
+  function Keylol_defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  function Keylol_classPrivateMethodGet(receiver, privateSet, fn) {
+    if (!privateSet.has(receiver)) {
+      throw new TypeError('attempted to get private field on non-instance');
+    }
+    return fn;
+  }
+  const Keylol_defaultTasks = {
+    steam: {
+      groupLinks: [],
+      wishlistLinks: [],
+      curatorLinks: [],
+      curatorLikeLinks: [],
+      followLinks: [],
+      forumLinks: [],
+      announcementLinks: [],
+      workshopVoteLinks: []
+    },
+    discord: {
+      serverLinks: []
+    },
+    instagram: {
+      userLinks: []
+    },
+    vk: {
+      nameLinks: []
+    },
+    twitch: {
+      channelLinks: []
+    },
+    reddit: {
+      redditLinks: []
+    },
+    twitter: {
+      userLinks: [],
+      retweetLinks: []
+    },
+    youtube: {
+      channelLinks: [],
+      likeLinks: []
+    }
+  };
+  var _addBtn = new WeakSet();
+  class Keylol extends website_Website {
+    constructor() {
+      super(...arguments);
+      Keylol_classPrivateMethodInitSpec(this, _addBtn);
+      Keylol_defineProperty(this, 'socialTasks', {
+        ...Keylol_defaultTasks
+      });
+      Keylol_defineProperty(this, 'undoneTasks', {
+        ...Keylol_defaultTasks
+      });
+    }
+    test() {
+      var _$$eq$attr;
+      return window.location.host === 'keylol.com' && !window.location.href.includes('mod=forumdisplay') && !!((_$$eq$attr = $('.subforum_left_title_left_up a').eq(3).attr('href')) !== null && _$$eq$attr !== void 0 && _$$eq$attr.includes('319'));
+    }
+    init() {
+      return true;
+    }
+    after() {
+      try {
+        const mainPost = $('#postlist>div[id^="post_"]:first');
+        const discordLinks = mainPost.find('a[href*="discord.com"]');
+        const redditLinks = mainPost.find('a[href*="reddit.com"]');
+        const insLinks = mainPost.find('a[href*="instagram.com"]');
+        const twitterLinks = mainPost.find('a[href*="twitter.com"]');
+        const twitchLinks = mainPost.find('a[href*="twitch.tv"]');
+        const vkLinks = mainPost.find('a[href*="vk.com"]');
+        const steamStoreLinks = mainPost.find('a[href*="store.steampowered.com"]');
+        const steamCommunityLinks = mainPost.find('a[href*="steamcommunity.com"]');
+        if (discordLinks.length > 0) {
+          for (const discordLink of discordLinks) {
+            const link = $(discordLink).attr('href');
+            if (!link) {
+              continue;
+            }
+            Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, discordLink, 'discord', 'serverLinks', link);
+          }
+        }
+        if (redditLinks.length > 0) {
+          for (const redditLink of redditLinks) {
+            const link = $(redditLink).attr('href');
+            if (!link) {
+              continue;
+            }
+            Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, redditLink, 'reddit', 'redditLinks', link);
+          }
+        }
+        if (insLinks.length > 0) {
+          for (const insLink of insLinks) {
+            const link = $(insLink).attr('href');
+            if (!link) {
+              continue;
+            }
+            Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, insLink, 'instagram', 'userLinks', link);
+          }
+        }
+        if (twitterLinks.length > 0) {
+          for (const twitterLink of twitterLinks) {
+            const link = $(twitterLink).attr('href');
+            if (!link) {
+              continue;
+            }
+            if (/https:\/\/twitter\.com\/.*?\/status\/[\d]+/.test(link)) {
+              Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, twitterLink, 'twitter', 'retweetLinks', link);
+            } else {
+              Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, twitterLink, 'twitter', 'userLinks', link);
+            }
+          }
+        }
+        if (twitchLinks.length > 0) {
+          for (const twitchLink of twitchLinks) {
+            const link = $(twitchLink).attr('href');
+            if (!link) {
+              continue;
+            }
+            Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, twitchLink, 'twitch', 'channelLinks', link);
+          }
+        }
+        if (vkLinks.length > 0) {
+          for (const vkLink of vkLinks) {
+            const link = $(vkLink).attr('href');
+            if (!link) {
+              continue;
+            }
+            Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, vkLink, 'vk', 'nameLinks', link);
+          }
+        }
+        if (steamStoreLinks.length > 0) {
+          for (const steamStoreLink of steamStoreLinks) {
+            const link = $(steamStoreLink).attr('href');
+            if (!link) {
+              continue;
+            }
+            if (/app\/[\d]+/.test(link)) {
+              Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, steamStoreLink, 'steam', 'followLinks', link);
+              Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, steamStoreLink, 'steam', 'wishlistLinks', link);
+            } else if (/curator\/[\d]+/.test(link)) {
+              Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, steamStoreLink, 'steam', 'curatorLinks', link);
+            } else if (/(publisher|developer|franchise)\/.+/.test(link)) {
+              Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, steamStoreLink, 'steam', 'curatorLikeLinks', link);
+            } else if (/newshub\/app\/[\d]+\/view\/[\d]+/.test(link)) {
+              Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, steamStoreLink, 'steam', 'announcementLinks', link);
+            }
+          }
+        }
+        if (steamCommunityLinks.length > 0) {
+          for (const steamCommunityLink of steamCommunityLinks) {
+            const link = $(steamCommunityLink).attr('href');
+            if (!link) {
+              continue;
+            }
+            if (/groups\/.+/.test(link)) {
+              Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, steamCommunityLink, 'steam', 'groupLinks', link);
+            } else if (/announcements\/detail\/[\d]+/.test(link)) {
+              Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, steamCommunityLink, 'steam', 'announcementLinks', link);
+            }
+          }
+        }
+      } catch (error) {
+        throwError_throwError(error, 'keylol.after');
+      }
+    }
+    classifyTask(action) {
+      try {
+        this.socialTasks = {
+          ...Keylol_defaultTasks
+        };
+        this.undoneTasks = {
+          ...Keylol_defaultTasks
+        };
+        const selectedBtns = $('.auto-task-keylol[selected="selected"]');
+        for (const btn of selectedBtns) {
+          const button = $(btn);
+          const social = button.attr('data-social');
+          const type = button.attr('data-type');
+          const link = button.attr('data-link');
+          if (!(social && type && link)) {
+            continue;
+          }
+          if (action === 'do') {
+            this.undoneTasks[social][type].push(link);
+          }
+          if (action === 'undo') {
+            this.socialTasks[social][type].push(link);
+          }
+        }
+        this.undoneTasks = this.uniqueTasks(this.undoneTasks);
+        this.socialTasks = this.uniqueTasks(this.socialTasks);
+        return true;
+      } catch (error) {
+        throwError_throwError(error, 'Keylol.classifyTask');
+        return false;
+      }
+    }
+  }
+  function _addBtn2(before, social, linkType, link) {
+    try {
+      $(before).after('<a href="javascript:void(0);" class="auto-task-keylol" target="_self"' + ' onclick="this.getAttribute(\'selected\') ? this.removeAttribute(\'selected\') : this.setAttribute(\'selected\', \'selected\')"' + ` data-social="${social}" data-type="${linkType}" data-link="${link}">${linkType.replace('Links', '')}</a>`);
+    } catch (error) {
+      throwError_throwError(error, 'keylol.addBtn');
+    }
+  }
+  const website_Keylol = Keylol;
   if (window.location.hostname === 'discord.com') {
-    var _window$localStorage$;
-    const discordAuth = (_window$localStorage$ = window.localStorage.getItem('token')) === null || _window$localStorage$ === void 0 ? void 0 : _window$localStorage$.replace(/^"|"$/g, '');
+    var _window$localStorage, _window$localStorage$;
+    const discordAuth = (_window$localStorage = window.localStorage) === null || _window$localStorage === void 0 ? void 0 : (_window$localStorage$ = _window$localStorage.getItem('token')) === null || _window$localStorage$ === void 0 ? void 0 : _window$localStorage$.replace(/^"|"$/g, '');
     GM_setValue('discordAuth', {
       auth: discordAuth
     });
@@ -6643,5 +6873,17 @@
     unsafeWindow.GiveeClub = website_GiveeClub;
     unsafeWindow.OpiumPulses = website_OpiumPulses;
     $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;max-height: 600px;overflow-y: auto;background-color:#fff;"></div>');
+    const keylol = new website_Keylol();
+    keylol.after();
+    unsafeWindow.keylol = keylol;
+    GM_addStyle(`
+  .auto-task-keylol {
+    text-transform: capitalize;
+    margin-left: 10px;
+  }
+  .auto-task-keylol[selected="selected"] {
+    background-color: blue;
+    color: #fff;
+  }`);
   };
 })();

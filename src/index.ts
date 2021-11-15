@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-11-14 18:09:35
+ * @LastEditTime : 2021-11-15 15:24:32
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -23,6 +23,7 @@ import Keyhub from './scripts/website/Keyhub';
 import Givekey from './scripts/website/Givekey';
 import GiveeClub from './scripts/website/GiveeClub';
 import OpiumPulses from './scripts/website/OpiumPulses';
+import Keylol from './scripts/website/Keylol';
 
 declare const commonOptions: {
   headers?: {
@@ -31,7 +32,7 @@ declare const commonOptions: {
 };
 
 if (window.location.hostname === 'discord.com') {
-  const discordAuth = window.localStorage.getItem('token')?.replace(/^"|"$/g, '');
+  const discordAuth = window.localStorage?.getItem('token')?.replace(/^"|"$/g, '');
   GM_setValue('discordAuth', { auth: discordAuth }); // eslint-disable-line new-cap
   if (discordAuth && window.location.hash === '#auth') {
     window.close();
@@ -100,5 +101,20 @@ window.onload = () => {
   unsafeWindow.OpiumPulses = OpiumPulses;
 
   $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;max-height: 600px;overflow-y: auto;background-color:#fff;"></div>'); // eslint-disable-line
+
+  const keylol = new Keylol();
+  keylol.after();
+  unsafeWindow.keylol = keylol;
+
   // gs.before();
+  // eslint-disable-next-line new-cap
+  GM_addStyle(`
+  .auto-task-keylol {
+    text-transform: capitalize;
+    margin-left: 10px;
+  }
+  .auto-task-keylol[selected="selected"] {
+    background-color: blue;
+    color: #fff;
+  }`);
 };
