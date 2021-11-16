@@ -1,13 +1,26 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          http://tampermonkey.net/
-// @version            0.1
+// @version            4.0
 // @description        try to take over the world!
 // @author             HCLonely
-// @include            *://*/*
-// @include            https://auto-task.hclonely.com/setting.html
 // @run-at             document-start
 // @compatible         chrome 没有测试其他浏览器的兼容性
+
+// @include            *://freeanywhere.net/*
+// @include            *://giveaway.su/giveaway/view/*
+// @include            *://givee.club/*/event/*
+// @include            *://givekey.ru/giveaway/*
+// @include            *://www.indiedb.com/giveaways*
+// @include            *://key-hub.eu/giveaway/*
+// @include            *://keylol.com/*
+// @include            *://www.opiumpulses.com/giveaways
+// @include            *://prys.revadike.com/giveaway/?id=*
+// @include            *://discord.com/*
+// @include            *://www.twitch.tv/*
+// @include            *://www.youtube.com/*
+// @include            *://*.reddit.com/*
+// @include            *://twitter.com/settings/account?k*
 
 // @grant              GM_setValue
 // @grant              GM_getValue
@@ -328,6 +341,7 @@
         break;
 
        case 'html':
+       case 'custom':
         ele = $(text);
         break;
 
@@ -6856,14 +6870,6 @@
       window.close();
       external_Swal_default().fire('', '如果此页面没有自动关闭，请自行关闭本页面。');
     }
-    unsafeWindow.Discord = social_Discord;
-    unsafeWindow.Instagram = social_Instagram;
-    unsafeWindow.Reddit = social_Reddit;
-    unsafeWindow.Twitch = social_Twitch;
-    unsafeWindow.Twitter = social_Twitter;
-    unsafeWindow.Vk = social_Vk;
-    unsafeWindow.Youtube = social_Youtube;
-    unsafeWindow.Steam = social_Steam;
     unsafeWindow.Freeanywhere = website_FreeAnyWhere;
     const gs = new GiveawaySu();
     unsafeWindow.gs = gs;
@@ -6872,10 +6878,15 @@
     unsafeWindow.Givekey = website_Givekey;
     unsafeWindow.GiveeClub = website_GiveeClub;
     unsafeWindow.OpiumPulses = website_OpiumPulses;
-    $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;max-height: 600px;overflow-y: auto;background-color:#fff;"></div>');
     const keylol = new website_Keylol();
-    keylol.after();
     unsafeWindow.keylol = keylol;
+    $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;max-height: 600px;overflow-y: auto;background-color:#fff;"></div>');
+    if (gs.test()) {
+      gs.before();
+    }
+    if (keylol.test()) {
+      keylol.after();
+    }
     GM_addStyle(`
   .auto-task-keylol {
     text-transform: capitalize;
@@ -6884,6 +6895,19 @@
   .auto-task-keylol[selected="selected"] {
     background-color: blue;
     color: #fff;
-  }`);
+  }
+  #fuck-task-info .success {
+    color: green;
+  }
+  #fuck-task-info .error {
+    color: red;
+  }
+  #fuck-task-info .warning {
+    color: blue;
+  }
+  #fuck-task-info .info {
+    color: yellow;
+  }
+`);
   };
 })();

@@ -1,13 +1,26 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          http://tampermonkey.net/
-// @version            0.1
+// @version            4.0
 // @description        try to take over the world!
 // @author             HCLonely
-// @include            *://*/*
-// @include            https://auto-task.hclonely.com/setting.html
 // @run-at             document-start
 // @compatible         chrome 没有测试其他浏览器的兼容性
+
+// @include            *://freeanywhere.net/*
+// @include            *://giveaway.su/giveaway/view/*
+// @include            *://givee.club/*/event/*
+// @include            *://givekey.ru/giveaway/*
+// @include            *://www.indiedb.com/giveaways*
+// @include            *://key-hub.eu/giveaway/*
+// @include            *://keylol.com/*
+// @include            *://www.opiumpulses.com/giveaways
+// @include            *://prys.revadike.com/giveaway/?id=*
+// @include            *://discord.com/*
+// @include            *://www.twitch.tv/*
+// @include            *://www.youtube.com/*
+// @include            *://*.reddit.com/*
+// @include            *://twitter.com/settings/account?k*
 
 // @grant              GM_setValue
 // @grant              GM_getValue

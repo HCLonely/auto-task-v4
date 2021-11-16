@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:03:26
- * @LastEditTime : 2021-11-07 10:05:31
+ * @LastEditTime : 2021-11-16 10:08:39
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/echoLog.ts
  * @Description  :
@@ -131,6 +131,7 @@ const echoLog = ({ type = 'text', text, url, id }: { type?: string, text?: strin
       ele = $(`<li>${getI18n(text)}<font></font></li>`);
       break;
     case 'html':
+    case 'custom':
       ele = $(text as string);
       break;
     default:

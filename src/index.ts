@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-11-15 15:24:32
+ * @LastEditTime : 2021-11-16 10:15:28
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -83,6 +83,7 @@ window.onload = () => {
     window.close();
     Swal.fire('', '如果此页面没有自动关闭，请自行关闭本页面。');
   }
+  /*
   unsafeWindow.Discord = Discord;
   unsafeWindow.Instagram = Instagram;
   unsafeWindow.Reddit = Reddit;
@@ -91,6 +92,7 @@ window.onload = () => {
   unsafeWindow.Vk = Vk;
   unsafeWindow.Youtube = Youtube;
   unsafeWindow.Steam = Steam;
+  */
   unsafeWindow.Freeanywhere = Freeanywhere;
   const gs = new GiveawaySu();
   unsafeWindow.gs = gs;
@@ -99,14 +101,15 @@ window.onload = () => {
   unsafeWindow.Givekey = Givekey;
   unsafeWindow.GiveeClub = GiveeClub;
   unsafeWindow.OpiumPulses = OpiumPulses;
-
-  $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;max-height: 600px;overflow-y: auto;background-color:#fff;"></div>'); // eslint-disable-line
-
   const keylol = new Keylol();
-  keylol.after();
   unsafeWindow.keylol = keylol;
 
-  // gs.before();
+  $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;max-height: 600px;overflow-y: auto;background-color:#fff;"></div>'); // eslint-disable-line
+  if (gs.test()) gs.before();
+
+  // do something
+  if (keylol.test()) keylol.after();
+
   // eslint-disable-next-line new-cap
   GM_addStyle(`
   .auto-task-keylol {
@@ -116,5 +119,18 @@ window.onload = () => {
   .auto-task-keylol[selected="selected"] {
     background-color: blue;
     color: #fff;
-  }`);
+  }
+  #fuck-task-info .success {
+    color: green;
+  }
+  #fuck-task-info .error {
+    color: red;
+  }
+  #fuck-task-info .warning {
+    color: blue;
+  }
+  #fuck-task-info .info {
+    color: yellow;
+  }
+`);
 };
