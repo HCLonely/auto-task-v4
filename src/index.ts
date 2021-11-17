@@ -1,13 +1,14 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-11-16 10:15:28
+ * @LastEditTime : 2021-11-17 10:36:04
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
  */
 import Swal from 'sweetalert2';
 import * as Cookies from 'js-cookie';
+/*
 import Discord from './scripts/social/Discord';
 import Instagram from './scripts/social/Instagram';
 import Reddit from './scripts/social/Reddit';
@@ -16,7 +17,8 @@ import Twitter from './scripts/social/Twitter';
 import Vk from './scripts/social/Vk';
 import Youtube from './scripts/social/Youtube';
 import Steam from './scripts/social/Steam';
-import Freeanywhere from './scripts/website/FreeAnyWhere';
+*/
+import FreeAnyWhere from './scripts/website/FreeAnyWhere';
 import { GiveawaySu } from './scripts/website/GiveawaySu';
 import Indiedb from './scripts/website/Indiedb';
 import Keyhub from './scripts/website/Keyhub';
@@ -24,6 +26,33 @@ import Givekey from './scripts/website/Givekey';
 import GiveeClub from './scripts/website/GiveeClub';
 import OpiumPulses from './scripts/website/OpiumPulses';
 import Keylol from './scripts/website/Keylol';
+
+type WebsitesType = typeof FreeAnyWhere |
+  typeof GiveawaySu |
+  typeof Indiedb |
+  typeof Keyhub |
+  typeof Givekey |
+  typeof GiveeClub |
+  typeof OpiumPulses |
+  typeof Keylol
+
+type WebsiteType = FreeAnyWhere |
+  GiveawaySu |
+  Indiedb |
+  Keyhub |
+  Givekey |
+  GiveeClub |
+  OpiumPulses |
+  Keylol
+
+const Websites: Array<WebsitesType> = [FreeAnyWhere, GiveawaySu, Indiedb, Keyhub, Givekey, GiveeClub, OpiumPulses, Keylol];
+let website: WebsiteType;
+for (const Website of Websites) {
+  if (Website.test()) {
+    website = new Website();
+    break;
+  }
+}
 
 declare const commonOptions: {
   headers?: {
@@ -92,7 +121,6 @@ window.onload = () => {
   unsafeWindow.Vk = Vk;
   unsafeWindow.Youtube = Youtube;
   unsafeWindow.Steam = Steam;
-  */
   unsafeWindow.Freeanywhere = Freeanywhere;
   const gs = new GiveawaySu();
   unsafeWindow.gs = gs;
@@ -103,13 +131,19 @@ window.onload = () => {
   unsafeWindow.OpiumPulses = OpiumPulses;
   const keylol = new Keylol();
   unsafeWindow.keylol = keylol;
+  */
 
   $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;max-height: 600px;overflow-y: auto;background-color:#fff;"></div>'); // eslint-disable-line
-  if (gs.test()) gs.before();
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  if (website.before) website.before();
 
   // do something
-  if (keylol.test()) keylol.after();
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  if (website.after) website.after();
 
+  unsafeWindow.website = website;
   // eslint-disable-next-line new-cap
   GM_addStyle(`
   .auto-task-keylol {

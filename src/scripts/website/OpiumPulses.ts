@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 17:22:20
- * @LastEditTime : 2021-11-14 18:07:57
+ * @LastEditTime : 2021-11-17 10:32:32
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/OpiumPulses.ts
  * @Description  :
@@ -16,13 +16,10 @@ import httpRequest from '../tools/httpRequest';
 declare function checkUser(params:string): void
 
 class OpiumPulses {
-  maxPoints: number
+  maxPoints = 0
   myPoints = 0
 
-  constructor(maxPoint: number) {
-    this.maxPoints = maxPoint;
-  }
-  test(): boolean {
+  static test(): boolean {
     return window.location.host === 'www.opiumpulses.com';
   }
   async before(): Promise<void> {
@@ -30,6 +27,7 @@ class OpiumPulses {
       if (!this.checkLogin()) {
         echoLog({ type: 'checkLoginFailed' });
       }
+      // this.maxPoints = maxPoint; // todo: 读取
     } catch (error) {
       throwError(error as Error, 'OpiumPulses.before');
     }

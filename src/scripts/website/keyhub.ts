@@ -1,9 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2021-11-14 20:30:23
+ * @LastEditTime : 2021-11-17 10:31:46
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/scripts/website/Keyhub.ts
+ * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
  * @Description  :
  */
 // todo: 未测试
@@ -36,7 +36,7 @@ class Keyhub extends Website {
   socialTasks: khSocialTasks = { ...defaultTasks }
   undoneTasks: khSocialTasks = { ...defaultTasks }
 
-  test(): boolean {
+  static test(): boolean {
     return window.location.host === 'key-hub.eu';
   }
   async before(): Promise<void> {

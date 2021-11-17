@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-15 13:58:41
- * @LastEditTime : 2021-11-15 16:27:00
+ * @LastEditTime : 2021-11-17 10:32:23
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Keylol.ts
  * @Description  :
@@ -57,7 +57,7 @@ class Keylol extends Website {
   socialTasks: keylolSocialTasks = { ...defaultTasks }
   undoneTasks: keylolSocialTasks = { ...defaultTasks }
 
-  test() {
+  static test() {
     return window.location.host === 'keylol.com' && !window.location.href.includes('mod=forumdisplay') && !!$('.subforum_left_title_left_up a').eq(3)
       .attr('href')
       ?.includes('319');
@@ -65,7 +65,7 @@ class Keylol extends Website {
   init() {
     return true;
   }
-  after() {
+  after(): void {
     try {
       const mainPost = $('#postlist>div[id^="post_"]:first');
       const discordLinks = mainPost.find('a[href*="discord.com"]');

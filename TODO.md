@@ -4,22 +4,11 @@
 
 > 目前还没UI, 所以暂时使用控制台
 
-### 全局变量
+### 全局变量website
 
-> 除`gs`和`keylol`外，其他变量直接使用`const website = new Website();`
-> 1. 创建对象`const website = new Freeanywhere();`(`gs`和`keylol`对象已创建，不需要这一步)
-> 2. 做任务： `website.doTask();`/`gs.doTask();`
-> 3. 取消做任务： `website.undoTask();`/`gs.doTask();`
-> 4. 验证任务： `website.undoTask();`(部分网站支持)
-
-- Freeanywhere
-- Indiedb
-- Keyhub
-- Givekey
-- GiveeClub
-- OpiumPulses
-- gs
-- keylol
+- 做任务：website.doTask()
+- 取消做任务：website.undoTask()
+- 验证任务：website.verifyTask()
 
 ## todo
 

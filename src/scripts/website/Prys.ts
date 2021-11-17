@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 20:22:33
- * @LastEditTime : 2021-11-14 20:58:07
+ * @LastEditTime : 2021-11-17 10:32:43
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Prys.ts
  * @Description  :
@@ -38,7 +38,7 @@ class Prys extends Website {
   socialTasks: prysSocialTasks = { ...defaultTasks }
   undoneTasks: prysSocialTasks = { ...defaultTasks }
 
-  test(): boolean {
+  static test(): boolean {
     return window.location.host === 'prys.revadike.com';
   }
   async before(): Promise<void> {

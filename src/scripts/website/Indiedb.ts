@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 14:37:33
- * @LastEditTime : 2021-11-14 17:48:58
+ * @LastEditTime : 2021-11-17 10:31:35
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Indiedb.ts
  * @Description  :
@@ -17,7 +17,7 @@ import httpRequest from '../tools/httpRequest';
 declare function urlPath(value?: string): string
 
 class Indiedb {
-  test(): boolean {
+  static test(): boolean {
     return window.location.host === 'www.indiedb.com';
   }
   async before(): Promise<void> {

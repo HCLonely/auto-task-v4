@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:28
- * @LastEditTime : 2021-11-14 17:30:17
+ * @LastEditTime : 2021-11-17 10:33:38
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Website.ts
  * @Description  :
@@ -40,7 +40,6 @@ abstract class Website {
     visitLink?: (link: string, options?: MonkeyXhrDetails) => Promise<boolean>
   } = {}
 
-  abstract test(): boolean
   abstract classifyTask(action: 'do' | 'undo' | 'verify'): Promise<boolean> | boolean
   abstract init(): boolean | Promise<boolean>
 

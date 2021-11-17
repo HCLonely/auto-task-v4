@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-13 17:57:40
- * @LastEditTime : 2021-11-13 20:33:09
+ * @LastEditTime : 2021-11-17 10:31:20
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Givekey.ts
  * @Description  :
@@ -57,7 +57,7 @@ class Givekey extends Website {
   undoneTasks: gkSocialTasks = { ...defaultTasks }
   userId!: string
 
-  test(): boolean {
+  static test(): boolean {
     return window.location.host === 'givekey.ru';
   }
 

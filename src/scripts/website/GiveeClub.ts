@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 11:46:52
- * @LastEditTime : 2021-11-14 13:53:15
+ * @LastEditTime : 2021-11-17 10:33:50
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/GiveeClub.ts
  * @Description  :
@@ -33,7 +33,7 @@ interface verifyData {
 }
 
 class GiveeClub extends GiveawaySu {
-  test(): boolean {
+  static test(): boolean {
     return /^https?:\/\/givee\.club\/.*?\/event\/[\d]+/.test(window.location.href);
   }
   async before(): Promise<void> {

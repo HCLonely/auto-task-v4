@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2021-11-14 11:53:09
+ * @LastEditTime : 2021-11-17 09:52:17
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.ts
  * @Description  :
@@ -53,7 +53,7 @@ class GiveawaySu extends Website {
   socialTasks: gasSocialTasks = defaultTasks
   undoneTasks: gasSocialTasks = defaultTasks
 
-  test(): boolean {
+  static test(): boolean {
     return /^https?:\/\/giveaway\.su\/giveaway\/view\/[\d]+/.test(window.location.href);
   }
   async before(): Promise<void> {

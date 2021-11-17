@@ -1,9 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:03
- * @LastEditTime : 2021-11-13 19:30:08
+ * @LastEditTime : 2021-11-17 10:31:10
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/scripts/website/FreeAnyWhere.ts
+ * @FilePath     : /auto-task-new/src/scripts/website/freeanywhere.ts
  * @Description  : https://freeanywhere.net
  */
 
@@ -35,7 +35,7 @@ class FreeAnyWhere extends Website {
   socialTasks: fawSocialTasks = { ...defaultTasks }
   undoneTasks: fawSocialTasks = { ...defaultTasks }
 
-  test(): boolean {
+  static test(): boolean {
     return window.location.host === 'freeanywhere.net';
   }
   init(): boolean {

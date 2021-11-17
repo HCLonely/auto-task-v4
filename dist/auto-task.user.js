@@ -4963,7 +4963,7 @@
         ...FreeAnyWhere_defaultTasks
       });
     }
-    test() {
+    static test() {
       return window.location.host === 'freeanywhere.net';
     }
     init() {
@@ -5301,7 +5301,7 @@
       GiveawaySu_defineProperty(this, 'socialTasks', GiveawaySu_defaultTasks);
       GiveawaySu_defineProperty(this, 'undoneTasks', GiveawaySu_defaultTasks);
     }
-    test() {
+    static test() {
       return /^https?:\/\/giveaway\.su\/giveaway\/view\/[\d]+/.test(window.location.href);
     }
     async before() {
@@ -5497,7 +5497,7 @@
       Indiedb_classPrivateMethodInitSpec(this, _do);
       Indiedb_classPrivateMethodInitSpec(this, _join);
     }
-    test() {
+    static test() {
       return window.location.host === 'www.indiedb.com';
     }
     async before() {
@@ -5824,7 +5824,7 @@
         ...Keyhub_defaultTasks
       });
     }
-    test() {
+    static test() {
       return window.location.host === 'key-hub.eu';
     }
     async before() {
@@ -6062,7 +6062,7 @@
       });
       Givekey_defineProperty(this, 'userId', void 0);
     }
-    test() {
+    static test() {
       return window.location.host === 'givekey.ru';
     }
     init() {
@@ -6295,7 +6295,7 @@
   }
   const website_Givekey = Givekey;
   class GiveeClub extends GiveawaySu {
-    test() {
+    static test() {
       return /^https?:\/\/givee\.club\/.*?\/event\/[\d]+/.test(window.location.href);
     }
     async before() {
@@ -6459,13 +6459,12 @@
   }
   var _toggleTask = new WeakSet();
   class OpiumPulses {
-    constructor(maxPoint) {
+    constructor() {
       OpiumPulses_classPrivateMethodInitSpec(this, _toggleTask);
-      OpiumPulses_defineProperty(this, 'maxPoints', void 0);
+      OpiumPulses_defineProperty(this, 'maxPoints', 0);
       OpiumPulses_defineProperty(this, 'myPoints', 0);
-      this.maxPoints = maxPoint;
     }
-    test() {
+    static test() {
       return window.location.host === 'www.opiumpulses.com';
     }
     async before() {
@@ -6656,7 +6655,7 @@
         ...Keylol_defaultTasks
       });
     }
-    test() {
+    static test() {
       var _$$eq$attr;
       return window.location.host === 'keylol.com' && !window.location.href.includes('mod=forumdisplay') && !!((_$$eq$attr = $('.subforum_left_title_left_up a').eq(3).attr('href')) !== null && _$$eq$attr !== void 0 && _$$eq$attr.includes('319'));
     }
@@ -6808,6 +6807,14 @@
     }
   }
   const website_Keylol = Keylol;
+  const Websites = [ website_FreeAnyWhere, GiveawaySu, website_Indiedb, website_Keyhub, website_Givekey, website_GiveeClub, website_OpiumPulses, website_Keylol ];
+  let website;
+  for (const Website of Websites) {
+    if (Website.test()) {
+      website = new Website();
+      break;
+    }
+  }
   if (window.location.hostname === 'discord.com') {
     var _window$localStorage, _window$localStorage$;
     const discordAuth = (_window$localStorage = window.localStorage) === null || _window$localStorage === void 0 ? void 0 : (_window$localStorage$ = _window$localStorage.getItem('token')) === null || _window$localStorage$ === void 0 ? void 0 : _window$localStorage$.replace(/^"|"$/g, '');
@@ -6870,23 +6877,14 @@
       window.close();
       external_Swal_default().fire('', '如果此页面没有自动关闭，请自行关闭本页面。');
     }
-    unsafeWindow.Freeanywhere = website_FreeAnyWhere;
-    const gs = new GiveawaySu();
-    unsafeWindow.gs = gs;
-    unsafeWindow.Indiedb = website_Indiedb;
-    unsafeWindow.Keyhub = website_Keyhub;
-    unsafeWindow.Givekey = website_Givekey;
-    unsafeWindow.GiveeClub = website_GiveeClub;
-    unsafeWindow.OpiumPulses = website_OpiumPulses;
-    const keylol = new website_Keylol();
-    unsafeWindow.keylol = keylol;
     $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;max-height: 600px;overflow-y: auto;background-color:#fff;"></div>');
-    if (gs.test()) {
-      gs.before();
+    if (website.before) {
+      website.before();
     }
-    if (keylol.test()) {
-      keylol.after();
+    if (website.after) {
+      website.after();
     }
+    unsafeWindow.website = website;
     GM_addStyle(`
   .auto-task-keylol {
     text-transform: capitalize;
