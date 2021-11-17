@@ -4,6 +4,10 @@
 
 > 目前还没UI, 所以暂时使用控制台
 
+### 安装
+
+https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task.user.js
+
 ### 全局变量website
 
 - 做任务：website.doTask()
