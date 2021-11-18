@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.0-Alpha
+// @version            4.0.1-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -6912,5 +6912,6 @@
     color: yellow;
   }
 `);
+    console.log('Auto Task脚本初始化完成！');
   };
 })();
