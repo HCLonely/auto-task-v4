@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.2-Alpha
+// @version            4.0.3-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -16,6 +16,7 @@
 // @include            *://keylol.com/*
 // @include            *://www.opiumpulses.com/giveaways
 // @include            *://prys.revadike.com/giveaway/?id=*
+// @include            *https://opquests.com/quests/*
 // @include            *://discord.com/*
 // @include            *://www.twitch.tv/*
 // @include            *://www.youtube.com/*
@@ -350,7 +351,7 @@
         break;
       }
       ele.addClass('card-text');
-      $('#fuck-task-info').append(ele);
+      $('#auto-task-info').append(ele);
       ele[0].scrollIntoView();
       const font = ele.find('font');
       const status = {
@@ -6841,7 +6842,164 @@
     }
   }
   const website_Keylol = Keylol;
-  const Websites = [ website_FreeAnyWhere, GiveawaySu, website_Indiedb, website_Keyhub, website_Givekey, website_GiveeClub, website_OpiumPulses, website_Keylol ];
+  function Opquests_classPrivateMethodInitSpec(obj, privateSet) {
+    Opquests_checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
+  }
+  function Opquests_checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+      throw new TypeError('Cannot initialize the same private elements twice on an object');
+    }
+  }
+  function Opquests_defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  function Opquests_classPrivateMethodGet(receiver, privateSet, fn) {
+    if (!privateSet.has(receiver)) {
+      throw new TypeError('attempted to get private field on non-instance');
+    }
+    return fn;
+  }
+  const Opquests_defaultTasks = {
+    steam: {
+      groupLinks: [],
+      wishlistLinks: [],
+      followLinks: [],
+      curatorLikeLinks: []
+    }
+  };
+  var Opquests_getGiveawayId = new WeakSet();
+  class Opquests extends website_Website {
+    constructor() {
+      super(...arguments);
+      Opquests_classPrivateMethodInitSpec(this, Opquests_getGiveawayId);
+      Opquests_defineProperty(this, 'undoneTasks', {
+        ...Opquests_defaultTasks
+      });
+    }
+    static test() {
+      return window.location.host === 'opquests.com';
+    }
+    async before() {
+      try {
+        if (!this.checkLogin()) {
+          scripts_echoLog({
+            type: 'checkLoginFailed'
+          });
+        }
+      } catch (error) {
+        throwError(error, 'Opquests.before');
+      }
+    }
+    init() {
+      try {
+        const logStatus = scripts_echoLog({
+          type: 'init'
+        });
+        if ($('a[href*="/auth/redirect"]').length > 0) {
+          window.open('/auth/redirect', '_self');
+          logStatus.warning('请先登录');
+          return false;
+        }
+        if (!Opquests_classPrivateMethodGet(this, Opquests_getGiveawayId, Opquests_getGiveawayId2).call(this)) {
+          return false;
+        }
+        this.initialized = true;
+        logStatus.success();
+        return true;
+      } catch (error) {
+        throwError(error, 'Opquests.init');
+        return false;
+      }
+    }
+    async classifyTask(action) {
+      try {
+        if (action === 'undo') {
+          scripts_echoLog({
+            type: 'custom',
+            text: '<li>此网站不支持取消任务<font></font></li>'
+          });
+          return false;
+        }
+        const logStatus = scripts_echoLog({
+          type: 'custom',
+          text: `<li>${i18n('getTasksInfo')}<font></font></li>`
+        });
+        const tasks = $('.w-full:contains("Validate") .items-center');
+        for (const task of tasks) {
+          const link = $(task).find('a:contains("Open")').attr('href');
+          const taskDes = $(task).find('div').eq(1).text().trim();
+          if (!link) {
+            continue;
+          }
+          if (/steamcommunity\.com\/groups\//.test(link)) {
+            this.undoneTasks.steam.groupLinks.push(link);
+          } else if (/store\.steampowered\.com\/app\//.test(link)) {
+            if (/wishlist/gim.test(taskDes)) {
+              this.undoneTasks.steam.wishlistLinks.push(link);
+            } else if (/follow/gim.test(taskDes)) {
+              this.undoneTasks.steam.followLinks.push(link);
+            }
+          } else if (/store\.steampowered\.com\/(publisher|developer)\//.test(link) && /follow/gim.test(taskDes)) {
+            this.undoneTasks.steam.curatorLikeLinks.push(link);
+          } else {
+            scripts_echoLog({
+              type: 'custom',
+              text: `<li>${i18n('unknownTaskType', `${taskDes}(${link})`)}<font></font></li>`
+            });
+          }
+        }
+        logStatus.success();
+        this.undoneTasks = this.uniqueTasks(this.undoneTasks);
+        GM_setValue(`oqTasks${this.giveawayId}`, this.socialTasks);
+        return true;
+      } catch (error) {
+        throwError(error, 'Opquests.classifyTask');
+        return false;
+      }
+    }
+    checkLogin() {
+      try {
+        if ($('a[href*="/auth/redirect"]').length > 0) {
+          window.open('/auth/redirect', '_self');
+        }
+        return true;
+      } catch (error) {
+        throwError(error, 'Opquests.checkLogin');
+        return false;
+      }
+    }
+  }
+  function Opquests_getGiveawayId2() {
+    try {
+      var _window$location$href;
+      const giveawayId = (_window$location$href = window.location.href.match(/quests\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
+      if (giveawayId) {
+        this.giveawayId = giveawayId;
+        return true;
+      }
+      scripts_echoLog({
+        type: 'custom',
+        text: `<li><font class="error">${i18n('getGiveawayIdFailed')}</font></li>`
+      });
+      return false;
+    } catch (error) {
+      throwError(error, 'Opquests.getGiveawayId');
+      return false;
+    }
+  }
+  const website_Opquests = Opquests;
+  const Websites = [ website_FreeAnyWhere, GiveawaySu, website_Indiedb, website_Keyhub, website_Givekey, website_GiveeClub, website_OpiumPulses, website_Keylol, website_Opquests ];
   let website;
   for (const Website of Websites) {
     if (Website.test()) {
@@ -6911,7 +7069,7 @@
       window.close();
       external_Swal_default().fire('', '如果此页面没有自动关闭，请自行关闭本页面。');
     }
-    $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;max-height: 600px;overflow-y: auto;background-color:#fff;"></div>');
+    $('body').append('<div id="auto-task-info"></div>');
     if (website.before) {
       website.before();
     }
@@ -6920,6 +7078,17 @@
     }
     unsafeWindow.website = website;
     GM_addStyle(`
+  #auto-task-info {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 300px;
+    max-width: 60%;
+    max-height: 600px;
+    overflow-y: auto;
+    color: #000;
+    background-color: #fff;
+  }
   .auto-task-keylol {
     text-transform: capitalize;
     margin-left: 10px;

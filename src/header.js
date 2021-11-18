@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.2-Alpha
+// @version            4.0.3-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -16,6 +16,7 @@
 // @include            *://keylol.com/*
 // @include            *://www.opiumpulses.com/giveaways
 // @include            *://prys.revadike.com/giveaway/?id=*
+// @include            *https://opquests.com/quests/*
 // @include            *://discord.com/*
 // @include            *://www.twitch.tv/*
 // @include            *://www.youtube.com/*

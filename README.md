@@ -49,3 +49,4 @@ https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task.user.js
 - [ ] 版本转换提醒
 - [ ] 不能取消的task
 - [ ] 社交账号更新凭证时如果没登录会提示更新失败，登陆后需要重新更新
+- [ ] Opquests网站不支持取消任务

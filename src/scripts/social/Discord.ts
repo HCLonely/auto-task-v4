@@ -1,11 +1,10 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2021-11-08 11:01:20
+ * @LastEditTime : 2021-11-18 13:28:36
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
- ! 白名单处理
  */
 
 import Social from './Social';
@@ -25,6 +24,10 @@ class Discord extends Social {
 
   // TODO:优化
   async init(): Promise<boolean> {
+    /**
+     * @description: 验证及获取Auth
+     * @return true: 初始化完成 | false: 初始化失败，toggle方法不可用
+     */
     try {
       if (this.#initialized) {
         return true;
@@ -57,8 +60,12 @@ class Discord extends Social {
     }
   }
 
-  // 验证discord凭证是否失效
   async #verifyAuth(): Promise<boolean> {
+    /**
+     * @internal
+     * @description 检测Discord Token是否失效
+     * @return true: Token有效 | false: Token失效
+     */
     try {
       const logStatus = echoLog({ type: 'text', text: 'verifyDiscordAuth' });
       const { result, statusText, status, data } = await httpRequest({
@@ -83,6 +90,11 @@ class Discord extends Social {
   }
 
   async #updateAuth(): Promise<boolean> {
+    /**
+     * @internal
+     * @description 通过打开Discord网站更新Token. // TODO: 需优化
+     * @return true: 更新Token成功 | false: 更新Token失败
+     */
     try {
       const logStatus = echoLog({ type: 'text', text: 'updateDiscordAuth' });
       return await new Promise((resolve) => {
@@ -107,6 +119,12 @@ class Discord extends Social {
   }
 
   async #joinServer(inviteId: string): Promise<boolean> {
+    /**
+     * @internal
+     * @description 加入Discord服务器
+     * @param inviteId: 邀请id
+     * @return true: 加入成功 | false: 加入失败
+     */
     try {
       const logStatus = echoLog({ type: 'joinDiscordServer', text: inviteId });
       const { result, statusText, status, data } = await httpRequest({
@@ -119,7 +137,7 @@ class Discord extends Social {
         logStatus.success();
         const guild = String(data.response?.guild?.id);
         if (guild) {
-          // TODO: 优化
+          // TODO: 存储优化
           this.#setCache(inviteId, guild);
           this.tasks.servers = unique([...this.tasks.servers, inviteId]);
         }
@@ -134,9 +152,15 @@ class Discord extends Social {
   }
 
   async #leaveServer(inviteId: string): Promise<boolean> {
+    /**
+     * @internal
+     * @description 退出Discord服务器
+     * @param inviteId: 邀请id
+     * @return true: 退出成功 | false: 退出失败
+     */
     try {
       if (this.whiteList.servers.includes(inviteId)) {
-        // TODO: 直接echo
+        // TODO: 优化
         echoLog({ type: 'whiteList', text: inviteId });
         return true;
       }
@@ -163,6 +187,12 @@ class Discord extends Social {
   }
 
   async #getGuild(inviteId: string): Promise<boolean | string> {
+    /**
+     * @internal
+     * @description 通过{inviteId}获取{guild}, {guild}用于退出服务器
+     * @param inviteId: 邀请id
+     * @return {string}: 获取成功，返回{guild} | false: 获取失败
+     */
     try {
       const logStatus = echoLog({ type: 'getDiscordGuild', text: inviteId });
       const guild = this.#cache[inviteId];
@@ -192,7 +222,6 @@ class Discord extends Social {
     }
   }
 
-  // TODO:返回类型定义
   async toggle({
     doTask = true,
     serverLinks = []
@@ -200,6 +229,11 @@ class Discord extends Social {
     doTask: boolean,
     serverLinks?: Array<string>
   }): Promise<boolean> {
+    /**
+     * @description 公有方法，统一处理Discord相关任务
+     * @param {boolean} doTask true: 做任务 | false: 取消做任务
+     * @param {?Array} serverLinks Discord服务器邀请链接数组。注意: 不接受邀请id数组
+     */
     try {
       if (!this.#initialized) {
         echoLog({ type: 'text', text: '请先初始化' });
@@ -226,6 +260,11 @@ class Discord extends Social {
   }
 
   #setCache(inviteId: string, guild: string): void {
+    /**
+     * @internal
+     * @description 缓存{inviteId}与{guild}的对应关系
+     * @return {void}
+     */
     try {
       this.#cache[inviteId] = guild;
       GM_setValue('discordCache', this.#cache); // eslint-disable-line new-cap

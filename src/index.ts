@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-11-18 10:20:45
+ * @LastEditTime : 2021-11-18 13:56:37
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -26,6 +26,7 @@ import Givekey from './scripts/website/Givekey';
 import GiveeClub from './scripts/website/GiveeClub';
 import OpiumPulses from './scripts/website/OpiumPulses';
 import Keylol from './scripts/website/Keylol';
+import Opquests from './scripts/website/Opquests';
 
 type WebsitesType = typeof FreeAnyWhere |
   typeof GiveawaySu |
@@ -34,7 +35,8 @@ type WebsitesType = typeof FreeAnyWhere |
   typeof Givekey |
   typeof GiveeClub |
   typeof OpiumPulses |
-  typeof Keylol
+  typeof Keylol |
+  typeof Opquests
 
 type WebsiteType = FreeAnyWhere |
   GiveawaySu |
@@ -43,9 +45,10 @@ type WebsiteType = FreeAnyWhere |
   Givekey |
   GiveeClub |
   OpiumPulses |
-  Keylol
+  Keylol |
+  Opquests
 
-const Websites: Array<WebsitesType> = [FreeAnyWhere, GiveawaySu, Indiedb, Keyhub, Givekey, GiveeClub, OpiumPulses, Keylol];
+const Websites: Array<WebsitesType> = [FreeAnyWhere, GiveawaySu, Indiedb, Keyhub, Givekey, GiveeClub, OpiumPulses, Keylol, Opquests];
 let website: WebsiteType;
 for (const Website of Websites) {
   if (Website.test()) {
@@ -133,7 +136,7 @@ window.onload = () => {
   unsafeWindow.keylol = keylol;
   */
 
-  $('body').append('<div id="fuck-task-info" style="position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;max-height: 600px;overflow-y: auto;background-color:#fff;"></div>'); // eslint-disable-line
+  $('body').append('<div id="auto-task-info"></div>'); // eslint-disable-line
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   if (website.before) website.before();
@@ -146,6 +149,17 @@ window.onload = () => {
   unsafeWindow.website = website;
   // eslint-disable-next-line new-cap
   GM_addStyle(`
+  #auto-task-info {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 300px;
+    max-width: 60%;
+    max-height: 600px;
+    overflow-y: auto;
+    color: #000;
+    background-color: #fff;
+  }
   .auto-task-keylol {
     text-transform: capitalize;
     margin-left: 10px;
