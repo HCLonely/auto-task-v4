@@ -1,8 +1,16 @@
+/*
+ * @Author       : HCLonely
+ * @Date         : 2021-11-01 13:39:04
+ * @LastEditTime : 2021-11-18 09:44:33
+ * @LastEditors  : HCLonely
+ * @FilePath     : /auto-task-new/src/header.js
+ * @Description  :
+ */
 // ==UserScript==
 // @name               auto-task-new
-// @namespace          http://tampermonkey.net/
-// @version            4.0
-// @description        try to take over the world!
+// @namespace          auto-task-new
+// @version            4.0.0-Alpha
+// @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
 // @compatible         chrome 没有测试其他浏览器的兼容性
