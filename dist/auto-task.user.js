@@ -5808,7 +5808,11 @@
   const Keyhub_defaultTasks = {
     steam: {
       groupLinks: [],
-      wishlistLinks: []
+      wishlistLinks: [],
+      curatorLinks: []
+    },
+    discord: {
+      serverLinks: []
     },
     links: []
   };
@@ -5875,27 +5879,17 @@
         this.undoneTasks = GM_getValue(`khTasks-${this.giveawayId}`) || {
           ...Keyhub_defaultTasks
         };
-        const pro = [];
         const tasks = $('.task a');
         for (const task of tasks) {
-          const link = $(task).attr('href');
+          let link = $(task).attr('href');
           const taskDes = $(task).text().trim();
           if (!link) {
             continue;
           }
-          if (/steamcommunity\.com\/gid\//.test(link)) {
-            pro.push(getRedirectLink(link).then(taskLink => {
-              if (!taskLink) {
-                return false;
-              }
-              if (action === 'undo') {
-                this.socialTasks.steam.groupLinks.push(taskLink);
-              }
-              if (action === 'do') {
-                this.undoneTasks.steam.groupLinks.push(taskLink);
-              }
-            }));
-          } else if (/https?:\/\/key-hub\.eu\/connect\/discord/.test(link)) {
+          if (/\/away\?data=/.test(link) || /steamcommunity\.com\/gid\//.test(link)) {
+            link = await getRedirectLink(link) || link;
+          }
+          if (/https?:\/\/key-hub\.eu\/connect\/discord/.test(link)) {
             window.open(link, '_blank');
           } else if (/steamcommunity\.com\/groups\//.test(link)) {
             if (action === 'undo') {
@@ -5911,8 +5905,20 @@
             if (action === 'do') {
               this.undoneTasks.steam.wishlistLinks.push(link);
             }
-          } else if (/\/away\?data=.*/.test(link)) {
-            this.undoneTasks.links.push(link);
+          } else if (/store\.steampowered\.com\/curator\//.test(link)) {
+            if (action === 'undo') {
+              this.socialTasks.steam.curatorLinks.push(link);
+            }
+            if (action === 'do') {
+              this.undoneTasks.steam.curatorLinks.push(link);
+            }
+          } else if (/^https?:\/\/discord\.com\/invite\//.test(link)) {
+            if (action === 'undo') {
+              this.socialTasks.discord.serverLinks.push(link);
+            }
+            if (action === 'do') {
+              this.undoneTasks.discord.serverLinks.push(link);
+            }
           } else {
             scripts_echoLog({
               type: 'custom',
@@ -5920,7 +5926,6 @@
             });
           }
         }
-        await Promise.all(pro);
         logStatus.success();
         this.undoneTasks = this.uniqueTasks(this.undoneTasks);
         this.socialTasks = this.uniqueTasks(this.socialTasks);

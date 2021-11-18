@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-11-17 10:36:04
+ * @LastEditTime : 2021-11-18 10:20:45
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -167,4 +167,6 @@ window.onload = () => {
     color: yellow;
   }
 `);
+
+  console.log('Auto Task脚本初始化完成！');
 };

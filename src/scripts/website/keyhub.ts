@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2021-11-17 10:31:46
+ * @LastEditTime : 2021-11-18 10:18:05
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
  * @Description  :
@@ -18,6 +18,10 @@ interface khSocialTasks {
   steam: {
     groupLinks: Array<string>
     wishlistLinks: Array<string>
+    curatorLinks: Array<string>
+  }
+  discord: {
+    serverLinks: Array<string>
   }
   links: Array<string>
 }
@@ -27,7 +31,11 @@ declare function VerifyTasks(value: string): void
 const defaultTasks: khSocialTasks = {
   steam: {
     groupLinks: [],
-    wishlistLinks: []
+    wishlistLinks: [],
+    curatorLinks: []
+  },
+  discord: {
+    serverLinks: []
   },
   links: []
 };
@@ -77,24 +85,18 @@ class Keyhub extends Website {
       // todo
       this.undoneTasks = GM_getValue<khSocialTasks>(`khTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
 
-      const pro = [];
       const tasks = $('.task a');
       for (const task of tasks) {
-        const link = $(task).attr('href');
+        let link = $(task).attr('href');
         const taskDes = $(task).text()
           .trim();
 
         if (!link) continue;
-        if (/steamcommunity\.com\/gid\//.test(link)) {
-          pro.push(getRedirectLink(link)
-            .then((taskLink) => {
-              if (!taskLink) {
-                return false;
-              }
-              if (action === 'undo') this.socialTasks.steam.groupLinks.push(taskLink);
-              if (action === 'do') this.undoneTasks.steam.groupLinks.push(taskLink);
-            }));
-        } else if (/https?:\/\/key-hub\.eu\/connect\/discord/.test(link)) {
+
+        if (/\/away\?data=/.test(link) || /steamcommunity\.com\/gid\//.test(link)) {
+          link = await getRedirectLink(link) || link;
+        }
+        if (/https?:\/\/key-hub\.eu\/connect\/discord/.test(link)) {
           window.open(link, '_blank');
         } else if (/steamcommunity\.com\/groups\//.test(link)) {
           if (action === 'undo') this.socialTasks.steam.groupLinks.push(link);
@@ -102,14 +104,17 @@ class Keyhub extends Website {
         } else if (/store\.steampowered\.com\/app\//.test(link) && /wishlist/gim.test(taskDes)) {
           if (action === 'undo') this.socialTasks.steam.wishlistLinks.push(link);
           if (action === 'do') this.undoneTasks.steam.wishlistLinks.push(link);
-        } else if (/\/away\?data=.*/.test(link)) {
-          this.undoneTasks.links.push(link);
+        } else if (/store\.steampowered\.com\/curator\//.test(link)) {
+          if (action === 'undo') this.socialTasks.steam.curatorLinks.push(link);
+          if (action === 'do') this.undoneTasks.steam.curatorLinks.push(link);
+        } else if (/^https?:\/\/discord\.com\/invite\//.test(link)) {
+          if (action === 'undo') this.socialTasks.discord.serverLinks.push(link);
+          if (action === 'do') this.undoneTasks.discord.serverLinks.push(link);
         } else {
           echoLog({ type: 'custom', text: `<li>${getI18n('unknownTaskType', `${taskDes}(${link})`)}<font></font></li>` });
         }
       }
 
-      await Promise.all(pro);
       logStatus.success();
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as khSocialTasks;
       this.socialTasks = this.uniqueTasks(this.socialTasks) as khSocialTasks;
