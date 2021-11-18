@@ -16,7 +16,8 @@
 // @include            *://keylol.com/*
 // @include            *://www.opiumpulses.com/giveaways
 // @include            *://prys.revadike.com/giveaway/?id=*
-// @include            *https://opquests.com/quests/*
+// @include            *://opquests.com/quests/*
+// @include            *://gleam.io/*
 // @include            *://discord.com/*
 // @include            *://www.twitch.tv/*
 // @include            *://www.youtube.com/*

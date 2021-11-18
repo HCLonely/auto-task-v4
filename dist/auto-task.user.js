@@ -16,7 +16,8 @@
 // @include            *://keylol.com/*
 // @include            *://www.opiumpulses.com/giveaways
 // @include            *://prys.revadike.com/giveaway/?id=*
-// @include            *https://opquests.com/quests/*
+// @include            *://opquests.com/quests/*
+// @include            *://gleam.io/*
 // @include            *://discord.com/*
 // @include            *://www.twitch.tv/*
 // @include            *://www.youtube.com/*
@@ -7018,6 +7019,7 @@
       external_Swal_default().fire('', '如果此页面没有自动关闭，请自行关闭本页面。');
     }
   }
+  if (window.location.hostname === 'gleam.io') {}
   window.onload = () => {
     if (window.location.hostname === 'www.twitch.tv' && window.location.hash === '#auth') {
       const authToken = external_Cookies_namespaceObject.get('auth-token');

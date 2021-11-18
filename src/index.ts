@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-11-18 13:56:37
+ * @LastEditTime : 2021-11-18 20:36:32
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -70,6 +70,9 @@ if (window.location.hostname === 'discord.com') {
     window.close();
     Swal.fire('', '如果此页面没有自动关闭，请自行关闭本页面。');
   }
+}
+if (window.location.hostname === 'gleam.io') {
+  // 待更新
 }
 window.onload = () => {
   if (window.location.hostname === 'www.twitch.tv' && window.location.hash === '#auth') {
