@@ -1,11 +1,3 @@
-/*
- * @Author       : HCLonely
- * @Date         : 2021-11-01 13:39:04
- * @LastEditTime : 2021-11-18 09:44:33
- * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/header.js
- * @Description  :
- */
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
