@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:03
- * @LastEditTime : 2021-11-17 10:31:10
+ * @LastEditTime : 2021-11-18 11:10:03
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/freeanywhere.ts
  * @Description  : https://freeanywhere.net
@@ -72,7 +72,7 @@ class FreeAnyWhere extends Website {
     try {
       const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('getTasksInfo')}<font></font></li>` });
       // todo
-      this.undoneTasks = GM_getValue<fawSocialTasks>(`fawTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
+      this.socialTasks = GM_getValue<fawSocialTasks>(`fawTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
 
       const { result, statusText, status, data } = await httpRequest({
         url: `https://freeanywhere.net/api/v1/giveaway/${this.giveawayId}/?format=json`,

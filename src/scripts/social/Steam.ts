@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2021-11-05 14:25:19
+ * @LastEditTime : 2021-11-18 11:02:16
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -41,6 +41,7 @@ class Steam extends Social {
   };
   #auth: auth = {};
   #initialized = false;
+  #area = 'CN';
 
   // 通用化,log
   async init(): Promise<boolean> {
@@ -146,6 +147,7 @@ class Steam extends Social {
           const areas = [...data.responseText.matchAll(/<div class="currency_change_option .*?" data-country="(.+?)" >/g)]
             .map((search) => search[1]);
           if (currentArea && areas.length > 0) {
+            this.#area = currentArea;
             logStatus.success();
             return { currentArea, areas };
           }
@@ -164,10 +166,10 @@ class Steam extends Social {
   }
 
   // INFO:更换国家/地区信息
-  async #changeArea(area: string): Promise<boolean | string> {
+  async #changeArea(area?: string): Promise<boolean | string> {
     try {
       let aimedArea = area;
-      if (!area) {
+      if (!aimedArea) {
         const { currentArea, areas } = await this.#getAreaInfo();
         if (!currentArea || !areas) return false;
         if (currentArea !== 'CN') {
@@ -186,7 +188,7 @@ class Steam extends Social {
         url: 'https://store.steampowered.com/account/setcountry',
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
-        data: $.param({ aimedArea, sessionid: this.#auth.storeSessionID })
+        data: $.param({ cc: aimedArea, sessionid: this.#auth.storeSessionID })
       });
       if (result === 'Success') {
         if (data?.status === 200 && data.responseText === 'true') {
@@ -327,6 +329,11 @@ class Steam extends Social {
       });
       if (resultR === 'Success') {
         if (dataR?.status === 200) {
+          if (this.#area === 'CN' && dataR.responseText.includes('id="error_box"')) {
+            logStatus.warning('疑似锁区游戏，尝试换区执行');
+            if (!(await this.#changeArea())) return false;
+            return await this.#addToWishlist(gameId);
+          }
           if (dataR.responseText.includes('class="queue_actions_ctn"') && dataR.responseText.includes('class="already_in_library"')) {
             logStatus.success();
             this.tasks.wishlists = unique([...this.tasks.wishlists, gameId]);
@@ -379,6 +386,12 @@ class Steam extends Social {
       });
       if (resultR === 'Success') {
         if (dataR?.status === 200) {
+          if (this.#area === 'CN' && dataR.responseText.includes('id="error_box"')) {
+            logStatus.warning('疑似锁区游戏，尝试换区执行');
+            const result = await this.#changeArea();
+            if (!result || result === 'CN' || result === 'skip') return false;
+            return await this.#removeFromWishlist(gameId);
+          }
           if (dataR.responseText.includes('class="queue_actions_ctn"') &&
             (dataR.responseText.includes('已在库中') || dataR.responseText.includes('添加至您的愿望单'))
           ) {
@@ -423,6 +436,11 @@ class Steam extends Social {
         return true;
       }
       const followed = await this.#isFollowedGame(gameId);
+      if (this.#area === 'CN' && followed === 'areaLocked') {
+        logStatus.warning('疑似锁区游戏，尝试换区执行');
+        if (!(await this.#changeArea())) return false;
+        return await this.#removeFromWishlist(gameId);
+      }
       if (doTask === followed) {
         logStatus.success();
         if (doTask) this.tasks.follows = unique([...this.tasks.follows, gameId]);
@@ -436,7 +454,7 @@ class Steam extends Social {
     }
   }
   // INFO: 判断steam游戏是否已关注
-  async #isFollowedGame(gameId: string): Promise<boolean> {
+  async #isFollowedGame(gameId: string): Promise<boolean | 'areaLocked'> {
     try {
       const { result, data } = await httpRequest({
         url: `https://store.steampowered.com/app/${gameId}`,
@@ -444,6 +462,9 @@ class Steam extends Social {
       });
       if (result === 'Success') {
         if (data?.status === 200) {
+          if (this.#area === 'CN' && data.responseText.includes('id="error_box"')) {
+            return 'areaLocked';
+          }
           if ($(data.responseText.replace(/<img.*?>/g, ''))
             .find('.queue_control_button.queue_btn_follow>.btnv6_blue_hoverfade.btn_medium.queue_btn_active')
             .css('display') !== 'none') {

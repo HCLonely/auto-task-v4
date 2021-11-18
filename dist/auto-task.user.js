@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.1-Alpha
+// @version            4.0.2-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -107,10 +107,10 @@
   const external_Swal_namespaceObject = Swal;
   var external_Swal_default = __webpack_require__.n(external_Swal_namespaceObject);
   const external_Cookies_namespaceObject = Cookies;
-  function throwError_throwError(error, name) {
+  function throwError(error, name) {
     console.log('%c%s', 'color:white;background:red', `${name}\n${error.stack}`);
   }
-  const httpRequest_httpRequest = async function(options) {
+  const httpRequest = async function(options) {
     let times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
     try {
       const result = await new Promise(resolve => {
@@ -163,11 +163,11 @@
       });
       console.log('发送请求:', result);
       if (result.status !== 600 && times < 2) {
-        return await httpRequest_httpRequest(options, times + 1);
+        return await httpRequest(options, times + 1);
       }
       return result;
     } catch (error) {
-      throwError_throwError(error, 'httpRequest');
+      throwError(error, 'httpRequest');
       console.log('发送请求:', {
         errorMsg: error,
         options: options
@@ -181,7 +181,7 @@
       };
     }
   };
-  const tools_httpRequest = httpRequest_httpRequest;
+  const tools_httpRequest = httpRequest;
   function getI18n() {
     for (var _len = arguments.length, argvs = new Array(_len), _key = 0; _key < _len; _key++) {
       argvs[_key] = arguments[_key];
@@ -189,7 +189,7 @@
     return argvs.join(' ');
   }
   const i18n = getI18n;
-  const echoLog_echoLog = _ref => {
+  const echoLog = _ref => {
     let {
       type = 'text',
       text,
@@ -395,7 +395,7 @@
       };
       return status;
     } catch (error) {
-      throwError_throwError(error, 'echoLog');
+      throwError(error, 'echoLog');
       const status = {
         success: () => status,
         error: () => status,
@@ -406,12 +406,12 @@
       return status;
     }
   };
-  const scripts_echoLog = echoLog_echoLog;
+  const scripts_echoLog = echoLog;
   const unique = array => {
     try {
       return [ ...new Set(array) ];
     } catch (error) {
-      throwError_throwError(error, 'unique');
+      throwError(error, 'unique');
       return [];
     }
   };
@@ -447,7 +447,7 @@
         return null;
       });
     } catch (error) {
-      throwError_throwError(error, 'getRedirectLink');
+      throwError(error, 'getRedirectLink');
       return null;
     }
   };
@@ -475,7 +475,7 @@
         return false;
       });
     } catch (error) {
-      throwError_throwError(error, 'visitLink');
+      throwError(error, 'visitLink');
       return false;
     }
   };
@@ -497,7 +497,7 @@
       }
       return query;
     } catch (error) {
-      throwError_throwError(error, 'getUrlQuery');
+      throwError(error, 'getUrlQuery');
       return {};
     }
   };
@@ -533,7 +533,7 @@
         }
         return unique(realParams);
       } catch (error) {
-        throwError_throwError(error, 'Social.getRealParams');
+        throwError(error, 'Social.getRealParams');
         return [];
       }
     }
@@ -681,7 +681,7 @@
         });
         return false;
       } catch (error) {
-        throwError_throwError(error, 'Discord.init');
+        throwError(error, 'Discord.init');
         return false;
       }
     }
@@ -715,7 +715,7 @@
         }
         return await Promise.all(prom).then(() => true);
       } catch (error) {
-        throwError_throwError(error, 'Discord.toggleServers');
+        throwError(error, 'Discord.toggleServers');
         return false;
       }
     }
@@ -749,7 +749,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Discord.verifyAuth');
+      throwError(error, 'Discord.verifyAuth');
       return false;
     }
   }
@@ -781,7 +781,7 @@
         };
       });
     } catch (error) {
-      throwError_throwError(error, 'Discord.updateAuth');
+      throwError(error, 'Discord.updateAuth');
       return false;
     }
   }
@@ -817,7 +817,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Discord.joinServer');
+      throwError(error, 'Discord.joinServer');
       return false;
     }
   }
@@ -857,7 +857,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Discord.leaveServer');
+      throwError(error, 'Discord.leaveServer');
       return false;
     }
   }
@@ -895,7 +895,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Discord.getGuild');
+      throwError(error, 'Discord.getGuild');
       return false;
     }
   }
@@ -904,7 +904,7 @@
       _classPrivateFieldGet(this, _cache)[inviteId] = guild;
       GM_setValue('discordCache', _classPrivateFieldGet(this, _cache));
     } catch (error) {
-      throwError_throwError(error, 'Discord.setCache');
+      throwError(error, 'Discord.setCache');
     }
   }
   const social_Discord = Discord;
@@ -1026,7 +1026,7 @@
         });
         return false;
       } catch (error) {
-        throwError_throwError(error, 'Instagram.init');
+        throwError(error, 'Instagram.init');
         return false;
       }
     }
@@ -1060,7 +1060,7 @@
         }
         return await Promise.all(prom).then(() => true);
       } catch (error) {
-        throwError_throwError(error, 'Instagram.toggleUsers');
+        throwError(error, 'Instagram.toggleUsers');
         return false;
       }
     }
@@ -1122,7 +1122,7 @@
       }
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Instagram.getUserInfo');
+      throwError(error, 'Instagram.getUserInfo');
       return false;
     }
   }
@@ -1167,7 +1167,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Instagram.followUser');
+      throwError(error, 'Instagram.followUser');
       return false;
     }
   }
@@ -1218,7 +1218,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Instagram.unfollowUser');
+      throwError(error, 'Instagram.unfollowUser');
       return false;
     }
   }
@@ -1227,7 +1227,7 @@
       Instagram_classPrivateFieldGet(this, Instagram_cache)[name] = id;
       GM_setValue('instagramCache', Instagram_classPrivateFieldGet(this, Instagram_cache));
     } catch (error) {
-      throwError_throwError(error, 'Instagram.setCache');
+      throwError(error, 'Instagram.setCache');
     }
   }
   const social_Instagram = Instagram;
@@ -1340,7 +1340,7 @@
         });
         return false;
       } catch (error) {
-        throwError_throwError(error, 'Reddit.init');
+        throwError(error, 'Reddit.init');
         return false;
       }
     }
@@ -1397,7 +1397,7 @@
         logStatus.error(`${result}:${statusText}(${status})`);
         return false;
       } catch (error) {
-        throwError_throwError(error, 'Reddit.toggleTask');
+        throwError(error, 'Reddit.toggleTask');
         return false;
       }
     }
@@ -1435,7 +1435,7 @@
         }
         return await Promise.all(prom).then(() => true);
       } catch (error) {
-        throwError_throwError(error, 'Reddit.toggle');
+        throwError(error, 'Reddit.toggle');
         return false;
       }
     }
@@ -1459,7 +1459,7 @@
         };
       });
     } catch (error) {
-      throwError_throwError(error, 'Reddit.useBeta');
+      throwError(error, 'Reddit.useBeta');
       return false;
     }
   }
@@ -1510,7 +1510,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Reddit.updateAuth');
+      throwError(error, 'Reddit.updateAuth');
       return false;
     }
   }
@@ -1653,7 +1653,7 @@
         });
         return false;
       } catch (error) {
-        throwError_throwError(error, 'Twitch.init');
+        throwError(error, 'Twitch.init');
         return false;
       }
     }
@@ -1686,7 +1686,7 @@
         }
         return Promise.all(prom).then(() => true);
       } catch (error) {
-        throwError_throwError(error, 'Twitch.toggle');
+        throwError(error, 'Twitch.toggle');
         return false;
       }
     }
@@ -1724,7 +1724,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Twitch.verifyAuth');
+      throwError(error, 'Twitch.verifyAuth');
       return false;
     }
   }
@@ -1753,7 +1753,7 @@
         };
       });
     } catch (error) {
-      throwError_throwError(error, 'Twitch.updateAuth');
+      throwError(error, 'Twitch.updateAuth');
       return false;
     }
   }
@@ -1808,7 +1808,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Twitch.toggleChannel');
+      throwError(error, 'Twitch.toggleChannel');
       return false;
     }
   }
@@ -1856,7 +1856,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Twitch.getChannelId');
+      throwError(error, 'Twitch.getChannelId');
       return false;
     }
   }
@@ -1865,7 +1865,7 @@
       Twitch_classPrivateFieldGet(this, Twitch_cache)[name] = id;
       GM_setValue('twitchCache', Twitch_classPrivateFieldGet(this, Twitch_cache));
     } catch (error) {
-      throwError_throwError(error, 'Twitch.setCache');
+      throwError(error, 'Twitch.setCache');
     }
   }
   const social_Twitch = Twitch;
@@ -2019,7 +2019,7 @@
         });
         return false;
       } catch (error) {
-        throwError_throwError(error, 'Twitter.init');
+        throwError(error, 'Twitter.init');
         return false;
       }
     }
@@ -2066,7 +2066,7 @@
         }
         return Promise.all(prom).then(() => true);
       } catch (error) {
-        throwError_throwError(error, 'Twitter.toggle');
+        throwError(error, 'Twitter.toggle');
         return false;
       }
     }
@@ -2079,7 +2079,7 @@
         verify: true
       });
     } catch (error) {
-      throwError_throwError(error, 'Twitter.verifyAuth');
+      throwError(error, 'Twitter.verifyAuth');
       return false;
     }
   }
@@ -2108,7 +2108,7 @@
         };
       });
     } catch (error) {
-      throwError_throwError(error, 'Twitter.updateToken');
+      throwError(error, 'Twitter.updateToken');
       return false;
     }
   }
@@ -2183,7 +2183,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Twitter.toggleUser');
+      throwError(error, 'Twitter.toggleUser');
       return false;
     }
   }
@@ -2239,7 +2239,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Twitter.getUserId');
+      throwError(error, 'Twitter.getUserId');
       return false;
     }
   }
@@ -2294,7 +2294,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Twitter.toggleRetweet');
+      throwError(error, 'Twitter.toggleRetweet');
       return false;
     }
   }
@@ -2303,7 +2303,7 @@
       Twitter_classPrivateFieldGet(this, Twitter_cache)[name] = id;
       GM_setValue('twitterCache', Twitter_classPrivateFieldGet(this, Twitter_cache));
     } catch (error) {
-      throwError_throwError(error, 'Twitter.setCache');
+      throwError(error, 'Twitter.setCache');
     }
   }
   const social_Twitter = Twitter;
@@ -2433,7 +2433,7 @@
         });
         return false;
       } catch (error) {
-        throwError_throwError(error, 'Vk.init');
+        throwError(error, 'Vk.init');
         return false;
       }
     }
@@ -2466,7 +2466,7 @@
         }
         return Promise.all(prom).then(() => true);
       } catch (error) {
-        throwError_throwError(error, 'Vk.toggle');
+        throwError(error, 'Vk.toggle');
         return false;
       }
     }
@@ -2503,7 +2503,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Vk.verifyAuth');
+      throwError(error, 'Vk.verifyAuth');
       return false;
     }
   }
@@ -2556,7 +2556,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Vk.toggleGroup');
+      throwError(error, 'Vk.toggleGroup');
       return false;
     }
   }
@@ -2605,7 +2605,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Vk.togglePublic');
+      throwError(error, 'Vk.togglePublic');
       return false;
     }
   }
@@ -2699,7 +2699,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Vk.sendWall');
+      throwError(error, 'Vk.sendWall');
       return false;
     }
   }
@@ -2748,7 +2748,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Vk.deleteWall');
+      throwError(error, 'Vk.deleteWall');
       return false;
     }
   }
@@ -2829,7 +2829,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Vk.getId');
+      throwError(error, 'Vk.getId');
       return false;
     }
   }
@@ -2868,7 +2868,7 @@
         return false;
       }
     } catch (error) {
-      throwError_throwError(error, 'Vk.toggleVk');
+      throwError(error, 'Vk.toggleVk');
       return false;
     }
   }
@@ -2877,7 +2877,7 @@
       Vk_classPrivateFieldGet(this, Vk_cache)[name] = postId;
       GM_setValue('vkCache', Vk_classPrivateFieldGet(this, Vk_cache));
     } catch (error) {
-      throwError_throwError(error, 'Vk.setCache');
+      throwError(error, 'Vk.setCache');
     }
   }
   const social_Vk = Vk;
@@ -3023,7 +3023,7 @@
         });
         return false;
       } catch (error) {
-        throwError_throwError(error, 'Youtube.init');
+        throwError(error, 'Youtube.init');
         return false;
       }
     }
@@ -3076,7 +3076,7 @@
         }
         return Promise.all(prom).then(() => true);
       } catch (error) {
-        throwError_throwError(error, 'Youtube.toggle');
+        throwError(error, 'Youtube.toggle');
         return false;
       }
     }
@@ -3089,7 +3089,7 @@
         verify: true
       });
     } catch (error) {
-      throwError_throwError(error, 'Youtube.verifyAuth');
+      throwError(error, 'Youtube.verifyAuth');
       return false;
     }
   }
@@ -3120,7 +3120,7 @@
         };
       });
     } catch (error) {
-      throwError_throwError(error, 'Discord.updateAuth');
+      throwError(error, 'Discord.updateAuth');
       return false;
     }
   }
@@ -3203,7 +3203,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return {};
     } catch (error) {
-      throwError_throwError(error, 'Youtube.getInfo');
+      throwError(error, 'Youtube.getInfo');
       return {};
     }
   }
@@ -3302,7 +3302,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Youtube.toggleChannel');
+      throwError(error, 'Youtube.toggleChannel');
       return false;
     }
   }
@@ -3408,7 +3408,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Youtube.toggleLikeVideo');
+      throwError(error, 'Youtube.toggleLikeVideo');
       return false;
     }
   }
@@ -3490,6 +3490,7 @@
   var Steam_cache = new WeakMap();
   var Steam_auth = new WeakMap();
   var Steam_initialized = new WeakMap();
+  var _area = new WeakMap();
   var _updateStoreAuth = new WeakSet();
   var _updateCommunityAuth = new WeakSet();
   var _getAreaInfo = new WeakSet();
@@ -3561,6 +3562,10 @@
         writable: true,
         value: false
       });
+      Steam_classPrivateFieldInitSpec(this, _area, {
+        writable: true,
+        value: 'CN'
+      });
     }
     async init() {
       try {
@@ -3580,7 +3585,7 @@
         });
         return false;
       } catch (error) {
-        throwError_throwError(error, 'Steam.init');
+        throwError(error, 'Steam.init');
         return false;
       }
     }
@@ -3710,7 +3715,7 @@
         }
         return Promise.all(prom).then(() => true);
       } catch (error) {
-        throwError_throwError(error, 'Steam.toggle');
+        throwError(error, 'Steam.toggle');
         return false;
       }
     }
@@ -3751,7 +3756,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Steam.updateStoreAuth');
+      throwError(error, 'Steam.updateStoreAuth');
       return false;
     }
   }
@@ -3799,13 +3804,13 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Steam.updateCommunityAuth');
+      throwError(error, 'Steam.updateCommunityAuth');
       return false;
     }
   }
   async function _getAreaInfo2() {
     try {
-      const logStatus = echoLog({
+      const logStatus = scripts_echoLog({
         type: 'text',
         text: 'getCountryInfo'
       });
@@ -3814,7 +3819,7 @@
         statusText,
         status,
         data
-      } = await httpRequest({
+      } = await tools_httpRequest({
         url: 'https://store.steampowered.com/cart/',
         method: 'GET'
       });
@@ -3824,6 +3829,7 @@
           const currentArea = (_data$responseText$ma5 = data.responseText.match(/<input id="usercountrycurrency".*?value="(.+?)"/)) === null || _data$responseText$ma5 === void 0 ? void 0 : _data$responseText$ma5[1];
           const areas = [ ...data.responseText.matchAll(/<div class="currency_change_option .*?" data-country="(.+?)" >/g) ].map(search => search[1]);
           if (currentArea && areas.length > 0) {
+            Steam_classPrivateFieldSet(this, _area, currentArea);
             logStatus.success();
             return {
               currentArea: currentArea,
@@ -3846,7 +3852,7 @@
   async function _changeArea2(area) {
     try {
       let aimedArea = area;
-      if (!area) {
+      if (!aimedArea) {
         const {
           currentArea,
           areas
@@ -3855,7 +3861,7 @@
           return false;
         }
         if (currentArea !== 'CN') {
-          echoLog({
+          scripts_echoLog({
             type: 'text',
             text: 'notNeedChangeCountry'
           });
@@ -3863,7 +3869,7 @@
         }
         const anotherArea = areas.filter(area => area && area !== 'CN');
         if (!anotherArea || anotherArea.length === 0) {
-          echoLog({
+          scripts_echoLog({
             type: 'text',
             text: 'noAnotherCountry'
           });
@@ -3871,7 +3877,7 @@
         }
         [ aimedArea ] = anotherArea;
       }
-      const logStatus = echoLog({
+      const logStatus = scripts_echoLog({
         type: 'changeCountry',
         text: aimedArea
       });
@@ -3880,14 +3886,14 @@
         statusText,
         status,
         data
-      } = await httpRequest({
+      } = await tools_httpRequest({
         url: 'https://store.steampowered.com/account/setcountry',
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         },
         data: $.param({
-          aimedArea: aimedArea,
+          cc: aimedArea,
           sessionid: Steam_classPrivateFieldGet(this, Steam_auth).storeSessionID
         })
       });
@@ -3947,7 +3953,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Steam.joinGroup');
+      throwError(error, 'Steam.joinGroup');
       return false;
     }
   }
@@ -3996,7 +4002,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Steam.leaveGroup');
+      throwError(error, 'Steam.leaveGroup');
       return false;
     }
   }
@@ -4041,7 +4047,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Steam.getGroupID');
+      throwError(error, 'Steam.getGroupID');
       return false;
     }
   }
@@ -4083,6 +4089,13 @@
       });
       if (resultR === 'Success') {
         if ((dataR === null || dataR === void 0 ? void 0 : dataR.status) === 200) {
+          if (Steam_classPrivateFieldGet(this, _area) === 'CN' && dataR.responseText.includes('id="error_box"')) {
+            logStatus.warning('疑似锁区游戏，尝试换区执行');
+            if (!await Steam_classPrivateMethodGet(this, _changeArea, _changeArea2).call(this)) {
+              return false;
+            }
+            return await Steam_classPrivateMethodGet(this, _addToWishlist, _addToWishlist2).call(this, gameId);
+          }
           if (dataR.responseText.includes('class="queue_actions_ctn"') && dataR.responseText.includes('class="already_in_library"')) {
             logStatus.success();
             this.tasks.wishlists = unique([ ...this.tasks.wishlists, gameId ]);
@@ -4101,7 +4114,7 @@
       logStatus.error(`${resultR}:${statusTextR}(${statusR})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Steam.addToWishlist');
+      throwError(error, 'Steam.addToWishlist');
       return false;
     }
   }
@@ -4149,6 +4162,14 @@
       });
       if (resultR === 'Success') {
         if ((dataR === null || dataR === void 0 ? void 0 : dataR.status) === 200) {
+          if (Steam_classPrivateFieldGet(this, _area) === 'CN' && dataR.responseText.includes('id="error_box"')) {
+            logStatus.warning('疑似锁区游戏，尝试换区执行');
+            const result = await Steam_classPrivateMethodGet(this, _changeArea, _changeArea2).call(this);
+            if (!result || result === 'CN' || result === 'skip') {
+              return false;
+            }
+            return await Steam_classPrivateMethodGet(this, _removeFromWishlist, _removeFromWishlist2).call(this, gameId);
+          }
           if (dataR.responseText.includes('class="queue_actions_ctn"') && (dataR.responseText.includes('已在库中') || dataR.responseText.includes('添加至您的愿望单'))) {
             logStatus.success();
             return true;
@@ -4162,7 +4183,7 @@
       logStatus.error(`${resultR}:${statusTextR}(${statusR})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Steam.removeFromWishlist');
+      throwError(error, 'Steam.removeFromWishlist');
       return false;
     }
   }
@@ -4202,6 +4223,13 @@
         return true;
       }
       const followed = await Steam_classPrivateMethodGet(this, _isFollowedGame, _isFollowedGame2).call(this, gameId);
+      if (Steam_classPrivateFieldGet(this, _area) === 'CN' && followed === 'areaLocked') {
+        logStatus.warning('疑似锁区游戏，尝试换区执行');
+        if (!await Steam_classPrivateMethodGet(this, _changeArea, _changeArea2).call(this)) {
+          return false;
+        }
+        return await Steam_classPrivateMethodGet(this, _removeFromWishlist, _removeFromWishlist2).call(this, gameId);
+      }
       if (doTask === followed) {
         logStatus.success();
         if (doTask) {
@@ -4212,7 +4240,7 @@
       logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Steam.toggleFollowGame');
+      throwError(error, 'Steam.toggleFollowGame');
       return false;
     }
   }
@@ -4227,6 +4255,9 @@
       });
       if (result === 'Success') {
         if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+          if (Steam_classPrivateFieldGet(this, _area) === 'CN' && data.responseText.includes('id="error_box"')) {
+            return 'areaLocked';
+          }
           if ($(data.responseText.replace(/<img.*?>/g, '')).find('.queue_control_button.queue_btn_follow>.btnv6_blue_hoverfade.btn_medium.queue_btn_active').css('display') !== 'none') {
             return true;
           }
@@ -4236,7 +4267,7 @@
       }
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Steam.isFollowedGame');
+      throwError(error, 'Steam.isFollowedGame');
       return false;
     }
   }
@@ -4290,7 +4321,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return true;
     } catch (error) {
-      throwError_throwError(error, 'Steam.toggleForum');
+      throwError(error, 'Steam.toggleForum');
       return true;
     }
   }
@@ -4332,7 +4363,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Steam.getForumId');
+      throwError(error, 'Steam.getForumId');
       return false;
     }
   }
@@ -4385,7 +4416,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Steam.toggleFavoriteWorkshop');
+      throwError(error, 'Steam.toggleFavoriteWorkshop');
       return false;
     }
   }
@@ -4427,7 +4458,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Steam.getWorkshopAppId');
+      throwError(error, 'Steam.getWorkshopAppId');
       return false;
     }
   }
@@ -4466,7 +4497,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return true;
     } catch (error) {
-      throwError_throwError(error, 'Steam.voteupWorkshop');
+      throwError(error, 'Steam.voteupWorkshop');
       return true;
     }
   }
@@ -4514,7 +4545,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Steam.toggleCurator');
+      throwError(error, 'Steam.toggleCurator');
       return false;
     }
   }
@@ -4559,7 +4590,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Steam.getCuratorID');
+      throwError(error, 'Steam.getCuratorID');
       return false;
     }
   }
@@ -4584,7 +4615,7 @@
       }
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Steam.toggleCuratorLike');
+      throwError(error, 'Steam.toggleCuratorLike');
       return false;
     }
   }
@@ -4629,7 +4660,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return {};
     } catch (error) {
-      throwError_throwError(error, 'Steam.likeAnnouncement');
+      throwError(error, 'Steam.likeAnnouncement');
       return {};
     }
   }
@@ -4689,7 +4720,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Steam.likeAnnouncement');
+      throwError(error, 'Steam.likeAnnouncement');
       return false;
     }
   }
@@ -4698,7 +4729,7 @@
       Steam_classPrivateFieldGet(this, Steam_cache)[type][name] = id;
       GM_setValue('steamCache', Steam_classPrivateFieldGet(this, Steam_cache));
     } catch (error) {
-      throwError_throwError(error, 'Steam.setCache');
+      throwError(error, 'Steam.setCache');
     }
   }
   const social_Steam = Steam;
@@ -4793,7 +4824,7 @@
         this.socialInitialized = await Promise.all(pro).then(data => !data.includes(false));
         return this.socialInitialized;
       } catch (error) {
-        throwError_throwError(error, 'Website.initSocial');
+        throwError(error, 'Website.initSocial');
         return false;
       }
     }
@@ -4881,7 +4912,7 @@
         });
         return true;
       } catch (error) {
-        throwError_throwError(error, 'Website.toggleTask');
+        throwError(error, 'Website.toggleTask');
         return false;
       }
     }
@@ -4889,7 +4920,7 @@
       try {
         return await this.toggleTask('do');
       } catch (error) {
-        throwError_throwError(error, 'Website.doTask');
+        throwError(error, 'Website.doTask');
         return false;
       }
     }
@@ -4897,7 +4928,7 @@
       try {
         return await this.toggleTask('undo');
       } catch (error) {
-        throwError_throwError(error, 'Website.undoTask');
+        throwError(error, 'Website.undoTask');
         return false;
       }
     }
@@ -5000,7 +5031,7 @@
         logStatus.success();
         return true;
       } catch (error) {
-        throwError_throwError(error, 'Freeanywhere.init');
+        throwError(error, 'Freeanywhere.init');
         return false;
       }
     }
@@ -5010,7 +5041,7 @@
           type: 'custom',
           text: `<li>${i18n('getTasksInfo')}<font></font></li>`
         });
-        this.undoneTasks = GM_getValue(`fawTasks-${this.giveawayId}`) || {
+        this.socialTasks = GM_getValue(`fawTasks-${this.giveawayId}`) || {
           ...FreeAnyWhere_defaultTasks
         };
         const {
@@ -5118,7 +5149,7 @@
         logStatus.error(`${result}:${statusText}(${status})`);
         return false;
       } catch (error) {
-        throwError_throwError(error, 'Freeanywhere.classifyTask');
+        throwError(error, 'Freeanywhere.classifyTask');
         return false;
       }
     }
@@ -5142,7 +5173,7 @@
         });
         return true;
       } catch (error) {
-        throwError_throwError(error, 'Freeanywhere.verifyTask');
+        throwError(error, 'Freeanywhere.verifyTask');
         return false;
       }
     }
@@ -5194,7 +5225,7 @@
       });
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Keyhub.getGiveawayId');
+      throwError(error, 'Keyhub.getGiveawayId');
     }
   }
   async function _verify2(task) {
@@ -5229,7 +5260,7 @@
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Freeanywhere.verify');
+      throwError(error, 'Freeanywhere.verify');
       return false;
     }
   }
@@ -5317,7 +5348,7 @@
           });
         }
       } catch (error) {
-        throwError_throwError(error, 'Giveawaysu.before');
+        throwError(error, 'Giveawaysu.before');
       }
     }
     init() {
@@ -5337,7 +5368,7 @@
         logStatus.success();
         return true;
       } catch (error) {
-        throwError_throwError(error, 'Giveawaysu.init');
+        throwError(error, 'Giveawaysu.init');
         return false;
       }
     }
@@ -5347,7 +5378,7 @@
           type: 'custom',
           text: `<li>${i18n('getTasksInfo')}<font></font></li>`
         });
-        this.undoneTasks = GM_getValue(`gasTasks-${this.giveawayId}`) || GiveawaySu_defaultTasks;
+        this.socialTasks = GM_getValue(`gasTasks-${this.giveawayId}`) || GiveawaySu_defaultTasks;
         const pro = [];
         const tasks = $('#actions tr');
         if ($('div.bind-discord').is(':visible')) {
@@ -5409,7 +5440,7 @@
               }
               resolve(true);
             }).catch(error => {
-              throwError_throwError(error, 'Giveawaysu.classifyTask->getRedirectLink');
+              throwError(error, 'Giveawaysu.classifyTask->getRedirectLink');
               return false;
             });
           }));
@@ -5421,7 +5452,7 @@
         GM_setValue(`gasTasks${this.giveawayId}`, this.socialTasks);
         return true;
       } catch (error) {
-        throwError_throwError(error, 'Giveawaysu.classifyTask');
+        throwError(error, 'Giveawaysu.classifyTask');
         return false;
       }
     }
@@ -5432,7 +5463,7 @@
         }
         return true;
       } catch (error) {
-        throwError_throwError(error, 'Giveawaysu.checkLogin');
+        throwError(error, 'Giveawaysu.checkLogin');
         return false;
       }
     }
@@ -5457,7 +5488,7 @@
         }
         return true;
       } catch (error) {
-        throwError_throwError(error, 'Giveawaysu.checkLeftKey');
+        throwError(error, 'Giveawaysu.checkLeftKey');
         return false;
       }
     }
@@ -5508,7 +5539,7 @@
           });
         }
       } catch (error) {
-        throwError_throwError(error, 'Indiedb.before');
+        throwError(error, 'Indiedb.before');
       }
     }
     async doTask() {
@@ -5518,7 +5549,7 @@
         }
         return await Indiedb_classPrivateMethodGet(this, _do, _do2).call(this);
       } catch (error) {
-        throwError_throwError(error, 'Indiedb.doTask');
+        throwError(error, 'Indiedb.doTask');
         return false;
       }
     }
@@ -5529,7 +5560,7 @@
         }
         return true;
       } catch (error) {
-        throwError_throwError(error, 'Indiedb.checkLogin');
+        throwError(error, 'Indiedb.checkLogin');
         return false;
       }
     }
@@ -5593,7 +5624,7 @@
       });
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Indiedb.init');
+      throwError(error, 'Indiedb.init');
       return false;
     }
   }
@@ -5772,7 +5803,7 @@
       });
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Indiedb.classifyTask');
+      throwError(error, 'Indiedb.classifyTask');
       return false;
     }
   }
@@ -5844,7 +5875,7 @@
           });
         }
       } catch (error) {
-        throwError_throwError(error, 'Keyhub.before');
+        throwError(error, 'Keyhub.before');
       }
     }
     init() {
@@ -5866,7 +5897,7 @@
         logStatus.success();
         return true;
       } catch (error) {
-        throwError_throwError(error, 'Keyhub.init');
+        throwError(error, 'Keyhub.init');
         return false;
       }
     }
@@ -5876,7 +5907,7 @@
           type: 'custom',
           text: `<li>${i18n('getTasksInfo')}<font></font></li>`
         });
-        this.undoneTasks = GM_getValue(`khTasks-${this.giveawayId}`) || {
+        this.socialTasks = GM_getValue(`khTasks-${this.giveawayId}`) || {
           ...Keyhub_defaultTasks
         };
         const tasks = $('.task a');
@@ -5932,7 +5963,7 @@
         GM_setValue(`khTasks${this.giveawayId}`, this.socialTasks);
         return true;
       } catch (error) {
-        throwError_throwError(error, 'Keyhub.classifyTask');
+        throwError(error, 'Keyhub.classifyTask');
         return false;
       }
     }
@@ -5946,7 +5977,7 @@
           VerifyTasks(res.match(/onclick="javascript:VerifyTasks\('(.*?)'\)"/)[1]);
         });
       } catch (error) {
-        throwError_throwError(error, 'keyhub.verifyTask');
+        throwError(error, 'keyhub.verifyTask');
       }
     }
     async checkLeftKey() {
@@ -5971,7 +6002,7 @@
         }
         return true;
       } catch (error) {
-        throwError_throwError(error, 'Keyhub.checkLeftKey');
+        throwError(error, 'Keyhub.checkLeftKey');
         return false;
       }
     }
@@ -5982,7 +6013,7 @@
         }
         return true;
       } catch (error) {
-        throwError_throwError(error, 'Keyhub.checkLogin');
+        throwError(error, 'Keyhub.checkLogin');
         return false;
       }
     }
@@ -6001,7 +6032,7 @@
       });
       return false;
     } catch (error) {
-      throwError_throwError(error, 'Keyhub.getGiveawayId');
+      throwError(error, 'Keyhub.getGiveawayId');
       return false;
     }
   }
@@ -6051,13 +6082,13 @@
       serverLinks: []
     }
   };
-  var Givekey_getGiveawayId = new WeakSet();
   var Givekey_verify = new WeakSet();
+  var Givekey_getGiveawayId = new WeakSet();
   class Givekey extends website_Website {
     constructor() {
       super(...arguments);
-      Givekey_classPrivateMethodInitSpec(this, Givekey_verify);
       Givekey_classPrivateMethodInitSpec(this, Givekey_getGiveawayId);
+      Givekey_classPrivateMethodInitSpec(this, Givekey_verify);
       Givekey_defineProperty(this, 'tasks', []);
       Givekey_defineProperty(this, 'socialTasks', {
         ...Givekey_defaultTasks
@@ -6093,7 +6124,7 @@
         logStatus.success();
         return true;
       } catch (error) {
-        throwError_throwError(error, 'Givekey.init');
+        throwError(error, 'Givekey.init');
         return false;
       }
     }
@@ -6103,7 +6134,7 @@
           type: 'custom',
           text: `<li>${i18n('getTasksInfo')}<font></font></li>`
         });
-        this.undoneTasks = GM_getValue(`gkTasks-${this.giveawayId}`) || Givekey_defaultTasks;
+        this.socialTasks = GM_getValue(`gkTasks-${this.giveawayId}`) || Givekey_defaultTasks;
         const tasks = $('.card-body:has("button") .row');
         for (const task of tasks) {
           const taskEle = $(task);
@@ -6182,7 +6213,7 @@
         GM_setValue(`gkTasks${this.giveawayId}`, this.socialTasks);
         return true;
       } catch (error) {
-        throwError_throwError(error, 'Givekey.classifyTask');
+        throwError(error, 'Givekey.classifyTask');
         return false;
       }
     }
@@ -6194,12 +6225,10 @@
         if (this.tasks.length === 0 && !await this.classifyTask('verify')) {
           return false;
         }
-        const pro = [];
         for (const task of this.tasks) {
-          pro.push(Givekey_classPrivateMethodGet(this, Givekey_verify, Givekey_verify2).call(this, task));
+          await Givekey_classPrivateMethodGet(this, Givekey_verify, Givekey_verify2).call(this, task);
           await delay(1e3);
         }
-        await Promise.all(pro);
         scripts_echoLog({
           type: 'custom',
           text: '<li>All tasks complete!<font></font></li>'
@@ -6210,7 +6239,7 @@
         });
         return true;
       } catch (error) {
-        throwError_throwError(error, 'Givekey.verifyTask');
+        throwError(error, 'Givekey.verifyTask');
         return false;
       }
     }
@@ -6234,26 +6263,8 @@
           });
         }
       } catch (error) {
-        throwError_throwError(error, 'Givekey.checkLeft');
+        throwError(error, 'Givekey.checkLeft');
       }
-    }
-  }
-  function Givekey_getGiveawayId2() {
-    try {
-      var _window$location$href;
-      const giveawayId = (_window$location$href = window.location.href.match(/giveaway\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
-      if (giveawayId) {
-        this.giveawayId = giveawayId;
-        return true;
-      }
-      scripts_echoLog({
-        type: 'custom',
-        text: `<li><font class="error">${i18n('getGiveawayIdFailed')}</font></li>`
-      });
-      return false;
-    } catch (error) {
-      throwError_throwError(error, 'Getkey.getGiveawayId');
-      return false;
     }
   }
   async function Givekey_verify2(task) {
@@ -6294,7 +6305,25 @@
         });
       });
     } catch (error) {
-      throwError_throwError(error, 'Givekey.verify');
+      throwError(error, 'Givekey.verify');
+      return false;
+    }
+  }
+  function Givekey_getGiveawayId2() {
+    try {
+      var _window$location$href;
+      const giveawayId = (_window$location$href = window.location.href.match(/giveaway\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
+      if (giveawayId) {
+        this.giveawayId = giveawayId;
+        return true;
+      }
+      scripts_echoLog({
+        type: 'custom',
+        text: `<li><font class="error">${i18n('getGiveawayIdFailed')}</font></li>`
+      });
+      return false;
+    } catch (error) {
+      throwError(error, 'Getkey.getGiveawayId');
       return false;
     }
   }
@@ -6311,7 +6340,7 @@
           });
         }
       } catch (error) {
-        throwError_throwError(error, 'GiveeClub.before');
+        throwError(error, 'GiveeClub.before');
       }
     }
     init() {
@@ -6330,7 +6359,7 @@
         logStatus.success();
         return true;
       } catch (error) {
-        throwError_throwError(error, 'GiveeClub.init');
+        throwError(error, 'GiveeClub.init');
         return false;
       }
     }
@@ -6340,7 +6369,7 @@
           type: 'custom',
           text: `<li>${i18n('getTasksInfo')}<font></font></li>`
         });
-        this.undoneTasks = GM_getValue(`gcTasks-${this.giveawayId}`) || GiveawaySu_defaultTasks;
+        this.socialTasks = GM_getValue(`gcTasks-${this.giveawayId}`) || GiveawaySu_defaultTasks;
         const pro = [];
         const tasks = $('.event-actions tr');
         for (const task of tasks) {
@@ -6392,7 +6421,7 @@
               }
               resolve(true);
             }).catch(error => {
-              throwError_throwError(error, 'GiveeClub.classifyTask->getRedirectLink');
+              throwError(error, 'GiveeClub.classifyTask->getRedirectLink');
               return false;
             });
           }));
@@ -6404,7 +6433,7 @@
         GM_setValue(`gcTasks${this.giveawayId}`, this.socialTasks);
         return true;
       } catch (error) {
-        throwError_throwError(error, 'GiveeClub.classifyTask');
+        throwError(error, 'GiveeClub.classifyTask');
         return false;
       }
     }
@@ -6415,7 +6444,7 @@
         }
         return true;
       } catch (error) {
-        throwError_throwError(error, 'GiveeClub.checkLogin');
+        throwError(error, 'GiveeClub.checkLogin');
         return false;
       }
     }
@@ -6480,14 +6509,14 @@
           });
         }
       } catch (error) {
-        throwError_throwError(error, 'OpiumPulses.before');
+        throwError(error, 'OpiumPulses.before');
       }
     }
     async doFreeTask() {
       try {
         OpiumPulses_classPrivateMethodGet(this, _toggleTask, _toggleTask2).call(this, 'FREE');
       } catch (error) {
-        throwError_throwError(error, 'OpiumPulses.doFreeTask');
+        throwError(error, 'OpiumPulses.doFreeTask');
       }
     }
     async doPointTask() {
@@ -6496,7 +6525,7 @@
         this.myPoints = parseInt(((_$$text$match = $('.page-header__nav-func-user-nav-items.points-items').text().match(/[\d]+/gim)) === null || _$$text$match === void 0 ? void 0 : _$$text$match[0]) || '0', 10);
         OpiumPulses_classPrivateMethodGet(this, _toggleTask, _toggleTask2).call(this, 'points');
       } catch (error) {
-        throwError_throwError(error, 'OpiumPulses.doPointTask');
+        throwError(error, 'OpiumPulses.doPointTask');
       }
     }
     init() {
@@ -6512,7 +6541,7 @@
         }
         return true;
       } catch (error) {
-        throwError_throwError(error, 'OpiumPulses.checkLogin');
+        throwError(error, 'OpiumPulses.checkLogin');
         return false;
       }
     }
@@ -6581,7 +6610,7 @@
         text: '<li>-----END-----</li>'
       });
     } catch (error) {
-      throwError_throwError(error, 'OpiumPulses.toggleTask');
+      throwError(error, 'OpiumPulses.toggleTask');
     }
   }
   const website_OpiumPulses = OpiumPulses;
@@ -6768,7 +6797,7 @@
           }
         }
       } catch (error) {
-        throwError_throwError(error, 'keylol.after');
+        throwError(error, 'keylol.after');
       }
     }
     classifyTask(action) {
@@ -6799,7 +6828,7 @@
         this.socialTasks = this.uniqueTasks(this.socialTasks);
         return true;
       } catch (error) {
-        throwError_throwError(error, 'Keylol.classifyTask');
+        throwError(error, 'Keylol.classifyTask');
         return false;
       }
     }
@@ -6808,7 +6837,7 @@
     try {
       $(before).after('<a href="javascript:void(0);" class="auto-task-keylol" target="_self"' + ' onclick="this.getAttribute(\'selected\') ? this.removeAttribute(\'selected\') : this.setAttribute(\'selected\', \'selected\')"' + ` data-social="${social}" data-type="${linkType}" data-link="${link}">${linkType.replace('Links', '')}</a>`);
     } catch (error) {
-      throwError_throwError(error, 'keylol.addBtn');
+      throwError(error, 'keylol.addBtn');
     }
   }
   const website_Keylol = Keylol;

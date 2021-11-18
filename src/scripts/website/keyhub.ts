@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2021-11-18 10:18:05
+ * @LastEditTime : 2021-11-18 11:10:20
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
  * @Description  :
@@ -83,7 +83,7 @@ class Keyhub extends Website {
     try {
       const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('getTasksInfo')}<font></font></li>` });
       // todo
-      this.undoneTasks = GM_getValue<khSocialTasks>(`khTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
+      this.socialTasks = GM_getValue<khSocialTasks>(`khTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
 
       const tasks = $('.task a');
       for (const task of tasks) {

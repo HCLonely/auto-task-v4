@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2021-11-17 09:52:17
+ * @LastEditTime : 2021-11-18 11:10:09
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.ts
  * @Description  :
@@ -89,7 +89,7 @@ class GiveawaySu extends Website {
     try {
       const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('getTasksInfo')}<font></font></li>` });
       // todo
-      this.undoneTasks = GM_getValue<gasSocialTasks>(`gasTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
+      this.socialTasks = GM_getValue<gasSocialTasks>(`gasTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
 
       const pro = [];
       const tasks = $('#actions tr');

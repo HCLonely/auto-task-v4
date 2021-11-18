@@ -25,7 +25,7 @@ https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task.user.js
 - [x] 需要登录
 - [ ] 任务识别修改
 - [ ] 传链接
-- [ ] steam更换地区
+- [ ] steam更换地区优化
 - [x] 任务完成提示
 - [ ] 任务处理
 - [x] 保存任务去重

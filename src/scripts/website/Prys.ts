@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 20:22:33
- * @LastEditTime : 2021-11-17 10:32:43
+ * @LastEditTime : 2021-11-18 11:10:37
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Prys.ts
  * @Description  :
@@ -74,7 +74,7 @@ class Prys extends Website {
     try {
       const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('getTasksInfo')}<font></font></li>` });
       // todo
-      this.undoneTasks = GM_getValue<prysSocialTasks>(`prysTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
+      this.socialTasks = GM_getValue<prysSocialTasks>(`prysTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
 
       const steps = $('#steps tbody tr');
       for (let eq = 0; eq < steps.length; eq += 1) {

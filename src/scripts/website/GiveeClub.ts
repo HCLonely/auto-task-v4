@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 11:46:52
- * @LastEditTime : 2021-11-17 10:33:50
+ * @LastEditTime : 2021-11-18 11:10:14
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/GiveeClub.ts
  * @Description  :
@@ -65,7 +65,7 @@ class GiveeClub extends GiveawaySu {
     try {
       const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('getTasksInfo')}<font></font></li>` });
       // todo
-      this.undoneTasks = GM_getValue<gasSocialTasks>(`gcTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
+      this.socialTasks = GM_getValue<gasSocialTasks>(`gcTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
 
       const pro = [];
       const tasks = $('.event-actions tr');

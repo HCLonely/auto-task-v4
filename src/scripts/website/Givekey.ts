@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-13 17:57:40
- * @LastEditTime : 2021-11-17 10:31:20
+ * @LastEditTime : 2021-11-18 11:09:56
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Givekey.ts
  * @Description  :
@@ -89,7 +89,7 @@ class Givekey extends Website {
     try {
       const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('getTasksInfo')}<font></font></li>` });
       // todo
-      this.undoneTasks = GM_getValue<gkSocialTasks>(`gkTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
+      this.socialTasks = GM_getValue<gkSocialTasks>(`gkTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
 
       const tasks = $('.card-body:has("button") .row');
       for (const task of tasks) {
@@ -160,31 +160,16 @@ class Givekey extends Website {
       if (this.tasks.length === 0 && !(await this.classifyTask('verify'))) {
         return false;
       }
-      const pro = [];
       for (const task of this.tasks) {
-        pro.push(this.#verify(task));
+        await this.#verify(task);
         await delay(1000);
       }
-      await Promise.all(pro);
+
       echoLog({ type: 'custom', text: '<li>All tasks complete!<font></font></li>' });
       echoLog({ type: 'custom', text: '<li>如果没key, 请在https://givekey.ru/profile查看<font></font></li>' });
       return true;
     } catch (error) {
       throwError(error as Error, 'Givekey.verifyTask');
-      return false;
-    }
-  }
-  #getGiveawayId(): boolean {
-    try {
-      const giveawayId = window.location.href.match(/giveaway\/([\d]+)/)?.[1];
-      if (giveawayId) {
-        this.giveawayId = giveawayId;
-        return true;
-      }
-      echoLog({ type: 'custom', text: `<li><font class="error">${getI18n('getGiveawayIdFailed')}</font></li>` });
-      return false;
-    } catch (error) {
-      throwError(error as Error, 'Getkey.getGiveawayId');
       return false;
     }
   }
@@ -227,6 +212,20 @@ class Givekey extends Website {
     }
   }
 
+  #getGiveawayId(): boolean {
+    try {
+      const giveawayId = window.location.href.match(/giveaway\/([\d]+)/)?.[1];
+      if (giveawayId) {
+        this.giveawayId = giveawayId;
+        return true;
+      }
+      echoLog({ type: 'custom', text: `<li><font class="error">${getI18n('getGiveawayIdFailed')}</font></li>` });
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'Getkey.getGiveawayId');
+      return false;
+    }
+  }
   checkLeft() {
     try {
       if (!$('#keys_count').text()) {
