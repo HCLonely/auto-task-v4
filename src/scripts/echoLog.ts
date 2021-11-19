@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:03:26
- * @LastEditTime : 2021-11-18 14:03:51
+ * @LastEditTime : 2021-11-19 09:54:53
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/echoLog.ts
  * @Description  :
@@ -140,7 +140,7 @@ const echoLog = ({ type = 'text', text, url, id }: { type?: string, text?: strin
     }
     ele.addClass('card-text');
     $('#auto-task-info').append(ele);
-    ele[0].scrollIntoView();
+    ele[0]?.scrollIntoView();
     const font: JQuery = ele.find('font');
     const status: logStatus = {
       font,

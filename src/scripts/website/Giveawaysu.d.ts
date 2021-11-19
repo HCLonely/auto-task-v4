@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:43:23
- * @LastEditTime : 2021-11-13 09:49:39
+ * @LastEditTime : 2021-11-19 10:04:52
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.d.ts
  * @Description  :

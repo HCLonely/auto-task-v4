@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2021-11-18 11:10:09
+ * @LastEditTime : 2021-11-19 10:04:00
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.ts
  * @Description  :
@@ -116,12 +116,14 @@ class GiveawaySu extends Website {
               this.undoneTasks.steam.groupLinks.push(taskLink);
             } else if (/like.*announcement/gi.test(taskName)) {
               this.undoneTasks.steam.announcementLinks.push(taskLink);
-            } else if (/(follow|subscribe).*curator/gim.test(taskName)) {
+            } else if (/(follow|subscribe).*curator/gim.test(taskName) && /^https?:\/\/store\.steampowered\.com\/curator\//.test(taskLink)) {
               this.undoneTasks.steam.curatorLinks.push(taskLink);
             } else if (taskIcon.includes('steam') && /follow|subscribe/gim.test(taskName)) {
               this.undoneTasks.steam.curatorLikeLinks.push(taskLink);
             } else if (/subscribe.*steam.*forum/gim.test(taskName)) {
               this.undoneTasks.steam.forumLinks.push(taskLink);
+            } else if (taskIcon.includes('thumbs-up') && /^https?:\/\/steamcommunity\.com\/sharedfiles\/filedetails\/\?id=[\d]+/.test(taskLink)) {
+              this.undoneTasks.steam.workshopVoteLinks.push(taskLink);
             } else if (taskIcon.includes('discord') || /join.*discord/gim.test(taskName)) {
               this.undoneTasks.discord.serverLinks.push(taskLink);
             } else if (taskIcon.includes('instagram') || /follow.*instagram/gim.test(taskName)) {

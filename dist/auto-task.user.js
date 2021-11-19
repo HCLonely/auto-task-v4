@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.3-Alpha
+// @version            4.0.4-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -199,6 +199,7 @@
       id
     } = _ref;
     try {
+      var _ele$;
       let ele;
       switch (type) {
        case 'updateSteamCommunity':
@@ -353,7 +354,7 @@
       }
       ele.addClass('card-text');
       $('#auto-task-info').append(ele);
-      ele[0].scrollIntoView();
+      (_ele$ = ele[0]) === null || _ele$ === void 0 ? void 0 : _ele$.scrollIntoView();
       const font = ele.find('font');
       const status = {
         font: font,
@@ -5408,12 +5409,14 @@
                 this.undoneTasks.steam.groupLinks.push(taskLink);
               } else if (/like.*announcement/gi.test(taskName)) {
                 this.undoneTasks.steam.announcementLinks.push(taskLink);
-              } else if (/(follow|subscribe).*curator/gim.test(taskName)) {
+              } else if (/(follow|subscribe).*curator/gim.test(taskName) && /^https?:\/\/store\.steampowered\.com\/curator\//.test(taskLink)) {
                 this.undoneTasks.steam.curatorLinks.push(taskLink);
               } else if (taskIcon.includes('steam') && /follow|subscribe/gim.test(taskName)) {
                 this.undoneTasks.steam.curatorLikeLinks.push(taskLink);
               } else if (/subscribe.*steam.*forum/gim.test(taskName)) {
                 this.undoneTasks.steam.forumLinks.push(taskLink);
+              } else if (taskIcon.includes('thumbs-up') && /^https?:\/\/steamcommunity\.com\/sharedfiles\/filedetails\/\?id=[\d]+/.test(taskLink)) {
+                this.undoneTasks.steam.workshopVoteLinks.push(taskLink);
               } else if (taskIcon.includes('discord') || /join.*discord/gim.test(taskName)) {
                 this.undoneTasks.discord.serverLinks.push(taskLink);
               } else if (taskIcon.includes('instagram') || /follow.*instagram/gim.test(taskName)) {
