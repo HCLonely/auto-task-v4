@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.4-Alpha
+// @version            4.0.5-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -1676,7 +1676,7 @@
         const prom = [];
         const realChannels = this.getRealParams('channels', channelLinks, doTask, link => {
           var _link$match;
-          return (_link$match = link.match(/https:\/\/www\.twitch\.tv\/(.+)/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
+          return (_link$match = link.match(/https:\/\/(www\.)?twitch\.tv\/(.+)/)) === null || _link$match === void 0 ? void 0 : _link$match[2];
         });
         if (realChannels.length > 0) {
           for (const channel of realChannels) {
@@ -7003,7 +7003,232 @@
     }
   }
   const website_Opquests = Opquests;
-  const Websites = [ website_FreeAnyWhere, GiveawaySu, website_Indiedb, website_Keyhub, website_Givekey, website_GiveeClub, website_OpiumPulses, website_Keylol, website_Opquests ];
+  function Gleam_classPrivateMethodInitSpec(obj, privateSet) {
+    Gleam_checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
+  }
+  function Gleam_checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+      throw new TypeError('Cannot initialize the same private elements twice on an object');
+    }
+  }
+  function Gleam_defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  function Gleam_classPrivateMethodGet(receiver, privateSet, fn) {
+    if (!privateSet.has(receiver)) {
+      throw new TypeError('attempted to get private field on non-instance');
+    }
+    return fn;
+  }
+  const Gleam_defaultTasks = {
+    steam: {
+      groupLinks: [],
+      wishlistLinks: [],
+      followLinks: [],
+      curatorLinks: [],
+      curatorLikeLinks: []
+    },
+    twitter: {
+      userLinks: [],
+      retweetLinks: []
+    },
+    twitch: {
+      channelLinks: []
+    },
+    discord: {
+      serverLinks: []
+    },
+    youtube: {
+      channelLinks: []
+    }
+  };
+  var Gleam_getGiveawayId = new WeakSet();
+  class Gleam extends website_Website {
+    constructor() {
+      super(...arguments);
+      Gleam_classPrivateMethodInitSpec(this, Gleam_getGiveawayId);
+      Gleam_defineProperty(this, 'undoneTasks', {
+        ...Gleam_defaultTasks
+      });
+      Gleam_defineProperty(this, 'socialTasks', {
+        ...Gleam_defaultTasks
+      });
+    }
+    static test() {
+      return window.location.host === 'gleam.io';
+    }
+    init() {
+      try {
+        const logStatus = scripts_echoLog({
+          type: 'init'
+        });
+        if (!Gleam_classPrivateMethodGet(this, Gleam_getGiveawayId, Gleam_getGiveawayId2).call(this)) {
+          return false;
+        }
+        this.initialized = true;
+        logStatus.success();
+        return true;
+      } catch (error) {
+        throwError(error, 'Gleam.init');
+        return false;
+      }
+    }
+    async classifyTask(action) {
+      try {
+        const logStatus = scripts_echoLog({
+          type: 'custom',
+          text: `<li>${i18n('getTasksInfo')}<font></font></li>`
+        });
+        this.socialTasks = GM_getValue(`gleamTasks-${this.giveawayId}`) || {
+          ...Gleam_defaultTasks
+        };
+        const tasks = $('.entry-content .entry-method');
+        for (const task of tasks) {
+          var _socialIcon$attr, _socialIcon$attr2;
+          const $task = $(task);
+          if (action === 'do' && $task.find('i.fa-question').length === 0) {
+            continue;
+          }
+          const socialIcon = $task.find('.icon-wrapper i');
+          const taskInfo = $task.find('.user-links');
+          if (socialIcon.hasClass('fa-twitter')) {
+            const link = $task.find('a[href^="https://twitter.com/"]').attr('href');
+            if (!link) {
+              continue;
+            }
+            if (/follow/gi.test(taskInfo.text().trim())) {
+              if (action === 'undo') {
+                this.socialTasks.twitter.userLinks.push(link);
+              }
+              if (action === 'do') {
+                this.undoneTasks.twitter.userLinks.push(link);
+              }
+            } else if (/retweet/gim.test(taskInfo.text().trim())) {
+              if (action === 'undo') {
+                this.socialTasks.twitter.retweetLinks.push(link);
+              }
+              if (action === 'do') {
+                this.undoneTasks.twitter.retweetLinks.push(link);
+              }
+            }
+          } else if (socialIcon.hasClass('fa-twitch')) {
+            if (/follow/gim.test(taskInfo.text().trim())) {
+              const link = $task.find('a[href^="https://twitch.tv/"]').attr('href');
+              if (!link) {
+                continue;
+              }
+              if (action === 'undo') {
+                this.socialTasks.twitch.channelLinks.push(link);
+              }
+              if (action === 'do') {
+                this.undoneTasks.twitch.channelLinks.push(link);
+              }
+            }
+          } else if (socialIcon.hasClass('fa-discord')) {
+            if (/join/gim.test(taskInfo.text().trim())) {
+              let link = $task.find('a[href^="https://discord.com/invite/"]').attr('href');
+              if (!link) {
+                var _$task$find$attr, _$task$find$attr$matc;
+                const ggLink = (_$task$find$attr = $task.find('a[href^="https://discord.gg/"]').attr('href')) === null || _$task$find$attr === void 0 ? void 0 : (_$task$find$attr$matc = _$task$find$attr.match(/discord\.gg\/([^/]+)/)) === null || _$task$find$attr$matc === void 0 ? void 0 : _$task$find$attr$matc[1];
+                if (!ggLink) {
+                  continue;
+                }
+                link = `https://discord.com/invite/${ggLink}`;
+              }
+              if (action === 'undo') {
+                this.socialTasks.discord.serverLinks.push(link);
+              }
+              if (action === 'do') {
+                this.undoneTasks.discord.serverLinks.push(link);
+              }
+            }
+          } else if (socialIcon.hasClass('fa-external-link-square-alt')) {
+            continue;
+          } else if (socialIcon.hasClass('fa-youtube')) {
+            if (/subscribe/gim.test(taskInfo.text().trim())) {
+              const link = $task.find('a[href^="https://www.youtube.com/channel/"]').attr('href');
+              if (!link) {
+                continue;
+              }
+              if (action === 'undo') {
+                this.socialTasks.youtube.channelLinks.push(link);
+              }
+              if (action === 'do') {
+                this.undoneTasks.youtube.channelLinks.push(link);
+              }
+            }
+          } else if ((_socialIcon$attr = socialIcon.attr('class')) !== null && _socialIcon$attr !== void 0 && _socialIcon$attr.includes('steam')) {
+            if (/join.*group/gi.test(taskInfo.text().trim())) {
+              const link = $task.find('a[href^="https://steamcommunity.com/groups/"]').attr('href');
+              if (!link) {
+                continue;
+              }
+              if (action === 'undo') {
+                this.socialTasks.steam.groupLinks.push(link);
+              }
+              if (action === 'do') {
+                this.undoneTasks.steam.groupLinks.push(link);
+              }
+            } else if (/follow.*curator/gi.test(taskInfo.text().trim())) {
+              const link = $task.find('a[href^="https://store.steampowered.com/curator/"]').attr('href');
+              if (!link) {
+                continue;
+              }
+              if (action === 'undo') {
+                this.socialTasks.steam.curatorLinks.push(link);
+              }
+              if (action === 'do') {
+                this.undoneTasks.steam.curatorLinks.push(link);
+              }
+            }
+          } else if ((_socialIcon$attr2 = socialIcon.attr('class')) !== null && _socialIcon$attr2 !== void 0 && _socialIcon$attr2.includes('fa-question')) {} else {
+            scripts_echoLog({
+              type: 'text',
+              text: `未识别的任务:${taskInfo.text().trim()}`
+            });
+          }
+        }
+        logStatus.success();
+        this.undoneTasks = this.uniqueTasks(this.undoneTasks);
+        this.socialTasks = this.uniqueTasks(this.socialTasks);
+        GM_setValue(`gleamTasks${this.giveawayId}`, this.socialTasks);
+        return true;
+      } catch (error) {
+        throwError(error, 'Gleam.classifyTask');
+        return false;
+      }
+    }
+  }
+  function Gleam_getGiveawayId2() {
+    try {
+      const giveawayId = window.location.pathname;
+      if (giveawayId) {
+        this.giveawayId = giveawayId;
+        return true;
+      }
+      scripts_echoLog({
+        type: 'custom',
+        text: `<li><font class="error">${i18n('getGiveawayIdFailed')}</font></li>`
+      });
+      return false;
+    } catch (error) {
+      throwError(error, 'Gleam.getGiveawayId');
+      return false;
+    }
+  }
+  const website_Gleam = Gleam;
+  const Websites = [ website_FreeAnyWhere, GiveawaySu, website_Indiedb, website_Keyhub, website_Givekey, website_GiveeClub, website_OpiumPulses, website_Keylol, website_Opquests, website_Gleam ];
   let website;
   for (const Website of Websites) {
     if (Website.test()) {
@@ -7073,6 +7298,9 @@
       GM_setValue('redditAuth', null);
       window.close();
       external_Swal_default().fire('', '如果此页面没有自动关闭，请自行关闭本页面。');
+    }
+    if (!website) {
+      return;
     }
     $('body').append('<div id="auto-task-info"></div>');
     if (website.before) {

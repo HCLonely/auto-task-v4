@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-11-18 20:36:32
+ * @LastEditTime : 2021-11-19 15:55:59
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -27,6 +27,7 @@ import GiveeClub from './scripts/website/GiveeClub';
 import OpiumPulses from './scripts/website/OpiumPulses';
 import Keylol from './scripts/website/Keylol';
 import Opquests from './scripts/website/Opquests';
+import Gleam from './scripts/website/Gleam';
 
 type WebsitesType = typeof FreeAnyWhere |
   typeof GiveawaySu |
@@ -36,7 +37,8 @@ type WebsitesType = typeof FreeAnyWhere |
   typeof GiveeClub |
   typeof OpiumPulses |
   typeof Keylol |
-  typeof Opquests
+  typeof Opquests |
+  typeof Gleam
 
 type WebsiteType = FreeAnyWhere |
   GiveawaySu |
@@ -46,9 +48,10 @@ type WebsiteType = FreeAnyWhere |
   GiveeClub |
   OpiumPulses |
   Keylol |
-  Opquests
+  Opquests |
+  Gleam
 
-const Websites: Array<WebsitesType> = [FreeAnyWhere, GiveawaySu, Indiedb, Keyhub, Givekey, GiveeClub, OpiumPulses, Keylol, Opquests];
+const Websites: Array<WebsitesType> = [FreeAnyWhere, GiveawaySu, Indiedb, Keyhub, Givekey, GiveeClub, OpiumPulses, Keylol, Opquests, Gleam];
 let website: WebsiteType;
 for (const Website of Websites) {
   if (Website.test()) {
@@ -138,6 +141,8 @@ window.onload = () => {
   const keylol = new Keylol();
   unsafeWindow.keylol = keylol;
   */
+
+  if (!website) return;
 
   $('body').append('<div id="auto-task-info"></div>'); // eslint-disable-line
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

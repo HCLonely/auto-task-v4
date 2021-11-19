@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:00:41
- * @LastEditTime : 2021-11-08 11:02:30
+ * @LastEditTime : 2021-11-19 16:30:29
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitch.ts
  * @Description  : Twitch 关注/取关频道
@@ -206,7 +206,7 @@ class Twitch extends Social {
       }
       const prom = [];
       const realChannels = this.getRealParams('channels', channelLinks, doTask,
-        (link) => link.match(/https:\/\/www\.twitch\.tv\/(.+)/)?.[1]);
+        (link) => link.match(/https:\/\/(www\.)?twitch\.tv\/(.+)/)?.[2]);
       if (realChannels.length > 0) {
         for (const channel of realChannels) {
           prom.push(this.#toggleChannel({ name: channel, doTask }));
