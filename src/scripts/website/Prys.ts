@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 20:22:33
- * @LastEditTime : 2021-11-18 11:10:37
+ * @LastEditTime : 2021-11-20 16:21:26
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Prys.ts
  * @Description  :
@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 import Website from './Website';
 import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
-import getI18n from '../i18n/i18n';
+import __ from '../tools/i18n';
 import { getRedirectLink } from '../tools/tools';
 
 declare function checkClick(prarm: number): void
@@ -72,7 +72,7 @@ class Prys extends Website {
 
   async classifyTask(action: string): Promise<boolean> { // todo
     try {
-      const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('getTasksInfo')}<font></font></li>` });
+      const logStatus = echoLog({ type: 'custom', text: `<li>${__('getTasksInfo')}<font></font></li>` });
       // todo
       this.socialTasks = GM_getValue<prysSocialTasks>(`prysTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
 
@@ -122,7 +122,7 @@ class Prys extends Website {
 
   async verifyTask(): Promise<void> { // todo
     try {
-      echoLog({ type: 'custom', text: `<li>${getI18n('verifyingTask')}...<font></font></li>` });
+      echoLog({ type: 'custom', text: `<li>${__('verifyingTask')}...<font></font></li>` });
       const pro = [];
       const checks = $('#steps tbody a[id^=check]');
       if (checks.length > 0) {
@@ -134,15 +134,15 @@ class Prys extends Website {
             ?.prev()
             ?.html()
             ?.trim();
-          const status = echoLog({ type: 'custom', text: `<li>${getI18n('verifyingTask')}${taskDes}...<font></font></li>` });
+          const status = echoLog({ type: 'custom', text: `<li>${__('verifyingTask')}${taskDes}...<font></font></li>` });
           pro.push(new Promise((resolve) => {
             this.#checkStep(id, resolve, status);
           }));
         }
         await Promise.all(pro);
-        echoLog({ type: 'custom', text: `<li><font class="success">${getI18n('prysAllTasksComplete')}</font></li>` });
+        echoLog({ type: 'custom', text: `<li><font class="success">${__('prysAllTasksComplete')}</font></li>` });
       } else {
-        echoLog({ type: 'custom', text: `<li><font class="success">${getI18n('prysAllTasksComplete')}</font></li>` });
+        echoLog({ type: 'custom', text: `<li><font class="success">${__('prysAllTasksComplete')}</font></li>` });
       }
     } catch (error) {
       throwError(error as Error, 'Prys.verifyTask');
@@ -156,7 +156,7 @@ class Prys extends Website {
         this.giveawayId = giveawayId;
         return true;
       }
-      echoLog({ type: 'custom', text: `<li><font class="error">${getI18n('getGiveawayIdFailed')}</font></li>` });
+      echoLog({ type: 'custom', text: `<li><font class="error">${__('getGiveawayIdFailed')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Prys.getGiveawayId');
@@ -170,10 +170,10 @@ class Prys extends Website {
       if (leftKey === '0') {
         await Swal.fire({
           icon: 'warning',
-          title: getI18n('notice'),
-          text: getI18n('noKeysLeft'),
-          confirmButtonText: getI18n('confirm'),
-          cancelButtonText: getI18n('cancel'),
+          title: __('notice'),
+          text: __('noKeysLeft'),
+          confirmButtonText: __('confirm'),
+          cancelButtonText: __('cancel'),
           showCancelButton: true
         }).then(({ value }) => {
           if (value) {

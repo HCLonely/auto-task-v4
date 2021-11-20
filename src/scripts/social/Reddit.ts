@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-30 09:43:32
- * @LastEditTime : 2021-11-08 11:01:53
+ * @LastEditTime : 2021-11-20 16:17:42
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Reddit.ts
  * @Description  : Reddit 订阅&取消订阅
@@ -11,7 +11,7 @@ import Social from './Social';
 import echoLog from '../echoLog';
 import throwError from '../tools/throwError';
 import httpRequest from '../tools/httpRequest';
-import getI18n from '../i18n/i18n';
+import __ from '../tools/i18n';
 import { unique, delay } from '../tools/tools';
 
 const defaultTasks: redditTasks = { reddits: [] };
@@ -71,7 +71,7 @@ class Reddit extends Social {
       });
       if (result === 'Success') {
         if (data?.responseText.includes('www.reddit.com/login/')) {
-          logStatus.error(`Error:${getI18n('loginReddit')}`, true);
+          logStatus.error(`Error:${__('loginReddit')}`, true);
           return false;
         }
         if (data?.status === 200) {

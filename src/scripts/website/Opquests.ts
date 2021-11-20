@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-18 13:31:23
- * @LastEditTime : 2021-11-18 14:09:54
+ * @LastEditTime : 2021-11-20 16:21:20
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Opquests.ts
  * @Description  :
@@ -10,7 +10,7 @@
 import Website from './Website';
 import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
-import getI18n from '../i18n/i18n';
+import __ from '../tools/i18n';
 
 interface oqSocialTasks {
   steam: {
@@ -69,7 +69,7 @@ class Opquests extends Website {
         echoLog({ type: 'custom', text: '<li>此网站不支持取消任务<font></font></li>' });
         return false;
       }
-      const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('getTasksInfo')}<font></font></li>` });
+      const logStatus = echoLog({ type: 'custom', text: `<li>${__('getTasksInfo')}<font></font></li>` });
 
       const tasks = $('.w-full:contains("Validate") .items-center');
       for (const task of tasks) {
@@ -93,7 +93,7 @@ class Opquests extends Website {
         } else if (/store\.steampowered\.com\/(publisher|developer)\//.test(link) && /follow/gim.test(taskDes)) {
           this.undoneTasks.steam.curatorLikeLinks.push(link);
         } else {
-          echoLog({ type: 'custom', text: `<li>${getI18n('unknownTaskType', `${taskDes}(${link})`)}<font></font></li>` });
+          echoLog({ type: 'custom', text: `<li>${__('unknownTaskType', `${taskDes}(${link})`)}<font></font></li>` });
         }
       }
 
@@ -114,7 +114,7 @@ class Opquests extends Website {
         this.giveawayId = giveawayId;
         return true;
       }
-      echoLog({ type: 'custom', text: `<li><font class="error">${getI18n('getGiveawayIdFailed')}</font></li>` });
+      echoLog({ type: 'custom', text: `<li><font class="error">${__('getGiveawayIdFailed')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Opquests.getGiveawayId');

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2021-11-18 11:10:20
+ * @LastEditTime : 2021-11-20 16:20:52
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
  * @Description  :
@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 import Website from './Website';
 import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
-import getI18n from '../i18n/i18n';
+import __ from '../tools/i18n';
 import { getRedirectLink } from '../tools/tools';
 
 interface khSocialTasks {
@@ -81,7 +81,7 @@ class Keyhub extends Website {
 
   async classifyTask(action: string): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('getTasksInfo')}<font></font></li>` });
+      const logStatus = echoLog({ type: 'custom', text: `<li>${__('getTasksInfo')}<font></font></li>` });
       // todo
       this.socialTasks = GM_getValue<khSocialTasks>(`khTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
 
@@ -111,7 +111,7 @@ class Keyhub extends Website {
           if (action === 'undo') this.socialTasks.discord.serverLinks.push(link);
           if (action === 'do') this.undoneTasks.discord.serverLinks.push(link);
         } else {
-          echoLog({ type: 'custom', text: `<li>${getI18n('unknownTaskType', `${taskDes}(${link})`)}<font></font></li>` });
+          echoLog({ type: 'custom', text: `<li>${__('unknownTaskType', `${taskDes}(${link})`)}<font></font></li>` });
         }
       }
 
@@ -128,7 +128,7 @@ class Keyhub extends Website {
 
   verifyTask(): void {
     try {
-      echoLog({ type: 'custom', text: `<li>${getI18n('verifyingTask')}...<font></font></li>` });
+      echoLog({ type: 'custom', text: `<li>${__('verifyingTask')}...<font></font></li>` });
       $.get(window.location.href, (res) => {
         VerifyTasks(res.match(/onclick="javascript:VerifyTasks\('(.*?)'\)"/)[1]); // eslint-disable-line new-cap
       });
@@ -144,7 +144,7 @@ class Keyhub extends Website {
         this.giveawayId = giveawayId;
         return true;
       }
-      echoLog({ type: 'custom', text: `<li><font class="error">${getI18n('getGiveawayIdFailed')}</font></li>` });
+      echoLog({ type: 'custom', text: `<li><font class="error">${__('getGiveawayIdFailed')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Keyhub.getGiveawayId');
@@ -158,10 +158,10 @@ class Keyhub extends Website {
       if (leftKey === '0') {
         await Swal.fire({
           icon: 'warning',
-          title: getI18n('notice'),
-          text: getI18n('noKeysLeft'),
-          confirmButtonText: getI18n('confirm'),
-          cancelButtonText: getI18n('cancel'),
+          title: __('notice'),
+          text: __('noKeysLeft'),
+          confirmButtonText: __('confirm'),
+          cancelButtonText: __('cancel'),
           showCancelButton: true
         }).then(({ value }) => {
           if (value) {

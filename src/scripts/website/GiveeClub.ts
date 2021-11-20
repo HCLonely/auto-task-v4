@@ -1,21 +1,21 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 11:46:52
- * @LastEditTime : 2021-11-18 11:10:14
+ * @LastEditTime : 2021-11-20 16:20:04
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/GiveeClub.ts
  * @Description  :
  */
-/* global giveeClub */
+
 // eslint-disable-next-line
 /// <reference path = "GiveawaySu.d.ts" />
 
 import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
-import getI18n from '../i18n/i18n';
+import __ from '../tools/i18n';
 import { getRedirectLink } from '../tools/tools';
 import { GiveawaySu, defaultTasks } from './GiveawaySu';
-
+/*
 declare const giveeClub: {
   locale: string
   localeLink: (url: string) => string
@@ -31,6 +31,7 @@ interface verifyData {
   timestamp: number
   wait: number
 }
+*/
 
 class GiveeClub extends GiveawaySu {
   static test(): boolean {
@@ -63,7 +64,7 @@ class GiveeClub extends GiveawaySu {
   }
   async classifyTask(): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('getTasksInfo')}<font></font></li>` });
+      const logStatus = echoLog({ type: 'custom', text: `<li>${__('getTasksInfo')}<font></font></li>` });
       // todo
       this.socialTasks = GM_getValue<gasSocialTasks>(`gcTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
 
@@ -175,7 +176,7 @@ class GiveeClub extends GiveawaySu {
   /*
   async #verify(data: verifyData, button: JQuery) {
     try {
-      const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('verifyingTask')}${data.id}...<font></font></li>` });
+      const logStatus = echoLog({ type: 'custom', text: `<li>${__('verifyingTask')}${data.id}...<font></font></li>` });
 
       return await new Promise((resolve) => {
         $.ajax({
@@ -225,7 +226,7 @@ class GiveeClub extends GiveawaySu {
       this.giveawayId = giveawayId;
       return true;
     }
-    echoLog({ type: 'custom', text: `<li><font class="error">${getI18n('getGiveawayIdFailed')}</font></li>` });
+    echoLog({ type: 'custom', text: `<li><font class="error">${__('getGiveawayIdFailed')}</font></li>` });
     return false;
   }
 }

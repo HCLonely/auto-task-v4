@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-29 12:54:16
- * @LastEditTime : 2021-11-08 11:01:43
+ * @LastEditTime : 2021-11-20 16:17:15
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Instagram.ts
  * @Description  : Instagram 关注&取关用户
@@ -11,8 +11,8 @@ import Social from './Social';
 import echoLog from '../echoLog';
 import throwError from '../tools/throwError';
 import httpRequest from '../tools/httpRequest';
-import getI18n from '../i18n/i18n';
 import { unique, delay } from '../tools/tools';
+import __ from '../tools/i18n';
 
 const defaultTasks: instagramTasks = { users: [] };
 class Instagram extends Social {
@@ -23,6 +23,10 @@ class Instagram extends Social {
   #initialized = false;
 
   async init(): Promise<boolean> {
+    /**
+     * @description: 验证及获取Auth
+     * @return true: 初始化完成 | false: 初始化失败，toggle方法不可用
+     */
     try {
       if (this.#initialized) {
         return true;
@@ -42,6 +46,13 @@ class Instagram extends Social {
   }
 
   async #getUserInfo(name = 'instagram'): Promise<string | boolean> {
+    /**
+     * @internal
+     * @description 获取用户id, name === 'instagram'时验证Auth
+     * @param {string} name instagram用户名
+     * @return name === 'instagram' 时返回 true: Token有效 | false: Token失效
+     * @return name !== 'instagram' 时返回 string: instagram用户id | false: 获取用户id失败
+     */
     try {
       const logStatus = echoLog({ type: name === 'instagram' ? 'getInsInfo' : 'getInsUserId', text: name });
       const userId = this.#cache[name];
@@ -55,10 +66,10 @@ class Instagram extends Social {
       });
       if (result === 'Success') {
         if (data?.finalUrl.includes('accounts/login')) {
-          logStatus.error(`Error:${getI18n('loginIns')}`, true);
+          logStatus.error(`Error:${__('loginIns')}`, true);
           return false;
         } else if (data?.finalUrl.includes('www.instagram.com/challenge')) {
-          logStatus.error(`Error:${getI18n('insBanned')}`);
+          logStatus.error(`Error:${__('insBanned')}`);
           return false;
         }
         if (data?.status === 200) {
@@ -93,6 +104,12 @@ class Instagram extends Social {
   }
 
   async #followUser(name: string): Promise<boolean> {
+    /**
+     * @internal
+     * @description 关注instagram用户
+     * @param name: instagram用户名
+     * @return true: 关注成功 | false: 关注失败
+     */
     try {
       const id: string | boolean = await this.#getUserInfo(name);
       if (!id) return false;
@@ -128,6 +145,12 @@ class Instagram extends Social {
   }
 
   async #unfollowUser(name: string): Promise<boolean> {
+    /**
+     * @internal
+     * @description 取关instagram用户
+     * @param name: instagram用户名
+     * @return true: 取关成功 | false: 取关失败
+     */
     try {
       if (this.whiteList.users.includes(name)) {
         // TODO: 直接echo
@@ -166,7 +189,6 @@ class Instagram extends Social {
     }
   }
 
-  // 改成处理任务
   async toggle({
     doTask = true,
     userLinks = []
@@ -174,6 +196,11 @@ class Instagram extends Social {
     doTask: boolean,
     userLinks?: Array<string>
     }): Promise<boolean> {
+    /**
+     * @description 公有方法，统一处理Instagram相关任务
+     * @param {boolean} doTask true: 做任务 | false: 取消任务
+     * @param {?Array} serverLinks Instagram用户链接数组。注意: 不接受用户名数组
+     */
     try {
       if (!this.#initialized) {
         echoLog({ type: 'text', text: '请先初始化' });
@@ -200,6 +227,11 @@ class Instagram extends Social {
     }
   }
   #setCache(name: string, id: string): void {
+    /**
+     * @internal
+     * @description 缓存{name}与{id}的对应关系
+     * @return {void}
+     */
     try {
       this.#cache[name] = id;
       GM_setValue('instagramCache', this.#cache); // eslint-disable-line new-cap

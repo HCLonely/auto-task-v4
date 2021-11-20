@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-15 13:58:41
- * @LastEditTime : 2021-11-17 10:32:23
+ * @LastEditTime : 2021-11-20 16:21:14
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Keylol.ts
  * @Description  :
@@ -15,7 +15,6 @@
 /// <reference path = "Keylol.d.ts" />
 
 import throwError from '../tools/throwError';
-import echoLog from '../echoLog';
 import Website from './Website';
 
 const defaultTasks: keylolSocialTasks = {

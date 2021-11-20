@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 17:22:20
- * @LastEditTime : 2021-11-17 10:32:32
+ * @LastEditTime : 2021-11-20 16:21:03
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/OpiumPulses.ts
  * @Description  :
@@ -10,7 +10,7 @@
 // todo: 未测试
 import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
-import getI18n from '../i18n/i18n';
+import __ from '../tools/i18n';
 import httpRequest from '../tools/httpRequest';
 
 declare function checkUser(params:string): void
@@ -57,12 +57,12 @@ class OpiumPulses {
           .text()
           .match(/[\d]+/gim)?.[0] || '999999', 10);
         if (type === 'points' && needPoints > this.myPoints) {
-          echoLog({ type: 'custom', text: `<li><font class="warning">${getI18n('noPoints')}</font></li>` });
+          echoLog({ type: 'custom', text: `<li><font class="warning">${__('noPoints')}</font></li>` });
         } else if (type === 'points' && !needPoints) {
-          echoLog({ type: 'custom', text: `<li><font class="warning">${getI18n('getNeedPointsFailed')}</font></li>` });
+          echoLog({ type: 'custom', text: `<li><font class="warning">${__('getNeedPointsFailed')}</font></li>` });
         } else if (!(type === 'points' && needPoints > this.maxPoints)) {
           const logStatus = echoLog({ type: 'custom',
-            text: `<li>${getI18n('joinLottery')}<a href="${$(item).find('a.giveaways-page-item-img-btn-more')
+            text: `<li>${__('joinLottery')}<a href="${$(item).find('a.giveaways-page-item-img-btn-more')
               .attr('href')}" target="_blank">${$(item).find('.giveaways-page-item-footer-name')
               .text()
               .trim()}</a>...<font></font></li>` });
@@ -84,7 +84,7 @@ class OpiumPulses {
               logStatus.success();
               const points = data.responseText.match(/Points:[\s]*?([\d]+)/)?.[1];
               if (type === 'points' && points) {
-                // if (debug) console.log(getI18n('pointsLeft') + points);
+                // if (debug) console.log(__('pointsLeft') + points);
                 this.myPoints = parseInt(points, 10);
               }
             } else {

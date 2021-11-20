@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2021-11-18 13:28:36
+ * @LastEditTime : 2021-11-20 15:10:56
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
@@ -231,7 +231,7 @@ class Discord extends Social {
   }): Promise<boolean> {
     /**
      * @description 公有方法，统一处理Discord相关任务
-     * @param {boolean} doTask true: 做任务 | false: 取消做任务
+     * @param {boolean} doTask true: 做任务 | false: 取消任务
      * @param {?Array} serverLinks Discord服务器邀请链接数组。注意: 不接受邀请id数组
      */
     try {

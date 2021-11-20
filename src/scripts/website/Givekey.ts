@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-13 17:57:40
- * @LastEditTime : 2021-11-18 11:09:56
+ * @LastEditTime : 2021-11-20 16:20:34
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Givekey.ts
  * @Description  :
@@ -11,7 +11,7 @@
 import Swal from 'sweetalert2';
 import Website from './Website';
 import echoLog from '../echoLog';
-import getI18n from '../i18n/i18n';
+import __ from '../tools/i18n';
 import { delay, getRedirectLink, unique } from '../tools/tools';
 import throwError from '../tools/throwError';
 
@@ -87,7 +87,7 @@ class Givekey extends Website {
 
   async classifyTask(action: 'do' | 'undo' | 'verify'): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('getTasksInfo')}<font></font></li>` });
+      const logStatus = echoLog({ type: 'custom', text: `<li>${__('getTasksInfo')}<font></font></li>` });
       // todo
       this.socialTasks = GM_getValue<gkSocialTasks>(`gkTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
 
@@ -136,7 +136,7 @@ class Givekey extends Website {
           this.socialTasks.discord.serverLinks.push(href);
           if (action === 'do' && !isSuccess) this.undoneTasks.discord.serverLinks.push(href);
         } else {
-          echoLog({ type: 'custom', text: `<li>${getI18n('unknownTaskType', `${text}(${href})`)}<font></font></li>` });
+          echoLog({ type: 'custom', text: `<li>${__('unknownTaskType', `${text}(${href})`)}<font></font></li>` });
         }
       }
 
@@ -175,7 +175,7 @@ class Givekey extends Website {
   }
   async #verify(task: string): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('verifyingTask')}${task}...<font></font></li>` });
+      const logStatus = echoLog({ type: 'custom', text: `<li>${__('verifyingTask')}${task}...<font></font></li>` });
 
       return await new Promise((resolve) => {
         $.ajax({
@@ -219,7 +219,7 @@ class Givekey extends Website {
         this.giveawayId = giveawayId;
         return true;
       }
-      echoLog({ type: 'custom', text: `<li><font class="error">${getI18n('getGiveawayIdFailed')}</font></li>` });
+      echoLog({ type: 'custom', text: `<li><font class="error">${__('getGiveawayIdFailed')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Getkey.getGiveawayId');
@@ -231,10 +231,10 @@ class Givekey extends Website {
       if (!$('#keys_count').text()) {
         Swal.fire({
           icon: 'warning',
-          title: getI18n('notice'),
-          text: getI18n('noKeysLeft'),
-          confirmButtonText: getI18n('confirm'),
-          cancelButtonText: getI18n('cancel'),
+          title: __('notice'),
+          text: __('noKeysLeft'),
+          confirmButtonText: __('confirm'),
+          cancelButtonText: __('cancel'),
           showCancelButton: true
         }).then(({ value }) => {
           if (value) {

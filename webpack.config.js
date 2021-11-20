@@ -2,7 +2,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 16:22:46
- * @LastEditTime : 2021-11-05 11:14:39
+ * @LastEditTime : 2021-11-20 17:11:54
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/webpack.config.js
  * @Description  :
@@ -45,7 +45,6 @@ module.exports = {
           }, {
             loader: 'ts-loader',
             options: {
-              // 指定特定的ts编译配置，为了区分脚本的ts配置
               configFile: path.resolve(__dirname, './tsconfig.json')
             }
           }

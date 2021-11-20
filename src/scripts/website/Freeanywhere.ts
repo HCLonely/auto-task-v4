@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:03
- * @LastEditTime : 2021-11-18 11:10:03
+ * @LastEditTime : 2021-11-20 16:19:51
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/freeanywhere.ts
  * @Description  : https://freeanywhere.net
@@ -14,7 +14,7 @@ import * as Cookies from 'js-cookie';
 import Website from './Website';
 import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
-import getI18n from '../i18n/i18n';
+import __ from '../tools/i18n';
 import httpRequest from '../tools/httpRequest';
 import { delay } from '../tools/tools';
 
@@ -47,7 +47,7 @@ class FreeAnyWhere extends Website {
         return false;
       }
       if (window.location.href.includes('/login')) {
-        echoLog({ type: 'custom', text: `<li><font class="error">${getI18n('needLogin')}</font></li>` });
+        echoLog({ type: 'custom', text: `<li><font class="error">${__('needLogin')}</font></li>` });
         logStatus.warning('请先登录');
         return false;
       }
@@ -70,7 +70,7 @@ class FreeAnyWhere extends Website {
   }
   async classifyTask(action: string) {
     try {
-      const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('getTasksInfo')}<font></font></li>` });
+      const logStatus = echoLog({ type: 'custom', text: `<li>${__('getTasksInfo')}<font></font></li>` });
       // todo
       this.socialTasks = GM_getValue<fawSocialTasks>(`fawTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
 
@@ -175,7 +175,7 @@ class FreeAnyWhere extends Website {
     }
   }
   async getKey(): Promise<void> {
-    const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('gettingKey')}...<font></font></li>` });
+    const logStatus = echoLog({ type: 'custom', text: `<li>${__('gettingKey')}...<font></font></li>` });
     const { result, statusText, status, data } = await httpRequest({
       url: `https://freeanywhere.net/api/v1/giveaway/${this.giveawayId}/reward/?format=json`,
       method: 'GET',
@@ -203,7 +203,7 @@ class FreeAnyWhere extends Website {
         this.giveawayId = giveawayId;
         return true;
       }
-      echoLog({ type: 'custom', text: `<li><font class="error">${getI18n('getGiveawayIdFailed')}</font></li>` });
+      echoLog({ type: 'custom', text: `<li><font class="error">${__('getGiveawayIdFailed')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Keyhub.getGiveawayId');
@@ -211,7 +211,7 @@ class FreeAnyWhere extends Website {
   }
   async #verify(task: fawTaskInfo): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('verifyingTask')}${task.title.trim()}...<font></font></li>` });
+      const logStatus = echoLog({ type: 'custom', text: `<li>${__('verifyingTask')}${task.title.trim()}...<font></font></li>` });
 
       const { result, statusText, status, data } = await httpRequest({
         url: `https://freeanywhere.net/api/v1/giveaway/${this.giveawayId}/challenge-status/${task.id}/?format=json`,

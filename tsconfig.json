@@ -11,7 +11,9 @@
     "target": "esnext", // 转化成的目标语言
     "baseUrl": "./",
     "allowJs": true,
-    "downlevelIteration":true
+    "downlevelIteration":true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "src/**/*.ts"

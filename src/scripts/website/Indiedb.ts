@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 14:37:33
- * @LastEditTime : 2021-11-17 10:31:35
+ * @LastEditTime : 2021-11-20 16:20:46
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Indiedb.ts
  * @Description  :
@@ -10,7 +10,7 @@
 // todo: 未测试
 import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
-import getI18n from '../i18n/i18n';
+import __ from '../tools/i18n';
 import { getUrlQuery } from '../tools/tools';
 import httpRequest from '../tools/httpRequest';
 
@@ -43,12 +43,12 @@ class Indiedb {
   async #join(): Promise<boolean> {
     try {
       if ($('a.buttonenter:contains(Register to join)').length > 0) {
-        echoLog({ type: 'custom', text: `<li><font class="error">${getI18n('needLogin')}</font></li>` });
+        echoLog({ type: 'custom', text: `<li><font class="error">${__('needLogin')}</font></li>` });
         return false;
       }
       const currentoption = $('a.buttonenter.buttongiveaway');
       if (/join giveaway/gim.test(currentoption.text())) {
-        const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('joinGiveaway')}<font></font></li>` });
+        const logStatus = echoLog({ type: 'custom', text: `<li>${__('joinGiveaway')}<font></font></li>` });
         const { result, statusText, status, data } = await httpRequest({
           url: currentoption.attr('href') as string,
           method: 'POST',
@@ -80,7 +80,7 @@ class Indiedb {
       } else if (/success/gim.test($('a.buttonenter.buttongiveaway').text())) {
         return true;
       }
-      echoLog({ type: 'custom', text: `<li><font class="error">${getI18n('needJoinGiveaway')}</font></li>` });
+      echoLog({ type: 'custom', text: `<li><font class="error">${__('needJoinGiveaway')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Indiedb.init');
@@ -104,7 +104,7 @@ class Indiedb {
         for (const task of tasks) {
           const promo = $(task);
           if (!promo.hasClass('buttonentered')) {
-            const status = echoLog({ type: 'custom', text: `<li>${getI18n('doing')}:${promo.parents('p').text()}...<font></font></li>` });
+            const status = echoLog({ type: 'custom', text: `<li>${__('doing')}:${promo.parents('p').text()}...<font></font></li>` });
             if (/facebookpromo|twitterpromo|visitpromo/gim.test(task.className)) {
               let text = '';
               if (promo.hasClass('facebookpromo')) {
@@ -229,15 +229,15 @@ class Indiedb {
                 });
               }));
             } else {
-              status.error(`Error:${getI18n('unknowntype')}`);
+              status.error(`Error:${__('unknowntype')}`);
             }
           }
         }
         await Promise.all(pro);
-        echoLog({ type: 'custom', text: `<li><font class="warning">${getI18n('allTasksComplete')}</font></li>` });
+        echoLog({ type: 'custom', text: `<li><font class="warning">${__('allTasksComplete')}</font></li>` });
         return true;
       }
-      echoLog({ type: 'custom', text: `<li><font class="error">${getI18n('getIdFailed')}</font></li>` });
+      echoLog({ type: 'custom', text: `<li><font class="error">${__('getIdFailed')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Indiedb.classifyTask');

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2021-11-19 10:04:00
+ * @LastEditTime : 2021-11-20 16:19:58
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.ts
  * @Description  :
@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 import Website from './Website';
 import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
-import getI18n from '../i18n/i18n';
+import __ from '../tools/i18n';
 import { getRedirectLink } from '../tools/tools';
 
 const defaultTasks: gasSocialTasks = {
@@ -87,7 +87,7 @@ class GiveawaySu extends Website {
   }
   async classifyTask(): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('getTasksInfo')}<font></font></li>` });
+      const logStatus = echoLog({ type: 'custom', text: `<li>${__('getTasksInfo')}<font></font></li>` });
       // todo
       this.socialTasks = GM_getValue<gasSocialTasks>(`gasTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
 
@@ -188,10 +188,10 @@ class GiveawaySu extends Website {
       if ($('.giveaway-ended').length > 0) {
         await Swal.fire({
           icon: 'warning',
-          title: getI18n('notice'),
-          text: getI18n('noKeysLeft'),
-          confirmButtonText: getI18n('confirm'),
-          cancelButtonText: getI18n('cancel'),
+          title: __('notice'),
+          text: __('noKeysLeft'),
+          confirmButtonText: __('confirm'),
+          cancelButtonText: __('cancel'),
           showCancelButton: true
         }).then(({ value }) => {
           if (value) {
@@ -212,7 +212,7 @@ class GiveawaySu extends Website {
       this.giveawayId = giveawayId;
       return true;
     }
-    echoLog({ type: 'custom', text: `<li><font class="error">${getI18n('getGiveawayIdFailed')}</font></li>` });
+    echoLog({ type: 'custom', text: `<li><font class="error">${__('getGiveawayIdFailed')}</font></li>` });
     return false;
   }
 }

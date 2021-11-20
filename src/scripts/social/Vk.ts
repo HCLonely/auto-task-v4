@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 11:47:59
- * @LastEditTime : 2021-11-05 14:25:26
+ * @LastEditTime : 2021-11-20 16:18:17
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Vk.ts
  * @Description  : Vk 加入/退出群组，关注/取关用户，转发/取消转发动态
@@ -11,7 +11,7 @@ import Social from './Social';
 import echoLog from '../echoLog';
 import throwError from '../tools/throwError';
 import httpRequest from '../tools/httpRequest';
-import getI18n from '../i18n/i18n';
+import __ from '../tools/i18n';
 import { unique, delay } from '../tools/tools';
 
 interface dataParams {
@@ -61,7 +61,7 @@ class Vk extends Social {
       });
       if (result === 'Success') {
         if (data?.finalUrl.includes('vk.com/login')) {
-          logStatus.error(`Error:${getI18n('loginVk')}`, true);
+          logStatus.error(`Error:${__('loginVk')}`, true);
           return false;
         }
         if (data?.status === 200) {

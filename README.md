@@ -20,7 +20,7 @@ https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task.user.js
 - [ ] 变量初始化
 - [ ] 任务历史
 - [x] 白名单
-- [ ] 函数注释
+- [-] 函数注释
 - [ ] 不同阶段注册函数
 - [x] 需要登录
 - [ ] 任务识别修改
@@ -50,3 +50,4 @@ https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task.user.js
 - [ ] 不能取消的task
 - [ ] 社交账号更新凭证时如果没登录会提示更新失败，登陆后需要重新更新
 - [ ] Opquests网站不支持取消任务
+- [ ] ins封禁说明

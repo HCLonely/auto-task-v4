@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2021-11-19 16:32:10
+ * @LastEditTime : 2021-11-20 16:20:40
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  :
@@ -10,7 +10,7 @@
 import Website from './Website';
 import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
-import getI18n from '../i18n/i18n';
+import __ from '../tools/i18n';
 
 interface gleamSocialTasks {
   steam: {
@@ -80,7 +80,7 @@ class Gleam extends Website {
 
   async classifyTask(action: 'do' | 'undo'): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'custom', text: `<li>${getI18n('getTasksInfo')}<font></font></li>` });
+      const logStatus = echoLog({ type: 'custom', text: `<li>${__('getTasksInfo')}<font></font></li>` });
       this.socialTasks = GM_getValue<gleamSocialTasks>(`gleamTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
 
       const tasks = $('.entry-content .entry-method');
@@ -174,7 +174,7 @@ class Gleam extends Website {
         this.giveawayId = giveawayId;
         return true;
       }
-      echoLog({ type: 'custom', text: `<li><font class="error">${getI18n('getGiveawayIdFailed')}</font></li>` });
+      echoLog({ type: 'custom', text: `<li><font class="error">${__('getGiveawayIdFailed')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Gleam.getGiveawayId');

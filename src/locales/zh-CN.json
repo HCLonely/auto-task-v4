@@ -1,0 +1,10 @@
+{
+  "loginIns":"请先<a href=\"https://www.instagram.com/accounts/login/\">登录Instagram</a>",
+  "insBanned": "您的Instagram账户已被封禁",
+  "loginReddit": "请先<a href=\"https://www.reddit.com/login/\">登录Reddit</a>",
+  "loginSteamStore": "请先<a href=\"https://store.steampowered.com/login/\">登录Steam商店</a>",
+  "loginSteamCommunity": "请先<a href=\"https://steamcommunity.com/login/home/\">登录Steam社区</a>",
+  "loginVk": "请先<a href=\"https://vk.com/login/\">登录Vk</a>",
+  "loginYtb": "请先<a href=\"https://accounts.google.com/ServiceLogin?service=youtube\">登录YouTube</a>",
+  "tryUpdateYtbAuth": "请尝试<a href=\"https://www.youtube.com/#auth\">更新YouTube凭证</a>"
+}

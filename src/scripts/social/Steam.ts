@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2021-11-18 11:02:16
+ * @LastEditTime : 2021-11-20 16:18:01
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -15,7 +15,7 @@ import Social from './Social';
 import echoLog from '../echoLog';
 import throwError from '../tools/throwError';
 import httpRequest from '../tools/httpRequest';
-import getI18n from '../i18n/i18n';
+import __ from '../tools/i18n';
 import { unique, delay } from '../tools/tools';
 
 const defaultTasks: steamTasks = {
@@ -73,7 +73,7 @@ class Steam extends Social {
       if (result === 'Success') {
         if (data?.status === 200) {
           if (data.responseText.includes('href="https://store.steampowered.com/login/')) {
-            logStatus.error(`Error:${getI18n('loginSteamStore')}`, true);
+            logStatus.error(`Error:${__('loginSteamStore')}`, true);
             return false;
           }
           const storeSessionID = data.responseText.match(/g_sessionID = "(.+?)";/)?.[1];
@@ -106,7 +106,7 @@ class Steam extends Social {
       if (result === 'Success') {
         if (data?.status === 200) {
           if (data.responseText.includes('href="https://steamcommunity.com/login/home/')) {
-            logStatus.error(`Error:${getI18n('loginSteamCommunity')}`, true);
+            logStatus.error(`Error:${__('loginSteamCommunity')}`, true);
             return false;
           }
           const steam64Id = data.responseText.match(/g_steamID = "(.+?)";/)?.[1];

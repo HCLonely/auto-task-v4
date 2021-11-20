@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 12:18:06
- * @LastEditTime : 2021-11-08 13:38:54
+ * @LastEditTime : 2021-11-20 17:06:16
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Youtube.ts
  * @Description  : Youtube 订阅/取消订阅频道，点赞/取消点赞视频
@@ -14,7 +14,7 @@ import Social from './Social';
 import echoLog from '../echoLog';
 import throwError from '../tools/throwError';
 import httpRequest from '../tools/httpRequest';
-import getI18n from '../i18n/i18n';
+import __ from '../tools/i18n';
 import { unique, delay } from '../tools/tools';
 
 const defaultTasks: youtubeTasks = { channels: [], likes: [] };
@@ -109,7 +109,7 @@ class Youtube extends Social {
       if (result === 'Success') {
         if (data?.status === 200) {
           if (data.responseText.includes('accounts.google.com/ServiceLogin?service=youtube')) {
-            logStatus.error(`Error:${getI18n('loginYtb')}`, true);
+            logStatus.error(`Error:${__('loginYtb')}`, true);
             return { needLogin: true };
           }
           const apiKey = data.responseText.match(/"INNERTUBE_API_KEY":"(.*?)"/)?.[1];
@@ -163,7 +163,7 @@ class Youtube extends Social {
       const { apiKey, client, request, channelId } = params || {};
 
       if (needLogin) {
-        echoLog({ type: 'custom', text: getI18n('loginYtb') });
+        echoLog({ type: 'custom', text: __('loginYtb') });
         return false;
       }
       if (!(apiKey && client && request && channelId)) {
@@ -221,7 +221,7 @@ class Youtube extends Social {
             }
             return true;
           }
-          logStatus.error(getI18n('tryUpdateYtbAuth'), true);
+          logStatus.error(__('tryUpdateYtbAuth'), true);
           return false;
         }
         logStatus.error(`Error:${data?.statusText}(${data?.status})`);
@@ -241,7 +241,7 @@ class Youtube extends Social {
       const { apiKey, client, request, videoId, likeParams } = params || {};
 
       if (needLogin) {
-        echoLog({ type: 'text', text: `${getI18n('loginYtb')}` });
+        echoLog({ type: 'text', text: `${__('loginYtb')}` });
         return false;
       }
 
@@ -306,7 +306,7 @@ class Youtube extends Social {
             if (doTask) this.tasks.likes = unique([...this.tasks.likes, link]);
             return true;
           }
-          logStatus.error(getI18n('tryUpdateYtbAuth'), true);
+          logStatus.error(__('tryUpdateYtbAuth'), true);
           return false;
         }
         logStatus.error(`Error:${data?.statusText}(${data?.status})`);
