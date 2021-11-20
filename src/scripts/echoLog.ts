@@ -9,134 +9,143 @@
 import throwError from './tools/throwError';
 import __ from './tools/i18n';
 
-const echoLog = ({ type = 'text', text, url, id }: { type?: string, text?: string, url?: string, id?: string }): logStatus => {
+const echoLog = ({ type = 'text', text, html, url, id }: { type?: string, text?: string, html?: string, url?: string, id?: string }): logStatus => {
+  const emptyStatus = {
+    success: () => emptyStatus,
+    error: () => emptyStatus,
+    warning: () => emptyStatus,
+    info: () => emptyStatus,
+    view: () => emptyStatus
+  };
   try {
     let ele: JQuery;
-    switch (type) {
-    case 'updateSteamCommunity':
-      ele = $(`<li>${__('updateCommunityId')}<font></font></li>`);
-      break;
-    case 'updateSteamStore':
-      ele = $(`<li>${__('updateStoreId')}<font></font></li>`);
-      break;
-    case 'joinSteamGroup':
-    case 'leaveSteamGroup':
-    case 'getSteamGroupId':
-      ele = $(`<li>${__(type)}<a href="https://steamcommunity.com/groups/${text}" target="_blank">${text}</a>...<font></font></li>`);
-      break;
-    case 'subscribeForum':
-    case 'unsubscribeForum':
-    case 'getForumId':
-      ele = $(`<li>${__(type)}<a href="https://steamcommunity.com/app/${text}/discussions/" target="_blank">${text}</a>...<font></font></li>`);
-      break;
-    case 'followCurator':
-    case 'unfollowCurator':
-    case 'getCuratorId':
-      ele = $(`<li>${__(type)}<a href="https://store.steampowered.com/${
-        text?.includes('/') ? text : `curator/${text}`
-      }" target="_blank">${text}</a>...<font></font></li>`);
-      break;
-    case 'getDeveloperId':
-    case 'followDeveloper':
-    case 'unfollowDeveloper':
-      ele = $(`<li>${__(type)}<a href="https://store.steampowered.com/developer/${text}" target="_blank">${text}</a>...<font></font></li>`);
-      break;
-    case 'getPublisherId':
-    case 'followPublisher':
-    case 'unfollowPublisher':
-      ele = $(`<li>${__(type)}<a href="https://store.steampowered.com/publisher/${text}" target="_blank">${text}</a>...<font></font></li>`);
-      break;
-    case 'getFranchiseId':
-    case 'followFranchise':
-    case 'unfollowFranchise':
-      ele = $(`<li>${__(type)}<a href="https://store.steampowered.com/franchise/${text}" target="_blank">${text}</a>...<font></font></li>`);
-      break;
-    case 'addWishlist':
-    case 'removeWishlist':
-    case 'followGame':
-    case 'unfollowGame':
-      ele = $(`<li>${__(type)}<a href="https://store.steampowered.com/app/${text}" target="_blank">${text}</a>...<font></font></li>`);
-      break;
-    case 'favoriteWorkshop':
-    case 'unfavoriteWorkshop':
-    case 'getWorkshopAppId':
-    case 'voteupWorkshop':
-      ele = $(`<li>${__(type)}<a href="https://steamcommunity.com/sharedfiles/filedetails/?id=${text}" target="_blank">
+    if (type) {
+      switch (type) {
+      case 'joiningSteamGroup':
+      case 'leavingSteamGroup':
+      case 'gettingSteamGroupId':
+        ele = $(`<li>${__(type)}<a href="https://steamcommunity.com/groups/${text}" target="_blank">${text}</a>...<font></font></li>`);
+        break;
+      case 'subscribeForum':
+      case 'unsubscribeForum':
+      case 'getForumId':
+        ele = $(`<li>${__(type)}<a href="https://steamcommunity.com/app/${text}/discussions/" target="_blank">${text}</a>...<font></font></li>`);
+        break;
+      case 'followCurator':
+      case 'unfollowCurator':
+      case 'getCuratorId':
+        ele = $(`<li>${__(type)}<a href="https://store.steampowered.com/${
+          text?.includes('/') ? text : `curator/${text}`
+        }" target="_blank">${text}</a>...<font></font></li>`);
+        break;
+      case 'getDeveloperId':
+      case 'followDeveloper':
+      case 'unfollowDeveloper':
+        ele = $(`<li>${__(type)}<a href="https://store.steampowered.com/developer/${text}" target="_blank">${text}</a>...<font></font></li>`);
+        break;
+      case 'getPublisherId':
+      case 'followPublisher':
+      case 'unfollowPublisher':
+        ele = $(`<li>${__(type)}<a href="https://store.steampowered.com/publisher/${text}" target="_blank">${text}</a>...<font></font></li>`);
+        break;
+      case 'getFranchiseId':
+      case 'followFranchise':
+      case 'unfollowFranchise':
+        ele = $(`<li>${__(type)}<a href="https://store.steampowered.com/franchise/${text}" target="_blank">${text}</a>...<font></font></li>`);
+        break;
+      case 'addWishlist':
+      case 'removeWishlist':
+      case 'followGame':
+      case 'unfollowGame':
+        ele = $(`<li>${__(type)}<a href="https://store.steampowered.com/app/${text}" target="_blank">${text}</a>...<font></font></li>`);
+        break;
+      case 'favoriteWorkshop':
+      case 'unfavoriteWorkshop':
+      case 'getWorkshopAppId':
+      case 'voteupWorkshop':
+        ele = $(`<li>${__(type)}<a href="https://steamcommunity.com/sharedfiles/filedetails/?id=${text}" target="_blank">
       ${text}</a>...<font></font></li>`);
-      break;
-    case 'likeAnnouncements':
-      ele = $(`<li>${__('likeAnnouncements')}<a href="${url}" target="_blank">${id}</a>...<font></font></li>`);
-      break;
-    case 'changeCountry':
-      ele = $(`<li>${__('changeCountry')}${text}...<font></font></li>`);
-      break;
-    case 'joinDiscordServer':
-    case 'leaveDiscordServer':
-    case 'getDiscordGuild':
-      ele = $(`<li>${__(type)}<a href="https://discord.com/invite/${text}" target="_blank">${text}</a>...<font></font></li>`);
-      break;
-    case 'updateDiscordAuth':
-      ele = $(`<li style="color:red;">${__('updateDiscordAuth')}</li>`);
-      break;
-    case 'followTwitchChannel':
-    case 'unfollowTwitchChannel':
-    case 'getTwitchChannelId':
-      ele = $(`<li>${__(type)}<a href="https://www.twitch.tv/${text}" target="_blank">${text}</a>...<font></font></li>`);
-      break;
-    case 'getInsInfo':
-      ele = $(`<li>${__('getInsInfo')}<a href="https://www.instagram.com/${text}/" target="_blank">${text}</a>...<font></font></li>`);
-      break;
-    case 'followIns':
-    case 'unfollowIns':
-      ele = $(`<li>${__(type)}<a href="https://www.instagram.com/${text}/" target="_blank">${text}</a>...<font></font></li>`);
-      break;
-    case 'getTwitterUserId':
-    case 'followTwitterUser':
-    case 'unfollowTwitterUser':
-      ele = $(`<li>${__(type)}<a href="https://twitter.com/${text}" target="_blank">${text}</a>...<font></font></li>`);
-      break;
-    case 'retweet':
-    case 'unretweet':
-      ele = $(`<li>${__(type)}${text}...<font></font></li>`);
-      break;
-    case 'joinReddit':
-    case 'leaveReddit':
-      ele = $(`<li>${__(type)}<a href="https://www.reddit.com/r/${text}/" target="_blank">${text}</a>...<font></font></li>`);
-      break;
-    case 'followRedditUser':
-    case 'unfollowRedditUser':
-      ele = $(`<li>${__(type)}<a href="https://www.reddit.com/user/${text?.replace('u_', '')}" target="_blank">
+        break;
+      case 'likeAnnouncements':
+        ele = $(`<li>${__('likeAnnouncements')}<a href="${url}" target="_blank">${id}</a>...<font></font></li>`);
+        break;
+      case 'changeCountry':
+        ele = $(`<li>${__('changeCountry')}${text}...<font></font></li>`);
+        break;
+      case 'joinDiscordServer':
+      case 'leaveDiscordServer':
+      case 'getDiscordGuild':
+        ele = $(`<li>${__(type)}<a href="https://discord.com/invite/${text}" target="_blank">${text}</a>...<font></font></li>`);
+        break;
+      case 'updateDiscordAuth':
+        ele = $(`<li style="color:red;">${__('updateDiscordAuth')}</li>`);
+        break;
+      case 'followTwitchChannel':
+      case 'unfollowTwitchChannel':
+      case 'getTwitchChannelId':
+        ele = $(`<li>${__(type)}<a href="https://www.twitch.tv/${text}" target="_blank">${text}</a>...<font></font></li>`);
+        break;
+      case 'getInsInfo':
+        ele = $(`<li>${__('getInsInfo')}<a href="https://www.instagram.com/${text}/" target="_blank">${text}</a>...<font></font></li>`);
+        break;
+      case 'followIns':
+      case 'unfollowIns':
+        ele = $(`<li>${__(type)}<a href="https://www.instagram.com/${text}/" target="_blank">${text}</a>...<font></font></li>`);
+        break;
+      case 'getTwitterUserId':
+      case 'followTwitterUser':
+      case 'unfollowTwitterUser':
+        ele = $(`<li>${__(type)}<a href="https://twitter.com/${text}" target="_blank">${text}</a>...<font></font></li>`);
+        break;
+      case 'retweet':
+      case 'unretweet':
+        ele = $(`<li>${__(type)}${text}...<font></font></li>`);
+        break;
+      case 'joinReddit':
+      case 'leaveReddit':
+        ele = $(`<li>${__(type)}<a href="https://www.reddit.com/r/${text}/" target="_blank">${text}</a>...<font></font></li>`);
+        break;
+      case 'followRedditUser':
+      case 'unfollowRedditUser':
+        ele = $(`<li>${__(type)}<a href="https://www.reddit.com/user/${text?.replace('u_', '')}" target="_blank">
       ${text?.replace('u_', '')}</a>...<font></font></li>`);
-      break;
-    case 'followYtbChannel':
-    case 'unfollowYtbChannel':
-      ele = $(`<li>${__(type)}<a href="https://www.youtube.com/channel/${text}" target="_blank">${text}</a>...<font></font></li>`);
-      break;
-    case 'likeYtbVideo':
-    case 'unlikeYtbVideo':
-      ele = $(`<li>${__(type)}<a href="https://www.youtube.com/watch?v=${text}" target="_blank">${text}</a>...<font></font></li>`);
-      break;
-    case 'getVkId':
-    case 'joinVkGroup':
-    case 'leaveVkGroup':
-    case 'joinVkPublic':
-    case 'leaveVkPublic':
-    case 'repostVkWall':
-      ele = $(`<li>${__(type)}<a href="https://vk.com/${text}/" target="_blank">${text}</a>...<font></font></li>`);
-      break;
-    case 'visitLink':
-      ele = $(`<li>${__('visitLink')}<a href="${text}" target="_blank">${text}</a>...<font></font></li>`);
-      break;
-    case 'text':
+        break;
+      case 'followYtbChannel':
+      case 'unfollowYtbChannel':
+        ele = $(`<li>${__(type)}<a href="https://www.youtube.com/channel/${text}" target="_blank">${text}</a>...<font></font></li>`);
+        break;
+      case 'likeYtbVideo':
+      case 'unlikeYtbVideo':
+        ele = $(`<li>${__(type)}<a href="https://www.youtube.com/watch?v=${text}" target="_blank">${text}</a>...<font></font></li>`);
+        break;
+      case 'getVkId':
+      case 'joinVkGroup':
+      case 'leaveVkGroup':
+      case 'joinVkPublic':
+      case 'leaveVkPublic':
+      case 'repostVkWall':
+        ele = $(`<li>${__(type)}<a href="https://vk.com/${text}/" target="_blank">${text}</a>...<font></font></li>`);
+        break;
+      case 'visitLink':
+        ele = $(`<li>${__('visitLink')}<a href="${text}" target="_blank">${text}</a>...<font></font></li>`);
+        break;
+      case 'text':
+        ele = $(`<li>${__(text as string)}<font></font></li>`);
+        break;
+      case 'html':
+      case 'custom':
+        ele = $(text as string);
+        break;
+      default:
+        ele = $(`<li>${__('unknown')}:${type}(${text})...<font></font></li>`);
+        break;
+      }
+    } else if (text) {
       ele = $(`<li>${__(text as string)}<font></font></li>`);
-      break;
-    case 'html':
-    case 'custom':
+    } else if (html) {
       ele = $(text as string);
-      break;
-    default:
-      ele = $(`<li>${__('unknown')}:${type}(${text})...<font></font></li>`);
-      break;
+    } else {
+      return emptyStatus;
     }
     ele.addClass('card-text');
     $('#auto-task-info').append(ele);
@@ -172,14 +181,7 @@ const echoLog = ({ type = 'text', text, url, id }: { type?: string, text?: strin
     return status;
   } catch (error) {
     throwError(error as Error, 'echoLog');
-    const status = {
-      success: () => status,
-      error: () => status,
-      warning: () => status,
-      info: () => status,
-      view: () => status
-    };
-    return status;
+    return emptyStatus;
   }
 };
 
