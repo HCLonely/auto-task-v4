@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-18 13:31:23
- * @LastEditTime : 2021-11-20 16:21:20
+ * @LastEditTime : 2021-11-20 19:58:31
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Opquests.ts
  * @Description  :
@@ -93,7 +93,7 @@ class Opquests extends Website {
         } else if (/store\.steampowered\.com\/(publisher|developer)\//.test(link) && /follow/gim.test(taskDes)) {
           this.undoneTasks.steam.curatorLikeLinks.push(link);
         } else {
-          echoLog({ type: 'custom', text: `<li>${__('unknownTaskType', `${taskDes}(${link})`)}<font></font></li>` });
+          echoLog({ type: 'custom', text: `<li>${__('unKnownTaskType', `${taskDes}(${link})`)}<font></font></li>` });
         }
       }
 

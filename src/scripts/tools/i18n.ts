@@ -7,7 +7,7 @@
  * @Description  :
  */
 
-import zh from '../../locales/zh-CN.json';
+import zh from '../../locales/zh-CN.js';
 const languages = {
   zh
 };

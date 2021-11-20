@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 17:22:20
- * @LastEditTime : 2021-11-20 16:21:03
+ * @LastEditTime : 2021-11-20 19:58:19
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/OpiumPulses.ts
  * @Description  :
@@ -56,16 +56,17 @@ class OpiumPulses {
         const needPoints = parseInt($(item).find('.giveaways-page-item-header-points')
           .text()
           .match(/[\d]+/gim)?.[0] || '999999', 10);
+        const name = $(item).find('.giveaways-page-item-footer-name')
+          .text()
+          .trim();
         if (type === 'points' && needPoints > this.myPoints) {
-          echoLog({ type: 'custom', text: `<li><font class="warning">${__('noPoints')}</font></li>` });
+          echoLog({ type: 'custom', text: `<li><font class="warning">${__('noPoints')}: ${name}</font></li>` });
         } else if (type === 'points' && !needPoints) {
-          echoLog({ type: 'custom', text: `<li><font class="warning">${__('getNeedPointsFailed')}</font></li>` });
+          echoLog({ type: 'custom', text: `<li><font class="warning">${__('getNeedPointsFailed')}: ${name}</font></li>` });
         } else if (!(type === 'points' && needPoints > this.maxPoints)) {
           const logStatus = echoLog({ type: 'custom',
-            text: `<li>${__('joinLottery')}<a href="${$(item).find('a.giveaways-page-item-img-btn-more')
-              .attr('href')}" target="_blank">${$(item).find('.giveaways-page-item-footer-name')
-              .text()
-              .trim()}</a>...<font></font></li>` });
+            text: `<li>${__('joiningLottery')}<a href="${$(item).find('a.giveaways-page-item-img-btn-more')
+              .attr('href')}" target="_blank">${name}</a>...<font></font></li>` });
           const aElement = $(item).find('a.giveaways-page-item-img-btn-enter:contains(\'enter\')');
           if (aElement?.attr('onclick')?.includes('checkUser')) {
             const giveawayId = aElement.attr('onclick')?.match(/[\d]+/)?.[0];

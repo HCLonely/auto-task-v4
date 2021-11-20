@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 14:37:33
- * @LastEditTime : 2021-11-20 16:20:46
+ * @LastEditTime : 2021-11-20 19:53:10
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Indiedb.ts
  * @Description  :
@@ -229,7 +229,7 @@ class Indiedb {
                 });
               }));
             } else {
-              status.error(`Error:${__('unknowntype')}`);
+              status.error(`Error:${__('unKnownTaskType')}`);
             }
           }
         }
@@ -237,7 +237,7 @@ class Indiedb {
         echoLog({ type: 'custom', text: `<li><font class="warning">${__('allTasksComplete')}</font></li>` });
         return true;
       }
-      echoLog({ type: 'custom', text: `<li><font class="error">${__('getIdFailed')}</font></li>` });
+      echoLog({ type: 'custom', text: `<li><font class="error">${__('getTaskIdFailed')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Indiedb.classifyTask');

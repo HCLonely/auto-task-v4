@@ -34,6 +34,7 @@ https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task.user.js
 - [ ] 剩余key检测不报错
 - [ ] 验证不用存储tasks
 - [ ] 获取任务信息优化，不重复获取
+- [ ] bug反馈
 
 ### 存储机制
 

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-13 17:57:40
- * @LastEditTime : 2021-11-20 16:20:34
+ * @LastEditTime : 2021-11-20 19:49:47
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Givekey.ts
  * @Description  :
@@ -136,7 +136,7 @@ class Givekey extends Website {
           this.socialTasks.discord.serverLinks.push(href);
           if (action === 'do' && !isSuccess) this.undoneTasks.discord.serverLinks.push(href);
         } else {
-          echoLog({ type: 'custom', text: `<li>${__('unknownTaskType', `${text}(${href})`)}<font></font></li>` });
+          echoLog({ type: 'custom', text: `<li>${__('unknownTaskType')}: ${text}(${href})<font></font></li>` });
         }
       }
 

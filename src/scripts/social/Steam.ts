@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2021-11-20 16:18:01
+ * @LastEditTime : 2021-11-20 20:10:03
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -65,7 +65,7 @@ class Steam extends Social {
 
   async #updateStoreAuth(): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'updateSteamStore' });
+      const logStatus = echoLog({ text: 'updatingSteamStoreAuth' });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://store.steampowered.com/stats/',
         method: 'GET'
@@ -98,7 +98,7 @@ class Steam extends Social {
 
   async #updateCommunityAuth(): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'updateSteamCommunity' });
+      const logStatus = echoLog({ text: __('updatingSteamCommunityAuth') });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://steamcommunity.com/my',
         method: 'GET'
@@ -214,7 +214,7 @@ class Steam extends Social {
   // INFO: 加入steam组
   async #joinGroup(groupName: string): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'joinSteamGroup', text: groupName });
+      const logStatus = echoLog({ type: 'joiningSteamGroup', text: groupName });
       const { result, statusText, status, data } = await httpRequest({
         url: `https://steamcommunity.com/groups/${groupName}`,
         method: 'POST',
@@ -247,7 +247,7 @@ class Steam extends Social {
       }
       const groupId = await this.#getGroupId(groupName);
       if (!groupId) return false;
-      const logStatus = echoLog({ type: 'leaveSteamGroup', text: groupName });
+      const logStatus = echoLog({ type: 'leavingSteamGroup', text: groupName });
       const { result, statusText, status, data } = await httpRequest({
         url: `https://steamcommunity.com/id/${this.#auth.userName}/home_process`,
         method: 'POST',
@@ -274,7 +274,7 @@ class Steam extends Social {
   // INFO: steam组名转id, 用于退组
   async #getGroupId(groupName: string): Promise<false | string> {
     try {
-      const logStatus = echoLog({ type: 'getSteamGroupId', text: groupName });
+      const logStatus = echoLog({ type: 'gettingSteamGroupId', text: groupName });
       const groupId = this.#cache.group[groupName];
       if (groupId) {
         logStatus.success();

@@ -1,9 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2021-11-20 16:20:52
+ * @LastEditTime : 2021-11-20 19:53:31
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
+ * @FilePath     : /auto-task-new/src/scripts/website/Keyhub.ts
  * @Description  :
  */
 
@@ -111,7 +111,7 @@ class Keyhub extends Website {
           if (action === 'undo') this.socialTasks.discord.serverLinks.push(link);
           if (action === 'do') this.undoneTasks.discord.serverLinks.push(link);
         } else {
-          echoLog({ type: 'custom', text: `<li>${__('unknownTaskType', `${taskDes}(${link})`)}<font></font></li>` });
+          echoLog({ type: 'custom', text: `<li>${__('unKnownTaskType', `${taskDes}(${link})`)}<font></font></li>` });
         }
       }
 
