@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:03:26
- * @LastEditTime : 2021-11-20 16:19:20
+ * @LastEditTime : 2021-11-21 11:11:29
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/echoLog.ts
  * @Description  :
@@ -9,7 +9,7 @@
 import throwError from './tools/throwError';
 import __ from './tools/i18n';
 
-const echoLog = ({ type = 'text', text, html, url, id }: { type?: string, text?: string, html?: string, url?: string, id?: string }): logStatus => {
+const echoLog = ({ type = 'text', text, html, id }: { type?: string, text?: string, html?: string, id?: string }): logStatus => {
   const emptyStatus = {
     success: () => emptyStatus,
     error: () => emptyStatus,
@@ -26,51 +26,38 @@ const echoLog = ({ type = 'text', text, html, url, id }: { type?: string, text?:
       case 'gettingSteamGroupId':
         ele = $(`<li>${__(type)}<a href="https://steamcommunity.com/groups/${text}" target="_blank">${text}</a>...<font></font></li>`);
         break;
-      case 'subscribeForum':
-      case 'unsubscribeForum':
-      case 'getForumId':
+      case 'subscribingForum':
+      case 'unsubscribingForum':
+      case 'gettingForumId':
         ele = $(`<li>${__(type)}<a href="https://steamcommunity.com/app/${text}/discussions/" target="_blank">${text}</a>...<font></font></li>`);
         break;
-      case 'followCurator':
-      case 'unfollowCurator':
+      case 'followingCurator':
+      case 'unfollowingCurator':
       case 'getCuratorId':
         ele = $(`<li>${__(type)}<a href="https://store.steampowered.com/${
           text?.includes('/') ? text : `curator/${text}`
         }" target="_blank">${text}</a>...<font></font></li>`);
         break;
-      case 'getDeveloperId':
-      case 'followDeveloper':
-      case 'unfollowDeveloper':
-        ele = $(`<li>${__(type)}<a href="https://store.steampowered.com/developer/${text}" target="_blank">${text}</a>...<font></font></li>`);
-        break;
-      case 'getPublisherId':
-      case 'followPublisher':
-      case 'unfollowPublisher':
-        ele = $(`<li>${__(type)}<a href="https://store.steampowered.com/publisher/${text}" target="_blank">${text}</a>...<font></font></li>`);
-        break;
-      case 'getFranchiseId':
-      case 'followFranchise':
-      case 'unfollowFranchise':
-        ele = $(`<li>${__(type)}<a href="https://store.steampowered.com/franchise/${text}" target="_blank">${text}</a>...<font></font></li>`);
-        break;
-      case 'addWishlist':
-      case 'removeWishlist':
-      case 'followGame':
-      case 'unfollowGame':
+      case 'addingToWishlist':
+      case 'removingFromWishlist':
+      case 'followingGame':
+      case 'unfollowingGame':
         ele = $(`<li>${__(type)}<a href="https://store.steampowered.com/app/${text}" target="_blank">${text}</a>...<font></font></li>`);
         break;
-      case 'favoriteWorkshop':
-      case 'unfavoriteWorkshop':
-      case 'getWorkshopAppId':
-      case 'voteupWorkshop':
+      case 'favoritingWorkshop':
+      case 'unfavoritingWorkshop':
+      case 'gettingWorkshopAppId':
+      case 'votingUpWorkshop':
         ele = $(`<li>${__(type)}<a href="https://steamcommunity.com/sharedfiles/filedetails/?id=${text}" target="_blank">
       ${text}</a>...<font></font></li>`);
         break;
-      case 'likeAnnouncements':
-        ele = $(`<li>${__('likeAnnouncements')}<a href="${url}" target="_blank">${id}</a>...<font></font></li>`);
+      case 'gettingAnnouncementParams':
+      case 'likingAnnouncement':
+        ele = $(`<li>${__(type)}<a href="https://store.steampowered.com/news/app/${text}/view/${id}" target="_blank">
+      ${id}</a>...<font></font></li>`);
         break;
-      case 'changeCountry':
-        ele = $(`<li>${__('changeCountry')}${text}...<font></font></li>`);
+      case 'changingArea':
+        ele = $(`<li>${__('changingArea')}${text}...<font></font></li>`);
         break;
       case 'joinDiscordServer':
       case 'leaveDiscordServer':

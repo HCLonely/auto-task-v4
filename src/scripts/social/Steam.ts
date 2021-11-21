@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2021-11-20 20:10:03
+ * @LastEditTime : 2021-11-21 11:14:12
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -52,10 +52,10 @@ class Steam extends Social {
       const isVerified = (await this.#updateStoreAuth()) && await (this.#updateCommunityAuth());
       if (isVerified) {
         this.#initialized = true;
-        echoLog({ text: 'Init steam success!' });
+        echoLog({ text: __('initSuccess', 'Steam') });
         return true;
       }
-      echoLog({ text: 'Init steam failed!' });
+      echoLog({ text: __('initFailed', 'Steam') });
       return false;
     } catch (error) {
       throwError(error as Error, 'Steam.init');
@@ -65,7 +65,7 @@ class Steam extends Social {
 
   async #updateStoreAuth(): Promise<boolean> {
     try {
-      const logStatus = echoLog({ text: 'updatingSteamStoreAuth' });
+      const logStatus = echoLog({ text: __('updatingSteamStoreAuth') });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://store.steampowered.com/stats/',
         method: 'GET'
@@ -73,7 +73,7 @@ class Steam extends Social {
       if (result === 'Success') {
         if (data?.status === 200) {
           if (data.responseText.includes('href="https://store.steampowered.com/login/')) {
-            logStatus.error(`Error:${__('loginSteamStore')}`, true);
+            logStatus.error(`Error:${__('needLoginSteamStore')}`, true);
             return false;
           }
           const storeSessionID = data.responseText.match(/g_sessionID = "(.+?)";/)?.[1];
@@ -106,7 +106,7 @@ class Steam extends Social {
       if (result === 'Success') {
         if (data?.status === 200) {
           if (data.responseText.includes('href="https://steamcommunity.com/login/home/')) {
-            logStatus.error(`Error:${__('loginSteamCommunity')}`, true);
+            logStatus.error(`Error:${__('needLoginSteamCommunity')}`, true);
             return false;
           }
           const steam64Id = data.responseText.match(/g_steamID = "(.+?)";/)?.[1];
@@ -136,7 +136,7 @@ class Steam extends Social {
   // INFO:获取国家/地区信息，用于限区游戏更换地区
   async #getAreaInfo(): Promise<areas> {
     try {
-      const logStatus = echoLog({ type: 'text', text: 'getCountryInfo' });
+      const logStatus = echoLog({ text: __('gettingAreaInfo') });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://store.steampowered.com/cart/',
         method: 'GET'
@@ -173,17 +173,17 @@ class Steam extends Social {
         const { currentArea, areas } = await this.#getAreaInfo();
         if (!currentArea || !areas) return false;
         if (currentArea !== 'CN') {
-          echoLog({ type: 'text', text: 'notNeedChangeCountry' });
+          echoLog({ text: 'notNeededChangeArea' });
           return 'skip';
         }
         const anotherArea = areas.filter((area) => area && area !== 'CN');
         if (!anotherArea || anotherArea.length === 0) {
-          echoLog({ type: 'text', text: 'noAnotherCountry' });
+          echoLog({ text: 'noAnotherArea' });
           return false;
         }
         [aimedArea] = anotherArea;
       }
-      const logStatus = echoLog({ type: 'changeCountry', text: aimedArea });
+      const logStatus = echoLog({ text: __('changingArea', aimedArea) });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://store.steampowered.com/account/setcountry',
         method: 'POST',
@@ -310,7 +310,7 @@ class Steam extends Social {
   // INFO: steam添加游戏到愿望单
   async #addToWishlist(gameId: string): Promise<boolean | string> {
     try {
-      const logStatus = echoLog({ type: 'addWishlist', text: gameId });
+      const logStatus = echoLog({ type: 'addingToWishlist', text: gameId });
       const { result, data } = await httpRequest({
         url: 'https://store.steampowered.com/api/addtowishlist',
         method: 'POST',
@@ -368,7 +368,7 @@ class Steam extends Social {
         echoLog({ type: 'whiteList', text: gameId });
         return true;
       }
-      const logStatus = echoLog({ type: 'removeWishlist', text: gameId });
+      const logStatus = echoLog({ type: 'removingFromWishlist', text: gameId });
       const { result, data } = await httpRequest({
         url: 'https://store.steampowered.com/api/removefromwishlist',
         method: 'POST',
@@ -420,7 +420,7 @@ class Steam extends Social {
         echoLog({ type: 'whiteList', text: gameId });
         return true;
       }
-      const logStatus = echoLog({ type: `${doTask ? '' : 'un'}followGame`, text: gameId });
+      const logStatus = echoLog({ type: `${doTask ? '' : 'un'}followingGame`, text: gameId });
       const requestData: followGameRequestData = { sessionid: this.#auth.storeSessionID as string, appid: gameId };
       if (!doTask) requestData.unfollow = '1';
       const { result, data } = await httpRequest({
@@ -490,7 +490,7 @@ class Steam extends Social {
       }
       const forumId = await this.#getForumId(gameId);
       if (!forumId) return false;
-      const logStatus = echoLog({ type: `${doTask ? '' : 'un'}subscribeForum`, text: gameId });
+      const logStatus = echoLog({ type: `${doTask ? '' : 'un'}subscribingForum`, text: gameId });
       const [id, feature] = forumId.split('_');
       const { result, statusText, status, data } = await httpRequest({
         url: `https://steamcommunity.com/forum/${id}/General/${doTask ? '' : 'un'}subscribe/${feature || '0'}/`,
@@ -520,7 +520,7 @@ class Steam extends Social {
   // TODO: 缓存
   async #getForumId(gameId: string): Promise<false | string> {
     try {
-      const logStatus = echoLog({ type: 'getForumId', text: gameId });
+      const logStatus = echoLog({ type: 'gettingForumId', text: gameId });
       const forumId = this.#cache.forum[gameId];
       if (forumId) {
         logStatus.success();
@@ -562,7 +562,7 @@ class Steam extends Social {
       }
       const appid = await this.#getWorkshopAppId(id);
       if (!appid) return false;
-      const logStatus = echoLog({ type: doTask ? 'favoriteWorkshop' : 'unfavoriteWorkshop', text: id });
+      const logStatus = echoLog({ type: doTask ? 'favoritingWorkshop' : 'unfavoritingWorkshop', text: id });
       const { result, statusText, status, data } = await httpRequest({
         url: `https://steamcommunity.com/sharedfiles/${doTask ? '' : 'un'}favorite`,
         method: 'POST',
@@ -591,7 +591,7 @@ class Steam extends Social {
   }
   async #getWorkshopAppId(id: string): Promise<false | string> {
     try {
-      const logStatus = echoLog({ type: 'getWorkshopAppId', text: id });
+      const logStatus = echoLog({ type: 'gettingWorkshopAppId', text: id });
       const appId = this.#cache.workshop[id];
       if (appId) {
         logStatus.success();
@@ -623,9 +623,9 @@ class Steam extends Social {
     }
   }
   // 点赞创意工坊物品
-  async #voteupWorkshop(id: string): Promise<boolean | string> {
+  async #voteUpWorkshop(id: string): Promise<boolean | string> {
     try {
-      const logStatus = echoLog({ type: 'voteupWorkshop', text: id });
+      const logStatus = echoLog({ type: 'votingUpWorkshop', text: id });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://steamcommunity.com/sharedfiles/voteup',
         method: 'POST',
@@ -652,14 +652,14 @@ class Steam extends Social {
   }
 
   // INFO: 关注Steam鉴赏家/开发商/发行商
-  async #toggleCurator(curatorId: string, logStatusParam: logStatus | null, doTask = true): Promise<boolean> {
+  async #toggleCurator(curatorId: string, doTask = true): Promise<boolean> {
     try {
       if (!doTask && this.whiteList.curators.includes(curatorId)) {
         // TODO: 直接echo
         echoLog({ type: 'whiteList', text: curatorId });
         return true;
       }
-      const logStatus = logStatusParam || echoLog({ type: doTask ? 'followCurator' : 'unfollowCurator', text: curatorId });
+      const logStatus = echoLog({ type: doTask ? 'followingCurator' : 'unfollowingCurator', text: curatorId });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://store.steampowered.com/curators/ajaxfollow',
         method: 'POST',
@@ -684,7 +684,7 @@ class Steam extends Social {
   }
   async #getCuratorId(path: string, developerName: string): Promise<false | string> {
     try {
-      const logStatus = echoLog({ type: 'getCuratorId', text: `${path}/${developerName}` });
+      const logStatus = echoLog({ type: 'gettingCuratorId', text: `${path}/${developerName}` });
       const curatorId = this.#cache.curator[`${path}/${developerName}`];
       if (curatorId) {
         logStatus.success();
@@ -723,13 +723,13 @@ class Steam extends Social {
       // TODO: 鉴赏家链接处理
       const [path, name] = link.split('/');
       if (!(path && name)) {
-        echoLog({ type: 'text', text: 'Error link' });
+        echoLog({ text: __('errorLink', link) });
         return false;
       }
       const curatorId = await this.#getCuratorId(path, name);
       if (curatorId) {
-        const logStatus = echoLog({ type: `${doTask ? '' : 'un'}follow${path.replace(/^\S/, (s) => s.toUpperCase())}`, text: name });
-        return await this.#toggleCurator(curatorId, logStatus, doTask);
+        // const logStatus = echoLog({ type: `${doTask ? '' : 'un'}follow${path.replace(/^\S/, (s) => s.toUpperCase())}`, text: name });
+        return await this.#toggleCurator(curatorId, doTask);
       }
       return false;
     } catch (error) {
@@ -740,7 +740,7 @@ class Steam extends Social {
 
   async #getAnnouncementParams(appId: string, viewId: string): Promise<announcementParams> {
     try {
-      const logStatus = echoLog({ type: 'getAnnouncementParams', text: viewId });
+      const logStatus = echoLog({ type: 'gettingAnnouncementParams', text: appId, id: viewId });
       const { result, statusText, status, data } = await httpRequest({
         url: `https://store.steampowered.com/news/app/${appId}/view/${viewId}`,
         method: 'GET',
@@ -780,7 +780,7 @@ class Steam extends Social {
       if (!(authWgToken && clanId)) {
         return false;
       }
-      const logStatus = echoLog({ type: 'likeAnnouncement', text: id });
+      const logStatus = echoLog({ type: 'likingAnnouncement', text: appId, id: viewId });
       const { result, statusText, status, data } = await httpRequest({
         url: `https://store.steampowered.com/updated/ajaxrateupdate/${gid || viewId}`,
         method: 'POST',
@@ -840,7 +840,7 @@ class Steam extends Social {
   }): Promise<boolean> {
     try {
       if (!this.#initialized) {
-        echoLog({ type: 'text', text: '请先初始化' });
+        echoLog({ text: __('needInit') });
         return false;
       }
       const prom = [];
@@ -903,13 +903,13 @@ class Steam extends Social {
       }
       if (doTask && realworkshopVotes.length > 0) {
         for (const workshop of realworkshopVotes) {
-          prom.push(this.#voteupWorkshop(workshop));
+          prom.push(this.#voteUpWorkshop(workshop));
           await delay(1000);
         }
       }
       if (realCurators.length > 0) {
         for (const curator of realCurators) {
-          prom.push(this.#toggleCurator(curator, null, doTask));
+          prom.push(this.#toggleCurator(curator, doTask));
           await delay(1000);
         }
       }
