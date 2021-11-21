@@ -1,23 +1,13 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-11-19 15:55:59
+ * @LastEditTime : 2021-11-21 16:43:26
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
  */
 import Swal from 'sweetalert2';
 import * as Cookies from 'js-cookie';
-/*
-import Discord from './scripts/social/Discord';
-import Instagram from './scripts/social/Instagram';
-import Reddit from './scripts/social/Reddit';
-import Twitch from './scripts/social/Twitch';
-import Twitter from './scripts/social/Twitter';
-import Vk from './scripts/social/Vk';
-import Youtube from './scripts/social/Youtube';
-import Steam from './scripts/social/Steam';
-*/
 import FreeAnyWhere from './scripts/website/FreeAnyWhere';
 import { GiveawaySu } from './scripts/website/GiveawaySu';
 import Indiedb from './scripts/website/Indiedb';
@@ -121,26 +111,6 @@ window.onload = () => {
     window.close();
     Swal.fire('', '如果此页面没有自动关闭，请自行关闭本页面。');
   }
-  /*
-  unsafeWindow.Discord = Discord;
-  unsafeWindow.Instagram = Instagram;
-  unsafeWindow.Reddit = Reddit;
-  unsafeWindow.Twitch = Twitch;
-  unsafeWindow.Twitter = Twitter;
-  unsafeWindow.Vk = Vk;
-  unsafeWindow.Youtube = Youtube;
-  unsafeWindow.Steam = Steam;
-  unsafeWindow.Freeanywhere = Freeanywhere;
-  const gs = new GiveawaySu();
-  unsafeWindow.gs = gs;
-  unsafeWindow.Indiedb = Indiedb;
-  unsafeWindow.Keyhub = Keyhub;
-  unsafeWindow.Givekey = Givekey;
-  unsafeWindow.GiveeClub = GiveeClub;
-  unsafeWindow.OpiumPulses = OpiumPulses;
-  const keylol = new Keylol();
-  unsafeWindow.keylol = keylol;
-  */
 
   if (!website) return;
 

@@ -1,13 +1,12 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 17:22:20
- * @LastEditTime : 2021-11-20 19:58:19
+ * @LastEditTime : 2021-11-21 16:33:59
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/OpiumPulses.ts
  * @Description  :
  */
 
-// todo: 未测试
 import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
@@ -25,7 +24,7 @@ class OpiumPulses {
   async before(): Promise<void> {
     try {
       if (!this.checkLogin()) {
-        echoLog({ type: 'checkLoginFailed' });
+        echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
       }
       // this.maxPoints = maxPoint; // todo: 读取
     } catch (error) {
@@ -60,13 +59,12 @@ class OpiumPulses {
           .text()
           .trim();
         if (type === 'points' && needPoints > this.myPoints) {
-          echoLog({ type: 'custom', text: `<li><font class="warning">${__('noPoints')}: ${name}</font></li>` });
+          echoLog({ html: `<li><font class="warning">${__('noPoints')}: ${name}</font></li>` });
         } else if (type === 'points' && !needPoints) {
-          echoLog({ type: 'custom', text: `<li><font class="warning">${__('getNeedPointsFailed')}: ${name}</font></li>` });
+          echoLog({ html: `<li><font class="warning">${__('getNeedPointsFailed')}: ${name}</font></li>` });
         } else if (!(type === 'points' && needPoints > this.maxPoints)) {
-          const logStatus = echoLog({ type: 'custom',
-            text: `<li>${__('joiningLottery')}<a href="${$(item).find('a.giveaways-page-item-img-btn-more')
-              .attr('href')}" target="_blank">${name}</a>...<font></font></li>` });
+          const logStatus = echoLog({ text: `${__('joiningLottery')}<a href="${$(item).find('a.giveaways-page-item-img-btn-more')
+            .attr('href')}" target="_blank">${name}</a>...` });
           const aElement = $(item).find('a.giveaways-page-item-img-btn-enter:contains(\'enter\')');
           if (aElement?.attr('onclick')?.includes('checkUser')) {
             const giveawayId = aElement.attr('onclick')?.match(/[\d]+/)?.[0];
@@ -85,7 +83,6 @@ class OpiumPulses {
               logStatus.success();
               const points = data.responseText.match(/Points:[\s]*?([\d]+)/)?.[1];
               if (type === 'points' && points) {
-                // if (debug) console.log(__('pointsLeft') + points);
                 this.myPoints = parseInt(points, 10);
               }
             } else {
@@ -96,7 +93,7 @@ class OpiumPulses {
           }
         }
       }
-      echoLog({ type: 'custom', text: '<li>-----END-----</li>' });
+      echoLog({ text: '-----END-----' });
     } catch (error) {
       throwError(error as Error, 'OpiumPulses.toggleTask');
     }

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 20:22:33
- * @LastEditTime : 2021-11-20 16:21:26
+ * @LastEditTime : 2021-11-21 16:40:01
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Prys.ts
  * @Description  :
@@ -44,10 +44,10 @@ class Prys extends Website {
   async before(): Promise<void> {
     try {
       if (!this.checkLogin()) {
-        echoLog({ type: 'checkLoginFailed' });
+        echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
       }
       if (!await this.checkLeftKey()) {
-        echoLog({ type: 'checkLeftKeyFailed' });
+        echoLog({ html: `<li><font class="warning>${__('checkLeftKeyFailed')}</font></li>` });
       }
     } catch (error) {
       throwError(error as Error, 'Prys.before');
@@ -55,9 +55,9 @@ class Prys extends Website {
   }
   init(): boolean { // todo
     try {
-      const logStatus = echoLog({ type: 'init' });
+      const logStatus = echoLog({ text: __('initing') });
       if ($('button:contains("Sign")').length > 0) {
-        logStatus.warning('请先登录');
+        logStatus.warning(__('needLogin'));
         return false;
       }
       if (!this.#getGiveawayId()) return false;
@@ -72,7 +72,7 @@ class Prys extends Website {
 
   async classifyTask(action: string): Promise<boolean> { // todo
     try {
-      const logStatus = echoLog({ type: 'custom', text: `<li>${__('getTasksInfo')}<font></font></li>` });
+      const logStatus = echoLog({ text: __('getTasksInfo') });
       // todo
       this.socialTasks = GM_getValue<prysSocialTasks>(`prysTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
 
@@ -122,7 +122,6 @@ class Prys extends Website {
 
   async verifyTask(): Promise<void> { // todo
     try {
-      echoLog({ type: 'custom', text: `<li>${__('verifyingTask')}...<font></font></li>` });
       const pro = [];
       const checks = $('#steps tbody a[id^=check]');
       if (checks.length > 0) {
@@ -134,15 +133,15 @@ class Prys extends Website {
             ?.prev()
             ?.html()
             ?.trim();
-          const status = echoLog({ type: 'custom', text: `<li>${__('verifyingTask')}${taskDes}...<font></font></li>` });
+          const status = echoLog({ text: `${__('verifyingTask')}${taskDes}...` });
           pro.push(new Promise((resolve) => {
             this.#checkStep(id, resolve, status);
           }));
         }
         await Promise.all(pro);
-        echoLog({ type: 'custom', text: `<li><font class="success">${__('prysAllTasksComplete')}</font></li>` });
+        echoLog({ html: `<li><font class="success">${__('allTasksComplete')}</font></li>` });
       } else {
-        echoLog({ type: 'custom', text: `<li><font class="success">${__('prysAllTasksComplete')}</font></li>` });
+        echoLog({ html: `<li><font class="success">${__('allTasksComplete')}</font></li>` });
       }
     } catch (error) {
       throwError(error as Error, 'Prys.verifyTask');
@@ -156,7 +155,7 @@ class Prys extends Website {
         this.giveawayId = giveawayId;
         return true;
       }
-      echoLog({ type: 'custom', text: `<li><font class="error">${__('getGiveawayIdFailed')}</font></li>` });
+      echoLog({ html: `<li><font class="error">${__('getFailed', 'GiveawayId')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Prys.getGiveawayId');
@@ -190,7 +189,7 @@ class Prys extends Website {
   checkLogin(): boolean {
     try {
       if ($('button:contains("Sign")').length > 0) {
-        echoLog({ type: 'custom', text: '<li>请先登录！<font></font></li>' });
+        echoLog({ html: `<li><font class="warning">${__('needLogin')}</font></li>` });
       }
       return true;
     } catch (error) {

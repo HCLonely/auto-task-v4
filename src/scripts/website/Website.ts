@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:28
- * @LastEditTime : 2021-11-17 10:33:38
+ * @LastEditTime : 2021-11-21 16:42:02
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Website.ts
  * @Description  :
@@ -21,6 +21,7 @@ import Youtube from '../social/Youtube';
 import Steam from '../social/Steam';
 import { unique, visitLink } from '../tools/tools';
 import echoLog from '../echoLog';
+import __ from '../tools/i18n';
 
 abstract class Website {
   undoneTasks!: webSocialTasks;
@@ -172,7 +173,7 @@ abstract class Website {
         }
       }
       await Promise.all(pro);
-      echoLog({ type: 'custom', text: '<li>All tasks complete!<font></font></li>' });
+      echoLog({ html: `<li><font class="success">${__('allTasksComplete')}</font></li>` });
       return true;
     } catch (error) {
       throwError(error as Error, 'Website.toggleTask');

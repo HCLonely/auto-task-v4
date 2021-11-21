@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2021-11-21 13:07:07
+ * @LastEditTime : 2021-11-21 16:42:45
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  :
@@ -10,13 +10,13 @@ const data = {
   // 通用任务
   needLogin: '请先登录！',
   getTasksInfo: '正在获取并处理任务信息',
-  gettingKey: '正在获取Key',
-  getGiveawayIdFailed: '获取GiveawayId失败，请重试！',
+  gettingKey: '正在获取Key...',
   verifyingTask: '正在验证任务',
   notice: '自动任务脚本提醒',
   noKeysLeft: '此页面已经没有剩余key了，是否关闭？',
   confirm: '确定',
   cancel: '取消',
+  unKnown: '未知',
   unKnownTaskType: '未识别的任务',
   doing: '正在做任务',
   allTasksComplete: '所有任务已完成！',
@@ -27,12 +27,21 @@ const data = {
   needInit: '请先初始化',
   verifyingAuth: '正在验证%0凭证...',
   updatingAuth: '正在更新%0凭证...',
+  initing: '正在初始化...',
+  getFailed: '获取%0失败！',
+  checkLoginFailed: '检测登录状态失败！',
+  checkLeftKeyFailed: '检测剩余Key失败！',
+  userId: '用户Id',
+  giveKeyNotice: '如果没有key, 请在<a href="https://givekey.ru/profile" target="_blank">https://givekey.ru/profile</a>查看',
+  joiningGiveaway: '正在加入赠Key',
+  needJoinGiveaway: '需要先加入赠Key',
+  cannotUndo: '此网站不支持取消任务',
 
   // Steam
   steamCommunity: 'Steam社区',
   steamStore: 'Steam商店',
-  needLoginSteamStore: '请先<a href="https://store.steampowered.com/login/">登录Steam商店</a>',
-  needLoginSteamCommunity: '请先<a href="https://steamcommunity.com/login/home/">登录Steam社区</a>',
+  needLoginSteamStore: '请先<a href="https://store.steampowered.com/login/" target="_blank">登录Steam商店</a>',
+  needLoginSteamCommunity: '请先<a href="https://steamcommunity.com/login/home/" target="_blank">登录Steam社区</a>',
   joiningSteamGroup: '正在加入Steam组',
   leavingSteamGroup: '正在退出Steam组',
   gettingSteamGroupId: '正在获取Steam组Id',
@@ -62,7 +71,7 @@ const data = {
   gettingDiscordGuild: '正在获取Discord服务器Id',
 
   // Instagram
-  loginIns: '请先<a href="https://www.instagram.com/accounts/login/">登录Instagram</a>',
+  loginIns: '请先<a href="https://www.instagram.com/accounts/login/" target="_blank">登录Instagram</a>',
   insBanned: '您的Instagram账户已被封禁',
   verifyingInsAuth: '正在验证Instagram凭证...',
   gettingInsUserId: '正在获取Instagram用户Id',
@@ -70,7 +79,7 @@ const data = {
   unfollowingIns: '正在取关Instagram用户',
 
   // Reddit
-  loginReddit: '请先<a href="https://www.reddit.com/login/">登录Reddit</a>',
+  loginReddit: '请先<a href="https://www.reddit.com/login/" target="_blank">登录Reddit</a>',
   changingRedditVersion: '正在切换Reddit为新版页面...',
   joiningReddit: '正在加入Reddit社区',
   leavingReddit: '正在退出Reddit社区',
@@ -89,7 +98,7 @@ const data = {
   unretweetting: '正在撤销转推',
 
   // Vk
-  loginVk: '请先<a href="https://vk.com/login/">登录Vk</a>',
+  loginVk: '请先<a href="https://vk.com/login/" target="_blank">登录Vk</a>',
   gettingVkId: '正在获取Vk任务Id',
   joiningVkGroup: '正在加入Vk组',
   leavingVkGroup: '正在退出Vk组',
@@ -99,8 +108,8 @@ const data = {
   deletingVkWall: '正在撤销转发Vk动态',
 
   // YouTube
-  loginYtb: '请先<a href="https://accounts.google.com/ServiceLogin?service=youtube">登录YouTube</a>',
-  tryUpdateYtbAuth: '请尝试<a href="https://www.youtube.com/#auth">更新YouTube凭证</a>',
+  loginYtb: '请先<a href="https://accounts.google.com/ServiceLogin?service=youtube" target="_blank">登录YouTube</a>',
+  tryUpdateYtbAuth: '请尝试<a href="https://www.youtube.com/#auth" target="_blank">更新YouTube凭证</a>',
   gettingYtbToken: '正在获取YouTube Token...',
   followingYtbChannel: '正在订阅YouTube频道',
   unfollowingYtbChannel: '正在退订YouTube频道',

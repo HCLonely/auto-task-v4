@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2021-11-20 16:19:58
+ * @LastEditTime : 2021-11-21 16:31:23
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.ts
  * @Description  :
@@ -59,10 +59,10 @@ class GiveawaySu extends Website {
   async before(): Promise<void> {
     try {
       if (!this.checkLogin()) {
-        echoLog({ type: 'checkLoginFailed' });
+        echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
       }
       if (!await this.checkLeftKey()) {
-        echoLog({ type: 'checkLeftKeyFailed' });
+        echoLog({ html: `<li><font class="warning>${__('checkLeftKeyFailed')}</font></li>` });
       }
     } catch (error) {
       throwError(error as Error, 'Giveawaysu.before');
@@ -70,10 +70,10 @@ class GiveawaySu extends Website {
   }
   init(): boolean {
     try {
-      const logStatus = echoLog({ type: 'init' });
+      const logStatus = echoLog({ text: __('initing') });
       if ($('a.steam-login').length > 0) {
         window.open('/steam/redirect', '_self');
-        logStatus.warning('请先登录');
+        logStatus.warning(__('needLogin'));
         return false;
       }
       if (!this.#getGiveawayId()) return false;
@@ -87,7 +87,7 @@ class GiveawaySu extends Website {
   }
   async classifyTask(): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'custom', text: `<li>${__('getTasksInfo')}<font></font></li>` });
+      const logStatus = echoLog({ text: __('getTasksInfo') });
       // todo
       this.socialTasks = GM_getValue<gasSocialTasks>(`gasTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
 
@@ -212,7 +212,7 @@ class GiveawaySu extends Website {
       this.giveawayId = giveawayId;
       return true;
     }
-    echoLog({ type: 'custom', text: `<li><font class="error">${__('getGiveawayIdFailed')}</font></li>` });
+    echoLog({ text: __('getFailed', 'GiveawayId') });
     return false;
   }
 }

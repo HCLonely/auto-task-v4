@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-13 17:57:40
- * @LastEditTime : 2021-11-20 19:49:47
+ * @LastEditTime : 2021-11-21 16:19:24
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Givekey.ts
  * @Description  :
@@ -63,16 +63,16 @@ class Givekey extends Website {
 
   init(): boolean {
     try {
-      const logStatus = echoLog({ type: 'init' });
+      const logStatus = echoLog({ text: __('initing') });
       if ($('a[href*="/auth/steam"]').length > 0) {
         window.open('/auth/steam', '_self');
-        logStatus.warning('请先登录');
+        logStatus.warning(__('needLogin'));
         return false;
       }
       if (!this.#getGiveawayId()) return false;
       const userId = $('meta[name="user-id"]').attr('content');
       if (!userId) {
-        logStatus.error('获取用户id失败');
+        logStatus.error(__('getFailed', __('userId')));
         return false;
       }
       this.userId = userId;
@@ -87,7 +87,7 @@ class Givekey extends Website {
 
   async classifyTask(action: 'do' | 'undo' | 'verify'): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'custom', text: `<li>${__('getTasksInfo')}<font></font></li>` });
+      const logStatus = echoLog({ text: __('getTasksInfo') });
       // todo
       this.socialTasks = GM_getValue<gkSocialTasks>(`gkTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
 
@@ -136,7 +136,7 @@ class Givekey extends Website {
           this.socialTasks.discord.serverLinks.push(href);
           if (action === 'do' && !isSuccess) this.undoneTasks.discord.serverLinks.push(href);
         } else {
-          echoLog({ type: 'custom', text: `<li>${__('unknownTaskType')}: ${text}(${href})<font></font></li>` });
+          echoLog({ html: `<li><font class="warning">${__('unKnownTaskType')}: ${text}(${href})</font></li>` });
         }
       }
 
@@ -165,8 +165,8 @@ class Givekey extends Website {
         await delay(1000);
       }
 
-      echoLog({ type: 'custom', text: '<li>All tasks complete!<font></font></li>' });
-      echoLog({ type: 'custom', text: '<li>如果没key, 请在https://givekey.ru/profile查看<font></font></li>' });
+      echoLog({ html: `<li><font class="success">${__('allTasksComplete')}</font></li>` });
+      echoLog({ html: `<li><font class="warning">${__('giveKeyNotice')}</font></li>` });
       return true;
     } catch (error) {
       throwError(error as Error, 'Givekey.verifyTask');
@@ -175,7 +175,7 @@ class Givekey extends Website {
   }
   async #verify(task: string): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'custom', text: `<li>${__('verifyingTask')}${task}...<font></font></li>` });
+      const logStatus = echoLog({ html: `<li>${__('verifyingTask')}${task}...<font></font></li>` });
 
       return await new Promise((resolve) => {
         $.ajax({
@@ -219,10 +219,10 @@ class Givekey extends Website {
         this.giveawayId = giveawayId;
         return true;
       }
-      echoLog({ type: 'custom', text: `<li><font class="error">${__('getGiveawayIdFailed')}</font></li>` });
+      echoLog({ text: __('getFailed', 'GiveawayId') });
       return false;
     } catch (error) {
-      throwError(error as Error, 'Getkey.getGiveawayId');
+      throwError(error as Error, 'Givekey.getGiveawayId');
       return false;
     }
   }

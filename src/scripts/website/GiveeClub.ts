@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 11:46:52
- * @LastEditTime : 2021-11-20 16:20:04
+ * @LastEditTime : 2021-11-21 16:31:00
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/GiveeClub.ts
  * @Description  :
@@ -15,23 +15,6 @@ import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import { getRedirectLink } from '../tools/tools';
 import { GiveawaySu, defaultTasks } from './GiveawaySu';
-/*
-declare const giveeClub: {
-  locale: string
-  localeLink: (url: string) => string
-};
-interface verifyData {
-  id: string
-  type: string
-  'target_url': null | string
-  'check_url': null | string
-  method: string
-  data: Array<string>
-  csrf: string
-  timestamp: number
-  wait: number
-}
-*/
 
 class GiveeClub extends GiveawaySu {
   static test(): boolean {
@@ -40,7 +23,7 @@ class GiveeClub extends GiveawaySu {
   async before(): Promise<void> {
     try {
       if (!this.checkLogin()) {
-        echoLog({ type: 'checkLoginFailed' });
+        echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
       }
     } catch (error) {
       throwError(error as Error, 'GiveeClub.before');
@@ -48,9 +31,9 @@ class GiveeClub extends GiveawaySu {
   }
   init(): boolean {
     try {
-      const logStatus = echoLog({ type: 'init' });
+      const logStatus = echoLog({ text: __('initing') });
       if (!this.checkLogin()) {
-        logStatus.warning('请先登录');
+        logStatus.warning(__('needLogin'));
         return false;
       }
       if (!this.getGiveawayId()) return false;
@@ -64,7 +47,7 @@ class GiveeClub extends GiveawaySu {
   }
   async classifyTask(): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'custom', text: `<li>${__('getTasksInfo')}<font></font></li>` });
+      const logStatus = echoLog({ text: __('getTasksInfo') });
       // todo
       this.socialTasks = GM_getValue<gasSocialTasks>(`gcTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
 
@@ -141,26 +124,6 @@ class GiveeClub extends GiveawaySu {
       return false;
     }
   }
-  /*
-  async verifyTask() {
-    try {
-      if (!this.initialized && !this.init()) {
-        return false;
-      }
-      const tasks = $('.event-actions tr:not(".hidden")');
-      for (const task of tasks) {
-        const data = $(task).attr('data-action');
-        if (!data) continue;
-        await this.#verify(JSON.parse(atob(data)), $(task).find('button'));
-      }
-      echoLog({ type: 'custom', text: '<li>All tasks complete!<font></font></li>' });
-      return true;
-    } catch (error) {
-      throwError(error as Error, 'GiveeClub.verifyTask');
-      return false;
-    }
-  }
-  */
 
   checkLogin(): boolean {
     try {
@@ -173,60 +136,13 @@ class GiveeClub extends GiveawaySu {
       return false;
     }
   }
-  /*
-  async #verify(data: verifyData, button: JQuery) {
-    try {
-      const logStatus = echoLog({ type: 'custom', text: `<li>${__('verifyingTask')}${data.id}...<font></font></li>` });
-
-      return await new Promise((resolve) => {
-        $.ajax({
-          type: 'POST',
-          url: giveeClub.localeLink(`/action/check/${data.id}`),
-          data,
-          dataType: 'json',
-          timeout: 30000,
-          error: (xhr) => {
-            logStatus.error(`Error:${xhr.statusText}(${xhr.status})`);
-            resolve(false);
-          },
-          success: (response) => {
-            if (response) {
-              if (response.status !== 'pending') {
-                button.removeClass('event-action-checking');
-                if (response.success && (response.success === true)) {
-                  button.attr('data-disabled', 'true').addClass('btn-success active')
-                    .removeClass('btn-default')
-                    .find('i')
-                    .attr('class', 'glyphicon glyphicon-ok');
-                  logStatus.success();
-                  resolve(true);
-                } else if (response.error && (typeof response.error === 'string')) {
-                  logStatus.error(`Error: ${response.error}`);
-                  resolve(false);
-                }
-              }
-              logStatus.error('Warning: 等待服务器验证...');
-              resolve(false);
-            } else {
-              logStatus.error('Error');
-              resolve(false);
-            }
-          }
-        });
-      });
-    } catch (error) {
-      throwError(error as Error, 'GiveeClub.verify');
-      return false;
-    }
-  }
-  */
   getGiveawayId() {
     const giveawayId = window.location.href.match(/\/event\/([\d]+)/)?.[1];
     if (giveawayId) {
       this.giveawayId = giveawayId;
       return true;
     }
-    echoLog({ type: 'custom', text: `<li><font class="error">${__('getGiveawayIdFailed')}</font></li>` });
+    echoLog({ text: __('getFailed', 'GiveawayId') });
     return false;
   }
 }

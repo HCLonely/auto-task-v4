@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 14:37:33
- * @LastEditTime : 2021-11-20 19:53:10
+ * @LastEditTime : 2021-11-21 16:30:37
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Indiedb.ts
  * @Description  :
@@ -23,7 +23,7 @@ class Indiedb {
   async before(): Promise<void> {
     try {
       if (!this.checkLogin()) {
-        echoLog({ type: 'checkLoginFailed' });
+        echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
       }
     } catch (error) {
       throwError(error as Error, 'Indiedb.before');
@@ -43,12 +43,12 @@ class Indiedb {
   async #join(): Promise<boolean> {
     try {
       if ($('a.buttonenter:contains(Register to join)').length > 0) {
-        echoLog({ type: 'custom', text: `<li><font class="error">${__('needLogin')}</font></li>` });
+        echoLog({ html: `<li><font class="error">${__('needLogin')}</font></li>` });
         return false;
       }
       const currentoption = $('a.buttonenter.buttongiveaway');
       if (/join giveaway/gim.test(currentoption.text())) {
-        const logStatus = echoLog({ type: 'custom', text: `<li>${__('joinGiveaway')}<font></font></li>` });
+        const logStatus = echoLog({ text: __('joiningGiveaway') });
         const { result, statusText, status, data } = await httpRequest({
           url: currentoption.attr('href') as string,
           method: 'POST',
@@ -80,7 +80,7 @@ class Indiedb {
       } else if (/success/gim.test($('a.buttonenter.buttongiveaway').text())) {
         return true;
       }
-      echoLog({ type: 'custom', text: `<li><font class="error">${__('needJoinGiveaway')}</font></li>` });
+      echoLog({ html: `<li><font class="warning">${__('needJoinGiveaway')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Indiedb.init');
@@ -104,7 +104,7 @@ class Indiedb {
         for (const task of tasks) {
           const promo = $(task);
           if (!promo.hasClass('buttonentered')) {
-            const status = echoLog({ type: 'custom', text: `<li>${__('doing')}:${promo.parents('p').text()}...<font></font></li>` });
+            const status = echoLog({ text: `${__('doing')}:${promo.parents('p').text()}...` });
             if (/facebookpromo|twitterpromo|visitpromo/gim.test(task.className)) {
               let text = '';
               if (promo.hasClass('facebookpromo')) {
@@ -234,10 +234,10 @@ class Indiedb {
           }
         }
         await Promise.all(pro);
-        echoLog({ type: 'custom', text: `<li><font class="warning">${__('allTasksComplete')}</font></li>` });
+        echoLog({ html: `<li><font class="success">${__('allTasksComplete')}</font></li>` });
         return true;
       }
-      echoLog({ type: 'custom', text: `<li><font class="error">${__('getTaskIdFailed')}</font></li>` });
+      echoLog({ html: `<li><font class="error">${__('getFailed', 'TaskId')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Indiedb.classifyTask');

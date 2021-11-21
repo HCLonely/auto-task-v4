@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2021-11-20 16:20:40
+ * @LastEditTime : 2021-11-21 16:20:13
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  :
@@ -67,7 +67,7 @@ class Gleam extends Website {
   }
   init(): boolean {
     try {
-      const logStatus = echoLog({ type: 'init' });
+      const logStatus = echoLog({ text: __('initing') });
       if (!this.#getGiveawayId()) return false;
       this.initialized = true;
       logStatus.success();
@@ -80,7 +80,7 @@ class Gleam extends Website {
 
   async classifyTask(action: 'do' | 'undo'): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'custom', text: `<li>${__('getTasksInfo')}<font></font></li>` });
+      const logStatus = echoLog({ text: __('getTasksInfo') });
       this.socialTasks = GM_getValue<gleamSocialTasks>(`gleamTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
 
       const tasks = $('.entry-content .entry-method');
@@ -152,7 +152,7 @@ class Gleam extends Website {
         } else if (socialIcon.attr('class')?.includes('fa-question')) {
           // skip
         } else {
-          echoLog({ type: 'text', text: `未识别的任务:${taskInfo.text().trim()}` });
+          echoLog({ html: `<li><font class="warning">${__('unKnownTaskType')}: ${taskInfo.text().trim()}</font></li>` });
         }
       }
 
@@ -174,7 +174,7 @@ class Gleam extends Website {
         this.giveawayId = giveawayId;
         return true;
       }
-      echoLog({ type: 'custom', text: `<li><font class="error">${__('getGiveawayIdFailed')}</font></li>` });
+      echoLog({ text: __('getFailed', 'GiveawayId') });
       return false;
     } catch (error) {
       throwError(error as Error, 'Gleam.getGiveawayId');

@@ -1,9 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2021-11-20 19:53:31
+ * @LastEditTime : 2021-11-21 16:30:27
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/scripts/website/Keyhub.ts
+ * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
  * @Description  :
  */
 
@@ -50,10 +50,10 @@ class Keyhub extends Website {
   async before(): Promise<void> {
     try {
       if (!this.checkLogin()) {
-        echoLog({ type: 'checkLoginFailed' });
+        echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
       }
       if (!await this.checkLeftKey()) {
-        echoLog({ type: 'checkLeftKeyFailed' });
+        echoLog({ html: `<li><font class="warning>${__('checkLeftKeyFailed')}</font></li>` });
       }
     } catch (error) {
       throwError(error as Error, 'Keyhub.before');
@@ -61,10 +61,10 @@ class Keyhub extends Website {
   }
   init(): boolean {
     try {
-      const logStatus = echoLog({ type: 'init' });
+      const logStatus = echoLog({ text: __('initing') });
       if ($('a[href*="/connect/steam"]').length > 0) {
         window.open('/connect/steam', '_self');
-        logStatus.warning('请先登录');
+        logStatus.warning(__('needLogin'));
         return false;
       }
       if (!this.#getGiveawayId()) return false;
@@ -81,7 +81,7 @@ class Keyhub extends Website {
 
   async classifyTask(action: string): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'custom', text: `<li>${__('getTasksInfo')}<font></font></li>` });
+      const logStatus = echoLog({ text: __('getTasksInfo') });
       // todo
       this.socialTasks = GM_getValue<khSocialTasks>(`khTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
 
@@ -111,7 +111,7 @@ class Keyhub extends Website {
           if (action === 'undo') this.socialTasks.discord.serverLinks.push(link);
           if (action === 'do') this.undoneTasks.discord.serverLinks.push(link);
         } else {
-          echoLog({ type: 'custom', text: `<li>${__('unKnownTaskType', `${taskDes}(${link})`)}<font></font></li>` });
+          echoLog({ html: `<li><font class="warning>${__('unKnownTaskType', `${taskDes}(${link})`)}</font></li>` });
         }
       }
 
@@ -144,7 +144,7 @@ class Keyhub extends Website {
         this.giveawayId = giveawayId;
         return true;
       }
-      echoLog({ type: 'custom', text: `<li><font class="error">${__('getGiveawayIdFailed')}</font></li>` });
+      echoLog({ html: `<li><font class="error">${__('getFailed', 'GiveawayId')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Keyhub.getGiveawayId');

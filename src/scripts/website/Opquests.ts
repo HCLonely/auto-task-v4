@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-18 13:31:23
- * @LastEditTime : 2021-11-20 19:58:31
+ * @LastEditTime : 2021-11-21 16:35:36
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Opquests.ts
  * @Description  :
@@ -39,7 +39,7 @@ class Opquests extends Website {
   async before(): Promise<void> {
     try {
       if (!this.checkLogin()) {
-        echoLog({ type: 'checkLoginFailed' });
+        echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
       }
     } catch (error) {
       throwError(error as Error, 'Opquests.before');
@@ -47,10 +47,10 @@ class Opquests extends Website {
   }
   init(): boolean {
     try {
-      const logStatus = echoLog({ type: 'init' });
+      const logStatus = echoLog({ text: __('initing') });
       if ($('a[href*="/auth/redirect"]').length > 0) {
         window.open('/auth/redirect', '_self');
-        logStatus.warning('请先登录');
+        logStatus.warning(__('needLogin'));
         return false;
       }
       if (!this.#getGiveawayId()) return false;
@@ -66,10 +66,10 @@ class Opquests extends Website {
   async classifyTask(action: 'do' | 'undo'): Promise<boolean> {
     try {
       if (action === 'undo') {
-        echoLog({ type: 'custom', text: '<li>此网站不支持取消任务<font></font></li>' });
+        echoLog({ text: __('cannotUndo') });
         return false;
       }
-      const logStatus = echoLog({ type: 'custom', text: `<li>${__('getTasksInfo')}<font></font></li>` });
+      const logStatus = echoLog({ text: __('getTasksInfo') });
 
       const tasks = $('.w-full:contains("Validate") .items-center');
       for (const task of tasks) {
@@ -93,7 +93,7 @@ class Opquests extends Website {
         } else if (/store\.steampowered\.com\/(publisher|developer)\//.test(link) && /follow/gim.test(taskDes)) {
           this.undoneTasks.steam.curatorLikeLinks.push(link);
         } else {
-          echoLog({ type: 'custom', text: `<li>${__('unKnownTaskType', `${taskDes}(${link})`)}<font></font></li>` });
+          echoLog({ html: `<li><font class="warning">${__('unKnownTaskType', `${taskDes}(${link})`)}</font></li>` });
         }
       }
 
@@ -114,7 +114,7 @@ class Opquests extends Website {
         this.giveawayId = giveawayId;
         return true;
       }
-      echoLog({ type: 'custom', text: `<li><font class="error">${__('getGiveawayIdFailed')}</font></li>` });
+      echoLog({ html: `<li><font class="error">${__('getFailed', 'GiveawayId')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Opquests.getGiveawayId');

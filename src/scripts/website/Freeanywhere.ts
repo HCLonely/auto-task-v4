@@ -1,9 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:03
- * @LastEditTime : 2021-11-20 16:19:51
+ * @LastEditTime : 2021-11-21 16:05:29
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/scripts/website/freeanywhere.ts
+ * @FilePath     : /auto-task-new/src/scripts/website/Freeanywhere.ts
  * @Description  : https://freeanywhere.net
  */
 
@@ -40,21 +40,20 @@ class FreeAnyWhere extends Website {
   }
   init(): boolean {
     try {
-      const logStatus = echoLog({ type: 'init' });
+      const logStatus = echoLog({ text: __('initing') });
       if ($('a[href="#/login"]').length > 0) {
         window.open('/#/login', '_self');
-        logStatus.warning('请先登录');
+        logStatus.warning(__('needLogin'));
         return false;
       }
       if (window.location.href.includes('/login')) {
-        echoLog({ type: 'custom', text: `<li><font class="error">${__('needLogin')}</font></li>` });
-        logStatus.warning('请先登录');
+        logStatus.warning(__('needLogin'));
         return false;
       }
       if (!/^https?:\/\/freeanywhere\.net\/#\/giveaway\/[\d]+/.test(window.location.href)) {
         const id = window.location.href.match(/https?:\/\/freeanywhere\.net\/.*?#\/giveaway\/([\d]+)/)?.[1];
         if (!id) {
-          logStatus.error('获取id失败');
+          logStatus.error(__('getFailed', 'Id'));
           return false;
         }
         window.location.href = `https://freeanywhere.net/#/giveaway/${id}`;
@@ -70,7 +69,7 @@ class FreeAnyWhere extends Website {
   }
   async classifyTask(action: string) {
     try {
-      const logStatus = echoLog({ type: 'custom', text: `<li>${__('getTasksInfo')}<font></font></li>` });
+      const logStatus = echoLog({ text: __('getTasksInfo') });
       // todo
       this.socialTasks = GM_getValue<fawSocialTasks>(`fawTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
 
@@ -167,7 +166,7 @@ class FreeAnyWhere extends Website {
         await delay(1000);
       }
       await Promise.all(pro);
-      echoLog({ type: 'custom', text: '<li>All tasks complete!<font></font></li>' });
+      echoLog({ html: `<li><font class="success">${__('allTasksComplete')}</font></li>` });
       return true;
     } catch (error) {
       throwError(error as Error, 'Freeanywhere.verifyTask');
@@ -175,7 +174,7 @@ class FreeAnyWhere extends Website {
     }
   }
   async getKey(): Promise<void> {
-    const logStatus = echoLog({ type: 'custom', text: `<li>${__('gettingKey')}...<font></font></li>` });
+    const logStatus = echoLog({ text: __('gettingKey') });
     const { result, statusText, status, data } = await httpRequest({
       url: `https://freeanywhere.net/api/v1/giveaway/${this.giveawayId}/reward/?format=json`,
       method: 'GET',
@@ -187,7 +186,7 @@ class FreeAnyWhere extends Website {
     if (result === 'Success') {
       if (data?.response?.reward) {
         logStatus.success();
-        echoLog({ type: 'custom', text: `<li><font class="success">${data.response.reward}</font></li>` });
+        echoLog({ html: `<li><font class="success">${data.response.reward}</font></li>` });
       } else {
         logStatus.error(`Error:${data?.statusText}(${data?.status})`);
       }
@@ -203,7 +202,7 @@ class FreeAnyWhere extends Website {
         this.giveawayId = giveawayId;
         return true;
       }
-      echoLog({ type: 'custom', text: `<li><font class="error">${__('getGiveawayIdFailed')}</font></li>` });
+      echoLog({ html: `<li><font class="error">${__('getFailed', 'GiveawayId')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Keyhub.getGiveawayId');
@@ -211,7 +210,7 @@ class FreeAnyWhere extends Website {
   }
   async #verify(task: fawTaskInfo): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'custom', text: `<li>${__('verifyingTask')}${task.title.trim()}...<font></font></li>` });
+      const logStatus = echoLog({ html: `<li>${__('verifyingTask')}${task.title.trim()}...<font></font></li>` });
 
       const { result, statusText, status, data } = await httpRequest({
         url: `https://freeanywhere.net/api/v1/giveaway/${this.giveawayId}/challenge-status/${task.id}/?format=json`,
