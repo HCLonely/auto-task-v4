@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-29 12:54:16
- * @LastEditTime : 2021-11-21 12:35:45
+ * @LastEditTime : 2021-11-21 17:00:16
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Instagram.ts
  * @Description  : Instagram 关注&取关用户
@@ -199,7 +199,7 @@ class Instagram extends Social {
     /**
      * @description 公有方法，统一处理Instagram相关任务
      * @param {boolean} doTask true: 做任务 | false: 取消任务
-     * @param {?Array} serverLinks Instagram用户链接数组。注意: 不接受用户名数组
+     * @param {?Array} userLinks Instagram用户链接数组。注意: 不接受用户名数组
      */
     try {
       if (!this.#initialized) {

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:36:57
- * @LastEditTime : 2021-11-21 12:38:20
+ * @LastEditTime : 2021-11-21 17:00:55
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitter.ts
  * @Description  : Twitter 关注/取关用户,转推/取消转推推文
@@ -34,6 +34,10 @@ class Twitter extends Social {
 
   // 通用化,log
   async init(): Promise<boolean> {
+    /**
+     * @description: 验证及获取Auth
+     * @return true: 初始化完成 | false: 初始化失败，toggle方法不可用
+     */
     try {
       if (this.#initialized) {
         return true;
@@ -66,6 +70,11 @@ class Twitter extends Social {
   }
 
   async #verifyAuth(): Promise<boolean> {
+    /**
+     * @internal
+     * @description 检测Twitter Token是否失效
+     * @return true: Token有效 | false: Token失效
+     */
     try {
       return await this.#toggleUser({ name: 'verify', doTask: true, verify: true });
     } catch (error) {
@@ -74,8 +83,12 @@ class Twitter extends Social {
     }
   }
 
-  // TODO: 添加跳转
   async #updateAuth(): Promise<boolean> {
+    /**
+     * @internal
+     * @description 通过打开Twitter网站更新Token.
+     * @return true: 更新Token成功 | false: 更新Token失败
+     */
     try {
       const logStatus = echoLog({ text: __('updatingAuth', 'Twitter') });
       return await new Promise((resolve) => {
@@ -100,6 +113,14 @@ class Twitter extends Social {
   }
 
   async #toggleUser({ name, doTask = true, verify = false }: { name: string, doTask: boolean, verify?: boolean }): Promise<boolean> {
+    /**
+     * @internal
+     * @description 处理Twitter用户任务
+     * @param name Twitter用户名
+     * @param doTask true: 关注 | false: 取关
+     * @param verify true: 用于验证Token | false: 处理用户任务
+     * @return true: 成功 | false: 失败
+     */
     try {
       if (!doTask && !verify && this.whiteList.users.includes(name)) {
         // TODO: 直接echo
@@ -159,6 +180,12 @@ class Twitter extends Social {
   }
 
   async #getUserId(name: string): Promise<string | false> {
+    /**
+     * @internal
+     * @description 通过用户名获取Id
+     * @param name 用户名
+     * @return {string}: 获取成功，返回用户Id | false: 获取失败
+     */
     try {
       const logStatus = echoLog({ type: 'gettingTwitterUserId', text: name });
       const userId = this.#cache[name];
@@ -210,6 +237,13 @@ class Twitter extends Social {
   }
 
   async #toggleRetweet({ retweetId, doTask = true }: { retweetId: string, doTask: boolean }): Promise<boolean> {
+    /**
+     * @internal
+     * @description 处理转推任务
+     * @param retweetId 推文Id
+     * @param doTask true: 转推 | false: 撤销转推
+     * @return true: 成功 | false: 失败
+     */
     try {
       if (!doTask && this.whiteList.retweets.includes(retweetId)) {
         // TODO: 直接echo
@@ -257,6 +291,12 @@ class Twitter extends Social {
     userLinks?: Array<string>,
     retweetLinks?: Array<string>
   }): Promise<boolean> {
+    /**
+     * @description 公有方法，统一处理Twitter相关任务
+     * @param {boolean} doTask true: 做任务 | false: 取消任务
+     * @param {?Array} userLinks Twitter用户链接数组。
+     * @param {?Array} retweetLinks 推文链接数组。
+     */
     try {
       if (!this.#initialized) {
         echoLog({ text: __('needInit') });
@@ -286,6 +326,11 @@ class Twitter extends Social {
     }
   }
   #setCache(name: string, id: string): void {
+    /**
+     * @internal
+     * @description 缓存用户名与用户Id的对应关系
+     * @return {void}
+     */
     try {
       this.#cache[name] = id;
       GM_setValue('twitterCache', this.#cache); // eslint-disable-line new-cap

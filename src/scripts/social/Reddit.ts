@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-30 09:43:32
- * @LastEditTime : 2021-11-21 12:41:34
+ * @LastEditTime : 2021-11-21 17:00:07
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Reddit.ts
  * @Description  : Reddit 订阅&取消订阅
@@ -23,6 +23,10 @@ class Reddit extends Social {
 
   // 通用化
   async init(): Promise<boolean> {
+    /**
+     * @description: 验证及获取Auth
+     * @return true: 初始化完成 | false: 初始化失败，toggle方法不可用
+     */
     try {
       if (this.#initialized) {
         return true;
@@ -42,6 +46,10 @@ class Reddit extends Social {
   }
 
   async #useBeta(): Promise<boolean> {
+    /**
+     * @description: 切换Reddit网站为新版，此脚本使用新版API
+     * @return true: 切换成功 | false: 切换失败
+     */
     try {
       const logStatus = echoLog({ text: __('changingRedditVersion') });
       GM_setValue('redditAuth', null); // eslint-disable-line new-cap
@@ -59,6 +67,11 @@ class Reddit extends Social {
     }
   }
   async #updateAuth(beta = false): Promise<boolean> {
+    /**
+     * @internal
+     * @description 通过打开Reddit网站更新Token.
+     * @return true: 更新Token成功 | false: 更新Token失败
+     */
     try {
       const logStatus = echoLog({ text: __('updatingAuth', 'Reddit') });
       const { result, statusText, status, data } = await httpRequest({
@@ -99,6 +112,13 @@ class Reddit extends Social {
   }
 
   async toggleTask({ name, doTask = true }: { name: string, doTask: boolean }): Promise<boolean> {
+    /**
+     * @internal
+     * @description 处理Reddit任务
+     * @param name Reddit用户名或版块名
+     * @param doTask true: 做任务 | false: 取消任务
+     * @return true: 成功 | false: 失败
+     */
     try {
       if (!doTask && this.whiteList.reddits.includes(name)) {
         // TODO: 直接echo
@@ -144,7 +164,12 @@ class Reddit extends Social {
   }: {
     doTask: boolean,
     redditLinks?: Array<string>
-  }): Promise<boolean> {
+    }): Promise<boolean> {
+    /**
+     * @description 公有方法，统一处理Reddit相关任务
+     * @param {boolean} doTask true: 做任务 | false: 取消任务
+     * @param {?Array} redditLinks Reddit链接数组。
+     */
     try {
       if (!this.#initialized) {
         echoLog({ text: __('needInit') });

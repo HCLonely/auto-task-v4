@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:00:41
- * @LastEditTime : 2021-11-21 13:02:49
+ * @LastEditTime : 2021-11-21 16:59:59
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitch.ts
  * @Description  : Twitch 关注/取关频道
@@ -24,6 +24,10 @@ class Twitch extends Social {
 
   // 通用化,log
   async init(): Promise<boolean> {
+    /**
+     * @description: 验证及获取Auth
+     * @return true: 初始化完成 | false: 初始化失败，toggle方法不可用
+     */
     try {
       if (this.#initialized) {
         return true;
@@ -56,6 +60,11 @@ class Twitch extends Social {
   }
 
   async #verifyAuth(): Promise<boolean> {
+    /**
+     * @internal
+     * @description 检测Twitch Token是否失效
+     * @return true: Token有效 | false: Token失效
+     */
     try {
       const logStatus = echoLog({ text: __('verifyingAuth', 'Twitch') });
       const { result, statusText, status, data } = await httpRequest({
@@ -85,6 +94,11 @@ class Twitch extends Social {
   }
 
   async #updateAuth(): Promise<boolean> {
+    /**
+     * @internal
+     * @description 通过打开Twitch网站更新Token.
+     * @return true: 更新Token成功 | false: 更新Token失败
+     */
     try {
       const logStatus = echoLog({ text: __('updatingAuth', 'Twitch') });
       return await new Promise((resolve) => {
@@ -109,6 +123,13 @@ class Twitch extends Social {
   }
 
   async #toggleChannel({ name, doTask = true }: { name: string, doTask: boolean }): Promise<boolean> {
+    /**
+     * @internal
+     * @description 处理Twitch频道任务
+     * @param name Twitch频道名
+     * @param doTask true: 订阅频道 | false: 退订频道
+     * @return true: 成功 | false: 失败
+     */
     try {
       if (!doTask && this.whiteList.channels.includes(name)) {
         // TODO: 直接echo
@@ -153,6 +174,12 @@ class Twitch extends Social {
   }
 
   async #getChannelId(name: string): Promise<string | false> {
+    /**
+     * @internal
+     * @description 通过频道名获取频道Id
+     * @param name 频道名
+     * @return {string}: 获取成功，返回频道Id | false: 获取失败
+     */
     try {
       const logStatus = echoLog({ type: 'gettingTwitchChannelId', text: name });
       const channelId = this.#cache[name];
@@ -199,6 +226,11 @@ class Twitch extends Social {
     doTask: boolean,
     channelLinks?: Array<string>
   }): Promise<boolean> {
+    /**
+     * @description 公有方法，统一处理Twitch相关任务
+     * @param {boolean} doTask true: 做任务 | false: 取消任务
+     * @param {?Array} channelLinks Twitch链接数组。
+     */
     try {
       if (!this.#initialized) {
         echoLog({ text: __('needInit') });
@@ -221,6 +253,11 @@ class Twitch extends Social {
     }
   }
   #setCache(name: string, id: string): void {
+    /**
+     * @internal
+     * @description 缓存频道名与频道Id的对应关系
+     * @return {void}
+     */
     try {
       this.#cache[name] = id;
       GM_setValue('twitchCache', this.#cache); // eslint-disable-line new-cap
