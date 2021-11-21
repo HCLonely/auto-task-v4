@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-30 09:43:32
- * @LastEditTime : 2021-11-20 16:17:42
+ * @LastEditTime : 2021-11-21 12:41:34
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Reddit.ts
  * @Description  : Reddit 订阅&取消订阅
@@ -29,11 +29,11 @@ class Reddit extends Social {
       }
       const isVerified: boolean = await this.#updateAuth();
       if (isVerified) {
-        echoLog({ text: 'Init reddit success!' });
+        echoLog({ text: __('initSuccess', 'Reddit') });
         this.#initialized = true;
         return true;
       }
-      echoLog({ text: 'Init reddit failed!' });
+      echoLog({ text: __('initFailed', 'Reddit') });
       return false;
     } catch (error) {
       throwError(error as Error, 'Reddit.init');
@@ -43,7 +43,7 @@ class Reddit extends Social {
 
   async #useBeta(): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'text', text: 'changeRedditVersion' });
+      const logStatus = echoLog({ text: __('changingRedditVersion') });
       GM_setValue('redditAuth', null); // eslint-disable-line new-cap
       return await new Promise((resolve) => {
         const newTab = GM_openInTab('https://www.reddit.com/#auth', // eslint-disable-line new-cap
@@ -60,7 +60,7 @@ class Reddit extends Social {
   }
   async #updateAuth(beta = false): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'text', text: 'updateRedditAuth' });
+      const logStatus = echoLog({ text: __('updatingAuth', 'Reddit') });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://www.reddit.com/',
         method: 'GET',
@@ -105,9 +105,9 @@ class Reddit extends Social {
         echoLog({ type: 'whiteList', text: name });
         return true;
       }
-      let type: string = doTask ? 'joinReddit' : 'leaveReddit';
+      let type: string = doTask ? 'joiningReddit' : 'leavingReddit';
       if (/^u_/.test(name)) {
-        type = doTask ? 'followRedditUser' : 'unfollowRedditUser';
+        type = doTask ? 'followingRedditUser' : 'unfollowingRedditUser';
       }
       const logStatus = echoLog({ type, text: name });
 
@@ -147,7 +147,7 @@ class Reddit extends Social {
   }): Promise<boolean> {
     try {
       if (!this.#initialized) {
-        echoLog({ type: 'text', text: '请先初始化' });
+        echoLog({ text: __('needInit') });
         return false;
       }
       const prom: Array<Promise<boolean>> = [];

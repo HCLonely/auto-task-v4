@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2021-11-20 15:10:56
+ * @LastEditTime : 2021-11-21 12:34:49
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
@@ -12,6 +12,7 @@ import httpRequest from '../tools/httpRequest';
 import throwError from '../tools/throwError';
 import { unique, delay } from '../tools/tools';
 import echoLog from '../echoLog';
+import __ from '../tools/i18n';
 
 const defaultTasks: discordTasks = { servers: [] };
 
@@ -33,7 +34,6 @@ class Discord extends Social {
         return true;
       }
       if (!this.#auth.auth) {
-        echoLog({ type: 'updateDiscordAuth' });
         if (await this.#updateAuth()) {
           this.#initialized = true;
           return true;
@@ -42,17 +42,17 @@ class Discord extends Social {
       }
       const isVerified: boolean = await this.#verifyAuth();
       if (isVerified) {
-        echoLog({ text: 'Init discord success!' });
+        echoLog({ text: __('initSuccess', 'Discord') });
         this.#initialized = true;
         return true;
       }
       GM_setValue('discordAuth', { auth: null }); // eslint-disable-line new-cap
       if (await this.#updateAuth()) {
-        echoLog({ text: 'Init discord success!' });
+        echoLog({ text: __('initSuccess', 'Discord') });
         this.#initialized = true;
         return true;
       }
-      echoLog({ text: 'Init discord failed!' });
+      echoLog({ text: __('initFailed', 'Discord') });
       return false;
     } catch (error) {
       throwError(error as Error, 'Discord.init');
@@ -67,7 +67,7 @@ class Discord extends Social {
      * @return true: Token有效 | false: Token失效
      */
     try {
-      const logStatus = echoLog({ type: 'text', text: 'verifyDiscordAuth' });
+      const logStatus = echoLog({ text: __('verifyingAuth', 'Discord') });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://discord.com/api/v6/users/@me',
         method: 'HEAD',
@@ -96,7 +96,7 @@ class Discord extends Social {
      * @return true: 更新Token成功 | false: 更新Token失败
      */
     try {
-      const logStatus = echoLog({ type: 'text', text: 'updateDiscordAuth' });
+      const logStatus = echoLog({ text: __('updatingAuth', 'Discord') });
       return await new Promise((resolve) => {
         const newTab = GM_openInTab('https://discord.com/channels/@me#auth', // eslint-disable-line new-cap
           { active: true, insert: true, setParent: true });
@@ -126,7 +126,7 @@ class Discord extends Social {
      * @return true: 加入成功 | false: 加入失败
      */
     try {
-      const logStatus = echoLog({ type: 'joinDiscordServer', text: inviteId });
+      const logStatus = echoLog({ type: 'joiningDiscordServer', text: inviteId });
       const { result, statusText, status, data } = await httpRequest({
         url: `https://discord.com/api/v6/invites/${inviteId}`,
         method: 'POST',
@@ -168,7 +168,7 @@ class Discord extends Social {
       if (!guild) {
         return false;
       }
-      const logStatus = echoLog({ type: 'leaveDiscordServer', text: inviteId });
+      const logStatus = echoLog({ type: 'leavingDiscordServer', text: guild });
       const { result, statusText, status, data } = await httpRequest({
         url: `https://discord.com/api/v6/users/@me/guilds/${guild}`,
         method: 'DELETE',
@@ -186,7 +186,7 @@ class Discord extends Social {
     }
   }
 
-  async #getGuild(inviteId: string): Promise<boolean | string> {
+  async #getGuild(inviteId: string): Promise<false | string> {
     /**
      * @internal
      * @description 通过{inviteId}获取{guild}, {guild}用于退出服务器
@@ -194,7 +194,7 @@ class Discord extends Social {
      * @return {string}: 获取成功，返回{guild} | false: 获取失败
      */
     try {
-      const logStatus = echoLog({ type: 'getDiscordGuild', text: inviteId });
+      const logStatus = echoLog({ type: 'gettingDiscordGuild', text: inviteId });
       const guild = this.#cache[inviteId];
       if (guild) {
         logStatus.success();
@@ -236,7 +236,7 @@ class Discord extends Social {
      */
     try {
       if (!this.#initialized) {
-        echoLog({ type: 'text', text: '请先初始化' });
+        echoLog({ text: __('needInit') });
         return false;
       }
       const prom = [];

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:00:41
- * @LastEditTime : 2021-11-19 16:30:29
+ * @LastEditTime : 2021-11-21 13:02:49
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitch.ts
  * @Description  : Twitch 关注/取关频道
@@ -12,6 +12,7 @@ import echoLog from '../echoLog';
 import throwError from '../tools/throwError';
 import httpRequest from '../tools/httpRequest';
 import { unique, delay } from '../tools/tools';
+import __ from '../tools/i18n';
 
 const defaultTasks: twitchTasks = { channels: [] };
 class Twitch extends Social {
@@ -28,7 +29,6 @@ class Twitch extends Social {
         return true;
       }
       if (!this.#auth.authToken) {
-        echoLog({ type: 'updateTwitchAuth' });
         if (await this.#updateAuth()) {
           this.#initialized = true;
           return true;
@@ -37,17 +37,17 @@ class Twitch extends Social {
       }
       const isVerified: boolean = await this.#verifyAuth();
       if (isVerified) {
-        echoLog({ text: 'Init twitch success!' });
+        echoLog({ text: __('initSuccess', 'Twitch') });
         this.#initialized = true;
         return true;
       }
       GM_setValue('twitchAuth', null); // eslint-disable-line new-cap
       if (await this.#updateAuth()) {
-        echoLog({ text: 'Init twitch success!' });
+        echoLog({ text: __('initSuccess', 'Twitch') });
         this.#initialized = true;
         return true;
       }
-      echoLog({ text: 'Init twitch failed!' });
+      echoLog({ text: __('initFailed', 'Twitch') });
       return false;
     } catch (error) {
       throwError(error as Error, 'Twitch.init');
@@ -57,7 +57,7 @@ class Twitch extends Social {
 
   async #verifyAuth(): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'text', text: 'verifyTwitchAuth' });
+      const logStatus = echoLog({ text: __('verifyingAuth', 'Twitch') });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://gql.twitch.tv/gql',
         method: 'POST',
@@ -86,7 +86,7 @@ class Twitch extends Social {
 
   async #updateAuth(): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'text', text: 'updateTwitchAuth' });
+      const logStatus = echoLog({ text: __('updatingAuth', 'Twitch') });
       return await new Promise((resolve) => {
         const newTab = GM_openInTab('https://www.twitch.tv/#auth', // eslint-disable-line new-cap
           { active: true, insert: true, setParent: true });
@@ -117,7 +117,7 @@ class Twitch extends Social {
       }
       const channelId: string | boolean = await this.#getChannelId(name);
       if (!channelId) return false;
-      const logStatus = echoLog({ type: `${doTask ? '' : 'un'}followTwitchChannel`, text: name });
+      const logStatus = echoLog({ type: `${doTask ? '' : 'un'}followingTwitchChannel`, text: name });
       const followData: string = (
         `[{"operationName":"FollowButton_FollowUser","variables":{"input":{"disableNotifications":false,"targetID":"${channelId}` +
         '"}},"extensions":{"persistedQuery":{"version":1,"sha256Hash":"3efee1acda90efdff9fef6e6b4a29213be3ee490781c5b54469717b6131ffdfe"}}}]'
@@ -154,7 +154,7 @@ class Twitch extends Social {
 
   async #getChannelId(name: string): Promise<string | false> {
     try {
-      const logStatus = echoLog({ type: 'getTwitchChannelId', text: name });
+      const logStatus = echoLog({ type: 'gettingTwitchChannelId', text: name });
       const channelId = this.#cache[name];
       if (channelId) {
         logStatus.success();
@@ -201,7 +201,7 @@ class Twitch extends Social {
   }): Promise<boolean> {
     try {
       if (!this.#initialized) {
-        echoLog({ type: 'text', text: '请先初始化' });
+        echoLog({ text: __('needInit') });
         return false;
       }
       const prom = [];

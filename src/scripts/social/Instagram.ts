@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-29 12:54:16
- * @LastEditTime : 2021-11-20 16:17:15
+ * @LastEditTime : 2021-11-21 12:35:45
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Instagram.ts
  * @Description  : Instagram 关注&取关用户
@@ -33,11 +33,11 @@ class Instagram extends Social {
       }
       const isVerified = await this.#getUserInfo();
       if (isVerified) {
-        echoLog({ text: 'Init instagram success!' });
+        echoLog({ text: __('initSuccess', 'Instagram') });
         this.#initialized = true;
         return true;
       }
-      echoLog({ text: 'Init instagram failed!' });
+      echoLog({ text: __('initFailed', 'Instagram') });
       return false;
     } catch (error) {
       throwError(error as Error, 'Instagram.init');
@@ -54,7 +54,7 @@ class Instagram extends Social {
      * @return name !== 'instagram' 时返回 string: instagram用户id | false: 获取用户id失败
      */
     try {
-      const logStatus = echoLog({ type: name === 'instagram' ? 'getInsInfo' : 'getInsUserId', text: name });
+      const logStatus = echoLog({ type: name === 'instagram' ? 'verifyingInsAuth' : 'gettingInsUserId', text: name });
       const userId = this.#cache[name];
       if (userId && name !== 'instagram') {
         logStatus.success();
@@ -113,7 +113,7 @@ class Instagram extends Social {
     try {
       const id: string | boolean = await this.#getUserInfo(name);
       if (!id) return false;
-      const logStatus = echoLog({ type: 'followIns', text: name });
+      const logStatus = echoLog({ type: 'followingIns', text: name });
       const { result, statusText, status, data } = await httpRequest({
         url: `https://www.instagram.com/web/friendships/${id}/follow/`,
         method: 'POST',
@@ -159,7 +159,7 @@ class Instagram extends Social {
       }
       const id: string | boolean = await this.#getUserInfo(name);
       if (!id) return false;
-      const logStatus = echoLog({ type: 'unfollowIns', text: name });
+      const logStatus = echoLog({ type: 'unfollowingIns', text: name });
       const { result, statusText, status, data } = await httpRequest({
         url: `https://www.instagram.com/web/friendships/${id}/unfollow/`,
         method: 'POST',
@@ -203,7 +203,7 @@ class Instagram extends Social {
      */
     try {
       if (!this.#initialized) {
-        echoLog({ type: 'text', text: '请先初始化' });
+        echoLog({ text: __('needInit') });
         return false;
       }
       const prom = [];

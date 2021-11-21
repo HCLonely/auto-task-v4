@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 11:47:59
- * @LastEditTime : 2021-11-20 16:18:17
+ * @LastEditTime : 2021-11-21 13:04:38
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Vk.ts
  * @Description  : Vk 加入/退出群组，关注/取关用户，转发/取消转发动态
@@ -40,11 +40,11 @@ class Vk extends Social {
       }
       const isVerified: boolean = await this.#verifyAuth(); // TODO
       if (isVerified) {
-        echoLog({ text: 'Init vk success!' });
+        echoLog({ text: __('initSuccess', 'Vk') });
         this.#initialized = true;
         return true;
       }
-      echoLog({ text: 'Init vk failed!' });
+      echoLog({ text: __('initFailed', 'Vk') });
       return false;
     } catch (error) {
       throwError(error as Error, 'Vk.init');
@@ -54,7 +54,7 @@ class Vk extends Social {
 
   async #verifyAuth(): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'text', text: 'verifyVkLogin' });
+      const logStatus = echoLog({ text: __('verifyAuth', 'Vk') });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://vk.com/im',
         method: 'GET'
@@ -82,7 +82,7 @@ class Vk extends Social {
 
   async #toggleGroup(name: string, dataParam: dataParams, doTask = true): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: doTask ? 'joinVkGroup' : 'leaveVkGroup', text: name });
+      const logStatus = echoLog({ type: doTask ? 'joiningVkGroup' : 'leavingVkGroup', text: name });
       if ((dataParam.groupAct === 'enter' && !doTask) || (dataParam.groupAct === 'leave' && doTask)) {
         logStatus.success();
         return true;
@@ -129,7 +129,7 @@ class Vk extends Social {
 
   async #togglePublic(name: string, dataParam: dataParams, doTask = true): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: doTask ? 'joinVkPublic' : 'leaveVkPublic', text: name });
+      const logStatus = echoLog({ type: doTask ? 'joiningVkPublic' : 'leaveingVkPublic', text: name });
       if ((dataParam.publicJoined && doTask) || (!dataParam.publicJoined && !doTask)) {
         logStatus.success();
         return true;
@@ -168,7 +168,7 @@ class Vk extends Social {
 
   async #sendWall(name: string): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'sendVkWall', text: name });
+      const logStatus = echoLog({ type: 'sendingVkWall', text: name });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://vk.com/like.php',
         method: 'POST',
@@ -250,7 +250,7 @@ class Vk extends Social {
 
   async #deleteWall(name: string, dataParams: dataParams): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'deleteVkWall', text: name });
+      const logStatus = echoLog({ type: 'deletingVkWall', text: name });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://vk.com/al_wall.php?act=delete',
         method: 'POST',
@@ -301,7 +301,7 @@ class Vk extends Social {
         }
         url = `https://vk.com/${this.#username}?w=wall${this.#cache[name]}`;
       }
-      const logStatus = echoLog({ type: 'getVkId', text: name });
+      const logStatus = echoLog({ type: 'gettingVkId', text: name });
       const { result, statusText, status, data } = await httpRequest({
         url,
         method: 'GET'
@@ -379,7 +379,7 @@ class Vk extends Social {
   }): Promise<boolean> {
     try {
       if (!this.#initialized) {
-        echoLog({ type: 'text', text: '请先初始化' });
+        echoLog({ text: __('needInit') });
         return false;
       }
       const prom = [];

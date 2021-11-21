@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 12:18:06
- * @LastEditTime : 2021-11-20 17:06:16
+ * @LastEditTime : 2021-11-21 12:50:30
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Youtube.ts
  * @Description  : Youtube 订阅/取消订阅频道，点赞/取消点赞视频
@@ -40,7 +40,6 @@ class Youtube extends Social {
         return true;
       }
       if (!this.#auth.PAPISID) {
-        echoLog({ type: 'updateYoutubeAuth' });
         if (await this.#updateAuth()) {
           this.#initialized = true;
           return true;
@@ -49,17 +48,17 @@ class Youtube extends Social {
       }
       const isVerified: boolean = await this.#verifyAuth();
       if (isVerified) {
-        echoLog({ text: 'Init youtube success!' });
+        echoLog({ text: __('initSuccess', 'Youtube') });
         this.#initialized = true;
         return true;
       }
       GM_setValue('youtubeAuth', null); // eslint-disable-line new-cap
       if (await this.#updateAuth()) {
-        echoLog({ text: 'Init youtube success!' });
+        echoLog({ text: __('initSuccess', 'Youtube') });
         this.#initialized = true;
         return true;
       }
-      echoLog({ text: 'Init youtube failed!' });
+      echoLog({ text: __('initFailed', 'Youtube') });
       return false;
     } catch (error) {
       throwError(error as Error, 'Youtube.init');
@@ -77,7 +76,7 @@ class Youtube extends Social {
   }
   async #updateAuth(): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'text', text: 'updateYoutubeAuth' });
+      const logStatus = echoLog({ text: __('updatingAuth', 'Youtube') });
       return await new Promise((resolve) => {
         const newTab = GM_openInTab('https://www.youtube.com/#auth', // eslint-disable-line new-cap
           { active: true, insert: true, setParent: true });
@@ -101,7 +100,7 @@ class Youtube extends Social {
 
   async #getInfo(link: string, type: string): Promise<youtubeInfo> {
     try {
-      const logStatus = echoLog({ type: 'text', text: 'getYtbToken' });
+      const logStatus = echoLog({ text: __('gettingYtbToken') });
       const { result, statusText, status, data } = await httpRequest({
         url: link,
         method: 'GET'
@@ -163,11 +162,11 @@ class Youtube extends Social {
       const { apiKey, client, request, channelId } = params || {};
 
       if (needLogin) {
-        echoLog({ type: 'custom', text: __('loginYtb') });
+        echoLog({ html: __('loginYtb') });
         return false;
       }
       if (!(apiKey && client && request && channelId)) {
-        echoLog({ type: 'custom', text: '"getYtbToken" failed' });
+        echoLog({ text: '"getYtbToken" failed' });
         return false;
       }
 
@@ -178,8 +177,8 @@ class Youtube extends Social {
       }
 
       const logStatus = verify ?
-        echoLog({ type: 'text', text: 'verifyYoutubeAuth' }) :
-        echoLog({ type: doTask ? 'followYtbChannel' : 'unfollowYtbChannel', text: channelId });
+        echoLog({ text: __('verifyingAuth', 'Youtube') }) :
+        echoLog({ type: doTask ? 'followingYtbChannel' : 'unfollowingYtbChannel', text: channelId });
       const nowTime = parseInt(String(new Date().getTime() / 1000), 10);
       const { result, statusText, status, data } = await httpRequest({
         url: `https://www.youtube.com/youtubei/v1/subscription/${doTask ? '' : 'un'}subscribe?key=${apiKey}`,
@@ -241,12 +240,12 @@ class Youtube extends Social {
       const { apiKey, client, request, videoId, likeParams } = params || {};
 
       if (needLogin) {
-        echoLog({ type: 'text', text: `${__('loginYtb')}` });
+        echoLog({ html: `${__('loginYtb')}` });
         return false;
       }
 
       if (!(apiKey && client && request && videoId && likeParams)) {
-        echoLog({ type: 'text', text: '"getYtbToken" failed' });
+        echoLog({ text: '"getYtbToken" failed' });
         return false;
       }
 
@@ -256,7 +255,7 @@ class Youtube extends Social {
         return true;
       }
 
-      const logStatus = echoLog({ type: doTask ? 'likeYtbVideo' : 'unlikeYtbVideo', text: videoId });
+      const logStatus = echoLog({ type: doTask ? 'likingYtbVideo' : 'unlikingYtbVideo', text: videoId });
       const nowTime = parseInt(String(new Date().getTime() / 1000), 10);
       const likeVideoData: likeVideoData = {
         context: {
@@ -331,7 +330,7 @@ class Youtube extends Social {
   }): Promise<boolean> {
     try {
       if (!this.#initialized) {
-        echoLog({ type: 'text', text: '请先初始化' });
+        echoLog({ text: __('needInit') });
         return false;
       }
       const prom = [];

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:36:57
- * @LastEditTime : 2021-11-08 11:02:40
+ * @LastEditTime : 2021-11-21 12:38:20
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitter.ts
  * @Description  : Twitter 关注/取关用户,转推/取消转推推文
@@ -13,6 +13,7 @@ import echoLog from '../echoLog';
 import throwError from '../tools/throwError';
 import httpRequest from '../tools/httpRequest';
 import { unique, delay } from '../tools/tools';
+import __ from '../tools/i18n';
 
 const defaultTasks: twitterTasks = { users: [], retweets: [], likes: [] };
 class Twitter extends Social {
@@ -38,7 +39,6 @@ class Twitter extends Social {
         return true;
       }
       if (!this.#auth.ct0) {
-        echoLog({ type: 'updateTwitterAuth' });
         if (await this.#updateAuth()) {
           this.#initialized = true;
           return true;
@@ -47,17 +47,17 @@ class Twitter extends Social {
       }
       const isVerified = await this.#verifyAuth();
       if (isVerified) {
-        echoLog({ text: 'Init twitter success!' });
+        echoLog({ text: __('initSuccess', 'Twitter') });
         this.#initialized = true;
         return true;
       }
       GM_setValue('twitterAuth', null); // eslint-disable-line new-cap
       if (await this.#updateAuth()) {
-        echoLog({ text: 'Init twitter success!' });
+        echoLog({ text: __('initSuccess', 'Twitter') });
         this.#initialized = true;
         return true;
       }
-      echoLog({ text: 'Init twitter failed!' });
+      echoLog({ text: __('initFailed', 'Twitter') });
       return false;
     } catch (error) {
       throwError(error as Error, 'Twitter.init');
@@ -77,7 +77,7 @@ class Twitter extends Social {
   // TODO: 添加跳转
   async #updateAuth(): Promise<boolean> {
     try {
-      const logStatus = echoLog({ type: 'text', text: 'updateTwitterAuth' });
+      const logStatus = echoLog({ text: __('updatingAuth', 'Twitter') });
       return await new Promise((resolve) => {
         const newTab = GM_openInTab('https://twitter.com/settings/account?k#auth', // eslint-disable-line new-cap
           { active: true, insert: true, setParent: true });
@@ -109,8 +109,8 @@ class Twitter extends Social {
       const userId: string | boolean = verify ? this.#verifyId : (await this.#getUserId(name));
       if (!userId) return false;
       const logStatus = verify ?
-        echoLog({ type: 'text', text: 'verifyTwitterAuth' }) :
-        echoLog({ type: `${doTask ? '' : 'un'}followTwitterUser`, text: name });
+        echoLog({ text: __('verifyingAuth', 'Twitter') }) :
+        echoLog({ type: `${doTask ? '' : 'un'}followingTwitterUser`, text: name });
       const { result, statusText, status, data } = await httpRequest({
         url: `https://api.twitter.com/1.1/friendships/${doTask ? 'create' : 'destroy'}.json`,
         method: 'POST',
@@ -160,7 +160,7 @@ class Twitter extends Social {
 
   async #getUserId(name: string): Promise<string | false> {
     try {
-      const logStatus = echoLog({ type: 'getTwitterUserId', text: name });
+      const logStatus = echoLog({ type: 'gettingTwitterUserId', text: name });
       const userId = this.#cache[name];
       if (userId) {
         logStatus.success();
@@ -216,7 +216,7 @@ class Twitter extends Social {
         echoLog({ type: 'whiteList', text: retweetId });
         return true;
       }
-      const logStatus = echoLog({ type: `${doTask ? '' : 'un'}retweet`, text: retweetId });
+      const logStatus = echoLog({ type: `${doTask ? '' : 'un'}retweetting`, text: retweetId });
       const { result, statusText, status, data } = await httpRequest({
         url: `https://api.twitter.com/1.1/statuses/${doTask ? '' : 'un'}retweet.json`,
         method: 'POST',
@@ -259,7 +259,7 @@ class Twitter extends Social {
   }): Promise<boolean> {
     try {
       if (!this.#initialized) {
-        echoLog({ type: 'text', text: '请先初始化' });
+        echoLog({ text: __('needInit') });
         return false;
       }
       const prom = [];

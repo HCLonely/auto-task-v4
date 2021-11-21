@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:03:26
- * @LastEditTime : 2021-11-21 11:11:29
+ * @LastEditTime : 2021-11-21 13:07:11
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/echoLog.ts
  * @Description  :
@@ -56,71 +56,69 @@ const echoLog = ({ type = 'text', text, html, id }: { type?: string, text?: stri
         ele = $(`<li>${__(type)}<a href="https://store.steampowered.com/news/app/${text}/view/${id}" target="_blank">
       ${id}</a>...<font></font></li>`);
         break;
-      case 'changingArea':
-        ele = $(`<li>${__('changingArea')}${text}...<font></font></li>`);
-        break;
-      case 'joinDiscordServer':
-      case 'leaveDiscordServer':
-      case 'getDiscordGuild':
+      case 'joiningDiscordServer':
+      case 'gettingDiscordGuild':
         ele = $(`<li>${__(type)}<a href="https://discord.com/invite/${text}" target="_blank">${text}</a>...<font></font></li>`);
+        break;
+      case 'leavingDiscordServer':
+        ele = $(`<li>${__(type)}<a href="https://discord.com/channels/@me/${text}" target="_blank">${text}</a>...<font></font></li>`);
         break;
       case 'updateDiscordAuth':
         ele = $(`<li style="color:red;">${__('updateDiscordAuth')}</li>`);
         break;
-      case 'followTwitchChannel':
-      case 'unfollowTwitchChannel':
-      case 'getTwitchChannelId':
+      case 'followingTwitchChannel':
+      case 'unfollowingTwitchChannel':
+      case 'gettingTwitchChannelId':
         ele = $(`<li>${__(type)}<a href="https://www.twitch.tv/${text}" target="_blank">${text}</a>...<font></font></li>`);
         break;
-      case 'getInsInfo':
-        ele = $(`<li>${__('getInsInfo')}<a href="https://www.instagram.com/${text}/" target="_blank">${text}</a>...<font></font></li>`);
-        break;
-      case 'followIns':
-      case 'unfollowIns':
+      case 'gettingInsUserId':
+      case 'followingIns':
+      case 'unfollowingIns':
         ele = $(`<li>${__(type)}<a href="https://www.instagram.com/${text}/" target="_blank">${text}</a>...<font></font></li>`);
         break;
-      case 'getTwitterUserId':
-      case 'followTwitterUser':
-      case 'unfollowTwitterUser':
+      case 'gettingTwitterUserId':
+      case 'followingTwitterUser':
+      case 'unfollowingTwitterUser':
         ele = $(`<li>${__(type)}<a href="https://twitter.com/${text}" target="_blank">${text}</a>...<font></font></li>`);
         break;
-      case 'retweet':
-      case 'unretweet':
+      case 'retweetting':
+      case 'unretweetting':
         ele = $(`<li>${__(type)}${text}...<font></font></li>`);
         break;
-      case 'joinReddit':
-      case 'leaveReddit':
+      case 'joiningReddit':
+      case 'leavingReddit':
         ele = $(`<li>${__(type)}<a href="https://www.reddit.com/r/${text}/" target="_blank">${text}</a>...<font></font></li>`);
         break;
-      case 'followRedditUser':
-      case 'unfollowRedditUser':
+      case 'followingRedditUser':
+      case 'unfollowingRedditUser':
         ele = $(`<li>${__(type)}<a href="https://www.reddit.com/user/${text?.replace('u_', '')}" target="_blank">
       ${text?.replace('u_', '')}</a>...<font></font></li>`);
         break;
-      case 'followYtbChannel':
-      case 'unfollowYtbChannel':
+      case 'followingYtbChannel':
+      case 'unfollowingYtbChannel':
         ele = $(`<li>${__(type)}<a href="https://www.youtube.com/channel/${text}" target="_blank">${text}</a>...<font></font></li>`);
         break;
-      case 'likeYtbVideo':
-      case 'unlikeYtbVideo':
+      case 'likingYtbVideo':
+      case 'unlikingYtbVideo':
         ele = $(`<li>${__(type)}<a href="https://www.youtube.com/watch?v=${text}" target="_blank">${text}</a>...<font></font></li>`);
         break;
-      case 'getVkId':
-      case 'joinVkGroup':
-      case 'leaveVkGroup':
-      case 'joinVkPublic':
-      case 'leaveVkPublic':
-      case 'repostVkWall':
+      case 'gettingVkId':
+      case 'joiningVkGroup':
+      case 'leavingVkGroup':
+      case 'joiningVkPublic':
+      case 'leavingVkPublic':
+      case 'sendingVkWall':
+      case 'deletingVkWall':
         ele = $(`<li>${__(type)}<a href="https://vk.com/${text}/" target="_blank">${text}</a>...<font></font></li>`);
         break;
-      case 'visitLink':
+      case 'visitLink': // todo
         ele = $(`<li>${__('visitLink')}<a href="${text}" target="_blank">${text}</a>...<font></font></li>`);
         break;
+      case 'verifyingInsAuth':
       case 'text':
         ele = $(`<li>${__(text as string)}<font></font></li>`);
         break;
       case 'html':
-      case 'custom':
         ele = $(text as string);
         break;
       default:

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2021-11-21 11:14:12
+ * @LastEditTime : 2021-11-21 12:33:26
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -65,7 +65,7 @@ class Steam extends Social {
 
   async #updateStoreAuth(): Promise<boolean> {
     try {
-      const logStatus = echoLog({ text: __('updatingSteamStoreAuth') });
+      const logStatus = echoLog({ text: __('updatingAuth', __('steamStore')) });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://store.steampowered.com/stats/',
         method: 'GET'
@@ -98,7 +98,7 @@ class Steam extends Social {
 
   async #updateCommunityAuth(): Promise<boolean> {
     try {
-      const logStatus = echoLog({ text: __('updatingSteamCommunityAuth') });
+      const logStatus = echoLog({ text: __('updatingAuth', __('steamCommunity')) });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://steamcommunity.com/my',
         method: 'GET'
