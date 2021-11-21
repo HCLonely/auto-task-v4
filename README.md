@@ -6,7 +6,7 @@
 
 ### 安装
 
-https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task.user.js
+[https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task.user.js](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task.user.js)
 
 ### 全局变量website
 
@@ -24,7 +24,7 @@ https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task.user.js
 - [ ] 不同阶段注册函数
 - [x] 需要登录
 - [ ] 任务识别修改
-- [ ] 传链接
+- [x] 传链接
 - [ ] steam更换地区优化
 - [x] 任务完成提示
 - [ ] 任务处理
