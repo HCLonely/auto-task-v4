@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.5-Alpha
+// @version            4.0.6-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -187,13 +187,13 @@
   const data = {
     needLogin: '请先登录！',
     getTasksInfo: '正在获取并处理任务信息',
-    gettingKey: '正在获取Key',
-    getGiveawayIdFailed: '获取GiveawayId失败，请重试！',
+    gettingKey: '正在获取Key...',
     verifyingTask: '正在验证任务',
     notice: '自动任务脚本提醒',
     noKeysLeft: '此页面已经没有剩余key了，是否关闭？',
     confirm: '确定',
     cancel: '取消',
+    unKnown: '未知',
     unKnownTaskType: '未识别的任务',
     doing: '正在做任务',
     allTasksComplete: '所有任务已完成！',
@@ -202,10 +202,21 @@
     initFailed: '%0 初始化失败！',
     errorLink: '链接错误: %0',
     needInit: '请先初始化',
-    needLoginSteamStore: '请先<a href="https://store.steampowered.com/login/">登录Steam商店</a>',
-    needLoginSteamCommunity: '请先<a href="https://steamcommunity.com/login/home/">登录Steam社区</a>',
-    updatingSteamCommunityAuth: '正在更新Steam社区凭证...',
-    updatingSteamStoreAuth: '正在更新Steam商店凭证...',
+    verifyingAuth: '正在验证%0凭证...',
+    updatingAuth: '正在更新%0凭证...',
+    initing: '正在初始化...',
+    getFailed: '获取%0失败！',
+    checkLoginFailed: '检测登录状态失败！',
+    checkLeftKeyFailed: '检测剩余Key失败！',
+    userId: '用户Id',
+    giveKeyNotice: '如果没有key, 请在<a href="https://givekey.ru/profile" target="_blank">https://givekey.ru/profile</a>查看',
+    joiningGiveaway: '正在加入赠Key',
+    needJoinGiveaway: '需要先加入赠Key',
+    cannotUndo: '此网站不支持取消任务',
+    steamCommunity: 'Steam社区',
+    steamStore: 'Steam商店',
+    needLoginSteamStore: '请先<a href="https://store.steampowered.com/login/" target="_blank">登录Steam商店</a>',
+    needLoginSteamCommunity: '请先<a href="https://steamcommunity.com/login/home/" target="_blank">登录Steam社区</a>',
     joiningSteamGroup: '正在加入Steam组',
     leavingSteamGroup: '正在退出Steam组',
     gettingSteamGroupId: '正在获取Steam组Id',
@@ -224,16 +235,47 @@
     votingUpWorkshop: '正在点赞Steam创意工坊物品',
     gettingAnnouncementParams: '正在获取Steam通知信息',
     likingAnnouncement: '正在点赞Steam通知',
-    changingArea: '正在更换Steam地区: %0',
+    changingArea: '正在更换Steam地区: %0...',
     notNeededChangeArea: '当前地区不需要更换',
     noAnotherArea: '请检测是否开启正确开启代理',
-    gettingAreaInfo: '正在获取Steam地区信息',
-    loginIns: '请先<a href="https://www.instagram.com/accounts/login/">登录Instagram</a>',
+    gettingAreaInfo: '正在获取Steam地区信息...',
+    joiningDiscordServer: '正在加入Discord服务器',
+    leavingDiscordServer: '正在退出Discord服务器',
+    gettingDiscordGuild: '正在获取Discord服务器Id',
+    loginIns: '请先<a href="https://www.instagram.com/accounts/login/" target="_blank">登录Instagram</a>',
     insBanned: '您的Instagram账户已被封禁',
-    loginReddit: '请先<a href="https://www.reddit.com/login/">登录Reddit</a>',
-    loginVk: '请先<a href="https://vk.com/login/">登录Vk</a>',
-    loginYtb: '请先<a href="https://accounts.google.com/ServiceLogin?service=youtube">登录YouTube</a>',
-    tryUpdateYtbAuth: '请尝试<a href="https://www.youtube.com/#auth">更新YouTube凭证</a>',
+    verifyingInsAuth: '正在验证Instagram凭证...',
+    gettingInsUserId: '正在获取Instagram用户Id',
+    followingIns: '正在关注Instagram用户',
+    unfollowingIns: '正在取关Instagram用户',
+    loginReddit: '请先<a href="https://www.reddit.com/login/" target="_blank">登录Reddit</a>',
+    changingRedditVersion: '正在切换Reddit为新版页面...',
+    joiningReddit: '正在加入Reddit社区',
+    leavingReddit: '正在退出Reddit社区',
+    followingRedditUser: '正在关注Reddit用户',
+    unfollowingRedditUser: '正在取关Reddit用户',
+    followingTwitchChannel: '正在关注Twitch频道',
+    unfollowingTwitchChannel: '正在取关Twitch频道',
+    gettingTwitchChannelId: '正在获取Twitch频道Id',
+    followingTwitterUser: '正在关注推特用户',
+    unfollowingTwitterUser: '正在取关推特用户',
+    retweetting: '正在转推',
+    unretweetting: '正在撤销转推',
+    loginVk: '请先<a href="https://vk.com/login/" target="_blank">登录Vk</a>',
+    gettingVkId: '正在获取Vk任务Id',
+    joiningVkGroup: '正在加入Vk组',
+    leavingVkGroup: '正在退出Vk组',
+    joiningVkPublic: '正在加入Vk社区',
+    leavingVkPublic: '正在退出Vk社区',
+    sendingVkWall: '正在转发Vk动态',
+    deletingVkWall: '正在撤销转发Vk动态',
+    loginYtb: '请先<a href="https://accounts.google.com/ServiceLogin?service=youtube" target="_blank">登录YouTube</a>',
+    tryUpdateYtbAuth: '请尝试<a href="https://www.youtube.com/#auth" target="_blank">更新YouTube凭证</a>',
+    gettingYtbToken: '正在获取YouTube Token...',
+    followingYtbChannel: '正在订阅YouTube频道',
+    unfollowingYtbChannel: '正在退订YouTube频道',
+    likingYtbVideo: '正在点赞YouTube视频',
+    unlikingYtbVideo: '正在取消点赞YouTube视频',
     noPoints: '点数不够，跳过抽奖',
     getNeedPointsFailed: '获取所需点数失败，跳过抽奖',
     joiningLottery: '正在加入抽奖'
@@ -256,7 +298,7 @@
   const i18n = I18n;
   const echoLog = _ref => {
     let {
-      type = 'text',
+      type,
       text,
       html,
       id
@@ -312,73 +354,70 @@
       ${id}</a>...<font></font></li>`);
           break;
 
-         case 'changingArea':
-          ele = $(`<li>${i18n('changingArea')}${text}...<font></font></li>`);
+         case 'joiningDiscordServer':
+         case 'gettingDiscordGuild':
+          ele = $(`<li>${i18n(type)}<a href="https://discord.com/invite/${text}" target="_blank">${text}</a>...<font></font></li>`);
           break;
 
-         case 'joinDiscordServer':
-         case 'leaveDiscordServer':
-         case 'getDiscordGuild':
-          ele = $(`<li>${i18n(type)}<a href="https://discord.com/invite/${text}" target="_blank">${text}</a>...<font></font></li>`);
+         case 'leavingDiscordServer':
+          ele = $(`<li>${i18n(type)}<a href="https://discord.com/channels/@me/${text}" target="_blank">${text}</a>...<font></font></li>`);
           break;
 
          case 'updateDiscordAuth':
           ele = $(`<li style="color:red;">${i18n('updateDiscordAuth')}</li>`);
           break;
 
-         case 'followTwitchChannel':
-         case 'unfollowTwitchChannel':
-         case 'getTwitchChannelId':
+         case 'followingTwitchChannel':
+         case 'unfollowingTwitchChannel':
+         case 'gettingTwitchChannelId':
           ele = $(`<li>${i18n(type)}<a href="https://www.twitch.tv/${text}" target="_blank">${text}</a>...<font></font></li>`);
           break;
 
-         case 'getInsInfo':
-          ele = $(`<li>${i18n('getInsInfo')}<a href="https://www.instagram.com/${text}/" target="_blank">${text}</a>...<font></font></li>`);
-          break;
-
-         case 'followIns':
-         case 'unfollowIns':
+         case 'gettingInsUserId':
+         case 'followingIns':
+         case 'unfollowingIns':
           ele = $(`<li>${i18n(type)}<a href="https://www.instagram.com/${text}/" target="_blank">${text}</a>...<font></font></li>`);
           break;
 
-         case 'getTwitterUserId':
-         case 'followTwitterUser':
-         case 'unfollowTwitterUser':
+         case 'gettingTwitterUserId':
+         case 'followingTwitterUser':
+         case 'unfollowingTwitterUser':
           ele = $(`<li>${i18n(type)}<a href="https://twitter.com/${text}" target="_blank">${text}</a>...<font></font></li>`);
           break;
 
-         case 'retweet':
-         case 'unretweet':
+         case 'retweetting':
+         case 'unretweetting':
           ele = $(`<li>${i18n(type)}${text}...<font></font></li>`);
           break;
 
-         case 'joinReddit':
-         case 'leaveReddit':
+         case 'joiningReddit':
+         case 'leavingReddit':
           ele = $(`<li>${i18n(type)}<a href="https://www.reddit.com/r/${text}/" target="_blank">${text}</a>...<font></font></li>`);
           break;
 
-         case 'followRedditUser':
-         case 'unfollowRedditUser':
+         case 'followingRedditUser':
+         case 'unfollowingRedditUser':
           ele = $(`<li>${i18n(type)}<a href="https://www.reddit.com/user/${text === null || text === void 0 ? void 0 : text.replace('u_', '')}" target="_blank">
       ${text === null || text === void 0 ? void 0 : text.replace('u_', '')}</a>...<font></font></li>`);
           break;
 
-         case 'followYtbChannel':
-         case 'unfollowYtbChannel':
+         case 'followingYtbChannel':
+         case 'unfollowingYtbChannel':
           ele = $(`<li>${i18n(type)}<a href="https://www.youtube.com/channel/${text}" target="_blank">${text}</a>...<font></font></li>`);
           break;
 
-         case 'likeYtbVideo':
-         case 'unlikeYtbVideo':
+         case 'likingYtbVideo':
+         case 'unlikingYtbVideo':
           ele = $(`<li>${i18n(type)}<a href="https://www.youtube.com/watch?v=${text}" target="_blank">${text}</a>...<font></font></li>`);
           break;
 
-         case 'getVkId':
-         case 'joinVkGroup':
-         case 'leaveVkGroup':
-         case 'joinVkPublic':
-         case 'leaveVkPublic':
-         case 'repostVkWall':
+         case 'gettingVkId':
+         case 'joiningVkGroup':
+         case 'leavingVkGroup':
+         case 'joiningVkPublic':
+         case 'leavingVkPublic':
+         case 'sendingVkWall':
+         case 'deletingVkWall':
           ele = $(`<li>${i18n(type)}<a href="https://vk.com/${text}/" target="_blank">${text}</a>...<font></font></li>`);
           break;
 
@@ -386,17 +425,17 @@
           ele = $(`<li>${i18n('visitLink')}<a href="${text}" target="_blank">${text}</a>...<font></font></li>`);
           break;
 
+         case 'verifyingInsAuth':
          case 'text':
           ele = $(`<li>${i18n(text)}<font></font></li>`);
           break;
 
          case 'html':
-         case 'custom':
           ele = $(text);
           break;
 
          default:
-          ele = $(`<li>${i18n('unknown')}:${type}(${text})...<font></font></li>`);
+          ele = $(`<li>${i18n('unKnown')}:${type}(${text})...<font></font></li>`);
           break;
         }
       } else if (text) {
@@ -699,9 +738,6 @@
           return true;
         }
         if (!_classPrivateFieldGet(this, _auth).auth) {
-          scripts_echoLog({
-            type: 'updateDiscordAuth'
-          });
           if (await _classPrivateMethodGet(this, _updateAuth, _updateAuth2).call(this)) {
             _classPrivateFieldSet(this, _initialized, true);
             return true;
@@ -711,7 +747,7 @@
         const isVerified = await _classPrivateMethodGet(this, _verifyAuth, _verifyAuth2).call(this);
         if (isVerified) {
           scripts_echoLog({
-            text: 'Init discord success!'
+            text: i18n('initSuccess', 'Discord')
           });
           _classPrivateFieldSet(this, _initialized, true);
           return true;
@@ -721,13 +757,13 @@
         });
         if (await _classPrivateMethodGet(this, _updateAuth, _updateAuth2).call(this)) {
           scripts_echoLog({
-            text: 'Init discord success!'
+            text: i18n('initSuccess', 'Discord')
           });
           _classPrivateFieldSet(this, _initialized, true);
           return true;
         }
         scripts_echoLog({
-          text: 'Init discord failed!'
+          text: i18n('initFailed', 'Discord')
         });
         return false;
       } catch (error) {
@@ -743,8 +779,7 @@
       try {
         if (!_classPrivateFieldGet(this, _initialized)) {
           scripts_echoLog({
-            type: 'text',
-            text: '请先初始化'
+            text: i18n('needInit')
           });
           return false;
         }
@@ -773,8 +808,7 @@
   async function _verifyAuth2() {
     try {
       const logStatus = scripts_echoLog({
-        type: 'text',
-        text: 'verifyDiscordAuth'
+        text: i18n('verifyingAuth', 'Discord')
       });
       const {
         result,
@@ -806,8 +840,7 @@
   async function _updateAuth2() {
     try {
       const logStatus = scripts_echoLog({
-        type: 'text',
-        text: 'updateDiscordAuth'
+        text: i18n('updatingAuth', 'Discord')
       });
       return await new Promise(resolve => {
         const newTab = GM_openInTab('https://discord.com/channels/@me#auth', {
@@ -838,7 +871,7 @@
   async function _joinServer2(inviteId) {
     try {
       const logStatus = scripts_echoLog({
-        type: 'joinDiscordServer',
+        type: 'joiningDiscordServer',
         text: inviteId
       });
       const {
@@ -885,8 +918,8 @@
         return false;
       }
       const logStatus = scripts_echoLog({
-        type: 'leaveDiscordServer',
-        text: inviteId
+        type: 'leavingDiscordServer',
+        text: guild
       });
       const {
         result,
@@ -914,7 +947,7 @@
   async function _getGuild2(inviteId) {
     try {
       const logStatus = scripts_echoLog({
-        type: 'getDiscordGuild',
+        type: 'gettingDiscordGuild',
         text: inviteId
       });
       const guild = _classPrivateFieldGet(this, _cache)[inviteId];
@@ -1066,13 +1099,13 @@
         const isVerified = await Instagram_classPrivateMethodGet(this, _getUserInfo, _getUserInfo2).call(this);
         if (isVerified) {
           scripts_echoLog({
-            text: 'Init instagram success!'
+            text: i18n('initSuccess', 'Instagram')
           });
           Instagram_classPrivateFieldSet(this, Instagram_initialized, true);
           return true;
         }
         scripts_echoLog({
-          text: 'Init instagram failed!'
+          text: i18n('initFailed', 'Instagram')
         });
         return false;
       } catch (error) {
@@ -1088,8 +1121,7 @@
       try {
         if (!Instagram_classPrivateFieldGet(this, Instagram_initialized)) {
           scripts_echoLog({
-            type: 'text',
-            text: '请先初始化'
+            text: i18n('needInit')
           });
           return false;
         }
@@ -1119,7 +1151,7 @@
     let name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'instagram';
     try {
       const logStatus = scripts_echoLog({
-        type: name === 'instagram' ? 'getInsInfo' : 'getInsUserId',
+        type: name === 'instagram' ? 'verifyingInsAuth' : 'gettingInsUserId',
         text: name
       });
       const userId = Instagram_classPrivateFieldGet(this, Instagram_cache)[name];
@@ -1183,7 +1215,7 @@
         return false;
       }
       const logStatus = scripts_echoLog({
-        type: 'followIns',
+        type: 'followingIns',
         text: name
       });
       const {
@@ -1235,7 +1267,7 @@
         return false;
       }
       const logStatus = scripts_echoLog({
-        type: 'unfollowIns',
+        type: 'unfollowingIns',
         text: name
       });
       const {
@@ -1380,13 +1412,13 @@
         const isVerified = await Reddit_classPrivateMethodGet(this, Reddit_updateAuth, Reddit_updateAuth2).call(this);
         if (isVerified) {
           scripts_echoLog({
-            text: 'Init reddit success!'
+            text: i18n('initSuccess', 'Reddit')
           });
           Reddit_classPrivateFieldSet(this, Reddit_initialized, true);
           return true;
         }
         scripts_echoLog({
-          text: 'Init reddit failed!'
+          text: i18n('initFailed', 'Reddit')
         });
         return false;
       } catch (error) {
@@ -1407,9 +1439,9 @@
           });
           return true;
         }
-        let type = doTask ? 'joinReddit' : 'leaveReddit';
+        let type = doTask ? 'joiningReddit' : 'leavingReddit';
         if (/^u_/.test(name)) {
-          type = doTask ? 'followRedditUser' : 'unfollowRedditUser';
+          type = doTask ? 'followingRedditUser' : 'unfollowingRedditUser';
         }
         const logStatus = scripts_echoLog({
           type: type,
@@ -1459,8 +1491,7 @@
       try {
         if (!Reddit_classPrivateFieldGet(this, Reddit_initialized)) {
           scripts_echoLog({
-            type: 'text',
-            text: '请先初始化'
+            text: i18n('needInit')
           });
           return false;
         }
@@ -1493,8 +1524,7 @@
   async function _useBeta2() {
     try {
       const logStatus = scripts_echoLog({
-        type: 'text',
-        text: 'changeRedditVersion'
+        text: i18n('changingRedditVersion')
       });
       GM_setValue('redditAuth', null);
       return await new Promise(resolve => {
@@ -1517,8 +1547,7 @@
     let beta = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
     try {
       const logStatus = scripts_echoLog({
-        type: 'text',
-        text: 'updateRedditAuth'
+        text: i18n('updatingAuth', 'Reddit')
       });
       const {
         result,
@@ -1673,9 +1702,6 @@
           return true;
         }
         if (!Twitch_classPrivateFieldGet(this, Twitch_auth).authToken) {
-          scripts_echoLog({
-            type: 'updateTwitchAuth'
-          });
           if (await Twitch_classPrivateMethodGet(this, Twitch_updateAuth, Twitch_updateAuth2).call(this)) {
             Twitch_classPrivateFieldSet(this, Twitch_initialized, true);
             return true;
@@ -1685,7 +1711,7 @@
         const isVerified = await Twitch_classPrivateMethodGet(this, Twitch_verifyAuth, Twitch_verifyAuth2).call(this);
         if (isVerified) {
           scripts_echoLog({
-            text: 'Init twitch success!'
+            text: i18n('initSuccess', 'Twitch')
           });
           Twitch_classPrivateFieldSet(this, Twitch_initialized, true);
           return true;
@@ -1693,13 +1719,13 @@
         GM_setValue('twitchAuth', null);
         if (await Twitch_classPrivateMethodGet(this, Twitch_updateAuth, Twitch_updateAuth2).call(this)) {
           scripts_echoLog({
-            text: 'Init twitch success!'
+            text: i18n('initSuccess', 'Twitch')
           });
           Twitch_classPrivateFieldSet(this, Twitch_initialized, true);
           return true;
         }
         scripts_echoLog({
-          text: 'Init twitch failed!'
+          text: i18n('initFailed', 'Twitch')
         });
         return false;
       } catch (error) {
@@ -1715,8 +1741,7 @@
       try {
         if (!Twitch_classPrivateFieldGet(this, Twitch_initialized)) {
           scripts_echoLog({
-            type: 'text',
-            text: '请先初始化'
+            text: i18n('needInit')
           });
           return false;
         }
@@ -1744,8 +1769,7 @@
   async function Twitch_verifyAuth2() {
     try {
       const logStatus = scripts_echoLog({
-        type: 'text',
-        text: 'verifyTwitchAuth'
+        text: i18n('verifyingAuth', 'Twitch')
       });
       const {
         result,
@@ -1781,8 +1805,7 @@
   async function Twitch_updateAuth2() {
     try {
       const logStatus = scripts_echoLog({
-        type: 'text',
-        text: 'updateTwitchAuth'
+        text: i18n('updatingAuth', 'Twitch')
       });
       return await new Promise(resolve => {
         const newTab = GM_openInTab('https://www.twitch.tv/#auth', {
@@ -1825,7 +1848,7 @@
         return false;
       }
       const logStatus = scripts_echoLog({
-        type: `${doTask ? '' : 'un'}followTwitchChannel`,
+        type: `${doTask ? '' : 'un'}followingTwitchChannel`,
         text: name
       });
       const followData = `[{"operationName":"FollowButton_FollowUser","variables":{"input":{"disableNotifications":false,"targetID":"${channelId}` + '"}},"extensions":{"persistedQuery":{"version":1,"sha256Hash":"3efee1acda90efdff9fef6e6b4a29213be3ee490781c5b54469717b6131ffdfe"}}}]';
@@ -1865,7 +1888,7 @@
   async function _getChannelId2(name) {
     try {
       const logStatus = scripts_echoLog({
-        type: 'getTwitchChannelId',
+        type: 'gettingTwitchChannelId',
         text: name
       });
       const channelId = Twitch_classPrivateFieldGet(this, Twitch_cache)[name];
@@ -2039,9 +2062,6 @@
           return true;
         }
         if (!Twitter_classPrivateFieldGet(this, Twitter_auth).ct0) {
-          scripts_echoLog({
-            type: 'updateTwitterAuth'
-          });
           if (await Twitter_classPrivateMethodGet(this, Twitter_updateAuth, Twitter_updateAuth2).call(this)) {
             Twitter_classPrivateFieldSet(this, Twitter_initialized, true);
             return true;
@@ -2051,7 +2071,7 @@
         const isVerified = await Twitter_classPrivateMethodGet(this, Twitter_verifyAuth, Twitter_verifyAuth2).call(this);
         if (isVerified) {
           scripts_echoLog({
-            text: 'Init twitter success!'
+            text: i18n('initSuccess', 'Twitter')
           });
           Twitter_classPrivateFieldSet(this, Twitter_initialized, true);
           return true;
@@ -2059,13 +2079,13 @@
         GM_setValue('twitterAuth', null);
         if (await Twitter_classPrivateMethodGet(this, Twitter_updateAuth, Twitter_updateAuth2).call(this)) {
           scripts_echoLog({
-            text: 'Init twitter success!'
+            text: i18n('initSuccess', 'Twitter')
           });
           Twitter_classPrivateFieldSet(this, Twitter_initialized, true);
           return true;
         }
         scripts_echoLog({
-          text: 'Init twitter failed!'
+          text: i18n('initFailed', 'Twitter')
         });
         return false;
       } catch (error) {
@@ -2082,8 +2102,7 @@
       try {
         if (!Twitter_classPrivateFieldGet(this, Twitter_initialized)) {
           scripts_echoLog({
-            type: 'text',
-            text: '请先初始化'
+            text: i18n('needInit')
           });
           return false;
         }
@@ -2136,8 +2155,7 @@
   async function Twitter_updateAuth2() {
     try {
       const logStatus = scripts_echoLog({
-        type: 'text',
-        text: 'updateTwitterAuth'
+        text: i18n('updatingAuth', 'Twitter')
       });
       return await new Promise(resolve => {
         const newTab = GM_openInTab('https://twitter.com/settings/account?k#auth', {
@@ -2181,10 +2199,9 @@
         return false;
       }
       const logStatus = verify ? scripts_echoLog({
-        type: 'text',
-        text: 'verifyTwitterAuth'
+        text: i18n('verifyingAuth', 'Twitter')
       }) : scripts_echoLog({
-        type: `${doTask ? '' : 'un'}followTwitterUser`,
+        type: `${doTask ? '' : 'un'}followingTwitterUser`,
         text: name
       });
       const {
@@ -2240,7 +2257,7 @@
   async function _getUserId2(name) {
     try {
       const logStatus = scripts_echoLog({
-        type: 'getTwitterUserId',
+        type: 'gettingTwitterUserId',
         text: name
       });
       const userId = Twitter_classPrivateFieldGet(this, Twitter_cache)[name];
@@ -2307,7 +2324,7 @@
         return true;
       }
       const logStatus = scripts_echoLog({
-        type: `${doTask ? '' : 'un'}retweet`,
+        type: `${doTask ? '' : 'un'}retweetting`,
         text: retweetId
       });
       const {
@@ -2473,13 +2490,13 @@
         const isVerified = await Vk_classPrivateMethodGet(this, Vk_verifyAuth, Vk_verifyAuth2).call(this);
         if (isVerified) {
           scripts_echoLog({
-            text: 'Init vk success!'
+            text: i18n('initSuccess', 'Vk')
           });
           Vk_classPrivateFieldSet(this, Vk_initialized, true);
           return true;
         }
         scripts_echoLog({
-          text: 'Init vk failed!'
+          text: i18n('initFailed', 'Vk')
         });
         return false;
       } catch (error) {
@@ -2495,8 +2512,7 @@
       try {
         if (!Vk_classPrivateFieldGet(this, Vk_initialized)) {
           scripts_echoLog({
-            type: 'text',
-            text: '请先初始化'
+            text: i18n('needInit')
           });
           return false;
         }
@@ -2524,8 +2540,7 @@
   async function Vk_verifyAuth2() {
     try {
       const logStatus = scripts_echoLog({
-        type: 'text',
-        text: 'verifyVkLogin'
+        text: i18n('verifyAuth', 'Vk')
       });
       const {
         result,
@@ -2561,7 +2576,7 @@
     let doTask = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
     try {
       const logStatus = scripts_echoLog({
-        type: doTask ? 'joinVkGroup' : 'leaveVkGroup',
+        type: doTask ? 'joiningVkGroup' : 'leavingVkGroup',
         text: name
       });
       if (dataParam.groupAct === 'enter' && !doTask || dataParam.groupAct === 'leave' && doTask) {
@@ -2614,7 +2629,7 @@
     let doTask = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
     try {
       const logStatus = scripts_echoLog({
-        type: doTask ? 'joinVkPublic' : 'leaveVkPublic',
+        type: doTask ? 'joiningVkPublic' : 'leaveingVkPublic',
         text: name
       });
       if (dataParam.publicJoined && doTask || !dataParam.publicJoined && !doTask) {
@@ -2662,7 +2677,7 @@
   async function _sendWall2(name) {
     try {
       const logStatus = scripts_echoLog({
-        type: 'sendVkWall',
+        type: 'sendingVkWall',
         text: name
       });
       const {
@@ -2756,7 +2771,7 @@
   async function _deleteWall2(name, dataParams) {
     try {
       const logStatus = scripts_echoLog({
-        type: 'deleteVkWall',
+        type: 'deletingVkWall',
         text: name
       });
       const {
@@ -2819,7 +2834,7 @@
         url = `https://vk.com/${Vk_classPrivateFieldGet(this, _username)}?w=wall${Vk_classPrivateFieldGet(this, Vk_cache)[name]}`;
       }
       const logStatus = scripts_echoLog({
-        type: 'getVkId',
+        type: 'gettingVkId',
         text: name
       });
       const {
@@ -3043,9 +3058,6 @@
           return true;
         }
         if (!Youtube_classPrivateFieldGet(this, Youtube_auth).PAPISID) {
-          scripts_echoLog({
-            type: 'updateYoutubeAuth'
-          });
           if (await Youtube_classPrivateMethodGet(this, Youtube_updateAuth, Youtube_updateAuth2).call(this)) {
             Youtube_classPrivateFieldSet(this, Youtube_initialized, true);
             return true;
@@ -3055,7 +3067,7 @@
         const isVerified = await Youtube_classPrivateMethodGet(this, Youtube_verifyAuth, Youtube_verifyAuth2).call(this);
         if (isVerified) {
           scripts_echoLog({
-            text: 'Init youtube success!'
+            text: i18n('initSuccess', 'Youtube')
           });
           Youtube_classPrivateFieldSet(this, Youtube_initialized, true);
           return true;
@@ -3063,13 +3075,13 @@
         GM_setValue('youtubeAuth', null);
         if (await Youtube_classPrivateMethodGet(this, Youtube_updateAuth, Youtube_updateAuth2).call(this)) {
           scripts_echoLog({
-            text: 'Init youtube success!'
+            text: i18n('initSuccess', 'Youtube')
           });
           Youtube_classPrivateFieldSet(this, Youtube_initialized, true);
           return true;
         }
         scripts_echoLog({
-          text: 'Init youtube failed!'
+          text: i18n('initFailed', 'Youtube')
         });
         return false;
       } catch (error) {
@@ -3086,8 +3098,7 @@
       try {
         if (!Youtube_classPrivateFieldGet(this, Youtube_initialized)) {
           scripts_echoLog({
-            type: 'text',
-            text: '请先初始化'
+            text: i18n('needInit')
           });
           return false;
         }
@@ -3146,8 +3157,7 @@
   async function Youtube_updateAuth2() {
     try {
       const logStatus = scripts_echoLog({
-        type: 'text',
-        text: 'updateYoutubeAuth'
+        text: i18n('updatingAuth', 'Youtube')
       });
       return await new Promise(resolve => {
         const newTab = GM_openInTab('https://www.youtube.com/#auth', {
@@ -3177,8 +3187,7 @@
   async function _getInfo2(link, type) {
     try {
       const logStatus = scripts_echoLog({
-        type: 'text',
-        text: 'getYtbToken'
+        text: i18n('gettingYtbToken')
       });
       const {
         result,
@@ -3276,14 +3285,12 @@
       } = params || {};
       if (needLogin) {
         scripts_echoLog({
-          type: 'custom',
-          text: i18n('loginYtb')
+          html: i18n('loginYtb')
         });
         return false;
       }
       if (!(apiKey && client && request && channelId)) {
         scripts_echoLog({
-          type: 'custom',
           text: '"getYtbToken" failed'
         });
         return false;
@@ -3296,10 +3303,9 @@
         return true;
       }
       const logStatus = verify ? scripts_echoLog({
-        type: 'text',
-        text: 'verifyYoutubeAuth'
+        text: i18n('verifyingAuth', 'Youtube')
       }) : scripts_echoLog({
-        type: doTask ? 'followYtbChannel' : 'unfollowYtbChannel',
+        type: doTask ? 'followingYtbChannel' : 'unfollowingYtbChannel',
         text: channelId
       });
       const nowTime = parseInt(String(new Date().getTime() / 1e3), 10);
@@ -3375,14 +3381,12 @@
       } = params || {};
       if (needLogin) {
         scripts_echoLog({
-          type: 'text',
-          text: `${i18n('loginYtb')}`
+          html: `${i18n('loginYtb')}`
         });
         return false;
       }
       if (!(apiKey && client && request && videoId && likeParams)) {
         scripts_echoLog({
-          type: 'text',
           text: '"getYtbToken" failed'
         });
         return false;
@@ -3395,7 +3399,7 @@
         return true;
       }
       const logStatus = scripts_echoLog({
-        type: doTask ? 'likeYtbVideo' : 'unlikeYtbVideo',
+        type: doTask ? 'likingYtbVideo' : 'unlikingYtbVideo',
         text: videoId
       });
       const nowTime = parseInt(String(new Date().getTime() / 1e3), 10);
@@ -3772,7 +3776,7 @@
   async function _updateStoreAuth2() {
     try {
       const logStatus = scripts_echoLog({
-        text: i18n('updatingSteamStoreAuth')
+        text: i18n('updatingAuth', i18n('steamStore'))
       });
       const {
         result,
@@ -3812,7 +3816,7 @@
   async function _updateCommunityAuth2() {
     try {
       const logStatus = scripts_echoLog({
-        text: i18n('updatingSteamCommunityAuth')
+        text: i18n('updatingAuth', i18n('steamCommunity'))
       });
       const {
         result,
@@ -4949,8 +4953,7 @@
         }
         await Promise.all(pro);
         scripts_echoLog({
-          type: 'custom',
-          text: '<li>All tasks complete!<font></font></li>'
+          html: `<li><font class="success">${i18n('allTasksComplete')}</font></li>`
         });
         return true;
       } catch (error) {
@@ -5042,26 +5045,22 @@
     init() {
       try {
         const logStatus = scripts_echoLog({
-          type: 'init'
+          text: i18n('initing')
         });
         if ($('a[href="#/login"]').length > 0) {
           window.open('/#/login', '_self');
-          logStatus.warning('请先登录');
+          logStatus.warning(i18n('needLogin'));
           return false;
         }
         if (window.location.href.includes('/login')) {
-          scripts_echoLog({
-            type: 'custom',
-            text: `<li><font class="error">${i18n('needLogin')}</font></li>`
-          });
-          logStatus.warning('请先登录');
+          logStatus.warning(i18n('needLogin'));
           return false;
         }
         if (!/^https?:\/\/freeanywhere\.net\/#\/giveaway\/[\d]+/.test(window.location.href)) {
           var _window$location$href;
           const id = (_window$location$href = window.location.href.match(/https?:\/\/freeanywhere\.net\/.*?#\/giveaway\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
           if (!id) {
-            logStatus.error('获取id失败');
+            logStatus.error(i18n('getFailed', 'Id'));
             return false;
           }
           window.location.href = `https://freeanywhere.net/#/giveaway/${id}`;
@@ -5080,8 +5079,7 @@
     async classifyTask(action) {
       try {
         const logStatus = scripts_echoLog({
-          type: 'custom',
-          text: `<li>${i18n('getTasksInfo')}<font></font></li>`
+          text: i18n('getTasksInfo')
         });
         this.socialTasks = GM_getValue(`fawTasks-${this.giveawayId}`) || {
           ...FreeAnyWhere_defaultTasks
@@ -5210,8 +5208,7 @@
         }
         await Promise.all(pro);
         scripts_echoLog({
-          type: 'custom',
-          text: '<li>All tasks complete!<font></font></li>'
+          html: `<li><font class="success">${i18n('allTasksComplete')}</font></li>`
         });
         return true;
       } catch (error) {
@@ -5221,8 +5218,7 @@
     }
     async getKey() {
       const logStatus = scripts_echoLog({
-        type: 'custom',
-        text: `<li>${i18n('gettingKey')}...<font></font></li>`
+        text: i18n('gettingKey')
       });
       const {
         result,
@@ -5242,8 +5238,7 @@
         if (data !== null && data !== void 0 && (_data$response2 = data.response) !== null && _data$response2 !== void 0 && _data$response2.reward) {
           logStatus.success();
           scripts_echoLog({
-            type: 'custom',
-            text: `<li><font class="success">${data.response.reward}</font></li>`
+            html: `<li><font class="success">${data.response.reward}</font></li>`
           });
         } else {
           logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
@@ -5262,8 +5257,7 @@
         return true;
       }
       scripts_echoLog({
-        type: 'custom',
-        text: `<li><font class="error">${i18n('getGiveawayIdFailed')}</font></li>`
+        html: `<li><font class="error">${i18n('getFailed', 'GiveawayId')}</font></li>`
       });
       return false;
     } catch (error) {
@@ -5273,8 +5267,7 @@
   async function _verify2(task) {
     try {
       const logStatus = scripts_echoLog({
-        type: 'custom',
-        text: `<li>${i18n('verifyingTask')}${task.title.trim()}...<font></font></li>`
+        html: `<li>${i18n('verifyingTask')}${task.title.trim()}...<font></font></li>`
       });
       const {
         result,
@@ -5381,12 +5374,12 @@
       try {
         if (!this.checkLogin()) {
           scripts_echoLog({
-            type: 'checkLoginFailed'
+            html: `<li><font class="warning>${i18n('checkLoginFailed')}</font></li>`
           });
         }
         if (!await this.checkLeftKey()) {
           scripts_echoLog({
-            type: 'checkLeftKeyFailed'
+            html: `<li><font class="warning>${i18n('checkLeftKeyFailed')}</font></li>`
           });
         }
       } catch (error) {
@@ -5396,11 +5389,11 @@
     init() {
       try {
         const logStatus = scripts_echoLog({
-          type: 'init'
+          text: i18n('initing')
         });
         if ($('a.steam-login').length > 0) {
           window.open('/steam/redirect', '_self');
-          logStatus.warning('请先登录');
+          logStatus.warning(i18n('needLogin'));
           return false;
         }
         if (!GiveawaySu_classPrivateMethodGet(this, GiveawaySu_getGiveawayId, GiveawaySu_getGiveawayId2).call(this)) {
@@ -5417,8 +5410,7 @@
     async classifyTask() {
       try {
         const logStatus = scripts_echoLog({
-          type: 'custom',
-          text: `<li>${i18n('getTasksInfo')}<font></font></li>`
+          text: i18n('getTasksInfo')
         });
         this.socialTasks = GM_getValue(`gasTasks-${this.giveawayId}`) || GiveawaySu_defaultTasks;
         const pro = [];
@@ -5545,8 +5537,7 @@
       return true;
     }
     scripts_echoLog({
-      type: 'custom',
-      text: `<li><font class="error">${i18n('getGiveawayIdFailed')}</font></li>`
+      text: i18n('getFailed', 'GiveawayId')
     });
     return false;
   }
@@ -5579,7 +5570,7 @@
       try {
         if (!this.checkLogin()) {
           scripts_echoLog({
-            type: 'checkLoginFailed'
+            html: `<li><font class="warning>${i18n('checkLoginFailed')}</font></li>`
           });
         }
       } catch (error) {
@@ -5613,16 +5604,14 @@
     try {
       if ($('a.buttonenter:contains(Register to join)').length > 0) {
         scripts_echoLog({
-          type: 'custom',
-          text: `<li><font class="error">${i18n('needLogin')}</font></li>`
+          html: `<li><font class="error">${i18n('needLogin')}</font></li>`
         });
         return false;
       }
       const currentoption = $('a.buttonenter.buttongiveaway');
       if (/join giveaway/gim.test(currentoption.text())) {
         const logStatus = scripts_echoLog({
-          type: 'custom',
-          text: `<li>${i18n('joinGiveaway')}<font></font></li>`
+          text: i18n('joiningGiveaway')
         });
         const {
           result,
@@ -5663,8 +5652,7 @@
         return true;
       }
       scripts_echoLog({
-        type: 'custom',
-        text: `<li><font class="error">${i18n('needJoinGiveaway')}</font></li>`
+        html: `<li><font class="warning">${i18n('needJoinGiveaway')}</font></li>`
       });
       return false;
     } catch (error) {
@@ -5688,8 +5676,7 @@
           const promo = $(task);
           if (!promo.hasClass('buttonentered')) {
             const status = scripts_echoLog({
-              type: 'custom',
-              text: `<li>${i18n('doing')}:${promo.parents('p').text()}...<font></font></li>`
+              text: `${i18n('doing')}:${promo.parents('p').text()}...`
             });
             if (/facebookpromo|twitterpromo|visitpromo/gim.test(task.className)) {
               let text = '';
@@ -5836,14 +5823,12 @@
         }
         await Promise.all(pro);
         scripts_echoLog({
-          type: 'custom',
-          text: `<li><font class="warning">${i18n('allTasksComplete')}</font></li>`
+          html: `<li><font class="success">${i18n('allTasksComplete')}</font></li>`
         });
         return true;
       }
       scripts_echoLog({
-        type: 'custom',
-        text: `<li><font class="error">${i18n('getTaskIdFailed')}</font></li>`
+        html: `<li><font class="error">${i18n('getFailed', 'TaskId')}</font></li>`
       });
       return false;
     } catch (error) {
@@ -5910,12 +5895,12 @@
       try {
         if (!this.checkLogin()) {
           scripts_echoLog({
-            type: 'checkLoginFailed'
+            html: `<li><font class="warning>${i18n('checkLoginFailed')}</font></li>`
           });
         }
         if (!await this.checkLeftKey()) {
           scripts_echoLog({
-            type: 'checkLeftKeyFailed'
+            html: `<li><font class="warning>${i18n('checkLeftKeyFailed')}</font></li>`
           });
         }
       } catch (error) {
@@ -5925,11 +5910,11 @@
     init() {
       try {
         const logStatus = scripts_echoLog({
-          type: 'init'
+          text: i18n('initing')
         });
         if ($('a[href*="/connect/steam"]').length > 0) {
           window.open('/connect/steam', '_self');
-          logStatus.warning('请先登录');
+          logStatus.warning(i18n('needLogin'));
           return false;
         }
         if (!Keyhub_classPrivateMethodGet(this, Keyhub_getGiveawayId, Keyhub_getGiveawayId2).call(this)) {
@@ -5948,8 +5933,7 @@
     async classifyTask(action) {
       try {
         const logStatus = scripts_echoLog({
-          type: 'custom',
-          text: `<li>${i18n('getTasksInfo')}<font></font></li>`
+          text: i18n('getTasksInfo')
         });
         this.socialTasks = GM_getValue(`khTasks-${this.giveawayId}`) || {
           ...Keyhub_defaultTasks
@@ -5996,8 +5980,7 @@
             }
           } else {
             scripts_echoLog({
-              type: 'custom',
-              text: `<li>${i18n('unKnownTaskType', `${taskDes}(${link})`)}<font></font></li>`
+              html: `<li><font class="warning>${i18n('unKnownTaskType', `${taskDes}(${link})`)}</font></li>`
             });
           }
         }
@@ -6071,8 +6054,7 @@
         return true;
       }
       scripts_echoLog({
-        type: 'custom',
-        text: `<li><font class="error">${i18n('getGiveawayIdFailed')}</font></li>`
+        html: `<li><font class="error">${i18n('getFailed', 'GiveawayId')}</font></li>`
       });
       return false;
     } catch (error) {
@@ -6148,11 +6130,11 @@
     init() {
       try {
         const logStatus = scripts_echoLog({
-          type: 'init'
+          text: i18n('initing')
         });
         if ($('a[href*="/auth/steam"]').length > 0) {
           window.open('/auth/steam', '_self');
-          logStatus.warning('请先登录');
+          logStatus.warning(i18n('needLogin'));
           return false;
         }
         if (!Givekey_classPrivateMethodGet(this, Givekey_getGiveawayId, Givekey_getGiveawayId2).call(this)) {
@@ -6160,7 +6142,7 @@
         }
         const userId = $('meta[name="user-id"]').attr('content');
         if (!userId) {
-          logStatus.error('获取用户id失败');
+          logStatus.error(i18n('getFailed', i18n('userId')));
           return false;
         }
         this.userId = userId;
@@ -6175,8 +6157,7 @@
     async classifyTask(action) {
       try {
         const logStatus = scripts_echoLog({
-          type: 'custom',
-          text: `<li>${i18n('getTasksInfo')}<font></font></li>`
+          text: i18n('getTasksInfo')
         });
         this.socialTasks = GM_getValue(`gkTasks-${this.giveawayId}`) || Givekey_defaultTasks;
         const tasks = $('.card-body:has("button") .row');
@@ -6245,8 +6226,7 @@
             }
           } else {
             scripts_echoLog({
-              type: 'custom',
-              text: `<li>${i18n('unknownTaskType')}: ${text}(${href})<font></font></li>`
+              html: `<li><font class="warning">${i18n('unKnownTaskType')}: ${text}(${href})</font></li>`
             });
           }
         }
@@ -6274,12 +6254,10 @@
           await delay(1e3);
         }
         scripts_echoLog({
-          type: 'custom',
-          text: '<li>All tasks complete!<font></font></li>'
+          html: `<li><font class="success">${i18n('allTasksComplete')}</font></li>`
         });
         scripts_echoLog({
-          type: 'custom',
-          text: '<li>如果没key, 请在https://givekey.ru/profile查看<font></font></li>'
+          html: `<li><font class="warning">${i18n('giveKeyNotice')}</font></li>`
         });
         return true;
       } catch (error) {
@@ -6314,8 +6292,7 @@
   async function Givekey_verify2(task) {
     try {
       const logStatus = scripts_echoLog({
-        type: 'custom',
-        text: `<li>${i18n('verifyingTask')}${task}...<font></font></li>`
+        html: `<li>${i18n('verifyingTask')}${task}...<font></font></li>`
       });
       return await new Promise(resolve => {
         $.ajax({
@@ -6362,12 +6339,11 @@
         return true;
       }
       scripts_echoLog({
-        type: 'custom',
-        text: `<li><font class="error">${i18n('getGiveawayIdFailed')}</font></li>`
+        text: i18n('getFailed', 'GiveawayId')
       });
       return false;
     } catch (error) {
-      throwError(error, 'Getkey.getGiveawayId');
+      throwError(error, 'Givekey.getGiveawayId');
       return false;
     }
   }
@@ -6380,7 +6356,7 @@
       try {
         if (!this.checkLogin()) {
           scripts_echoLog({
-            type: 'checkLoginFailed'
+            html: `<li><font class="warning>${i18n('checkLoginFailed')}</font></li>`
           });
         }
       } catch (error) {
@@ -6390,10 +6366,10 @@
     init() {
       try {
         const logStatus = scripts_echoLog({
-          type: 'init'
+          text: i18n('initing')
         });
         if (!this.checkLogin()) {
-          logStatus.warning('请先登录');
+          logStatus.warning(i18n('needLogin'));
           return false;
         }
         if (!this.getGiveawayId()) {
@@ -6410,8 +6386,7 @@
     async classifyTask() {
       try {
         const logStatus = scripts_echoLog({
-          type: 'custom',
-          text: `<li>${i18n('getTasksInfo')}<font></font></li>`
+          text: i18n('getTasksInfo')
         });
         this.socialTasks = GM_getValue(`gcTasks-${this.giveawayId}`) || GiveawaySu_defaultTasks;
         const pro = [];
@@ -6500,8 +6475,7 @@
         return true;
       }
       scripts_echoLog({
-        type: 'custom',
-        text: `<li><font class="error">${i18n('getGiveawayIdFailed')}</font></li>`
+        text: i18n('getFailed', 'GiveawayId')
       });
       return false;
     }
@@ -6549,7 +6523,7 @@
       try {
         if (!this.checkLogin()) {
           scripts_echoLog({
-            type: 'checkLoginFailed'
+            html: `<li><font class="warning>${i18n('checkLoginFailed')}</font></li>`
           });
         }
       } catch (error) {
@@ -6599,19 +6573,16 @@
         const name = $(item).find('.giveaways-page-item-footer-name').text().trim();
         if (type === 'points' && needPoints > this.myPoints) {
           scripts_echoLog({
-            type: 'custom',
-            text: `<li><font class="warning">${i18n('noPoints')}: ${name}</font></li>`
+            html: `<li><font class="warning">${i18n('noPoints')}: ${name}</font></li>`
           });
         } else if (type === 'points' && !needPoints) {
           scripts_echoLog({
-            type: 'custom',
-            text: `<li><font class="warning">${i18n('getNeedPointsFailed')}: ${name}</font></li>`
+            html: `<li><font class="warning">${i18n('getNeedPointsFailed')}: ${name}</font></li>`
           });
         } else if (!(type === 'points' && needPoints > this.maxPoints)) {
           var _aElement$attr;
           const logStatus = scripts_echoLog({
-            type: 'custom',
-            text: `<li>${i18n('joiningLottery')}<a href="${$(item).find('a.giveaways-page-item-img-btn-more').attr('href')}" target="_blank">${name}</a>...<font></font></li>`
+            text: `${i18n('joiningLottery')}<a href="${$(item).find('a.giveaways-page-item-img-btn-more').attr('href')}" target="_blank">${name}</a>...`
           });
           const aElement = $(item).find('a.giveaways-page-item-img-btn-enter:contains(\'enter\')');
           if (aElement !== null && aElement !== void 0 && (_aElement$attr = aElement.attr('onclick')) !== null && _aElement$attr !== void 0 && _aElement$attr.includes('checkUser')) {
@@ -6651,8 +6622,7 @@
         }
       }
       scripts_echoLog({
-        type: 'custom',
-        text: '<li>-----END-----</li>'
+        text: '-----END-----'
       });
     } catch (error) {
       throwError(error, 'OpiumPulses.toggleTask');
@@ -6938,7 +6908,7 @@
       try {
         if (!this.checkLogin()) {
           scripts_echoLog({
-            type: 'checkLoginFailed'
+            html: `<li><font class="warning>${i18n('checkLoginFailed')}</font></li>`
           });
         }
       } catch (error) {
@@ -6948,11 +6918,11 @@
     init() {
       try {
         const logStatus = scripts_echoLog({
-          type: 'init'
+          text: i18n('initing')
         });
         if ($('a[href*="/auth/redirect"]').length > 0) {
           window.open('/auth/redirect', '_self');
-          logStatus.warning('请先登录');
+          logStatus.warning(i18n('needLogin'));
           return false;
         }
         if (!Opquests_classPrivateMethodGet(this, Opquests_getGiveawayId, Opquests_getGiveawayId2).call(this)) {
@@ -6970,14 +6940,12 @@
       try {
         if (action === 'undo') {
           scripts_echoLog({
-            type: 'custom',
-            text: '<li>此网站不支持取消任务<font></font></li>'
+            text: i18n('cannotUndo')
           });
           return false;
         }
         const logStatus = scripts_echoLog({
-          type: 'custom',
-          text: `<li>${i18n('getTasksInfo')}<font></font></li>`
+          text: i18n('getTasksInfo')
         });
         const tasks = $('.w-full:contains("Validate") .items-center');
         for (const task of tasks) {
@@ -6998,8 +6966,7 @@
             this.undoneTasks.steam.curatorLikeLinks.push(link);
           } else {
             scripts_echoLog({
-              type: 'custom',
-              text: `<li>${i18n('unKnownTaskType', `${taskDes}(${link})`)}<font></font></li>`
+              html: `<li><font class="warning">${i18n('unKnownTaskType', `${taskDes}(${link})`)}</font></li>`
             });
           }
         }
@@ -7033,8 +7000,7 @@
         return true;
       }
       scripts_echoLog({
-        type: 'custom',
-        text: `<li><font class="error">${i18n('getGiveawayIdFailed')}</font></li>`
+        html: `<li><font class="error">${i18n('getFailed', 'GiveawayId')}</font></li>`
       });
       return false;
     } catch (error) {
@@ -7111,7 +7077,7 @@
     init() {
       try {
         const logStatus = scripts_echoLog({
-          type: 'init'
+          text: i18n('initing')
         });
         if (!Gleam_classPrivateMethodGet(this, Gleam_getGiveawayId, Gleam_getGiveawayId2).call(this)) {
           return false;
@@ -7127,8 +7093,7 @@
     async classifyTask(action) {
       try {
         const logStatus = scripts_echoLog({
-          type: 'custom',
-          text: `<li>${i18n('getTasksInfo')}<font></font></li>`
+          text: i18n('getTasksInfo')
         });
         this.socialTasks = GM_getValue(`gleamTasks-${this.giveawayId}`) || {
           ...Gleam_defaultTasks
@@ -7234,8 +7199,7 @@
             }
           } else if ((_socialIcon$attr2 = socialIcon.attr('class')) !== null && _socialIcon$attr2 !== void 0 && _socialIcon$attr2.includes('fa-question')) {} else {
             scripts_echoLog({
-              type: 'text',
-              text: `未识别的任务:${taskInfo.text().trim()}`
+              html: `<li><font class="warning">${i18n('unKnownTaskType')}: ${taskInfo.text().trim()}</font></li>`
             });
           }
         }
@@ -7258,8 +7222,7 @@
         return true;
       }
       scripts_echoLog({
-        type: 'custom',
-        text: `<li><font class="error">${i18n('getGiveawayIdFailed')}</font></li>`
+        text: i18n('getFailed', 'GiveawayId')
       });
       return false;
     } catch (error) {
@@ -7370,16 +7333,16 @@
     background-color: blue;
     color: #fff;
   }
-  #fuck-task-info .success {
+  #auto-task-info .success {
     color: green;
   }
-  #fuck-task-info .error {
+  #auto-task-info .error {
     color: red;
   }
-  #fuck-task-info .warning {
+  #auto-task-info .warning {
     color: blue;
   }
-  #fuck-task-info .info {
+  #auto-task-info .info {
     color: yellow;
   }
 `);

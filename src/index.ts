@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-11-21 16:43:26
+ * @LastEditTime : 2021-11-22 09:37:14
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -146,16 +146,16 @@ window.onload = () => {
     background-color: blue;
     color: #fff;
   }
-  #fuck-task-info .success {
+  #auto-task-info .success {
     color: green;
   }
-  #fuck-task-info .error {
+  #auto-task-info .error {
     color: red;
   }
-  #fuck-task-info .warning {
+  #auto-task-info .warning {
     color: blue;
   }
-  #fuck-task-info .info {
+  #auto-task-info .info {
     color: yellow;
   }
 `);

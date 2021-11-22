@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:03:26
- * @LastEditTime : 2021-11-21 16:43:31
+ * @LastEditTime : 2021-11-22 10:10:06
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/echoLog.ts
  * @Description  :
@@ -9,7 +9,7 @@
 import throwError from './tools/throwError';
 import __ from './tools/i18n';
 
-const echoLog = ({ type = 'text', text, html, id }: { type?: string, text?: string, html?: string, id?: string }): logStatus => {
+const echoLog = ({ type, text, html, id }: { type?: string, text?: string, html?: string, id?: string }): logStatus => {
   const emptyStatus = {
     success: () => emptyStatus,
     error: () => emptyStatus,
