@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:36:57
- * @LastEditTime : 2021-11-21 17:00:55
+ * @LastEditTime : 2021-12-02 15:39:50
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitter.ts
  * @Description  : Twitter 关注/取关用户,转推/取消转推推文
@@ -51,17 +51,17 @@ class Twitter extends Social {
       }
       const isVerified = await this.#verifyAuth();
       if (isVerified) {
-        echoLog({ text: __('initSuccess', 'Twitter') });
+        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Twitter')}</font></li>` });
         this.#initialized = true;
         return true;
       }
       GM_setValue('twitterAuth', null); // eslint-disable-line new-cap
       if (await this.#updateAuth()) {
-        echoLog({ text: __('initSuccess', 'Twitter') });
+        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Twitter')}</font></li>` });
         this.#initialized = true;
         return true;
       }
-      echoLog({ text: __('initFailed', 'Twitter') });
+      echoLog({ html: `<li><font class="success">${__('initFailed', 'Twitter')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Twitter.init');

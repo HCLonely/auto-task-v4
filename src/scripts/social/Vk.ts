@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 11:47:59
- * @LastEditTime : 2021-11-21 17:09:41
+ * @LastEditTime : 2021-12-02 15:40:10
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Vk.ts
  * @Description  : Vk 加入/退出群组，关注/取关用户，转发/取消转发动态
@@ -43,11 +43,11 @@ class Vk extends Social {
       }
       const isVerified: boolean = await this.#verifyAuth();
       if (isVerified) {
-        echoLog({ text: __('initSuccess', 'Vk') });
+        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Vk')}</font></li>` });
         this.#initialized = true;
         return true;
       }
-      echoLog({ text: __('initFailed', 'Vk') });
+      echoLog({ html: `<li><font class="success">${__('initFailed', 'Vk')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Vk.init');

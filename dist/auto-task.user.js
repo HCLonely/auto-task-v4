@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.6-Alpha
+// @version            4.0.7-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -431,7 +431,7 @@
           break;
 
          case 'html':
-          ele = $(text);
+          ele = $(text || html);
           break;
 
          default:
@@ -441,7 +441,7 @@
       } else if (text) {
         ele = $(`<li>${i18n(text)}<font></font></li>`);
       } else if (html) {
-        ele = $(text);
+        ele = $(html);
       } else {
         return emptyStatus;
       }
@@ -747,7 +747,7 @@
         const isVerified = await _classPrivateMethodGet(this, _verifyAuth, _verifyAuth2).call(this);
         if (isVerified) {
           scripts_echoLog({
-            text: i18n('initSuccess', 'Discord')
+            html: `<li><font class="success">${i18n('initSuccess', 'Discord')}</font></li>`
           });
           _classPrivateFieldSet(this, _initialized, true);
           return true;
@@ -757,13 +757,13 @@
         });
         if (await _classPrivateMethodGet(this, _updateAuth, _updateAuth2).call(this)) {
           scripts_echoLog({
-            text: i18n('initSuccess', 'Discord')
+            html: `<li><font class="success">${i18n('initSuccess', 'Discord')}</font></li>`
           });
           _classPrivateFieldSet(this, _initialized, true);
           return true;
         }
         scripts_echoLog({
-          text: i18n('initFailed', 'Discord')
+          html: `<li><font class="success">${i18n('initFailed', 'Discord')}</font></li>`
         });
         return false;
       } catch (error) {
@@ -1099,13 +1099,13 @@
         const isVerified = await Instagram_classPrivateMethodGet(this, _getUserInfo, _getUserInfo2).call(this);
         if (isVerified) {
           scripts_echoLog({
-            text: i18n('initSuccess', 'Instagram')
+            html: `<li><font class="success">${i18n('initSuccess', 'Instagram')}</font></li>`
           });
           Instagram_classPrivateFieldSet(this, Instagram_initialized, true);
           return true;
         }
         scripts_echoLog({
-          text: i18n('initFailed', 'Instagram')
+          html: `<li><font class="success">${i18n('initFailed', 'Instagram')}</font></li>`
         });
         return false;
       } catch (error) {
@@ -1412,13 +1412,13 @@
         const isVerified = await Reddit_classPrivateMethodGet(this, Reddit_updateAuth, Reddit_updateAuth2).call(this);
         if (isVerified) {
           scripts_echoLog({
-            text: i18n('initSuccess', 'Reddit')
+            html: `<li><font class="success">${i18n('initSuccess', 'Reddit')}</font></li>`
           });
           Reddit_classPrivateFieldSet(this, Reddit_initialized, true);
           return true;
         }
         scripts_echoLog({
-          text: i18n('initFailed', 'Reddit')
+          html: `<li><font class="success">${i18n('initFailed', 'Reddit')}</font></li>`
         });
         return false;
       } catch (error) {
@@ -1711,7 +1711,7 @@
         const isVerified = await Twitch_classPrivateMethodGet(this, Twitch_verifyAuth, Twitch_verifyAuth2).call(this);
         if (isVerified) {
           scripts_echoLog({
-            text: i18n('initSuccess', 'Twitch')
+            html: `<li><font class="success">${i18n('initSuccess', 'Twitch')}</font></li>`
           });
           Twitch_classPrivateFieldSet(this, Twitch_initialized, true);
           return true;
@@ -1719,13 +1719,13 @@
         GM_setValue('twitchAuth', null);
         if (await Twitch_classPrivateMethodGet(this, Twitch_updateAuth, Twitch_updateAuth2).call(this)) {
           scripts_echoLog({
-            text: i18n('initSuccess', 'Twitch')
+            html: `<li><font class="success">${i18n('initSuccess', 'Twitch')}</font></li>`
           });
           Twitch_classPrivateFieldSet(this, Twitch_initialized, true);
           return true;
         }
         scripts_echoLog({
-          text: i18n('initFailed', 'Twitch')
+          html: `<li><font class="success">${i18n('initFailed', 'Twitch')}</font></li>`
         });
         return false;
       } catch (error) {
@@ -2071,7 +2071,7 @@
         const isVerified = await Twitter_classPrivateMethodGet(this, Twitter_verifyAuth, Twitter_verifyAuth2).call(this);
         if (isVerified) {
           scripts_echoLog({
-            text: i18n('initSuccess', 'Twitter')
+            html: `<li><font class="success">${i18n('initSuccess', 'Twitter')}</font></li>`
           });
           Twitter_classPrivateFieldSet(this, Twitter_initialized, true);
           return true;
@@ -2079,13 +2079,13 @@
         GM_setValue('twitterAuth', null);
         if (await Twitter_classPrivateMethodGet(this, Twitter_updateAuth, Twitter_updateAuth2).call(this)) {
           scripts_echoLog({
-            text: i18n('initSuccess', 'Twitter')
+            html: `<li><font class="success">${i18n('initSuccess', 'Twitter')}</font></li>`
           });
           Twitter_classPrivateFieldSet(this, Twitter_initialized, true);
           return true;
         }
         scripts_echoLog({
-          text: i18n('initFailed', 'Twitter')
+          html: `<li><font class="success">${i18n('initFailed', 'Twitter')}</font></li>`
         });
         return false;
       } catch (error) {
@@ -2490,13 +2490,13 @@
         const isVerified = await Vk_classPrivateMethodGet(this, Vk_verifyAuth, Vk_verifyAuth2).call(this);
         if (isVerified) {
           scripts_echoLog({
-            text: i18n('initSuccess', 'Vk')
+            html: `<li><font class="success">${i18n('initSuccess', 'Vk')}</font></li>`
           });
           Vk_classPrivateFieldSet(this, Vk_initialized, true);
           return true;
         }
         scripts_echoLog({
-          text: i18n('initFailed', 'Vk')
+          html: `<li><font class="success">${i18n('initFailed', 'Vk')}</font></li>`
         });
         return false;
       } catch (error) {
@@ -3046,7 +3046,7 @@
       });
       Youtube_classPrivateFieldInitSpec(this, _verifyChannel, {
         writable: true,
-        value: 'https://www.youtube.com/channel/UCBR8-60-B28hp2BmDPdntcQ'
+        value: 'https://www.youtube.com/channel/UCrXUsMBcfTVqwAS7DKg9C0Q'
       });
       if (verifyChannel) {
         Youtube_classPrivateFieldSet(this, _verifyChannel, verifyChannel);
@@ -3067,7 +3067,7 @@
         const isVerified = await Youtube_classPrivateMethodGet(this, Youtube_verifyAuth, Youtube_verifyAuth2).call(this);
         if (isVerified) {
           scripts_echoLog({
-            text: i18n('initSuccess', 'Youtube')
+            html: `<li><font class="success">${i18n('initSuccess', 'Youtube')}</font></li>`
           });
           Youtube_classPrivateFieldSet(this, Youtube_initialized, true);
           return true;
@@ -3075,13 +3075,13 @@
         GM_setValue('youtubeAuth', null);
         if (await Youtube_classPrivateMethodGet(this, Youtube_updateAuth, Youtube_updateAuth2).call(this)) {
           scripts_echoLog({
-            text: i18n('initSuccess', 'Youtube')
+            html: `<li><font class="success">${i18n('initSuccess', 'Youtube')}</font></li>`
           });
           Youtube_classPrivateFieldSet(this, Youtube_initialized, true);
           return true;
         }
         scripts_echoLog({
-          text: i18n('initFailed', 'Youtube')
+          html: `<li><font class="success">${i18n('initFailed', 'Youtube')}</font></li>`
         });
         return false;
       } catch (error) {
@@ -3104,14 +3104,14 @@
         }
         const prom = [];
         const realChannels = this.getRealParams('channels', channelLinks, doTask, link => {
-          if (/^https:\/\/www\.google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
+          if (/^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
             var _link$match;
             return (_link$match = link.match(/url=(https:\/\/www.youtube.com\/.*)/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
           }
           return link;
         });
         const realLikes = this.getRealParams('likes', videoLinks, doTask, link => {
-          if (/^https:\/\/www\.google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
+          if (/^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
             var _link$match2;
             return (_link$match2 = link.match(/url=(https:\/\/www.youtube.com\/.*)/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1];
           }
@@ -3630,12 +3630,12 @@
         if (isVerified) {
           Steam_classPrivateFieldSet(this, Steam_initialized, true);
           scripts_echoLog({
-            text: i18n('initSuccess', 'Steam')
+            html: `<li><font class="success">${i18n('initSuccess', 'Steam')}</font></li>`
           });
           return true;
         }
         scripts_echoLog({
-          text: i18n('initFailed', 'Steam')
+          html: `<li><font class="success">${i18n('initFailed', 'Reddit')}</font></li>`
         });
         return false;
       } catch (error) {
@@ -5210,41 +5210,50 @@
         scripts_echoLog({
           html: `<li><font class="success">${i18n('allTasksComplete')}</font></li>`
         });
-        return true;
+        return !!await this.getKey(true);
       } catch (error) {
         throwError(error, 'Freeanywhere.verifyTask');
         return false;
       }
     }
-    async getKey() {
-      const logStatus = scripts_echoLog({
-        text: i18n('gettingKey')
-      });
-      const {
-        result,
-        statusText,
-        status,
-        data
-      } = await tools_httpRequest({
-        url: `https://freeanywhere.net/api/v1/giveaway/${this.giveawayId}/reward/?format=json`,
-        method: 'GET',
-        dataType: 'json',
-        headers: {
-          authorization: `Token ${window.localStorage.getItem('token')}`
+    async getKey(initialized) {
+      try {
+        if (!initialized && !this.initialized && !this.init()) {
+          return false;
         }
-      });
-      if (result === 'Success') {
-        var _data$response2;
-        if (data !== null && data !== void 0 && (_data$response2 = data.response) !== null && _data$response2 !== void 0 && _data$response2.reward) {
-          logStatus.success();
-          scripts_echoLog({
-            html: `<li><font class="success">${data.response.reward}</font></li>`
-          });
-        } else {
+        const logStatus = scripts_echoLog({
+          text: i18n('gettingKey')
+        });
+        const {
+          result,
+          statusText,
+          status,
+          data
+        } = await tools_httpRequest({
+          url: `https://freeanywhere.net/api/v1/giveaway/${this.giveawayId}/reward/?format=json`,
+          method: 'GET',
+          dataType: 'json',
+          headers: {
+            authorization: `Token ${window.localStorage.getItem('token')}`
+          }
+        });
+        if (result === 'Success') {
+          var _data$response2;
+          if (data !== null && data !== void 0 && (_data$response2 = data.response) !== null && _data$response2 !== void 0 && _data$response2.reward) {
+            logStatus.success();
+            scripts_echoLog({
+              html: `<li><font class="success">${data.response.reward}</font></li>`
+            });
+            return data.response.reward;
+          }
           logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+          return false;
         }
-      } else {
         logStatus.error(`${result}:${statusText}(${status})`);
+        return false;
+      } catch (error) {
+        throwError(error, 'FreeAnyWhere.getGiveawayId');
+        return false;
       }
     }
   }
@@ -5261,7 +5270,7 @@
       });
       return false;
     } catch (error) {
-      throwError(error, 'Keyhub.getGiveawayId');
+      throwError(error, 'FreeAnyWhere.getGiveawayId');
     }
   }
   async function _verify2(task) {

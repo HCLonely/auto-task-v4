@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:03:26
- * @LastEditTime : 2021-11-22 10:10:06
+ * @LastEditTime : 2021-12-02 15:35:48
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/echoLog.ts
  * @Description  :
@@ -119,7 +119,7 @@ const echoLog = ({ type, text, html, id }: { type?: string, text?: string, html?
         ele = $(`<li>${__(text as string)}<font></font></li>`);
         break;
       case 'html':
-        ele = $(text as string);
+        ele = $(text || html as string);
         break;
       default:
         ele = $(`<li>${__('unKnown')}:${type}(${text})...<font></font></li>`);
@@ -128,7 +128,7 @@ const echoLog = ({ type, text, html, id }: { type?: string, text?: string, html?
     } else if (text) {
       ele = $(`<li>${__(text as string)}<font></font></li>`);
     } else if (html) {
-      ele = $(text as string);
+      ele = $(html as string);
     } else {
       return emptyStatus;
     }

@@ -1,9 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:03
- * @LastEditTime : 2021-11-21 16:05:29
+ * @LastEditTime : 2021-12-02 15:51:18
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/scripts/website/Freeanywhere.ts
+ * @FilePath     : /auto-task-new/src/scripts/website/freeanywhere.ts
  * @Description  : https://freeanywhere.net
  */
 
@@ -167,31 +167,40 @@ class FreeAnyWhere extends Website {
       }
       await Promise.all(pro);
       echoLog({ html: `<li><font class="success">${__('allTasksComplete')}</font></li>` });
-      return true;
+      return !!await this.getKey(true);
     } catch (error) {
       throwError(error as Error, 'Freeanywhere.verifyTask');
       return false;
     }
   }
-  async getKey(): Promise<void> {
-    const logStatus = echoLog({ text: __('gettingKey') });
-    const { result, statusText, status, data } = await httpRequest({
-      url: `https://freeanywhere.net/api/v1/giveaway/${this.giveawayId}/reward/?format=json`,
-      method: 'GET',
-      dataType: 'json',
-      headers: {
-        authorization: `Token ${window.localStorage.getItem('token')}`
+  async getKey(initialized?: boolean): Promise<false | string> {
+    try {
+      if (!initialized && !this.initialized && !this.init()) {
+        return false;
       }
-    });
-    if (result === 'Success') {
-      if (data?.response?.reward) {
-        logStatus.success();
-        echoLog({ html: `<li><font class="success">${data.response.reward}</font></li>` });
-      } else {
+      const logStatus = echoLog({ text: __('gettingKey') });
+      const { result, statusText, status, data } = await httpRequest({
+        url: `https://freeanywhere.net/api/v1/giveaway/${this.giveawayId}/reward/?format=json`,
+        method: 'GET',
+        dataType: 'json',
+        headers: {
+          authorization: `Token ${window.localStorage.getItem('token')}`
+        }
+      });
+      if (result === 'Success') {
+        if (data?.response?.reward) {
+          logStatus.success();
+          echoLog({ html: `<li><font class="success">${data.response.reward}</font></li>` });
+          return data.response.reward;
+        }
         logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+        return false;
       }
-    } else {
       logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'FreeAnyWhere.getGiveawayId');
+      return false;
     }
   }
 
@@ -205,7 +214,7 @@ class FreeAnyWhere extends Website {
       echoLog({ html: `<li><font class="error">${__('getFailed', 'GiveawayId')}</font></li>` });
       return false;
     } catch (error) {
-      throwError(error as Error, 'Keyhub.getGiveawayId');
+      throwError(error as Error, 'FreeAnyWhere.getGiveawayId');
     }
   }
   async #verify(task: fawTaskInfo): Promise<boolean> {

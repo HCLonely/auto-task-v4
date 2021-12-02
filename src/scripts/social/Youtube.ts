@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 12:18:06
- * @LastEditTime : 2021-11-21 17:15:08
+ * @LastEditTime : 2021-12-02 15:40:33
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Youtube.ts
  * @Description  : Youtube 订阅/取消订阅频道，点赞/取消点赞视频
@@ -23,7 +23,7 @@ class Youtube extends Social {
   whiteList: youtubeTasks = GM_getValue<whiteList>('whiteList')?.youtube || { ...defaultTasks }; // eslint-disable-line new-cap
   #auth: auth = GM_getValue<auth>('youtubeAuth') || {}; // eslint-disable-line new-cap
   #initialized = false;
-  #verifyChannel = 'https://www.youtube.com/channel/UCBR8-60-B28hp2BmDPdntcQ';
+  #verifyChannel = 'https://www.youtube.com/channel/UCrXUsMBcfTVqwAS7DKg9C0Q';
 
   // TODO: 任务识别
   constructor(verifyChannel?: string) {
@@ -52,17 +52,17 @@ class Youtube extends Social {
       }
       const isVerified: boolean = await this.#verifyAuth();
       if (isVerified) {
-        echoLog({ text: __('initSuccess', 'Youtube') });
+        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Youtube')}</font></li>` });
         this.#initialized = true;
         return true;
       }
       GM_setValue('youtubeAuth', null); // eslint-disable-line new-cap
       if (await this.#updateAuth()) {
-        echoLog({ text: __('initSuccess', 'Youtube') });
+        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Youtube')}</font></li>` });
         this.#initialized = true;
         return true;
       }
-      echoLog({ text: __('initFailed', 'Youtube') });
+      echoLog({ html: `<li><font class="success">${__('initFailed', 'Youtube')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Youtube.init');
@@ -377,13 +377,13 @@ class Youtube extends Social {
       }
       const prom = [];
       const realChannels = this.getRealParams('channels', channelLinks, doTask, (link) => {
-        if (/^https:\/\/www\.google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
+        if (/^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
           return link.match(/url=(https:\/\/www.youtube.com\/.*)/)?.[1];
         }
         return link;
       });
       const realLikes = this.getRealParams('likes', videoLinks, doTask, (link) => {
-        if (/^https:\/\/www\.google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
+        if (/^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
           return link.match(/url=(https:\/\/www.youtube.com\/.*)/)?.[1];
         }
         return link;

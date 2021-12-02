@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:00:41
- * @LastEditTime : 2021-11-21 16:59:59
+ * @LastEditTime : 2021-12-02 15:39:26
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitch.ts
  * @Description  : Twitch 关注/取关频道
@@ -41,17 +41,17 @@ class Twitch extends Social {
       }
       const isVerified: boolean = await this.#verifyAuth();
       if (isVerified) {
-        echoLog({ text: __('initSuccess', 'Twitch') });
+        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Twitch')}</font></li>` });
         this.#initialized = true;
         return true;
       }
       GM_setValue('twitchAuth', null); // eslint-disable-line new-cap
       if (await this.#updateAuth()) {
-        echoLog({ text: __('initSuccess', 'Twitch') });
+        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Twitch')}</font></li>` });
         this.#initialized = true;
         return true;
       }
-      echoLog({ text: __('initFailed', 'Twitch') });
+      echoLog({ html: `<li><font class="success">${__('initFailed', 'Twitch')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Twitch.init');

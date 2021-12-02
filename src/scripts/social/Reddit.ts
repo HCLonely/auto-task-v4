@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-30 09:43:32
- * @LastEditTime : 2021-11-21 17:00:07
+ * @LastEditTime : 2021-12-02 15:38:38
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Reddit.ts
  * @Description  : Reddit 订阅&取消订阅
@@ -33,11 +33,11 @@ class Reddit extends Social {
       }
       const isVerified: boolean = await this.#updateAuth();
       if (isVerified) {
-        echoLog({ text: __('initSuccess', 'Reddit') });
+        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Reddit')}</font></li>` });
         this.#initialized = true;
         return true;
       }
-      echoLog({ text: __('initFailed', 'Reddit') });
+      echoLog({ html: `<li><font class="success">${__('initFailed', 'Reddit')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Reddit.init');

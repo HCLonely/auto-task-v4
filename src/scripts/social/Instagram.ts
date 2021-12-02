@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-29 12:54:16
- * @LastEditTime : 2021-11-21 17:00:16
+ * @LastEditTime : 2021-12-02 15:38:17
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Instagram.ts
  * @Description  : Instagram 关注&取关用户
@@ -33,11 +33,11 @@ class Instagram extends Social {
       }
       const isVerified = await this.#getUserInfo();
       if (isVerified) {
-        echoLog({ text: __('initSuccess', 'Instagram') });
+        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Instagram')}</font></li>` });
         this.#initialized = true;
         return true;
       }
-      echoLog({ text: __('initFailed', 'Instagram') });
+      echoLog({ html: `<li><font class="success">${__('initFailed', 'Instagram')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Instagram.init');

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "eslint",
-    "build": "tsc",
+    "tsc": "tsc",
     "pack": "webpack"
   },
   "author": "HCLonely",

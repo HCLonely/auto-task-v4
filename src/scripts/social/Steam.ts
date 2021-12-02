@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2021-11-21 12:33:26
+ * @LastEditTime : 2021-12-02 15:38:56
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -52,10 +52,10 @@ class Steam extends Social {
       const isVerified = (await this.#updateStoreAuth()) && await (this.#updateCommunityAuth());
       if (isVerified) {
         this.#initialized = true;
-        echoLog({ text: __('initSuccess', 'Steam') });
+        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Steam')}</font></li>` });
         return true;
       }
-      echoLog({ text: __('initFailed', 'Steam') });
+      echoLog({ html: `<li><font class="success">${__('initFailed', 'Reddit')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Steam.init');

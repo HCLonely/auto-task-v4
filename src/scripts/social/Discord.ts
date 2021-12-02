@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2021-11-21 12:34:49
+ * @LastEditTime : 2021-12-02 15:38:19
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
@@ -42,17 +42,17 @@ class Discord extends Social {
       }
       const isVerified: boolean = await this.#verifyAuth();
       if (isVerified) {
-        echoLog({ text: __('initSuccess', 'Discord') });
+        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Discord')}</font></li>` });
         this.#initialized = true;
         return true;
       }
       GM_setValue('discordAuth', { auth: null }); // eslint-disable-line new-cap
       if (await this.#updateAuth()) {
-        echoLog({ text: __('initSuccess', 'Discord') });
+        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Discord')}</font></li>` });
         this.#initialized = true;
         return true;
       }
-      echoLog({ text: __('initFailed', 'Discord') });
+      echoLog({ html: `<li><font class="success">${__('initFailed', 'Discord')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Discord.init');

@@ -7,7 +7,6 @@
  * @Description  :
  */
 
-// todo: 未测试
 import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
