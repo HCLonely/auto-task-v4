@@ -8,11 +8,11 @@
 
 [https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task.user.js](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task.user.js)
 
-### 全局变量website
+### 使用
 
-- 做任务：website.doTask()
-- 取消做任务：website.undoTask()
-- 验证任务：website.verifyTask()
+1. 点击Tampermonkey扩展图标；
+2. 点击`auto-task-new`下面的功能。
+![Usage](https://s2.loli.net/2021/12/05/PYh4tKZb2W1axOT.png)
 
 ## todo
 

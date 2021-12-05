@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.7-Alpha
+// @version            4.0.8-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -7321,7 +7321,32 @@
     if (website.after) {
       website.after();
     }
-    unsafeWindow.website = website;
+    if (website.doTask) {
+      GM_registerMenuCommand('doTask', () => {
+        website.doTask();
+      });
+    }
+    if (website.undoTask) {
+      GM_registerMenuCommand('undoTask', () => {
+        website.undoTask();
+      });
+    }
+    if (website.verifyTask) {
+      GM_registerMenuCommand('verifyTask', () => {
+        website.verifyTask();
+      });
+    }
+    if (website.getKey) {
+      GM_registerMenuCommand('getKey', () => {
+        website.getKey();
+      });
+    }
+    if (website.doFreeTask) {
+      GM_registerMenuCommand('doFreeTask', website.doFreeTask);
+    }
+    if (website.doPointTask) {
+      GM_registerMenuCommand('doPointTask', website.doPointTask);
+    }
     GM_addStyle(`
   #auto-task-info {
     position: fixed;

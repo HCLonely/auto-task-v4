@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-11-22 09:37:14
+ * @LastEditTime : 2021-12-05 10:21:06
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -115,16 +115,28 @@ window.onload = () => {
   if (!website) return;
 
   $('body').append('<div id="auto-task-info"></div>'); // eslint-disable-line
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  /* eslint-disable @typescript-eslint/ban-ts-comment */
   // @ts-ignore
   if (website.before) website.before();
 
   // do something
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   if (website.after) website.after();
 
-  unsafeWindow.website = website;
+  // @ts-ignore
+  if (website.doTask) GM_registerMenuCommand('doTask', () => { website.doTask(); }); // eslint-disable-line new-cap
+  // @ts-ignore
+  if (website.undoTask) GM_registerMenuCommand('undoTask', () => { website.undoTask(); }); // eslint-disable-line new-cap
+  // @ts-ignore
+  if (website.verifyTask) GM_registerMenuCommand('verifyTask', () => { website.verifyTask(); }); // eslint-disable-line new-cap
+  // @ts-ignore
+  if (website.getKey) GM_registerMenuCommand('getKey', () => { website.getKey(); }); // eslint-disable-line new-cap
+  // @ts-ignore
+  if (website.doFreeTask) GM_registerMenuCommand('doFreeTask', website.doFreeTask); // eslint-disable-line new-cap
+  // @ts-ignore
+  if (website.doPointTask) GM_registerMenuCommand('doPointTask', website.doPointTask); // eslint-disable-line new-cap
+  /* eslint-enable @typescript-eslint/ban-ts-comment */
+  // unsafeWindow.website = website;
   // eslint-disable-next-line new-cap
   GM_addStyle(`
   #auto-task-info {

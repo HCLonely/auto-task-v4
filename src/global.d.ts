@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 13:18:21
- * @LastEditTime : 2021-11-15 14:52:58
+ * @LastEditTime : 2021-12-05 10:13:07
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/global.d.ts
  */
@@ -165,6 +165,7 @@ declare global {
   function GM_addStyle(style: string): void // eslint-disable-line camelcase
   function GM_setValue(name: string, value: any): void // eslint-disable-line camelcase
   function GM_getValue<T>(name: string, defaultValue?: T): undefined | T // eslint-disable-line camelcase
+  function GM_registerMenuCommand(name: string, callback: () => void): void // eslint-disable-line camelcase
   function GM_openInTab(url: string, options?: { // eslint-disable-line camelcase
     active?: boolean
     insert?: boolean
