@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2021-11-21 16:20:13
+ * @LastEditTime : 2021-12-05 11:53:01
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  :
@@ -92,7 +92,16 @@ class Gleam extends Website {
 
         const socialIcon = $task.find('.icon-wrapper i');
         const taskInfo = $task.find('.user-links');
-        // const expandInfo = $task.find('.expandable');
+        const expandInfo = $task.find('.expandable');
+        const aElements = expandInfo.find('a.btn');
+        if (aElements.length > 0) {
+          for (const element of aElements) {
+            const $element = $(element);
+            const href = $element.attr('href');
+            $element.removeAttr('href')[0].click();
+            $element.attr('href', href as string);
+          }
+        }
         if (socialIcon.hasClass('fa-twitter')) {
           const link = $task.find('a[href^="https://twitter.com/"]').attr('href');
           if (!link) continue;

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.8-Alpha
+// @version            4.0.9-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -7116,6 +7116,16 @@
           }
           const socialIcon = $task.find('.icon-wrapper i');
           const taskInfo = $task.find('.user-links');
+          const expandInfo = $task.find('.expandable');
+          const aElements = expandInfo.find('a.btn');
+          if (aElements.length > 0) {
+            for (const element of aElements) {
+              const $element = $(element);
+              const href = $element.attr('href');
+              $element.removeAttr('href')[0].click();
+              $element.attr('href', href);
+            }
+          }
           if (socialIcon.hasClass('fa-twitter')) {
             const link = $task.find('a[href^="https://twitter.com/"]').attr('href');
             if (!link) {
