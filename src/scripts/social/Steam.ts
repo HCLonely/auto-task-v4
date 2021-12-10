@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2021-12-02 15:38:56
+ * @LastEditTime : 2021-12-07 17:18:08
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -241,8 +241,7 @@ class Steam extends Social {
   async #leaveGroup(groupName: string): Promise<boolean> {
     try {
       if (this.whiteList.groups.includes(groupName)) {
-        // TODO: 直接echo
-        echoLog({ type: 'whiteList', text: groupName });
+        echoLog({ type: 'whiteList', text: 'Steam.leaveGroup', id: groupName });
         return true;
       }
       const groupId = await this.#getGroupId(groupName);
@@ -364,8 +363,7 @@ class Steam extends Social {
   async #removeFromWishlist(gameId: string): Promise<boolean> {
     try {
       if (this.whiteList.wishlists.includes(gameId)) {
-        // TODO: 直接echo
-        echoLog({ type: 'whiteList', text: gameId });
+        echoLog({ type: 'whiteList', text: 'Steam.removeFromWishlist', id: gameId });
         return true;
       }
       const logStatus = echoLog({ type: 'removingFromWishlist', text: gameId });
@@ -416,8 +414,7 @@ class Steam extends Social {
   async #toggleFollowGame(gameId: string, doTask: boolean): Promise<boolean> {
     try {
       if (!doTask && this.whiteList.follows.includes(gameId)) {
-        // TODO: 直接echo
-        echoLog({ type: 'whiteList', text: gameId });
+        echoLog({ type: 'whiteList', text: 'Steam.unfollowGame', id: gameId });
         return true;
       }
       const logStatus = echoLog({ type: `${doTask ? '' : 'un'}followingGame`, text: gameId });
@@ -484,8 +481,7 @@ class Steam extends Social {
   async #toggleForum(gameId: string, doTask = true): Promise<boolean> {
     try {
       if (!doTask && this.whiteList.forums.includes(gameId)) {
-        // TODO: 直接echo
-        echoLog({ type: 'whiteList', text: gameId });
+        echoLog({ type: 'whiteList', text: 'Steam.unsubscribForum', id: gameId });
         return true;
       }
       const forumId = await this.#getForumId(gameId);
@@ -556,8 +552,7 @@ class Steam extends Social {
   async #toggleFavoriteWorkshop(id: string, doTask = true): Promise<boolean> {
     try {
       if (!doTask && this.whiteList.workshops.includes(id)) {
-        // TODO: 直接echo
-        echoLog({ type: 'whiteList', text: id });
+        echoLog({ type: 'whiteList', text: 'Steam.unfavoriteWorkshop', id });
         return true;
       }
       const appid = await this.#getWorkshopAppId(id);
@@ -655,8 +650,7 @@ class Steam extends Social {
   async #toggleCurator(curatorId: string, doTask = true): Promise<boolean> {
     try {
       if (!doTask && this.whiteList.curators.includes(curatorId)) {
-        // TODO: 直接echo
-        echoLog({ type: 'whiteList', text: curatorId });
+        echoLog({ type: 'whiteList', text: 'Steam.unfollowCurator', id: curatorId });
         return true;
       }
       const logStatus = echoLog({ type: doTask ? 'followingCurator' : 'unfollowingCurator', text: curatorId });
@@ -682,7 +676,7 @@ class Steam extends Social {
       return false;
     }
   }
-  async #getCuratorId(path: string, developerName: string): Promise<false | string> {
+  async getCuratorId(path: string, developerName: string): Promise<false | string> {
     try {
       const logStatus = echoLog({ type: 'gettingCuratorId', text: `${path}/${developerName}` });
       const curatorId = this.#cache.curator[`${path}/${developerName}`];
@@ -726,7 +720,7 @@ class Steam extends Social {
         echoLog({ text: __('errorLink', link) });
         return false;
       }
-      const curatorId = await this.#getCuratorId(path, name);
+      const curatorId = await this.getCuratorId(path, name);
       if (curatorId) {
         // const logStatus = echoLog({ type: `${doTask ? '' : 'un'}follow${path.replace(/^\S/, (s) => s.toUpperCase())}`, text: name });
         return await this.#toggleCurator(curatorId, doTask);

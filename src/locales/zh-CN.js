@@ -1,13 +1,25 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2021-11-21 16:42:45
+ * @LastEditTime : 2021-12-07 18:51:34
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  :
  */
 const data = {
   // 通用任务
+  website: '网站',
+  type: '类型',
+  edit: '编辑',
+  whiteList: '白名单',
+  skipTask: '跳过取消做任务',
+  whiteListOptions: '白名单设置',
+  changeWhiteListOption: '设置白名单(%0)',
+  whiteListNotFound: '找不到此项白名单: %0',
+  changeWhiteListSuccess: '白名单修改成功，刷新生效！',
+  save: '保存',
+  close: '关闭',
+  return: '返回',
   needLogin: '请先登录！',
   getTasksInfo: '正在获取并处理任务信息',
   gettingKey: '正在获取Key...',

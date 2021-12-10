@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-30 09:43:32
- * @LastEditTime : 2021-12-02 15:38:38
+ * @LastEditTime : 2021-12-07 17:18:24
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Reddit.ts
  * @Description  : Reddit 订阅&取消订阅
@@ -121,8 +121,7 @@ class Reddit extends Social {
      */
     try {
       if (!doTask && this.whiteList.reddits.includes(name)) {
-        // TODO: 直接echo
-        echoLog({ type: 'whiteList', text: name });
+        echoLog({ type: 'whiteList', text: 'Reddit.undoTask', id: name });
         return true;
       }
       let type: string = doTask ? 'joiningReddit' : 'leavingReddit';

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 12:18:06
- * @LastEditTime : 2021-12-02 15:40:33
+ * @LastEditTime : 2021-12-07 17:18:49
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Youtube.ts
  * @Description  : Youtube 订阅/取消订阅频道，点赞/取消点赞视频
@@ -200,8 +200,7 @@ class Youtube extends Social {
       }
 
       if (!doTask && !verify && this.whiteList.channels.includes(channelId)) {
-        // TODO: 直接echo
-        echoLog({ type: 'whiteList', text: channelId });
+        echoLog({ type: 'whiteList', text: 'Youtube.unfollowChannel', id: channelId });
         return true;
       }
 
@@ -286,8 +285,7 @@ class Youtube extends Social {
       }
 
       if (!doTask && this.whiteList.likes.includes(videoId)) {
-        // TODO: 直接echo
-        echoLog({ type: 'whiteList', text: link });
+        echoLog({ type: 'whiteList', text: 'Youtube.unlikeVideo', id: videoId });
         return true;
       }
 

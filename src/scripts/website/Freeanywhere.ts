@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:03
- * @LastEditTime : 2021-12-02 15:51:18
+ * @LastEditTime : 2021-12-06 13:11:09
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/freeanywhere.ts
  * @Description  : https://freeanywhere.net

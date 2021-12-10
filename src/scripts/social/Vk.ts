@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 11:47:59
- * @LastEditTime : 2021-12-02 15:40:10
+ * @LastEditTime : 2021-12-07 17:18:43
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Vk.ts
  * @Description  : Vk 加入/退出群组，关注/取关用户，转发/取消转发动态
@@ -396,8 +396,7 @@ class Vk extends Social {
      */
     try {
       if (!doTask && this.whiteList.names.includes(name)) {
-        // TODO: 直接echo
-        echoLog({ type: 'whiteList', text: name });
+        echoLog({ type: 'whiteList', text: 'Vk.undoTask', id: name });
         return true;
       }
       const formatName: string = name.replace(/\/$/, '');

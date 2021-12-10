@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-29 12:54:16
- * @LastEditTime : 2021-12-02 15:38:17
+ * @LastEditTime : 2021-12-07 17:18:18
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Instagram.ts
  * @Description  : Instagram 关注&取关用户
@@ -153,8 +153,7 @@ class Instagram extends Social {
      */
     try {
       if (this.whiteList.users.includes(name)) {
-        // TODO: 直接echo
-        echoLog({ type: 'whiteList', text: name });
+        echoLog({ type: 'whiteList', text: 'Instagram.unfollowUser', id: name });
         return true;
       }
       const id: string | boolean = await this.#getUserInfo(name);

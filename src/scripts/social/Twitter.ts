@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:36:57
- * @LastEditTime : 2021-12-02 15:39:50
+ * @LastEditTime : 2021-12-07 17:18:38
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitter.ts
  * @Description  : Twitter 关注/取关用户,转推/取消转推推文
@@ -123,8 +123,7 @@ class Twitter extends Social {
      */
     try {
       if (!doTask && !verify && this.whiteList.users.includes(name)) {
-        // TODO: 直接echo
-        echoLog({ type: 'whiteList', text: name });
+        echoLog({ type: 'whiteList', text: 'Twitter.unfollowUser', id: name });
         return true;
       }
       const userId: string | boolean = verify ? this.#verifyId : (await this.#getUserId(name));
@@ -246,8 +245,7 @@ class Twitter extends Social {
      */
     try {
       if (!doTask && this.whiteList.retweets.includes(retweetId)) {
-        // TODO: 直接echo
-        echoLog({ type: 'whiteList', text: retweetId });
+        echoLog({ type: 'whiteList', text: 'Twitter.unretweet', id: retweetId });
         return true;
       }
       const logStatus = echoLog({ type: `${doTask ? '' : 'un'}retweetting`, text: retweetId });

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:03:26
- * @LastEditTime : 2021-12-02 15:35:48
+ * @LastEditTime : 2021-12-07 17:10:41
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/echoLog.ts
  * @Description  :
@@ -120,6 +120,9 @@ const echoLog = ({ type, text, html, id }: { type?: string, text?: string, html?
         break;
       case 'html':
         ele = $(text || html as string);
+        break;
+      case 'whiteList':
+        ele = $(`<li><font class="warning">${__('skipTask')}[${text}(${id})](${__('whiteList')})</font></li>`);
         break;
       default:
         ele = $(`<li>${__('unKnown')}:${type}(${text})...<font></font></li>`);

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2021-12-02 15:38:19
+ * @LastEditTime : 2021-12-07 17:18:12
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
@@ -160,8 +160,7 @@ class Discord extends Social {
      */
     try {
       if (this.whiteList.servers.includes(inviteId)) {
-        // TODO: 优化
-        echoLog({ type: 'whiteList', text: inviteId });
+        echoLog({ type: 'whiteList', text: 'Discord.leaveServer', id: inviteId });
         return true;
       }
       const guild = await this.#getGuild(inviteId);

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-12-05 10:21:06
+ * @LastEditTime : 2021-12-07 15:00:27
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -18,6 +18,7 @@ import OpiumPulses from './scripts/website/OpiumPulses';
 import Keylol from './scripts/website/Keylol';
 import Opquests from './scripts/website/Opquests';
 import Gleam from './scripts/website/Gleam';
+import whiteListOptions from './scripts/social/whiteList';
 
 type WebsitesType = typeof FreeAnyWhere |
   typeof GiveawaySu |
@@ -135,6 +136,7 @@ window.onload = () => {
   if (website.doFreeTask) GM_registerMenuCommand('doFreeTask', website.doFreeTask); // eslint-disable-line new-cap
   // @ts-ignore
   if (website.doPointTask) GM_registerMenuCommand('doPointTask', website.doPointTask); // eslint-disable-line new-cap
+  GM_registerMenuCommand('whiteList', whiteListOptions); // eslint-disable-line new-cap
   /* eslint-enable @typescript-eslint/ban-ts-comment */
   // unsafeWindow.website = website;
   // eslint-disable-next-line new-cap
@@ -153,6 +155,10 @@ window.onload = () => {
   .auto-task-keylol {
     text-transform: capitalize;
     margin-left: 10px;
+    text-decoration: none !important;
+    border: solid 2px;
+    border-radius: 5px;
+    padding: 0 2px;
   }
   .auto-task-keylol[selected="selected"] {
     background-color: blue;
@@ -169,6 +175,38 @@ window.onload = () => {
   }
   #auto-task-info .info {
     color: yellow;
+  }
+  #whiteListForm table {
+    font-family: verdana, arial, sans-serif;
+    font-size: 11px;
+    color: #333333;
+    border-width: 1px;
+    border-color: #999999;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  #whiteListForm table th {
+    background-color: #c3dde0;
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #a9c6c9;
+  }
+
+  #whiteListForm table tr {
+    background-color: #d4e3e5;
+  }
+
+  #whiteListForm table tr:hover {
+    background-color: #ffff66;
+  }
+
+  #whiteListForm table td {
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #a9c6c9;
   }
 `);
 

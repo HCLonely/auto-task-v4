@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:00:41
- * @LastEditTime : 2021-12-02 15:39:26
+ * @LastEditTime : 2021-12-07 17:18:29
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitch.ts
  * @Description  : Twitch 关注/取关频道
@@ -132,8 +132,7 @@ class Twitch extends Social {
      */
     try {
       if (!doTask && this.whiteList.channels.includes(name)) {
-        // TODO: 直接echo
-        echoLog({ type: 'whiteList', text: name });
+        echoLog({ type: 'whiteList', text: 'Twitch.unfollowChannel', id: name });
         return true;
       }
       const channelId: string | boolean = await this.#getChannelId(name);

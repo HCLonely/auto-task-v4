@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2021-12-05 11:53:01
+ * @LastEditTime : 2021-12-10 17:30:46
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  :
@@ -34,7 +34,10 @@ interface gleamSocialTasks {
     channelLinks: Array<string>
   }
 }
-
+interface options {
+  vlootUsername: string
+  gameroundUsername: string
+}
 const defaultTasks: gleamSocialTasks = {
   steam: {
     groupLinks: [],
@@ -57,10 +60,17 @@ const defaultTasks: gleamSocialTasks = {
     channelLinks: []
   }
 };
-
+const defaultOptions: options = {
+  vlootUsername: '',
+  gameroundUsername: ''
+};
 class Gleam extends Website {
   undoneTasks: gleamSocialTasks = { ...defaultTasks }
   socialTasks: gleamSocialTasks = { ...defaultTasks }
+  options = { // todo 设置项
+    ...defaultOptions,
+    ...GM_getValue<options>('gleamOptions') // eslint-disable-line new-cap
+  }
 
   static test(): boolean {
     return window.location.host === 'gleam.io';
@@ -88,7 +98,7 @@ class Gleam extends Website {
         const $task = $(task);
 
         // 任务完成则跳过
-        if (action === 'do' && $task.find('i.fa-question').length  === 0) continue;
+        if (action === 'do' && $task.find('i.fa-question').length === 0) continue;
 
         const socialIcon = $task.find('.icon-wrapper i');
         const taskInfo = $task.find('.user-links');
@@ -158,7 +168,16 @@ class Gleam extends Website {
             if (action === 'undo') this.socialTasks.steam.curatorLinks.push(link);
             if (action === 'do') this.undoneTasks.steam.curatorLinks.push(link);
           }
-        } else if (socialIcon.attr('class')?.includes('fa-question')) {
+        } else if (socialIcon.hasClass('fa-shield') && taskInfo.text().trim()
+          .includes('earn.vloot.io')) {
+          expandInfo.find('input').val(this.options.vlootUsername);
+        } else if (socialIcon.hasClass('fa-gamepad-alt') && taskInfo.text().trim()
+          .includes('Gameround')) {
+          expandInfo.find('input').val(this.options.gameroundUsername);
+        } else if (
+          socialIcon.hasClass('fa-question') ||
+          socialIcon.hasClass('fa-bullhorn') // todo 自动化
+        ) {
           // skip
         } else {
           echoLog({ html: `<li><font class="warning">${__('unKnownTaskType')}: ${taskInfo.text().trim()}</font></li>` });

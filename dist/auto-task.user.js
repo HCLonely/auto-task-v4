@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.9-Alpha
+// @version            4.0.10-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -185,6 +185,18 @@
   };
   const tools_httpRequest = httpRequest;
   const data = {
+    website: '网站',
+    type: '类型',
+    edit: '编辑',
+    whiteList: '白名单',
+    skipTask: '跳过取消做任务',
+    whiteListOptions: '白名单设置',
+    changeWhiteListOption: '设置白名单(%0)',
+    whiteListNotFound: '找不到此项白名单: %0',
+    changeWhiteListSuccess: '白名单修改成功，刷新生效！',
+    save: '保存',
+    close: '关闭',
+    return: '返回',
     needLogin: '请先登录！',
     getTasksInfo: '正在获取并处理任务信息',
     gettingKey: '正在获取Key...',
@@ -432,6 +444,10 @@
 
          case 'html':
           ele = $(text || html);
+          break;
+
+         case 'whiteList':
+          ele = $(`<li><font class="warning">${i18n('skipTask')}[${text}(${id})](${i18n('whiteList')})</font></li>`);
           break;
 
          default:
@@ -909,7 +925,8 @@
       if (this.whiteList.servers.includes(inviteId)) {
         scripts_echoLog({
           type: 'whiteList',
-          text: inviteId
+          text: 'Discord.leaveServer',
+          id: inviteId
         });
         return true;
       }
@@ -1258,7 +1275,8 @@
       if (this.whiteList.users.includes(name)) {
         scripts_echoLog({
           type: 'whiteList',
-          text: name
+          text: 'Instagram.unfollowUser',
+          id: name
         });
         return true;
       }
@@ -1435,7 +1453,8 @@
         if (!doTask && this.whiteList.reddits.includes(name)) {
           scripts_echoLog({
             type: 'whiteList',
-            text: name
+            text: 'Reddit.undoTask',
+            id: name
           });
           return true;
         }
@@ -1839,7 +1858,8 @@
       if (!doTask && this.whiteList.channels.includes(name)) {
         scripts_echoLog({
           type: 'whiteList',
-          text: name
+          text: 'Twitch.unfollowChannel',
+          id: name
         });
         return true;
       }
@@ -2190,7 +2210,8 @@
       if (!doTask && !verify && this.whiteList.users.includes(name)) {
         scripts_echoLog({
           type: 'whiteList',
-          text: name
+          text: 'Twitter.unfollowUser',
+          id: name
         });
         return true;
       }
@@ -2319,7 +2340,8 @@
       if (!doTask && this.whiteList.retweets.includes(retweetId)) {
         scripts_echoLog({
           type: 'whiteList',
-          text: retweetId
+          text: 'Twitter.unretweet',
+          id: retweetId
         });
         return true;
       }
@@ -2907,7 +2929,8 @@
       if (!doTask && this.whiteList.names.includes(name)) {
         scripts_echoLog({
           type: 'whiteList',
-          text: name
+          text: 'Vk.undoTask',
+          id: name
         });
         return true;
       }
@@ -3298,7 +3321,8 @@
       if (!doTask && !verify && this.whiteList.channels.includes(channelId)) {
         scripts_echoLog({
           type: 'whiteList',
-          text: channelId
+          text: 'Youtube.unfollowChannel',
+          id: channelId
         });
         return true;
       }
@@ -3394,7 +3418,8 @@
       if (!doTask && this.whiteList.likes.includes(videoId)) {
         scripts_echoLog({
           type: 'whiteList',
-          text: link
+          text: 'Youtube.unlikeVideo',
+          id: videoId
         });
         return true;
       }
@@ -3562,7 +3587,6 @@
   var _getWorkshopAppId = new WeakSet();
   var _voteUpWorkshop = new WeakSet();
   var _toggleCurator = new WeakSet();
-  var _getCuratorId = new WeakSet();
   var _toggleCuratorLike = new WeakSet();
   var _getAnnouncementParams = new WeakSet();
   var _likeAnnouncement = new WeakSet();
@@ -3575,7 +3599,6 @@
       Steam_classPrivateMethodInitSpec(this, _likeAnnouncement);
       Steam_classPrivateMethodInitSpec(this, _getAnnouncementParams);
       Steam_classPrivateMethodInitSpec(this, _toggleCuratorLike);
-      Steam_classPrivateMethodInitSpec(this, _getCuratorId);
       Steam_classPrivateMethodInitSpec(this, _toggleCurator);
       Steam_classPrivateMethodInitSpec(this, _voteUpWorkshop);
       Steam_classPrivateMethodInitSpec(this, _getWorkshopAppId);
@@ -3640,6 +3663,51 @@
         return false;
       } catch (error) {
         throwError(error, 'Steam.init');
+        return false;
+      }
+    }
+    async getCuratorId(path, developerName) {
+      try {
+        const logStatus = scripts_echoLog({
+          type: 'gettingCuratorId',
+          text: `${path}/${developerName}`
+        });
+        const curatorId = Steam_classPrivateFieldGet(this, Steam_cache).curator[`${path}/${developerName}`];
+        if (curatorId) {
+          logStatus.success();
+          return curatorId;
+        }
+        const {
+          result,
+          statusText,
+          status,
+          data
+        } = await tools_httpRequest({
+          url: `https://store.steampowered.com/${path}/${developerName}`,
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+          }
+        });
+        if (result === 'Success') {
+          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+            var _data$responseText$ma;
+            const curatorId = (_data$responseText$ma = data.responseText.match(/g_pagingData.*?"clanid":([\d]+)/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
+            if (curatorId) {
+              Steam_classPrivateMethodGet(this, Steam_setCache, Steam_setCache2).call(this, 'curator', `${path}/${developerName}`, curatorId);
+              logStatus.success();
+              return curatorId;
+            }
+            logStatus.error(`Error:${data.statusText}(${data.status})`);
+            return false;
+          }
+          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+          return false;
+        }
+        logStatus.error(`${result}:${statusText}(${status})`);
+        return false;
+      } catch (error) {
+        throwError(error, 'Steam.getCuratorID');
         return false;
       }
     }
@@ -3789,12 +3857,12 @@
       });
       if (result === 'Success') {
         if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-          var _data$responseText$ma;
+          var _data$responseText$ma2;
           if (data.responseText.includes('href="https://store.steampowered.com/login/')) {
             logStatus.error(`Error:${i18n('needLoginSteamStore')}`, true);
             return false;
           }
-          const storeSessionID = (_data$responseText$ma = data.responseText.match(/g_sessionID = "(.+?)";/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
+          const storeSessionID = (_data$responseText$ma2 = data.responseText.match(/g_sessionID = "(.+?)";/)) === null || _data$responseText$ma2 === void 0 ? void 0 : _data$responseText$ma2[1];
           if (storeSessionID) {
             Steam_classPrivateFieldGet(this, Steam_auth).storeSessionID = storeSessionID;
             logStatus.success();
@@ -3829,14 +3897,14 @@
       });
       if (result === 'Success') {
         if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-          var _data$responseText$ma2, _data$responseText$ma3, _data$responseText$ma4;
+          var _data$responseText$ma3, _data$responseText$ma4, _data$responseText$ma5;
           if (data.responseText.includes('href="https://steamcommunity.com/login/home/')) {
             logStatus.error(`Error:${i18n('needLoginSteamCommunity')}`, true);
             return false;
           }
-          const steam64Id = (_data$responseText$ma2 = data.responseText.match(/g_steamID = "(.+?)";/)) === null || _data$responseText$ma2 === void 0 ? void 0 : _data$responseText$ma2[1];
-          const communitySessionID = (_data$responseText$ma3 = data.responseText.match(/g_sessionID = "(.+?)";/)) === null || _data$responseText$ma3 === void 0 ? void 0 : _data$responseText$ma3[1];
-          const userName = (_data$responseText$ma4 = data.responseText.match(/steamcommunity.com\/id\/(.+?)\/friends\//)) === null || _data$responseText$ma4 === void 0 ? void 0 : _data$responseText$ma4[1];
+          const steam64Id = (_data$responseText$ma3 = data.responseText.match(/g_steamID = "(.+?)";/)) === null || _data$responseText$ma3 === void 0 ? void 0 : _data$responseText$ma3[1];
+          const communitySessionID = (_data$responseText$ma4 = data.responseText.match(/g_sessionID = "(.+?)";/)) === null || _data$responseText$ma4 === void 0 ? void 0 : _data$responseText$ma4[1];
+          const userName = (_data$responseText$ma5 = data.responseText.match(/steamcommunity.com\/id\/(.+?)\/friends\//)) === null || _data$responseText$ma5 === void 0 ? void 0 : _data$responseText$ma5[1];
           if (steam64Id) {
             Steam_classPrivateFieldGet(this, Steam_auth).steam64Id = steam64Id;
           }
@@ -3877,8 +3945,8 @@
       });
       if (result === 'Success') {
         if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-          var _data$responseText$ma5;
-          const currentArea = (_data$responseText$ma5 = data.responseText.match(/<input id="usercountrycurrency".*?value="(.+?)"/)) === null || _data$responseText$ma5 === void 0 ? void 0 : _data$responseText$ma5[1];
+          var _data$responseText$ma6;
+          const currentArea = (_data$responseText$ma6 = data.responseText.match(/<input id="usercountrycurrency".*?value="(.+?)"/)) === null || _data$responseText$ma6 === void 0 ? void 0 : _data$responseText$ma6[1];
           const areas = [ ...data.responseText.matchAll(/<div class="currency_change_option .*?" data-country="(.+?)" >/g) ].map(search => search[1]);
           if (currentArea && areas.length > 0) {
             Steam_classPrivateFieldSet(this, _area, currentArea);
@@ -4011,7 +4079,8 @@
       if (this.whiteList.groups.includes(groupName)) {
         scripts_echoLog({
           type: 'whiteList',
-          text: groupName
+          text: 'Steam.leaveGroup',
+          id: groupName
         });
         return true;
       }
@@ -4080,8 +4149,8 @@
       });
       if (result === 'Success') {
         if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-          var _data$responseText$ma6;
-          const groupId = (_data$responseText$ma6 = data.responseText.match(/OpenGroupChat\( '([0-9]+)'/)) === null || _data$responseText$ma6 === void 0 ? void 0 : _data$responseText$ma6[1];
+          var _data$responseText$ma7;
+          const groupId = (_data$responseText$ma7 = data.responseText.match(/OpenGroupChat\( '([0-9]+)'/)) === null || _data$responseText$ma7 === void 0 ? void 0 : _data$responseText$ma7[1];
           if (groupId) {
             Steam_classPrivateMethodGet(this, Steam_setCache, Steam_setCache2).call(this, 'group', groupName, groupId);
             logStatus.success();
@@ -4173,7 +4242,8 @@
       if (this.whiteList.wishlists.includes(gameId)) {
         scripts_echoLog({
           type: 'whiteList',
-          text: gameId
+          text: 'Steam.removeFromWishlist',
+          id: gameId
         });
         return true;
       }
@@ -4241,7 +4311,8 @@
       if (!doTask && this.whiteList.follows.includes(gameId)) {
         scripts_echoLog({
           type: 'whiteList',
-          text: gameId
+          text: 'Steam.unfollowGame',
+          id: gameId
         });
         return true;
       }
@@ -4326,7 +4397,8 @@
       if (!doTask && this.whiteList.forums.includes(gameId)) {
         scripts_echoLog({
           type: 'whiteList',
-          text: gameId
+          text: 'Steam.unsubscribForum',
+          id: gameId
         });
         return true;
       }
@@ -4396,8 +4468,8 @@
       });
       if (result === 'Success') {
         if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-          var _data$responseText, _data$responseText$ma7;
-          const forumId = (_data$responseText = data.responseText) === null || _data$responseText === void 0 ? void 0 : (_data$responseText$ma7 = _data$responseText.match(/General_([\d]+(_[\d]+)?)/)) === null || _data$responseText$ma7 === void 0 ? void 0 : _data$responseText$ma7[1];
+          var _data$responseText, _data$responseText$ma8;
+          const forumId = (_data$responseText = data.responseText) === null || _data$responseText === void 0 ? void 0 : (_data$responseText$ma8 = _data$responseText.match(/General_([\d]+(_[\d]+)?)/)) === null || _data$responseText$ma8 === void 0 ? void 0 : _data$responseText$ma8[1];
           if (forumId) {
             Steam_classPrivateMethodGet(this, Steam_setCache, Steam_setCache2).call(this, 'forum', gameId, forumId);
             logStatus.success();
@@ -4422,7 +4494,8 @@
       if (!doTask && this.whiteList.workshops.includes(id)) {
         scripts_echoLog({
           type: 'whiteList',
-          text: id
+          text: 'Steam.unfavoriteWorkshop',
+          id: id
         });
         return true;
       }
@@ -4491,8 +4564,8 @@
       });
       if (result === 'Success') {
         if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-          var _data$responseText$ma8;
-          const appId = (_data$responseText$ma8 = data.responseText.match(/<input type="hidden" name="appid" value="([\d]+?)" \/>/)) === null || _data$responseText$ma8 === void 0 ? void 0 : _data$responseText$ma8[1];
+          var _data$responseText$ma9;
+          const appId = (_data$responseText$ma9 = data.responseText.match(/<input type="hidden" name="appid" value="([\d]+?)" \/>/)) === null || _data$responseText$ma9 === void 0 ? void 0 : _data$responseText$ma9[1];
           if (appId) {
             Steam_classPrivateMethodGet(this, Steam_setCache, Steam_setCache2).call(this, 'workshop', id, appId);
             logStatus.success();
@@ -4556,7 +4629,8 @@
       if (!doTask && this.whiteList.curators.includes(curatorId)) {
         scripts_echoLog({
           type: 'whiteList',
-          text: curatorId
+          text: 'Steam.unfollowCurator',
+          id: curatorId
         });
         return true;
       }
@@ -4598,51 +4672,6 @@
       return false;
     }
   }
-  async function _getCuratorId2(path, developerName) {
-    try {
-      const logStatus = scripts_echoLog({
-        type: 'gettingCuratorId',
-        text: `${path}/${developerName}`
-      });
-      const curatorId = Steam_classPrivateFieldGet(this, Steam_cache).curator[`${path}/${developerName}`];
-      if (curatorId) {
-        logStatus.success();
-        return curatorId;
-      }
-      const {
-        result,
-        statusText,
-        status,
-        data
-      } = await tools_httpRequest({
-        url: `https://store.steampowered.com/${path}/${developerName}`,
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-      });
-      if (result === 'Success') {
-        if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-          var _data$responseText$ma9;
-          const curatorId = (_data$responseText$ma9 = data.responseText.match(/g_pagingData.*?"clanid":([\d]+)/)) === null || _data$responseText$ma9 === void 0 ? void 0 : _data$responseText$ma9[1];
-          if (curatorId) {
-            Steam_classPrivateMethodGet(this, Steam_setCache, Steam_setCache2).call(this, 'curator', `${path}/${developerName}`, curatorId);
-            logStatus.success();
-            return curatorId;
-          }
-          logStatus.error(`Error:${data.statusText}(${data.status})`);
-          return false;
-        }
-        logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-        return false;
-      }
-      logStatus.error(`${result}:${statusText}(${status})`);
-      return false;
-    } catch (error) {
-      throwError(error, 'Steam.getCuratorID');
-      return false;
-    }
-  }
   async function _toggleCuratorLike2(link) {
     let doTask = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
     try {
@@ -4653,7 +4682,7 @@
         });
         return false;
       }
-      const curatorId = await Steam_classPrivateMethodGet(this, _getCuratorId, _getCuratorId2).call(this, path, name);
+      const curatorId = await this.getCuratorId(path, name);
       if (curatorId) {
         return await Steam_classPrivateMethodGet(this, _toggleCurator, _toggleCurator2).call(this, curatorId, doTask);
       }
@@ -7068,6 +7097,10 @@
       channelLinks: []
     }
   };
+  const defaultOptions = {
+    vlootUsername: '',
+    gameroundUsername: ''
+  };
   var Gleam_getGiveawayId = new WeakSet();
   class Gleam extends website_Website {
     constructor() {
@@ -7078,6 +7111,10 @@
       });
       Gleam_defineProperty(this, 'socialTasks', {
         ...Gleam_defaultTasks
+      });
+      Gleam_defineProperty(this, 'options', {
+        ...defaultOptions,
+        ...GM_getValue('gleamOptions')
       });
     }
     static test() {
@@ -7109,7 +7146,7 @@
         };
         const tasks = $('.entry-content .entry-method');
         for (const task of tasks) {
-          var _socialIcon$attr, _socialIcon$attr2;
+          var _socialIcon$attr;
           const $task = $(task);
           if (action === 'do' && $task.find('i.fa-question').length === 0) {
             continue;
@@ -7216,7 +7253,11 @@
                 this.undoneTasks.steam.curatorLinks.push(link);
               }
             }
-          } else if ((_socialIcon$attr2 = socialIcon.attr('class')) !== null && _socialIcon$attr2 !== void 0 && _socialIcon$attr2.includes('fa-question')) {} else {
+          } else if (socialIcon.hasClass('fa-shield') && taskInfo.text().trim().includes('earn.vloot.io')) {
+            expandInfo.find('input').val(this.options.vlootUsername);
+          } else if (socialIcon.hasClass('fa-gamepad-alt') && taskInfo.text().trim().includes('Gameround')) {
+            expandInfo.find('input').val(this.options.gameroundUsername);
+          } else if (socialIcon.hasClass('fa-question') || socialIcon.hasClass('fa-bullhorn')) {} else {
             scripts_echoLog({
               html: `<li><font class="warning">${i18n('unKnownTaskType')}: ${taskInfo.text().trim()}</font></li>`
             });
@@ -7250,6 +7291,178 @@
     }
   }
   const website_Gleam = Gleam;
+  const defaultWhiteList = {
+    discord: {
+      servers: []
+    },
+    instagram: {
+      users: []
+    },
+    twitch: {
+      channels: []
+    },
+    twitter: {
+      users: [],
+      retweets: [],
+      likes: []
+    },
+    vk: {
+      names: []
+    },
+    youtube: {
+      channels: [],
+      likes: []
+    },
+    reddit: {
+      reddits: []
+    },
+    steam: {
+      groups: [],
+      wishlists: [],
+      follows: [],
+      forums: [],
+      workshops: [],
+      curators: [],
+      workshopVotes: [],
+      curatorLikes: [],
+      announcements: []
+    }
+  };
+  const link2id = async function(type) {
+    var _link$match, _link$match2, _link$match3, _link$match4, _link$match5, _link$match6, _link$match7, _link$match8, _link$match9, _link$match10, _link$match11;
+    const link = $('#socialLink').val();
+    let id = '';
+    switch (type) {
+     case 'discord.servers':
+      id = ((_link$match = link.match(/invite\/(.+)/)) === null || _link$match === void 0 ? void 0 : _link$match[1]) || '';
+      break;
+
+     case 'instagram.users':
+      id = ((_link$match2 = link.match(/https:\/\/www\.instagram\.com\/(.+)?\//)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1]) || '';
+      break;
+
+     case 'twitch.channels':
+      id = ((_link$match3 = link.match(/https:\/\/(www\.)?twitch\.tv\/(.+)/)) === null || _link$match3 === void 0 ? void 0 : _link$match3[2]) || '';
+      break;
+
+     case 'twitter.users':
+      id = ((_link$match4 = link.match(/https:\/\/twitter\.com\/(.+)/)) === null || _link$match4 === void 0 ? void 0 : _link$match4[1]) || '';
+      break;
+
+     case 'twitter.retweets':
+      id = ((_link$match5 = link.match(/https:\/\/twitter\.com\/.*?\/status\/([\d]+)/)) === null || _link$match5 === void 0 ? void 0 : _link$match5[1]) || '';
+      break;
+
+     case 'vk.names':
+      id = ((_link$match6 = link.match(/https:\/\/vk\.com\/([^/]+)/)) === null || _link$match6 === void 0 ? void 0 : _link$match6[1]) || '';
+      break;
+
+     case 'reddit.reddits':
+      id = ((_link$match7 = link.match(/https?:\/\/www\.reddit\.com\/user\/([^/]*)/)) === null || _link$match7 === void 0 ? void 0 : _link$match7[1]) || ((_link$match8 = link.match(/https?:\/\/www\.reddit\.com\/r\/([^/]*)/)) === null || _link$match8 === void 0 ? void 0 : _link$match8[1]) || '';
+      break;
+
+     case 'steam.groups':
+      id = ((_link$match9 = link.match(/groups\/(.+)\/?/)) === null || _link$match9 === void 0 ? void 0 : _link$match9[1]) || '';
+      break;
+
+     case 'steam.wishlists':
+     case 'steam.follows':
+     case 'steam.forums':
+      id = ((_link$match10 = link.match(/app\/([\d]+)/)) === null || _link$match10 === void 0 ? void 0 : _link$match10[1]) || '';
+      break;
+
+     case 'steam.workshops':
+      id = ((_link$match11 = link.match(/\?id=([\d]+)/)) === null || _link$match11 === void 0 ? void 0 : _link$match11[1]) || '';
+      break;
+
+     case 'steam.curators':
+      {
+        if (link.includes('curator')) {
+          var _link$match12;
+          id = ((_link$match12 = link.match(/curator\/([\d]+)/)) === null || _link$match12 === void 0 ? void 0 : _link$match12[1]) || '';
+        } else {
+          var _link$match13;
+          const param = (_link$match13 = link.match(/https?:\/\/store\.steampowered\.com\/(.*?)\/([^/?]+)/)) === null || _link$match13 === void 0 ? void 0 : _link$match13.slice(1, 3);
+          if (!param || param.length !== 2) {
+            break;
+          }
+          const steam = new social_Steam();
+          if (await steam.init()) {
+            id = await steam.getCuratorId(param[0], param[1]) || '';
+          }
+        }
+      }
+      break;
+    }
+    return id;
+  };
+  const whiteListOptions = function() {
+    const whiteList = {
+      ...defaultWhiteList,
+      ...GM_getValue('whiteList') || {}
+    };
+    let whiteListOptionsForm = `<form id="whiteListForm">
+  <table class="auto-task-table"><thead><tr><td>${i18n('website')}</td><td>${i18n('type')}</td><td>${i18n('edit')}</td></tr></thead><tbody>`;
+    for (const [ social, types ] of Object.entries(whiteList)) {
+      whiteListOptionsForm += Object.keys(types).map((type, index) => social === 'steam' && [ 'workshopVotes', 'curatorLikes', 'announcements' ].includes(type) || social === 'twitter' && type === 'likes' || social === 'youtube' ? '' : `<tr>${index === 0 ? `<th rowspan="${Object.keys(types).length}">${social}</th>` : ''}<td>${type}</td><td><button class="editWhiteList" data-value="${social}.${type}">${i18n('edit')}</button></td></tr>`).join('');
+    }
+    whiteListOptionsForm += '</tbody></table></form>';
+    external_Swal_default().fire({
+      title: i18n('whiteListOptions'),
+      html: whiteListOptionsForm,
+      showConfirmButton: false,
+      showCloseButton: true
+    });
+    $('.editWhiteList').on('click', function() {
+      var _whiteList$social;
+      const value = $(this).attr('data-value');
+      if (!value) {
+        return;
+      }
+      const [ social, type ] = value.split('.');
+      if (!(whiteList !== null && whiteList !== void 0 && (_whiteList$social = whiteList[social]) !== null && _whiteList$social !== void 0 && _whiteList$social[type])) {
+        scripts_echoLog({
+          html: `<li><font class="warning">${i18n('whiteListNotFound', value)}</font></li>`
+        });
+        return;
+      }
+      external_Swal_default().fire({
+        title: i18n('changeWhiteListOption', value),
+        input: 'textarea',
+        html: `<input id="socialLink" class="swal2-input" placeholder="在此处输入链接获取id">
+        <button id="link2id" data-type="${value}" class="swal2-confirm swal2-styled">获取id</button>`,
+        inputValue: whiteList[social][type].join('\n'),
+        showConfirmButton: true,
+        confirmButtonText: i18n('save'),
+        showCancelButton: true,
+        cancelButtonText: i18n('close'),
+        showDenyButton: true,
+        denyButtonText: i18n('return')
+      }).then(_ref => {
+        let {
+          isDenied,
+          isConfirmed,
+          value
+        } = _ref;
+        if (isDenied) {
+          whiteListOptions();
+          return;
+        } else if (isConfirmed) {
+          whiteList[social][type] = value.split('\n');
+          GM_setValue('whiteList', whiteList);
+          external_Swal_default().fire({
+            title: i18n('changeWhiteListSuccess'),
+            icon: 'success'
+          });
+        }
+      });
+      $('#link2id').on('click', async function() {
+        const type = $(this).attr('data-type');
+        $('#socialLink').val(await link2id(type));
+      });
+    });
+  };
+  const whiteList = whiteListOptions;
   const Websites = [ website_FreeAnyWhere, GiveawaySu, website_Indiedb, website_Keyhub, website_Givekey, website_GiveeClub, website_OpiumPulses, website_Keylol, website_Opquests, website_Gleam ];
   let website;
   for (const Website of Websites) {
@@ -7357,6 +7570,7 @@
     if (website.doPointTask) {
       GM_registerMenuCommand('doPointTask', website.doPointTask);
     }
+    GM_registerMenuCommand('whiteList', whiteList);
     GM_addStyle(`
   #auto-task-info {
     position: fixed;
@@ -7372,6 +7586,10 @@
   .auto-task-keylol {
     text-transform: capitalize;
     margin-left: 10px;
+    text-decoration: none !important;
+    border: solid 2px;
+    border-radius: 5px;
+    padding: 0 2px;
   }
   .auto-task-keylol[selected="selected"] {
     background-color: blue;
@@ -7388,6 +7606,38 @@
   }
   #auto-task-info .info {
     color: yellow;
+  }
+  #whiteListForm table {
+    font-family: verdana, arial, sans-serif;
+    font-size: 11px;
+    color: #333333;
+    border-width: 1px;
+    border-color: #999999;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  #whiteListForm table th {
+    background-color: #c3dde0;
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #a9c6c9;
+  }
+
+  #whiteListForm table tr {
+    background-color: #d4e3e5;
+  }
+
+  #whiteListForm table tr:hover {
+    background-color: #ffff66;
+  }
+
+  #whiteListForm table td {
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #a9c6c9;
   }
 `);
     console.log('Auto Task脚本初始化完成！');
