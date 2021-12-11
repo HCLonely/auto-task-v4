@@ -1,9 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:03
- * @LastEditTime : 2021-12-06 13:11:09
+ * @LastEditTime : 2021-12-11 13:44:46
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/scripts/website/freeanywhere.ts
+ * @FilePath     : /auto-task-new/src/scripts/website/Freeanywhere.ts
  * @Description  : https://freeanywhere.net
  */
 
@@ -31,6 +31,7 @@ const defaultTasks: fawSocialTasks = {
 };
 
 class FreeAnyWhere extends Website {
+  name = 'FreeAnyWhere'
   tasks: Array<fawTaskInfo> = []
   socialTasks: fawSocialTasks = { ...defaultTasks }
   undoneTasks: fawSocialTasks = { ...defaultTasks }

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-15 13:58:41
- * @LastEditTime : 2021-11-20 16:21:14
+ * @LastEditTime : 2021-12-11 13:45:53
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Keylol.ts
  * @Description  :
@@ -53,6 +53,7 @@ const defaultTasks: keylolSocialTasks = {
   }
 };
 class Keylol extends Website {
+  name = 'Keylol'
   socialTasks: keylolSocialTasks = { ...defaultTasks }
   undoneTasks: keylolSocialTasks = { ...defaultTasks }
 

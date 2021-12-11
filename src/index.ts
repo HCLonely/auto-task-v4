@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-12-07 15:00:27
+ * @LastEditTime : 2021-12-11 13:49:10
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -19,6 +19,7 @@ import Keylol from './scripts/website/Keylol';
 import Opquests from './scripts/website/Opquests';
 import Gleam from './scripts/website/Gleam';
 import whiteListOptions from './scripts/social/whiteList';
+import websiteOptions from './scripts/website/options';
 
 type WebsitesType = typeof FreeAnyWhere |
   typeof GiveawaySu |
@@ -137,6 +138,11 @@ window.onload = () => {
   // @ts-ignore
   if (website.doPointTask) GM_registerMenuCommand('doPointTask', website.doPointTask); // eslint-disable-line new-cap
   GM_registerMenuCommand('whiteList', whiteListOptions); // eslint-disable-line new-cap
+  // @ts-ignore
+  if (website.options) {
+  // @ts-ignore
+    GM_registerMenuCommand('options', () => { websiteOptions(website.name, website.options); }); // eslint-disable-line new-cap
+  }
   /* eslint-enable @typescript-eslint/ban-ts-comment */
   // unsafeWindow.website = website;
   // eslint-disable-next-line new-cap
@@ -176,7 +182,7 @@ window.onload = () => {
   #auto-task-info .info {
     color: yellow;
   }
-  #whiteListForm table {
+  .auto-task-form table {
     font-family: verdana, arial, sans-serif;
     font-size: 11px;
     color: #333333;
@@ -186,7 +192,7 @@ window.onload = () => {
     width: 100%;
   }
 
-  #whiteListForm table th {
+  .auto-task-form table th {
     background-color: #c3dde0;
     border-width: 1px;
     padding: 8px;
@@ -194,15 +200,15 @@ window.onload = () => {
     border-color: #a9c6c9;
   }
 
-  #whiteListForm table tr {
+  .auto-task-form table tr {
     background-color: #d4e3e5;
   }
 
-  #whiteListForm table tr:hover {
+  .auto-task-form table tr:hover {
     background-color: #ffff66;
   }
 
-  #whiteListForm table td {
+  .auto-task-form table td {
     border-width: 1px;
     padding: 8px;
     border-style: solid;

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2021-12-10 17:30:46
+ * @LastEditTime : 2021-12-11 13:44:48
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  :
@@ -65,11 +65,12 @@ const defaultOptions: options = {
   gameroundUsername: ''
 };
 class Gleam extends Website {
+  name = 'Gleam'
   undoneTasks: gleamSocialTasks = { ...defaultTasks }
   socialTasks: gleamSocialTasks = { ...defaultTasks }
   options = { // todo 设置项
     ...defaultOptions,
-    ...GM_getValue<options>('gleamOptions') // eslint-disable-line new-cap
+    ...GM_getValue<options>('GleamOptions') // eslint-disable-line new-cap
   }
 
   static test(): boolean {

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-06 13:16:38
- * @LastEditTime : 2021-12-10 18:49:24
+ * @LastEditTime : 2021-12-11 13:48:53
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/whiteList.ts
  * @Description  : 白名单相关
@@ -105,7 +105,7 @@ const link2id = async function (type: string): Promise<string> {
 
 const whiteListOptions = function (): void {
   const whiteList = { ...defaultWhiteList, ...(GM_getValue<whiteList>('whiteList') || {}) }; // eslint-disable-line new-cap
-  let whiteListOptionsForm = `<form id="whiteListForm">
+  let whiteListOptionsForm = `<form id="whiteListForm" class="auto-task-form">
   <table class="auto-task-table"><thead><tr><td>${__('website')}</td><td>${__('type')}</td><td>${__('edit')}</td></tr></thead><tbody>`;
   for (const [social, types] of Object.entries(whiteList)) {
     whiteListOptionsForm += Object.keys(types).map(

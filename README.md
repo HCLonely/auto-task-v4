@@ -17,7 +17,7 @@
 
 ## todo
 
-- [ ] Gleam options
+- [x] Gleam options
 - [x] 白名单
 - [x] 白名单提示
 - [ ] 白名单获取id-youtube

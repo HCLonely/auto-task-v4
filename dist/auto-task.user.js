@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.10-Alpha
+// @version            4.0.11-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -197,6 +197,10 @@
     save: '保存',
     close: '关闭',
     return: '返回',
+    option: '选项',
+    value: '值',
+    websiteOptions: '当前网站设置',
+    changeWebsiteOptionsSuccess: '更改当前网站设置成功，刷新生效！',
     needLogin: '请先登录！',
     getTasksInfo: '正在获取并处理任务信息',
     gettingKey: '正在获取Key...',
@@ -5060,6 +5064,7 @@
       super(...arguments);
       FreeAnyWhere_classPrivateMethodInitSpec(this, _verify);
       FreeAnyWhere_classPrivateMethodInitSpec(this, _getGiveawayId);
+      FreeAnyWhere_defineProperty(this, 'name', 'FreeAnyWhere');
       FreeAnyWhere_defineProperty(this, 'tasks', []);
       FreeAnyWhere_defineProperty(this, 'socialTasks', {
         ...FreeAnyWhere_defaultTasks
@@ -5402,6 +5407,7 @@
     constructor() {
       super(...arguments);
       GiveawaySu_classPrivateMethodInitSpec(this, GiveawaySu_getGiveawayId);
+      GiveawaySu_defineProperty(this, 'name', 'GiveawaySu');
       GiveawaySu_defineProperty(this, 'socialTasks', GiveawaySu_defaultTasks);
       GiveawaySu_defineProperty(this, 'undoneTasks', GiveawaySu_defaultTasks);
     }
@@ -5588,6 +5594,19 @@
       throw new TypeError('Cannot initialize the same private elements twice on an object');
     }
   }
+  function Indiedb_defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
   function Indiedb_classPrivateMethodGet(receiver, privateSet, fn) {
     if (!privateSet.has(receiver)) {
       throw new TypeError('attempted to get private field on non-instance');
@@ -5600,6 +5619,7 @@
     constructor() {
       Indiedb_classPrivateMethodInitSpec(this, _do);
       Indiedb_classPrivateMethodInitSpec(this, _join);
+      Indiedb_defineProperty(this, 'name', 'Indiedb');
     }
     static test() {
       return window.location.host === 'www.indiedb.com';
@@ -5919,6 +5939,7 @@
     constructor() {
       super(...arguments);
       Keyhub_classPrivateMethodInitSpec(this, Keyhub_getGiveawayId);
+      Keyhub_defineProperty(this, 'name', 'Keyhub');
       Keyhub_defineProperty(this, 'socialTasks', {
         ...Keyhub_defaultTasks
       });
@@ -6153,6 +6174,7 @@
       super(...arguments);
       Givekey_classPrivateMethodInitSpec(this, Givekey_getGiveawayId);
       Givekey_classPrivateMethodInitSpec(this, Givekey_verify);
+      Givekey_defineProperty(this, 'name', 'Givekey');
       Givekey_defineProperty(this, 'tasks', []);
       Givekey_defineProperty(this, 'socialTasks', {
         ...Givekey_defaultTasks
@@ -6386,7 +6408,24 @@
     }
   }
   const website_Givekey = Givekey;
+  function GiveeClub_defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
   class GiveeClub extends GiveawaySu {
+    constructor() {
+      super(...arguments);
+      GiveeClub_defineProperty(this, 'name', 'GiveeClub');
+    }
     static test() {
       return /^https?:\/\/givee\.club\/.*?\/event\/[\d]+/.test(window.location.href);
     }
@@ -6551,6 +6590,7 @@
   class OpiumPulses {
     constructor() {
       OpiumPulses_classPrivateMethodInitSpec(this, _toggleTask);
+      OpiumPulses_defineProperty(this, 'name', 'OpiumPulses');
       OpiumPulses_defineProperty(this, 'maxPoints', 0);
       OpiumPulses_defineProperty(this, 'myPoints', 0);
     }
@@ -6735,6 +6775,7 @@
     constructor() {
       super(...arguments);
       Keylol_classPrivateMethodInitSpec(this, _addBtn);
+      Keylol_defineProperty(this, 'name', 'Keylol');
       Keylol_defineProperty(this, 'socialTasks', {
         ...Keylol_defaultTasks
       });
@@ -6935,6 +6976,7 @@
     constructor() {
       super(...arguments);
       Opquests_classPrivateMethodInitSpec(this, Opquests_getGiveawayId);
+      Opquests_defineProperty(this, 'name', 'Opquests');
       Opquests_defineProperty(this, 'undoneTasks', {
         ...Opquests_defaultTasks
       });
@@ -7106,6 +7148,7 @@
     constructor() {
       super(...arguments);
       Gleam_classPrivateMethodInitSpec(this, Gleam_getGiveawayId);
+      Gleam_defineProperty(this, 'name', 'Gleam');
       Gleam_defineProperty(this, 'undoneTasks', {
         ...Gleam_defaultTasks
       });
@@ -7114,7 +7157,7 @@
       });
       Gleam_defineProperty(this, 'options', {
         ...defaultOptions,
-        ...GM_getValue('gleamOptions')
+        ...GM_getValue('GleamOptions')
       });
     }
     static test() {
@@ -7401,7 +7444,7 @@
       ...defaultWhiteList,
       ...GM_getValue('whiteList') || {}
     };
-    let whiteListOptionsForm = `<form id="whiteListForm">
+    let whiteListOptionsForm = `<form id="whiteListForm" class="auto-task-form">
   <table class="auto-task-table"><thead><tr><td>${i18n('website')}</td><td>${i18n('type')}</td><td>${i18n('edit')}</td></tr></thead><tbody>`;
     for (const [ social, types ] of Object.entries(whiteList)) {
       whiteListOptionsForm += Object.keys(types).map((type, index) => social === 'steam' && [ 'workshopVotes', 'curatorLikes', 'announcements' ].includes(type) || social === 'twitter' && type === 'likes' || social === 'youtube' ? '' : `<tr>${index === 0 ? `<th rowspan="${Object.keys(types).length}">${social}</th>` : ''}<td>${type}</td><td><button class="editWhiteList" data-value="${social}.${type}">${i18n('edit')}</button></td></tr>`).join('');
@@ -7463,6 +7506,38 @@
     });
   };
   const whiteList = whiteListOptions;
+  const websiteOptions = function(website, options) {
+    let websiteOptionsForm = `<form id="websiteOptionsForm" class="auto-task-form">
+  <table class="auto-task-table"><thead><tr><td>${i18n('option')}</td><td>${i18n('value')}</td></tr></thead><tbody>`;
+    for (const [ option, value ] of Object.entries(options)) {
+      websiteOptionsForm += `<tr><td>${option}</td><td><input class="editOption" type="text" name="${option}" value="${value}"/></td></tr>`;
+    }
+    websiteOptionsForm += '</tbody></table></form>';
+    external_Swal_default().fire({
+      title: i18n('websiteOptions'),
+      html: websiteOptionsForm,
+      showConfirmButton: true,
+      confirmButtonText: i18n('save'),
+      showCancelButton: true,
+      cancelButtonText: i18n('close')
+    }).then(_ref => {
+      let {
+        isConfirmed
+      } = _ref;
+      if (isConfirmed) {
+        $('#websiteOptionsForm').serializeArray().map(value => {
+          options[value.name] = value.value;
+          return value;
+        });
+        GM_setValue(`${website}Options`, options);
+        external_Swal_default().fire({
+          title: i18n('changeWebsiteOptionsSuccess'),
+          icon: 'success'
+        });
+      }
+    });
+  };
+  const options = websiteOptions;
   const Websites = [ website_FreeAnyWhere, GiveawaySu, website_Indiedb, website_Keyhub, website_Givekey, website_GiveeClub, website_OpiumPulses, website_Keylol, website_Opquests, website_Gleam ];
   let website;
   for (const Website of Websites) {
@@ -7571,6 +7646,11 @@
       GM_registerMenuCommand('doPointTask', website.doPointTask);
     }
     GM_registerMenuCommand('whiteList', whiteList);
+    if (website.options) {
+      GM_registerMenuCommand('options', () => {
+        options(website.name, website.options);
+      });
+    }
     GM_addStyle(`
   #auto-task-info {
     position: fixed;
@@ -7607,7 +7687,7 @@
   #auto-task-info .info {
     color: yellow;
   }
-  #whiteListForm table {
+  .auto-task-form table {
     font-family: verdana, arial, sans-serif;
     font-size: 11px;
     color: #333333;
@@ -7617,7 +7697,7 @@
     width: 100%;
   }
 
-  #whiteListForm table th {
+  .auto-task-form table th {
     background-color: #c3dde0;
     border-width: 1px;
     padding: 8px;
@@ -7625,15 +7705,15 @@
     border-color: #a9c6c9;
   }
 
-  #whiteListForm table tr {
+  .auto-task-form table tr {
     background-color: #d4e3e5;
   }
 
-  #whiteListForm table tr:hover {
+  .auto-task-form table tr:hover {
     background-color: #ffff66;
   }
 
-  #whiteListForm table td {
+  .auto-task-form table td {
     border-width: 1px;
     padding: 8px;
     border-style: solid;

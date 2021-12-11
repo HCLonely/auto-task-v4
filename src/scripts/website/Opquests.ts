@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-18 13:31:23
- * @LastEditTime : 2021-11-21 16:35:36
+ * @LastEditTime : 2021-12-11 13:46:09
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Opquests.ts
  * @Description  :
@@ -31,6 +31,7 @@ const defaultTasks: oqSocialTasks = {
 };
 
 class Opquests extends Website {
+  name = 'Opquests'
   undoneTasks: oqSocialTasks = { ...defaultTasks }
 
   static test(): boolean {

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2021-12-07 18:51:34
+ * @LastEditTime : 2021-12-11 13:40:08
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  :
@@ -20,6 +20,10 @@ const data = {
   save: '保存',
   close: '关闭',
   return: '返回',
+  option: '选项',
+  value: '值',
+  websiteOptions: '当前网站设置',
+  changeWebsiteOptionsSuccess: '更改当前网站设置成功，刷新生效！',
   needLogin: '请先登录！',
   getTasksInfo: '正在获取并处理任务信息',
   gettingKey: '正在获取Key...',

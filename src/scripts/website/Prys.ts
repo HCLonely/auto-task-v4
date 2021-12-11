@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 20:22:33
- * @LastEditTime : 2021-11-21 16:40:01
+ * @LastEditTime : 2021-12-11 13:46:20
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Prys.ts
  * @Description  :
@@ -35,6 +35,7 @@ const defaultTasks: prysSocialTasks = {
 };
 
 class Prys extends Website {
+  name = 'Prys'
   socialTasks: prysSocialTasks = { ...defaultTasks }
   undoneTasks: prysSocialTasks = { ...defaultTasks }
 

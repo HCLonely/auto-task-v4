@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2021-11-21 16:30:27
+ * @LastEditTime : 2021-12-11 13:45:36
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
  * @Description  :
@@ -41,6 +41,7 @@ const defaultTasks: khSocialTasks = {
 };
 
 class Keyhub extends Website {
+  name = 'Keyhub'
   socialTasks: khSocialTasks = { ...defaultTasks }
   undoneTasks: khSocialTasks = { ...defaultTasks }
 

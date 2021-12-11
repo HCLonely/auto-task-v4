@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 17:22:20
- * @LastEditTime : 2021-11-21 16:33:59
+ * @LastEditTime : 2021-12-11 13:46:00
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/OpiumPulses.ts
  * @Description  :
@@ -15,6 +15,7 @@ import httpRequest from '../tools/httpRequest';
 declare function checkUser(params:string): void
 
 class OpiumPulses {
+  name = 'OpiumPulses'
   maxPoints = 0
   myPoints = 0
 

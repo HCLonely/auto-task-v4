@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2021-11-21 16:31:23
+ * @LastEditTime : 2021-12-11 13:44:45
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.ts
  * @Description  :
@@ -50,6 +50,7 @@ const defaultTasks: gasSocialTasks = {
 };
 
 class GiveawaySu extends Website {
+  name = 'GiveawaySu'
   socialTasks: gasSocialTasks = defaultTasks
   undoneTasks: gasSocialTasks = defaultTasks
 

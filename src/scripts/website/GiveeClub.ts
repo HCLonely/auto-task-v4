@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 11:46:52
- * @LastEditTime : 2021-11-21 16:31:00
+ * @LastEditTime : 2021-12-11 13:44:55
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/GiveeClub.ts
  * @Description  :
@@ -17,6 +17,7 @@ import { getRedirectLink } from '../tools/tools';
 import { GiveawaySu, defaultTasks } from './GiveawaySu';
 
 class GiveeClub extends GiveawaySu {
+  name = 'GiveeClub'
   static test(): boolean {
     return /^https?:\/\/givee\.club\/.*?\/event\/[\d]+/.test(window.location.href);
   }

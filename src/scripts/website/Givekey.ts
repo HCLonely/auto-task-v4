@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-13 17:57:40
- * @LastEditTime : 2021-11-21 16:19:24
+ * @LastEditTime : 2021-12-11 13:45:04
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Givekey.ts
  * @Description  :
@@ -52,6 +52,7 @@ const defaultTasks: gkSocialTasks = {
 };
 
 class Givekey extends Website {
+  name = 'Givekey'
   tasks: Array<string> = []
   socialTasks: gkSocialTasks = { ...defaultTasks }
   undoneTasks: gkSocialTasks = { ...defaultTasks }
