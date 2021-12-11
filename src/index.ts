@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-12-11 13:49:10
+ * @LastEditTime : 2021-12-11 19:21:06
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -144,7 +144,7 @@ window.onload = () => {
     GM_registerMenuCommand('options', () => { websiteOptions(website.name, website.options); }); // eslint-disable-line new-cap
   }
   /* eslint-enable @typescript-eslint/ban-ts-comment */
-  // unsafeWindow.website = website;
+  unsafeWindow.website = website;
   // eslint-disable-next-line new-cap
   GM_addStyle(`
   #auto-task-info {

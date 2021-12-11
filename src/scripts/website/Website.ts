@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:28
- * @LastEditTime : 2021-12-02 15:35:49
+ * @LastEditTime : 2021-12-11 18:51:48
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Website.ts
  * @Description  :
@@ -170,6 +170,16 @@ abstract class Website {
       if (this.social.visitLink && tasks.links && doTask) {
         for (const link of tasks.links) {
           pro.push(this.social.visitLink(link));
+        }
+      }
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      if (doTask && tasks.extra && this.extraDoTask) {
+        const hasExtra = Object.values(tasks.extra).reduce((total, arr) => [...total, ...arr]).length > 0;
+        if (hasExtra) {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          pro.push(this.extraDoTask(tasks.extra));
         }
       }
       await Promise.all(pro);

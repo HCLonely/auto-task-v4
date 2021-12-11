@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.11-Alpha
+// @version            4.0.12-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -294,7 +294,10 @@
     unlikingYtbVideo: '正在取消点赞YouTube视频',
     noPoints: '点数不够，跳过抽奖',
     getNeedPointsFailed: '获取所需点数失败，跳过抽奖',
-    joiningLottery: '正在加入抽奖'
+    joiningLottery: '正在加入抽奖',
+    doingGleamTask: '正在做Gleam任务...',
+    gettingGleamLink: '正在获取Gleam任务链接...',
+    gleamTaskNotice: '如果此页面长时间未关闭，请完成任一任务后自行关闭！'
   };
   const zh_CN = data;
   const languages = {
@@ -4984,6 +4987,12 @@
             pro.push(this.social.visitLink(link));
           }
         }
+        if (doTask && tasks.extra && this.extraDoTask) {
+          const hasExtra = Object.values(tasks.extra).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
+          if (hasExtra) {
+            pro.push(this.extraDoTask(tasks.extra));
+          }
+        }
         await Promise.all(pro);
         scripts_echoLog({
           html: `<li><font class="success">${i18n('allTasksComplete')}</font></li>`
@@ -7137,17 +7146,24 @@
     },
     youtube: {
       channelLinks: []
+    },
+    extra: {
+      gleam: []
     }
   };
   const defaultOptions = {
     vlootUsername: '',
     gameroundUsername: ''
   };
+  var _doGleamTask = new WeakSet();
   var Gleam_getGiveawayId = new WeakSet();
+  var _getGleamLink = new WeakSet();
   class Gleam extends website_Website {
     constructor() {
       super(...arguments);
+      Gleam_classPrivateMethodInitSpec(this, _getGleamLink);
       Gleam_classPrivateMethodInitSpec(this, Gleam_getGiveawayId);
+      Gleam_classPrivateMethodInitSpec(this, _doGleamTask);
       Gleam_defineProperty(this, 'name', 'Gleam');
       Gleam_defineProperty(this, 'undoneTasks', {
         ...Gleam_defaultTasks
@@ -7300,7 +7316,20 @@
             expandInfo.find('input').val(this.options.vlootUsername);
           } else if (socialIcon.hasClass('fa-gamepad-alt') && taskInfo.text().trim().includes('Gameround')) {
             expandInfo.find('input').val(this.options.gameroundUsername);
-          } else if (socialIcon.hasClass('fa-question') || socialIcon.hasClass('fa-bullhorn')) {} else {
+          } else if (socialIcon.hasClass('fa-bullhorn') && taskInfo.text().trim().includes('Complete')) {
+            if (action !== 'do') {
+              continue;
+            }
+            const link = aElements.attr('href');
+            if (!link) {
+              continue;
+            }
+            const gleamLink = await Gleam_classPrivateMethodGet(this, _getGleamLink, _getGleamLink2).call(this, link);
+            if (!gleamLink) {
+              continue;
+            }
+            this.undoneTasks.extra.gleam.push(gleamLink);
+          } else if (socialIcon.hasClass('fa-question')) {} else {
             scripts_echoLog({
               html: `<li><font class="warning">${i18n('unKnownTaskType')}: ${taskInfo.text().trim()}</font></li>`
             });
@@ -7316,6 +7345,75 @@
         return false;
       }
     }
+    async extraDoTask(_ref) {
+      let {
+        gleam
+      } = _ref;
+      try {
+        const pro = [];
+        for (const link of gleam) {
+          pro.push(Gleam_classPrivateMethodGet(this, _doGleamTask, _doGleamTask2).call(this, link));
+        }
+        return Promise.all(pro).then(() => true);
+      } catch (error) {
+        throwError(error, 'Gleam.extraDoTask');
+        return false;
+      }
+    }
+    async after() {
+      try {
+        if (window.location.search.includes('8b07d23f4bfa65f9')) {
+          const checkComplete = setInterval(() => {
+            if ($('.entry-content .entry-method i.fa-check').length > 0) {
+              clearInterval(checkComplete);
+              window.close();
+            }
+          });
+          for (const task of $('.entry-content .entry-method')) {
+            const taskInfo = $(task).find('.user-links');
+            const expandInfo = $(task).find('.expandable');
+            const aElements = expandInfo.find('a.btn,a:contains(Continue),button:contains(Continue)');
+            if (aElements.length > 0) {
+              for (const element of aElements) {
+                const $element = $(element);
+                const href = $element.attr('href');
+                $element.removeAttr('href')[0].click();
+                $element.attr('href', href);
+                await delay(1e3);
+              }
+            }
+            taskInfo[0].click();
+            await delay(1e3);
+          }
+          scripts_echoLog({
+            html: `<li><font class="warning">${i18n('gleamTaskNotice')}</font></li>`
+          });
+        }
+      } catch (error) {
+        throwError(error, 'Gleam.after');
+        return false;
+      }
+    }
+  }
+  async function _doGleamTask2(link) {
+    try {
+      const logStatus = scripts_echoLog({
+        text: i18n('doingGleamTask')
+      });
+      return await new Promise(resolve => {
+        GM_openInTab(`${link}?8b07d23f4bfa65f9`, {
+          active: true,
+          insert: true,
+          setParent: true
+        }).onclose = () => {
+          logStatus.success();
+          resolve(true);
+        };
+      });
+    } catch (error) {
+      throwError(error, 'Gleam.doGleamTask');
+      return false;
+    }
   }
   function Gleam_getGiveawayId2() {
     try {
@@ -7330,6 +7428,41 @@
       return false;
     } catch (error) {
       throwError(error, 'Gleam.getGiveawayId');
+      return false;
+    }
+  }
+  async function _getGleamLink2(link) {
+    try {
+      const logStatus = scripts_echoLog({
+        text: i18n('gettingGleamLink')
+      });
+      const {
+        result,
+        statusText,
+        status,
+        data
+      } = await tools_httpRequest({
+        url: link,
+        method: 'GET'
+      });
+      if (result === 'Success') {
+        if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+          var _data$responseText$ma;
+          const gleamLink = (_data$responseText$ma = data.responseText.match(/href="(https:\/\/gleam\.io\/.*?\/.+?)"/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
+          if (gleamLink) {
+            logStatus.success();
+            return gleamLink;
+          }
+          logStatus.error(`Error:${i18n('getLinkFailed')}`);
+          return false;
+        }
+        logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error, 'Gleam.getGleamLink');
       return false;
     }
   }
@@ -7651,6 +7784,7 @@
         options(website.name, website.options);
       });
     }
+    unsafeWindow.website = website;
     GM_addStyle(`
   #auto-task-info {
     position: fixed;

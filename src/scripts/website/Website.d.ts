@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-05 11:32:20
- * @LastEditTime : 2021-11-11 14:23:27
+ * @LastEditTime : 2021-12-11 19:05:15
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Website.d.ts
  * @Description  :
@@ -42,6 +42,9 @@ declare interface youtubeWebTasks {
   channelLinks?: Array<string>
   likeLinks?: Array<string>
 }
+declare interface extraTasks {
+  [name: string]: Array<string>
+}
 declare interface webSocialTasks {
   discord?: discordWebTasks
   instagram?: instagramWebTasks
@@ -52,4 +55,5 @@ declare interface webSocialTasks {
   reddit?: redditWebTasks
   steam?: steamWebTasks
   links?: Array<string>
+  extra?: extraTasks
 }

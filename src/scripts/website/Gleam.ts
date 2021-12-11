@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2021-12-11 13:44:48
+ * @LastEditTime : 2021-12-11 19:50:04
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  :
@@ -11,6 +11,8 @@ import Website from './Website';
 import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
+import httpRequest from '../tools/httpRequest';
+import { delay } from '../tools/tools';
 
 interface gleamSocialTasks {
   steam: {
@@ -32,6 +34,9 @@ interface gleamSocialTasks {
   }
   youtube: {
     channelLinks: Array<string>
+  }
+  extra: {
+    gleam: Array<string>
   }
 }
 interface options {
@@ -58,6 +63,9 @@ const defaultTasks: gleamSocialTasks = {
   },
   youtube: {
     channelLinks: []
+  },
+  extra: {
+    gleam: []
   }
 };
 const defaultOptions: options = {
@@ -68,7 +76,7 @@ class Gleam extends Website {
   name = 'Gleam'
   undoneTasks: gleamSocialTasks = { ...defaultTasks }
   socialTasks: gleamSocialTasks = { ...defaultTasks }
-  options = { // todo 设置项
+  options = {
     ...defaultOptions,
     ...GM_getValue<options>('GleamOptions') // eslint-disable-line new-cap
   }
@@ -175,10 +183,18 @@ class Gleam extends Website {
         } else if (socialIcon.hasClass('fa-gamepad-alt') && taskInfo.text().trim()
           .includes('Gameround')) {
           expandInfo.find('input').val(this.options.gameroundUsername);
-        } else if (
-          socialIcon.hasClass('fa-question') ||
-          socialIcon.hasClass('fa-bullhorn') // todo 自动化
-        ) {
+        } else if (socialIcon.hasClass('fa-bullhorn') && taskInfo.text().trim()
+          .includes('Complete')) {
+          if (action !== 'do') continue;
+
+          const link = aElements.attr('href');
+          if (!link) continue;
+
+          const gleamLink = await this.#getGleamLink(link);
+          if (!gleamLink) continue;
+
+          this.undoneTasks.extra.gleam.push(gleamLink);
+        } else if (socialIcon.hasClass('fa-question')) {
           // skip
         } else {
           echoLog({ html: `<li><font class="warning">${__('unKnownTaskType')}: ${taskInfo.text().trim()}</font></li>` });
@@ -196,6 +212,34 @@ class Gleam extends Website {
     }
   }
 
+  async extraDoTask({ gleam }: { gleam: Array<string> }): Promise<boolean> {
+    try {
+      const pro = [];
+      for (const link of gleam) {
+        pro.push(this.#doGleamTask(link));
+      }
+      return Promise.all(pro).then(() => true);
+    } catch (error) {
+      throwError(error as Error, 'Gleam.extraDoTask');
+      return false;
+    }
+  }
+  async #doGleamTask(link: string): Promise<boolean> {
+    try {
+      const logStatus = echoLog({ text: __('doingGleamTask') });
+      return await new Promise((resolve) => {
+        GM_openInTab(`${link}?8b07d23f4bfa65f9`, // eslint-disable-line new-cap
+          { active: true, insert: true, setParent: true })
+          .onclose = () => {
+            logStatus.success();
+            resolve(true);
+          };
+      });
+    } catch (error) {
+      throwError(error as Error, 'Gleam.doGleamTask');
+      return false;
+    }
+  }
   #getGiveawayId(): boolean {
     try {
       const giveawayId = window.location.pathname;
@@ -207,6 +251,66 @@ class Gleam extends Website {
       return false;
     } catch (error) {
       throwError(error as Error, 'Gleam.getGiveawayId');
+      return false;
+    }
+  }
+  async #getGleamLink(link: string): Promise<string | false> {
+    try {
+      const logStatus = echoLog({ text: __('gettingGleamLink') });
+      const { result, statusText, status, data } = await httpRequest({
+        url: link,
+        method: 'GET'
+      });
+      if (result === 'Success') {
+        if (data?.status === 200) {
+          const gleamLink = data.responseText.match(/href="(https:\/\/gleam\.io\/.*?\/.+?)"/)?.[1];
+          if (gleamLink) {
+            logStatus.success();
+            return gleamLink;
+          }
+          logStatus.error(`Error:${__('getLinkFailed')}`);
+          return false;
+        }
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'Gleam.getGleamLink');
+      return false;
+    }
+  }
+
+  async after() {
+    try {
+      if (window.location.search.includes('8b07d23f4bfa65f9')) {
+        const checkComplete = setInterval(() => {
+          if ($('.entry-content .entry-method i.fa-check').length > 0) {
+            clearInterval(checkComplete);
+            window.close();
+          }
+        });
+        for (const task of $('.entry-content .entry-method')) {
+          const taskInfo = $(task).find('.user-links');
+          const expandInfo = $(task).find('.expandable');
+          const aElements = expandInfo.find('a.btn,a:contains(Continue),button:contains(Continue)');
+          if (aElements.length > 0) {
+            for (const element of aElements) {
+              const $element = $(element);
+              const href = $element.attr('href');
+              $element.removeAttr('href')[0].click();
+              $element.attr('href', href as string);
+              await delay(1000);
+            }
+          }
+          taskInfo[0].click();
+          await delay(1000);
+        }
+        echoLog({ html: `<li><font class="warning">${__('gleamTaskNotice')}</font></li>` });
+      }
+    } catch (error) {
+      throwError(error as Error, 'Gleam.after');
       return false;
     }
   }

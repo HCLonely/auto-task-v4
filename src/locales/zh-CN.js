@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2021-12-11 13:40:08
+ * @LastEditTime : 2021-12-11 19:36:02
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  :
@@ -135,6 +135,11 @@ const data = {
   // OpiumPulses
   noPoints: '点数不够，跳过抽奖',
   getNeedPointsFailed: '获取所需点数失败，跳过抽奖',
-  joiningLottery: '正在加入抽奖'
+  joiningLottery: '正在加入抽奖',
+
+  // gleam
+  doingGleamTask: '正在做Gleam任务...',
+  gettingGleamLink: '正在获取Gleam任务链接...',
+  gleamTaskNotice: '如果此页面长时间未关闭，请完成任一任务后自行关闭！'
 };
 export default data;
