@@ -2,8 +2,6 @@
 
 ## 使用说明
 
-> 目前还没UI, 所以暂时使用控制台
-
 ### 安装
 
 [https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task.user.js](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task.user.js)
@@ -17,9 +15,6 @@
 
 ## todo
 
-- [x] 白名单
-- [x] 白名单提示
-- [ ] 白名单获取id-youtube
 - [ ] Gleam验证任务
 - [ ] 变量名重构
 - [ ] 变量初始化
@@ -42,6 +37,9 @@
 - [x] 保存任务去重
 - [x] 验证不用存储tasks
 - [x] freeanywhere获取key优化
+- [x] 白名单
+- [x] 白名单提示
+- [x] 白名单获取id-youtube
 
 ### 存储机制
 

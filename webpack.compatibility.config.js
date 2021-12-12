@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /*
  * @Author       : HCLonely
- * @Date         : 2021-10-26 16:22:46
- * @LastEditTime : 2021-11-20 17:11:54
+ * @Date         : 2021-12-12 17:39:48
+ * @LastEditTime : 2021-12-12 17:50:24
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/webpack.config.js
+ * @FilePath     : /auto-task-new/webpack.compatibility.config.js
  * @Description  :
  */
 const fs = require('fs');
@@ -25,9 +25,9 @@ module.exports = {
     index: './src/index.ts'
   },
   output: {
-    filename: 'auto-task.user.js',
+    filename: 'auto-task.compatibility.user.js',
     path: path.resolve(__dirname, 'dist'),
-    clean: true,
+    clean: false,
     environment: {
       arrowFunction: false
     }
@@ -40,7 +40,7 @@ module.exports = {
           {
             loader: 'babel-loader',
             options: {
-              configFile: path.resolve(__dirname, './.babelrc.json')
+              configFile: path.resolve(__dirname, './.compatibility.babelrc.json')
             }
           }, {
             loader: 'ts-loader',
@@ -58,13 +58,7 @@ module.exports = {
     minimizer: [new UglifyJsPlugin({
       sourceMap: false,
       uglifyOptions: {
-        compress: false,
-        mangle: false,
         output: {
-          beautify: true,
-          indent_level: 2, // eslint-disable-line camelcase
-          braces: true,
-          quote_style: 1, // eslint-disable-line camelcase
           preamble: fs.readFileSync('./src/header.js').toString()
         }
       }

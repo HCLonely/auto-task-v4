@@ -48,5 +48,8 @@
     ".history",
     "dist/auto-task.user.js",
     "pnpm-lock.yaml"
+  ],
+  "cSpell.words": [
+    "uglifyjs"
   ]
 }

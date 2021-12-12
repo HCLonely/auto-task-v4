@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:28
- * @LastEditTime : 2021-12-11 18:51:48
+ * @LastEditTime : 2021-12-12 17:20:28
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Website.ts
  * @Description  :
@@ -17,7 +17,7 @@ import Reddit from '../social/Reddit';
 import Twitch from '../social/Twitch';
 import Twitter from '../social/Twitter';
 import Vk from '../social/Vk';
-import Youtube from '../social/Youtube';
+import { Youtube } from '../social/Youtube';
 import Steam from '../social/Steam';
 import { unique, visitLink } from '../tools/tools';
 import echoLog from '../echoLog';

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-06 13:16:38
- * @LastEditTime : 2021-12-11 13:48:53
+ * @LastEditTime : 2021-12-12 17:35:58
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/whiteList.ts
  * @Description  : 白名单相关
@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import __ from '../tools/i18n';
 import echoLog from '../echoLog';
 import Steam from './Steam';
+import { getInfo } from './Youtube';
 
 const defaultWhiteList: whiteList = {
   discord: {
@@ -72,6 +73,12 @@ const link2id = async function (type: string): Promise<string> {
   case 'vk.names':
     id = link.match(/https:\/\/vk\.com\/([^/]+)/)?.[1] || '';
     break;
+  case 'youtube.channels':
+    id = (await getInfo(link, 'channel'))?.params?.channelId || '';
+    break;
+  case 'youtube.likes':
+    id = (await getInfo(link, 'likeVideo'))?.params?.videoId || '';
+    break;
   case 'reddit.reddits':
     id = link.match(/https?:\/\/www\.reddit\.com\/user\/([^/]*)/)?.[1] || link.match(/https?:\/\/www\.reddit\.com\/r\/([^/]*)/)?.[1] || '';
     break;
@@ -102,22 +109,26 @@ const link2id = async function (type: string): Promise<string> {
   }
   return id;
 };
+const disabledType = {
+  steam: ['workshopVotes', 'curatorLikes', 'announcements'],
+  twitter: ['likes']
+};
 
 const whiteListOptions = function (): void {
   const whiteList = { ...defaultWhiteList, ...(GM_getValue<whiteList>('whiteList') || {}) }; // eslint-disable-line new-cap
   let whiteListOptionsForm = `<form id="whiteListForm" class="auto-task-form">
   <table class="auto-task-table"><thead><tr><td>${__('website')}</td><td>${__('type')}</td><td>${__('edit')}</td></tr></thead><tbody>`;
   for (const [social, types] of Object.entries(whiteList)) {
+    /* eslint-disable @typescript-eslint/ban-ts-comment */
     whiteListOptionsForm += Object.keys(types).map(
-      (type, index) => ((
-        (social === 'steam' && ['workshopVotes', 'curatorLikes', 'announcements'].includes(type)) ||
-        (social === 'twitter' && type === 'likes') ||
-        (social === 'youtube')
-      ) ? '' : `<tr>${
-          index === 0 ? `<th rowspan="${Object.keys(types).length}">${social}</th>` : ''
-        }<td>${type}</td><td><button class="editWhiteList" data-value="${social}.${type}">${__('edit')}</button></td></tr>`))
+      // @ts-ignore
+      (type, index) => (disabledType[social]?.includes(type) ? '' : `<tr>${
+      // @ts-ignore
+        index === 0 ? `<th rowspan="${Object.keys(types).length - (disabledType[social] || []).length}">${social}</th>` : ''
+      }<td>${type}</td><td><button class="editWhiteList" data-value="${social}.${type}">${__('edit')}</button></td></tr>`))
       .join('');
   }
+  /* eslint-enable @typescript-eslint/ban-ts-comment */
   whiteListOptionsForm += '</tbody></table></form>';
   Swal.fire({
     title: __('whiteListOptions'),

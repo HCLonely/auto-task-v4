@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.12-Alpha
+// @version            4.0.13-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -71,6 +71,8 @@
 // @require            https://cdn.jsdelivr.net/npm/js-sha1@0.6.0/src/sha1.min.js
 // @require            https://cdn.jsdelivr.net/npm/sweetalert2@11
 // ==/UserScript==
+
+console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
 
 (function() {
   'use strict';
@@ -3043,6 +3045,88 @@
     channels: [],
     likes: []
   };
+  const getInfo = async function(link, type) {
+    try {
+      const logStatus = scripts_echoLog({
+        text: i18n('gettingYtbToken')
+      });
+      const {
+        result,
+        statusText,
+        status,
+        data
+      } = await tools_httpRequest({
+        url: link,
+        method: 'GET'
+      });
+      if (result === 'Success') {
+        if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+          var _data$responseText$ma, _ref;
+          if (data.responseText.includes('accounts.google.com/ServiceLogin?service=youtube')) {
+            logStatus.error(`Error:${i18n('loginYtb')}`, true);
+            return {
+              needLogin: true
+            };
+          }
+          const apiKey = (_data$responseText$ma = data.responseText.match(/"INNERTUBE_API_KEY":"(.*?)"/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
+          const context = ((_ref = data.responseText.match(/\(\{"INNERTUBE_CONTEXT":([\w\W]*?)\}\)/) || data.responseText.match(/"INNERTUBE_CONTEXT":([\w\W]*?\}),"INNERTUBE/)) === null || _ref === void 0 ? void 0 : _ref[1]) || '{}';
+          const {
+            client,
+            request
+          } = JSON.parse(context);
+          if (apiKey && client && request) {
+            client.hl = 'en';
+            if (type === 'channel') {
+              var _data$responseText$ma2;
+              const channelId = (_data$responseText$ma2 = data.responseText.match(/<meta itemprop="channelId" content="(.+?)">/)) === null || _data$responseText$ma2 === void 0 ? void 0 : _data$responseText$ma2[1];
+              if (channelId) {
+                logStatus.success();
+                return {
+                  params: {
+                    apiKey: apiKey,
+                    client: client,
+                    request: request,
+                    channelId: channelId
+                  }
+                };
+              }
+              logStatus.error('Error: Get "channelId" failed!');
+              return {};
+            } else if (type === 'likeVideo') {
+              var _data$responseText$ma3, _data$responseText$ma4;
+              const videoId = (_data$responseText$ma3 = data.responseText.match(/<link rel="shortlinkUrl" href="https:\/\/youtu\.be\/(.*?)">/)) === null || _data$responseText$ma3 === void 0 ? void 0 : _data$responseText$ma3[1];
+              const likeParams = (_data$responseText$ma4 = data.responseText.match(/"likeParams":"(.*?)"/)) === null || _data$responseText$ma4 === void 0 ? void 0 : _data$responseText$ma4[1];
+              if (videoId) {
+                logStatus.success();
+                return {
+                  params: {
+                    apiKey: apiKey,
+                    client: client,
+                    request: request,
+                    videoId: videoId,
+                    likeParams: likeParams
+                  }
+                };
+              }
+              logStatus.error('Error: Get "videoId" failed!');
+              return {};
+            }
+            logStatus.error('Error: Unknown type');
+            return {};
+          }
+          logStatus.error('Error: Parameter "apiKey" not found!');
+          return {};
+        }
+        logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+        return {};
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return {};
+    } catch (error) {
+      throwError(error, 'Youtube.getInfo');
+      return {};
+    }
+  };
   var Youtube_auth = new WeakMap();
   var Youtube_initialized = new WeakMap();
   var _verifyChannel = new WeakMap();
@@ -3119,12 +3203,12 @@
         return false;
       }
     }
-    async toggle(_ref) {
+    async toggle(_ref2) {
       let {
         doTask = true,
         channelLinks = [],
         videoLinks = []
-      } = _ref;
+      } = _ref2;
       try {
         if (!Youtube_classPrivateFieldGet(this, Youtube_initialized)) {
           scripts_echoLog({
@@ -3214,87 +3298,8 @@
       return false;
     }
   }
-  async function _getInfo2(link, type) {
-    try {
-      const logStatus = scripts_echoLog({
-        text: i18n('gettingYtbToken')
-      });
-      const {
-        result,
-        statusText,
-        status,
-        data
-      } = await tools_httpRequest({
-        url: link,
-        method: 'GET'
-      });
-      if (result === 'Success') {
-        if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-          var _data$responseText$ma, _ref2;
-          if (data.responseText.includes('accounts.google.com/ServiceLogin?service=youtube')) {
-            logStatus.error(`Error:${i18n('loginYtb')}`, true);
-            return {
-              needLogin: true
-            };
-          }
-          const apiKey = (_data$responseText$ma = data.responseText.match(/"INNERTUBE_API_KEY":"(.*?)"/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
-          const context = ((_ref2 = data.responseText.match(/\(\{"INNERTUBE_CONTEXT":([\w\W]*?)\}\)/) || data.responseText.match(/"INNERTUBE_CONTEXT":([\w\W]*?\}),"INNERTUBE/)) === null || _ref2 === void 0 ? void 0 : _ref2[1]) || '{}';
-          const {
-            client,
-            request
-          } = JSON.parse(context);
-          if (apiKey && client && request) {
-            client.hl = 'en';
-            if (type === 'channel') {
-              var _data$responseText$ma2;
-              const channelId = (_data$responseText$ma2 = data.responseText.match(/<meta itemprop="channelId" content="(.+?)">/)) === null || _data$responseText$ma2 === void 0 ? void 0 : _data$responseText$ma2[1];
-              if (channelId) {
-                logStatus.success();
-                return {
-                  params: {
-                    apiKey: apiKey,
-                    client: client,
-                    request: request,
-                    channelId: channelId
-                  }
-                };
-              }
-              logStatus.error('Error: Get "channelId" failed!');
-              return {};
-            } else if (type === 'likeVideo') {
-              var _data$responseText$ma3, _data$responseText$ma4;
-              const videoId = (_data$responseText$ma3 = data.responseText.match(/<link rel="shortlinkUrl" href="https:\/\/youtu\.be\/(.*?)">/)) === null || _data$responseText$ma3 === void 0 ? void 0 : _data$responseText$ma3[1];
-              const likeParams = (_data$responseText$ma4 = data.responseText.match(/"likeParams":"(.*?)"/)) === null || _data$responseText$ma4 === void 0 ? void 0 : _data$responseText$ma4[1];
-              if (videoId) {
-                logStatus.success();
-                return {
-                  params: {
-                    apiKey: apiKey,
-                    client: client,
-                    request: request,
-                    videoId: videoId,
-                    likeParams: likeParams
-                  }
-                };
-              }
-              logStatus.error('Error: Get "videoId" failed!');
-              return {};
-            }
-            logStatus.error('Error: Unknown type');
-            return {};
-          }
-          logStatus.error('Error: Parameter "apiKey" not found!');
-          return {};
-        }
-        logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-        return {};
-      }
-      logStatus.error(`${result}:${statusText}(${status})`);
-      return {};
-    } catch (error) {
-      throwError(error, 'Youtube.getInfo');
-      return {};
-    }
+  function _getInfo2(link, type) {
+    return getInfo(link, type);
   }
   async function Youtube_toggleChannel2(_ref3) {
     let {
@@ -3498,7 +3503,6 @@
       return false;
     }
   }
-  const social_Youtube = Youtube;
   function Steam_classPrivateMethodInitSpec(obj, privateSet) {
     Steam_checkPrivateRedeclaration(obj, privateSet);
     privateSet.add(obj);
@@ -4889,7 +4893,7 @@
         if (tasks.youtube) {
           const hasYoutube = Object.values(tasks.youtube).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
           if (hasYoutube) {
-            this.social.youtube = new social_Youtube();
+            this.social.youtube = new Youtube();
             pro.push(this.social.youtube.init());
           }
         }
@@ -7505,7 +7509,7 @@
     }
   };
   const link2id = async function(type) {
-    var _link$match, _link$match2, _link$match3, _link$match4, _link$match5, _link$match6, _link$match7, _link$match8, _link$match9, _link$match10, _link$match11;
+    var _link$match, _link$match2, _link$match3, _link$match4, _link$match5, _link$match6, _await$getInfo, _await$getInfo$params, _await$getInfo2, _await$getInfo2$param, _link$match7, _link$match8, _link$match9, _link$match10, _link$match11;
     const link = $('#socialLink').val();
     let id = '';
     switch (type) {
@@ -7531,6 +7535,14 @@
 
      case 'vk.names':
       id = ((_link$match6 = link.match(/https:\/\/vk\.com\/([^/]+)/)) === null || _link$match6 === void 0 ? void 0 : _link$match6[1]) || '';
+      break;
+
+     case 'youtube.channels':
+      id = ((_await$getInfo = await getInfo(link, 'channel')) === null || _await$getInfo === void 0 ? void 0 : (_await$getInfo$params = _await$getInfo.params) === null || _await$getInfo$params === void 0 ? void 0 : _await$getInfo$params.channelId) || '';
+      break;
+
+     case 'youtube.likes':
+      id = ((_await$getInfo2 = await getInfo(link, 'likeVideo')) === null || _await$getInfo2 === void 0 ? void 0 : (_await$getInfo2$param = _await$getInfo2.params) === null || _await$getInfo2$param === void 0 ? void 0 : _await$getInfo2$param.videoId) || '';
       break;
 
      case 'reddit.reddits':
@@ -7572,6 +7584,10 @@
     }
     return id;
   };
+  const disabledType = {
+    steam: [ 'workshopVotes', 'curatorLikes', 'announcements' ],
+    twitter: [ 'likes' ]
+  };
   const whiteListOptions = function() {
     const whiteList = {
       ...defaultWhiteList,
@@ -7580,7 +7596,10 @@
     let whiteListOptionsForm = `<form id="whiteListForm" class="auto-task-form">
   <table class="auto-task-table"><thead><tr><td>${i18n('website')}</td><td>${i18n('type')}</td><td>${i18n('edit')}</td></tr></thead><tbody>`;
     for (const [ social, types ] of Object.entries(whiteList)) {
-      whiteListOptionsForm += Object.keys(types).map((type, index) => social === 'steam' && [ 'workshopVotes', 'curatorLikes', 'announcements' ].includes(type) || social === 'twitter' && type === 'likes' || social === 'youtube' ? '' : `<tr>${index === 0 ? `<th rowspan="${Object.keys(types).length}">${social}</th>` : ''}<td>${type}</td><td><button class="editWhiteList" data-value="${social}.${type}">${i18n('edit')}</button></td></tr>`).join('');
+      whiteListOptionsForm += Object.keys(types).map((type, index) => {
+        var _disabledType$social;
+        return (_disabledType$social = disabledType[social]) !== null && _disabledType$social !== void 0 && _disabledType$social.includes(type) ? '' : `<tr>${index === 0 ? `<th rowspan="${Object.keys(types).length - (disabledType[social] || []).length}">${social}</th>` : ''}<td>${type}</td><td><button class="editWhiteList" data-value="${social}.${type}">${i18n('edit')}</button></td></tr>`;
+      }).join('');
     }
     whiteListOptionsForm += '</tbody></table></form>';
     external_Swal_default().fire({
@@ -7854,6 +7873,6 @@
     border-color: #a9c6c9;
   }
 `);
-    console.log('Auto Task脚本初始化完成！');
+    console.log('%c%s', 'color:#1bbe1a', 'Auto Task脚本初始化完成！');
   };
 })();

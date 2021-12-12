@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 12:18:06
- * @LastEditTime : 2021-12-07 17:18:49
+ * @LastEditTime : 2021-12-12 17:20:33
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Youtube.ts
  * @Description  : Youtube 订阅/取消订阅频道，点赞/取消点赞视频
@@ -18,6 +18,72 @@ import __ from '../tools/i18n';
 import { unique, delay } from '../tools/tools';
 
 const defaultTasks: youtubeTasks = { channels: [], likes: [] };
+
+const getInfo = async function (link: string, type: string): Promise <youtubeInfo> {
+  /**
+   * @internal
+   * @description 获取请求参数
+   * @param link link
+   * @param type 任务类型
+   * @return {youtubeInfo}: 获取成功，返回请求参数 | false: 获取失败
+   */
+  try {
+    const logStatus = echoLog({ text: __('gettingYtbToken') });
+    const { result, statusText, status, data } = await httpRequest({
+      url: link,
+      method: 'GET'
+    });
+    if (result === 'Success') {
+      if (data?.status === 200) {
+        if (data.responseText.includes('accounts.google.com/ServiceLogin?service=youtube')) {
+          logStatus.error(`Error:${__('loginYtb')}`, true);
+          return { needLogin: true };
+        }
+        const apiKey = data.responseText.match(/"INNERTUBE_API_KEY":"(.*?)"/)?.[1];
+        const context: string = (
+          (
+            data.responseText.match(/\(\{"INNERTUBE_CONTEXT":([\w\W]*?)\}\)/) ||
+        data.responseText.match(/"INNERTUBE_CONTEXT":([\w\W]*?\}),"INNERTUBE/)
+          )?.[1] || '{}'
+        );
+        const { client, request } = JSON.parse(context);
+        if (apiKey && client && request) {
+          client.hl = 'en';
+          if (type === 'channel') {
+            const channelId = data.responseText.match(/<meta itemprop="channelId" content="(.+?)">/)?.[1];
+            if (channelId) {
+              logStatus.success();
+              return { params: { apiKey, client, request, channelId } };
+            }
+            logStatus.error('Error: Get "channelId" failed!');
+            return {};
+          } else if (type === 'likeVideo') {
+            const videoId = data.responseText.match(/<link rel="shortlinkUrl" href="https:\/\/youtu\.be\/(.*?)">/)?.[1];
+            const likeParams = data.responseText.match(/"likeParams":"(.*?)"/)?.[1];
+            if (videoId) {
+              logStatus.success();
+              return { params: { apiKey, client, request, videoId, likeParams } };
+            }
+            logStatus.error('Error: Get "videoId" failed!');
+            return {};
+          }
+          logStatus.error('Error: Unknown type');
+          return {};
+        }
+        logStatus.error('Error: Parameter "apiKey" not found!');
+        return {};
+      }
+      logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+      return {};
+    }
+    logStatus.error(`${result}:${statusText}(${status})`);
+    return {};
+  } catch (error) {
+    throwError(error as Error, 'Youtube.getInfo');
+    return {};
+  }
+};
+
 class Youtube extends Social {
   tasks = { ...defaultTasks };
   whiteList: youtubeTasks = GM_getValue<whiteList>('whiteList')?.youtube || { ...defaultTasks }; // eslint-disable-line new-cap
@@ -112,69 +178,8 @@ class Youtube extends Social {
     }
   }
 
-  async #getInfo(link: string, type: string): Promise<youtubeInfo> {
-    /**
-     * @internal
-     * @description 获取请求参数
-     * @param link link
-     * @param type 任务类型
-     * @return {youtubeInfo}: 获取成功，返回请求参数 | false: 获取失败
-     */
-    try {
-      const logStatus = echoLog({ text: __('gettingYtbToken') });
-      const { result, statusText, status, data } = await httpRequest({
-        url: link,
-        method: 'GET'
-      });
-      if (result === 'Success') {
-        if (data?.status === 200) {
-          if (data.responseText.includes('accounts.google.com/ServiceLogin?service=youtube')) {
-            logStatus.error(`Error:${__('loginYtb')}`, true);
-            return { needLogin: true };
-          }
-          const apiKey = data.responseText.match(/"INNERTUBE_API_KEY":"(.*?)"/)?.[1];
-          const context: string = (
-            (
-              data.responseText.match(/\(\{"INNERTUBE_CONTEXT":([\w\W]*?)\}\)/) ||
-              data.responseText.match(/"INNERTUBE_CONTEXT":([\w\W]*?\}),"INNERTUBE/)
-            )?.[1] || '{}'
-          );
-          const { client, request } = JSON.parse(context);
-          if (apiKey && client && request) {
-            client.hl = 'en';
-            if (type === 'channel') {
-              const channelId = data.responseText.match(/<meta itemprop="channelId" content="(.+?)">/)?.[1];
-              if (channelId) {
-                logStatus.success();
-                return { params: { apiKey, client, request, channelId } };
-              }
-              logStatus.error('Error: Get "channelId" failed!');
-              return {};
-            } else if (type === 'likeVideo') {
-              const videoId = data.responseText.match(/<link rel="shortlinkUrl" href="https:\/\/youtu\.be\/(.*?)">/)?.[1];
-              const likeParams = data.responseText.match(/"likeParams":"(.*?)"/)?.[1];
-              if (videoId) {
-                logStatus.success();
-                return { params: { apiKey, client, request, videoId, likeParams } };
-              }
-              logStatus.error('Error: Get "videoId" failed!');
-              return {};
-            }
-            logStatus.error('Error: Unknown type');
-            return {};
-          }
-          logStatus.error('Error: Parameter "apiKey" not found!');
-          return {};
-        }
-        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
-        return {};
-      }
-      logStatus.error(`${result}:${statusText}(${status})`);
-      return {};
-    } catch (error) {
-      throwError(error as Error, 'Youtube.getInfo');
-      return {};
-    }
+  #getInfo(link: string, type: string): Promise<youtubeInfo> {
+    return getInfo(link, type);
   }
 
   async #toggleChannel({ link, doTask = true, verify = false }: { link: string, doTask: boolean, verify?: boolean }): Promise<boolean> {
@@ -406,4 +411,4 @@ class Youtube extends Social {
     }
   }
 }
-export default Youtube;
+export { Youtube, getInfo };

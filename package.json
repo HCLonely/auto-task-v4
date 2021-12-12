@@ -6,7 +6,8 @@
   "scripts": {
     "test": "eslint",
     "tsc": "tsc",
-    "pack": "webpack"
+    "pack": "webpack",
+    "build": "webpack && webpack --config webpack.compatibility.config.js"
   },
   "author": "HCLonely",
   "license": "MIT",
