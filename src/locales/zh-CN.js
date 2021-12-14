@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2021-12-11 19:36:02
+ * @LastEditTime : 2021-12-14 09:51:44
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  :
@@ -52,6 +52,7 @@ const data = {
   joiningGiveaway: '正在加入赠Key',
   needJoinGiveaway: '需要先加入赠Key',
   cannotUndo: '此网站不支持取消任务',
+  verifyAuth: '正在验证 %0 凭证...',
 
   // Steam
   steamCommunity: 'Steam社区',

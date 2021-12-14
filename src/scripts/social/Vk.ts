@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 11:47:59
- * @LastEditTime : 2021-12-07 17:18:43
+ * @LastEditTime : 2021-12-14 09:54:46
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Vk.ts
  * @Description  : Vk 加入/退出群组，关注/取关用户，转发/取消转发动态
@@ -153,7 +153,7 @@ class Vk extends Social {
      * @return true: 成功 | false: 失败
      */
     try {
-      const logStatus = echoLog({ type: doTask ? 'joiningVkPublic' : 'leaveingVkPublic', text: name });
+      const logStatus = echoLog({ type: doTask ? 'joiningVkPublic' : 'leavingVkPublic', text: name });
       if ((dataParam.publicJoined && doTask) || (!dataParam.publicJoined && !doTask)) {
         logStatus.success();
         return true;

@@ -1,10 +1,10 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-13 17:57:40
- * @LastEditTime : 2021-12-11 13:45:04
+ * @LastEditTime : 2021-12-13 12:10:18
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Givekey.ts
- * @Description  :
+ * @Description  : https://givekey.ru
  */
 
 // todo: 等待第一次进入检测，验证优化
@@ -60,6 +60,10 @@ class Givekey extends Website {
 
   static test(): boolean {
     return window.location.host === 'givekey.ru';
+  }
+
+  before() {
+    // cloudflare check
   }
 
   init(): boolean {

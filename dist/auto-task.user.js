@@ -231,6 +231,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
     joiningGiveaway: '正在加入赠Key',
     needJoinGiveaway: '需要先加入赠Key',
     cannotUndo: '此网站不支持取消任务',
+    verifyAuth: '正在验证 %0 凭证...',
     steamCommunity: 'Steam社区',
     steamStore: 'Steam商店',
     needLoginSteamStore: '请先<a href="https://store.steampowered.com/login/" target="_blank">登录Steam商店</a>',
@@ -2660,7 +2661,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
     let doTask = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
     try {
       const logStatus = scripts_echoLog({
-        type: doTask ? 'joiningVkPublic' : 'leaveingVkPublic',
+        type: doTask ? 'joiningVkPublic' : 'leavingVkPublic',
         text: name
       });
       if (dataParam.publicJoined && doTask || !dataParam.publicJoined && !doTask) {
@@ -6200,6 +6201,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
     static test() {
       return window.location.host === 'givekey.ru';
     }
+    before() {}
     init() {
       try {
         const logStatus = scripts_echoLog({
