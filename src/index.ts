@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-12-12 17:56:17
+ * @LastEditTime : 2021-12-16 11:58:45
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -162,7 +162,7 @@ window.onload = () => {
     text-transform: capitalize;
     margin-left: 10px;
     text-decoration: none !important;
-    border: solid 2px;
+    border: solid 1px;
     border-radius: 5px;
     padding: 0 2px;
   }

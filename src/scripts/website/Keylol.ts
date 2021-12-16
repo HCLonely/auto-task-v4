@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-15 13:58:41
- * @LastEditTime : 2021-12-12 17:55:01
+ * @LastEditTime : 2021-12-16 11:40:09
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Keylol.ts
  * @Description  :
@@ -76,6 +76,7 @@ class Keylol extends Website {
       const vkLinks = mainPost.find('a[href*="vk.com"]');
       const steamStoreLinks = mainPost.find('a[href*="store.steampowered.com"]');
       const steamCommunityLinks = mainPost.find('a[href*="steamcommunity.com"]');
+      const ytbLinks = mainPost.find('a[href*="youtube.com"]');
       if (discordLinks.length > 0) {
         for (const discordLink of discordLinks) {
           const link = $(discordLink).attr('href');
@@ -147,6 +148,14 @@ class Keylol extends Website {
           } else if (/announcements\/detail\/[\d]+/.test(link)) {
             this.#addBtn(steamCommunityLink, 'steam', 'announcementLinks', link);
           }
+        }
+      }
+      if (ytbLinks.length > 0) {
+        for (const ytbLink of ytbLinks) {
+          const link = $(ytbLink).attr('href');
+          if (!link) continue;
+          this.#addBtn(ytbLink, 'youtube', 'channelLinks', link);
+          this.#addBtn(ytbLink, 'youtube', 'videoLinks', link);
         }
       }
     } catch (error) {

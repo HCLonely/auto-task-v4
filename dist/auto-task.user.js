@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.13-Alpha
+// @version            4.0.14-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -6816,6 +6816,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         const vkLinks = mainPost.find('a[href*="vk.com"]');
         const steamStoreLinks = mainPost.find('a[href*="store.steampowered.com"]');
         const steamCommunityLinks = mainPost.find('a[href*="steamcommunity.com"]');
+        const ytbLinks = mainPost.find('a[href*="youtube.com"]');
         if (discordLinks.length > 0) {
           for (const discordLink of discordLinks) {
             const link = $(discordLink).attr('href');
@@ -6903,6 +6904,16 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
             } else if (/announcements\/detail\/[\d]+/.test(link)) {
               Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, steamCommunityLink, 'steam', 'announcementLinks', link);
             }
+          }
+        }
+        if (ytbLinks.length > 0) {
+          for (const ytbLink of ytbLinks) {
+            const link = $(ytbLink).attr('href');
+            if (!link) {
+              continue;
+            }
+            Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, ytbLink, 'youtube', 'channelLinks', link);
+            Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, ytbLink, 'youtube', 'videoLinks', link);
           }
         }
       } catch (error) {
@@ -7822,7 +7833,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
     text-transform: capitalize;
     margin-left: 10px;
     text-decoration: none !important;
-    border: solid 2px;
+    border: solid 1px;
     border-radius: 5px;
     padding: 0 2px;
   }

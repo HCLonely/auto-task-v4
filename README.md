@@ -4,7 +4,8 @@
 
 ### 安装
 
-[https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task.user.js](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task.user.js)
+- [正式版](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task.user.js)
+- [兼容版](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task.compatibility.user.js)：正式版不能正常使用时可尝试使用此版本
 
 ### 使用
 
