@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.14-Alpha
+// @version            4.0.15-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -300,7 +300,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
     joiningLottery: '正在加入抽奖',
     doingGleamTask: '正在做Gleam任务...',
     gettingGleamLink: '正在获取Gleam任务链接...',
-    gleamTaskNotice: '如果此页面长时间未关闭，请完成任一任务后自行关闭！'
+    gleamTaskNotice: '如果此页面长时间未关闭，请完成任一任务后自行关闭！',
+    verifiedGleamTasks: '已尝试验证所有任务，验证失败的任务请尝试手动验证或完成！'
   };
   const zh_CN = data;
   const languages = {
@@ -7172,6 +7173,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
     vlootUsername: '',
     gameroundUsername: ''
   };
+  var _checkSync = new WeakSet();
   var _doGleamTask = new WeakSet();
   var Gleam_getGiveawayId = new WeakSet();
   var _getGleamLink = new WeakSet();
@@ -7181,6 +7183,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       Gleam_classPrivateMethodInitSpec(this, _getGleamLink);
       Gleam_classPrivateMethodInitSpec(this, Gleam_getGiveawayId);
       Gleam_classPrivateMethodInitSpec(this, _doGleamTask);
+      Gleam_classPrivateMethodInitSpec(this, _checkSync);
       Gleam_defineProperty(this, 'name', 'Gleam');
       Gleam_defineProperty(this, 'undoneTasks', {
         ...Gleam_defaultTasks
@@ -7377,6 +7380,36 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         return false;
       }
     }
+    async verifyTask() {
+      try {
+        scripts_echoLog({
+          text: `${i18n('verifyingTask')}...`
+        });
+        const tasks = $('.entry-content .entry-method');
+        for (const task of tasks) {
+          const $task = $(task);
+          if ($task.find('i.fa-question').length === 0) {
+            continue;
+          }
+          const taskInfo = $task.find('.user-links');
+          taskInfo[0].click();
+          await delay(500);
+          await Gleam_classPrivateMethodGet(this, _checkSync, _checkSync2).call(this);
+          const continueBtn = $task.find('.expandable').find('span:contains(Continue),button:contains(Continue)');
+          for (const button of continueBtn) {
+            button.click();
+            await delay(500);
+            await Gleam_classPrivateMethodGet(this, _checkSync, _checkSync2).call(this);
+          }
+        }
+        scripts_echoLog({
+          text: i18n('verifiedGleamTasks')
+        });
+      } catch (error) {
+        throwError(error, 'Gleam.verifyTask');
+        return false;
+      }
+    }
     async after() {
       try {
         if (window.location.search.includes('8b07d23f4bfa65f9')) {
@@ -7410,6 +7443,21 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         throwError(error, 'Gleam.after');
         return false;
       }
+    }
+  }
+  async function _checkSync2() {
+    try {
+      return await new Promise(resolve => {
+        const checker = setInterval(() => {
+          if ($('.entry-content .entry-method i.fa-sync').length === 0) {
+            clearInterval(checker);
+            resolve(true);
+          }
+        }, 500);
+      });
+    } catch (error) {
+      throwError(error, 'Gleam.checkSync');
+      return false;
     }
   }
   async function _doGleamTask2(link) {

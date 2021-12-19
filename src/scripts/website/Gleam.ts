@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2021-12-11 19:50:04
+ * @LastEditTime : 2021-12-19 17:42:56
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  :
@@ -221,6 +221,51 @@ class Gleam extends Website {
       return Promise.all(pro).then(() => true);
     } catch (error) {
       throwError(error as Error, 'Gleam.extraDoTask');
+      return false;
+    }
+  }
+
+  async verifyTask() {
+    try {
+      echoLog({ text: `${__('verifyingTask')}...` });
+
+      const tasks = $('.entry-content .entry-method');
+      for (const task of tasks) {
+        const $task = $(task);
+
+        // 任务完成则跳过
+        if ($task.find('i.fa-question').length === 0) continue;
+
+        const taskInfo = $task.find('.user-links');
+        taskInfo[0].click();
+        await delay(500);
+        await this.#checkSync();
+        const continueBtn = $task.find('.expandable').find('span:contains(Continue),button:contains(Continue)');
+        for (const button of continueBtn) {
+          button.click();
+          await delay(500);
+          await this.#checkSync();
+        }
+      }
+      echoLog({ text: __('verifiedGleamTasks') });
+    } catch (error) {
+      throwError(error as Error, 'Gleam.verifyTask');
+      return false;
+    }
+  }
+
+  async #checkSync():Promise<boolean> {
+    try {
+      return await new Promise((resolve) => {
+        const checker = setInterval(() => {
+          if ($('.entry-content .entry-method i.fa-sync').length === 0) {
+            clearInterval(checker);
+            resolve(true);
+          }
+        }, 500);
+      });
+    } catch (error) {
+      throwError(error as Error, 'Gleam.checkSync');
       return false;
     }
   }

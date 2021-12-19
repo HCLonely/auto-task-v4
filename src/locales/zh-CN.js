@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2021-12-14 09:51:44
+ * @LastEditTime : 2021-12-19 17:34:28
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  :
@@ -141,6 +141,7 @@ const data = {
   // gleam
   doingGleamTask: '正在做Gleam任务...',
   gettingGleamLink: '正在获取Gleam任务链接...',
-  gleamTaskNotice: '如果此页面长时间未关闭，请完成任一任务后自行关闭！'
+  gleamTaskNotice: '如果此页面长时间未关闭，请完成任一任务后自行关闭！',
+  verifiedGleamTasks: '已尝试验证所有任务，验证失败的任务请尝试手动验证或完成！'
 };
 export default data;
