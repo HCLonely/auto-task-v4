@@ -1,11 +1,13 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.15-Alpha
+// @version            4.0.16-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
 // @compatible         chrome 没有测试其他浏览器的兼容性
+// @homepage           https://github.com/HCLonely/auto-task-new
+// @supportURL         https://github.com/HCLonely/auto-task-new
 
 // @include            *://freeanywhere.net/*
 // @include            *://giveaway.su/giveaway/view/*
@@ -18,6 +20,7 @@
 // @include            *://prys.revadike.com/giveaway/?id=*
 // @include            *://opquests.com/quests/*
 // @include            *://gleam.io/*
+// @include            *://sweepwidget.com/view/*
 // @include            *://discord.com/*
 // @include            *://www.twitch.tv/*
 // @include            *://www.youtube.com/*

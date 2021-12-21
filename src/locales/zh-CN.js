@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2021-12-19 17:34:28
+ * @LastEditTime : 2021-12-21 13:39:10
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  :
@@ -53,6 +53,7 @@ const data = {
   needJoinGiveaway: '需要先加入赠Key',
   cannotUndo: '此网站不支持取消任务',
   verifyAuth: '正在验证 %0 凭证...',
+  closePageNotice: '如果此页面没有自动关闭，请自行关闭本页面。',
 
   // Steam
   steamCommunity: 'Steam社区',
@@ -142,6 +143,9 @@ const data = {
   doingGleamTask: '正在做Gleam任务...',
   gettingGleamLink: '正在获取Gleam任务链接...',
   gleamTaskNotice: '如果此页面长时间未关闭，请完成任一任务后自行关闭！',
-  verifiedGleamTasks: '已尝试验证所有任务，验证失败的任务请尝试手动验证或完成！'
+  verifiedGleamTasks: '已尝试验证所有任务，验证失败的任务请尝试手动验证或完成！',
+
+  // SweepWidget
+  SweepWidgetNotice: '正在处理并验证任务，每次验证任务有1~3s间隔防止触发验证过快警告...'
 };
 export default data;

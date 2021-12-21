@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 14:37:33
- * @LastEditTime : 2021-12-11 13:45:26
+ * @LastEditTime : 2021-12-21 09:56:53
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Indiedb.ts
  * @Description  :
@@ -48,7 +48,7 @@ class Indiedb {
       }
       const currentoption = $('a.buttonenter.buttongiveaway');
       if (/join giveaway/gim.test(currentoption.text())) {
-        const logStatus = echoLog({ text: __('joiningGiveaway') });
+        const logStatus = echoLog({ text: `${__('joiningGiveaway')}...` });
         const { result, statusText, status, data } = await httpRequest({
           url: currentoption.attr('href') as string,
           method: 'POST',

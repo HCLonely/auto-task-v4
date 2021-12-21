@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2021-12-07 17:18:08
+ * @LastEditTime : 2021-12-21 09:50:44
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -55,7 +55,7 @@ class Steam extends Social {
         echoLog({ html: `<li><font class="success">${__('initSuccess', 'Steam')}</font></li>` });
         return true;
       }
-      echoLog({ html: `<li><font class="success">${__('initFailed', 'Reddit')}</font></li>` });
+      echoLog({ html: `<li><font class="success">${__('initFailed', 'Steam')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Steam.init');

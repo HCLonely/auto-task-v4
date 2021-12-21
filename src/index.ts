@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-12-16 11:58:45
+ * @LastEditTime : 2021-12-21 13:39:28
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -18,8 +18,10 @@ import OpiumPulses from './scripts/website/OpiumPulses';
 import Keylol from './scripts/website/Keylol';
 import Opquests from './scripts/website/Opquests';
 import Gleam from './scripts/website/Gleam';
+import SweepWidget from './scripts/website/SweepWidget';
 import whiteListOptions from './scripts/social/whiteList';
 import websiteOptions from './scripts/website/options';
+import __ from './scripts/tools/i18n';
 
 type WebsitesType = typeof FreeAnyWhere |
   typeof GiveawaySu |
@@ -30,7 +32,8 @@ type WebsitesType = typeof FreeAnyWhere |
   typeof OpiumPulses |
   typeof Keylol |
   typeof Opquests |
-  typeof Gleam
+  typeof Gleam |
+  typeof SweepWidget
 
 type WebsiteType = FreeAnyWhere |
   GiveawaySu |
@@ -41,9 +44,12 @@ type WebsiteType = FreeAnyWhere |
   OpiumPulses |
   Keylol |
   Opquests |
-  Gleam
+  Gleam |
+  SweepWidget
 
-const Websites: Array<WebsitesType> = [FreeAnyWhere, GiveawaySu, Indiedb, Keyhub, Givekey, GiveeClub, OpiumPulses, Keylol, Opquests, Gleam];
+const Websites: Array<WebsitesType> = [
+  FreeAnyWhere, GiveawaySu, Indiedb, Keyhub, Givekey, GiveeClub, OpiumPulses, Keylol, Opquests, Gleam, SweepWidget
+];
 let website: WebsiteType;
 for (const Website of Websites) {
   if (Website.test()) {
@@ -63,7 +69,7 @@ if (window.location.hostname === 'discord.com') {
   GM_setValue('discordAuth', { auth: discordAuth }); // eslint-disable-line new-cap
   if (discordAuth && window.location.hash === '#auth') {
     window.close();
-    Swal.fire('', '如果此页面没有自动关闭，请自行关闭本页面。');
+    Swal.fire('', __('closePageNotice'));
   }
 }
 if (window.location.hostname === 'gleam.io') {
@@ -76,9 +82,9 @@ window.onload = () => {
     if (isLogin) {
       GM_setValue('twitchAuth', { authToken, clientId: commonOptions?.headers?.['Client-ID'] }); // eslint-disable-line new-cap
       window.close();
-      Swal.fire('', '如果此页面没有自动关闭，请自行关闭本页面。');
+      Swal.fire('', __('closePageNotice'));
     } else {
-      Swal.fire('', '请先登录！');
+      Swal.fire('', __('needLogin'));
     }
   }
   if (window.location.hostname === 'twitter.com' && window.location.hash === '#auth') {
@@ -87,9 +93,9 @@ window.onload = () => {
     if (isLogin && ct0) {
       GM_setValue('twitterAuth', { ct0 }); // eslint-disable-line new-cap
       window.close();
-      Swal.fire('', '如果此页面没有自动关闭，请自行关闭本页面。');
+      Swal.fire('', __('closePageNotice'));
     } else {
-      Swal.fire('', '请先登录！');
+      Swal.fire('', __('needLogin'));
     }
   }
   if (window.location.hostname === 'www.youtube.com' && window.location.hash === '#auth') {
@@ -97,9 +103,9 @@ window.onload = () => {
     if (PAPISID) {
       GM_setValue('youtubeAuth', { PAPISID }); // eslint-disable-line new-cap
       window.close();
-      Swal.fire('', '如果此页面没有自动关闭，请自行关闭本页面。');
+      Swal.fire('', __('closePageNotice'));
     } else {
-      Swal.fire('', '请先登录！');
+      Swal.fire('', __('needLogin'));
     }
   }
   if (window.location.hostname === 'www.reddit.com' &&
@@ -111,13 +117,12 @@ window.onload = () => {
     }
     GM_setValue('redditAuth', null); // eslint-disable-line new-cap
     window.close();
-    Swal.fire('', '如果此页面没有自动关闭，请自行关闭本页面。');
+    Swal.fire('', __('closePageNotice'));
   }
 
   if (!website) return;
 
   $('body').append('<div id="auto-task-info"></div>'); // eslint-disable-line
-  /* eslint-disable @typescript-eslint/ban-ts-comment */
   // @ts-ignore
   if (website.before) website.before();
 
@@ -143,7 +148,6 @@ window.onload = () => {
   // @ts-ignore
     GM_registerMenuCommand('options', () => { websiteOptions(website.name, website.options); }); // eslint-disable-line new-cap
   }
-  /* eslint-enable @typescript-eslint/ban-ts-comment */
   unsafeWindow.website = website;
   // eslint-disable-next-line new-cap
   GM_addStyle(`
@@ -157,6 +161,10 @@ window.onload = () => {
     overflow-y: auto;
     color: #000;
     background-color: #fff;
+    padding-left: 5px;
+  }
+  #auto-task-info > li {
+    text-align: left;
   }
   .auto-task-keylol {
     text-transform: capitalize;

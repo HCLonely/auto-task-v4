@@ -1,11 +1,13 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.15-Alpha
+// @version            4.0.16-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
 // @compatible         chrome 没有测试其他浏览器的兼容性
+// @homepage           https://github.com/HCLonely/auto-task-new
+// @supportURL         https://github.com/HCLonely/auto-task-new
 
 // @include            *://freeanywhere.net/*
 // @include            *://giveaway.su/giveaway/view/*
@@ -18,6 +20,7 @@
 // @include            *://prys.revadike.com/giveaway/?id=*
 // @include            *://opquests.com/quests/*
 // @include            *://gleam.io/*
+// @include            *://sweepwidget.com/view/*
 // @include            *://discord.com/*
 // @include            *://www.twitch.tv/*
 // @include            *://www.youtube.com/*
@@ -232,6 +235,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
     needJoinGiveaway: '需要先加入赠Key',
     cannotUndo: '此网站不支持取消任务',
     verifyAuth: '正在验证 %0 凭证...',
+    closePageNotice: '如果此页面没有自动关闭，请自行关闭本页面。',
     steamCommunity: 'Steam社区',
     steamStore: 'Steam商店',
     needLoginSteamStore: '请先<a href="https://store.steampowered.com/login/" target="_blank">登录Steam商店</a>',
@@ -301,7 +305,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
     doingGleamTask: '正在做Gleam任务...',
     gettingGleamLink: '正在获取Gleam任务链接...',
     gleamTaskNotice: '如果此页面长时间未关闭，请完成任一任务后自行关闭！',
-    verifiedGleamTasks: '已尝试验证所有任务，验证失败的任务请尝试手动验证或完成！'
+    verifiedGleamTasks: '已尝试验证所有任务，验证失败的任务请尝试手动验证或完成！',
+    SweepWidgetNotice: '正在处理并验证任务，每次验证任务有1~3s间隔防止触发验证过快警告...'
   };
   const zh_CN = data;
   const languages = {
@@ -1447,7 +1452,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
           return true;
         }
         scripts_echoLog({
-          html: `<li><font class="success">${i18n('initFailed', 'Reddit')}</font></li>`
+          html: `<li><font class="error">${i18n('initFailed', 'Reddit')}</font></li>`
         });
         return false;
       } catch (error) {
@@ -3671,7 +3676,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
           return true;
         }
         scripts_echoLog({
-          html: `<li><font class="success">${i18n('initFailed', 'Reddit')}</font></li>`
+          html: `<li><font class="success">${i18n('initFailed', 'Steam')}</font></li>`
         });
         return false;
       } catch (error) {
@@ -5684,7 +5689,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       const currentoption = $('a.buttonenter.buttongiveaway');
       if (/join giveaway/gim.test(currentoption.text())) {
         const logStatus = scripts_echoLog({
-          text: i18n('joiningGiveaway')
+          text: `${i18n('joiningGiveaway')}...`
         });
         const {
           result,
@@ -7532,6 +7537,196 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
     }
   }
   const website_Gleam = Gleam;
+  function SweepWidget_classPrivateMethodInitSpec(obj, privateSet) {
+    SweepWidget_checkPrivateRedeclaration(obj, privateSet);
+    privateSet.add(obj);
+  }
+  function SweepWidget_checkPrivateRedeclaration(obj, privateCollection) {
+    if (privateCollection.has(obj)) {
+      throw new TypeError('Cannot initialize the same private elements twice on an object');
+    }
+  }
+  function SweepWidget_defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  function SweepWidget_classPrivateMethodGet(receiver, privateSet, fn) {
+    if (!privateSet.has(receiver)) {
+      throw new TypeError('attempted to get private field on non-instance');
+    }
+    return fn;
+  }
+  const SweepWidget_defaultOptions = {
+    username: '',
+    email: ''
+  };
+  var _checkEnter = new WeakSet();
+  var _checkFinish = new WeakSet();
+  class SweepWidget extends website_Website {
+    constructor() {
+      super(...arguments);
+      SweepWidget_classPrivateMethodInitSpec(this, _checkFinish);
+      SweepWidget_classPrivateMethodInitSpec(this, _checkEnter);
+      SweepWidget_defineProperty(this, 'name', 'SweepWidget');
+      SweepWidget_defineProperty(this, 'options', {
+        ...SweepWidget_defaultOptions,
+        ...GM_getValue('SweepWidgetOptions')
+      });
+    }
+    static test() {
+      return /^https?:\/\/sweepwidget\.com\/view\/[\d]+/.test(window.location.href);
+    }
+    async before() {
+      try {
+        if (!this.checkLogin()) {
+          scripts_echoLog({
+            html: `<li><font class="warning>${i18n('checkLoginFailed')}</font></li>`
+          });
+        }
+      } catch (error) {
+        throwError(error, 'SweepWidget.before');
+      }
+    }
+    init() {
+      try {
+        const logStatus = scripts_echoLog({
+          text: i18n('initing')
+        });
+        if (!this.checkLogin()) {
+          logStatus.warning(i18n('needLogin'));
+          return false;
+        }
+        if (!this.getGiveawayId()) {
+          return false;
+        }
+        this.initialized = true;
+        logStatus.success();
+        return true;
+      } catch (error) {
+        throwError(error, 'SweepWidget.init');
+        return false;
+      }
+    }
+    classifyTask() {
+      return true;
+    }
+    async doTask() {
+      try {
+        if ($('#unlock_rewards_main_wrapper').length === 0) {
+          if ($('input[name="sw__login_name"]:visible').length > 0) {
+            $('input[name="sw__login_name"]').val(this.options.username);
+          }
+          if ($('input[name="sw__login_email"]:visible').length > 0) {
+            $('input[name="sw__login_email"]').val(this.options.email);
+          }
+          if ($('#sw_login_button:visible').length > 0) {
+            $('#sw_login_button')[0].click();
+          }
+          if (!await SweepWidget_classPrivateMethodGet(this, _checkEnter, _checkEnter2).call(this)) {
+            return false;
+          }
+        }
+        const logStatus = scripts_echoLog({
+          text: i18n('SweepWidgetNotice')
+        });
+        const tasks = $('#sw_inner_entry_methods_l2_wrapper>div.sw_entry');
+        for (const task of tasks) {
+          var _aElement$, _$task$find$removeAtt;
+          const $task = $(task);
+          if ($task.find('i.fa-check:visible').length > 0) {
+            continue;
+          }
+          const title = $task.find('.sw_text_inner');
+          title[0].click();
+          const aElement = $task.find('a.sw_link');
+          const link = aElement.attr('href');
+          aElement.attr('href', '#a').attr('target', '_self');
+          (_aElement$ = aElement[0]) === null || _aElement$ === void 0 ? void 0 : _aElement$.click();
+          await delay(300);
+          aElement.attr('href', link).attr('target', '_blank');
+          $task.find('input[type="text"]').val('test');
+          const verifyBtn = $task.find('input.sw_verify');
+          if (verifyBtn.prop('disabled') === true) {
+            title[0].click();
+            await delay(300);
+            title[0].click();
+            await delay(300);
+          }
+          (_$task$find$removeAtt = $task.find('input.sw_verify').removeAttr('disabled')[0]) === null || _$task$find$removeAtt === void 0 ? void 0 : _$task$find$removeAtt.click();
+          await SweepWidget_classPrivateMethodGet(this, _checkFinish, _checkFinish2).call(this, $task);
+          await delay(parseInt(`${Math.random() * (3e3 - 1e3 + 1) + 1e3}`, 10));
+        }
+        logStatus.success();
+        return true;
+      } catch (error) {
+        throwError(error, 'SweepWidget.doTask');
+        return false;
+      }
+    }
+    checkLogin() {
+      try {
+        if ($('#twitter_login_button').length > 0) {
+          $('#twitter_login_button')[0].click();
+        }
+        return true;
+      } catch (error) {
+        throwError(error, 'SweepWidget.checkLogin');
+        return false;
+      }
+    }
+    getGiveawayId() {
+      var _window$location$href;
+      const giveawayId = (_window$location$href = window.location.href.match(/\/view\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
+      if (giveawayId) {
+        this.giveawayId = giveawayId;
+        return true;
+      }
+      scripts_echoLog({
+        text: i18n('getFailed', 'GiveawayId')
+      });
+      return false;
+    }
+  }
+  async function _checkEnter2() {
+    try {
+      return new Promise(resolve => {
+        const checker = setInterval(() => {
+          if ($('#unlock_rewards_main_wrapper').length > 0) {
+            clearInterval(checker);
+            resolve(true);
+          }
+        });
+      });
+    } catch (error) {
+      throwError(error, 'SweepWidget.checkEnter');
+      return false;
+    }
+  }
+  async function _checkFinish2($task) {
+    try {
+      return new Promise(resolve => {
+        const checker = setInterval(() => {
+          if ($task.find('i.fa-check:visible').length > 0 || $task.find('.sw_entry_input:visible').length === 0) {
+            clearInterval(checker);
+            resolve(true);
+          }
+        });
+      });
+    } catch (error) {
+      throwError(error, 'SweepWidget.checkFinish');
+      return false;
+    }
+  }
+  const website_SweepWidget = SweepWidget;
   const defaultWhiteList = {
     discord: {
       servers: []
@@ -7751,7 +7946,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
     });
   };
   const options = websiteOptions;
-  const Websites = [ website_FreeAnyWhere, GiveawaySu, website_Indiedb, website_Keyhub, website_Givekey, website_GiveeClub, website_OpiumPulses, website_Keylol, website_Opquests, website_Gleam ];
+  const Websites = [ website_FreeAnyWhere, GiveawaySu, website_Indiedb, website_Keyhub, website_Givekey, website_GiveeClub, website_OpiumPulses, website_Keylol, website_Opquests, website_Gleam, website_SweepWidget ];
   let website;
   for (const Website of Websites) {
     if (Website.test()) {
@@ -7767,7 +7962,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
     });
     if (discordAuth && window.location.hash === '#auth') {
       window.close();
-      external_Swal_default().fire('', '如果此页面没有自动关闭，请自行关闭本页面。');
+      external_Swal_default().fire('', i18n('closePageNotice'));
     }
   }
   if (window.location.hostname === 'gleam.io') {}
@@ -7782,9 +7977,9 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
           clientId: (_commonOptions = commonOptions) === null || _commonOptions === void 0 ? void 0 : (_commonOptions$header = _commonOptions.headers) === null || _commonOptions$header === void 0 ? void 0 : _commonOptions$header['Client-ID']
         });
         window.close();
-        external_Swal_default().fire('', '如果此页面没有自动关闭，请自行关闭本页面。');
+        external_Swal_default().fire('', i18n('closePageNotice'));
       } else {
-        external_Swal_default().fire('', '请先登录！');
+        external_Swal_default().fire('', i18n('needLogin'));
       }
     }
     if (window.location.hostname === 'twitter.com' && window.location.hash === '#auth') {
@@ -7795,9 +7990,9 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
           ct0: ct0
         });
         window.close();
-        external_Swal_default().fire('', '如果此页面没有自动关闭，请自行关闭本页面。');
+        external_Swal_default().fire('', i18n('closePageNotice'));
       } else {
-        external_Swal_default().fire('', '请先登录！');
+        external_Swal_default().fire('', i18n('needLogin'));
       }
     }
     if (window.location.hostname === 'www.youtube.com' && window.location.hash === '#auth') {
@@ -7807,9 +8002,9 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
           PAPISID: PAPISID
         });
         window.close();
-        external_Swal_default().fire('', '如果此页面没有自动关闭，请自行关闭本页面。');
+        external_Swal_default().fire('', i18n('closePageNotice'));
       } else {
-        external_Swal_default().fire('', '请先登录！');
+        external_Swal_default().fire('', i18n('needLogin'));
       }
     }
     if (window.location.hostname === 'www.reddit.com' && (window.location.hash === '#auth' || GM_getValue('redditAuth') === '#auth')) {
@@ -7820,7 +8015,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       }
       GM_setValue('redditAuth', null);
       window.close();
-      external_Swal_default().fire('', '如果此页面没有自动关闭，请自行关闭本页面。');
+      external_Swal_default().fire('', i18n('closePageNotice'));
     }
     if (!website) {
       return;
@@ -7876,6 +8071,10 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
     overflow-y: auto;
     color: #000;
     background-color: #fff;
+    padding-left: 5px;
+  }
+  #auto-task-info > li {
+    text-align: left;
   }
   .auto-task-keylol {
     text-transform: capitalize;

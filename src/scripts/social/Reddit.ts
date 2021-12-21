@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-30 09:43:32
- * @LastEditTime : 2021-12-07 17:18:24
+ * @LastEditTime : 2021-12-21 09:50:33
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Reddit.ts
  * @Description  : Reddit 订阅&取消订阅
@@ -37,7 +37,7 @@ class Reddit extends Social {
         this.#initialized = true;
         return true;
       }
-      echoLog({ html: `<li><font class="success">${__('initFailed', 'Reddit')}</font></li>` });
+      echoLog({ html: `<li><font class="error">${__('initFailed', 'Reddit')}</font></li>` });
       return false;
     } catch (error) {
       throwError(error as Error, 'Reddit.init');
