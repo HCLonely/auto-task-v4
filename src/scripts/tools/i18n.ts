@@ -1,10 +1,10 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 15:53:43
- * @LastEditTime : 2021-11-20 16:15:58
+ * @LastEditTime : 2021-12-21 19:28:33
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/tools/i18n.ts
- * @Description  :
+ * @Description  : i18n
  */
 
 import zh from '../../locales/zh-CN.js';

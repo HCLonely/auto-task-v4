@@ -1,10 +1,10 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-15 10:48:42
- * @LastEditTime : 2021-11-05 10:38:02
+ * @LastEditTime : 2021-12-21 19:27:38
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Social.ts
- * @Description  :
+ * @Description  : Social通用模板
  */
 
 import throwError from '../tools/throwError';
@@ -18,7 +18,7 @@ abstract class Social {
 
   abstract init(): Promise<boolean>
   abstract toggle(toggleParams: toggleParams): Promise<boolean>
-  // 通用
+
   protected getRealParams(
     name: taskTypes,
     // params: Array<string>,
@@ -26,6 +26,11 @@ abstract class Social {
     doTask: boolean,
     link2param: (link: string) => string | undefined
   ): Array<string> {
+    /**
+     * @internal
+     * @description 将传入的链接转换为做任务需要的参数
+     * @return {Array}: 参数数组
+     */
     try {
       let realParams: Array<string> = [];
       /*

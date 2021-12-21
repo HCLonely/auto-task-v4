@@ -1,10 +1,10 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 14:58:11
- * @LastEditTime : 2021-11-15 14:08:05
+ * @LastEditTime : 2021-12-21 19:28:43
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/tools/tools.ts
- * @Description  :
+ * @Description  : 其他工具函数
  */
 import throwError from './throwError';
 import httpRequest from './httpRequest';

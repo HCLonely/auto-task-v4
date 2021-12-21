@@ -1,10 +1,10 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2021-12-21 17:45:54
+ * @LastEditTime : 2021-12-21 20:09:47
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
- * @Description  :
+ * @Description  : i18n中文
  */
 const data = {
   // 通用任务
@@ -17,6 +17,7 @@ const data = {
   changeWhiteListOption: '设置白名单(%0)',
   whiteListNotFound: '找不到此项白名单: %0',
   changeWhiteListSuccess: '白名单修改成功，刷新生效！',
+  ok: '是',
   save: '保存',
   close: '关闭',
   return: '返回',
@@ -54,6 +55,7 @@ const data = {
   cannotUndo: '此网站不支持取消任务',
   verifyAuth: '正在验证 %0 凭证...',
   closePageNotice: '如果此页面没有自动关闭，请自行关闭本页面。',
+  errorReport: '检测到脚本报错，是否前往反馈BUG？',
 
   // Steam
   steamCommunity: 'Steam社区',

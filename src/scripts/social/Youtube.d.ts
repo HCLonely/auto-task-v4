@@ -1,10 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-05 10:51:36
- * @LastEditTime : 2021-11-05 10:51:36
+ * @LastEditTime : 2021-12-21 19:28:18
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Youtube.d.ts
- * @Description  :
  */
 declare interface youtubeInfo {
   params?: {

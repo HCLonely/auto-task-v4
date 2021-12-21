@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 13:18:21
- * @LastEditTime : 2021-12-05 10:13:07
+ * @LastEditTime : 2021-12-21 20:05:13
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/global.d.ts
  */
@@ -161,6 +161,15 @@ declare global {
     info: (text?: string, html?: boolean) => logStatus
     view: (text?: string, html?: boolean) => logStatus
   }
+
+  interface gmInfo {
+    scriptHandler: string
+    version: string
+    script: {
+      version: string
+    }
+  }
+  const GM_info: gmInfo; // eslint-disable-line camelcase
   function GM_xmlhttpRequest(details: MonkeyXhrDetails): { abort: () => void } // eslint-disable-line camelcase
   function GM_addStyle(style: string): void // eslint-disable-line camelcase
   function GM_setValue(name: string, value: any): void // eslint-disable-line camelcase

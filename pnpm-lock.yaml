@@ -7,6 +7,7 @@ specifiers:
   '@types/js-cookie': ^3.0.0
   '@typescript-eslint/eslint-plugin': ^5.0.0
   '@typescript-eslint/parser': ^5.0.0
+  '@xuanmo/javascript-utils': ^0.0.31
   babel-loader: ^8.2.3
   eslint: ^7.32.0
   eslint-plugin-import: ^2.24.2
@@ -25,6 +26,7 @@ devDependencies:
   '@types/js-cookie': registry.npmmirror.com/@types/js-cookie/3.0.0
   '@typescript-eslint/eslint-plugin': registry.npmmirror.com/@typescript-eslint/eslint-plugin/5.0.0_6ba17f843b80f9635cca52a4b13c685c
   '@typescript-eslint/parser': registry.npmmirror.com/@typescript-eslint/parser/5.0.0_eslint@7.32.0+typescript@4.4.4
+  '@xuanmo/javascript-utils': registry.npmmirror.com/@xuanmo/javascript-utils/0.0.31_eslint@7.32.0+typescript@4.4.4
   babel-loader: registry.npmmirror.com/babel-loader/8.2.3_43ffd5a2f4ab2db53b7221c23cbe9c86
   eslint: registry.npmmirror.com/eslint/7.32.0
   eslint-plugin-import: registry.nlark.com/eslint-plugin-import/2.24.2_eslint@7.32.0
@@ -1260,7 +1262,7 @@ packages:
     version: 2.1.0
     engines: {node: '>=6'}
     dependencies:
-      eslint-visitor-keys: registry.nlark.com/eslint-visitor-keys/1.3.0
+      eslint-visitor-keys: registry.npmmirror.com/eslint-visitor-keys/1.3.0
     dev: true
 
   registry.nlark.com/eslint-utils/3.0.0_eslint@7.32.0:
@@ -1273,14 +1275,7 @@ packages:
       eslint: '>=5'
     dependencies:
       eslint: registry.npmmirror.com/eslint/7.32.0
-      eslint-visitor-keys: registry.nlark.com/eslint-visitor-keys/2.1.0
-    dev: true
-
-  registry.nlark.com/eslint-visitor-keys/1.3.0:
-    resolution: {integrity: sha1-MOvR73wv3/AcOk8VEESvJfqwUj4=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/eslint-visitor-keys/download/eslint-visitor-keys-1.3.0.tgz?cache=0&sync_timestamp=1624559014210&other_urls=https%3A%2F%2Fregistry.nlark.com%2Feslint-visitor-keys%2Fdownload%2Feslint-visitor-keys-1.3.0.tgz}
-    name: eslint-visitor-keys
-    version: 1.3.0
-    engines: {node: '>=4'}
+      eslint-visitor-keys: registry.npmmirror.com/eslint-visitor-keys/2.1.0
     dev: true
 
   registry.nlark.com/eslint-visitor-keys/2.1.0:
@@ -1288,13 +1283,6 @@ packages:
     name: eslint-visitor-keys
     version: 2.1.0
     engines: {node: '>=10'}
-    dev: true
-
-  registry.nlark.com/eslint-visitor-keys/3.0.0:
-    resolution: {integrity: sha1-4y6Zxs3C6wY/IE7aXbZ7/li7QYY=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/eslint-visitor-keys/download/eslint-visitor-keys-3.0.0.tgz}
-    name: eslint-visitor-keys
-    version: 3.0.0
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
   registry.nlark.com/espree/7.3.1:
@@ -1305,7 +1293,7 @@ packages:
     dependencies:
       acorn: registry.nlark.com/acorn/7.4.1
       acorn-jsx: registry.nlark.com/acorn-jsx/5.3.2_acorn@7.4.1
-      eslint-visitor-keys: registry.nlark.com/eslint-visitor-keys/1.3.0
+      eslint-visitor-keys: registry.npmmirror.com/eslint-visitor-keys/1.3.0
     dev: true
 
   registry.nlark.com/esquery/1.4.0:
@@ -1397,7 +1385,7 @@ packages:
     dev: true
 
   registry.nlark.com/fastq/1.13.0:
-    resolution: {integrity: sha1-YWdg+Ip1Jr38WWt8q4wYk4w2uYw=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/fastq/download/fastq-1.13.0.tgz?cache=0&sync_timestamp=1631610112335&other_urls=https%3A%2F%2Fregistry.nlark.com%2Ffastq%2Fdownload%2Ffastq-1.13.0.tgz}
+    resolution: {integrity: sha1-YWdg+Ip1Jr38WWt8q4wYk4w2uYw=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/fastq/download/fastq-1.13.0.tgz}
     name: fastq
     version: 1.13.0
     dependencies:
@@ -1561,7 +1549,7 @@ packages:
       array-union: registry.nlark.com/array-union/2.1.0
       dir-glob: registry.nlark.com/dir-glob/3.0.1
       fast-glob: registry.nlark.com/fast-glob/3.2.7
-      ignore: registry.nlark.com/ignore/5.1.8
+      ignore: registry.npmmirror.com/ignore/5.1.8
       merge2: registry.nlark.com/merge2/1.4.1
       slash: registry.nlark.com/slash/3.0.0
     dev: true
@@ -4515,6 +4503,29 @@ packages:
       - typescript
     dev: true
 
+  registry.npmmirror.com/@typescript-eslint/parser/4.33.0_eslint@7.32.0+typescript@4.4.4:
+    resolution: {integrity: sha1-3+eXVw2WlOVgUo0Y7srYbIx0SJk=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@typescript-eslint/parser/download/@typescript-eslint/parser-4.33.0.tgz}
+    id: registry.npmmirror.com/@typescript-eslint/parser/4.33.0
+    name: '@typescript-eslint/parser'
+    version: 4.33.0
+    engines: {node: ^10.12.0 || >=12.0.0}
+    peerDependencies:
+      eslint: ^5.0.0 || ^6.0.0 || ^7.0.0
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@typescript-eslint/scope-manager': registry.npmmirror.com/@typescript-eslint/scope-manager/4.33.0
+      '@typescript-eslint/types': registry.npmmirror.com/@typescript-eslint/types/4.33.0
+      '@typescript-eslint/typescript-estree': registry.npmmirror.com/@typescript-eslint/typescript-estree/4.33.0_typescript@4.4.4
+      debug: registry.npmmirror.com/debug/4.3.2
+      eslint: registry.npmmirror.com/eslint/7.32.0
+      typescript: registry.npmmirror.com/typescript/4.4.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   registry.npmmirror.com/@typescript-eslint/parser/5.0.0_eslint@7.32.0+typescript@4.4.4:
     resolution: {integrity: sha1-UNG+Lg3vgtc+hjzOunSu6smXNZI=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@typescript-eslint/parser/download/@typescript-eslint/parser-5.0.0.tgz?cache=0&sync_timestamp=1634259720707&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40typescript-eslint%2Fparser%2Fdownload%2F%40typescript-eslint%2Fparser-5.0.0.tgz}
     id: registry.npmmirror.com/@typescript-eslint/parser/5.0.0
@@ -4538,6 +4549,16 @@ packages:
       - supports-color
     dev: true
 
+  registry.npmmirror.com/@typescript-eslint/scope-manager/4.33.0:
+    resolution: {integrity: sha1-045JKA2YPody4pEhz4xukiHygKM=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@typescript-eslint/scope-manager/download/@typescript-eslint/scope-manager-4.33.0.tgz}
+    name: '@typescript-eslint/scope-manager'
+    version: 4.33.0
+    engines: {node: ^8.10.0 || ^10.13.0 || >=11.10.1}
+    dependencies:
+      '@typescript-eslint/types': registry.npmmirror.com/@typescript-eslint/types/4.33.0
+      '@typescript-eslint/visitor-keys': registry.npmmirror.com/@typescript-eslint/visitor-keys/4.33.0
+    dev: true
+
   registry.npmmirror.com/@typescript-eslint/scope-manager/5.0.0:
     resolution: {integrity: sha1-rqD7DiSAwRaaAuidkAWsPyg1cT8=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@typescript-eslint/scope-manager/download/@typescript-eslint/scope-manager-5.0.0.tgz}
     name: '@typescript-eslint/scope-manager'
@@ -4548,11 +4569,42 @@ packages:
       '@typescript-eslint/visitor-keys': registry.npmmirror.com/@typescript-eslint/visitor-keys/5.0.0
     dev: true
 
+  registry.npmmirror.com/@typescript-eslint/types/4.33.0:
+    resolution: {integrity: sha1-oeWQNqO1OuhDDO6/KpGdx/mvbXI=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@typescript-eslint/types/download/@typescript-eslint/types-4.33.0.tgz}
+    name: '@typescript-eslint/types'
+    version: 4.33.0
+    engines: {node: ^8.10.0 || ^10.13.0 || >=11.10.1}
+    dev: true
+
   registry.npmmirror.com/@typescript-eslint/types/5.0.0:
     resolution: {integrity: sha1-Jdk/bSabLSX9xRoEB+uBzLpg6w8=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@typescript-eslint/types/download/@typescript-eslint/types-5.0.0.tgz}
     name: '@typescript-eslint/types'
     version: 5.0.0
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    dev: true
+
+  registry.npmmirror.com/@typescript-eslint/typescript-estree/4.33.0_typescript@4.4.4:
+    resolution: {integrity: sha1-DftRwpCPaMXAjYKu/q8WahfCRgk=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@typescript-eslint/typescript-estree/download/@typescript-eslint/typescript-estree-4.33.0.tgz}
+    id: registry.npmmirror.com/@typescript-eslint/typescript-estree/4.33.0
+    name: '@typescript-eslint/typescript-estree'
+    version: 4.33.0
+    engines: {node: ^10.12.0 || >=12.0.0}
+    peerDependencies:
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@typescript-eslint/types': registry.npmmirror.com/@typescript-eslint/types/4.33.0
+      '@typescript-eslint/visitor-keys': registry.npmmirror.com/@typescript-eslint/visitor-keys/4.33.0
+      debug: registry.npmmirror.com/debug/4.3.2
+      globby: registry.nlark.com/globby/11.0.4
+      is-glob: registry.npmmirror.com/is-glob/4.0.2
+      semver: registry.nlark.com/semver/7.3.5
+      tsutils: registry.nlark.com/tsutils/3.21.0_typescript@4.4.4
+      typescript: registry.npmmirror.com/typescript/4.4.4
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   registry.npmmirror.com/@typescript-eslint/typescript-estree/5.0.0_typescript@4.4.4:
@@ -4579,6 +4631,16 @@ packages:
       - supports-color
     dev: true
 
+  registry.npmmirror.com/@typescript-eslint/visitor-keys/4.33.0:
+    resolution: {integrity: sha1-KiL3ekFgQom3oYZYbp7EjKku8d0=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@typescript-eslint/visitor-keys/download/@typescript-eslint/visitor-keys-4.33.0.tgz}
+    name: '@typescript-eslint/visitor-keys'
+    version: 4.33.0
+    engines: {node: ^8.10.0 || ^10.13.0 || >=11.10.1}
+    dependencies:
+      '@typescript-eslint/types': registry.npmmirror.com/@typescript-eslint/types/4.33.0
+      eslint-visitor-keys: registry.npmmirror.com/eslint-visitor-keys/2.1.0
+    dev: true
+
   registry.npmmirror.com/@typescript-eslint/visitor-keys/5.0.0:
     resolution: {integrity: sha1-t4n3zRBeWb7lwJg6NTlCpaSPVt8=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@typescript-eslint/visitor-keys/download/@typescript-eslint/visitor-keys-5.0.0.tgz}
     name: '@typescript-eslint/visitor-keys'
@@ -4586,7 +4648,7 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dependencies:
       '@typescript-eslint/types': registry.npmmirror.com/@typescript-eslint/types/5.0.0
-      eslint-visitor-keys: registry.nlark.com/eslint-visitor-keys/3.0.0
+      eslint-visitor-keys: registry.npmmirror.com/eslint-visitor-keys/3.0.0
     dev: true
 
   registry.npmmirror.com/@webpack-cli/configtest/1.1.0_webpack-cli@4.9.1+webpack@5.60.0:
@@ -4627,6 +4689,19 @@ packages:
         optional: true
     dependencies:
       webpack-cli: registry.npmmirror.com/webpack-cli/4.9.1_webpack@5.60.0
+    dev: true
+
+  registry.npmmirror.com/@xuanmo/javascript-utils/0.0.31_eslint@7.32.0+typescript@4.4.4:
+    resolution: {integrity: sha512-qAAf6id/17jwVr27FJRkktHHpt2mXHEOHtywqXibBlzEp8L1VjVkSyZdqwFsIKX3gY9g3IhlMhRfhFk0G/8pPw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@xuanmo/javascript-utils/download/@xuanmo/javascript-utils-0.0.31.tgz}
+    id: registry.npmmirror.com/@xuanmo/javascript-utils/0.0.31
+    name: '@xuanmo/javascript-utils'
+    version: 0.0.31
+    dependencies:
+      '@typescript-eslint/parser': registry.npmmirror.com/@typescript-eslint/parser/4.33.0_eslint@7.32.0+typescript@4.4.4
+    transitivePeerDependencies:
+      - eslint
+      - supports-color
+      - typescript
     dev: true
 
   registry.npmmirror.com/acorn-import-assertions/1.8.0_acorn@8.5.0:
@@ -4752,7 +4827,7 @@ packages:
     dev: true
 
   registry.npmmirror.com/debug/3.2.7:
-    resolution: {integrity: sha1-clgLfpFF+zm2Z2+cXl+xALk0F5o=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/debug/download/debug-3.2.7.tgz}
+    resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/debug/download/debug-3.2.7.tgz}
     name: debug
     version: 3.2.7
     dependencies:
@@ -4760,7 +4835,7 @@ packages:
     dev: true
 
   registry.npmmirror.com/debug/4.3.2:
-    resolution: {integrity: sha1-8KScGKyHeeMdSgxgKd+3aHPHQos=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/debug/download/debug-4.3.2.tgz}
+    resolution: {integrity: sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/debug/download/debug-4.3.2.tgz}
     name: debug
     version: 4.3.2
     engines: {node: '>=6.0'}
@@ -4815,6 +4890,27 @@ packages:
     resolution: {integrity: sha1-bxPbAMw4QXE32vdDZvU1yOtDjxk=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/es-module-lexer/download/es-module-lexer-0.9.3.tgz}
     name: es-module-lexer
     version: 0.9.3
+    dev: true
+
+  registry.npmmirror.com/eslint-visitor-keys/1.3.0:
+    resolution: {integrity: sha1-MOvR73wv3/AcOk8VEESvJfqwUj4=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/eslint-visitor-keys/download/eslint-visitor-keys-1.3.0.tgz?cache=0&sync_timestamp=1636378650851&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Feslint-visitor-keys%2Fdownload%2Feslint-visitor-keys-1.3.0.tgz}
+    name: eslint-visitor-keys
+    version: 1.3.0
+    engines: {node: '>=4'}
+    dev: true
+
+  registry.npmmirror.com/eslint-visitor-keys/2.1.0:
+    resolution: {integrity: sha1-9lMoJZMFknOSyTjtROsKXJsr0wM=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/eslint-visitor-keys/download/eslint-visitor-keys-2.1.0.tgz?cache=0&sync_timestamp=1636378650851&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Feslint-visitor-keys%2Fdownload%2Feslint-visitor-keys-2.1.0.tgz}
+    name: eslint-visitor-keys
+    version: 2.1.0
+    engines: {node: '>=10'}
+    dev: true
+
+  registry.npmmirror.com/eslint-visitor-keys/3.0.0:
+    resolution: {integrity: sha1-4y6Zxs3C6wY/IE7aXbZ7/li7QYY=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/eslint-visitor-keys/download/eslint-visitor-keys-3.0.0.tgz?cache=0&sync_timestamp=1636378650851&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Feslint-visitor-keys%2Fdownload%2Feslint-visitor-keys-3.0.0.tgz}
+    name: eslint-visitor-keys
+    version: 3.0.0
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
   registry.npmmirror.com/eslint/7.32.0:
@@ -4925,6 +5021,13 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
+  registry.npmmirror.com/ignore/5.1.8:
+    resolution: {integrity: sha1-8VCotQo0KJsz4i9YiavU2AFvDlc=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/ignore/download/ignore-5.1.8.tgz}
+    name: ignore
+    version: 5.1.8
+    engines: {node: '>= 4'}
+    dev: true
+
   registry.npmmirror.com/import-local/3.0.3:
     resolution: {integrity: sha1-TVHCxJXKk5PaJZ7Ga2LgIpICEeA=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/import-local/download/import-local-3.0.3.tgz}
     name: import-local
@@ -4991,7 +5094,7 @@ packages:
     dev: true
 
   registry.npmmirror.com/ms/2.1.2:
-    resolution: {integrity: sha1-0J0fNXtEP0kzgqjrPM0YOHKuYAk=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/ms/download/ms-2.1.2.tgz}
+    resolution: {integrity: sha1-0J0fNXtEP0kzgqjrPM0YOHKuYAk=, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/ms/download/ms-2.1.2.tgz?cache=0&sync_timestamp=1632788710719&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fms%2Fdownload%2Fms-2.1.2.tgz}
     name: ms
     version: 2.1.2
     dev: true
