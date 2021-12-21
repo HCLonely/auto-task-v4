@@ -3031,14 +3031,6 @@ packages:
     version: 0.0.6
     dev: true
 
-  registry.nlark.com/uglify-js/3.14.2:
-    resolution: {integrity: sha1-191qRspXIU9UotCkPK0PNduCrJk=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/uglify-js/download/uglify-js-3.14.2.tgz}
-    name: uglify-js
-    version: 3.14.2
-    engines: {node: '>=0.8.0'}
-    hasBin: true
-    dev: true
-
   registry.nlark.com/uglifyjs-webpack-plugin/2.2.0_webpack@5.60.0:
     resolution: {integrity: sha1-51vIDn8ZN/cllUybTFoeln6p0Nc=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/uglifyjs-webpack-plugin/download/uglifyjs-webpack-plugin-2.2.0.tgz}
     id: registry.nlark.com/uglifyjs-webpack-plugin/2.2.0
@@ -3054,7 +3046,7 @@ packages:
       schema-utils: registry.nlark.com/schema-utils/1.0.0
       serialize-javascript: registry.nlark.com/serialize-javascript/1.9.1
       source-map: registry.nlark.com/source-map/0.6.1
-      uglify-js: registry.nlark.com/uglify-js/3.14.2
+      uglify-js: registry.npmmirror.com/uglify-js/3.14.5
       webpack: registry.npmmirror.com/webpack/5.60.0_webpack-cli@4.9.1
       webpack-sources: registry.nlark.com/webpack-sources/1.4.3
       worker-farm: registry.nlark.com/worker-farm/1.7.0
@@ -5102,6 +5094,14 @@ packages:
     name: typescript
     version: 4.4.4
     engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: true
+
+  registry.npmmirror.com/uglify-js/3.14.5:
+    resolution: {integrity: sha512-qZukoSxOG0urUTvjc2ERMTcAy+BiFh3weWAkeurLwjrCba73poHmG3E36XEjd/JGukMzwTL7uCxZiAexj8ppvQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/uglify-js/download/uglify-js-3.14.5.tgz}
+    name: uglify-js
+    version: 3.14.5
+    engines: {node: '>=0.8.0'}
     hasBin: true
     dev: true
 

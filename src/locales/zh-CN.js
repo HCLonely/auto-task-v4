@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2021-12-21 13:39:10
+ * @LastEditTime : 2021-12-21 17:45:54
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  :
@@ -82,6 +82,8 @@ const data = {
   notNeededChangeArea: '当前地区不需要更换',
   noAnotherArea: '请检测是否开启正确开启代理',
   gettingAreaInfo: '正在获取Steam地区信息...',
+  changeAreaNotice: '疑似锁区游戏，尝试换区执行',
+  steamFinishNotice: 'Steam任务完成，尝试将购物车地区换回CN',
 
   // Discord
   joiningDiscordServer: '正在加入Discord服务器',

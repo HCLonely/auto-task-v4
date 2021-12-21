@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2021-12-21 09:50:44
+ * @LastEditTime : 2021-12-21 17:44:58
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -329,7 +329,7 @@ class Steam extends Social {
       if (resultR === 'Success') {
         if (dataR?.status === 200) {
           if (this.#area === 'CN' && dataR.responseText.includes('id="error_box"')) {
-            logStatus.warning('疑似锁区游戏，尝试换区执行');
+            logStatus.warning(__('changeAreaNotice'));
             if (!(await this.#changeArea())) return false;
             return await this.#addToWishlist(gameId);
           }
@@ -385,13 +385,13 @@ class Steam extends Social {
       if (resultR === 'Success') {
         if (dataR?.status === 200) {
           if (this.#area === 'CN' && dataR.responseText.includes('id="error_box"')) {
-            logStatus.warning('疑似锁区游戏，尝试换区执行');
+            logStatus.warning(__('changeAreaNotice'));
             const result = await this.#changeArea();
             if (!result || result === 'CN' || result === 'skip') return false;
             return await this.#removeFromWishlist(gameId);
           }
           if (dataR.responseText.includes('class="queue_actions_ctn"') &&
-            (dataR.responseText.includes('已在库中') || dataR.responseText.includes('添加至您的愿望单'))
+            (dataR.responseText.includes('ds_owned_flag ds_flag') || dataR.responseText.includes('add_to_wishlist_area'))
           ) {
             logStatus.success();
             return true;
@@ -434,7 +434,7 @@ class Steam extends Social {
       }
       const followed = await this.#isFollowedGame(gameId);
       if (this.#area === 'CN' && followed === 'areaLocked') {
-        logStatus.warning('疑似锁区游戏，尝试换区执行');
+        logStatus.warning(__('changeAreaNotice'));
         if (!(await this.#changeArea())) return false;
         return await this.#removeFromWishlist(gameId);
       }
@@ -920,7 +920,13 @@ class Steam extends Social {
         }
       }
       // TODO: 返回值处理
-      return Promise.all(prom).then(() => true);
+      return Promise.all(prom).then(async () => {
+        if (this.#area !== 'CN') {
+          echoLog({ html: `<li><font class="warning">${__('steamFinishNotice')}</font></li>` });
+          await this.#changeArea('CN');
+        }
+        return true;
+      });
     } catch (error) {
       throwError(error as Error, 'Steam.toggle');
       return false;

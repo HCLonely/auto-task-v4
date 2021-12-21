@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.16-Alpha
+// @version            4.0.17-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -262,6 +262,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
     notNeededChangeArea: '当前地区不需要更换',
     noAnotherArea: '请检测是否开启正确开启代理',
     gettingAreaInfo: '正在获取Steam地区信息...',
+    changeAreaNotice: '疑似锁区游戏，尝试换区执行',
+    steamFinishNotice: 'Steam任务完成，尝试将购物车地区换回CN',
     joiningDiscordServer: '正在加入Discord服务器',
     leavingDiscordServer: '正在退出Discord服务器',
     gettingDiscordGuild: '正在获取Discord服务器Id',
@@ -3852,7 +3854,15 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
             await delay(1e3);
           }
         }
-        return Promise.all(prom).then(() => true);
+        return Promise.all(prom).then(async () => {
+          if (Steam_classPrivateFieldGet(this, _area) !== 'CN') {
+            scripts_echoLog({
+              html: `<li><font class="warning">${i18n('steamFinishNotice')}</font></li>`
+            });
+            await Steam_classPrivateMethodGet(this, _changeArea, _changeArea2).call(this, 'CN');
+          }
+          return true;
+        });
       } catch (error) {
         throwError(error, 'Steam.toggle');
         return false;
@@ -4226,7 +4236,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       if (resultR === 'Success') {
         if ((dataR === null || dataR === void 0 ? void 0 : dataR.status) === 200) {
           if (Steam_classPrivateFieldGet(this, _area) === 'CN' && dataR.responseText.includes('id="error_box"')) {
-            logStatus.warning('疑似锁区游戏，尝试换区执行');
+            logStatus.warning(i18n('changeAreaNotice'));
             if (!await Steam_classPrivateMethodGet(this, _changeArea, _changeArea2).call(this)) {
               return false;
             }
@@ -4300,14 +4310,14 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       if (resultR === 'Success') {
         if ((dataR === null || dataR === void 0 ? void 0 : dataR.status) === 200) {
           if (Steam_classPrivateFieldGet(this, _area) === 'CN' && dataR.responseText.includes('id="error_box"')) {
-            logStatus.warning('疑似锁区游戏，尝试换区执行');
+            logStatus.warning(i18n('changeAreaNotice'));
             const result = await Steam_classPrivateMethodGet(this, _changeArea, _changeArea2).call(this);
             if (!result || result === 'CN' || result === 'skip') {
               return false;
             }
             return await Steam_classPrivateMethodGet(this, _removeFromWishlist, _removeFromWishlist2).call(this, gameId);
           }
-          if (dataR.responseText.includes('class="queue_actions_ctn"') && (dataR.responseText.includes('已在库中') || dataR.responseText.includes('添加至您的愿望单'))) {
+          if (dataR.responseText.includes('class="queue_actions_ctn"') && (dataR.responseText.includes('ds_owned_flag ds_flag') || dataR.responseText.includes('add_to_wishlist_area'))) {
             logStatus.success();
             return true;
           }
@@ -4362,7 +4372,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       }
       const followed = await Steam_classPrivateMethodGet(this, _isFollowedGame, _isFollowedGame2).call(this, gameId);
       if (Steam_classPrivateFieldGet(this, _area) === 'CN' && followed === 'areaLocked') {
-        logStatus.warning('疑似锁区游戏，尝试换区执行');
+        logStatus.warning(i18n('changeAreaNotice'));
         if (!await Steam_classPrivateMethodGet(this, _changeArea, _changeArea2).call(this)) {
           return false;
         }
