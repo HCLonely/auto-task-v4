@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:03
- * @LastEditTime : 2021-12-11 13:44:46
+ * @LastEditTime : 2021-12-22 17:10:06
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Freeanywhere.ts
  * @Description  : https://freeanywhere.net
@@ -71,7 +71,6 @@ class FreeAnyWhere extends Website {
   async classifyTask(action: string) {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
-      // todo
       this.socialTasks = GM_getValue<fawSocialTasks>(`fawTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
 
       const { result, statusText, status, data } = await httpRequest({
@@ -94,9 +93,7 @@ class FreeAnyWhere extends Website {
             const social = task.challenge_provider;
             const taskInfo: fawTaskInfo = {
               id: task.id,
-              title: task.title,
-              done: task.is_success,
-              link: task.link
+              title: task.title
             };
             if (action === 'verify' && !task.is_success) {
               this.tasks.push(taskInfo);

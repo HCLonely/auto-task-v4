@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.18-Alpha
+// @version            4.0.19-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -383,6 +383,105 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
           value: !0
         });
       });
+    },
+    943: function(module, __webpack_exports__, __webpack_require__) {
+      'use strict';
+      __webpack_require__.d(__webpack_exports__, {
+        Z: function() {
+          return __WEBPACK_DEFAULT_EXPORT__;
+        }
+      });
+      var _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(220);
+      var _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+      var _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(400);
+      var _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(_node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+      var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(_node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default());
+      ___CSS_LOADER_EXPORT___.push([ module.id, '#auto-task-info{position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;max-height:600px;overflow-y:auto;color:#000;background-color:#fff;padding-left:5px}#auto-task-info li{text-align:left}#auto-task-info .success{color:green}#auto-task-info .error{color:red}#auto-task-info .warning{color:blue}#auto-task-info .info{color:#ff0}.auto-task-keylol{text-transform:capitalize;margin-left:10px;text-decoration:none !important;border:solid 1px;border-radius:5px;padding:0 2px}.auto-task-keylol[selected=selected]{background-color:blue;color:#fff}.auto-task-form table{font-family:verdana,arial,sans-serif;font-size:11px;color:#333;border-width:1px;border-color:#999;border-collapse:collapse;width:100%}.auto-task-form table th{background-color:#c3dde0;border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}.auto-task-form table tr{background-color:#d4e3e5}.auto-task-form table tr:hover{background-color:#ff6}.auto-task-form table td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}', '' ]);
+      const __WEBPACK_DEFAULT_EXPORT__ = ___CSS_LOADER_EXPORT___.toString();
+    },
+    400: function(module) {
+      'use strict';
+      module.exports = function(cssWithMappingToString) {
+        var list = [];
+        list.toString = function toString() {
+          return this.map(function(item) {
+            var content = '';
+            var needLayer = typeof item[5] !== 'undefined';
+            if (item[4]) {
+              content += '@supports ('.concat(item[4], ') {');
+            }
+            if (item[2]) {
+              content += '@media '.concat(item[2], ' {');
+            }
+            if (needLayer) {
+              content += '@layer'.concat(item[5].length > 0 ? ' '.concat(item[5]) : '', ' {');
+            }
+            content += cssWithMappingToString(item);
+            if (needLayer) {
+              content += '}';
+            }
+            if (item[2]) {
+              content += '}';
+            }
+            if (item[4]) {
+              content += '}';
+            }
+            return content;
+          }).join('');
+        };
+        list.i = function i(modules, media, dedupe, supports, layer) {
+          if (typeof modules === 'string') {
+            modules = [ [ null, modules, undefined ] ];
+          }
+          var alreadyImportedModules = {};
+          if (dedupe) {
+            for (var k = 0; k < this.length; k++) {
+              var id = this[k][0];
+              if (id != null) {
+                alreadyImportedModules[id] = true;
+              }
+            }
+          }
+          for (var _k = 0; _k < modules.length; _k++) {
+            var item = [].concat(modules[_k]);
+            if (dedupe && alreadyImportedModules[item[0]]) {
+              continue;
+            }
+            if (typeof layer !== 'undefined') {
+              if (typeof item[5] === 'undefined') {
+                item[5] = layer;
+              } else {
+                item[1] = '@layer'.concat(item[5].length > 0 ? ' '.concat(item[5]) : '', ' {').concat(item[1], '}');
+                item[5] = layer;
+              }
+            }
+            if (media) {
+              if (!item[2]) {
+                item[2] = media;
+              } else {
+                item[1] = '@media '.concat(item[2], ' {').concat(item[1], '}');
+                item[2] = media;
+              }
+            }
+            if (supports) {
+              if (!item[4]) {
+                item[4] = ''.concat(supports);
+              } else {
+                item[1] = '@supports ('.concat(item[4], ') {').concat(item[1], '}');
+                item[4] = supports;
+              }
+            }
+            list.push(item);
+          }
+        };
+        return list;
+      };
+    },
+    220: function(module) {
+      'use strict';
+      module.exports = function(i) {
+        return i[1];
+      };
     }
   };
   var __webpack_module_cache__ = {};
@@ -392,6 +491,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       return cachedModule.exports;
     }
     var module = __webpack_module_cache__[moduleId] = {
+      id: moduleId,
       exports: {}
     };
     __webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
@@ -433,6 +533,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
     const external_Swal_namespaceObject = Swal;
     var external_Swal_default = __webpack_require__.n(external_Swal_namespaceObject);
     const external_Cookies_namespaceObject = Cookies;
+    var auto_task = __webpack_require__(943);
     var javascript_utils_umd_min = __webpack_require__(514);
     const data = {
       website: '网站',
@@ -458,6 +559,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       verifyingTask: '正在验证任务',
       notice: '自动任务脚本提醒',
       noKeysLeft: '此页面已经没有剩余key了，是否关闭？',
+      giveawayEnded: '此活动已结束，是否关闭？',
+      giveawayNotWork: '此活动因某些原因(已结束/暂停/未开始...)不可用(如果是脚本误判请及时反馈)，是否关闭？',
       confirm: '确定',
       cancel: '取消',
       unKnown: '未知',
@@ -5537,9 +5640,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
                 const social = task.challenge_provider;
                 const taskInfo = {
                   id: task.id,
-                  title: task.title,
-                  done: task.is_success,
-                  link: task.link
+                  title: task.title
                 };
                 if (action === 'verify' && !task.is_success) {
                   this.tasks.push(taskInfo);
@@ -5795,11 +5896,15 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         likeLinks: []
       }
     };
+    var _checkLogin = new WeakSet();
+    var _checkLeftKey = new WeakSet();
     var GiveawaySu_getGiveawayId = new WeakSet();
     class GiveawaySu extends website_Website {
       constructor() {
         super(...arguments);
         GiveawaySu_classPrivateMethodInitSpec(this, GiveawaySu_getGiveawayId);
+        GiveawaySu_classPrivateMethodInitSpec(this, _checkLeftKey);
+        GiveawaySu_classPrivateMethodInitSpec(this, _checkLogin);
         GiveawaySu_defineProperty(this, 'name', 'GiveawaySu');
         GiveawaySu_defineProperty(this, 'socialTasks', GiveawaySu_defaultTasks);
         GiveawaySu_defineProperty(this, 'undoneTasks', GiveawaySu_defaultTasks);
@@ -5809,12 +5914,12 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       async before() {
         try {
-          if (!this.checkLogin()) {
+          if (!GiveawaySu_classPrivateMethodGet(this, _checkLogin, _checkLogin2).call(this)) {
             scripts_echoLog({
               html: `<li><font class="warning>${i18n('checkLoginFailed')}</font></li>`
             });
           }
-          if (!await this.checkLeftKey()) {
+          if (!await GiveawaySu_classPrivateMethodGet(this, _checkLeftKey, _checkLeftKey2).call(this)) {
             scripts_echoLog({
               html: `<li><font class="warning>${i18n('checkLeftKeyFailed')}</font></li>`
             });
@@ -5929,41 +6034,41 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           return false;
         }
       }
-      checkLogin() {
-        try {
-          if ($('a.steam-login').length > 0) {
-            window.open('/steam/redirect', '_self');
-          }
-          return true;
-        } catch (error) {
-          throwError(error, 'Giveawaysu.checkLogin');
-          return false;
+    }
+    function _checkLogin2() {
+      try {
+        if ($('a.steam-login').length > 0) {
+          window.open('/steam/redirect', '_self');
         }
+        return true;
+      } catch (error) {
+        throwError(error, 'Giveawaysu.checkLogin');
+        return false;
       }
-      async checkLeftKey() {
-        try {
-          if ($('.giveaway-ended').length > 0) {
-            await external_Swal_default().fire({
-              icon: 'warning',
-              title: i18n('notice'),
-              text: i18n('noKeysLeft'),
-              confirmButtonText: i18n('confirm'),
-              cancelButtonText: i18n('cancel'),
-              showCancelButton: true
-            }).then(_ref => {
-              let {
-                value
-              } = _ref;
-              if (value) {
-                window.close();
-              }
-            });
-          }
-          return true;
-        } catch (error) {
-          throwError(error, 'Giveawaysu.checkLeftKey');
-          return false;
+    }
+    async function _checkLeftKey2() {
+      try {
+        if ($('.giveaway-ended').length > 0) {
+          await external_Swal_default().fire({
+            icon: 'warning',
+            title: i18n('notice'),
+            text: i18n('noKeysLeft'),
+            confirmButtonText: i18n('confirm'),
+            cancelButtonText: i18n('cancel'),
+            showCancelButton: true
+          }).then(_ref => {
+            let {
+              value
+            } = _ref;
+            if (value) {
+              window.close();
+            }
+          });
         }
+        return true;
+      } catch (error) {
+        throwError(error, 'Giveawaysu.checkLeftKey');
+        return false;
       }
     }
     function GiveawaySu_getGiveawayId2() {
@@ -6008,8 +6113,12 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     }
     var _join = new WeakSet();
     var _do = new WeakSet();
+    var Indiedb_checkLogin = new WeakSet();
+    var Indiedb_checkLeftKey = new WeakSet();
     class Indiedb {
       constructor() {
+        Indiedb_classPrivateMethodInitSpec(this, Indiedb_checkLeftKey);
+        Indiedb_classPrivateMethodInitSpec(this, Indiedb_checkLogin);
         Indiedb_classPrivateMethodInitSpec(this, _do);
         Indiedb_classPrivateMethodInitSpec(this, _join);
         Indiedb_defineProperty(this, 'name', 'Indiedb');
@@ -6019,9 +6128,14 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       async before() {
         try {
-          if (!this.checkLogin()) {
+          if (!Indiedb_classPrivateMethodGet(this, Indiedb_checkLogin, Indiedb_checkLogin2).call(this)) {
             scripts_echoLog({
               html: `<li><font class="warning>${i18n('checkLoginFailed')}</font></li>`
+            });
+          }
+          if (!await Indiedb_classPrivateMethodGet(this, Indiedb_checkLeftKey, Indiedb_checkLeftKey2).call(this)) {
+            scripts_echoLog({
+              html: `<li><font class="warning>${i18n('checkLeftKeyFailed')}</font></li>`
             });
           }
         } catch (error) {
@@ -6036,17 +6150,6 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           return await Indiedb_classPrivateMethodGet(this, _do, _do2).call(this);
         } catch (error) {
           throwError(error, 'Indiedb.doTask');
-          return false;
-        }
-      }
-      checkLogin() {
-        try {
-          if ($('a.buttonenter:contains(Register to join)').length > 0) {
-            window.open('/members/login', '_self');
-          }
-          return true;
-        } catch (error) {
-          throwError(error, 'Indiedb.checkLogin');
           return false;
         }
       }
@@ -6287,6 +6390,42 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         return false;
       }
     }
+    function Indiedb_checkLogin2() {
+      try {
+        if ($('a.buttonenter:contains(Register to join)').length > 0) {
+          window.open('/members/login', '_self');
+        }
+        return true;
+      } catch (error) {
+        throwError(error, 'Indiedb.checkLogin');
+        return false;
+      }
+    }
+    async function Indiedb_checkLeftKey2() {
+      try {
+        if ($('a.buttonenter:contains("next time")').length > 0) {
+          await external_Swal_default().fire({
+            icon: 'warning',
+            title: i18n('notice'),
+            text: i18n('giveawayEnded'),
+            confirmButtonText: i18n('confirm'),
+            cancelButtonText: i18n('cancel'),
+            showCancelButton: true
+          }).then(_ref => {
+            let {
+              value
+            } = _ref;
+            if (value) {
+              window.close();
+            }
+          });
+        }
+        return true;
+      } catch (error) {
+        throwError(error, 'Indiedb.checkLeftKey');
+        return false;
+      }
+    }
     const website_Indiedb = Indiedb;
     function Keyhub_classPrivateMethodInitSpec(obj, privateSet) {
       Keyhub_checkPrivateRedeclaration(obj, privateSet);
@@ -6328,9 +6467,13 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       links: []
     };
     var Keyhub_getGiveawayId = new WeakSet();
+    var Keyhub_checkLeftKey = new WeakSet();
+    var Keyhub_checkLogin = new WeakSet();
     class Keyhub extends website_Website {
       constructor() {
         super(...arguments);
+        Keyhub_classPrivateMethodInitSpec(this, Keyhub_checkLogin);
+        Keyhub_classPrivateMethodInitSpec(this, Keyhub_checkLeftKey);
         Keyhub_classPrivateMethodInitSpec(this, Keyhub_getGiveawayId);
         Keyhub_defineProperty(this, 'name', 'Keyhub');
         Keyhub_defineProperty(this, 'socialTasks', {
@@ -6345,12 +6488,12 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       async before() {
         try {
-          if (!this.checkLogin()) {
+          if (!Keyhub_classPrivateMethodGet(this, Keyhub_checkLogin, Keyhub_checkLogin2).call(this)) {
             scripts_echoLog({
               html: `<li><font class="warning>${i18n('checkLoginFailed')}</font></li>`
             });
           }
-          if (!await this.checkLeftKey()) {
+          if (!await Keyhub_classPrivateMethodGet(this, Keyhub_checkLeftKey, Keyhub_checkLeftKey2).call(this)) {
             scripts_echoLog({
               html: `<li><font class="warning>${i18n('checkLeftKeyFailed')}</font></li>`
             });
@@ -6459,43 +6602,6 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           throwError(error, 'keyhub.verifyTask');
         }
       }
-      async checkLeftKey() {
-        try {
-          const leftKey = $('#keysleft').text().trim();
-          if (leftKey === '0') {
-            await external_Swal_default().fire({
-              icon: 'warning',
-              title: i18n('notice'),
-              text: i18n('noKeysLeft'),
-              confirmButtonText: i18n('confirm'),
-              cancelButtonText: i18n('cancel'),
-              showCancelButton: true
-            }).then(_ref => {
-              let {
-                value
-              } = _ref;
-              if (value) {
-                window.close();
-              }
-            });
-          }
-          return true;
-        } catch (error) {
-          throwError(error, 'Keyhub.checkLeftKey');
-          return false;
-        }
-      }
-      checkLogin() {
-        try {
-          if ($('a[href*="/connect/steam"]').length > 0) {
-            window.open('/connect/steam', '_self');
-          }
-          return true;
-        } catch (error) {
-          throwError(error, 'Keyhub.checkLogin');
-          return false;
-        }
-      }
     }
     function Keyhub_getGiveawayId2() {
       try {
@@ -6511,6 +6617,43 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         return false;
       } catch (error) {
         throwError(error, 'Keyhub.getGiveawayId');
+        return false;
+      }
+    }
+    async function Keyhub_checkLeftKey2() {
+      try {
+        const leftKey = $('#keysleft').text().trim();
+        if (leftKey === '0') {
+          await external_Swal_default().fire({
+            icon: 'warning',
+            title: i18n('notice'),
+            text: i18n('noKeysLeft'),
+            confirmButtonText: i18n('confirm'),
+            cancelButtonText: i18n('cancel'),
+            showCancelButton: true
+          }).then(_ref => {
+            let {
+              value
+            } = _ref;
+            if (value) {
+              window.close();
+            }
+          });
+        }
+        return true;
+      } catch (error) {
+        throwError(error, 'Keyhub.checkLeftKey');
+        return false;
+      }
+    }
+    function Keyhub_checkLogin2() {
+      try {
+        if ($('a[href*="/connect/steam"]').length > 0) {
+          window.open('/connect/steam', '_self');
+        }
+        return true;
+      } catch (error) {
+        throwError(error, 'Keyhub.checkLogin');
         return false;
       }
     }
@@ -6562,9 +6705,11 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     };
     var Givekey_verify = new WeakSet();
     var Givekey_getGiveawayId = new WeakSet();
+    var Givekey_checkLeftKey = new WeakSet();
     class Givekey extends website_Website {
       constructor() {
         super(...arguments);
+        Givekey_classPrivateMethodInitSpec(this, Givekey_checkLeftKey);
         Givekey_classPrivateMethodInitSpec(this, Givekey_getGiveawayId);
         Givekey_classPrivateMethodInitSpec(this, Givekey_verify);
         Givekey_defineProperty(this, 'name', 'Givekey');
@@ -6580,7 +6725,26 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       static test() {
         return window.location.host === 'givekey.ru';
       }
-      before() {}
+      async after() {
+        try {
+          await new Promise(resolve => {
+            const checker = setInterval(() => {
+              if ($('#navbarDropdown').length > 0) {
+                clearInterval(checker);
+                resolve(true);
+              }
+            });
+          });
+          if (!await Givekey_classPrivateMethodGet(this, Givekey_checkLeftKey, Givekey_checkLeftKey2).call(this)) {
+            scripts_echoLog({
+              html: `<li><font class="warning>${i18n('checkLeftKeyFailed')}</font></li>`
+            });
+          }
+        } catch (error) {
+          throwError(error, 'Givekey.after');
+          return false;
+        }
+      }
       init() {
         try {
           const logStatus = scripts_echoLog({
@@ -6719,29 +6883,6 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           return false;
         }
       }
-      checkLeft() {
-        try {
-          if (!$('#keys_count').text()) {
-            external_Swal_default().fire({
-              icon: 'warning',
-              title: i18n('notice'),
-              text: i18n('noKeysLeft'),
-              confirmButtonText: i18n('confirm'),
-              cancelButtonText: i18n('cancel'),
-              showCancelButton: true
-            }).then(_ref => {
-              let {
-                value
-              } = _ref;
-              if (value) {
-                window.close();
-              }
-            });
-          }
-        } catch (error) {
-          throwError(error, 'Givekey.checkLeft');
-        }
-      }
     }
     async function Givekey_verify2(task) {
       try {
@@ -6801,7 +6942,41 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         return false;
       }
     }
+    async function Givekey_checkLeftKey2() {
+      try {
+        if (!$('#keys_count').text()) {
+          await external_Swal_default().fire({
+            icon: 'warning',
+            title: i18n('notice'),
+            text: i18n('noKeysLeft'),
+            confirmButtonText: i18n('confirm'),
+            cancelButtonText: i18n('cancel'),
+            showCancelButton: true
+          }).then(_ref => {
+            let {
+              value
+            } = _ref;
+            if (value) {
+              window.close();
+            }
+          });
+        }
+        return true;
+      } catch (error) {
+        throwError(error, 'Givekey.checkLeftKey');
+        return false;
+      }
+    }
     const website_Givekey = Givekey;
+    function GiveeClub_classPrivateMethodInitSpec(obj, privateSet) {
+      GiveeClub_checkPrivateRedeclaration(obj, privateSet);
+      privateSet.add(obj);
+    }
+    function GiveeClub_checkPrivateRedeclaration(obj, privateCollection) {
+      if (privateCollection.has(obj)) {
+        throw new TypeError('Cannot initialize the same private elements twice on an object');
+      }
+    }
     function GiveeClub_defineProperty(obj, key, value) {
       if (key in obj) {
         Object.defineProperty(obj, key, {
@@ -6815,9 +6990,21 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return obj;
     }
+    function GiveeClub_classPrivateMethodGet(receiver, privateSet, fn) {
+      if (!privateSet.has(receiver)) {
+        throw new TypeError('attempted to get private field on non-instance');
+      }
+      return fn;
+    }
+    var GiveeClub_checkLogin = new WeakSet();
+    var GiveeClub_getGiveawayId = new WeakSet();
+    var GiveeClub_checkLeftKey = new WeakSet();
     class GiveeClub extends GiveawaySu {
       constructor() {
         super(...arguments);
+        GiveeClub_classPrivateMethodInitSpec(this, GiveeClub_checkLeftKey);
+        GiveeClub_classPrivateMethodInitSpec(this, GiveeClub_getGiveawayId);
+        GiveeClub_classPrivateMethodInitSpec(this, GiveeClub_checkLogin);
         GiveeClub_defineProperty(this, 'name', 'GiveeClub');
       }
       static test() {
@@ -6825,9 +7012,14 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       async before() {
         try {
-          if (!this.checkLogin()) {
+          if (!GiveeClub_classPrivateMethodGet(this, GiveeClub_checkLogin, GiveeClub_checkLogin2).call(this)) {
             scripts_echoLog({
               html: `<li><font class="warning>${i18n('checkLoginFailed')}</font></li>`
+            });
+          }
+          if (!await GiveeClub_classPrivateMethodGet(this, GiveeClub_checkLeftKey, GiveeClub_checkLeftKey2).call(this)) {
+            scripts_echoLog({
+              html: `<li><font class="warning>${i18n('checkLeftKeyFailed')}</font></li>`
             });
           }
         } catch (error) {
@@ -6843,7 +7035,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             logStatus.warning(i18n('needLogin'));
             return false;
           }
-          if (!this.getGiveawayId()) {
+          if (!GiveeClub_classPrivateMethodGet(this, GiveeClub_getGiveawayId, GiveeClub_getGiveawayId2).call(this)) {
             return false;
           }
           this.initialized = true;
@@ -6927,27 +7119,52 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           return false;
         }
       }
-      checkLogin() {
-        try {
-          if ($('a[href*="/account/auth"]').length > 0) {
-            window.open($('a[href*="/account/auth"]').attr('href'), '_self');
-          }
-          return true;
-        } catch (error) {
-          throwError(error, 'GiveeClub.checkLogin');
-          return false;
+    }
+    function GiveeClub_checkLogin2() {
+      try {
+        if ($('a[href*="/account/auth"]').length > 0) {
+          window.open($('a[href*="/account/auth"]').attr('href'), '_self');
         }
+        return true;
+      } catch (error) {
+        throwError(error, 'GiveeClub.checkLogin');
+        return false;
       }
-      getGiveawayId() {
-        var _window$location$href;
-        const giveawayId = (_window$location$href = window.location.href.match(/\/event\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
-        if (giveawayId) {
-          this.giveawayId = giveawayId;
-          return true;
+    }
+    function GiveeClub_getGiveawayId2() {
+      var _window$location$href;
+      const giveawayId = (_window$location$href = window.location.href.match(/\/event\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
+      if (giveawayId) {
+        this.giveawayId = giveawayId;
+        return true;
+      }
+      scripts_echoLog({
+        text: i18n('getFailed', 'GiveawayId')
+      });
+      return false;
+    }
+    async function GiveeClub_checkLeftKey2() {
+      try {
+        if ($('.event-ended').length > 0) {
+          await external_Swal_default().fire({
+            icon: 'warning',
+            title: i18n('notice'),
+            text: i18n('giveawayEnded'),
+            confirmButtonText: i18n('confirm'),
+            cancelButtonText: i18n('cancel'),
+            showCancelButton: true
+          }).then(_ref => {
+            let {
+              value
+            } = _ref;
+            if (value) {
+              window.close();
+            }
+          });
         }
-        scripts_echoLog({
-          text: i18n('getFailed', 'GiveawayId')
-        });
+        return true;
+      } catch (error) {
+        throwError(error, 'Giveawaysu.checkLeftKey');
         return false;
       }
     }
@@ -7377,9 +7594,11 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
     };
     var Opquests_getGiveawayId = new WeakSet();
+    var Opquests_checkLogin = new WeakSet();
     class Opquests extends website_Website {
       constructor() {
         super(...arguments);
+        Opquests_classPrivateMethodInitSpec(this, Opquests_checkLogin);
         Opquests_classPrivateMethodInitSpec(this, Opquests_getGiveawayId);
         Opquests_defineProperty(this, 'name', 'Opquests');
         Opquests_defineProperty(this, 'undoneTasks', {
@@ -7391,7 +7610,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       async before() {
         try {
-          if (!this.checkLogin()) {
+          if (!Opquests_classPrivateMethodGet(this, Opquests_checkLogin, Opquests_checkLogin2).call(this)) {
             scripts_echoLog({
               html: `<li><font class="warning>${i18n('checkLoginFailed')}</font></li>`
             });
@@ -7464,17 +7683,6 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           return false;
         }
       }
-      checkLogin() {
-        try {
-          if ($('a[href*="/auth/redirect"]').length > 0) {
-            window.open('/auth/redirect', '_self');
-          }
-          return true;
-        } catch (error) {
-          throwError(error, 'Opquests.checkLogin');
-          return false;
-        }
-      }
     }
     function Opquests_getGiveawayId2() {
       try {
@@ -7490,6 +7698,17 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         return false;
       } catch (error) {
         throwError(error, 'Opquests.getGiveawayId');
+        return false;
+      }
+    }
+    function Opquests_checkLogin2() {
+      try {
+        if ($('a[href*="/auth/redirect"]').length > 0) {
+          window.open('/auth/redirect', '_self');
+        }
+        return true;
+      } catch (error) {
+        throwError(error, 'Opquests.checkLogin');
         return false;
       }
     }
@@ -7555,9 +7774,11 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     var _doGleamTask = new WeakSet();
     var Gleam_getGiveawayId = new WeakSet();
     var _getGleamLink = new WeakSet();
+    var Gleam_checkLeftKey = new WeakSet();
     class Gleam extends website_Website {
       constructor() {
         super(...arguments);
+        Gleam_classPrivateMethodInitSpec(this, Gleam_checkLeftKey);
         Gleam_classPrivateMethodInitSpec(this, _getGleamLink);
         Gleam_classPrivateMethodInitSpec(this, Gleam_getGiveawayId);
         Gleam_classPrivateMethodInitSpec(this, _doGleamTask);
@@ -7576,6 +7797,21 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       static test() {
         return window.location.host === 'gleam.io';
+      }
+      async before() {
+        try {
+          if (window.location.search.includes('8b07d23f4bfa65f9')) {
+            return true;
+          }
+          if (!await Gleam_classPrivateMethodGet(this, Gleam_checkLeftKey, Gleam_checkLeftKey2).call(this)) {
+            scripts_echoLog({
+              html: `<li><font class="warning>${i18n('checkLeftKeyFailed')}</font></li>`
+            });
+          }
+        } catch (error) {
+          throwError(error, 'Gleam.before');
+          return false;
+        }
       }
       init() {
         try {
@@ -7906,6 +8142,31 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         return false;
       } catch (error) {
         throwError(error, 'Gleam.getGleamLink');
+        return false;
+      }
+    }
+    async function Gleam_checkLeftKey2() {
+      try {
+        if ($('.entry-content:visible').length === 0) {
+          await external_Swal_default().fire({
+            icon: 'warning',
+            title: i18n('notice'),
+            text: i18n('giveawayNotWork'),
+            confirmButtonText: i18n('confirm'),
+            cancelButtonText: i18n('cancel'),
+            showCancelButton: true
+          }).then(_ref2 => {
+            let {
+              value
+            } = _ref2;
+            if (value) {
+              window.close();
+            }
+          });
+        }
+        return true;
+      } catch (error) {
+        throwError(error, 'Gleam.checkLeftKey');
         return false;
       }
     }
@@ -8339,7 +8600,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
     }
     if (window.location.hostname === 'gleam.io') {}
-    window.onload = () => {
+    window.onload = async () => {
       if (window.location.hostname === 'www.twitch.tv' && window.location.hash === '#auth') {
         const authToken = external_Cookies_namespaceObject.get('auth-token');
         const isLogin = !!external_Cookies_namespaceObject.get('login');
@@ -8395,10 +8656,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       $('body').append('<div id="auto-task-info"></div>');
       if (website.before) {
-        website.before();
+        await website.before();
       }
       if (website.after) {
-        website.after();
+        await website.after();
       }
       if (website.doTask) {
         GM_registerMenuCommand('doTask', () => {
@@ -8433,79 +8694,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         });
       }
       unsafeWindow.website = website;
-      GM_addStyle(`
-  #auto-task-info {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    width: 300px;
-    max-width: 60%;
-    max-height: 600px;
-    overflow-y: auto;
-    color: #000;
-    background-color: #fff;
-    padding-left: 5px;
-  }
-  #auto-task-info > li {
-    text-align: left;
-  }
-  .auto-task-keylol {
-    text-transform: capitalize;
-    margin-left: 10px;
-    text-decoration: none !important;
-    border: solid 1px;
-    border-radius: 5px;
-    padding: 0 2px;
-  }
-  .auto-task-keylol[selected="selected"] {
-    background-color: blue;
-    color: #fff;
-  }
-  #auto-task-info .success {
-    color: green;
-  }
-  #auto-task-info .error {
-    color: red;
-  }
-  #auto-task-info .warning {
-    color: blue;
-  }
-  #auto-task-info .info {
-    color: yellow;
-  }
-  .auto-task-form table {
-    font-family: verdana, arial, sans-serif;
-    font-size: 11px;
-    color: #333333;
-    border-width: 1px;
-    border-color: #999999;
-    border-collapse: collapse;
-    width: 100%;
-  }
-
-  .auto-task-form table th {
-    background-color: #c3dde0;
-    border-width: 1px;
-    padding: 8px;
-    border-style: solid;
-    border-color: #a9c6c9;
-  }
-
-  .auto-task-form table tr {
-    background-color: #d4e3e5;
-  }
-
-  .auto-task-form table tr:hover {
-    background-color: #ffff66;
-  }
-
-  .auto-task-form table td {
-    border-width: 1px;
-    padding: 8px;
-    border-style: solid;
-    border-color: #a9c6c9;
-  }
-`);
+      GM_addStyle(auto_task.Z);
       console.log('%c%s', 'color:#1bbe1a', 'Auto Task脚本初始化完成！');
     };
   }();

@@ -1,10 +1,10 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2021-12-11 13:45:36
+ * @LastEditTime : 2021-12-22 17:42:41
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
- * @Description  :
+ * @Description  : https://key-hub.eu/
  */
 
 import Swal from 'sweetalert2';
@@ -50,10 +50,10 @@ class Keyhub extends Website {
   }
   async before(): Promise<void> {
     try {
-      if (!this.checkLogin()) {
+      if (!this.#checkLogin()) {
         echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
       }
-      if (!await this.checkLeftKey()) {
+      if (!await this.#checkLeftKey()) {
         echoLog({ html: `<li><font class="warning>${__('checkLeftKeyFailed')}</font></li>` });
       }
     } catch (error) {
@@ -152,7 +152,7 @@ class Keyhub extends Website {
       return false;
     }
   }
-  async checkLeftKey(): Promise<boolean> {
+  async #checkLeftKey(): Promise<boolean> {
     try {
       const leftKey = $('#keysleft').text()
         .trim();
@@ -176,7 +176,7 @@ class Keyhub extends Website {
       return false;
     }
   }
-  checkLogin(): boolean {
+  #checkLogin(): boolean {
     try {
       if ($('a[href*="/connect/steam"]').length > 0) {
         window.open('/connect/steam', '_self');

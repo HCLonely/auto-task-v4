@@ -1,10 +1,10 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 17:22:20
- * @LastEditTime : 2021-12-11 13:46:00
+ * @LastEditTime : 2021-12-22 17:50:03
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/OpiumPulses.ts
- * @Description  :
+ * @Description  : https://www.opiumpulses.com/giveaways
  */
 
 import throwError from '../tools/throwError';

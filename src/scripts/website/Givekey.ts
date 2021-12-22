@@ -1,13 +1,13 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-13 17:57:40
- * @LastEditTime : 2021-12-13 12:10:18
+ * @LastEditTime : 2021-12-22 17:32:23
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Givekey.ts
  * @Description  : https://givekey.ru
  */
 
-// todo: 等待第一次进入检测，验证优化
+// todo: 验证优化
 import Swal from 'sweetalert2';
 import Website from './Website';
 import echoLog from '../echoLog';
@@ -62,8 +62,23 @@ class Givekey extends Website {
     return window.location.host === 'givekey.ru';
   }
 
-  before() {
-    // cloudflare check
+  async after() {
+    try {
+      await new Promise((resolve) => {
+        const checker = setInterval(() => {
+          if ($('#navbarDropdown').length > 0) {
+            clearInterval(checker);
+            resolve(true);
+          }
+        });
+      });
+      if (!await this.#checkLeftKey()) {
+        echoLog({ html: `<li><font class="warning>${__('checkLeftKeyFailed')}</font></li>` });
+      }
+    } catch (error) {
+      throwError(error as Error, 'Givekey.after');
+      return false;
+    }
   }
 
   init(): boolean {
@@ -93,7 +108,6 @@ class Givekey extends Website {
   async classifyTask(action: 'do' | 'undo' | 'verify'): Promise<boolean> {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
-      // todo
       this.socialTasks = GM_getValue<gkSocialTasks>(`gkTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
 
       const tasks = $('.card-body:has("button") .row');
@@ -231,10 +245,10 @@ class Givekey extends Website {
       return false;
     }
   }
-  checkLeft() {
+  async #checkLeftKey() {
     try {
       if (!$('#keys_count').text()) {
-        Swal.fire({
+        await Swal.fire({
           icon: 'warning',
           title: __('notice'),
           text: __('noKeysLeft'),
@@ -247,8 +261,10 @@ class Givekey extends Website {
           }
         });
       }
+      return true;
     } catch (error) {
-      throwError(error as Error, 'Givekey.checkLeft');
+      throwError(error as Error, 'Givekey.checkLeftKey');
+      return false;
     }
   }
 }

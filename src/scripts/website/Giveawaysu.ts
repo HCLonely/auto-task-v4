@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2021-12-11 13:44:45
+ * @LastEditTime : 2021-12-22 17:17:14
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.ts
  * @Description  :
@@ -59,10 +59,10 @@ class GiveawaySu extends Website {
   }
   async before(): Promise<void> {
     try {
-      if (!this.checkLogin()) {
+      if (!this.#checkLogin()) {
         echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
       }
-      if (!await this.checkLeftKey()) {
+      if (!await this.#checkLeftKey()) {
         echoLog({ html: `<li><font class="warning>${__('checkLeftKeyFailed')}</font></li>` });
       }
     } catch (error) {
@@ -89,7 +89,6 @@ class GiveawaySu extends Website {
   async classifyTask(): Promise<boolean> {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
-      // todo
       this.socialTasks = GM_getValue<gasSocialTasks>(`gasTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
 
       const pro = [];
@@ -173,7 +172,7 @@ class GiveawaySu extends Website {
       return false;
     }
   }
-  checkLogin(): boolean {
+  #checkLogin(): boolean {
     try {
       if ($('a.steam-login').length > 0) {
         window.open('/steam/redirect', '_self');
@@ -184,7 +183,7 @@ class GiveawaySu extends Website {
       return false;
     }
   }
-  async checkLeftKey(): Promise<boolean> {
+  async #checkLeftKey(): Promise<boolean> {
     try {
       if ($('.giveaway-ended').length > 0) {
         await Swal.fire({

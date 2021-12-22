@@ -1,10 +1,10 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 20:22:33
- * @LastEditTime : 2021-12-11 13:46:20
+ * @LastEditTime : 2021-12-22 17:50:36
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Prys.ts
- * @Description  :
+ * @Description  : https://prys.revadike.com/
  */
 
 // todo: 未测试
@@ -44,10 +44,10 @@ class Prys extends Website {
   }
   async before(): Promise<void> {
     try {
-      if (!this.checkLogin()) {
+      if (!this.#checkLogin()) {
         echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
       }
-      if (!await this.checkLeftKey()) {
+      if (!await this.#checkLeftKey()) {
         echoLog({ html: `<li><font class="warning>${__('checkLeftKeyFailed')}</font></li>` });
       }
     } catch (error) {
@@ -163,7 +163,7 @@ class Prys extends Website {
       return false;
     }
   }
-  async checkLeftKey(): Promise<boolean> {
+  async #checkLeftKey(): Promise<boolean> {
     try {
       const leftKey = $('#header').text()
         .match(/([\d]+).*?prize.*?left/)?.[1];
@@ -187,7 +187,7 @@ class Prys extends Website {
       return false;
     }
   }
-  checkLogin(): boolean {
+  #checkLogin(): boolean {
     try {
       if ($('button:contains("Sign")').length > 0) {
         echoLog({ html: `<li><font class="warning">${__('needLogin')}</font></li>` });

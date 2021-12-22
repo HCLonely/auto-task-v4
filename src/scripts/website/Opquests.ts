@@ -1,10 +1,10 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-18 13:31:23
- * @LastEditTime : 2021-12-11 13:46:09
+ * @LastEditTime : 2021-12-22 17:50:20
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Opquests.ts
- * @Description  :
+ * @Description  : https://opquests.com/
  */
 
 import Website from './Website';
@@ -39,7 +39,7 @@ class Opquests extends Website {
   }
   async before(): Promise<void> {
     try {
-      if (!this.checkLogin()) {
+      if (!this.#checkLogin()) {
         echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
       }
     } catch (error) {
@@ -122,7 +122,7 @@ class Opquests extends Website {
       return false;
     }
   }
-  checkLogin(): boolean {
+  #checkLogin(): boolean {
     try {
       if ($('a[href*="/auth/redirect"]').length > 0) {
         window.open('/auth/redirect', '_self');

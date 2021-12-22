@@ -2,7 +2,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-12 17:39:48
- * @LastEditTime : 2021-12-12 17:50:24
+ * @LastEditTime : 2021-12-22 17:06:44
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/webpack.compatibility.config.js
  * @Description  :
@@ -50,6 +50,18 @@ module.exports = {
           }
         ],
         exclude: /node_modules/
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          {
+            loader: 'css-loader',
+            options: {
+              exportType: 'string'
+            }
+          },
+          'sass-loader'
+        ]
       }
     ]
   },

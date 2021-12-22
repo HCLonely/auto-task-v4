@@ -1,13 +1,15 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-12-21 13:39:28
+ * @LastEditTime : 2021-12-22 17:54:34
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
  */
 import Swal from 'sweetalert2';
 import * as Cookies from 'js-cookie';
+// @ts-ignore
+import style from './style/auto-task.scss';
 import FreeAnyWhere from './scripts/website/FreeAnyWhere';
 import { GiveawaySu } from './scripts/website/GiveawaySu';
 import Indiedb from './scripts/website/Indiedb';
@@ -75,7 +77,7 @@ if (window.location.hostname === 'discord.com') {
 if (window.location.hostname === 'gleam.io') {
   // 待更新
 }
-window.onload = () => {
+window.onload = async () => {
   if (window.location.hostname === 'www.twitch.tv' && window.location.hash === '#auth') {
     const authToken = Cookies.get('auth-token');
     const isLogin = !!Cookies.get('login');
@@ -124,11 +126,11 @@ window.onload = () => {
 
   $('body').append('<div id="auto-task-info"></div>'); // eslint-disable-line
   // @ts-ignore
-  if (website.before) website.before();
+  if (website.before) await website.before();
 
   // do something
   // @ts-ignore
-  if (website.after) website.after();
+  if (website.after) await website.after();
 
   // @ts-ignore
   if (website.doTask) GM_registerMenuCommand('doTask', () => { website.doTask(); }); // eslint-disable-line new-cap
@@ -148,81 +150,10 @@ window.onload = () => {
   // @ts-ignore
     GM_registerMenuCommand('options', () => { websiteOptions(website.name, website.options); }); // eslint-disable-line new-cap
   }
+
+  // 调试用
   unsafeWindow.website = website;
-  // eslint-disable-next-line new-cap
-  GM_addStyle(`
-  #auto-task-info {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    width: 300px;
-    max-width: 60%;
-    max-height: 600px;
-    overflow-y: auto;
-    color: #000;
-    background-color: #fff;
-    padding-left: 5px;
-  }
-  #auto-task-info > li {
-    text-align: left;
-  }
-  .auto-task-keylol {
-    text-transform: capitalize;
-    margin-left: 10px;
-    text-decoration: none !important;
-    border: solid 1px;
-    border-radius: 5px;
-    padding: 0 2px;
-  }
-  .auto-task-keylol[selected="selected"] {
-    background-color: blue;
-    color: #fff;
-  }
-  #auto-task-info .success {
-    color: green;
-  }
-  #auto-task-info .error {
-    color: red;
-  }
-  #auto-task-info .warning {
-    color: blue;
-  }
-  #auto-task-info .info {
-    color: yellow;
-  }
-  .auto-task-form table {
-    font-family: verdana, arial, sans-serif;
-    font-size: 11px;
-    color: #333333;
-    border-width: 1px;
-    border-color: #999999;
-    border-collapse: collapse;
-    width: 100%;
-  }
 
-  .auto-task-form table th {
-    background-color: #c3dde0;
-    border-width: 1px;
-    padding: 8px;
-    border-style: solid;
-    border-color: #a9c6c9;
-  }
-
-  .auto-task-form table tr {
-    background-color: #d4e3e5;
-  }
-
-  .auto-task-form table tr:hover {
-    background-color: #ffff66;
-  }
-
-  .auto-task-form table td {
-    border-width: 1px;
-    padding: 8px;
-    border-style: solid;
-    border-color: #a9c6c9;
-  }
-`);
-
+  GM_addStyle(style); // eslint-disable-line new-cap
   console.log('%c%s', 'color:#1bbe1a', 'Auto Task脚本初始化完成！');
 };

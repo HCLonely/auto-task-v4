@@ -1,12 +1,13 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 14:37:33
- * @LastEditTime : 2021-12-21 09:56:53
+ * @LastEditTime : 2021-12-22 17:45:36
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Indiedb.ts
- * @Description  :
+ * @Description  : https://www.indiedb.com/giveaways
  */
 
+import Swal from 'sweetalert2';
 import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
@@ -22,8 +23,11 @@ class Indiedb {
   }
   async before(): Promise<void> {
     try {
-      if (!this.checkLogin()) {
+      if (!this.#checkLogin()) {
         echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
+      }
+      if (!await this.#checkLeftKey()) {
+        echoLog({ html: `<li><font class="warning>${__('checkLeftKeyFailed')}</font></li>` });
       }
     } catch (error) {
       throwError(error as Error, 'Indiedb.before');
@@ -244,7 +248,7 @@ class Indiedb {
       return false;
     }
   }
-  checkLogin(): boolean {
+  #checkLogin(): boolean {
     try {
       if ($('a.buttonenter:contains(Register to join)').length > 0) {
         window.open('/members/login', '_self');
@@ -252,6 +256,28 @@ class Indiedb {
       return true;
     } catch (error) {
       throwError(error as Error, 'Indiedb.checkLogin');
+      return false;
+    }
+  }
+  async #checkLeftKey() {
+    try {
+      if ($('a.buttonenter:contains("next time")').length > 0) {
+        await Swal.fire({
+          icon: 'warning',
+          title: __('notice'),
+          text: __('giveawayEnded'),
+          confirmButtonText: __('confirm'),
+          cancelButtonText: __('cancel'),
+          showCancelButton: true
+        }).then(({ value }) => {
+          if (value) {
+            window.close();
+          }
+        });
+      }
+      return true;
+    } catch (error) {
+      throwError(error as Error, 'Indiedb.checkLeftKey');
       return false;
     }
   }

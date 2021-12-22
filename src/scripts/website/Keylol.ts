@@ -1,10 +1,10 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-15 13:58:41
- * @LastEditTime : 2021-12-16 11:40:09
+ * @LastEditTime : 2021-12-22 17:50:00
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Keylol.ts
- * @Description  :
+ * @Description  : https://keylol.com/f319-1
  */
 
 // todo: 全选/取消全选

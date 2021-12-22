@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2021-12-21 20:09:47
+ * @LastEditTime : 2021-12-22 17:35:23
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -31,6 +31,8 @@ const data = {
   verifyingTask: '正在验证任务',
   notice: '自动任务脚本提醒',
   noKeysLeft: '此页面已经没有剩余key了，是否关闭？',
+  giveawayEnded: '此活动已结束，是否关闭？',
+  giveawayNotWork: '此活动因某些原因(已结束/暂停/未开始...)不可用(如果是脚本误判请及时反馈)，是否关闭？',
   confirm: '确定',
   cancel: '取消',
   unKnown: '未知',

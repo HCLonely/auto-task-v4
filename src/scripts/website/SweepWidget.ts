@@ -1,10 +1,10 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-21 10:01:05
- * @LastEditTime : 2021-12-21 13:35:44
+ * @LastEditTime : 2021-12-22 17:51:20
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/SweepWidget.ts
- * @Description  :
+ * @Description  : https://sweepwidget.com/
  */
 
 import throwError from '../tools/throwError';

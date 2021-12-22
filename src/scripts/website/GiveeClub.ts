@@ -1,15 +1,16 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 11:46:52
- * @LastEditTime : 2021-12-11 13:44:55
+ * @LastEditTime : 2021-12-22 17:17:45
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/GiveeClub.ts
- * @Description  :
+ * @Description  : https://givee.club/
  */
 
 // eslint-disable-next-line
 /// <reference path = "GiveawaySu.d.ts" />
 
+import Swal from 'sweetalert2';
 import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
@@ -23,8 +24,11 @@ class GiveeClub extends GiveawaySu {
   }
   async before(): Promise<void> {
     try {
-      if (!this.checkLogin()) {
+      if (!this.#checkLogin()) {
         echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
+      }
+      if (!await this.#checkLeftKey()) {
+        echoLog({ html: `<li><font class="warning>${__('checkLeftKeyFailed')}</font></li>` });
       }
     } catch (error) {
       throwError(error as Error, 'GiveeClub.before');
@@ -37,7 +41,7 @@ class GiveeClub extends GiveawaySu {
         logStatus.warning(__('needLogin'));
         return false;
       }
-      if (!this.getGiveawayId()) return false;
+      if (!this.#getGiveawayId()) return false;
       this.initialized = true;
       logStatus.success();
       return true;
@@ -49,7 +53,6 @@ class GiveeClub extends GiveawaySu {
   async classifyTask(): Promise<boolean> {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
-      // todo
       this.socialTasks = GM_getValue<gasSocialTasks>(`gcTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
 
       const pro = [];
@@ -126,7 +129,7 @@ class GiveeClub extends GiveawaySu {
     }
   }
 
-  checkLogin(): boolean {
+  #checkLogin(): boolean {
     try {
       if ($('a[href*="/account/auth"]').length > 0) {
         window.open($('a[href*="/account/auth"]').attr('href'), '_self');
@@ -137,7 +140,7 @@ class GiveeClub extends GiveawaySu {
       return false;
     }
   }
-  getGiveawayId() {
+  #getGiveawayId() {
     const giveawayId = window.location.href.match(/\/event\/([\d]+)/)?.[1];
     if (giveawayId) {
       this.giveawayId = giveawayId;
@@ -145,6 +148,28 @@ class GiveeClub extends GiveawaySu {
     }
     echoLog({ text: __('getFailed', 'GiveawayId') });
     return false;
+  }
+  async #checkLeftKey(): Promise<boolean> {
+    try {
+      if ($('.event-ended').length > 0) {
+        await Swal.fire({
+          icon: 'warning',
+          title: __('notice'),
+          text: __('giveawayEnded'),
+          confirmButtonText: __('confirm'),
+          cancelButtonText: __('cancel'),
+          showCancelButton: true
+        }).then(({ value }) => {
+          if (value) {
+            window.close();
+          }
+        });
+      }
+      return true;
+    } catch (error) {
+      throwError(error as Error, 'Giveawaysu.checkLeftKey');
+      return false;
+    }
   }
 }
 

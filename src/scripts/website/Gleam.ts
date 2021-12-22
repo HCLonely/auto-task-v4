@@ -1,12 +1,13 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2021-12-19 17:42:56
+ * @LastEditTime : 2021-12-22 17:36:48
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
- * @Description  :
+ * @Description  : https://gleam.io
  */
 
+import Swal from 'sweetalert2';
 import Website from './Website';
 import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
@@ -83,6 +84,20 @@ class Gleam extends Website {
 
   static test(): boolean {
     return window.location.host === 'gleam.io';
+  }
+
+  async before() {
+    try {
+      if (window.location.search.includes('8b07d23f4bfa65f9')) {
+        return true;
+      }
+      if (!await this.#checkLeftKey()) {
+        echoLog({ html: `<li><font class="warning>${__('checkLeftKeyFailed')}</font></li>` });
+      }
+    } catch (error) {
+      throwError(error as Error, 'Gleam.before');
+      return false;
+    }
   }
   init(): boolean {
     try {
@@ -356,6 +371,29 @@ class Gleam extends Website {
       }
     } catch (error) {
       throwError(error as Error, 'Gleam.after');
+      return false;
+    }
+  }
+
+  async #checkLeftKey() {
+    try {
+      if ($('.entry-content:visible').length === 0) {
+        await Swal.fire({
+          icon: 'warning',
+          title: __('notice'),
+          text: __('giveawayNotWork'),
+          confirmButtonText: __('confirm'),
+          cancelButtonText: __('cancel'),
+          showCancelButton: true
+        }).then(({ value }) => {
+          if (value) {
+            window.close();
+          }
+        });
+      }
+      return true;
+    } catch (error) {
+      throwError(error as Error, 'Gleam.checkLeftKey');
       return false;
     }
   }
