@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2021-12-24 15:50:54
+ * @LastEditTime : 2021-12-24 17:51:00
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
  * @Description  : https://key-hub.eu/
@@ -16,6 +16,7 @@ import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import { getRedirectLink } from '../tools/tools';
+import globalOptions from '../globalOptions';
 
 const defaultTasks: khSocialTasks = {
   steam: {
@@ -149,6 +150,7 @@ class Keyhub extends Website {
   }
   async #checkLeftKey(): Promise<boolean> {
     try {
+      if (!globalOptions.other.checkLeftKey) return true;
       const leftKey = $('#keysleft').text()
         .trim();
       if (leftKey === '0') {
@@ -173,6 +175,7 @@ class Keyhub extends Website {
   }
   #checkLogin(): boolean {
     try {
+      if (!globalOptions.other.checkLogin) return true;
       if ($('a[href*="/connect/steam"]').length > 0) {
         window.open('/connect/steam', '_self');
       }

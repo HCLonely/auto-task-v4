@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2021-12-24 15:50:06
+ * @LastEditTime : 2021-12-24 17:50:21
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  : https://gleam.io
@@ -17,6 +17,7 @@ import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import httpRequest from '../tools/httpRequest';
 import { delay } from '../tools/tools';
+import globalOptions from '../globalOptions';
 
 const defaultTasks: gleamSocialTasks = {
   steam: {
@@ -363,6 +364,7 @@ class Gleam extends Website {
 
   async #checkLeftKey() {
     try {
+      if (!globalOptions.other.checkLeftKey) return true;
       if ($('.entry-content:visible').length === 0) {
         await Swal.fire({
           icon: 'warning',

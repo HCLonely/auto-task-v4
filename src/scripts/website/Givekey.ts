@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-13 17:57:40
- * @LastEditTime : 2021-12-24 15:49:06
+ * @LastEditTime : 2021-12-24 17:50:07
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Givekey.ts
  * @Description  : https://givekey.ru
@@ -16,6 +16,7 @@ import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import { delay, getRedirectLink, unique } from '../tools/tools';
 import throwError from '../tools/throwError';
+import globalOptions from '../globalOptions';
 
 const defaultTasks: gkSocialTasks = {
   steam: {
@@ -244,6 +245,7 @@ class Givekey extends Website {
   }
   async #checkLeftKey() {
     try {
+      if (!globalOptions.other.checkLeftKey) return true;
       if (!$('#keys_count').text()) {
         await Swal.fire({
           icon: 'warning',

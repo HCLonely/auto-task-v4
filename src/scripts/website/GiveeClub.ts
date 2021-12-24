@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 11:46:52
- * @LastEditTime : 2021-12-24 15:28:47
+ * @LastEditTime : 2021-12-24 17:49:46
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/GiveeClub.ts
  * @Description  : https://givee.club/
@@ -16,6 +16,7 @@ import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import { getRedirectLink } from '../tools/tools';
 import { GiveawaySu, defaultTasks } from './GiveawaySu';
+import globalOptions from '../globalOptions';
 
 class GiveeClub extends GiveawaySu {
   name = 'GiveeClub'
@@ -139,6 +140,7 @@ class GiveeClub extends GiveawaySu {
 
   #checkLogin(): boolean {
     try {
+      if (!globalOptions.other.checkLogin) return true;
       if ($('a[href*="/account/auth"]').length > 0) {
         window.open($('a[href*="/account/auth"]').attr('href'), '_self');
       }
@@ -159,6 +161,7 @@ class GiveeClub extends GiveawaySu {
   }
   async #checkLeftKey(): Promise<boolean> {
     try {
+      if (!globalOptions.other.checkLeftKey) return true;
       if ($('.event-ended').length > 0) {
         await Swal.fire({
           icon: 'warning',

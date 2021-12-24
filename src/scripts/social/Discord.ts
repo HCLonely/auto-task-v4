@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2021-12-07 17:18:12
+ * @LastEditTime : 2021-12-24 17:35:11
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
@@ -13,6 +13,7 @@ import throwError from '../tools/throwError';
 import { unique, delay } from '../tools/tools';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
+import globalOptions from '../globalOptions';
 
 const defaultTasks: discordTasks = { servers: [] };
 
@@ -238,15 +239,22 @@ class Discord extends Social {
         return false;
       }
       const prom = [];
-      const realServers = this.getRealParams('servers', serverLinks, doTask, (link: string) => link.match(/invite\/(.+)/)?.[1]);
-      if (realServers.length > 0) {
-        for (const server of realServers) {
-          if (doTask) {
-            prom.push(this.#joinServer(server));
-          } else {
-            prom.push(this.#leaveServer(server));
+      if (
+        (doTask && !globalOptions.doTask.discord.servers) ||
+        (!doTask && !globalOptions.undoTask.discord.servers)
+      ) {
+        echoLog({ type: 'globalOptionsSkip', text: 'discord.servers' });
+      } else {
+        const realServers = this.getRealParams('servers', serverLinks, doTask, (link: string) => link.match(/invite\/(.+)/)?.[1]);
+        if (realServers.length > 0) {
+          for (const server of realServers) {
+            if (doTask) {
+              prom.push(this.#joinServer(server));
+            } else {
+              prom.push(this.#leaveServer(server));
+            }
+            await delay(1000);
           }
-          await delay(1000);
         }
       }
       // TODO: 返回值处理

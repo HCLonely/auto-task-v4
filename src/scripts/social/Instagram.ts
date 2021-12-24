@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-29 12:54:16
- * @LastEditTime : 2021-12-07 17:18:18
+ * @LastEditTime : 2021-12-24 17:35:39
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Instagram.ts
  * @Description  : Instagram 关注&取关用户
@@ -13,6 +13,7 @@ import throwError from '../tools/throwError';
 import httpRequest from '../tools/httpRequest';
 import { unique, delay } from '../tools/tools';
 import __ from '../tools/i18n';
+import globalOptions from '../globalOptions';
 
 const defaultTasks: instagramTasks = { users: [] };
 class Instagram extends Social {
@@ -206,16 +207,23 @@ class Instagram extends Social {
         return false;
       }
       const prom = [];
-      const realUsers = this.getRealParams('users', userLinks, doTask,
-        (link) => link.match(/https:\/\/www\.instagram\.com\/(.+)?\//)?.[1]);
-      if (realUsers.length > 0) {
-        for (const username of realUsers) {
-          if (doTask) {
-            prom.push(this.#followUser(username));
-          } else {
-            prom.push(this.#unfollowUser(username));
+      if (
+        (doTask && !globalOptions.doTask.instagram.users) ||
+        (!doTask && !globalOptions.undoTask.instagram.users)
+      ) {
+        echoLog({ type: 'globalOptionsSkip', text: 'instagram.users' });
+      } else {
+        const realUsers = this.getRealParams('users', userLinks, doTask,
+          (link) => link.match(/https:\/\/www\.instagram\.com\/(.+)?\//)?.[1]);
+        if (realUsers.length > 0) {
+          for (const username of realUsers) {
+            if (doTask) {
+              prom.push(this.#followUser(username));
+            } else {
+              prom.push(this.#unfollowUser(username));
+            }
+            await delay(1000);
           }
-          await delay(1000);
         }
       }
       // TODO: 返回值处理

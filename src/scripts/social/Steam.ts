@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2021-12-21 19:27:52
+ * @LastEditTime : 2021-12-24 17:47:20
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -16,6 +16,7 @@ import throwError from '../tools/throwError';
 import httpRequest from '../tools/httpRequest';
 import __ from '../tools/i18n';
 import { unique, delay } from '../tools/tools';
+import globalOptions from '../globalOptions';
 
 const defaultTasks: steamTasks = {
   groups: [],
@@ -42,7 +43,6 @@ class Steam extends Social {
   #initialized = false;
   #area = 'CN';
 
-  // 通用化,log
   async init(): Promise<boolean> {
     /**
      * @description: 验证及获取Auth
@@ -662,7 +662,7 @@ class Steam extends Social {
       * @internal
       * @description 获取创意工坊AppId
       * @param id 创意工坊物品id
-      * @return string: 获取成功，返回AppId | false: 收藏失败
+      * @return string: 获取成功，返回AppId | false: 获取失败
       */
     try {
       const logStatus = echoLog({ type: 'gettingWorkshopAppId', text: id });
@@ -729,8 +729,6 @@ class Steam extends Social {
       return true;
     }
   }
-
-  // INFO: 关注Steam鉴赏家/开发商/发行商
   async #toggleCurator(curatorId: string, doTask = true): Promise<boolean> {
     /**
       * @internal
@@ -957,85 +955,143 @@ class Steam extends Social {
         return false;
       }
       const prom = [];
-      const realGroups = this.getRealParams('groups', groupLinks, doTask, (link) => link.match(/groups\/(.+)\/?/)?.[1]);
-      const realWishlists = this.getRealParams('wishlists', wishlistLinks, doTask, (link) => link.match(/app\/([\d]+)/)?.[1]);
-      const realFollows = this.getRealParams('follows', followLinks, doTask, (link) => link.match(/app\/([\d]+)/)?.[1]);
-      const realForums = this.getRealParams('forums', forumLinks, doTask, (link) => link.match(/app\/([\d]+)/)?.[1]);
-      const realWorkshops = this.getRealParams('workshops', workshopLinks, doTask, (link) => link.match(/\?id=([\d]+)/)?.[1]);
-      const realworkshopVotes = this.getRealParams('workshopVotes', workshopVoteLinks, doTask, (link) => link.match(/\?id=([\d]+)/)?.[1]);
-      const realCurators = this.getRealParams('curators', curatorLinks, doTask, (link) => link.match(/curator\/([\d]+)/)?.[1]);
-      const realCuratorLikes = this.getRealParams('curatorLikes', curatorLikeLinks, doTask,
-        (link) => link.match(/https?:\/\/store\.steampowered\.com\/(.*?)\/([^/?]+)/)?.slice(1, 3)
-          .join('/'));
-      const realAnnouncements = this.getRealParams('announcements', announcementLinks, doTask,
-        (link) => {
-          if (link.includes('store.steampowered.com')) {
-            return link.match(/store.steampowered.com\/news\/app\/([\d]+)\/view\/([\d]+)/)?.slice(1, 3)
+
+      if (
+        (doTask && !globalOptions.doTask.steam.groups) ||
+        (!doTask && !globalOptions.undoTask.steam.groups)
+      ) {
+        echoLog({ type: 'globalOptionsSkip', text: 'steam.groups' });
+      } else {
+        const realGroups = this.getRealParams('groups', groupLinks, doTask, (link) => link.match(/groups\/(.+)\/?/)?.[1]);
+        if (realGroups.length > 0) {
+          for (const group of realGroups) {
+            if (doTask) {
+              prom.push(this.#joinGroup(group));
+            } else {
+              prom.push(this.#leaveGroup(group));
+            }
+            await delay(1000);
+          }
+        }
+      }
+
+      if (
+        (doTask && !globalOptions.doTask.steam.wishlists) ||
+        (!doTask && !globalOptions.undoTask.steam.wishlists)
+      ) {
+        echoLog({ type: 'globalOptionsSkip', text: 'steam.wishlists' });
+      } else {
+        const realWishlists = this.getRealParams('wishlists', wishlistLinks, doTask, (link) => link.match(/app\/([\d]+)/)?.[1]);
+        if (realWishlists.length > 0) {
+          for (const game of realWishlists) {
+            if (doTask) {
+              prom.push(this.#addToWishlist(game));
+            } else {
+              prom.push(this.#removeFromWishlist(game));
+            }
+            await delay(1000);
+          }
+        }
+      }
+
+      if (
+        (doTask && !globalOptions.doTask.steam.follows) ||
+        (!doTask && !globalOptions.undoTask.steam.follows)
+      ) {
+        echoLog({ type: 'globalOptionsSkip', text: 'steam.follows' });
+      } else {
+        const realFollows = this.getRealParams('follows', followLinks, doTask, (link) => link.match(/app\/([\d]+)/)?.[1]);
+        if (realFollows.length > 0) {
+          for (const game of realFollows) {
+            prom.push(this.#toggleFollowGame(game, doTask));
+            await delay(1000);
+          }
+        }
+      }
+
+      if (
+        (doTask && !globalOptions.doTask.steam.forums) ||
+        (!doTask && !globalOptions.undoTask.steam.forums)
+      ) {
+        echoLog({ type: 'globalOptionsSkip', text: 'steam.forums' });
+      } else {
+        const realForums = this.getRealParams('forums', forumLinks, doTask, (link) => link.match(/app\/([\d]+)/)?.[1]);
+        if (realForums.length > 0) {
+          for (const forum of realForums) {
+            prom.push(this.#toggleForum(forum, doTask));
+            await delay(1000);
+          }
+        }
+      }
+
+      if (
+        (doTask && !globalOptions.doTask.steam.workshops) ||
+        (!doTask && !globalOptions.undoTask.steam.workshops)
+      ) {
+        echoLog({ type: 'globalOptionsSkip', text: 'steam.workshops' });
+      } else {
+        const realWorkshops = this.getRealParams('workshops', workshopLinks, doTask, (link) => link.match(/\?id=([\d]+)/)?.[1]);
+        if (realWorkshops.length > 0) {
+          for (const workshop of realWorkshops) {
+            prom.push(this.#toggleFavoriteWorkshop(workshop, doTask));
+            await delay(1000);
+          }
+        }
+      }
+
+      if (doTask && !globalOptions.doTask.steam.workshopVotes) {
+        echoLog({ type: 'globalOptionsSkip', text: 'steam.workshopVotes' });
+      } else {
+        const realworkshopVotes = this.getRealParams('workshopVotes', workshopVoteLinks, doTask, (link) => link.match(/\?id=([\d]+)/)?.[1]);
+        if (doTask && realworkshopVotes.length > 0) {
+          for (const workshop of realworkshopVotes) {
+            prom.push(this.#voteUpWorkshop(workshop));
+            await delay(1000);
+          }
+        }
+      }
+
+      if (
+        (doTask && !globalOptions.doTask.steam.curators) ||
+        (!doTask && !globalOptions.undoTask.steam.curators)
+      ) {
+        echoLog({ type: 'globalOptionsSkip', text: 'steam.curators' });
+      } else {
+        const realCurators = this.getRealParams('curators', curatorLinks, doTask, (link) => link.match(/curator\/([\d]+)/)?.[1]);
+        const realCuratorLikes = this.getRealParams('curatorLikes', curatorLikeLinks, doTask,
+          (link) => link.match(/https?:\/\/store\.steampowered\.com\/(.*?)\/([^/?]+)/)?.slice(1, 3)
+            .join('/'));
+        if (realCurators.length > 0) {
+          for (const curator of realCurators) {
+            prom.push(this.#toggleCurator(curator, doTask));
+            await delay(1000);
+          }
+        }
+        if (realCuratorLikes.length > 0) {
+          for (const curatorLike of realCuratorLikes) {
+            prom.push(this.#toggleCuratorLike(curatorLike, doTask));
+            await delay(1000);
+          }
+        }
+      }
+
+      if (doTask && !globalOptions.doTask.steam.announcements) {
+        echoLog({ type: 'globalOptionsSkip', text: 'steam.announcements' });
+      } else {
+        const realAnnouncements = this.getRealParams('announcements', announcementLinks, doTask,
+          (link) => {
+            if (link.includes('store.steampowered.com')) {
+              return link.match(/store.steampowered.com\/news\/app\/([\d]+)\/view\/([\d]+)/)?.slice(1, 3)
+                .join('/');
+            }
+            return link.match(/steamcommunity.com\/games\/([\d]+)\/announcements\/detail\/([\d]+)/)?.slice(1, 3)
               .join('/');
+          });
+        if (doTask && realAnnouncements.length > 0) {
+          for (const id of realAnnouncements) {
+            prom.push(this.#likeAnnouncement(id));
+            await delay(1000);
           }
-          return link.match(/steamcommunity.com\/games\/([\d]+)\/announcements\/detail\/([\d]+)/)?.slice(1, 3)
-            .join('/');
-        });
-      if (realGroups.length > 0) {
-        for (const group of realGroups) {
-          if (doTask) {
-            prom.push(this.#joinGroup(group));
-          } else {
-            prom.push(this.#leaveGroup(group));
-          }
-          await delay(1000);
-        }
-      }
-      if (realWishlists.length > 0) {
-        for (const game of realWishlists) {
-          if (doTask) {
-            prom.push(this.#addToWishlist(game));
-          } else {
-            prom.push(this.#removeFromWishlist(game));
-          }
-          await delay(1000);
-        }
-      }
-      if (realFollows.length > 0) {
-        for (const game of realFollows) {
-          prom.push(this.#toggleFollowGame(game, doTask));
-          await delay(1000);
-        }
-      }
-      if (realForums.length > 0) {
-        for (const forum of realForums) {
-          prom.push(this.#toggleForum(forum, doTask));
-          await delay(1000);
-        }
-      }
-      if (realWorkshops.length > 0) {
-        for (const workshop of realWorkshops) {
-          prom.push(this.#toggleFavoriteWorkshop(workshop, doTask));
-          await delay(1000);
-        }
-      }
-      if (doTask && realworkshopVotes.length > 0) {
-        for (const workshop of realworkshopVotes) {
-          prom.push(this.#voteUpWorkshop(workshop));
-          await delay(1000);
-        }
-      }
-      if (realCurators.length > 0) {
-        for (const curator of realCurators) {
-          prom.push(this.#toggleCurator(curator, doTask));
-          await delay(1000);
-        }
-      }
-      if (realCuratorLikes.length > 0) {
-        for (const curatorLike of realCuratorLikes) {
-          prom.push(this.#toggleCuratorLike(curatorLike, doTask));
-          await delay(1000);
-        }
-      }
-      if (doTask && realAnnouncements.length > 0) {
-        for (const id of realAnnouncements) {
-          prom.push(this.#likeAnnouncement(id));
-          await delay(1000);
         }
       }
       // TODO: 返回值处理

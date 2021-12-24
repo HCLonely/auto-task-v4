@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:36:57
- * @LastEditTime : 2021-12-07 17:18:38
+ * @LastEditTime : 2021-12-24 17:46:31
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitter.ts
  * @Description  : Twitter 关注/取关用户,转推/取消转推推文
@@ -14,25 +14,17 @@ import throwError from '../tools/throwError';
 import httpRequest from '../tools/httpRequest';
 import { unique, delay } from '../tools/tools';
 import __ from '../tools/i18n';
+import globalOptions from '../globalOptions';
 
 const defaultTasks: twitterTasks = { users: [], retweets: [], likes: [] };
 class Twitter extends Social {
   tasks = { ...defaultTasks };
   whiteList: twitterTasks = GM_getValue<whiteList>('whiteList')?.twitter || { ...defaultTasks }; // eslint-disable-line new-cap
-  #verifyId = '783214';
+  #verifyId = globalOptions.other.twitterVerifyId;
   #auth: auth = GM_getValue<auth>('twitterAuth') || {}; // eslint-disable-line new-cap
   #cache: cache = GM_getValue<cache>('twitterCache') || {}; // eslint-disable-line new-cap
   #initialized = false;
 
-  // TODO: 任务识别
-  constructor(verifyId?: string) {
-    super();
-    if (verifyId) {
-      this.#verifyId = verifyId;
-    }
-  }
-
-  // 通用化,log
   async init(): Promise<boolean> {
     /**
      * @description: 验证及获取Auth
@@ -300,20 +292,36 @@ class Twitter extends Social {
         echoLog({ text: __('needInit') });
         return false;
       }
+
       const prom = [];
-      const realUsers = this.getRealParams('users', userLinks, doTask, (link) => link.match(/https:\/\/twitter\.com\/(.+)/)?.[1]);
-      const realRetweets = this.getRealParams('retweets', retweetLinks, doTask,
-        (link) => link.match(/https:\/\/twitter\.com\/.*?\/status\/([\d]+)/)?.[1]);
-      if (realUsers.length > 0) {
-        for (const user of realUsers) {
-          prom.push(this.#toggleUser({ name: user, doTask }));
-          await delay(1000);
+
+      if (
+        (doTask && !globalOptions.doTask.twitter.users) ||
+        (!doTask && !globalOptions.undoTask.twitter.users)
+      ) {
+        echoLog({ type: 'globalOptionsSkip', text: 'twitter.users' });
+      } else {
+        const realUsers = this.getRealParams('users', userLinks, doTask, (link) => link.match(/https:\/\/twitter\.com\/(.+)/)?.[1]);
+        if (realUsers.length > 0) {
+          for (const user of realUsers) {
+            prom.push(this.#toggleUser({ name: user, doTask }));
+            await delay(1000);
+          }
         }
       }
-      if (realRetweets.length > 0) {
-        for (const retweet of realRetweets) {
-          prom.push(this.#toggleRetweet({ retweetId: retweet, doTask }));
-          await delay(1000);
+      if (
+        (doTask && !globalOptions.doTask.twitter.retweets) ||
+        (!doTask && !globalOptions.undoTask.twitter.retweets)
+      ) {
+        echoLog({ type: 'globalOptionsSkip', text: 'twitter.retweets' });
+      } else {
+        const realRetweets = this.getRealParams('retweets', retweetLinks, doTask,
+          (link) => link.match(/https:\/\/twitter\.com\/.*?\/status\/([\d]+)/)?.[1]);
+        if (realRetweets.length > 0) {
+          for (const retweet of realRetweets) {
+            prom.push(this.#toggleRetweet({ retweetId: retweet, doTask }));
+            await delay(1000);
+          }
         }
       }
       // TODO: 返回值处理

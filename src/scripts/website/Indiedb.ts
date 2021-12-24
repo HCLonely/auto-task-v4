@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 14:37:33
- * @LastEditTime : 2021-12-24 15:29:52
+ * @LastEditTime : 2021-12-24 17:50:41
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Indiedb.ts
  * @Description  : https://www.indiedb.com/giveaways
@@ -13,6 +13,7 @@ import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import { getUrlQuery } from '../tools/tools';
 import httpRequest from '../tools/httpRequest';
+import globalOptions from '../globalOptions';
 
 declare function urlPath(value?: string): string
 
@@ -254,6 +255,7 @@ class Indiedb {
   }
   #checkLogin(): boolean {
     try {
+      if (!globalOptions.other.checkLogin) return true;
       if ($('a.buttonenter:contains(Register to join)').length > 0) {
         window.open('/members/login', '_self');
       }
@@ -265,6 +267,7 @@ class Indiedb {
   }
   async #checkLeftKey() {
     try {
+      if (!globalOptions.other.checkLeftKey) return true;
       if ($('a.buttonenter:contains("next time")').length > 0) {
         await Swal.fire({
           icon: 'warning',

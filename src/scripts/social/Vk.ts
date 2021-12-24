@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 11:47:59
- * @LastEditTime : 2021-12-24 10:42:28
+ * @LastEditTime : 2021-12-24 17:37:54
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Vk.ts
  * @Description  : Vk 加入/退出群组，关注/取关用户，转发/取消转发动态
@@ -13,6 +13,7 @@ import throwError from '../tools/throwError';
 import httpRequest from '../tools/httpRequest';
 import __ from '../tools/i18n';
 import { unique, delay } from '../tools/tools';
+import globalOptions from '../globalOptions';
 
 interface dataParams {
   type: string
@@ -437,11 +438,19 @@ class Vk extends Social {
         return false;
       }
       const prom = [];
-      const realNames = this.getRealParams('names', nameLinks, doTask, (link) => link.match(/https:\/\/vk\.com\/([^/]+)/)?.[1]);
-      if (realNames.length > 0) {
-        for (const name of realNames) {
-          prom.push(this.#toggleVk({ name, doTask }));
-          await delay(1000);
+
+      if (
+        (doTask && !globalOptions.doTask.vk.names) ||
+        (!doTask && !globalOptions.undoTask.vk.names)
+      ) {
+        echoLog({ type: 'globalOptionsSkip', text: 'vk.names' });
+      } else {
+        const realNames = this.getRealParams('names', nameLinks, doTask, (link) => link.match(/https:\/\/vk\.com\/([^/]+)/)?.[1]);
+        if (realNames.length > 0) {
+          for (const name of realNames) {
+            prom.push(this.#toggleVk({ name, doTask }));
+            await delay(1000);
+          }
         }
       }
       // TODO: 返回值处理

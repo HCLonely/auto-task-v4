@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2021-12-24 15:47:20
+ * @LastEditTime : 2021-12-24 17:29:46
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -67,6 +67,7 @@ const data = {
   invertSelect: '反选',
   doFreeTask: '加入免费赠品',
   doPointTask: '加入点数赠品',
+  skipTaskOption: '设置中已配置跳过任务',
 
   // Steam
   steamCommunity: 'Steam社区',

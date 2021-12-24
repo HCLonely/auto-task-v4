@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-30 09:43:32
- * @LastEditTime : 2021-12-21 09:50:33
+ * @LastEditTime : 2021-12-24 17:47:12
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Reddit.ts
  * @Description  : Reddit 订阅&取消订阅
@@ -13,6 +13,7 @@ import throwError from '../tools/throwError';
 import httpRequest from '../tools/httpRequest';
 import __ from '../tools/i18n';
 import { unique, delay } from '../tools/tools';
+import globalOptions from '../globalOptions';
 
 const defaultTasks: redditTasks = { reddits: [] };
 class Reddit extends Social {
@@ -21,7 +22,6 @@ class Reddit extends Social {
   #auth!: auth;
   #initialized = false;
 
-  // 通用化
   async init(): Promise<boolean> {
     /**
      * @description: 验证及获取Auth
@@ -175,19 +175,26 @@ class Reddit extends Social {
         return false;
       }
       const prom: Array<Promise<boolean>> = [];
-      const realReddits: Array<string> = this.getRealParams('reddits', redditLinks, doTask,
-        (link) => {
-          const name = link.match(/https?:\/\/www\.reddit\.com\/r\/([^/]*)/)?.[1];
-          const userName = link.match(/https?:\/\/www\.reddit\.com\/user\/([^/]*)/)?.[1];
-          if (userName) {
-            return name || userName;
+      if (
+        (doTask && !globalOptions.doTask.reddit.reddits) ||
+        (!doTask && !globalOptions.undoTask.reddit.reddits)
+      ) {
+        echoLog({ type: 'globalOptionsSkip', text: 'reddit.reddits' });
+      } else {
+        const realReddits: Array<string> = this.getRealParams('reddits', redditLinks, doTask,
+          (link) => {
+            const name = link.match(/https?:\/\/www\.reddit\.com\/r\/([^/]*)/)?.[1];
+            const userName = link.match(/https?:\/\/www\.reddit\.com\/user\/([^/]*)/)?.[1];
+            if (userName) {
+              return name || userName;
+            }
+            return name;
+          });
+        if (realReddits.length > 0) {
+          for (const name of realReddits) {
+            prom.push(this.toggleTask({ name, doTask }));
+            await delay(1000);
           }
-          return name;
-        });
-      if (realReddits.length > 0) {
-        for (const name of realReddits) {
-          prom.push(this.toggleTask({ name, doTask }));
-          await delay(1000);
         }
       }
       // TODO: 返回值处理
