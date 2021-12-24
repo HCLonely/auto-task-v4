@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-21 10:01:05
- * @LastEditTime : 2021-12-22 17:51:20
+ * @LastEditTime : 2021-12-24 10:37:14
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/SweepWidget.ts
  * @Description  : https://sweepwidget.com/
@@ -78,7 +78,7 @@ class SweepWidget extends Website {
         }
       }
       const logStatus = echoLog({ text: __('SweepWidgetNotice') });
-      // todo
+
       // this.socialTasks = GM_getValue<swSocialTasks>(`swTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
 
       const tasks = $('#sw_inner_entry_methods_l2_wrapper>div.sw_entry');
@@ -112,7 +112,7 @@ class SweepWidget extends Website {
       /*
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as gasSocialTasks;
       this.socialTasks = this.undoneTasks;
-      GM_setValue(`gcTasks${this.giveawayId}`, this.socialTasks); // eslint-disable-line new-cap
+      GM_setValue(`swTasks-${this.giveawayId}`, this.socialTasks); // eslint-disable-line new-cap
       */
       return true;
     } catch (error) {

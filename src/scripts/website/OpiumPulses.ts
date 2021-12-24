@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 17:22:20
- * @LastEditTime : 2021-12-22 17:50:03
+ * @LastEditTime : 2021-12-24 10:36:47
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/OpiumPulses.ts
  * @Description  : https://www.opiumpulses.com/giveaways
@@ -13,10 +13,19 @@ import __ from '../tools/i18n';
 import httpRequest from '../tools/httpRequest';
 
 declare function checkUser(params:string): void
-
+interface options {
+  maxPoint: string
+}
+const defaultOptions = {
+  maxPoint: '99999999'
+};
 class OpiumPulses {
   name = 'OpiumPulses'
-  maxPoints = 0
+  options = {
+    ...defaultOptions,
+    ...GM_getValue<options>('OpiumPulsesOptions') // eslint-disable-line new-cap
+  }
+  maxPoints = 99999999
   myPoints = 0
 
   static test(): boolean {
@@ -27,7 +36,7 @@ class OpiumPulses {
       if (!this.checkLogin()) {
         echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
       }
-      // this.maxPoints = maxPoint; // todo: 读取
+      this.maxPoints = parseInt(this.options.maxPoint, 10);
     } catch (error) {
       throwError(error as Error, 'OpiumPulses.before');
     }

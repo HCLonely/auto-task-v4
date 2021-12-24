@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:28
- * @LastEditTime : 2021-12-12 17:20:28
+ * @LastEditTime : 2021-12-24 10:37:28
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Website.ts
  * @Description  :
@@ -121,7 +121,6 @@ abstract class Website {
     for (const [social, types] of Object.entries(allTasks)) {
       result[social as socialType] = {};
       for (const [type, tasks] of Object.entries(types)) {
-        // todo
         // eslint-disable-next-line
         // @ts-ignore
         result[social][type] = unique(tasks as Array<string>);

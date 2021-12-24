@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.22-Alpha
+// @version            4.0.23-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -580,13 +580,13 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       checkLoginFailed: '检测登录状态失败！',
       checkLeftKeyFailed: '检测剩余Key失败！',
       userId: '用户Id',
-      giveKeyNotice: '如果没有key, 请在<a href="https://givekey.ru/profile" target="_blank">https://givekey.ru/profile</a>查看',
       joiningGiveaway: '正在加入赠Key',
       needJoinGiveaway: '需要先加入赠Key',
       cannotUndo: '此网站不支持取消任务',
       verifyAuth: '正在验证 %0 凭证...',
       closePageNotice: '如果此页面没有自动关闭，请自行关闭本页面。',
       errorReport: '检测到脚本报错，是否前往反馈BUG？',
+      visitingLink: '正在访问链接: ',
       steamCommunity: 'Steam社区',
       steamStore: 'Steam商店',
       needLoginSteamStore: '请先<a href="https://store.steampowered.com/login/" target="_blank">登录Steam商店</a>',
@@ -652,6 +652,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       unfollowingYtbChannel: '正在退订YouTube频道',
       likingYtbVideo: '正在点赞YouTube视频',
       unlikingYtbVideo: '正在取消点赞YouTube视频',
+      giveKeyNoticeBefore: '每次验证间隔15s',
+      giveKeyNoticeAfter: '如果没有key, 请在<a href="https://givekey.ru/profile" target="_blank">https://givekey.ru/profile</a>查看',
       noPoints: '点数不够，跳过抽奖',
       getNeedPointsFailed: '获取所需点数失败，跳过抽奖',
       joiningLottery: '正在加入抽奖',
@@ -802,8 +804,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
             ele = $(`<li>${i18n(type)}<a href="https://vk.com/${text}/" target="_blank">${text}</a>...<font></font></li>`);
             break;
 
-           case 'visitLink':
-            ele = $(`<li>${i18n('visitLink')}<a href="${text}" target="_blank">${text}</a>...<font></font></li>`);
+           case 'visitingLink':
+            ele = $(`<li>${i18n('visitingLink')}<a href="${text}" target="_blank">${text}</a>...<font></font></li>`);
             break;
 
            case 'verifyingInsAuth':
@@ -5704,6 +5706,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
                   break;
 
                  default:
+                  scripts_echoLog({
+                    html: `<li><font class="warning">${i18n('unKnownTaskType')}: ${social}</font></li>`
+                  });
                   break;
                 }
               }
@@ -6877,15 +6882,21 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           if (this.tasks.length === 0 && !await this.classifyTask('verify')) {
             return false;
           }
-          for (const task of this.tasks) {
-            await Givekey_classPrivateMethodGet(this, Givekey_verify, Givekey_verify2).call(this, task);
-            await delay(1e3);
+          scripts_echoLog({
+            html: `<li><font class="warning">${i18n('giveKeyNoticeBefore')}</font></li>`
+          });
+          const taskLength = this.tasks.length;
+          for (let i = 0; i < taskLength; i++) {
+            await Givekey_classPrivateMethodGet(this, Givekey_verify, Givekey_verify2).call(this, this.tasks[i]);
+            if (i < taskLength - 1) {
+              await delay(15e3);
+            }
           }
           scripts_echoLog({
             html: `<li><font class="success">${i18n('allTasksComplete')}</font></li>`
           });
           scripts_echoLog({
-            html: `<li><font class="warning">${i18n('giveKeyNotice')}</font></li>`
+            html: `<li><font class="warning">${i18n('giveKeyNoticeAfter')}</font></li>`
           });
           return true;
         } catch (error) {
@@ -6918,7 +6929,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
                 resolve(true);
               } else if (data.status === 'end') {
                 logStatus.success();
-                resolve(false);
+                scripts_echoLog({
+                  html: `<li><font class="success">${data.key}</font></li>`
+                });
+                resolve(true);
               } else {
                 logStatus.error(`Error:${data.msg}`);
                 resolve(false);
@@ -7210,12 +7224,19 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return fn;
     }
+    const defaultOptions = {
+      maxPoint: '99999999'
+    };
     var _toggleTask = new WeakSet();
     class OpiumPulses {
       constructor() {
         OpiumPulses_classPrivateMethodInitSpec(this, _toggleTask);
         OpiumPulses_defineProperty(this, 'name', 'OpiumPulses');
-        OpiumPulses_defineProperty(this, 'maxPoints', 0);
+        OpiumPulses_defineProperty(this, 'options', {
+          ...defaultOptions,
+          ...GM_getValue('OpiumPulsesOptions')
+        });
+        OpiumPulses_defineProperty(this, 'maxPoints', 99999999);
         OpiumPulses_defineProperty(this, 'myPoints', 0);
       }
       static test() {
@@ -7228,6 +7249,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
               html: `<li><font class="warning>${i18n('checkLoginFailed')}</font></li>`
             });
           }
+          this.maxPoints = parseInt(this.options.maxPoint, 10);
         } catch (error) {
           throwError(error, 'OpiumPulses.before');
         }
@@ -7778,7 +7800,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         gleam: []
       }
     };
-    const defaultOptions = {
+    const Gleam_defaultOptions = {
       vlootUsername: '',
       gameroundUsername: ''
     };
@@ -7803,7 +7825,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           ...Gleam_defaultTasks
         });
         Gleam_defineProperty(this, 'options', {
-          ...defaultOptions,
+          ...Gleam_defaultOptions,
           ...GM_getValue('GleamOptions')
         });
       }

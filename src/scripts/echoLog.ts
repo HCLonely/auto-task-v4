@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:03:26
- * @LastEditTime : 2021-12-07 17:10:41
+ * @LastEditTime : 2021-12-24 10:38:32
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/echoLog.ts
  * @Description  :
@@ -111,8 +111,8 @@ const echoLog = ({ type, text, html, id }: { type?: string, text?: string, html?
       case 'deletingVkWall':
         ele = $(`<li>${__(type)}<a href="https://vk.com/${text}/" target="_blank">${text}</a>...<font></font></li>`);
         break;
-      case 'visitLink': // todo
-        ele = $(`<li>${__('visitLink')}<a href="${text}" target="_blank">${text}</a>...<font></font></li>`);
+      case 'visitingLink':
+        ele = $(`<li>${__('visitingLink')}<a href="${text}" target="_blank">${text}</a>...<font></font></li>`);
         break;
       case 'verifyingInsAuth':
       case 'text':

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2021-12-22 17:35:23
+ * @LastEditTime : 2021-12-24 10:38:49
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -51,13 +51,13 @@ const data = {
   checkLoginFailed: '检测登录状态失败！',
   checkLeftKeyFailed: '检测剩余Key失败！',
   userId: '用户Id',
-  giveKeyNotice: '如果没有key, 请在<a href="https://givekey.ru/profile" target="_blank">https://givekey.ru/profile</a>查看',
   joiningGiveaway: '正在加入赠Key',
   needJoinGiveaway: '需要先加入赠Key',
   cannotUndo: '此网站不支持取消任务',
   verifyAuth: '正在验证 %0 凭证...',
   closePageNotice: '如果此页面没有自动关闭，请自行关闭本页面。',
   errorReport: '检测到脚本报错，是否前往反馈BUG？',
+  visitingLink: '正在访问链接: ',
 
   // Steam
   steamCommunity: 'Steam社区',
@@ -140,12 +140,16 @@ const data = {
   likingYtbVideo: '正在点赞YouTube视频',
   unlikingYtbVideo: '正在取消点赞YouTube视频',
 
+  // GiveKey
+  giveKeyNoticeBefore: '每次验证间隔15s',
+  giveKeyNoticeAfter: '如果没有key, 请在<a href="https://givekey.ru/profile" target="_blank">https://givekey.ru/profile</a>查看',
+
   // OpiumPulses
   noPoints: '点数不够，跳过抽奖',
   getNeedPointsFailed: '获取所需点数失败，跳过抽奖',
   joiningLottery: '正在加入抽奖',
 
-  // gleam
+  // Gleam
   doingGleamTask: '正在做Gleam任务...',
   gettingGleamLink: '正在获取Gleam任务链接...',
   gleamTaskNotice: '如果此页面长时间未关闭，请完成任一任务后自行关闭！',

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:03
- * @LastEditTime : 2021-12-24 10:04:20
+ * @LastEditTime : 2021-12-24 10:16:21
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Freeanywhere.ts
  * @Description  : https://freeanywhere.net
@@ -131,7 +131,7 @@ class FreeAnyWhere extends Website {
               // todo
               break;
             default:
-              // todo
+              echoLog({ html: `<li><font class="warning">${__('unKnownTaskType')}: ${social}</font></li>` });
               break;
             }
           }

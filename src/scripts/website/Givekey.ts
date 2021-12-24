@@ -1,13 +1,12 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-13 17:57:40
- * @LastEditTime : 2021-12-24 10:09:21
+ * @LastEditTime : 2021-12-24 10:29:22
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Givekey.ts
  * @Description  : https://givekey.ru
  */
 
-// todo: 验证优化
 import Swal from 'sweetalert2';
 import Website from './Website';
 import echoLog from '../echoLog';
@@ -181,13 +180,18 @@ class Givekey extends Website {
       if (this.tasks.length === 0 && !(await this.classifyTask('verify'))) {
         return false;
       }
-      for (const task of this.tasks) {
-        await this.#verify(task);
-        await delay(1000);
+      echoLog({ html: `<li><font class="warning">${__('giveKeyNoticeBefore')}</font></li>` });
+      const taskLength = this.tasks.length;
+      for (let i = 0; i < taskLength; i++) { // eslint-disable-line
+      // for (const task of this.tasks) {
+        await this.#verify(this.tasks[i]);
+        if (i < (taskLength - 1)) {
+          await delay(15000);
+        }
       }
 
       echoLog({ html: `<li><font class="success">${__('allTasksComplete')}</font></li>` });
-      echoLog({ html: `<li><font class="warning">${__('giveKeyNotice')}</font></li>` });
+      echoLog({ html: `<li><font class="warning">${__('giveKeyNoticeAfter')}</font></li>` });
       return true;
     } catch (error) {
       throwError(error as Error, 'Givekey.verifyTask');
@@ -215,7 +219,8 @@ class Givekey extends Website {
               resolve(true);
             } else if (data.status === 'end') {
               logStatus.success();
-              resolve(false);
+              echoLog({ html: `<li><font class="success">${data.key}</font></li>` });
+              resolve(true);
             } else {
               logStatus.error(`Error:${data.msg}`);
               resolve(false);

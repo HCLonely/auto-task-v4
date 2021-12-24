@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.22-Alpha
+// @version            4.0.23-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 11:47:59
- * @LastEditTime : 2021-12-14 09:54:46
+ * @LastEditTime : 2021-12-24 10:42:28
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Vk.ts
  * @Description  : Vk 加入/退出群组，关注/取关用户，转发/取消转发动态
@@ -251,7 +251,6 @@ class Vk extends Social {
                   const postId = String(jsonData?.payload?.[1]?.[1]?.post_id);
                   const ownerId = String(jsonData?.payload?.[1]?.[1]?.owner_id);
                   if (postId && ownerId) {
-                    // TODO: 优化
                     this.#setCache(name, `${ownerId}_${postId}`);
                   }
                   this.tasks.names = unique([...this.tasks.names, name]);
