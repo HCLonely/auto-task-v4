@@ -1,11 +1,14 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2021-12-24 10:09:32
+ * @LastEditTime : 2021-12-24 15:50:06
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  : https://gleam.io
  */
+
+// eslint-disable-next-line
+/// <reference path = "Gleam.d.ts" />
 
 import Swal from 'sweetalert2';
 import Website from './Website';
@@ -15,35 +18,6 @@ import __ from '../tools/i18n';
 import httpRequest from '../tools/httpRequest';
 import { delay } from '../tools/tools';
 
-interface gleamSocialTasks {
-  steam: {
-    groupLinks: Array<string>
-    wishlistLinks: Array<string>
-    followLinks: Array<string>
-    curatorLinks: Array<string>
-    curatorLikeLinks: Array<string>
-  }
-  twitter: {
-    userLinks: Array<string>
-    retweetLinks: Array<string>
-  }
-  twitch: {
-    channelLinks: Array<string>
-  }
-  discord: {
-    serverLinks: Array<string>
-  }
-  youtube: {
-    channelLinks: Array<string>
-  }
-  extra: {
-    gleam: Array<string>
-  }
-}
-interface options {
-  vlootUsername: string
-  gameroundUsername: string
-}
 const defaultTasks: gleamSocialTasks = {
   steam: {
     groupLinks: [],
@@ -81,6 +55,11 @@ class Gleam extends Website {
     ...defaultOptions,
     ...GM_getValue<options>('GleamOptions') // eslint-disable-line new-cap
   }
+  buttons: Array<string> = [
+    'doTask',
+    'undoTask',
+    'verifyTask'
+  ]
 
   static test(): boolean {
     return window.location.host === 'gleam.io';

@@ -1,11 +1,14 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 20:22:33
- * @LastEditTime : 2021-12-24 10:10:03
+ * @LastEditTime : 2021-12-24 15:52:38
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Prys.ts
  * @Description  : https://prys.revadike.com/
  */
+
+// eslint-disable-next-line
+/// <reference path = "Prys.d.ts" />
 
 // todo: 未测试
 import Swal from 'sweetalert2';
@@ -14,18 +17,6 @@ import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import { getRedirectLink } from '../tools/tools';
-
-declare function checkClick(prarm: number): void
-declare function getURLParameter(prarm: string): string
-declare function showAlert(prarm1: string, prarm2: string): void
-declare function captchaCheck(): void
-
-interface prysSocialTasks {
-  steam: {
-    groupLinks: Array<string>
-    curatorLinks: Array<string>
-  }
-}
 
 const defaultTasks: prysSocialTasks = {
   steam: {
@@ -38,6 +29,11 @@ class Prys extends Website {
   name = 'Prys'
   socialTasks: prysSocialTasks = { ...defaultTasks }
   undoneTasks: prysSocialTasks = { ...defaultTasks }
+  buttons: Array<string> = [
+    'doTask',
+    'undoTask',
+    'verifyTask'
+  ]
 
   static test(): boolean {
     return window.location.host === 'prys.revadike.com';

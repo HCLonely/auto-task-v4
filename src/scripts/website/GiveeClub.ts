@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 11:46:52
- * @LastEditTime : 2021-12-24 10:08:52
+ * @LastEditTime : 2021-12-24 15:28:47
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/GiveeClub.ts
  * @Description  : https://givee.club/
@@ -19,6 +19,11 @@ import { GiveawaySu, defaultTasks } from './GiveawaySu';
 
 class GiveeClub extends GiveawaySu {
   name = 'GiveeClub'
+  buttons: Array<string> = [
+    'doTask',
+    'undoTask'
+  ]
+
   static test(): boolean {
     return /^https?:\/\/givee\.club\/.*?\/event\/[\d]+/.test(window.location.href);
   }

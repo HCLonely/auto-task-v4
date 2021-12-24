@@ -1,11 +1,14 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2021-12-24 10:09:44
+ * @LastEditTime : 2021-12-24 15:50:54
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
  * @Description  : https://key-hub.eu/
  */
+
+// eslint-disable-next-line
+/// <reference path = "Keyhub.d.ts" />
 
 import Swal from 'sweetalert2';
 import Website from './Website';
@@ -13,20 +16,6 @@ import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import { getRedirectLink } from '../tools/tools';
-
-interface khSocialTasks {
-  steam: {
-    groupLinks: Array<string>
-    wishlistLinks: Array<string>
-    curatorLinks: Array<string>
-  }
-  discord: {
-    serverLinks: Array<string>
-  }
-  links: Array<string>
-}
-
-declare function VerifyTasks(value: string): void
 
 const defaultTasks: khSocialTasks = {
   steam: {
@@ -44,6 +33,11 @@ class Keyhub extends Website {
   name = 'Keyhub'
   socialTasks: khSocialTasks = { ...defaultTasks }
   undoneTasks: khSocialTasks = { ...defaultTasks }
+  buttons: Array<string> = [
+    'doTask',
+    'undoTask',
+    'verifyTask'
+  ]
 
   static test(): boolean {
     return window.location.host === 'key-hub.eu';

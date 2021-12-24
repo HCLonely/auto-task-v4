@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 14:37:33
- * @LastEditTime : 2021-12-22 17:45:36
+ * @LastEditTime : 2021-12-24 15:29:52
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Indiedb.ts
  * @Description  : https://www.indiedb.com/giveaways
@@ -18,6 +18,10 @@ declare function urlPath(value?: string): string
 
 class Indiedb {
   name = 'Indiedb'
+  buttons: Array<string> = [
+    'doTask'
+  ]
+
   static test(): boolean {
     return window.location.host === 'www.indiedb.com';
   }

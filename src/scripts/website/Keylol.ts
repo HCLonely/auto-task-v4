@@ -1,13 +1,12 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-15 13:58:41
- * @LastEditTime : 2021-12-22 17:50:00
+ * @LastEditTime : 2021-12-24 15:47:50
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Keylol.ts
  * @Description  : https://keylol.com/f319-1
  */
 
-// todo: 全选/取消全选
 // todo: social初始化优化
 // todo: 任务完成回调
 
@@ -56,6 +55,13 @@ class Keylol extends Website {
   name = 'Keylol'
   socialTasks: keylolSocialTasks = { ...defaultTasks }
   undoneTasks: keylolSocialTasks = { ...defaultTasks }
+  buttons: Array<string> = [
+    'doTask',
+    'undoTask',
+    'selectAll',
+    'selectNone',
+    'invertSelect'
+  ]
 
   static test() {
     return window.location.host === 'keylol.com' && !window.location.href.includes('mod=forumdisplay') && !!$('.subforum_left_title_left_up a').eq(3)
@@ -188,6 +194,29 @@ class Keylol extends Website {
     } catch (error) {
       throwError(error as Error, 'Keylol.classifyTask');
       return false;
+    }
+  }
+  selectAll() {
+    try {
+      $('.auto-task-keylol').attr('selected', 'selected');
+    } catch (error) {
+      throwError(error as Error, 'Keylol.selectAll');
+    }
+  }
+  selectNone() {
+    try {
+      $('.auto-task-keylol').removeAttr('selected');
+    } catch (error) {
+      throwError(error as Error, 'Keylol.selectNone');
+    }
+  }
+  invertSelect() {
+    try {
+      $('.auto-task-keylol').each((index, element) => {
+        element.getAttribute('selected') ? element.removeAttribute('selected') : element.setAttribute('selected', 'selected');
+      });
+    } catch (error) {
+      throwError(error as Error, 'Keylol.invertSelect');
     }
   }
 

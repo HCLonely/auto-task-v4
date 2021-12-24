@@ -1,25 +1,19 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-18 13:31:23
- * @LastEditTime : 2021-12-24 10:03:24
+ * @LastEditTime : 2021-12-24 15:52:11
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Opquests.ts
  * @Description  : https://opquests.com/
  */
 
+// eslint-disable-next-line
+/// <reference path = "Opquests.d.ts" />
+
 import Website from './Website';
 import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
-
-interface oqSocialTasks {
-  steam: {
-    groupLinks: Array<string>
-    wishlistLinks: Array<string>
-    followLinks: Array<string>
-    curatorLikeLinks: Array<string>
-  }
-}
 
 const defaultTasks: oqSocialTasks = {
   steam: {
@@ -33,6 +27,9 @@ const defaultTasks: oqSocialTasks = {
 class Opquests extends Website {
   name = 'Opquests'
   undoneTasks: oqSocialTasks = { ...defaultTasks }
+  buttons: Array<string> = [
+    'doTask'
+  ]
 
   static test(): boolean {
     return window.location.host === 'opquests.com';

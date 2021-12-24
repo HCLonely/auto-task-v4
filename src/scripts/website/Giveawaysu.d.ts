@@ -1,10 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:43:23
- * @LastEditTime : 2021-11-19 10:04:52
+ * @LastEditTime : 2021-12-24 15:49:40
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.d.ts
- * @Description  :
  */
 
 declare interface gasSocialTasks {

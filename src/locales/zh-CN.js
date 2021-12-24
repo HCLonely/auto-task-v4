@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2021-12-24 10:38:49
+ * @LastEditTime : 2021-12-24 15:47:20
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -58,6 +58,15 @@ const data = {
   closePageNotice: '如果此页面没有自动关闭，请自行关闭本页面。',
   errorReport: '检测到脚本报错，是否前往反馈BUG？',
   visitingLink: '正在访问链接: ',
+  doTask: '做任务',
+  undoTask: '撤销任务',
+  verifyTask: '验证任务',
+  getKey: '获取Key',
+  selectAll: '全选',
+  selectNone: '全不选',
+  invertSelect: '反选',
+  doFreeTask: '加入免费赠品',
+  doPointTask: '加入点数赠品',
 
   // Steam
   steamCommunity: 'Steam社区',

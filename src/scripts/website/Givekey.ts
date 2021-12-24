@@ -1,11 +1,14 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-13 17:57:40
- * @LastEditTime : 2021-12-24 10:29:22
+ * @LastEditTime : 2021-12-24 15:49:06
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Givekey.ts
  * @Description  : https://givekey.ru
  */
+
+// eslint-disable-next-line
+/// <reference path = "GiveKey.d.ts" />
 
 import Swal from 'sweetalert2';
 import Website from './Website';
@@ -13,24 +16,6 @@ import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import { delay, getRedirectLink, unique } from '../tools/tools';
 import throwError from '../tools/throwError';
-
-declare interface gkSocialTasks {
-  steam: {
-    groupLinks: Array<string>
-    wishlistLinks: Array<string>
-    curatorLinks: Array<string>
-    curatorLikeLinks: Array<string>
-  }
-  twitter: {
-    userLinks: Array<string>
-  }
-  vk: {
-    nameLinks: Array<string>
-  }
-  discord: {
-    serverLinks: Array<string>
-  }
-}
 
 const defaultTasks: gkSocialTasks = {
   steam: {
@@ -56,6 +41,11 @@ class Givekey extends Website {
   socialTasks: gkSocialTasks = { ...defaultTasks }
   undoneTasks: gkSocialTasks = { ...defaultTasks }
   userId!: string
+  buttons: Array<string> = [
+    'doTask',
+    'undoTask',
+    'verifyTask'
+  ]
 
   static test(): boolean {
     return window.location.host === 'givekey.ru';

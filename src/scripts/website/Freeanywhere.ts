@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:03
- * @LastEditTime : 2021-12-24 10:16:21
+ * @LastEditTime : 2021-12-24 15:28:01
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Freeanywhere.ts
  * @Description  : https://freeanywhere.net
@@ -35,6 +35,12 @@ class FreeAnyWhere extends Website {
   tasks: Array<fawTaskInfo> = []
   socialTasks: fawSocialTasks = { ...defaultTasks }
   undoneTasks: fawSocialTasks = { ...defaultTasks }
+  buttons: Array<string> = [
+    'doTask',
+    'undoTask',
+    'verifyTask',
+    'getKey'
+  ]
 
   static test(): boolean {
     return window.location.host === 'freeanywhere.net';

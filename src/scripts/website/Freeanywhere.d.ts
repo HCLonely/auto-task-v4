@@ -1,10 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 17:37:43
- * @LastEditTime : 2021-12-22 17:09:56
+ * @LastEditTime : 2021-12-24 15:49:45
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Freeanywhere.d.ts
- * @Description  :
  */
 declare interface fawSocialTasks {
   steam: {

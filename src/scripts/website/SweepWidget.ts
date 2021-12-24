@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-21 10:01:05
- * @LastEditTime : 2021-12-24 10:37:14
+ * @LastEditTime : 2021-12-24 15:31:24
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/SweepWidget.ts
  * @Description  : https://sweepwidget.com/
@@ -29,13 +29,16 @@ class SweepWidget extends Website {
     ...defaultOptions,
     ...GM_getValue<options>('SweepWidgetOptions') // eslint-disable-line new-cap
   }
+  buttons: Array<string> = [
+    'doTask'
+  ]
 
   static test(): boolean {
     return /^https?:\/\/sweepwidget\.com\/view\/[\d]+/.test(window.location.href);
   }
   async before(): Promise<void> {
     try {
-      if (!this.checkLogin()) {
+      if (!this.#checkLogin()) {
         echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
       }
     } catch (error) {
@@ -45,11 +48,11 @@ class SweepWidget extends Website {
   init(): boolean {
     try {
       const logStatus = echoLog({ text: __('initing') });
-      if (!this.checkLogin()) {
+      if (!this.#checkLogin()) {
         logStatus.warning(__('needLogin'));
         return false;
       }
-      if (!this.getGiveawayId()) return false;
+      if (!this.#getGiveawayId()) return false;
       this.initialized = true;
       logStatus.success();
       return true;
@@ -121,7 +124,7 @@ class SweepWidget extends Website {
     }
   }
 
-  checkLogin(): boolean {
+  #checkLogin(): boolean {
     try {
       if ($('#twitter_login_button').length > 0) {
         $('#twitter_login_button')[0].click();
@@ -132,7 +135,7 @@ class SweepWidget extends Website {
       return false;
     }
   }
-  getGiveawayId() {
+  #getGiveawayId() {
     const giveawayId = window.location.href.match(/\/view\/([\d]+)/)?.[1];
     if (giveawayId) {
       this.giveawayId = giveawayId;

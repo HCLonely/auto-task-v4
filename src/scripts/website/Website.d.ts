@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-05 11:32:20
- * @LastEditTime : 2021-12-11 19:05:15
+ * @LastEditTime : 2021-12-24 16:07:48
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Website.d.ts
  * @Description  :
@@ -57,3 +57,9 @@ declare interface webSocialTasks {
   links?: Array<string>
   extra?: extraTasks
 }
+declare interface bindReturn {
+  name: string
+  result: boolean
+}
+
+declare function initFunction():Promise<boolean>

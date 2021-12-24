@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.23-Alpha
+// @version            4.0.24-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -587,6 +587,15 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       closePageNotice: '如果此页面没有自动关闭，请自行关闭本页面。',
       errorReport: '检测到脚本报错，是否前往反馈BUG？',
       visitingLink: '正在访问链接: ',
+      doTask: '做任务',
+      undoTask: '撤销任务',
+      verifyTask: '验证任务',
+      getKey: '获取Key',
+      selectAll: '全选',
+      selectNone: '全不选',
+      invertSelect: '反选',
+      doFreeTask: '加入免费赠品',
+      doPointTask: '加入点数赠品',
       steamCommunity: 'Steam社区',
       steamStore: 'Steam商店',
       needLoginSteamStore: '请先<a href="https://store.steampowered.com/login/" target="_blank">登录Steam商店</a>',
@@ -5305,6 +5314,15 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
     }
     const social_Steam = Steam;
+    function Website_classPrivateMethodInitSpec(obj, privateSet) {
+      Website_checkPrivateRedeclaration(obj, privateSet);
+      privateSet.add(obj);
+    }
+    function Website_checkPrivateRedeclaration(obj, privateCollection) {
+      if (privateCollection.has(obj)) {
+        throw new TypeError('Cannot initialize the same private elements twice on an object');
+      }
+    }
     function Website_defineProperty(obj, key, value) {
       if (key in obj) {
         Object.defineProperty(obj, key, {
@@ -5318,83 +5336,106 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return obj;
     }
+    function Website_classPrivateMethodGet(receiver, privateSet, fn) {
+      if (!privateSet.has(receiver)) {
+        throw new TypeError('attempted to get private field on non-instance');
+      }
+      return fn;
+    }
+    var _bind = new WeakSet();
     class Website {
       constructor() {
+        Website_classPrivateMethodInitSpec(this, _bind);
         Website_defineProperty(this, 'undoneTasks', void 0);
         Website_defineProperty(this, 'socialTasks', void 0);
         Website_defineProperty(this, 'giveawayId', void 0);
-        Website_defineProperty(this, 'socialInitialized', false);
+        Website_defineProperty(this, 'socialInitialized', {
+          discord: false,
+          instagram: false,
+          reddit: false,
+          twitch: false,
+          twitter: false,
+          vk: false,
+          youtube: false,
+          steam: false
+        });
         Website_defineProperty(this, 'initialized', false);
         Website_defineProperty(this, 'social', {});
       }
       async initSocial(action) {
         try {
-          if (this.socialInitialized) {
-            return true;
-          }
           const pro = [];
           const tasks = action === 'do' ? this.undoneTasks : this.socialTasks;
           if (tasks.discord) {
             const hasDiscord = Object.values(tasks.discord).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
-            if (hasDiscord) {
+            if (hasDiscord && !this.socialInitialized.discord) {
               this.social.discord = new social_Discord();
-              pro.push(this.social.discord.init());
+              pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'discord', this.social.discord.init()));
             }
           }
           if (tasks.instagram) {
             const hasInstagram = Object.values(tasks.instagram).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
-            if (hasInstagram) {
+            if (hasInstagram && !this.socialInitialized.instagram) {
               this.social.instagram = new social_Instagram();
-              pro.push(this.social.instagram.init());
+              pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'instagram', this.social.instagram.init()));
             }
           }
           if (tasks.reddit) {
             const hasReddit = Object.values(tasks.reddit).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
-            if (hasReddit) {
+            if (hasReddit && !this.socialInitialized.reddit) {
               this.social.reddit = new social_Reddit();
-              pro.push(this.social.reddit.init());
+              pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'reddit', this.social.reddit.init()));
             }
           }
           if (tasks.twitch) {
             const hasTwitch = Object.values(tasks.twitch).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
-            if (hasTwitch) {
+            if (hasTwitch && !this.socialInitialized.twitch) {
               this.social.twitch = new social_Twitch();
-              pro.push(this.social.twitch.init());
+              pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'twitch', this.social.twitch.init()));
             }
           }
           if (tasks.twitter) {
             const hasTwitter = Object.values(tasks.twitter).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
-            if (hasTwitter) {
+            if (hasTwitter && !this.socialInitialized.twitter) {
               this.social.twitter = new social_Twitter();
-              pro.push(this.social.twitter.init());
+              pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'twitter', this.social.twitter.init()));
             }
           }
           if (tasks.vk) {
             const hasVk = Object.values(tasks.vk).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
-            if (hasVk) {
+            if (hasVk && !this.socialInitialized.vk) {
               this.social.vk = new social_Vk();
-              pro.push(this.social.vk.init());
+              pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'vk', this.social.vk.init()));
             }
           }
           if (tasks.youtube) {
             const hasYoutube = Object.values(tasks.youtube).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
-            if (hasYoutube) {
+            if (hasYoutube && !this.socialInitialized.youtube) {
               this.social.youtube = new Youtube();
-              pro.push(this.social.youtube.init());
+              pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'youtube', this.social.youtube.init()));
             }
           }
           if (tasks.steam) {
             const hasSteam = Object.values(tasks.steam).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
-            if (hasSteam) {
+            if (hasSteam && !this.socialInitialized.steam) {
               this.social.steam = new social_Steam();
-              pro.push(this.social.steam.init());
+              pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'steam', this.social.steam.init()));
             }
           }
           if (tasks.links && tasks.links.length > 0) {
             this.social.visitLink = visitLink;
           }
-          this.socialInitialized = await Promise.all(pro).then(data => !data.includes(false));
-          return this.socialInitialized;
+          return await Promise.all(pro).then(result => {
+            let checked = true;
+            for (const data of result) {
+              if (data.result) {
+                this.socialInitialized[data.name] = data.result;
+              } else {
+                checked = false;
+              }
+            }
+            return checked;
+          });
         } catch (error) {
           throwError(error, 'Website.initSocial');
           return false;
@@ -5418,7 +5459,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           if (!await this.classifyTask(action)) {
             return false;
           }
-          if (!this.socialInitialized && !await this.initSocial(action)) {
+          if (!await this.initSocial(action)) {
             return false;
           }
           const pro = [];
@@ -5516,6 +5557,20 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         return true;
       }
     }
+    async function _bind2(name, init) {
+      try {
+        return {
+          name: name,
+          result: await init
+        };
+      } catch (error) {
+        throwError(error, 'Website.bind');
+        return {
+          name: name,
+          result: false
+        };
+      }
+    }
     const website_Website = Website;
     function FreeAnyWhere_classPrivateMethodInitSpec(obj, privateSet) {
       FreeAnyWhere_checkPrivateRedeclaration(obj, privateSet);
@@ -5571,6 +5626,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         FreeAnyWhere_defineProperty(this, 'undoneTasks', {
           ...FreeAnyWhere_defaultTasks
         });
+        FreeAnyWhere_defineProperty(this, 'buttons', [ 'doTask', 'undoTask', 'verifyTask', 'getKey' ]);
       }
       static test() {
         return window.location.host === 'freeanywhere.net';
@@ -5916,6 +5972,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         GiveawaySu_defineProperty(this, 'name', 'GiveawaySu');
         GiveawaySu_defineProperty(this, 'socialTasks', GiveawaySu_defaultTasks);
         GiveawaySu_defineProperty(this, 'undoneTasks', GiveawaySu_defaultTasks);
+        GiveawaySu_defineProperty(this, 'buttons', [ 'doTask', 'undoTask' ]);
       }
       static test() {
         return /^https?:\/\/giveaway\.su\/giveaway\/view\/[\d]+/.test(window.location.href);
@@ -6133,6 +6190,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         Indiedb_classPrivateMethodInitSpec(this, _do);
         Indiedb_classPrivateMethodInitSpec(this, _join);
         Indiedb_defineProperty(this, 'name', 'Indiedb');
+        Indiedb_defineProperty(this, 'buttons', [ 'doTask' ]);
       }
       static test() {
         return window.location.host === 'www.indiedb.com';
@@ -6493,6 +6551,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         Keyhub_defineProperty(this, 'undoneTasks', {
           ...Keyhub_defaultTasks
         });
+        Keyhub_defineProperty(this, 'buttons', [ 'doTask', 'undoTask', 'verifyTask' ]);
       }
       static test() {
         return window.location.host === 'key-hub.eu';
@@ -6734,6 +6793,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           ...Givekey_defaultTasks
         });
         Givekey_defineProperty(this, 'userId', void 0);
+        Givekey_defineProperty(this, 'buttons', [ 'doTask', 'undoTask', 'verifyTask' ]);
       }
       static test() {
         return window.location.host === 'givekey.ru';
@@ -7030,6 +7090,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         GiveeClub_classPrivateMethodInitSpec(this, GiveeClub_getGiveawayId);
         GiveeClub_classPrivateMethodInitSpec(this, GiveeClub_checkLogin);
         GiveeClub_defineProperty(this, 'name', 'GiveeClub');
+        GiveeClub_defineProperty(this, 'buttons', [ 'doTask', 'undoTask' ]);
       }
       static test() {
         return /^https?:\/\/givee\.club\/.*?\/event\/[\d]+/.test(window.location.href);
@@ -7238,6 +7299,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         });
         OpiumPulses_defineProperty(this, 'maxPoints', 99999999);
         OpiumPulses_defineProperty(this, 'myPoints', 0);
+        OpiumPulses_defineProperty(this, 'buttons', [ 'doFreeTask', 'doPointTask' ]);
       }
       static test() {
         return window.location.host === 'www.opiumpulses.com';
@@ -7428,6 +7490,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         Keylol_defineProperty(this, 'undoneTasks', {
           ...Keylol_defaultTasks
         });
+        Keylol_defineProperty(this, 'buttons', [ 'doTask', 'undoTask', 'selectAll', 'selectNone', 'invertSelect' ]);
       }
       static test() {
         var _$$eq$attr;
@@ -7583,6 +7646,29 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           return false;
         }
       }
+      selectAll() {
+        try {
+          $('.auto-task-keylol').attr('selected', 'selected');
+        } catch (error) {
+          throwError(error, 'Keylol.selectAll');
+        }
+      }
+      selectNone() {
+        try {
+          $('.auto-task-keylol').removeAttr('selected');
+        } catch (error) {
+          throwError(error, 'Keylol.selectNone');
+        }
+      }
+      invertSelect() {
+        try {
+          $('.auto-task-keylol').each((index, element) => {
+            element.getAttribute('selected') ? element.removeAttribute('selected') : element.setAttribute('selected', 'selected');
+          });
+        } catch (error) {
+          throwError(error, 'Keylol.invertSelect');
+        }
+      }
     }
     function _addBtn2(before, social, linkType, link) {
       try {
@@ -7639,6 +7725,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         Opquests_defineProperty(this, 'undoneTasks', {
           ...Opquests_defaultTasks
         });
+        Opquests_defineProperty(this, 'buttons', [ 'doTask' ]);
       }
       static test() {
         return window.location.host === 'opquests.com';
@@ -7828,6 +7915,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           ...Gleam_defaultOptions,
           ...GM_getValue('GleamOptions')
         });
+        Gleam_defineProperty(this, 'buttons', [ 'doTask', 'undoTask', 'verifyTask' ]);
       }
       static test() {
         return window.location.host === 'gleam.io';
@@ -8240,6 +8328,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       username: '',
       email: ''
     };
+    var SweepWidget_checkLogin = new WeakSet();
+    var SweepWidget_getGiveawayId = new WeakSet();
     var _checkEnter = new WeakSet();
     var _checkFinish = new WeakSet();
     class SweepWidget extends website_Website {
@@ -8247,18 +8337,21 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         super(...arguments);
         SweepWidget_classPrivateMethodInitSpec(this, _checkFinish);
         SweepWidget_classPrivateMethodInitSpec(this, _checkEnter);
+        SweepWidget_classPrivateMethodInitSpec(this, SweepWidget_getGiveawayId);
+        SweepWidget_classPrivateMethodInitSpec(this, SweepWidget_checkLogin);
         SweepWidget_defineProperty(this, 'name', 'SweepWidget');
         SweepWidget_defineProperty(this, 'options', {
           ...SweepWidget_defaultOptions,
           ...GM_getValue('SweepWidgetOptions')
         });
+        SweepWidget_defineProperty(this, 'buttons', [ 'doTask' ]);
       }
       static test() {
         return /^https?:\/\/sweepwidget\.com\/view\/[\d]+/.test(window.location.href);
       }
       async before() {
         try {
-          if (!this.checkLogin()) {
+          if (!SweepWidget_classPrivateMethodGet(this, SweepWidget_checkLogin, SweepWidget_checkLogin2).call(this)) {
             scripts_echoLog({
               html: `<li><font class="warning>${i18n('checkLoginFailed')}</font></li>`
             });
@@ -8272,11 +8365,11 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           const logStatus = scripts_echoLog({
             text: i18n('initing')
           });
-          if (!this.checkLogin()) {
+          if (!SweepWidget_classPrivateMethodGet(this, SweepWidget_checkLogin, SweepWidget_checkLogin2).call(this)) {
             logStatus.warning(i18n('needLogin'));
             return false;
           }
-          if (!this.getGiveawayId()) {
+          if (!SweepWidget_classPrivateMethodGet(this, SweepWidget_getGiveawayId, SweepWidget_getGiveawayId2).call(this)) {
             return false;
           }
           this.initialized = true;
@@ -8343,29 +8436,29 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           return false;
         }
       }
-      checkLogin() {
-        try {
-          if ($('#twitter_login_button').length > 0) {
-            $('#twitter_login_button')[0].click();
-          }
-          return true;
-        } catch (error) {
-          throwError(error, 'SweepWidget.checkLogin');
-          return false;
+    }
+    function SweepWidget_checkLogin2() {
+      try {
+        if ($('#twitter_login_button').length > 0) {
+          $('#twitter_login_button')[0].click();
         }
-      }
-      getGiveawayId() {
-        var _window$location$href;
-        const giveawayId = (_window$location$href = window.location.href.match(/\/view\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
-        if (giveawayId) {
-          this.giveawayId = giveawayId;
-          return true;
-        }
-        scripts_echoLog({
-          text: i18n('getFailed', 'GiveawayId')
-        });
+        return true;
+      } catch (error) {
+        throwError(error, 'SweepWidget.checkLogin');
         return false;
       }
+    }
+    function SweepWidget_getGiveawayId2() {
+      var _window$location$href;
+      const giveawayId = (_window$location$href = window.location.href.match(/\/view\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
+      if (giveawayId) {
+        this.giveawayId = giveawayId;
+        return true;
+      }
+      scripts_echoLog({
+        text: i18n('getFailed', 'GiveawayId')
+      });
+      return false;
     }
     async function _checkEnter2() {
       try {
@@ -8398,6 +8491,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
     }
     const website_SweepWidget = SweepWidget;
+    const Websites = [ website_FreeAnyWhere, GiveawaySu, website_Indiedb, website_Keyhub, website_Givekey, website_GiveeClub, website_OpiumPulses, website_Keylol, website_Opquests, website_Gleam, website_SweepWidget ];
     const defaultWhiteList = {
       discord: {
         servers: []
@@ -8617,7 +8711,6 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       });
     };
     const options = websiteOptions;
-    const Websites = [ website_FreeAnyWhere, GiveawaySu, website_Indiedb, website_Keyhub, website_Givekey, website_GiveeClub, website_OpiumPulses, website_Keylol, website_Opquests, website_Gleam, website_SweepWidget ];
     let website;
     for (const Website of Websites) {
       if (Website.test()) {
@@ -8636,7 +8729,6 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         external_Swal_default().fire('', i18n('closePageNotice'));
       }
     }
-    if (window.location.hostname === 'gleam.io') {}
     window.onload = async () => {
       if (window.location.hostname === 'www.twitch.tv' && window.location.hash === '#auth') {
         const authToken = external_Cookies_namespaceObject.get('auth-token');
@@ -8698,31 +8790,12 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       if (website.after) {
         await website.after();
       }
-      if (website.doTask) {
-        GM_registerMenuCommand('doTask', () => {
-          website.doTask();
-        });
-      }
-      if (website.undoTask) {
-        GM_registerMenuCommand('undoTask', () => {
-          website.undoTask();
-        });
-      }
-      if (website.verifyTask) {
-        GM_registerMenuCommand('verifyTask', () => {
-          website.verifyTask();
-        });
-      }
-      if (website.getKey) {
-        GM_registerMenuCommand('getKey', () => {
-          website.getKey();
-        });
-      }
-      if (website.doFreeTask) {
-        GM_registerMenuCommand('doFreeTask', website.doFreeTask);
-      }
-      if (website.doPointTask) {
-        GM_registerMenuCommand('doPointTask', website.doPointTask);
+      for (const button of website.buttons) {
+        if (website[button]) {
+          GM_registerMenuCommand(i18n(button), () => {
+            website[button]();
+          });
+        }
       }
       GM_registerMenuCommand('whiteList', whiteList);
       if (website.options) {

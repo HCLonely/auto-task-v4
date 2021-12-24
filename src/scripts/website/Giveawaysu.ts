@@ -1,10 +1,10 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2021-12-24 10:08:15
+ * @LastEditTime : 2021-12-24 15:49:34
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.ts
- * @Description  :
+ * @Description  : https://giveaway.su/
  */
 
 // eslint-disable-next-line
@@ -53,6 +53,10 @@ class GiveawaySu extends Website {
   name = 'GiveawaySu'
   socialTasks: gasSocialTasks = defaultTasks
   undoneTasks: gasSocialTasks = defaultTasks
+  buttons: Array<string> = [
+    'doTask',
+    'undoTask'
+  ]
 
   static test(): boolean {
     return /^https?:\/\/giveaway\.su\/giveaway\/view\/[\d]+/.test(window.location.href);

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 17:22:20
- * @LastEditTime : 2021-12-24 10:36:47
+ * @LastEditTime : 2021-12-24 15:31:50
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/OpiumPulses.ts
  * @Description  : https://www.opiumpulses.com/giveaways
@@ -27,6 +27,10 @@ class OpiumPulses {
   }
   maxPoints = 99999999
   myPoints = 0
+  buttons: Array<string> = [
+    'doFreeTask',
+    'doPointTask'
+  ]
 
   static test(): boolean {
     return window.location.host === 'www.opiumpulses.com';

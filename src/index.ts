@@ -1,57 +1,21 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-12-22 17:54:34
+ * @LastEditTime : 2021-12-24 15:44:18
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
  */
+
 import Swal from 'sweetalert2';
 import * as Cookies from 'js-cookie';
 // @ts-ignore
 import style from './style/auto-task.scss';
-import FreeAnyWhere from './scripts/website/FreeAnyWhere';
-import { GiveawaySu } from './scripts/website/GiveawaySu';
-import Indiedb from './scripts/website/Indiedb';
-import Keyhub from './scripts/website/Keyhub';
-import Givekey from './scripts/website/Givekey';
-import GiveeClub from './scripts/website/GiveeClub';
-import OpiumPulses from './scripts/website/OpiumPulses';
-import Keylol from './scripts/website/Keylol';
-import Opquests from './scripts/website/Opquests';
-import Gleam from './scripts/website/Gleam';
-import SweepWidget from './scripts/website/SweepWidget';
+import { Websites, WebsiteType } from './scripts/website/index';
 import whiteListOptions from './scripts/social/whiteList';
 import websiteOptions from './scripts/website/options';
 import __ from './scripts/tools/i18n';
 
-type WebsitesType = typeof FreeAnyWhere |
-  typeof GiveawaySu |
-  typeof Indiedb |
-  typeof Keyhub |
-  typeof Givekey |
-  typeof GiveeClub |
-  typeof OpiumPulses |
-  typeof Keylol |
-  typeof Opquests |
-  typeof Gleam |
-  typeof SweepWidget
-
-type WebsiteType = FreeAnyWhere |
-  GiveawaySu |
-  Indiedb |
-  Keyhub |
-  Givekey |
-  GiveeClub |
-  OpiumPulses |
-  Keylol |
-  Opquests |
-  Gleam |
-  SweepWidget
-
-const Websites: Array<WebsitesType> = [
-  FreeAnyWhere, GiveawaySu, Indiedb, Keyhub, Givekey, GiveeClub, OpiumPulses, Keylol, Opquests, Gleam, SweepWidget
-];
 let website: WebsiteType;
 for (const Website of Websites) {
   if (Website.test()) {
@@ -74,9 +38,7 @@ if (window.location.hostname === 'discord.com') {
     Swal.fire('', __('closePageNotice'));
   }
 }
-if (window.location.hostname === 'gleam.io') {
-  // 待更新
-}
+
 window.onload = async () => {
   if (window.location.hostname === 'www.twitch.tv' && window.location.hash === '#auth') {
     const authToken = Cookies.get('auth-token');
@@ -132,18 +94,13 @@ window.onload = async () => {
   // @ts-ignore
   if (website.after) await website.after();
 
-  // @ts-ignore
-  if (website.doTask) GM_registerMenuCommand('doTask', () => { website.doTask(); }); // eslint-disable-line new-cap
-  // @ts-ignore
-  if (website.undoTask) GM_registerMenuCommand('undoTask', () => { website.undoTask(); }); // eslint-disable-line new-cap
-  // @ts-ignore
-  if (website.verifyTask) GM_registerMenuCommand('verifyTask', () => { website.verifyTask(); }); // eslint-disable-line new-cap
-  // @ts-ignore
-  if (website.getKey) GM_registerMenuCommand('getKey', () => { website.getKey(); }); // eslint-disable-line new-cap
-  // @ts-ignore
-  if (website.doFreeTask) GM_registerMenuCommand('doFreeTask', website.doFreeTask); // eslint-disable-line new-cap
-  // @ts-ignore
-  if (website.doPointTask) GM_registerMenuCommand('doPointTask', website.doPointTask); // eslint-disable-line new-cap
+  for (const button of website.buttons) {
+    // @ts-ignore
+    if (website[button]) {
+      // @ts-ignore
+      GM_registerMenuCommand(__(button), () => { website[button](); }); // eslint-disable-line new-cap
+    }
+  }
   GM_registerMenuCommand('whiteList', whiteListOptions); // eslint-disable-line new-cap
   // @ts-ignore
   if (website.options) {

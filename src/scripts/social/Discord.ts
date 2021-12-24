@@ -137,7 +137,6 @@ class Discord extends Social {
         logStatus.success();
         const guild = String(data.response?.guild?.id);
         if (guild) {
-          // TODO: 存储优化
           this.#setCache(inviteId, guild);
           this.tasks.servers = unique([...this.tasks.servers, inviteId]);
         }
