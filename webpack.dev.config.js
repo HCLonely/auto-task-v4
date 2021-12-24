@@ -2,9 +2,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 16:22:46
- * @LastEditTime : 2021-12-22 17:05:17
+ * @LastEditTime : 2021-12-24 16:34:49
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/webpack.config.js
+ * @FilePath     : /auto-task-new/webpack.dev.config.js
  * @Description  :
  */
 const fs = require('fs');

@@ -1,14 +1,11 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-15 13:58:41
- * @LastEditTime : 2021-12-24 15:47:50
+ * @LastEditTime : 2021-12-24 16:30:36
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Keylol.ts
  * @Description  : https://keylol.com/f319-1
  */
-
-// todo: social初始化优化
-// todo: 任务完成回调
 
 // eslint-disable-next-line
 /// <reference path = "Keylol.d.ts" />

@@ -1,13 +1,13 @@
 {
   "name": "auto-task-new",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "4.0.0",
+  "description": "赠Key站自动任务脚本",
+  "main": "package.json",
   "scripts": {
     "test": "eslint",
     "tsc": "tsc",
-    "pack": "webpack",
-    "build": "webpack && webpack --config webpack.compatibility.config.js"
+    "pack": "webpack --config webpack.dev.config.js",
+    "build": "webpack --config webpack.dev.config.js && webpack --config webpack.compatibility.config.js"
   },
   "author": "HCLonely",
   "license": "MIT",

@@ -4,8 +4,8 @@
 
 ### 安装
 
-- [正式版](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task.user.js)
-- [兼容版](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task.compatibility.user.js)：正式版不能正常使用时可尝试使用此版本
+- [Alpha版](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task.user.js)
+- [Alpha兼容版](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task.compatibility.user.js)：正式版不能正常使用时可尝试使用此版本
 
 ### 使用
 
@@ -16,9 +16,10 @@
 
 ## todo
 
+- [ ] 添加设置选项
+- [ ] 变量初始化
 - [ ] 添加UI
 - [ ] 任务历史
-- [ ] 变量初始化
 - [ ] 添加giveaway.su专版
 - [ ] 功能模板
 - [x] 剩余key检测&优化
