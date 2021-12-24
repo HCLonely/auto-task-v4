@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.19-Alpha
+// @version            4.0.20-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -67,6 +67,7 @@
 // @connect            bit.ly
 // @connect            giveaway.su
 // @connect            google.com
+// @connect            www.vloot.io
 // @connect            *
 // @require            https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
 // @require            https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js
@@ -396,7 +397,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       var _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(400);
       var _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(_node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
       var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(_node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default());
-      ___CSS_LOADER_EXPORT___.push([ module.id, '#auto-task-info{position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;max-height:600px;overflow-y:auto;color:#000;background-color:#fff;padding-left:5px}#auto-task-info li{text-align:left}#auto-task-info .success{color:green}#auto-task-info .error{color:red}#auto-task-info .warning{color:blue}#auto-task-info .info{color:#ff0}.auto-task-keylol{text-transform:capitalize;margin-left:10px;text-decoration:none !important;border:solid 1px;border-radius:5px;padding:0 2px}.auto-task-keylol[selected=selected]{background-color:blue;color:#fff}.auto-task-form table{font-family:verdana,arial,sans-serif;font-size:11px;color:#333;border-width:1px;border-color:#999;border-collapse:collapse;width:100%}.auto-task-form table th{background-color:#c3dde0;border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}.auto-task-form table tr{background-color:#d4e3e5}.auto-task-form table tr:hover{background-color:#ff6}.auto-task-form table td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}', '' ]);
+      ___CSS_LOADER_EXPORT___.push([ module.id, '#auto-task-info{position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;max-height:600px;overflow-y:auto;color:#000;background-color:#fff;padding-left:5px;z-index:999999999 !important}#auto-task-info li{text-align:left}#auto-task-info .success{color:green}#auto-task-info .error{color:red}#auto-task-info .warning{color:blue}#auto-task-info .info{color:#ff0}.auto-task-keylol{text-transform:capitalize;margin-left:10px;text-decoration:none !important;border:solid 1px;border-radius:5px;padding:0 2px}.auto-task-keylol[selected=selected]{background-color:blue;color:#fff}.auto-task-form table{font-family:verdana,arial,sans-serif;font-size:11px;color:#333;border-width:1px;border-color:#999;border-collapse:collapse;width:100%}.auto-task-form table th{background-color:#c3dde0;border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}.auto-task-form table tr{background-color:#d4e3e5}.auto-task-form table tr:hover{background-color:#ff6}.auto-task-form table td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}', '' ]);
       const __WEBPACK_DEFAULT_EXPORT__ = ___CSS_LOADER_EXPORT___.toString();
     },
     400: function(module) {
@@ -7846,6 +7847,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             }
             const socialIcon = $task.find('.icon-wrapper i');
             const taskInfo = $task.find('.user-links');
+            const taskText = taskInfo.text().trim();
             const expandInfo = $task.find('.expandable');
             const aElements = expandInfo.find('a.btn');
             if (aElements.length > 0) {
@@ -7861,14 +7863,14 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
               if (!link) {
                 continue;
               }
-              if (/follow/gi.test(taskInfo.text().trim())) {
+              if (/follow/gi.test(taskText)) {
                 if (action === 'undo') {
                   this.socialTasks.twitter.userLinks.push(link);
                 }
                 if (action === 'do') {
                   this.undoneTasks.twitter.userLinks.push(link);
                 }
-              } else if (/retweet/gim.test(taskInfo.text().trim())) {
+              } else if (/retweet/gim.test(taskText)) {
                 if (action === 'undo') {
                   this.socialTasks.twitter.retweetLinks.push(link);
                 }
@@ -7877,7 +7879,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
                 }
               }
             } else if (socialIcon.hasClass('fa-twitch')) {
-              if (/follow/gim.test(taskInfo.text().trim())) {
+              if (/follow/gim.test(taskText)) {
                 const link = $task.find('a[href^="https://twitch.tv/"]').attr('href');
                 if (!link) {
                   continue;
@@ -7890,7 +7892,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
                 }
               }
             } else if (socialIcon.hasClass('fa-discord')) {
-              if (/join/gim.test(taskInfo.text().trim())) {
+              if (/join/gim.test(taskText)) {
                 let link = $task.find('a[href^="https://discord.com/invite/"]').attr('href');
                 if (!link) {
                   var _$task$find$attr, _$task$find$attr$matc;
@@ -7910,7 +7912,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             } else if (socialIcon.hasClass('fa-external-link-square-alt')) {
               continue;
             } else if (socialIcon.hasClass('fa-youtube')) {
-              if (/subscribe/gim.test(taskInfo.text().trim())) {
+              if (/subscribe/gim.test(taskText)) {
                 const link = $task.find('a[href^="https://www.youtube.com/channel/"]').attr('href');
                 if (!link) {
                   continue;
@@ -7923,7 +7925,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
                 }
               }
             } else if ((_socialIcon$attr = socialIcon.attr('class')) !== null && _socialIcon$attr !== void 0 && _socialIcon$attr.includes('steam')) {
-              if (/join.*group/gi.test(taskInfo.text().trim())) {
+              if (/join.*group/gi.test(taskText)) {
                 const link = $task.find('a[href^="https://steamcommunity.com/groups/"]').attr('href');
                 if (!link) {
                   continue;
@@ -7934,7 +7936,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
                 if (action === 'do') {
                   this.undoneTasks.steam.groupLinks.push(link);
                 }
-              } else if (/follow.*curator/gi.test(taskInfo.text().trim())) {
+              } else if (/follow.*curator/gi.test(taskText)) {
                 const link = $task.find('a[href^="https://store.steampowered.com/curator/"]').attr('href');
                 if (!link) {
                   continue;
@@ -7946,11 +7948,11 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
                   this.undoneTasks.steam.curatorLinks.push(link);
                 }
               }
-            } else if (socialIcon.hasClass('fa-shield') && taskInfo.text().trim().includes('earn.vloot.io')) {
+            } else if (socialIcon.hasClass('fa-shield') && taskText.includes('earn.vloot.io')) {
               expandInfo.find('input').val(this.options.vlootUsername);
-            } else if (socialIcon.hasClass('fa-gamepad-alt') && taskInfo.text().trim().includes('Gameround')) {
+            } else if (socialIcon.hasClass('fa-gamepad-alt') && taskText.includes('Gameround')) {
               expandInfo.find('input').val(this.options.gameroundUsername);
-            } else if (socialIcon.hasClass('fa-bullhorn') && taskInfo.text().trim().includes('Complete')) {
+            } else if (socialIcon.hasClass('fa-bullhorn') && taskText.includes('Complete')) {
               if (action !== 'do') {
                 continue;
               }
@@ -7963,9 +7965,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
                 continue;
               }
               this.undoneTasks.extra.gleam.push(gleamLink);
-            } else if (socialIcon.hasClass('fa-question')) {} else {
+            } else if (socialIcon.hasClass('fa-question') || socialIcon.hasClass('fa-reddit') || socialIcon.hasClass('fa-shield') && taskText.includes('Check out')) {} else {
               scripts_echoLog({
-                html: `<li><font class="warning">${i18n('unKnownTaskType')}: ${taskInfo.text().trim()}</font></li>`
+                html: `<li><font class="warning">${i18n('unKnownTaskType')}: ${taskText}</font></li>`
               });
             }
           }

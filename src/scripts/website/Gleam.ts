@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2021-12-22 17:36:48
+ * @LastEditTime : 2021-12-24 09:51:34
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  : https://gleam.io
@@ -126,6 +126,7 @@ class Gleam extends Website {
 
         const socialIcon = $task.find('.icon-wrapper i');
         const taskInfo = $task.find('.user-links');
+        const taskText = taskInfo.text().trim();
         const expandInfo = $task.find('.expandable');
         const aElements = expandInfo.find('a.btn');
         if (aElements.length > 0) {
@@ -139,15 +140,15 @@ class Gleam extends Website {
         if (socialIcon.hasClass('fa-twitter')) {
           const link = $task.find('a[href^="https://twitter.com/"]').attr('href');
           if (!link) continue;
-          if (/follow/gi.test(taskInfo.text().trim())) {
+          if (/follow/gi.test(taskText)) {
             if (action === 'undo') this.socialTasks.twitter.userLinks.push(link);
             if (action === 'do') this.undoneTasks.twitter.userLinks.push(link);
-          } else if (/retweet/gim.test(taskInfo.text().trim())) {
+          } else if (/retweet/gim.test(taskText)) {
             if (action === 'undo') this.socialTasks.twitter.retweetLinks.push(link);
             if (action === 'do') this.undoneTasks.twitter.retweetLinks.push(link);
           }
         } else if (socialIcon.hasClass('fa-twitch')) {
-          if (/follow/gim.test(taskInfo.text().trim())) {
+          if (/follow/gim.test(taskText)) {
             const link = $task.find('a[href^="https://twitch.tv/"]').attr('href');
             if (!link) continue;
 
@@ -155,7 +156,7 @@ class Gleam extends Website {
             if (action === 'do') this.undoneTasks.twitch.channelLinks.push(link);
           }
         } else if (socialIcon.hasClass('fa-discord')) {
-          if (/join/gim.test(taskInfo.text().trim())) {
+          if (/join/gim.test(taskText)) {
             let link = $task.find('a[href^="https://discord.com/invite/"]').attr('href');
             if (!link) {
               const ggLink = $task.find('a[href^="https://discord.gg/"]').attr('href')
@@ -171,7 +172,7 @@ class Gleam extends Website {
           // timer
           continue;
         } else if (socialIcon.hasClass('fa-youtube')) {
-          if (/subscribe/gim.test(taskInfo.text().trim())) {
+          if (/subscribe/gim.test(taskText)) {
             const link = $task.find('a[href^="https://www.youtube.com/channel/"]').attr('href');
             if (!link) continue;
 
@@ -179,26 +180,26 @@ class Gleam extends Website {
             if (action === 'do') this.undoneTasks.youtube.channelLinks.push(link);
           }
         } else if (socialIcon.attr('class')?.includes('steam')) {
-          if (/join.*group/gi.test(taskInfo.text().trim())) {
+          if (/join.*group/gi.test(taskText)) {
             const link = $task.find('a[href^="https://steamcommunity.com/groups/"]').attr('href');
             if (!link) continue;
 
             if (action === 'undo') this.socialTasks.steam.groupLinks.push(link);
             if (action === 'do') this.undoneTasks.steam.groupLinks.push(link);
-          } else if (/follow.*curator/gi.test(taskInfo.text().trim())) {
+          } else if (/follow.*curator/gi.test(taskText)) {
             const link = $task.find('a[href^="https://store.steampowered.com/curator/"]').attr('href');
             if (!link) continue;
 
             if (action === 'undo') this.socialTasks.steam.curatorLinks.push(link);
             if (action === 'do') this.undoneTasks.steam.curatorLinks.push(link);
           }
-        } else if (socialIcon.hasClass('fa-shield') && taskInfo.text().trim()
+        } else if (socialIcon.hasClass('fa-shield') && taskText
           .includes('earn.vloot.io')) {
           expandInfo.find('input').val(this.options.vlootUsername);
-        } else if (socialIcon.hasClass('fa-gamepad-alt') && taskInfo.text().trim()
+        } else if (socialIcon.hasClass('fa-gamepad-alt') && taskText
           .includes('Gameround')) {
           expandInfo.find('input').val(this.options.gameroundUsername);
-        } else if (socialIcon.hasClass('fa-bullhorn') && taskInfo.text().trim()
+        } else if (socialIcon.hasClass('fa-bullhorn') && taskText
           .includes('Complete')) {
           if (action !== 'do') continue;
 
@@ -209,10 +210,14 @@ class Gleam extends Website {
           if (!gleamLink) continue;
 
           this.undoneTasks.extra.gleam.push(gleamLink);
-        } else if (socialIcon.hasClass('fa-question')) {
+        } else if (
+          socialIcon.hasClass('fa-question') ||
+          socialIcon.hasClass('fa-reddit') ||
+          (socialIcon.hasClass('fa-shield') && taskText.includes('Check out'))
+        ) {
           // skip
         } else {
-          echoLog({ html: `<li><font class="warning">${__('unKnownTaskType')}: ${taskInfo.text().trim()}</font></li>` });
+          echoLog({ html: `<li><font class="warning">${__('unKnownTaskType')}: ${taskText}</font></li>` });
         }
       }
 
