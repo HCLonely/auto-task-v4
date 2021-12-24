@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:03
- * @LastEditTime : 2021-12-22 17:10:06
+ * @LastEditTime : 2021-12-24 10:04:20
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Freeanywhere.ts
  * @Description  : https://freeanywhere.net
@@ -71,7 +71,9 @@ class FreeAnyWhere extends Website {
   async classifyTask(action: string) {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
-      this.socialTasks = GM_getValue<fawSocialTasks>(`fawTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
+      if (action === 'undo') {
+        this.socialTasks = GM_getValue<fawSocialTasks>(`fawTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
+      }
 
       const { result, statusText, status, data } = await httpRequest({
         url: `https://freeanywhere.net/api/v1/giveaway/${this.giveawayId}/?format=json`,
@@ -136,7 +138,7 @@ class FreeAnyWhere extends Website {
           logStatus.success();
           this.undoneTasks = this.uniqueTasks(this.undoneTasks) as fawSocialTasks;
           this.socialTasks = this.uniqueTasks(this.socialTasks) as fawSocialTasks;
-          GM_setValue(`fawTasks${this.giveawayId}`, this.socialTasks); // eslint-disable-line new-cap
+          GM_setValue(`fawTasks-${this.giveawayId}`, this.socialTasks); // eslint-disable-line new-cap
           return true;
         }
         logStatus.error(`Error:${data?.statusText}(${data?.status})`);

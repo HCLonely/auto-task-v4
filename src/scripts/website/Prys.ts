@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 20:22:33
- * @LastEditTime : 2021-12-22 17:50:36
+ * @LastEditTime : 2021-12-24 10:10:03
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Prys.ts
  * @Description  : https://prys.revadike.com/
@@ -74,8 +74,9 @@ class Prys extends Website {
   async classifyTask(action: string): Promise<boolean> { // todo
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
-      // todo
-      this.socialTasks = GM_getValue<prysSocialTasks>(`prysTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
+      if (action === 'undo') {
+        this.socialTasks = GM_getValue<prysSocialTasks>(`prysTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
+      }
 
       const steps = $('#steps tbody tr');
       for (let eq = 0; eq < steps.length; eq += 1) {
@@ -113,7 +114,7 @@ class Prys extends Website {
       logStatus.success();
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as prysSocialTasks;
       this.socialTasks = this.uniqueTasks(this.socialTasks) as prysSocialTasks;
-      GM_setValue(`prysTasks${this.giveawayId}`, this.socialTasks); // eslint-disable-line new-cap
+      GM_setValue(`prysTasks-${this.giveawayId}`, this.socialTasks); // eslint-disable-line new-cap
       return true;
     } catch (error) {
       throwError(error as Error, 'Prys.classifyTask');

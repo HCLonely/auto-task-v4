@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.20-Alpha
+// @version            4.0.22-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -5612,9 +5612,11 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           const logStatus = scripts_echoLog({
             text: i18n('getTasksInfo')
           });
-          this.socialTasks = GM_getValue(`fawTasks-${this.giveawayId}`) || {
-            ...FreeAnyWhere_defaultTasks
-          };
+          if (action === 'undo') {
+            this.socialTasks = GM_getValue(`fawTasks-${this.giveawayId}`) || {
+              ...FreeAnyWhere_defaultTasks
+            };
+          }
           const {
             result,
             statusText,
@@ -5708,7 +5710,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
               logStatus.success();
               this.undoneTasks = this.uniqueTasks(this.undoneTasks);
               this.socialTasks = this.uniqueTasks(this.socialTasks);
-              GM_setValue(`fawTasks${this.giveawayId}`, this.socialTasks);
+              GM_setValue(`fawTasks-${this.giveawayId}`, this.socialTasks);
               return true;
             }
             logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
@@ -5950,12 +5952,15 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           return false;
         }
       }
-      async classifyTask() {
+      async classifyTask(action) {
         try {
           const logStatus = scripts_echoLog({
             text: i18n('getTasksInfo')
           });
-          this.socialTasks = GM_getValue(`gasTasks-${this.giveawayId}`) || GiveawaySu_defaultTasks;
+          if (action === 'undo') {
+            this.socialTasks = GM_getValue(`gasTasks-${this.giveawayId}`) || GiveawaySu_defaultTasks;
+            return true;
+          }
           const pro = [];
           const tasks = $('#actions tr');
           if ($('div.bind-discord').is(':visible')) {
@@ -6028,7 +6033,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           logStatus.success();
           this.undoneTasks = this.uniqueTasks(this.undoneTasks);
           this.socialTasks = this.undoneTasks;
-          GM_setValue(`gasTasks${this.giveawayId}`, this.socialTasks);
+          GM_setValue(`gasTasks-${this.giveawayId}`, this.socialTasks);
           return true;
         } catch (error) {
           throwError(error, 'Giveawaysu.classifyTask');
@@ -6531,9 +6536,11 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           const logStatus = scripts_echoLog({
             text: i18n('getTasksInfo')
           });
-          this.socialTasks = GM_getValue(`khTasks-${this.giveawayId}`) || {
-            ...Keyhub_defaultTasks
-          };
+          if (action === 'undo') {
+            this.socialTasks = GM_getValue(`khTasks-${this.giveawayId}`) || {
+              ...Keyhub_defaultTasks
+            };
+          }
           const tasks = $('.task a');
           for (const task of tasks) {
             let link = $(task).attr('href');
@@ -6583,7 +6590,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           logStatus.success();
           this.undoneTasks = this.uniqueTasks(this.undoneTasks);
           this.socialTasks = this.uniqueTasks(this.socialTasks);
-          GM_setValue(`khTasks${this.giveawayId}`, this.socialTasks);
+          GM_setValue(`khTasks-${this.giveawayId}`, this.socialTasks);
           return true;
         } catch (error) {
           throwError(error, 'Keyhub.classifyTask');
@@ -6778,7 +6785,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           const logStatus = scripts_echoLog({
             text: i18n('getTasksInfo')
           });
-          this.socialTasks = GM_getValue(`gkTasks-${this.giveawayId}`) || Givekey_defaultTasks;
+          if (action === 'undo') {
+            this.socialTasks = GM_getValue(`gkTasks-${this.giveawayId}`) || Givekey_defaultTasks;
+          }
           const tasks = $('.card-body:has("button") .row');
           for (const task of tasks) {
             const taskEle = $(task);
@@ -6853,7 +6862,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           this.tasks = unique(this.tasks);
           this.undoneTasks = this.uniqueTasks(this.undoneTasks);
           this.socialTasks = this.uniqueTasks(this.socialTasks);
-          GM_setValue(`gkTasks${this.giveawayId}`, this.socialTasks);
+          GM_setValue(`gkTasks-${this.giveawayId}`, this.socialTasks);
           return true;
         } catch (error) {
           throwError(error, 'Givekey.classifyTask');
@@ -7047,12 +7056,15 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           return false;
         }
       }
-      async classifyTask() {
+      async classifyTask(action) {
         try {
           const logStatus = scripts_echoLog({
             text: i18n('getTasksInfo')
           });
-          this.socialTasks = GM_getValue(`gcTasks-${this.giveawayId}`) || GiveawaySu_defaultTasks;
+          if (action === 'undo') {
+            this.socialTasks = GM_getValue(`gcTasks-${this.giveawayId}`) || GiveawaySu_defaultTasks;
+            return true;
+          }
           const pro = [];
           const tasks = $('.event-actions tr');
           for (const task of tasks) {
@@ -7113,7 +7125,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           logStatus.success();
           this.undoneTasks = this.uniqueTasks(this.undoneTasks);
           this.socialTasks = this.undoneTasks;
-          GM_setValue(`gcTasks${this.giveawayId}`, this.socialTasks);
+          GM_setValue(`gcTasks-${this.giveawayId}`, this.socialTasks);
           return true;
         } catch (error) {
           throwError(error, 'GiveeClub.classifyTask');
@@ -7677,7 +7689,6 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           }
           logStatus.success();
           this.undoneTasks = this.uniqueTasks(this.undoneTasks);
-          GM_setValue(`oqTasks${this.giveawayId}`, this.socialTasks);
           return true;
         } catch (error) {
           throwError(error, 'Opquests.classifyTask');
@@ -7835,9 +7846,11 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           const logStatus = scripts_echoLog({
             text: i18n('getTasksInfo')
           });
-          this.socialTasks = GM_getValue(`gleamTasks-${this.giveawayId}`) || {
-            ...Gleam_defaultTasks
-          };
+          if (action === 'undo') {
+            this.socialTasks = GM_getValue(`gleamTasks-${this.giveawayId}`) || {
+              ...Gleam_defaultTasks
+            };
+          }
           const tasks = $('.entry-content .entry-method');
           for (const task of tasks) {
             var _socialIcon$attr;
@@ -7974,7 +7987,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           logStatus.success();
           this.undoneTasks = this.uniqueTasks(this.undoneTasks);
           this.socialTasks = this.uniqueTasks(this.socialTasks);
-          GM_setValue(`gleamTasks${this.giveawayId}`, this.socialTasks);
+          GM_setValue(`gleamTasks-${this.giveawayId}`, this.socialTasks);
           return true;
         } catch (error) {
           throwError(error, 'Gleam.classifyTask');

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2021-12-22 17:17:14
+ * @LastEditTime : 2021-12-24 10:08:15
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.ts
  * @Description  :
@@ -86,10 +86,13 @@ class GiveawaySu extends Website {
       return false;
     }
   }
-  async classifyTask(): Promise<boolean> {
+  async classifyTask(action: 'do' | 'undo'): Promise<boolean> {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
-      this.socialTasks = GM_getValue<gasSocialTasks>(`gasTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
+      if (action === 'undo') {
+        this.socialTasks = GM_getValue<gasSocialTasks>(`gasTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
+        return true;
+      }
 
       const pro = [];
       const tasks = $('#actions tr');
@@ -165,7 +168,7 @@ class GiveawaySu extends Website {
       logStatus.success();
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as gasSocialTasks;
       this.socialTasks = this.undoneTasks;
-      GM_setValue(`gasTasks${this.giveawayId}`, this.socialTasks); // eslint-disable-line new-cap
+      GM_setValue(`gasTasks-${this.giveawayId}`, this.socialTasks); // eslint-disable-line new-cap
       return true;
     } catch (error) {
       throwError(error as Error, 'Giveawaysu.classifyTask');

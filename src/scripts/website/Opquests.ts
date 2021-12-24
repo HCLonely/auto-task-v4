@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-18 13:31:23
- * @LastEditTime : 2021-12-22 17:50:20
+ * @LastEditTime : 2021-12-24 10:03:24
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Opquests.ts
  * @Description  : https://opquests.com/
@@ -100,7 +100,7 @@ class Opquests extends Website {
 
       logStatus.success();
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as oqSocialTasks;
-      GM_setValue(`oqTasks${this.giveawayId}`, this.socialTasks); // eslint-disable-line new-cap
+      // GM_setValue(`oqTasks-${this.giveawayId}`, this.socialTasks); // eslint-disable-line new-cap
       return true;
     } catch (error) {
       throwError(error as Error, 'Opquests.classifyTask');

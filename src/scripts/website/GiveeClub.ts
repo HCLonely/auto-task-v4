@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 11:46:52
- * @LastEditTime : 2021-12-22 17:17:45
+ * @LastEditTime : 2021-12-24 10:08:52
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/GiveeClub.ts
  * @Description  : https://givee.club/
@@ -50,10 +50,13 @@ class GiveeClub extends GiveawaySu {
       return false;
     }
   }
-  async classifyTask(): Promise<boolean> {
+  async classifyTask(action: 'do' | 'undo'): Promise<boolean> {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
-      this.socialTasks = GM_getValue<gasSocialTasks>(`gcTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
+      if (action === 'undo') {
+        this.socialTasks = GM_getValue<gasSocialTasks>(`gcTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
+        return true;
+      }
 
       const pro = [];
       const tasks = $('.event-actions tr');
@@ -121,7 +124,7 @@ class GiveeClub extends GiveawaySu {
       logStatus.success();
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as gasSocialTasks;
       this.socialTasks = this.undoneTasks;
-      GM_setValue(`gcTasks${this.giveawayId}`, this.socialTasks); // eslint-disable-line new-cap
+      GM_setValue(`gcTasks-${this.giveawayId}`, this.socialTasks); // eslint-disable-line new-cap
       return true;
     } catch (error) {
       throwError(error as Error, 'GiveeClub.classifyTask');

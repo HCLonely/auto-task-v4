@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2021-12-24 09:51:34
+ * @LastEditTime : 2021-12-24 10:09:32
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  : https://gleam.io
@@ -115,7 +115,9 @@ class Gleam extends Website {
   async classifyTask(action: 'do' | 'undo'): Promise<boolean> {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
-      this.socialTasks = GM_getValue<gleamSocialTasks>(`gleamTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
+      if (action === 'undo') {
+        this.socialTasks = GM_getValue<gleamSocialTasks>(`gleamTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
+      }
 
       const tasks = $('.entry-content .entry-method');
       for (const task of tasks) {
@@ -224,7 +226,7 @@ class Gleam extends Website {
       logStatus.success();
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as gleamSocialTasks;
       this.socialTasks = this.uniqueTasks(this.socialTasks) as gleamSocialTasks;
-      GM_setValue(`gleamTasks${this.giveawayId}`, this.socialTasks); // eslint-disable-line new-cap
+      GM_setValue(`gleamTasks-${this.giveawayId}`, this.socialTasks); // eslint-disable-line new-cap
       return true;
     } catch (error) {
       throwError(error as Error, 'Gleam.classifyTask');
