@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 11:46:52
- * @LastEditTime : 2021-12-24 17:49:46
+ * @LastEditTime : 2021-12-25 13:03:03
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/GiveeClub.ts
  * @Description  : https://givee.club/
@@ -16,7 +16,7 @@ import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import { getRedirectLink } from '../tools/tools';
 import { GiveawaySu, defaultTasks } from './GiveawaySu';
-import globalOptions from '../globalOptions';
+import { globalOptions } from '../globalOptions';
 
 class GiveeClub extends GiveawaySu {
   name = 'GiveeClub'

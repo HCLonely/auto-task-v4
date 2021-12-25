@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-18 13:31:23
- * @LastEditTime : 2021-12-24 17:51:46
+ * @LastEditTime : 2021-12-25 13:03:45
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Opquests.ts
  * @Description  : https://opquests.com/
@@ -14,7 +14,7 @@ import Website from './Website';
 import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
-import globalOptions from '../globalOptions';
+import { globalOptions } from '../globalOptions';
 
 const defaultTasks: oqSocialTasks = {
   steam: {

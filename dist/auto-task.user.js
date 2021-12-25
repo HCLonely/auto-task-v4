@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.24-Alpha
+// @version            4.0.25-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -26,6 +26,7 @@
 // @include            *://www.youtube.com/*
 // @include            *://*.reddit.com/*
 // @include            *://twitter.com/settings/account?k*
+// @include            https://auto-task.hclonely.com/setting.html
 
 // @grant              GM_setValue
 // @grant              GM_getValue
@@ -397,7 +398,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       var _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(400);
       var _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(_node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
       var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(_node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default());
-      ___CSS_LOADER_EXPORT___.push([ module.id, '#auto-task-info{position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;max-height:600px;overflow-y:auto;color:#000;background-color:#fff;padding-left:5px;z-index:999999999 !important}#auto-task-info li{text-align:left}#auto-task-info .success{color:green}#auto-task-info .error{color:red}#auto-task-info .warning{color:blue}#auto-task-info .info{color:#ff0}.auto-task-keylol{text-transform:capitalize;margin-left:10px;text-decoration:none !important;border:solid 1px;border-radius:5px;padding:0 2px}.auto-task-keylol[selected=selected]{background-color:blue;color:#fff}.auto-task-form table{font-family:verdana,arial,sans-serif;font-size:11px;color:#333;border-width:1px;border-color:#999;border-collapse:collapse;width:100%}.auto-task-form table th{background-color:#c3dde0;border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}.auto-task-form table tr{background-color:#d4e3e5}.auto-task-form table tr:hover{background-color:#ff6}.auto-task-form table td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}', '' ]);
+      ___CSS_LOADER_EXPORT___.push([ module.id, '#auto-task-info{position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;max-height:600px;overflow-y:auto;color:#000;background-color:#fff;padding-left:5px;z-index:999999999 !important}#auto-task-info li{text-align:left}#auto-task-info .success{color:green}#auto-task-info .error{color:red}#auto-task-info .warning{color:blue}#auto-task-info .info{color:#ff0}.auto-task-keylol{text-transform:capitalize;margin-left:10px;text-decoration:none !important;border:solid 1px;border-radius:5px;padding:0 2px}.auto-task-keylol[selected=selected]{background-color:blue;color:#fff}.auto-task-form table{font-family:verdana,arial,sans-serif;font-size:11px;color:#333;border-width:1px;border-color:#999;border-collapse:collapse;width:100%}.auto-task-form table th{background-color:#c3dde0;border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;text-transform:capitalize}.auto-task-form table tr{background-color:#d4e3e5}.auto-task-form table tr:hover{background-color:#ff6 !important}.auto-task-form table td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}.swal2-modal{width:70% !important}body.auto-task-options{padding-top:10px;text-align:center}body.auto-task-options .auto-task-form{width:80%;max-width:1000px;margin:0 auto;padding-bottom:20px}body.auto-task-options .auto-task-form input.editOption{width:80%}', '' ]);
       const __WEBPACK_DEFAULT_EXPORT__ = ___CSS_LOADER_EXPORT___.toString();
     },
     400: function(module) {
@@ -546,6 +547,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       changeWhiteListOption: '设置白名单(%0)',
       whiteListNotFound: '找不到此项白名单: %0',
       changeWhiteListSuccess: '白名单修改成功，刷新生效！',
+      changeWebsiteOptions: '网站设置',
+      changeGlobalOptions: '全局设置',
       ok: '是',
       save: '保存',
       close: '关闭',
@@ -554,6 +557,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       value: '值',
       websiteOptions: '当前网站设置',
       changeWebsiteOptionsSuccess: '更改当前网站设置成功，刷新生效！',
+      changeGlobalOptionsSuccess: '更改全局设置成功，刷新生效！',
       needLogin: '请先登录！',
       getTasksInfo: '正在获取并处理任务信息',
       gettingKey: '正在获取Key...',
@@ -596,6 +600,23 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       invertSelect: '反选',
       doFreeTask: '加入免费赠品',
       doPointTask: '加入点数赠品',
+      skipTaskOption: '设置中已配置跳过任务',
+      other: '其他',
+      globalOptions: '全局设置',
+      checkLogin: '登录检测</br>需要登录的网站自动登录，部分本网站支持',
+      checkLeftKey: '剩余Key检测</br>赠Key活动结束提示是否关闭，部分本网站支持',
+      twitterVerifyId: '通过尝试关注该账号验证Twitter凭证</br>默认为Twitter官方帐号 783214',
+      youtubeVerifyChannel: '通过尝试订阅该频道验证YouTube凭证</br>默认为YouTube官方频道 UCrXUsMBcfTVqwAS7DKg9C0Q',
+      saveGlobalOptions: '保存全局设置',
+      settingPage: '设置页面',
+      groups: '组',
+      wishlists: '愿望单',
+      follows: '游戏关注',
+      forums: '论坛',
+      workshops: '创意工坊收藏',
+      curators: '鉴赏家',
+      workshopVotes: '创意工坊点在',
+      announcements: '社区通知',
       steamCommunity: 'Steam社区',
       steamStore: 'Steam商店',
       needLoginSteamStore: '请先<a href="https://store.steampowered.com/login/" target="_blank">登录Steam商店</a>',
@@ -624,28 +645,34 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       gettingAreaInfo: '正在获取Steam地区信息...',
       changeAreaNotice: '疑似锁区游戏，尝试换区执行',
       steamFinishNotice: 'Steam任务完成，尝试将购物车地区换回CN',
+      servers: '服务器',
       joiningDiscordServer: '正在加入Discord服务器',
       leavingDiscordServer: '正在退出Discord服务器',
       gettingDiscordGuild: '正在获取Discord服务器Id',
+      users: '用户',
       loginIns: '请先<a href="https://www.instagram.com/accounts/login/" target="_blank">登录Instagram</a>',
       insBanned: '您的Instagram账户已被封禁',
       verifyingInsAuth: '正在验证Instagram凭证...',
       gettingInsUserId: '正在获取Instagram用户Id',
       followingIns: '正在关注Instagram用户',
       unfollowingIns: '正在取关Instagram用户',
+      reddits: '社区/用户',
       loginReddit: '请先<a href="https://www.reddit.com/login/" target="_blank">登录Reddit</a>',
       changingRedditVersion: '正在切换Reddit为新版页面...',
       joiningReddit: '正在加入Reddit社区',
       leavingReddit: '正在退出Reddit社区',
       followingRedditUser: '正在关注Reddit用户',
       unfollowingRedditUser: '正在取关Reddit用户',
+      channels: '频道',
       followingTwitchChannel: '正在关注Twitch频道',
       unfollowingTwitchChannel: '正在取关Twitch频道',
       gettingTwitchChannelId: '正在获取Twitch频道Id',
+      retweets: '转推',
       followingTwitterUser: '正在关注推特用户',
       unfollowingTwitterUser: '正在取关推特用户',
       retweetting: '正在转推',
       unretweetting: '正在撤销转推',
+      names: '组/社区/动态',
       loginVk: '请先<a href="https://vk.com/login/" target="_blank">登录Vk</a>',
       gettingVkId: '正在获取Vk任务Id',
       joiningVkGroup: '正在加入Vk组',
@@ -654,6 +681,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       leavingVkPublic: '正在退出Vk社区',
       sendingVkWall: '正在转发Vk动态',
       deletingVkWall: '正在撤销转发Vk动态',
+      likes: '点赞',
       loginYtb: '请先<a href="https://accounts.google.com/ServiceLogin?service=youtube" target="_blank">登录YouTube</a>',
       tryUpdateYtbAuth: '请尝试<a href="https://www.youtube.com/#auth" target="_blank">更新YouTube凭证</a>',
       gettingYtbToken: '正在获取YouTube Token...',
@@ -828,6 +856,10 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
 
            case 'whiteList':
             ele = $(`<li><font class="warning">${i18n('skipTask')}[${text}(${id})](${i18n('whiteList')})</font></li>`);
+            break;
+
+           case 'globalOptionsSkip':
+            ele = $(`<li>${i18n('skipTaskOption')}<font class="warning">${text}</font></li>`);
             break;
 
            default:
@@ -1102,9 +1134,26 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         return {};
       }
     };
-    const getUuid = function() {
-      let randomLength = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 8;
-      return Number(Math.random().toString().substr(2, randomLength) + Date.now()).toString(36);
+    const getUuid = () => {
+      const uuidUrl = URL.createObjectURL(new Blob()).toString();
+      return uuidUrl.slice(uuidUrl.lastIndexOf('/') + 1);
+    };
+    const stringToColour = str => {
+      try {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+          hash = str.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        let colour = '#';
+        for (let i = 0; i < 3; i++) {
+          const value = hash >> i * 8 & 255;
+          colour += `00${value.toString(16)}`.slice(-2);
+        }
+        return colour;
+      } catch (error) {
+        throwError(error, 'stringToColour');
+        return '#fff';
+      }
     };
     function _defineProperty(obj, key, value) {
       if (key in obj) {
@@ -1140,6 +1189,169 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
     }
     const social_Social = Social;
+    const defaultGlobalOptions = {
+      doTask: {
+        discord: {
+          servers: true
+        },
+        instagram: {
+          users: true
+        },
+        twitch: {
+          channels: true
+        },
+        twitter: {
+          users: true,
+          retweets: true
+        },
+        vk: {
+          names: true
+        },
+        youtube: {
+          channels: true,
+          likes: true
+        },
+        reddit: {
+          reddits: true
+        },
+        steam: {
+          groups: true,
+          wishlists: true,
+          follows: true,
+          forums: true,
+          workshops: true,
+          curators: true,
+          workshopVotes: true,
+          announcements: true
+        }
+      },
+      undoTask: {
+        discord: {
+          servers: true
+        },
+        instagram: {
+          users: true
+        },
+        twitch: {
+          channels: true
+        },
+        twitter: {
+          users: true,
+          retweets: true
+        },
+        vk: {
+          names: true
+        },
+        youtube: {
+          channels: true,
+          likes: true
+        },
+        reddit: {
+          reddits: true
+        },
+        steam: {
+          groups: true,
+          wishlists: true,
+          follows: true,
+          forums: true,
+          workshops: true,
+          curators: true
+        }
+      },
+      other: {
+        twitterVerifyId: '783214',
+        youtubeVerifyChannel: 'UCrXUsMBcfTVqwAS7DKg9C0Q',
+        checkLogin: true,
+        checkLeftKey: true
+      }
+    };
+    const userDefinedGlobalOptions = GM_getValue('globalOptions') || {};
+    const assignObject = (obj1, obj2) => {
+      try {
+        const newObj = {};
+        for (const [ key, value ] of Object.entries(obj1)) {
+          if (Object.prototype.toString.call(value) === '[object Object]' && Object.prototype.toString.call(obj2[key]) === '[object Object]') {
+            newObj[key] = assignObject(value, obj2[key]);
+          } else {
+            newObj[key] = obj2[key] ?? value;
+          }
+        }
+        return newObj;
+      } catch (error) {
+        throwError(error, 'assignObject');
+        return defaultGlobalOptions;
+      }
+    };
+    const globalOptions = assignObject(defaultGlobalOptions, userDefinedGlobalOptions);
+    const saveData = () => {
+      try {
+        const data = {};
+        $('#globalOptionsForm').serializeArray().map(value => {
+          data[value.name] = value.value;
+          return value;
+        });
+        $.makeArray($('#globalOptionsForm input')).map(element => {
+          const name = $(element).attr('name');
+          const keys = name.split('.');
+          if (keys.length === 3) {
+            globalOptions[keys[0]][keys[1]][keys[2]] = data[name] ? data[name] === 'on' ? true : data[name] : false;
+          } else if (keys.length === 2) {
+            globalOptions[keys[0]][keys[1]] = data[name] ? data[name] === 'on' ? true : data[name] : false;
+          }
+          return element;
+        });
+        GM_setValue('globalOptions', globalOptions);
+        external_Swal_default().fire({
+          title: i18n('changeGlobalOptionsSuccess'),
+          icon: 'success'
+        });
+      } catch (error) {
+        throwError(error, 'saveData');
+      }
+    };
+    const changeGlobalOptions = showType => {
+      try {
+        let globalOptionsForm = `<form id="globalOptionsForm" class="auto-task-form">
+  <table class="auto-task-table"><thead><tr><td>${i18n('type')}</td><td>${i18n('option')}</td><td>${i18n('value')}</td></tr></thead><tbody>`;
+        for (const [ type, data1 ] of Object.entries(globalOptions)) {
+          for (const [ option, data2 ] of Object.entries(data1)) {
+            if (type === 'other') {
+              if (typeof data2 === 'boolean') {
+                globalOptionsForm += `<tr>${Object.keys(data1).indexOf(option) === 0 ? `<th rowspan="${Object.keys(data1).length}" style="background-color: ${stringToColour(type)}66">${i18n(type)}</th>` : ''}<td>${i18n(option)}</td><td><input type="checkbox" name="${type}.${option}"${data2 ? ' checked="checked"' : ''}/></td></tr>`;
+              } else {
+                globalOptionsForm += `<tr>${Object.keys(data1).indexOf(option) === 0 ? `<th rowspan="${Object.keys(data1).length}" style="background-color: ${stringToColour(type)}66">${i18n(type)}</th>` : ''}<td>${i18n(option)}</td><td><input class="editOption" type="text" name="${type}.${option}" value="${data2}"/></td></tr>`;
+              }
+            } else {
+              for (const [ socialType, data3 ] of Object.entries(data2)) {
+                globalOptionsForm += `<tr style="background-color: ${stringToColour(option)}66">${Object.keys(data1).indexOf(option) === 0 ? `<th rowspan="${Object.keys(data1).map(key => Object.keys(data1[key]).length).reduce((acr, cur) => acr + cur)}" style="background-color: ${stringToColour(type)}66">${i18n(type)}</th>` : ''}<td>${option}.${i18n(socialType)}</td><td><input type="checkbox" name="${type}.${option}.${socialType}"${data3 ? ' checked="checked"' : ''}/></td></tr>`;
+              }
+            }
+          }
+        }
+        globalOptionsForm += '</tbody></table></form>';
+        if (showType === 'swal') {
+          external_Swal_default().fire({
+            title: i18n('globalOptions'),
+            html: globalOptionsForm,
+            showConfirmButton: true,
+            confirmButtonText: i18n('save'),
+            showCancelButton: true,
+            cancelButtonText: i18n('close')
+          }).then(_ref => {
+            let {
+              isConfirmed
+            } = _ref;
+            if (isConfirmed) {
+              saveData();
+            }
+          });
+        } else {
+          $('body').append(`<h2>${i18n('globalOptions')}</h2>${globalOptionsForm}`);
+        }
+      } catch (error) {
+        throwError(error, 'changeGlobalOptions');
+      }
+    };
     function _classPrivateMethodInitSpec(obj, privateSet) {
       _checkPrivateRedeclaration(obj, privateSet);
       privateSet.add(obj);
@@ -1296,18 +1508,25 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             return false;
           }
           const prom = [];
-          const realServers = this.getRealParams('servers', serverLinks, doTask, link => {
-            var _link$match;
-            return (_link$match = link.match(/invite\/(.+)/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
-          });
-          if (realServers.length > 0) {
-            for (const server of realServers) {
-              if (doTask) {
-                prom.push(_classPrivateMethodGet(this, _joinServer, _joinServer2).call(this, server));
-              } else {
-                prom.push(_classPrivateMethodGet(this, _leaveServer, _leaveServer2).call(this, server));
+          if (doTask && !globalOptions.doTask.discord.servers || !doTask && !globalOptions.undoTask.discord.servers) {
+            scripts_echoLog({
+              type: 'globalOptionsSkip',
+              text: 'discord.servers'
+            });
+          } else {
+            const realServers = this.getRealParams('servers', serverLinks, doTask, link => {
+              var _link$match;
+              return (_link$match = link.match(/invite\/(.+)/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
+            });
+            if (realServers.length > 0) {
+              for (const server of realServers) {
+                if (doTask) {
+                  prom.push(_classPrivateMethodGet(this, _joinServer, _joinServer2).call(this, server));
+                } else {
+                  prom.push(_classPrivateMethodGet(this, _leaveServer, _leaveServer2).call(this, server));
+                }
+                await delay(1e3);
               }
-              await delay(1e3);
             }
           }
           return await Promise.all(prom).then(() => true);
@@ -1639,18 +1858,25 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             return false;
           }
           const prom = [];
-          const realUsers = this.getRealParams('users', userLinks, doTask, link => {
-            var _link$match;
-            return (_link$match = link.match(/https:\/\/www\.instagram\.com\/(.+)?\//)) === null || _link$match === void 0 ? void 0 : _link$match[1];
-          });
-          if (realUsers.length > 0) {
-            for (const username of realUsers) {
-              if (doTask) {
-                prom.push(Instagram_classPrivateMethodGet(this, _followUser, _followUser2).call(this, username));
-              } else {
-                prom.push(Instagram_classPrivateMethodGet(this, _unfollowUser, _unfollowUser2).call(this, username));
+          if (doTask && !globalOptions.doTask.instagram.users || !doTask && !globalOptions.undoTask.instagram.users) {
+            scripts_echoLog({
+              type: 'globalOptionsSkip',
+              text: 'instagram.users'
+            });
+          } else {
+            const realUsers = this.getRealParams('users', userLinks, doTask, link => {
+              var _link$match;
+              return (_link$match = link.match(/https:\/\/www\.instagram\.com\/(.+)?\//)) === null || _link$match === void 0 ? void 0 : _link$match[1];
+            });
+            if (realUsers.length > 0) {
+              for (const username of realUsers) {
+                if (doTask) {
+                  prom.push(Instagram_classPrivateMethodGet(this, _followUser, _followUser2).call(this, username));
+                } else {
+                  prom.push(Instagram_classPrivateMethodGet(this, _unfollowUser, _unfollowUser2).call(this, username));
+                }
+                await delay(1e3);
               }
-              await delay(1e3);
             }
           }
           return await Promise.all(prom).then(() => true);
@@ -2011,22 +2237,29 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             return false;
           }
           const prom = [];
-          const realReddits = this.getRealParams('reddits', redditLinks, doTask, link => {
-            var _link$match, _link$match2;
-            const name = (_link$match = link.match(/https?:\/\/www\.reddit\.com\/r\/([^/]*)/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
-            const userName = (_link$match2 = link.match(/https?:\/\/www\.reddit\.com\/user\/([^/]*)/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1];
-            if (userName) {
-              return name || userName;
-            }
-            return name;
-          });
-          if (realReddits.length > 0) {
-            for (const name of realReddits) {
-              prom.push(this.toggleTask({
-                name: name,
-                doTask: doTask
-              }));
-              await delay(1e3);
+          if (doTask && !globalOptions.doTask.reddit.reddits || !doTask && !globalOptions.undoTask.reddit.reddits) {
+            scripts_echoLog({
+              type: 'globalOptionsSkip',
+              text: 'reddit.reddits'
+            });
+          } else {
+            const realReddits = this.getRealParams('reddits', redditLinks, doTask, link => {
+              var _link$match, _link$match2;
+              const name = (_link$match = link.match(/https?:\/\/www\.reddit\.com\/r\/([^/]*)/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
+              const userName = (_link$match2 = link.match(/https?:\/\/www\.reddit\.com\/user\/([^/]*)/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1];
+              if (userName) {
+                return name || userName;
+              }
+              return name;
+            });
+            if (realReddits.length > 0) {
+              for (const name of realReddits) {
+                prom.push(this.toggleTask({
+                  name: name,
+                  doTask: doTask
+                }));
+                await delay(1e3);
+              }
             }
           }
           return await Promise.all(prom).then(() => true);
@@ -2261,17 +2494,24 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             return false;
           }
           const prom = [];
-          const realChannels = this.getRealParams('channels', channelLinks, doTask, link => {
-            var _link$match;
-            return (_link$match = link.match(/https:\/\/(www\.)?twitch\.tv\/(.+)/)) === null || _link$match === void 0 ? void 0 : _link$match[2];
-          });
-          if (realChannels.length > 0) {
-            for (const channel of realChannels) {
-              prom.push(Twitch_classPrivateMethodGet(this, _toggleChannel, _toggleChannel2).call(this, {
-                name: channel,
-                doTask: doTask
-              }));
-              await delay(1e3);
+          if (doTask && !globalOptions.doTask.twitch.channels || !doTask && !globalOptions.undoTask.twitch.channels) {
+            scripts_echoLog({
+              type: 'globalOptionsSkip',
+              text: 'twitch.channels'
+            });
+          } else {
+            const realChannels = this.getRealParams('channels', channelLinks, doTask, link => {
+              var _link$match;
+              return (_link$match = link.match(/https:\/\/(www\.)?twitch\.tv\/(.+)/)) === null || _link$match === void 0 ? void 0 : _link$match[2];
+            });
+            if (realChannels.length > 0) {
+              for (const channel of realChannels) {
+                prom.push(Twitch_classPrivateMethodGet(this, _toggleChannel, _toggleChannel2).call(this, {
+                  name: channel,
+                  doTask: doTask
+                }));
+                await delay(1e3);
+              }
             }
           }
           return Promise.all(prom).then(() => true);
@@ -2484,32 +2724,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return obj;
     }
-    function Twitter_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
-    function Twitter_classPrivateFieldGet(receiver, privateMap) {
-      var descriptor = Twitter_classExtractFieldDescriptor(receiver, privateMap, 'get');
-      return Twitter_classApplyDescriptorGet(receiver, descriptor);
-    }
-    function Twitter_classApplyDescriptorGet(receiver, descriptor) {
-      if (descriptor.get) {
-        return descriptor.get.call(receiver);
-      }
-      return descriptor.value;
-    }
     function Twitter_classPrivateFieldSet(receiver, privateMap, value) {
       var descriptor = Twitter_classExtractFieldDescriptor(receiver, privateMap, 'set');
       Twitter_classApplyDescriptorSet(receiver, descriptor, value);
       return value;
-    }
-    function Twitter_classExtractFieldDescriptor(receiver, privateMap, action) {
-      if (!privateMap.has(receiver)) {
-        throw new TypeError('attempted to ' + action + ' private field on non-instance');
-      }
-      return privateMap.get(receiver);
     }
     function Twitter_classApplyDescriptorSet(receiver, descriptor, value) {
       if (descriptor.set) {
@@ -2520,6 +2738,28 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         }
         descriptor.value = value;
       }
+    }
+    function Twitter_classPrivateMethodGet(receiver, privateSet, fn) {
+      if (!privateSet.has(receiver)) {
+        throw new TypeError('attempted to get private field on non-instance');
+      }
+      return fn;
+    }
+    function Twitter_classPrivateFieldGet(receiver, privateMap) {
+      var descriptor = Twitter_classExtractFieldDescriptor(receiver, privateMap, 'get');
+      return Twitter_classApplyDescriptorGet(receiver, descriptor);
+    }
+    function Twitter_classExtractFieldDescriptor(receiver, privateMap, action) {
+      if (!privateMap.has(receiver)) {
+        throw new TypeError('attempted to ' + action + ' private field on non-instance');
+      }
+      return privateMap.get(receiver);
+    }
+    function Twitter_classApplyDescriptorGet(receiver, descriptor) {
+      if (descriptor.get) {
+        return descriptor.get.call(receiver);
+      }
+      return descriptor.value;
     }
     const Twitter_defaultTasks = {
       users: [],
@@ -2537,9 +2777,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     var _toggleRetweet = new WeakSet();
     var Twitter_setCache = new WeakSet();
     class Twitter extends social_Social {
-      constructor(verifyId) {
+      constructor() {
         var _GM_getValue;
-        super();
+        super(...arguments);
         Twitter_classPrivateMethodInitSpec(this, Twitter_setCache);
         Twitter_classPrivateMethodInitSpec(this, _toggleRetweet);
         Twitter_classPrivateMethodInitSpec(this, _getUserId);
@@ -2554,7 +2794,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         });
         Twitter_classPrivateFieldInitSpec(this, _verifyId, {
           writable: true,
-          value: '783214'
+          value: globalOptions.other.twitterVerifyId
         });
         Twitter_classPrivateFieldInitSpec(this, Twitter_auth, {
           writable: true,
@@ -2568,9 +2808,6 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           writable: true,
           value: false
         });
-        if (verifyId) {
-          Twitter_classPrivateFieldSet(this, _verifyId, verifyId);
-        }
       }
       async init() {
         try {
@@ -2623,30 +2860,44 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             return false;
           }
           const prom = [];
-          const realUsers = this.getRealParams('users', userLinks, doTask, link => {
-            var _link$match;
-            return (_link$match = link.match(/https:\/\/twitter\.com\/(.+)/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
-          });
-          const realRetweets = this.getRealParams('retweets', retweetLinks, doTask, link => {
-            var _link$match2;
-            return (_link$match2 = link.match(/https:\/\/twitter\.com\/.*?\/status\/([\d]+)/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1];
-          });
-          if (realUsers.length > 0) {
-            for (const user of realUsers) {
-              prom.push(Twitter_classPrivateMethodGet(this, _toggleUser, _toggleUser2).call(this, {
-                name: user,
-                doTask: doTask
-              }));
-              await delay(1e3);
+          if (doTask && !globalOptions.doTask.twitter.users || !doTask && !globalOptions.undoTask.twitter.users) {
+            scripts_echoLog({
+              type: 'globalOptionsSkip',
+              text: 'twitter.users'
+            });
+          } else {
+            const realUsers = this.getRealParams('users', userLinks, doTask, link => {
+              var _link$match;
+              return (_link$match = link.match(/https:\/\/twitter\.com\/(.+)/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
+            });
+            if (realUsers.length > 0) {
+              for (const user of realUsers) {
+                prom.push(Twitter_classPrivateMethodGet(this, _toggleUser, _toggleUser2).call(this, {
+                  name: user,
+                  doTask: doTask
+                }));
+                await delay(1e3);
+              }
             }
           }
-          if (realRetweets.length > 0) {
-            for (const retweet of realRetweets) {
-              prom.push(Twitter_classPrivateMethodGet(this, _toggleRetweet, _toggleRetweet2).call(this, {
-                retweetId: retweet,
-                doTask: doTask
-              }));
-              await delay(1e3);
+          if (doTask && !globalOptions.doTask.twitter.retweets || !doTask && !globalOptions.undoTask.twitter.retweets) {
+            scripts_echoLog({
+              type: 'globalOptionsSkip',
+              text: 'twitter.retweets'
+            });
+          } else {
+            const realRetweets = this.getRealParams('retweets', retweetLinks, doTask, link => {
+              var _link$match2;
+              return (_link$match2 = link.match(/https:\/\/twitter\.com\/.*?\/status\/([\d]+)/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1];
+            });
+            if (realRetweets.length > 0) {
+              for (const retweet of realRetweets) {
+                prom.push(Twitter_classPrivateMethodGet(this, _toggleRetweet, _toggleRetweet2).call(this, {
+                  retweetId: retweet,
+                  doTask: doTask
+                }));
+                await delay(1e3);
+              }
             }
           }
           return Promise.all(prom).then(() => true);
@@ -3035,17 +3286,24 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             return false;
           }
           const prom = [];
-          const realNames = this.getRealParams('names', nameLinks, doTask, link => {
-            var _link$match;
-            return (_link$match = link.match(/https:\/\/vk\.com\/([^/]+)/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
-          });
-          if (realNames.length > 0) {
-            for (const name of realNames) {
-              prom.push(Vk_classPrivateMethodGet(this, _toggleVk, _toggleVk2).call(this, {
-                name: name,
-                doTask: doTask
-              }));
-              await delay(1e3);
+          if (doTask && !globalOptions.doTask.vk.names || !doTask && !globalOptions.undoTask.vk.names) {
+            scripts_echoLog({
+              type: 'globalOptionsSkip',
+              text: 'vk.names'
+            });
+          } else {
+            const realNames = this.getRealParams('names', nameLinks, doTask, link => {
+              var _link$match;
+              return (_link$match = link.match(/https:\/\/vk\.com\/([^/]+)/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
+            });
+            if (realNames.length > 0) {
+              for (const name of realNames) {
+                prom.push(Vk_classPrivateMethodGet(this, _toggleVk, _toggleVk2).call(this, {
+                  name: name,
+                  doTask: doTask
+                }));
+                await delay(1e3);
+              }
             }
           }
           return Promise.all(prom).then(() => true);
@@ -3491,32 +3749,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return obj;
     }
-    function Youtube_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
-    function Youtube_classPrivateFieldGet(receiver, privateMap) {
-      var descriptor = Youtube_classExtractFieldDescriptor(receiver, privateMap, 'get');
-      return Youtube_classApplyDescriptorGet(receiver, descriptor);
-    }
-    function Youtube_classApplyDescriptorGet(receiver, descriptor) {
-      if (descriptor.get) {
-        return descriptor.get.call(receiver);
-      }
-      return descriptor.value;
-    }
     function Youtube_classPrivateFieldSet(receiver, privateMap, value) {
       var descriptor = Youtube_classExtractFieldDescriptor(receiver, privateMap, 'set');
       Youtube_classApplyDescriptorSet(receiver, descriptor, value);
       return value;
-    }
-    function Youtube_classExtractFieldDescriptor(receiver, privateMap, action) {
-      if (!privateMap.has(receiver)) {
-        throw new TypeError('attempted to ' + action + ' private field on non-instance');
-      }
-      return privateMap.get(receiver);
     }
     function Youtube_classApplyDescriptorSet(receiver, descriptor, value) {
       if (descriptor.set) {
@@ -3527,6 +3763,28 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         }
         descriptor.value = value;
       }
+    }
+    function Youtube_classPrivateMethodGet(receiver, privateSet, fn) {
+      if (!privateSet.has(receiver)) {
+        throw new TypeError('attempted to get private field on non-instance');
+      }
+      return fn;
+    }
+    function Youtube_classPrivateFieldGet(receiver, privateMap) {
+      var descriptor = Youtube_classExtractFieldDescriptor(receiver, privateMap, 'get');
+      return Youtube_classApplyDescriptorGet(receiver, descriptor);
+    }
+    function Youtube_classExtractFieldDescriptor(receiver, privateMap, action) {
+      if (!privateMap.has(receiver)) {
+        throw new TypeError('attempted to ' + action + ' private field on non-instance');
+      }
+      return privateMap.get(receiver);
+    }
+    function Youtube_classApplyDescriptorGet(receiver, descriptor) {
+      if (descriptor.get) {
+        return descriptor.get.call(receiver);
+      }
+      return descriptor.value;
     }
     const Youtube_defaultTasks = {
       channels: [],
@@ -3623,9 +3881,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     var Youtube_toggleChannel = new WeakSet();
     var _toggleLikeVideo = new WeakSet();
     class Youtube extends social_Social {
-      constructor(verifyChannel) {
+      constructor() {
         var _GM_getValue;
-        super();
+        super(...arguments);
         Youtube_classPrivateMethodInitSpec(this, _toggleLikeVideo);
         Youtube_classPrivateMethodInitSpec(this, Youtube_toggleChannel);
         Youtube_classPrivateMethodInitSpec(this, _getInfo);
@@ -3647,11 +3905,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         });
         Youtube_classPrivateFieldInitSpec(this, _verifyChannel, {
           writable: true,
-          value: 'https://www.youtube.com/channel/UCrXUsMBcfTVqwAS7DKg9C0Q'
+          value: `https://www.youtube.com/channel/${globalOptions.other.youtubeVerifyChannel}`
         });
-        if (verifyChannel) {
-          Youtube_classPrivateFieldSet(this, _verifyChannel, verifyChannel);
-        }
       }
       async init() {
         try {
@@ -3704,36 +3959,50 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             return false;
           }
           const prom = [];
-          const realChannels = this.getRealParams('channels', channelLinks, doTask, link => {
-            if (/^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
-              var _link$match;
-              return (_link$match = link.match(/url=(https:\/\/www.youtube.com\/.*)/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
-            }
-            return link;
-          });
-          const realLikes = this.getRealParams('likes', videoLinks, doTask, link => {
-            if (/^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
-              var _link$match2;
-              return (_link$match2 = link.match(/url=(https:\/\/www.youtube.com\/.*)/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1];
-            }
-            return link;
-          });
-          if (realChannels.length > 0) {
-            for (const channel of realChannels) {
-              prom.push(Youtube_classPrivateMethodGet(this, Youtube_toggleChannel, Youtube_toggleChannel2).call(this, {
-                link: channel,
-                doTask: doTask
-              }));
-              await delay(1e3);
+          if (doTask && !globalOptions.doTask.youtube.channels || !doTask && !globalOptions.undoTask.youtube.channels) {
+            scripts_echoLog({
+              type: 'globalOptionsSkip',
+              text: 'youtube.channels'
+            });
+          } else {
+            const realChannels = this.getRealParams('channels', channelLinks, doTask, link => {
+              if (/^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
+                var _link$match;
+                return (_link$match = link.match(/url=(https:\/\/www.youtube.com\/.*)/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
+              }
+              return link;
+            });
+            if (realChannels.length > 0) {
+              for (const channel of realChannels) {
+                prom.push(Youtube_classPrivateMethodGet(this, Youtube_toggleChannel, Youtube_toggleChannel2).call(this, {
+                  link: channel,
+                  doTask: doTask
+                }));
+                await delay(1e3);
+              }
             }
           }
-          if (realLikes.length > 0) {
-            for (const video of realLikes) {
-              prom.push(Youtube_classPrivateMethodGet(this, _toggleLikeVideo, _toggleLikeVideo2).call(this, {
-                link: video,
-                doTask: doTask
-              }));
-              await delay(1e3);
+          if (doTask && !globalOptions.doTask.youtube.likes || !doTask && !globalOptions.undoTask.youtube.likes) {
+            scripts_echoLog({
+              type: 'globalOptionsSkip',
+              text: 'youtube.likes'
+            });
+          } else {
+            const realLikes = this.getRealParams('likes', videoLinks, doTask, link => {
+              if (/^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
+                var _link$match2;
+                return (_link$match2 = link.match(/url=(https:\/\/www.youtube.com\/.*)/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1];
+              }
+              return link;
+            });
+            if (realLikes.length > 0) {
+              for (const video of realLikes) {
+                prom.push(Youtube_classPrivateMethodGet(this, _toggleLikeVideo, _toggleLikeVideo2).call(this, {
+                  link: video,
+                  doTask: doTask
+                }));
+                await delay(1e3);
+              }
             }
           }
           return Promise.all(prom).then(() => true);
@@ -4230,106 +4499,162 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             return false;
           }
           const prom = [];
-          const realGroups = this.getRealParams('groups', groupLinks, doTask, link => {
-            var _link$match;
-            return (_link$match = link.match(/groups\/(.+)\/?/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
-          });
-          const realWishlists = this.getRealParams('wishlists', wishlistLinks, doTask, link => {
-            var _link$match2;
-            return (_link$match2 = link.match(/app\/([\d]+)/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1];
-          });
-          const realFollows = this.getRealParams('follows', followLinks, doTask, link => {
-            var _link$match3;
-            return (_link$match3 = link.match(/app\/([\d]+)/)) === null || _link$match3 === void 0 ? void 0 : _link$match3[1];
-          });
-          const realForums = this.getRealParams('forums', forumLinks, doTask, link => {
-            var _link$match4;
-            return (_link$match4 = link.match(/app\/([\d]+)/)) === null || _link$match4 === void 0 ? void 0 : _link$match4[1];
-          });
-          const realWorkshops = this.getRealParams('workshops', workshopLinks, doTask, link => {
-            var _link$match5;
-            return (_link$match5 = link.match(/\?id=([\d]+)/)) === null || _link$match5 === void 0 ? void 0 : _link$match5[1];
-          });
-          const realworkshopVotes = this.getRealParams('workshopVotes', workshopVoteLinks, doTask, link => {
-            var _link$match6;
-            return (_link$match6 = link.match(/\?id=([\d]+)/)) === null || _link$match6 === void 0 ? void 0 : _link$match6[1];
-          });
-          const realCurators = this.getRealParams('curators', curatorLinks, doTask, link => {
-            var _link$match7;
-            return (_link$match7 = link.match(/curator\/([\d]+)/)) === null || _link$match7 === void 0 ? void 0 : _link$match7[1];
-          });
-          const realCuratorLikes = this.getRealParams('curatorLikes', curatorLikeLinks, doTask, link => {
-            var _link$match8;
-            return (_link$match8 = link.match(/https?:\/\/store\.steampowered\.com\/(.*?)\/([^/?]+)/)) === null || _link$match8 === void 0 ? void 0 : _link$match8.slice(1, 3).join('/');
-          });
-          const realAnnouncements = this.getRealParams('announcements', announcementLinks, doTask, link => {
-            var _link$match10;
-            if (link.includes('store.steampowered.com')) {
-              var _link$match9;
-              return (_link$match9 = link.match(/store.steampowered.com\/news\/app\/([\d]+)\/view\/([\d]+)/)) === null || _link$match9 === void 0 ? void 0 : _link$match9.slice(1, 3).join('/');
-            }
-            return (_link$match10 = link.match(/steamcommunity.com\/games\/([\d]+)\/announcements\/detail\/([\d]+)/)) === null || _link$match10 === void 0 ? void 0 : _link$match10.slice(1, 3).join('/');
-          });
-          if (realGroups.length > 0) {
-            for (const group of realGroups) {
-              if (doTask) {
-                prom.push(Steam_classPrivateMethodGet(this, _joinGroup, _joinGroup2).call(this, group));
-              } else {
-                prom.push(Steam_classPrivateMethodGet(this, _leaveGroup, _leaveGroup2).call(this, group));
+          if (doTask && !globalOptions.doTask.steam.groups || !doTask && !globalOptions.undoTask.steam.groups) {
+            scripts_echoLog({
+              type: 'globalOptionsSkip',
+              text: 'steam.groups'
+            });
+          } else {
+            const realGroups = this.getRealParams('groups', groupLinks, doTask, link => {
+              var _link$match;
+              return (_link$match = link.match(/groups\/(.+)\/?/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
+            });
+            if (realGroups.length > 0) {
+              for (const group of realGroups) {
+                if (doTask) {
+                  prom.push(Steam_classPrivateMethodGet(this, _joinGroup, _joinGroup2).call(this, group));
+                } else {
+                  prom.push(Steam_classPrivateMethodGet(this, _leaveGroup, _leaveGroup2).call(this, group));
+                }
+                await delay(1e3);
               }
-              await delay(1e3);
             }
           }
-          if (realWishlists.length > 0) {
-            for (const game of realWishlists) {
-              if (doTask) {
-                prom.push(Steam_classPrivateMethodGet(this, _addToWishlist, _addToWishlist2).call(this, game));
-              } else {
-                prom.push(Steam_classPrivateMethodGet(this, _removeFromWishlist, _removeFromWishlist2).call(this, game));
+          if (doTask && !globalOptions.doTask.steam.wishlists || !doTask && !globalOptions.undoTask.steam.wishlists) {
+            scripts_echoLog({
+              type: 'globalOptionsSkip',
+              text: 'steam.wishlists'
+            });
+          } else {
+            const realWishlists = this.getRealParams('wishlists', wishlistLinks, doTask, link => {
+              var _link$match2;
+              return (_link$match2 = link.match(/app\/([\d]+)/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1];
+            });
+            if (realWishlists.length > 0) {
+              for (const game of realWishlists) {
+                if (doTask) {
+                  prom.push(Steam_classPrivateMethodGet(this, _addToWishlist, _addToWishlist2).call(this, game));
+                } else {
+                  prom.push(Steam_classPrivateMethodGet(this, _removeFromWishlist, _removeFromWishlist2).call(this, game));
+                }
+                await delay(1e3);
               }
-              await delay(1e3);
             }
           }
-          if (realFollows.length > 0) {
-            for (const game of realFollows) {
-              prom.push(Steam_classPrivateMethodGet(this, _toggleFollowGame, _toggleFollowGame2).call(this, game, doTask));
-              await delay(1e3);
+          if (doTask && !globalOptions.doTask.steam.follows || !doTask && !globalOptions.undoTask.steam.follows) {
+            scripts_echoLog({
+              type: 'globalOptionsSkip',
+              text: 'steam.follows'
+            });
+          } else {
+            const realFollows = this.getRealParams('follows', followLinks, doTask, link => {
+              var _link$match3;
+              return (_link$match3 = link.match(/app\/([\d]+)/)) === null || _link$match3 === void 0 ? void 0 : _link$match3[1];
+            });
+            if (realFollows.length > 0) {
+              for (const game of realFollows) {
+                prom.push(Steam_classPrivateMethodGet(this, _toggleFollowGame, _toggleFollowGame2).call(this, game, doTask));
+                await delay(1e3);
+              }
             }
           }
-          if (realForums.length > 0) {
-            for (const forum of realForums) {
-              prom.push(Steam_classPrivateMethodGet(this, _toggleForum, _toggleForum2).call(this, forum, doTask));
-              await delay(1e3);
+          if (doTask && !globalOptions.doTask.steam.forums || !doTask && !globalOptions.undoTask.steam.forums) {
+            scripts_echoLog({
+              type: 'globalOptionsSkip',
+              text: 'steam.forums'
+            });
+          } else {
+            const realForums = this.getRealParams('forums', forumLinks, doTask, link => {
+              var _link$match4;
+              return (_link$match4 = link.match(/app\/([\d]+)/)) === null || _link$match4 === void 0 ? void 0 : _link$match4[1];
+            });
+            if (realForums.length > 0) {
+              for (const forum of realForums) {
+                prom.push(Steam_classPrivateMethodGet(this, _toggleForum, _toggleForum2).call(this, forum, doTask));
+                await delay(1e3);
+              }
             }
           }
-          if (realWorkshops.length > 0) {
-            for (const workshop of realWorkshops) {
-              prom.push(Steam_classPrivateMethodGet(this, _toggleFavoriteWorkshop, _toggleFavoriteWorkshop2).call(this, workshop, doTask));
-              await delay(1e3);
+          if (doTask && !globalOptions.doTask.steam.workshops || !doTask && !globalOptions.undoTask.steam.workshops) {
+            scripts_echoLog({
+              type: 'globalOptionsSkip',
+              text: 'steam.workshops'
+            });
+          } else {
+            const realWorkshops = this.getRealParams('workshops', workshopLinks, doTask, link => {
+              var _link$match5;
+              return (_link$match5 = link.match(/\?id=([\d]+)/)) === null || _link$match5 === void 0 ? void 0 : _link$match5[1];
+            });
+            if (realWorkshops.length > 0) {
+              for (const workshop of realWorkshops) {
+                prom.push(Steam_classPrivateMethodGet(this, _toggleFavoriteWorkshop, _toggleFavoriteWorkshop2).call(this, workshop, doTask));
+                await delay(1e3);
+              }
             }
           }
-          if (doTask && realworkshopVotes.length > 0) {
-            for (const workshop of realworkshopVotes) {
-              prom.push(Steam_classPrivateMethodGet(this, _voteUpWorkshop, _voteUpWorkshop2).call(this, workshop));
-              await delay(1e3);
+          if (doTask && !globalOptions.doTask.steam.workshopVotes) {
+            scripts_echoLog({
+              type: 'globalOptionsSkip',
+              text: 'steam.workshopVotes'
+            });
+          } else {
+            const realworkshopVotes = this.getRealParams('workshopVotes', workshopVoteLinks, doTask, link => {
+              var _link$match6;
+              return (_link$match6 = link.match(/\?id=([\d]+)/)) === null || _link$match6 === void 0 ? void 0 : _link$match6[1];
+            });
+            if (doTask && realworkshopVotes.length > 0) {
+              for (const workshop of realworkshopVotes) {
+                prom.push(Steam_classPrivateMethodGet(this, _voteUpWorkshop, _voteUpWorkshop2).call(this, workshop));
+                await delay(1e3);
+              }
             }
           }
-          if (realCurators.length > 0) {
-            for (const curator of realCurators) {
-              prom.push(Steam_classPrivateMethodGet(this, _toggleCurator, _toggleCurator2).call(this, curator, doTask));
-              await delay(1e3);
+          if (doTask && !globalOptions.doTask.steam.curators || !doTask && !globalOptions.undoTask.steam.curators) {
+            scripts_echoLog({
+              type: 'globalOptionsSkip',
+              text: 'steam.curators'
+            });
+          } else {
+            const realCurators = this.getRealParams('curators', curatorLinks, doTask, link => {
+              var _link$match7;
+              return (_link$match7 = link.match(/curator\/([\d]+)/)) === null || _link$match7 === void 0 ? void 0 : _link$match7[1];
+            });
+            const realCuratorLikes = this.getRealParams('curatorLikes', curatorLikeLinks, doTask, link => {
+              var _link$match8;
+              return (_link$match8 = link.match(/https?:\/\/store\.steampowered\.com\/(.*?)\/([^/?]+)/)) === null || _link$match8 === void 0 ? void 0 : _link$match8.slice(1, 3).join('/');
+            });
+            if (realCurators.length > 0) {
+              for (const curator of realCurators) {
+                prom.push(Steam_classPrivateMethodGet(this, _toggleCurator, _toggleCurator2).call(this, curator, doTask));
+                await delay(1e3);
+              }
+            }
+            if (realCuratorLikes.length > 0) {
+              for (const curatorLike of realCuratorLikes) {
+                prom.push(Steam_classPrivateMethodGet(this, _toggleCuratorLike, _toggleCuratorLike2).call(this, curatorLike, doTask));
+                await delay(1e3);
+              }
             }
           }
-          if (realCuratorLikes.length > 0) {
-            for (const curatorLike of realCuratorLikes) {
-              prom.push(Steam_classPrivateMethodGet(this, _toggleCuratorLike, _toggleCuratorLike2).call(this, curatorLike, doTask));
-              await delay(1e3);
-            }
-          }
-          if (doTask && realAnnouncements.length > 0) {
-            for (const id of realAnnouncements) {
-              prom.push(Steam_classPrivateMethodGet(this, _likeAnnouncement, _likeAnnouncement2).call(this, id));
-              await delay(1e3);
+          if (doTask && !globalOptions.doTask.steam.announcements) {
+            scripts_echoLog({
+              type: 'globalOptionsSkip',
+              text: 'steam.announcements'
+            });
+          } else {
+            const realAnnouncements = this.getRealParams('announcements', announcementLinks, doTask, link => {
+              var _link$match10;
+              if (link.includes('store.steampowered.com')) {
+                var _link$match9;
+                return (_link$match9 = link.match(/store.steampowered.com\/news\/app\/([\d]+)\/view\/([\d]+)/)) === null || _link$match9 === void 0 ? void 0 : _link$match9.slice(1, 3).join('/');
+              }
+              return (_link$match10 = link.match(/steamcommunity.com\/games\/([\d]+)\/announcements\/detail\/([\d]+)/)) === null || _link$match10 === void 0 ? void 0 : _link$match10.slice(1, 3).join('/');
+            });
+            if (doTask && realAnnouncements.length > 0) {
+              for (const id of realAnnouncements) {
+                prom.push(Steam_classPrivateMethodGet(this, _likeAnnouncement, _likeAnnouncement2).call(this, id));
+                await delay(1e3);
+              }
             }
           }
           return Promise.all(prom).then(async () => {
@@ -6105,6 +6430,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     }
     function _checkLogin2() {
       try {
+        if (!globalOptions.other.checkLogin) {
+          return true;
+        }
         if ($('a.steam-login').length > 0) {
           window.open('/steam/redirect', '_self');
         }
@@ -6116,6 +6444,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     }
     async function _checkLeftKey2() {
       try {
+        if (!globalOptions.other.checkLeftKey) {
+          return true;
+        }
         if ($('.giveaway-ended').length > 0) {
           await external_Swal_default().fire({
             icon: 'warning',
@@ -6461,6 +6792,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     }
     function Indiedb_checkLogin2() {
       try {
+        if (!globalOptions.other.checkLogin) {
+          return true;
+        }
         if ($('a.buttonenter:contains(Register to join)').length > 0) {
           window.open('/members/login', '_self');
         }
@@ -6472,6 +6806,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     }
     async function Indiedb_checkLeftKey2() {
       try {
+        if (!globalOptions.other.checkLeftKey) {
+          return true;
+        }
         if ($('a.buttonenter:contains("next time")').length > 0) {
           await external_Swal_default().fire({
             icon: 'warning',
@@ -6647,7 +6984,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
               }
             } else {
               scripts_echoLog({
-                html: `<li><font class="warning>${i18n('unKnownTaskType', `${taskDes}(${link})`)}</font></li>`
+                html: `<li><font class="warning">${i18n('unKnownTaskType', `${taskDes}(${link})`)}</font></li>`
               });
             }
           }
@@ -6664,8 +7001,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       verifyTask() {
         try {
           scripts_echoLog({
-            type: 'custom',
-            text: `<li>${i18n('verifyingTask')}...<font></font></li>`
+            html: `<li>${i18n('verifyingTask')}...<font></font></li>`
           });
           $.get(window.location.href, res => {
             VerifyTasks(res.match(/onclick="javascript:VerifyTasks\('(.*?)'\)"/)[1]);
@@ -6694,6 +7030,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     }
     async function Keyhub_checkLeftKey2() {
       try {
+        if (!globalOptions.other.checkLeftKey) {
+          return true;
+        }
         const leftKey = $('#keysleft').text().trim();
         if (leftKey === '0') {
           await external_Swal_default().fire({
@@ -6720,6 +7059,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     }
     function Keyhub_checkLogin2() {
       try {
+        if (!globalOptions.other.checkLogin) {
+          return true;
+        }
         if ($('a[href*="/connect/steam"]').length > 0) {
           window.open('/connect/steam', '_self');
         }
@@ -7028,6 +7370,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     }
     async function Givekey_checkLeftKey2() {
       try {
+        if (!globalOptions.other.checkLeftKey) {
+          return true;
+        }
         if (!$('#keys_count').text()) {
           await external_Swal_default().fire({
             icon: 'warning',
@@ -7210,6 +7555,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     }
     function GiveeClub_checkLogin2() {
       try {
+        if (!globalOptions.other.checkLogin) {
+          return true;
+        }
         if ($('a[href*="/account/auth"]').length > 0) {
           window.open($('a[href*="/account/auth"]').attr('href'), '_self');
         }
@@ -7233,6 +7581,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     }
     async function GiveeClub_checkLeftKey2() {
       try {
+        if (!globalOptions.other.checkLeftKey) {
+          return true;
+        }
         if ($('.event-ended').length > 0) {
           await external_Swal_default().fire({
             icon: 'warning',
@@ -7289,8 +7640,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       maxPoint: '99999999'
     };
     var _toggleTask = new WeakSet();
+    var OpiumPulses_checkLogin = new WeakSet();
     class OpiumPulses {
       constructor() {
+        OpiumPulses_classPrivateMethodInitSpec(this, OpiumPulses_checkLogin);
         OpiumPulses_classPrivateMethodInitSpec(this, _toggleTask);
         OpiumPulses_defineProperty(this, 'name', 'OpiumPulses');
         OpiumPulses_defineProperty(this, 'options', {
@@ -7306,7 +7659,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       async before() {
         try {
-          if (!this.checkLogin()) {
+          if (!OpiumPulses_classPrivateMethodGet(this, OpiumPulses_checkLogin, OpiumPulses_checkLogin2).call(this)) {
             scripts_echoLog({
               html: `<li><font class="warning>${i18n('checkLoginFailed')}</font></li>`
             });
@@ -7337,17 +7690,6 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       classifyTask() {
         return true;
-      }
-      checkLogin() {
-        try {
-          if ($('a[href*="/site/login"]').length > 0) {
-            window.open('/site/login', '_self');
-          }
-          return true;
-        } catch (error) {
-          throwError(error, 'OpiumPulses.checkLogin');
-          return false;
-        }
       }
     }
     async function _toggleTask2(type) {
@@ -7412,6 +7754,20 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         });
       } catch (error) {
         throwError(error, 'OpiumPulses.toggleTask');
+      }
+    }
+    function OpiumPulses_checkLogin2() {
+      try {
+        if (!globalOptions.other.checkLogin) {
+          return true;
+        }
+        if ($('a[href*="/site/login"]').length > 0) {
+          window.open('/site/login', '_self');
+        }
+        return true;
+      } catch (error) {
+        throwError(error, 'OpiumPulses.checkLogin');
+        return false;
       }
     }
     const website_OpiumPulses = OpiumPulses;
@@ -7824,6 +8180,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     }
     function Opquests_checkLogin2() {
       try {
+        if (!globalOptions.other.checkLogin) {
+          return true;
+        }
         if ($('a[href*="/auth/redirect"]').length > 0) {
           window.open('/auth/redirect', '_self');
         }
@@ -8272,6 +8631,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     }
     async function Gleam_checkLeftKey2() {
       try {
+        if (!globalOptions.other.checkLeftKey) {
+          return true;
+        }
         if ($('.entry-content:visible').length === 0) {
           await external_Swal_default().fire({
             icon: 'warning',
@@ -8449,16 +8811,21 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
     }
     function SweepWidget_getGiveawayId2() {
-      var _window$location$href;
-      const giveawayId = (_window$location$href = window.location.href.match(/\/view\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
-      if (giveawayId) {
-        this.giveawayId = giveawayId;
-        return true;
+      try {
+        var _window$location$href;
+        const giveawayId = (_window$location$href = window.location.href.match(/\/view\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
+        if (giveawayId) {
+          this.giveawayId = giveawayId;
+          return true;
+        }
+        scripts_echoLog({
+          text: i18n('getFailed', 'GiveawayId')
+        });
+        return false;
+      } catch (error) {
+        throwError(error, 'SweepWidget.getGiveawayId');
+        return false;
       }
-      scripts_echoLog({
-        text: i18n('getFailed', 'GiveawayId')
-      });
-      return false;
     }
     async function _checkEnter2() {
       try {
@@ -8491,7 +8858,6 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
     }
     const website_SweepWidget = SweepWidget;
-    const Websites = [ website_FreeAnyWhere, GiveawaySu, website_Indiedb, website_Keyhub, website_Givekey, website_GiveeClub, website_OpiumPulses, website_Keylol, website_Opquests, website_Gleam, website_SweepWidget ];
     const defaultWhiteList = {
       discord: {
         servers: []
@@ -8531,154 +8897,203 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     };
     const link2id = async function(type) {
       var _link$match, _link$match2, _link$match3, _link$match4, _link$match5, _link$match6, _await$getInfo, _await$getInfo$params, _await$getInfo2, _await$getInfo2$param, _link$match7, _link$match8, _link$match9, _link$match10, _link$match11;
-      const link = $('#socialLink').val();
-      let id = '';
-      switch (type) {
-       case 'discord.servers':
-        id = ((_link$match = link.match(/invite\/(.+)/)) === null || _link$match === void 0 ? void 0 : _link$match[1]) || '';
-        break;
+      try {
+        const link = $('#socialLink').val();
+        let id = '';
+        switch (type) {
+         case 'discord.servers':
+          id = ((_link$match = link.match(/invite\/(.+)/)) === null || _link$match === void 0 ? void 0 : _link$match[1]) || '';
+          break;
 
-       case 'instagram.users':
-        id = ((_link$match2 = link.match(/https:\/\/www\.instagram\.com\/(.+)?\//)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1]) || '';
-        break;
+         case 'instagram.users':
+          id = ((_link$match2 = link.match(/https:\/\/www\.instagram\.com\/(.+)?\//)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1]) || '';
+          break;
 
-       case 'twitch.channels':
-        id = ((_link$match3 = link.match(/https:\/\/(www\.)?twitch\.tv\/(.+)/)) === null || _link$match3 === void 0 ? void 0 : _link$match3[2]) || '';
-        break;
+         case 'twitch.channels':
+          id = ((_link$match3 = link.match(/https:\/\/(www\.)?twitch\.tv\/(.+)/)) === null || _link$match3 === void 0 ? void 0 : _link$match3[2]) || '';
+          break;
 
-       case 'twitter.users':
-        id = ((_link$match4 = link.match(/https:\/\/twitter\.com\/(.+)/)) === null || _link$match4 === void 0 ? void 0 : _link$match4[1]) || '';
-        break;
+         case 'twitter.users':
+          id = ((_link$match4 = link.match(/https:\/\/twitter\.com\/(.+)/)) === null || _link$match4 === void 0 ? void 0 : _link$match4[1]) || '';
+          break;
 
-       case 'twitter.retweets':
-        id = ((_link$match5 = link.match(/https:\/\/twitter\.com\/.*?\/status\/([\d]+)/)) === null || _link$match5 === void 0 ? void 0 : _link$match5[1]) || '';
-        break;
+         case 'twitter.retweets':
+          id = ((_link$match5 = link.match(/https:\/\/twitter\.com\/.*?\/status\/([\d]+)/)) === null || _link$match5 === void 0 ? void 0 : _link$match5[1]) || '';
+          break;
 
-       case 'vk.names':
-        id = ((_link$match6 = link.match(/https:\/\/vk\.com\/([^/]+)/)) === null || _link$match6 === void 0 ? void 0 : _link$match6[1]) || '';
-        break;
+         case 'vk.names':
+          id = ((_link$match6 = link.match(/https:\/\/vk\.com\/([^/]+)/)) === null || _link$match6 === void 0 ? void 0 : _link$match6[1]) || '';
+          break;
 
-       case 'youtube.channels':
-        id = ((_await$getInfo = await getInfo(link, 'channel')) === null || _await$getInfo === void 0 ? void 0 : (_await$getInfo$params = _await$getInfo.params) === null || _await$getInfo$params === void 0 ? void 0 : _await$getInfo$params.channelId) || '';
-        break;
+         case 'youtube.channels':
+          id = ((_await$getInfo = await getInfo(link, 'channel')) === null || _await$getInfo === void 0 ? void 0 : (_await$getInfo$params = _await$getInfo.params) === null || _await$getInfo$params === void 0 ? void 0 : _await$getInfo$params.channelId) || '';
+          break;
 
-       case 'youtube.likes':
-        id = ((_await$getInfo2 = await getInfo(link, 'likeVideo')) === null || _await$getInfo2 === void 0 ? void 0 : (_await$getInfo2$param = _await$getInfo2.params) === null || _await$getInfo2$param === void 0 ? void 0 : _await$getInfo2$param.videoId) || '';
-        break;
+         case 'youtube.likes':
+          id = ((_await$getInfo2 = await getInfo(link, 'likeVideo')) === null || _await$getInfo2 === void 0 ? void 0 : (_await$getInfo2$param = _await$getInfo2.params) === null || _await$getInfo2$param === void 0 ? void 0 : _await$getInfo2$param.videoId) || '';
+          break;
 
-       case 'reddit.reddits':
-        id = ((_link$match7 = link.match(/https?:\/\/www\.reddit\.com\/user\/([^/]*)/)) === null || _link$match7 === void 0 ? void 0 : _link$match7[1]) || ((_link$match8 = link.match(/https?:\/\/www\.reddit\.com\/r\/([^/]*)/)) === null || _link$match8 === void 0 ? void 0 : _link$match8[1]) || '';
-        break;
+         case 'reddit.reddits':
+          id = ((_link$match7 = link.match(/https?:\/\/www\.reddit\.com\/user\/([^/]*)/)) === null || _link$match7 === void 0 ? void 0 : _link$match7[1]) || ((_link$match8 = link.match(/https?:\/\/www\.reddit\.com\/r\/([^/]*)/)) === null || _link$match8 === void 0 ? void 0 : _link$match8[1]) || '';
+          break;
 
-       case 'steam.groups':
-        id = ((_link$match9 = link.match(/groups\/(.+)\/?/)) === null || _link$match9 === void 0 ? void 0 : _link$match9[1]) || '';
-        break;
+         case 'steam.groups':
+          id = ((_link$match9 = link.match(/groups\/(.+)\/?/)) === null || _link$match9 === void 0 ? void 0 : _link$match9[1]) || '';
+          break;
 
-       case 'steam.wishlists':
-       case 'steam.follows':
-       case 'steam.forums':
-        id = ((_link$match10 = link.match(/app\/([\d]+)/)) === null || _link$match10 === void 0 ? void 0 : _link$match10[1]) || '';
-        break;
+         case 'steam.wishlists':
+         case 'steam.follows':
+         case 'steam.forums':
+          id = ((_link$match10 = link.match(/app\/([\d]+)/)) === null || _link$match10 === void 0 ? void 0 : _link$match10[1]) || '';
+          break;
 
-       case 'steam.workshops':
-        id = ((_link$match11 = link.match(/\?id=([\d]+)/)) === null || _link$match11 === void 0 ? void 0 : _link$match11[1]) || '';
-        break;
+         case 'steam.workshops':
+          id = ((_link$match11 = link.match(/\?id=([\d]+)/)) === null || _link$match11 === void 0 ? void 0 : _link$match11[1]) || '';
+          break;
 
-       case 'steam.curators':
-        {
-          if (link.includes('curator')) {
-            var _link$match12;
-            id = ((_link$match12 = link.match(/curator\/([\d]+)/)) === null || _link$match12 === void 0 ? void 0 : _link$match12[1]) || '';
-          } else {
-            var _link$match13;
-            const param = (_link$match13 = link.match(/https?:\/\/store\.steampowered\.com\/(.*?)\/([^/?]+)/)) === null || _link$match13 === void 0 ? void 0 : _link$match13.slice(1, 3);
-            if (!param || param.length !== 2) {
-              break;
-            }
-            const steam = new social_Steam();
-            if (await steam.init()) {
-              id = await steam.getCuratorId(param[0], param[1]) || '';
+         case 'steam.curators':
+          {
+            if (link.includes('curator')) {
+              var _link$match12;
+              id = ((_link$match12 = link.match(/curator\/([\d]+)/)) === null || _link$match12 === void 0 ? void 0 : _link$match12[1]) || '';
+            } else {
+              var _link$match13;
+              const param = (_link$match13 = link.match(/https?:\/\/store\.steampowered\.com\/(.*?)\/([^/?]+)/)) === null || _link$match13 === void 0 ? void 0 : _link$match13.slice(1, 3);
+              if (!param || param.length !== 2) {
+                break;
+              }
+              const steam = new social_Steam();
+              if (await steam.init()) {
+                id = await steam.getCuratorId(param[0], param[1]) || '';
+              }
             }
           }
+          break;
         }
-        break;
+        return id;
+      } catch (error) {
+        throwError(error, 'link2id');
+        return i18n('getFailed', 'id');
       }
-      return id;
     };
     const disabledType = {
       steam: [ 'workshopVotes', 'curatorLikes', 'announcements' ],
       twitter: [ 'likes' ]
     };
-    const whiteListOptions = function() {
-      const whiteList = {
-        ...defaultWhiteList,
-        ...GM_getValue('whiteList') || {}
-      };
-      let whiteListOptionsForm = `<form id="whiteListForm" class="auto-task-form">
+    const whiteListOptions = function(showType) {
+      try {
+        const whiteList = {
+          ...defaultWhiteList,
+          ...GM_getValue('whiteList') || {}
+        };
+        let whiteListOptionsForm = `<form id="whiteListForm" class="auto-task-form">
   <table class="auto-task-table"><thead><tr><td>${i18n('website')}</td><td>${i18n('type')}</td><td>${i18n('edit')}</td></tr></thead><tbody>`;
-      for (const [ social, types ] of Object.entries(whiteList)) {
-        whiteListOptionsForm += Object.keys(types).map((type, index) => {
-          var _disabledType$social;
-          return (_disabledType$social = disabledType[social]) !== null && _disabledType$social !== void 0 && _disabledType$social.includes(type) ? '' : `<tr>${index === 0 ? `<th rowspan="${Object.keys(types).length - (disabledType[social] || []).length}">${social}</th>` : ''}<td>${type}</td><td><button class="editWhiteList" data-value="${social}.${type}">${i18n('edit')}</button></td></tr>`;
-        }).join('');
-      }
-      whiteListOptionsForm += '</tbody></table></form>';
-      external_Swal_default().fire({
-        title: i18n('whiteListOptions'),
-        html: whiteListOptionsForm,
-        showConfirmButton: false,
-        showCloseButton: true
-      });
-      $('.editWhiteList').on('click', function() {
-        var _whiteList$social;
-        const value = $(this).attr('data-value');
-        if (!value) {
-          return;
+        for (const [ social, types ] of Object.entries(whiteList)) {
+          whiteListOptionsForm += Object.keys(types).map((type, index) => {
+            var _disabledType$social;
+            return (_disabledType$social = disabledType[social]) !== null && _disabledType$social !== void 0 && _disabledType$social.includes(type) ? '' : `<tr style="background-color: ${stringToColour(social)}66">${index === 0 ? `<th rowspan="${Object.keys(types).length - (disabledType[social] || []).length}" style="background-color: ${stringToColour(social)}66">${social}</th>` : ''}<td>${i18n(type)}</td><td><button type="button" class="editWhiteList" data-value="${social}.${type}">${i18n('edit')}</button></td></tr>`;
+          }).join('');
         }
-        const [ social, type ] = value.split('.');
-        if (!(whiteList !== null && whiteList !== void 0 && (_whiteList$social = whiteList[social]) !== null && _whiteList$social !== void 0 && _whiteList$social[type])) {
-          scripts_echoLog({
-            html: `<li><font class="warning">${i18n('whiteListNotFound', value)}</font></li>`
+        whiteListOptionsForm += '</tbody></table></form>';
+        if (showType === 'swal') {
+          external_Swal_default().fire({
+            title: i18n('whiteListOptions'),
+            html: whiteListOptionsForm,
+            showConfirmButton: false,
+            showCloseButton: true
           });
-          return;
+        } else {
+          $('body').append(`<h2>${i18n('whiteList')}</h2>${whiteListOptionsForm}`);
         }
-        external_Swal_default().fire({
-          title: i18n('changeWhiteListOption', value),
-          input: 'textarea',
-          html: `<input id="socialLink" class="swal2-input" placeholder="在此处输入链接获取id">
-        <button id="link2id" data-type="${value}" class="swal2-confirm swal2-styled">获取id</button>`,
-          inputValue: whiteList[social][type].join('\n'),
-          showConfirmButton: true,
-          confirmButtonText: i18n('save'),
-          showCancelButton: true,
-          cancelButtonText: i18n('close'),
-          showDenyButton: true,
-          denyButtonText: i18n('return')
-        }).then(_ref => {
-          let {
-            isDenied,
-            isConfirmed,
-            value
-          } = _ref;
-          if (isDenied) {
-            whiteListOptions();
+        $('.editWhiteList').on('click', function() {
+          var _whiteList$social;
+          const value = $(this).attr('data-value');
+          if (!value) {
             return;
-          } else if (isConfirmed) {
-            whiteList[social][type] = value.split('\n');
-            GM_setValue('whiteList', whiteList);
-            external_Swal_default().fire({
-              title: i18n('changeWhiteListSuccess'),
-              icon: 'success'
-            });
           }
+          const [ social, type ] = value.split('.');
+          if (!(whiteList !== null && whiteList !== void 0 && (_whiteList$social = whiteList[social]) !== null && _whiteList$social !== void 0 && _whiteList$social[type])) {
+            scripts_echoLog({
+              html: `<li><font class="warning">${i18n('whiteListNotFound', value)}</font></li>`
+            });
+            return;
+          }
+          external_Swal_default().fire({
+            title: i18n('changeWhiteListOption', value),
+            input: 'textarea',
+            html: `<input id="socialLink" class="swal2-input" placeholder="在此处输入链接获取id">
+        <button id="link2id" data-type="${value}" class="swal2-confirm swal2-styled">获取id</button>`,
+            inputValue: whiteList[social][type].join('\n'),
+            showConfirmButton: true,
+            confirmButtonText: i18n('save'),
+            showCancelButton: true,
+            cancelButtonText: i18n('close'),
+            showDenyButton: true,
+            denyButtonText: i18n('return')
+          }).then(_ref => {
+            let {
+              isDenied,
+              isConfirmed,
+              value
+            } = _ref;
+            if (isDenied) {
+              if (showType === 'swal') {
+                whiteListOptions(showType);
+              }
+              return;
+            } else if (isConfirmed) {
+              whiteList[social][type] = value.split('\n');
+              GM_setValue('whiteList', whiteList);
+              external_Swal_default().fire({
+                title: i18n('changeWhiteListSuccess'),
+                icon: 'success'
+              });
+            }
+          });
+          $('#link2id').on('click', async function() {
+            const type = $(this).attr('data-type');
+            $('#socialLink').val(await link2id(type));
+          });
         });
-        $('#link2id').on('click', async function() {
-          const type = $(this).attr('data-type');
-          $('#socialLink').val(await link2id(type));
-        });
-      });
+      } catch (error) {
+        throwError(error, 'whiteListOptions');
+      }
     };
     const whiteList = whiteListOptions;
+    function Setting_defineProperty(obj, key, value) {
+      if (key in obj) {
+        Object.defineProperty(obj, key, {
+          value: value,
+          enumerable: true,
+          configurable: true,
+          writable: true
+        });
+      } else {
+        obj[key] = value;
+      }
+      return obj;
+    }
+    class Setting {
+      constructor() {
+        Setting_defineProperty(this, 'name', 'Setting');
+        Setting_defineProperty(this, 'buttons', [ 'saveGlobalOptions' ]);
+      }
+      static test() {
+        return window.location.host === 'auto-task.hclonely.com' && window.location.pathname === '/setting.html';
+      }
+      before() {
+        $('body').html('').addClass('auto-task-options');
+      }
+      after() {
+        changeGlobalOptions('page');
+        whiteList('page');
+      }
+      saveGlobalOptions() {
+        saveData();
+      }
+    }
+    const website_Setting = Setting;
+    const Websites = [ website_FreeAnyWhere, GiveawaySu, website_Indiedb, website_Keyhub, website_Givekey, website_GiveeClub, website_OpiumPulses, website_Keylol, website_Opquests, website_Gleam, website_SweepWidget, website_Setting ];
     const websiteOptions = function(website, options) {
       let websiteOptionsForm = `<form id="websiteOptionsForm" class="auto-task-form">
   <table class="auto-task-table"><thead><tr><td>${i18n('option')}</td><td>${i18n('value')}</td></tr></thead><tbody>`;
@@ -8730,6 +9145,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
     }
     window.onload = async () => {
+      var _website, _website2, _website3, _website4, _website5, _website6;
       if (window.location.hostname === 'www.twitch.tv' && window.location.hash === '#auth') {
         const authToken = external_Cookies_namespaceObject.get('auth-token');
         const isLogin = !!external_Cookies_namespaceObject.get('login');
@@ -8781,26 +9197,39 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         external_Swal_default().fire('', i18n('closePageNotice'));
       }
       if (!website) {
+        console.log('Auto Task脚本停止加载：当前网站不支持');
         return;
       }
       $('body').append('<div id="auto-task-info"></div>');
-      if (website.before) {
-        await website.before();
+      if ((_website = website) !== null && _website !== void 0 && _website.before) {
+        await ((_website2 = website) === null || _website2 === void 0 ? void 0 : _website2.before());
       }
-      if (website.after) {
-        await website.after();
+      if ((_website3 = website) !== null && _website3 !== void 0 && _website3.after) {
+        await ((_website4 = website) === null || _website4 === void 0 ? void 0 : _website4.after());
       }
-      for (const button of website.buttons) {
-        if (website[button]) {
-          GM_registerMenuCommand(i18n(button), () => {
-            website[button]();
-          });
+      if ((_website5 = website) !== null && _website5 !== void 0 && _website5.buttons) {
+        for (const button of website.buttons) {
+          if (website[button]) {
+            GM_registerMenuCommand(i18n(button), () => {
+              website[button]();
+            });
+          }
         }
       }
-      GM_registerMenuCommand('whiteList', whiteList);
-      if (website.options) {
-        GM_registerMenuCommand('options', () => {
+      if ((_website6 = website) !== null && _website6 !== void 0 && _website6.options) {
+        GM_registerMenuCommand(i18n('changeWebsiteOptions'), () => {
           options(website.name, website.options);
+        });
+      }
+      if (website.name !== 'Setting') {
+        GM_registerMenuCommand(i18n('whiteList'), () => {
+          whiteList('swal');
+        });
+        GM_registerMenuCommand(i18n('changeGlobalOptions'), () => {
+          changeGlobalOptions('swal');
+        });
+        GM_registerMenuCommand(i18n('settingPage'), () => {
+          window.open('https://auto-task.hclonely.com/setting.html', '_blank');
         });
       }
       unsafeWindow.website = website;

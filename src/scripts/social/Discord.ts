@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2021-12-24 17:35:11
+ * @LastEditTime : 2021-12-25 13:01:48
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
@@ -13,7 +13,7 @@ import throwError from '../tools/throwError';
 import { unique, delay } from '../tools/tools';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
-import globalOptions from '../globalOptions';
+import { globalOptions } from '../globalOptions';
 
 const defaultTasks: discordTasks = { servers: [] };
 

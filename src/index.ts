@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-12-24 15:44:18
+ * @LastEditTime : 2021-12-25 20:43:03
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -15,6 +15,8 @@ import { Websites, WebsiteType } from './scripts/website/index';
 import whiteListOptions from './scripts/social/whiteList';
 import websiteOptions from './scripts/website/options';
 import __ from './scripts/tools/i18n';
+import { changeGlobalOptions } from './scripts/globalOptions';
+// import { changeGlobalOptions } from './scripts/globalOptions';
 
 let website: WebsiteType;
 for (const Website of Websites) {
@@ -84,28 +86,42 @@ window.onload = async () => {
     Swal.fire('', __('closePageNotice'));
   }
 
-  if (!website) return;
+  if (!website) {
+    console.log('Auto Task脚本停止加载：当前网站不支持');
+    return;
+  }
 
   $('body').append('<div id="auto-task-info"></div>'); // eslint-disable-line
   // @ts-ignore
-  if (website.before) await website.before();
+  if (website?.before) await website?.before();
 
   // do something
   // @ts-ignore
-  if (website.after) await website.after();
+  if (website?.after) await website?.after();
 
-  for (const button of website.buttons) {
+  // @ts-ignore
+  if (website?.buttons) {
     // @ts-ignore
-    if (website[button]) {
+    for (const button of website.buttons) {
+    // @ts-ignore
+      if (website[button]) {
       // @ts-ignore
-      GM_registerMenuCommand(__(button), () => { website[button](); }); // eslint-disable-line new-cap
+        GM_registerMenuCommand(__(button), () => { website[button](); }); // eslint-disable-line new-cap
+      }
     }
   }
-  GM_registerMenuCommand('whiteList', whiteListOptions); // eslint-disable-line new-cap
   // @ts-ignore
-  if (website.options) {
-  // @ts-ignore
-    GM_registerMenuCommand('options', () => { websiteOptions(website.name, website.options); }); // eslint-disable-line new-cap
+  if (website?.options) {
+    // @ts-ignore
+    GM_registerMenuCommand(__('changeWebsiteOptions'), () => { websiteOptions(website.name, website.options); }); // eslint-disable-line new-cap
+  }
+
+  if (website.name !== 'Setting') {
+    GM_registerMenuCommand(__('whiteList'), () => { whiteListOptions('swal'); }); // eslint-disable-line new-cap
+    GM_registerMenuCommand(__('changeGlobalOptions'), () => { changeGlobalOptions('swal'); }); // eslint-disable-line new-cap
+    GM_registerMenuCommand(__('settingPage'), () => { // eslint-disable-line new-cap
+      window.open('https://auto-task.hclonely.com/setting.html', '_blank');
+    });
   }
 
   // 调试用

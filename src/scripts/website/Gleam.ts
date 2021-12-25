@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2021-12-24 17:50:21
+ * @LastEditTime : 2021-12-25 13:03:21
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  : https://gleam.io
@@ -17,7 +17,7 @@ import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import httpRequest from '../tools/httpRequest';
 import { delay } from '../tools/tools';
-import globalOptions from '../globalOptions';
+import { globalOptions } from '../globalOptions';
 
 const defaultTasks: gleamSocialTasks = {
   steam: {

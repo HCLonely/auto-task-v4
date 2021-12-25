@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-29 12:54:16
- * @LastEditTime : 2021-12-24 17:35:39
+ * @LastEditTime : 2021-12-25 13:01:53
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Instagram.ts
  * @Description  : Instagram 关注&取关用户
@@ -13,7 +13,7 @@ import throwError from '../tools/throwError';
 import httpRequest from '../tools/httpRequest';
 import { unique, delay } from '../tools/tools';
 import __ from '../tools/i18n';
-import globalOptions from '../globalOptions';
+import { globalOptions } from '../globalOptions';
 
 const defaultTasks: instagramTasks = { users: [] };
 class Instagram extends Social {

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 17:22:20
- * @LastEditTime : 2021-12-24 17:51:31
+ * @LastEditTime : 2021-12-25 13:03:40
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/OpiumPulses.ts
  * @Description  : https://www.opiumpulses.com/giveaways
@@ -11,7 +11,7 @@ import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import httpRequest from '../tools/httpRequest';
-import globalOptions from '../globalOptions';
+import { globalOptions } from '../globalOptions';
 
 declare function checkUser(params:string): void
 interface options {

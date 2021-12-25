@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 14:58:11
- * @LastEditTime : 2021-12-21 19:28:43
+ * @LastEditTime : 2021-12-25 20:33:55
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/tools/tools.ts
  * @Description  : 其他工具函数
@@ -88,11 +88,27 @@ const getUrlQuery = (url?: string): urlQuery => {
   }
 };
 
-/**
- * 生成一个用不重复的ID
- * @param { Number } randomLength
- */
-const getUuid = (randomLength = 8): string => Number(Math.random().toString()
-  .substr(2, randomLength) + Date.now()).toString(36);
+const getUuid = (): string => {
+  const uuidUrl = URL.createObjectURL(new Blob()).toString();
+  return uuidUrl.slice(uuidUrl.lastIndexOf('/') + 1);
+};
 
-export { unique, delay, getRedirectLink, getUrlQuery, visitLink, getUuid };
+const stringToColour = (str: string): string => {
+  try {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) { // eslint-disable-line
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    let colour = '#';
+    for (let i = 0; i < 3; i++) { // eslint-disable-line
+      const value = (hash >> (i * 8)) & 0xFF;
+      colour += (`00${value.toString(16)}`).slice(-2);
+    }
+    return colour;
+  } catch (error) {
+    throwError(error as Error, 'stringToColour');
+    return '#fff';
+  }
+};
+
+export { unique, delay, getRedirectLink, getUrlQuery, visitLink, getUuid, stringToColour };

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-24 15:03:56
- * @LastEditTime : 2021-12-24 15:19:20
+ * @LastEditTime : 2021-12-25 19:07:04
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/index.ts
  * @Description  : 整合website相关
@@ -18,6 +18,7 @@ import Keylol from './Keylol';
 import Opquests from './Opquests';
 import Gleam from './Gleam';
 import SweepWidget from './SweepWidget';
+import Setting from './Setting';
 
 type WebsitesType = typeof FreeAnyWhere |
   typeof GiveawaySu |
@@ -29,7 +30,8 @@ type WebsitesType = typeof FreeAnyWhere |
   typeof Keylol |
   typeof Opquests |
   typeof Gleam |
-  typeof SweepWidget
+  typeof SweepWidget |
+  typeof Setting
 
 type WebsiteType = FreeAnyWhere |
   GiveawaySu |
@@ -41,10 +43,11 @@ type WebsiteType = FreeAnyWhere |
   Keylol |
   Opquests |
   Gleam |
-  SweepWidget
+  SweepWidget |
+  Setting
 
 const Websites: Array<WebsitesType> = [
-  FreeAnyWhere, GiveawaySu, Indiedb, Keyhub, Givekey, GiveeClub, OpiumPulses, Keylol, Opquests, Gleam, SweepWidget
+  FreeAnyWhere, GiveawaySu, Indiedb, Keyhub, Givekey, GiveeClub, OpiumPulses, Keylol, Opquests, Gleam, SweepWidget, Setting
 ];
 
 export { Websites, WebsiteType };

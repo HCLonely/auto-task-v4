@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 20:22:33
- * @LastEditTime : 2021-12-24 17:52:02
+ * @LastEditTime : 2021-12-25 13:03:50
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Prys.ts
  * @Description  : https://prys.revadike.com/
@@ -17,7 +17,7 @@ import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import { getRedirectLink } from '../tools/tools';
-import globalOptions from '../globalOptions';
+import { globalOptions } from '../globalOptions';
 
 const defaultTasks: prysSocialTasks = {
   steam: {

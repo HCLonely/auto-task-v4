@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-24 17:21:16
- * @LastEditTime : 2021-12-24 17:23:14
+ * @LastEditTime : 2021-12-25 13:44:24
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/globalOptions.d.ts
  */
@@ -19,8 +19,7 @@ interface globalOptions {
     },
     twitter: {
       users: boolean,
-      retweets: boolean,
-      likes: boolean
+      retweets: boolean
     },
     vk: {
       names: boolean
@@ -40,7 +39,6 @@ interface globalOptions {
       workshops: boolean,
       curators: boolean,
       workshopVotes: boolean,
-      curatorLikes: boolean,
       announcements: boolean
     }
   },
@@ -56,8 +54,7 @@ interface globalOptions {
     },
     twitter: {
       users: boolean,
-      retweets: boolean,
-      likes: boolean
+      retweets: boolean
     },
     vk: {
       names: boolean
@@ -75,8 +72,7 @@ interface globalOptions {
       follows: boolean,
       forums: boolean,
       workshops: boolean,
-      curators: boolean,
-      curatorLikes: boolean
+      curators: boolean
     }
   },
   other: {

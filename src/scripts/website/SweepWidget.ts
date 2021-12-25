@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-21 10:01:05
- * @LastEditTime : 2021-12-24 17:52:21
+ * @LastEditTime : 2021-12-25 20:37:59
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/SweepWidget.ts
  * @Description  : https://sweepwidget.com/
@@ -136,13 +136,18 @@ class SweepWidget extends Website {
     }
   }
   #getGiveawayId() {
-    const giveawayId = window.location.href.match(/\/view\/([\d]+)/)?.[1];
-    if (giveawayId) {
-      this.giveawayId = giveawayId;
-      return true;
+    try {
+      const giveawayId = window.location.href.match(/\/view\/([\d]+)/)?.[1];
+      if (giveawayId) {
+        this.giveawayId = giveawayId;
+        return true;
+      }
+      echoLog({ text: __('getFailed', 'GiveawayId') });
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'SweepWidget.getGiveawayId');
+      return false;
     }
-    echoLog({ text: __('getFailed', 'GiveawayId') });
-    return false;
   }
   async #checkEnter():Promise<boolean> {
     try {

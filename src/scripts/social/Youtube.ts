@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 12:18:06
- * @LastEditTime : 2021-12-24 17:46:56
+ * @LastEditTime : 2021-12-25 17:19:52
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Youtube.ts
  * @Description  : Youtube 订阅/取消订阅频道，点赞/取消点赞视频
@@ -16,7 +16,7 @@ import throwError from '../tools/throwError';
 import httpRequest from '../tools/httpRequest';
 import __ from '../tools/i18n';
 import { unique, delay } from '../tools/tools';
-import globalOptions from '../globalOptions';
+import { globalOptions } from '../globalOptions';
 
 const defaultTasks: youtubeTasks = { channels: [], likes: [] };
 
@@ -90,7 +90,7 @@ class Youtube extends Social {
   whiteList: youtubeTasks = GM_getValue<whiteList>('whiteList')?.youtube || { ...defaultTasks }; // eslint-disable-line new-cap
   #auth: auth = GM_getValue<auth>('youtubeAuth') || {}; // eslint-disable-line new-cap
   #initialized = false;
-  #verifyChannel = globalOptions.other.youtubeVerifyChannel;
+  #verifyChannel = `https://www.youtube.com/channel/${globalOptions.other.youtubeVerifyChannel}`;
 
   async init(): Promise<boolean> {
     /**

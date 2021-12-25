@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-13 17:57:40
- * @LastEditTime : 2021-12-24 17:50:07
+ * @LastEditTime : 2021-12-25 13:03:10
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Givekey.ts
  * @Description  : https://givekey.ru
@@ -16,7 +16,7 @@ import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import { delay, getRedirectLink, unique } from '../tools/tools';
 import throwError from '../tools/throwError';
-import globalOptions from '../globalOptions';
+import { globalOptions } from '../globalOptions';
 
 const defaultTasks: gkSocialTasks = {
   steam: {

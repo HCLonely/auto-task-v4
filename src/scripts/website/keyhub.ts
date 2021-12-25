@@ -1,11 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
-<<<<<<< HEAD
- * @LastEditTime : 2021-12-25 10:44:24
-=======
- * @LastEditTime : 2021-12-24 17:51:00
->>>>>>> bab31b8189fb0f3a77c8eeb7674f9a1ba8e5ba25
+ * @LastEditTime : 2021-12-25 13:03:33
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Keyhub.ts
  * @Description  : https://key-hub.eu/
@@ -20,7 +16,7 @@ import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import { getRedirectLink } from '../tools/tools';
-import globalOptions from '../globalOptions';
+import { globalOptions } from '../globalOptions';
 
 const defaultTasks: khSocialTasks = {
   steam: {

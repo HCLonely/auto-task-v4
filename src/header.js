@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.24-Alpha
+// @version            4.0.25-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -26,6 +26,7 @@
 // @include            *://www.youtube.com/*
 // @include            *://*.reddit.com/*
 // @include            *://twitter.com/settings/account?k*
+// @include            https://auto-task.hclonely.com/setting.html
 
 // @grant              GM_setValue
 // @grant              GM_getValue

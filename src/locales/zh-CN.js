@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2021-12-24 17:29:46
+ * @LastEditTime : 2021-12-25 20:43:15
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -17,6 +17,8 @@ const data = {
   changeWhiteListOption: '设置白名单(%0)',
   whiteListNotFound: '找不到此项白名单: %0',
   changeWhiteListSuccess: '白名单修改成功，刷新生效！',
+  changeWebsiteOptions: '网站设置',
+  changeGlobalOptions: '全局设置',
   ok: '是',
   save: '保存',
   close: '关闭',
@@ -25,6 +27,7 @@ const data = {
   value: '值',
   websiteOptions: '当前网站设置',
   changeWebsiteOptionsSuccess: '更改当前网站设置成功，刷新生效！',
+  changeGlobalOptionsSuccess: '更改全局设置成功，刷新生效！',
   needLogin: '请先登录！',
   getTasksInfo: '正在获取并处理任务信息',
   gettingKey: '正在获取Key...',
@@ -68,8 +71,24 @@ const data = {
   doFreeTask: '加入免费赠品',
   doPointTask: '加入点数赠品',
   skipTaskOption: '设置中已配置跳过任务',
+  other: '其他',
+  globalOptions: '全局设置',
+  checkLogin: '登录检测</br>需要登录的网站自动登录，部分本网站支持',
+  checkLeftKey: '剩余Key检测</br>赠Key活动结束提示是否关闭，部分本网站支持',
+  twitterVerifyId: '通过尝试关注该账号验证Twitter凭证</br>默认为Twitter官方帐号 783214',
+  youtubeVerifyChannel: '通过尝试订阅该频道验证YouTube凭证</br>默认为YouTube官方频道 UCrXUsMBcfTVqwAS7DKg9C0Q',
+  saveGlobalOptions: '保存全局设置',
+  settingPage: '设置页面',
 
   // Steam
+  groups: '组',
+  wishlists: '愿望单',
+  follows: '游戏关注',
+  forums: '论坛',
+  workshops: '创意工坊收藏',
+  curators: '鉴赏家',
+  workshopVotes: '创意工坊点在',
+  announcements: '社区通知',
   steamCommunity: 'Steam社区',
   steamStore: 'Steam商店',
   needLoginSteamStore: '请先<a href="https://store.steampowered.com/login/" target="_blank">登录Steam商店</a>',
@@ -100,11 +119,13 @@ const data = {
   steamFinishNotice: 'Steam任务完成，尝试将购物车地区换回CN',
 
   // Discord
+  servers: '服务器',
   joiningDiscordServer: '正在加入Discord服务器',
   leavingDiscordServer: '正在退出Discord服务器',
   gettingDiscordGuild: '正在获取Discord服务器Id',
 
   // Instagram
+  users: '用户',
   loginIns: '请先<a href="https://www.instagram.com/accounts/login/" target="_blank">登录Instagram</a>',
   insBanned: '您的Instagram账户已被封禁',
   verifyingInsAuth: '正在验证Instagram凭证...',
@@ -113,6 +134,7 @@ const data = {
   unfollowingIns: '正在取关Instagram用户',
 
   // Reddit
+  reddits: '社区/用户',
   loginReddit: '请先<a href="https://www.reddit.com/login/" target="_blank">登录Reddit</a>',
   changingRedditVersion: '正在切换Reddit为新版页面...',
   joiningReddit: '正在加入Reddit社区',
@@ -121,17 +143,20 @@ const data = {
   unfollowingRedditUser: '正在取关Reddit用户',
 
   // Twitch
+  channels: '频道',
   followingTwitchChannel: '正在关注Twitch频道',
   unfollowingTwitchChannel: '正在取关Twitch频道',
   gettingTwitchChannelId: '正在获取Twitch频道Id',
 
   // Twitter
+  retweets: '转推',
   followingTwitterUser: '正在关注推特用户',
   unfollowingTwitterUser: '正在取关推特用户',
   retweetting: '正在转推',
   unretweetting: '正在撤销转推',
 
   // Vk
+  names: '组/社区/动态',
   loginVk: '请先<a href="https://vk.com/login/" target="_blank">登录Vk</a>',
   gettingVkId: '正在获取Vk任务Id',
   joiningVkGroup: '正在加入Vk组',
@@ -142,6 +167,7 @@ const data = {
   deletingVkWall: '正在撤销转发Vk动态',
 
   // YouTube
+  likes: '点赞',
   loginYtb: '请先<a href="https://accounts.google.com/ServiceLogin?service=youtube" target="_blank">登录YouTube</a>',
   tryUpdateYtbAuth: '请尝试<a href="https://www.youtube.com/#auth" target="_blank">更新YouTube凭证</a>',
   gettingYtbToken: '正在获取YouTube Token...',

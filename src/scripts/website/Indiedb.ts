@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 14:37:33
- * @LastEditTime : 2021-12-24 17:50:41
+ * @LastEditTime : 2021-12-25 13:03:28
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Indiedb.ts
  * @Description  : https://www.indiedb.com/giveaways
@@ -13,7 +13,7 @@ import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import { getUrlQuery } from '../tools/tools';
 import httpRequest from '../tools/httpRequest';
-import globalOptions from '../globalOptions';
+import { globalOptions } from '../globalOptions';
 
 declare function urlPath(value?: string): string
 
