@@ -1,9 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2021-12-24 15:50:54
+ * @LastEditTime : 2021-12-25 10:44:24
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
+ * @FilePath     : /auto-task-new/src/scripts/website/Keyhub.ts
  * @Description  : https://key-hub.eu/
  */
 
@@ -107,7 +107,7 @@ class Keyhub extends Website {
           if (action === 'undo') this.socialTasks.discord.serverLinks.push(link);
           if (action === 'do') this.undoneTasks.discord.serverLinks.push(link);
         } else {
-          echoLog({ html: `<li><font class="warning>${__('unKnownTaskType', `${taskDes}(${link})`)}</font></li>` });
+          echoLog({ html: `<li><font class="warning">${__('unKnownTaskType', `${taskDes}(${link})`)}</font></li>` });
         }
       }
 
@@ -124,7 +124,7 @@ class Keyhub extends Website {
 
   verifyTask(): void {
     try {
-      echoLog({ type: 'custom', text: `<li>${__('verifyingTask')}...<font></font></li>` });
+      echoLog({ html: `<li>${__('verifyingTask')}...<font></font></li>` });
       $.get(window.location.href, (res) => {
         VerifyTasks(res.match(/onclick="javascript:VerifyTasks\('(.*?)'\)"/)[1]); // eslint-disable-line new-cap
       });
