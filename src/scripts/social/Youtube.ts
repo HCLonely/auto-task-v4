@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 12:18:06
- * @LastEditTime : 2021-12-12 17:20:33
+ * @LastEditTime : 2021-12-24 17:46:56
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Youtube.ts
  * @Description  : Youtube 订阅/取消订阅频道，点赞/取消点赞视频
@@ -16,6 +16,7 @@ import throwError from '../tools/throwError';
 import httpRequest from '../tools/httpRequest';
 import __ from '../tools/i18n';
 import { unique, delay } from '../tools/tools';
+import globalOptions from '../globalOptions';
 
 const defaultTasks: youtubeTasks = { channels: [], likes: [] };
 
@@ -89,17 +90,8 @@ class Youtube extends Social {
   whiteList: youtubeTasks = GM_getValue<whiteList>('whiteList')?.youtube || { ...defaultTasks }; // eslint-disable-line new-cap
   #auth: auth = GM_getValue<auth>('youtubeAuth') || {}; // eslint-disable-line new-cap
   #initialized = false;
-  #verifyChannel = 'https://www.youtube.com/channel/UCrXUsMBcfTVqwAS7DKg9C0Q';
+  #verifyChannel = globalOptions.other.youtubeVerifyChannel;
 
-  // TODO: 任务识别
-  constructor(verifyChannel?: string) {
-    super();
-    if (verifyChannel) {
-      this.#verifyChannel = verifyChannel;
-    }
-  }
-
-  // 通用化,log
   async init(): Promise<boolean> {
     /**
      * @description: 验证及获取Auth
@@ -379,28 +371,43 @@ class Youtube extends Social {
         return false;
       }
       const prom = [];
-      const realChannels = this.getRealParams('channels', channelLinks, doTask, (link) => {
-        if (/^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
-          return link.match(/url=(https:\/\/www.youtube.com\/.*)/)?.[1];
-        }
-        return link;
-      });
-      const realLikes = this.getRealParams('likes', videoLinks, doTask, (link) => {
-        if (/^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
-          return link.match(/url=(https:\/\/www.youtube.com\/.*)/)?.[1];
-        }
-        return link;
-      });
-      if (realChannels.length > 0) {
-        for (const channel of realChannels) {
-          prom.push(this.#toggleChannel({ link: channel, doTask }));
-          await delay(1000);
+
+      if (
+        (doTask && !globalOptions.doTask.youtube.channels) ||
+        (!doTask && !globalOptions.undoTask.youtube.channels)
+      ) {
+        echoLog({ type: 'globalOptionsSkip', text: 'youtube.channels' });
+      } else {
+        const realChannels = this.getRealParams('channels', channelLinks, doTask, (link) => {
+          if (/^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
+            return link.match(/url=(https:\/\/www.youtube.com\/.*)/)?.[1];
+          }
+          return link;
+        });
+        if (realChannels.length > 0) {
+          for (const channel of realChannels) {
+            prom.push(this.#toggleChannel({ link: channel, doTask }));
+            await delay(1000);
+          }
         }
       }
-      if (realLikes.length > 0) {
-        for (const video of realLikes) {
-          prom.push(this.#toggleLikeVideo({ link: video, doTask }));
-          await delay(1000);
+      if (
+        (doTask && !globalOptions.doTask.youtube.likes) ||
+        (!doTask && !globalOptions.undoTask.youtube.likes)
+      ) {
+        echoLog({ type: 'globalOptionsSkip', text: 'youtube.likes' });
+      } else {
+        const realLikes = this.getRealParams('likes', videoLinks, doTask, (link) => {
+          if (/^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
+            return link.match(/url=(https:\/\/www.youtube.com\/.*)/)?.[1];
+          }
+          return link;
+        });
+        if (realLikes.length > 0) {
+          for (const video of realLikes) {
+            prom.push(this.#toggleLikeVideo({ link: video, doTask }));
+            await delay(1000);
+          }
         }
       }
       // TODO: 返回值处理

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 17:22:20
- * @LastEditTime : 2021-12-24 15:31:50
+ * @LastEditTime : 2021-12-24 17:51:31
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/OpiumPulses.ts
  * @Description  : https://www.opiumpulses.com/giveaways
@@ -11,6 +11,7 @@ import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import httpRequest from '../tools/httpRequest';
+import globalOptions from '../globalOptions';
 
 declare function checkUser(params:string): void
 interface options {
@@ -37,7 +38,7 @@ class OpiumPulses {
   }
   async before(): Promise<void> {
     try {
-      if (!this.checkLogin()) {
+      if (!this.#checkLogin()) {
         echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
       }
       this.maxPoints = parseInt(this.options.maxPoint, 10);
@@ -118,8 +119,9 @@ class OpiumPulses {
   classifyTask(): boolean {
     return true;
   }
-  checkLogin(): boolean {
+  #checkLogin(): boolean {
     try {
+      if (!globalOptions.other.checkLogin) return true;
       if ($('a[href*="/site/login"]').length > 0) {
         window.open('/site/login', '_self');
       }

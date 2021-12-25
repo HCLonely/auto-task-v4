@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2021-12-24 15:49:34
+ * @LastEditTime : 2021-12-24 17:49:19
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.ts
  * @Description  : https://giveaway.su/
@@ -16,6 +16,7 @@ import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import { getRedirectLink } from '../tools/tools';
+import globalOptions from '../globalOptions';
 
 const defaultTasks: gasSocialTasks = {
   steam: {
@@ -181,6 +182,8 @@ class GiveawaySu extends Website {
   }
   #checkLogin(): boolean {
     try {
+      if (!globalOptions.other.checkLogin) return true;
+
       if ($('a.steam-login').length > 0) {
         window.open('/steam/redirect', '_self');
       }
@@ -192,6 +195,7 @@ class GiveawaySu extends Website {
   }
   async #checkLeftKey(): Promise<boolean> {
     try {
+      if (!globalOptions.other.checkLeftKey) return true;
       if ($('.giveaway-ended').length > 0) {
         await Swal.fire({
           icon: 'warning',

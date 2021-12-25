@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 20:22:33
- * @LastEditTime : 2021-12-24 15:52:38
+ * @LastEditTime : 2021-12-24 17:52:02
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Prys.ts
  * @Description  : https://prys.revadike.com/
@@ -17,6 +17,7 @@ import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import { getRedirectLink } from '../tools/tools';
+import globalOptions from '../globalOptions';
 
 const defaultTasks: prysSocialTasks = {
   steam: {
@@ -162,6 +163,7 @@ class Prys extends Website {
   }
   async #checkLeftKey(): Promise<boolean> {
     try {
+      if (!globalOptions.other.checkLeftKey) return true;
       const leftKey = $('#header').text()
         .match(/([\d]+).*?prize.*?left/)?.[1];
       if (leftKey === '0') {
@@ -186,6 +188,7 @@ class Prys extends Website {
   }
   #checkLogin(): boolean {
     try {
+      if (!globalOptions.other.checkLogin) return true;
       if ($('button:contains("Sign")').length > 0) {
         echoLog({ html: `<li><font class="warning">${__('needLogin')}</font></li>` });
       }

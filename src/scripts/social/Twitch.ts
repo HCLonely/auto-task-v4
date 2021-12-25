@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:00:41
- * @LastEditTime : 2021-12-07 17:18:29
+ * @LastEditTime : 2021-12-24 17:47:27
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitch.ts
  * @Description  : Twitch 关注/取关频道
@@ -13,6 +13,7 @@ import throwError from '../tools/throwError';
 import httpRequest from '../tools/httpRequest';
 import { unique, delay } from '../tools/tools';
 import __ from '../tools/i18n';
+import globalOptions from '../globalOptions';
 
 const defaultTasks: twitchTasks = { channels: [] };
 class Twitch extends Social {
@@ -22,7 +23,6 @@ class Twitch extends Social {
   #cache: cache = GM_getValue<cache>('twitchCache') || {}; // eslint-disable-line new-cap
   #initialized = false;
 
-  // 通用化,log
   async init(): Promise<boolean> {
     /**
      * @description: 验证及获取Auth
@@ -236,12 +236,19 @@ class Twitch extends Social {
         return false;
       }
       const prom = [];
-      const realChannels = this.getRealParams('channels', channelLinks, doTask,
-        (link) => link.match(/https:\/\/(www\.)?twitch\.tv\/(.+)/)?.[2]);
-      if (realChannels.length > 0) {
-        for (const channel of realChannels) {
-          prom.push(this.#toggleChannel({ name: channel, doTask }));
-          await delay(1000);
+      if (
+        (doTask && !globalOptions.doTask.twitch.channels) ||
+        (!doTask && !globalOptions.undoTask.twitch.channels)
+      ) {
+        echoLog({ type: 'globalOptionsSkip', text: 'twitch.channels' });
+      } else {
+        const realChannels = this.getRealParams('channels', channelLinks, doTask,
+          (link) => link.match(/https:\/\/(www\.)?twitch\.tv\/(.+)/)?.[2]);
+        if (realChannels.length > 0) {
+          for (const channel of realChannels) {
+            prom.push(this.#toggleChannel({ name: channel, doTask }));
+            await delay(1000);
+          }
         }
       }
       // TODO: 返回值处理
