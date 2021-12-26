@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.25-Alpha
+// @version            4.0.26-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -398,7 +398,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       var _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(400);
       var _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(_node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
       var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(_node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default());
-      ___CSS_LOADER_EXPORT___.push([ module.id, '#auto-task-info{position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;max-height:600px;overflow-y:auto;color:#000;background-color:#fff;padding-left:5px;z-index:999999999 !important}#auto-task-info li{text-align:left}#auto-task-info .success{color:green}#auto-task-info .error{color:red}#auto-task-info .warning{color:blue}#auto-task-info .info{color:#ff0}.auto-task-keylol{text-transform:capitalize;margin-left:10px;text-decoration:none !important;border:solid 1px;border-radius:5px;padding:0 2px}.auto-task-keylol[selected=selected]{background-color:blue;color:#fff}.auto-task-form table{font-family:verdana,arial,sans-serif;font-size:11px;color:#333;border-width:1px;border-color:#999;border-collapse:collapse;width:100%}.auto-task-form table th{background-color:#c3dde0;border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;text-transform:capitalize}.auto-task-form table tr{background-color:#d4e3e5}.auto-task-form table tr:hover{background-color:#ff6 !important}.auto-task-form table td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}.swal2-modal{width:70% !important}body.auto-task-options{padding-top:10px;text-align:center}body.auto-task-options .auto-task-form{width:80%;max-width:1000px;margin:0 auto;padding-bottom:20px}body.auto-task-options .auto-task-form input.editOption{width:80%}', '' ]);
+      ___CSS_LOADER_EXPORT___.push([ module.id, '#auto-task-info{position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;max-height:600px;overflow-y:auto;color:#000;background-color:#fff;padding-left:5px;z-index:999999999 !important}#auto-task-info li{text-align:left}#auto-task-info .success{color:green}#auto-task-info .error{color:red}#auto-task-info .warning{color:blue}#auto-task-info .info{color:#ff0}.auto-task-keylol{text-transform:capitalize;margin-left:10px;text-decoration:none !important;border:solid 1px;border-radius:5px;padding:0 2px}.auto-task-keylol[selected=selected]{background-color:blue;color:#fff}.auto-task-form table{font-family:verdana,arial,sans-serif;font-size:11px;color:#333;border-width:1px;border-color:#999;border-collapse:collapse;width:100%}.auto-task-form table thead td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;font-weight:bold;background-color:#fff}.auto-task-form table tbody tr{background-color:#d4e3e5}.auto-task-form table tbody tr:hover{background-color:#ff6 !important}.auto-task-form table tbody tr th{background-color:#c3dde0;border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;text-transform:capitalize}.auto-task-form table tbody tr td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}.swal2-modal{width:70% !important}body.auto-task-options{padding-top:10px;text-align:center}body.auto-task-options .auto-task-form{width:80%;max-width:1000px;margin:0 auto;padding-bottom:20px}body.auto-task-options .auto-task-form input.editOption{width:80%}body.auto-task-options .auto-task-form #getTwitterUserId,body.auto-task-options .auto-task-form #getYoutubeChannelId{margin-top:5px}', '' ]);
       const __WEBPACK_DEFAULT_EXPORT__ = ___CSS_LOADER_EXPORT___.toString();
     },
     400: function(module) {
@@ -609,6 +609,16 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       youtubeVerifyChannel: '通过尝试订阅该频道验证YouTube凭证</br>默认为YouTube官方频道 UCrXUsMBcfTVqwAS7DKg9C0Q',
       saveGlobalOptions: '保存全局设置',
       settingPage: '设置页面',
+      name: '名称',
+      version: '版本',
+      scriptManager: '脚本管理器',
+      script: '脚本',
+      environment: '环境',
+      os: '系统',
+      browser: '浏览器',
+      getId: '获取 %0 id',
+      getTwitterUserId: '获取Twitter用户id',
+      getYoutubeChannelId: '获取Youtube频道id',
       groups: '组',
       wishlists: '愿望单',
       follows: '游戏关注',
@@ -667,6 +677,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       followingTwitchChannel: '正在关注Twitch频道',
       unfollowingTwitchChannel: '正在取关Twitch频道',
       gettingTwitchChannelId: '正在获取Twitch频道Id',
+      twitterUser: '推特用户',
       retweets: '转推',
       followingTwitterUser: '正在关注推特用户',
       unfollowingTwitterUser: '正在取关推特用户',
@@ -681,6 +692,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       leavingVkPublic: '正在退出Vk社区',
       sendingVkWall: '正在转发Vk动态',
       deletingVkWall: '正在撤销转发Vk动态',
+      youtubeChannel: 'YouTube频道',
       likes: '点赞',
       loginYtb: '请先<a href="https://accounts.google.com/ServiceLogin?service=youtube" target="_blank">登录YouTube</a>',
       tryUpdateYtbAuth: '请尝试<a href="https://www.youtube.com/#auth" target="_blank">更新YouTube凭证</a>',
@@ -945,7 +957,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
           value
         } = _ref;
         if (value) {
-          window.open(`https://github.com/HCLonely/auto-task-new/issues/new?title=${encodeURIComponent(`脚本报错: ${name}`)}&body=${encodeURIComponent(`错误链接: ${window.location.href}
+          window.open(`https://github.com/HCLonely/auto-task-new/issues/new?title=${encodeURIComponent(`脚本报错: ${name}`)}&body=${encodeURIComponent(`错误链接: [${window.location.href}](${window.location.href})
 
 环境:
 \`\`\`
@@ -1312,7 +1324,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     const changeGlobalOptions = showType => {
       try {
         let globalOptionsForm = `<form id="globalOptionsForm" class="auto-task-form">
-  <table class="auto-task-table"><thead><tr><td>${i18n('type')}</td><td>${i18n('option')}</td><td>${i18n('value')}</td></tr></thead><tbody>`;
+      <table class="auto-task-table"><thead><tr><td>${i18n('type')}</td><td>${i18n('option')}</td><td>${i18n('value')}</td></tr></thead><tbody>`;
         for (const [ type, data1 ] of Object.entries(globalOptions)) {
           for (const [ option, data2 ] of Object.entries(data1)) {
             if (type === 'other') {
@@ -2773,7 +2785,6 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     var Twitter_verifyAuth = new WeakSet();
     var Twitter_updateAuth = new WeakSet();
     var _toggleUser = new WeakSet();
-    var _getUserId = new WeakSet();
     var _toggleRetweet = new WeakSet();
     var Twitter_setCache = new WeakSet();
     class Twitter extends social_Social {
@@ -2782,7 +2793,6 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         super(...arguments);
         Twitter_classPrivateMethodInitSpec(this, Twitter_setCache);
         Twitter_classPrivateMethodInitSpec(this, _toggleRetweet);
-        Twitter_classPrivateMethodInitSpec(this, _getUserId);
         Twitter_classPrivateMethodInitSpec(this, _toggleUser);
         Twitter_classPrivateMethodInitSpec(this, Twitter_updateAuth);
         Twitter_classPrivateMethodInitSpec(this, Twitter_verifyAuth);
@@ -2843,6 +2853,62 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           return false;
         } catch (error) {
           throwError(error, 'Twitter.init');
+          return false;
+        }
+      }
+      async userName2id(name) {
+        try {
+          const logStatus = scripts_echoLog({
+            type: 'gettingTwitterUserId',
+            text: name
+          });
+          const userId = Twitter_classPrivateFieldGet(this, Twitter_cache)[name];
+          if (userId) {
+            logStatus.success();
+            return userId;
+          }
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://api.twitter.com/graphql/-xfUfZsnR_zqjFd-IfrN5A/UserByScreenName' + `?variables=%7B%22screen_name%22%3A%22${name}%22%2C%22withHighlightedLabel%22%3Atrue%7D`,
+            method: 'GET',
+            headers: {
+              authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
+              'content-type': 'application/json'
+            },
+            responseType: 'json',
+            anonymous: true
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              var _response, _response$data, _response$data$user;
+              let response = data.response || (typeof data.responseText === 'object' ? data.responseText : null);
+              if (!response) {
+                try {
+                  response = JSON.parse(data.responseText);
+                } catch (error) {
+                  response = null;
+                }
+              }
+              const userId = String((_response = response) === null || _response === void 0 ? void 0 : (_response$data = _response.data) === null || _response$data === void 0 ? void 0 : (_response$data$user = _response$data.user) === null || _response$data$user === void 0 ? void 0 : _response$data$user.rest_id);
+              if (userId) {
+                Twitter_classPrivateMethodGet(this, Twitter_setCache, Twitter_setCache2).call(this, name, userId);
+                logStatus.success();
+                return userId;
+              }
+              logStatus.error(`Error:${data.statusText}(${data.status})`);
+              return false;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Twitter.getUserId');
           return false;
         }
       }
@@ -2962,7 +3028,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           });
           return true;
         }
-        const userId = verify ? Twitter_classPrivateFieldGet(this, _verifyId) : await Twitter_classPrivateMethodGet(this, _getUserId, _getUserId2).call(this, name);
+        const userId = verify ? Twitter_classPrivateFieldGet(this, _verifyId) : await this.userName2id(name);
         if (!userId) {
           return false;
         }
@@ -3019,62 +3085,6 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         return false;
       } catch (error) {
         throwError(error, 'Twitter.toggleUser');
-        return false;
-      }
-    }
-    async function _getUserId2(name) {
-      try {
-        const logStatus = scripts_echoLog({
-          type: 'gettingTwitterUserId',
-          text: name
-        });
-        const userId = Twitter_classPrivateFieldGet(this, Twitter_cache)[name];
-        if (userId) {
-          logStatus.success();
-          return userId;
-        }
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: 'https://api.twitter.com/graphql/-xfUfZsnR_zqjFd-IfrN5A/UserByScreenName' + `?variables=%7B%22screen_name%22%3A%22${name}%22%2C%22withHighlightedLabel%22%3Atrue%7D`,
-          method: 'GET',
-          headers: {
-            authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
-            'content-type': 'application/json'
-          },
-          responseType: 'json',
-          anonymous: true
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _response, _response$data, _response$data$user;
-            let response = data.response || (typeof data.responseText === 'object' ? data.responseText : null);
-            if (!response) {
-              try {
-                response = JSON.parse(data.responseText);
-              } catch (error) {
-                response = null;
-              }
-            }
-            const userId = String((_response = response) === null || _response === void 0 ? void 0 : (_response$data = _response.data) === null || _response$data === void 0 ? void 0 : (_response$data$user = _response$data.user) === null || _response$data$user === void 0 ? void 0 : _response$data$user.rest_id);
-            if (userId) {
-              Twitter_classPrivateMethodGet(this, Twitter_setCache, Twitter_setCache2).call(this, name, userId);
-              logStatus.success();
-              return userId;
-            }
-            logStatus.error(`Error:${data.statusText}(${data.status})`);
-            return false;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Twitter.getUserId');
         return false;
       }
     }
@@ -9060,6 +9070,15 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
     };
     const whiteList = whiteListOptions;
+    function Setting_classPrivateMethodInitSpec(obj, privateSet) {
+      Setting_checkPrivateRedeclaration(obj, privateSet);
+      privateSet.add(obj);
+    }
+    function Setting_checkPrivateRedeclaration(obj, privateCollection) {
+      if (privateCollection.has(obj)) {
+        throw new TypeError('Cannot initialize the same private elements twice on an object');
+      }
+    }
     function Setting_defineProperty(obj, key, value) {
       if (key in obj) {
         Object.defineProperty(obj, key, {
@@ -9073,8 +9092,18 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return obj;
     }
+    function Setting_classPrivateMethodGet(receiver, privateSet, fn) {
+      if (!privateSet.has(receiver)) {
+        throw new TypeError('attempted to get private field on non-instance');
+      }
+      return fn;
+    }
+    var Setting_getId = new WeakSet();
+    var _environment = new WeakSet();
     class Setting {
       constructor() {
+        Setting_classPrivateMethodInitSpec(this, _environment);
+        Setting_classPrivateMethodInitSpec(this, Setting_getId);
         Setting_defineProperty(this, 'name', 'Setting');
         Setting_defineProperty(this, 'buttons', [ 'saveGlobalOptions' ]);
       }
@@ -9085,11 +9114,65 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         $('body').html('').addClass('auto-task-options');
       }
       after() {
+        Setting_classPrivateMethodGet(this, _environment, _environment2).call(this);
         changeGlobalOptions('page');
         whiteList('page');
+        $('input[name="other.twitterVerifyId"]').after(`<button id="getTwitterUserId" type="button">${i18n('getTwitterUserId')}</button>`);
+        $('#getTwitterUserId').on('click', () => {
+          Setting_classPrivateMethodGet(this, Setting_getId, Setting_getId2).call(this, 'twitterUser');
+        });
+        $('input[name="other.youtubeVerifyChannel"]').after(`<button id="getYoutubeChannelId" type="button">${i18n('getYoutubeChannelId')}</button>`);
+        $('#getYoutubeChannelId').on('click', () => {
+          Setting_classPrivateMethodGet(this, Setting_getId, Setting_getId2).call(this, 'youtubeChannel');
+        });
       }
       saveGlobalOptions() {
         saveData();
+      }
+    }
+    function Setting_getId2(social) {
+      try {
+        external_Swal_default().fire({
+          title: i18n('getId', i18n(social)),
+          html: `<input id="socialLink" class="swal2-input" placeholder="在此处输入链接获取id">
+        <button id="link2id" data-type="${social}" class="swal2-confirm swal2-styled">获取id</button>`,
+          showCancelButton: true,
+          cancelButtonText: i18n('close'),
+          showConfirmButton: false
+        });
+        $('#link2id').on('click', async function() {
+          const link = $('#socialLink').val();
+          if (!link) {
+            return;
+          }
+          const type = $(this).attr('data-type');
+          if (type === 'twitterUser') {
+            var _link$match;
+            const name = ((_link$match = link.match(/https:\/\/twitter\.com\/(.+)/)) === null || _link$match === void 0 ? void 0 : _link$match[1]) || link;
+            $('#socialLink').val(await new social_Twitter().userName2id(name) || '');
+          } else if (type === 'youtubeChannel') {
+            var _link$match2, _await$getInfo, _await$getInfo$params;
+            const name = /^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link) ? (_link$match2 = link.match(/url=(https:\/\/www.youtube.com\/.*)/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1] : link;
+            $('#socialLink').val(((_await$getInfo = await getInfo(name, 'channel')) === null || _await$getInfo === void 0 ? void 0 : (_await$getInfo$params = _await$getInfo.params) === null || _await$getInfo$params === void 0 ? void 0 : _await$getInfo$params.channelId) || '');
+          }
+        });
+      } catch (error) {
+        throwError(error, 'Setting.getId');
+      }
+    }
+    function _environment2() {
+      try {
+        const userAgent = (0, javascript_utils_umd_min.ua)();
+        const environmentForm = `<form id="environmentForm" class="auto-task-form">
+        <table class="auto-task-table"><thead><tr><td>${i18n('type')}</td><td>${i18n('name')}</td><td>${i18n('version')}</td></tr></thead><tbody>
+        <tr><td>${i18n('os')}</td><td>${userAgent.os}</td><td>${userAgent.osVersion}</td></tr>
+        <tr><td>${i18n('browser')}</td><td>${userAgent.browserZH}</td><td>${userAgent.browserVersion}</td></tr>
+        <tr><td>${i18n('scriptManager')}</td><td>${GM_info.scriptHandler}</td><td>${GM_info.version}</td></tr>
+        <tr><td>${i18n('script')}</td><td>${GM_info.script.name}</td><td>${GM_info.script.version}</td></tr>
+        </tbody></table></form>`;
+        $('body').append(`<h2>${i18n('environment')}</h2>${environmentForm}`);
+      } catch (error) {
+        throwError(error, 'Setting.environment');
       }
     }
     const website_Setting = Setting;

@@ -18,12 +18,15 @@
   .success {
     color: green;
   }
+
   .error {
     color: red;
   }
+
   .warning {
     color: blue;
   }
+
   .info {
     color: yellow;
   }
@@ -52,26 +55,41 @@
   border-collapse: collapse;
   width: 100%;
 
-  th {
-    background-color: #c3dde0;
-    border-width: 1px;
-    padding: 8px;
-    border-style: solid;
-    border-color: #a9c6c9;
-    text-transform: capitalize;
-  }
-  tr {
-    background-color: #d4e3e5;
-
-    &:hover {
-      background-color: #ffff66 !important;
+  thead {
+    td {
+      border-width: 1px;
+      padding: 8px;
+      border-style: solid;
+      border-color: #a9c6c9;
+      font-weight: bold;
+      background-color: #fff;
     }
   }
-  td {
-    border-width: 1px;
-    padding: 8px;
-    border-style: solid;
-    border-color: #a9c6c9;
+
+  tbody {
+    tr {
+      background-color: #d4e3e5;
+
+      &:hover {
+        background-color: #ffff66 !important;
+      }
+
+      th {
+        background-color: #c3dde0;
+        border-width: 1px;
+        padding: 8px;
+        border-style: solid;
+        border-color: #a9c6c9;
+        text-transform: capitalize;
+      }
+
+      td {
+        border-width: 1px;
+        padding: 8px;
+        border-style: solid;
+        border-color: #a9c6c9;
+      }
+    }
   }
 }
 
@@ -91,6 +109,11 @@ body.auto-task-options {
 
     input.editOption {
       width: 80%;
+    }
+
+    #getTwitterUserId,
+    #getYoutubeChannelId {
+      margin-top: 5px;
     }
   }
 }

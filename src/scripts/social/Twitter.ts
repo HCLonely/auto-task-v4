@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:36:57
- * @LastEditTime : 2021-12-25 13:02:21
+ * @LastEditTime : 2021-12-26 13:31:56
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitter.ts
  * @Description  : Twitter 关注/取关用户,转推/取消转推推文
@@ -118,7 +118,7 @@ class Twitter extends Social {
         echoLog({ type: 'whiteList', text: 'Twitter.unfollowUser', id: name });
         return true;
       }
-      const userId: string | boolean = verify ? this.#verifyId : (await this.#getUserId(name));
+      const userId: string | boolean = verify ? this.#verifyId : (await this.userName2id(name));
       if (!userId) return false;
       const logStatus = verify ?
         echoLog({ text: __('verifyingAuth', 'Twitter') }) :
@@ -170,9 +170,8 @@ class Twitter extends Social {
     }
   }
 
-  async #getUserId(name: string): Promise<string | false> {
+  async userName2id(name: string): Promise<string | false> {
     /**
-     * @internal
      * @description 通过用户名获取Id
      * @param name 用户名
      * @return {string}: 获取成功，返回用户Id | false: 获取失败

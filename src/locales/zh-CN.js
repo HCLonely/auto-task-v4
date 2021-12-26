@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2021-12-25 20:43:15
+ * @LastEditTime : 2021-12-26 13:42:39
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -79,6 +79,16 @@ const data = {
   youtubeVerifyChannel: '通过尝试订阅该频道验证YouTube凭证</br>默认为YouTube官方频道 UCrXUsMBcfTVqwAS7DKg9C0Q',
   saveGlobalOptions: '保存全局设置',
   settingPage: '设置页面',
+  name: '名称',
+  version: '版本',
+  scriptManager: '脚本管理器',
+  script: '脚本',
+  environment: '环境',
+  os: '系统',
+  browser: '浏览器',
+  getId: '获取 %0 id',
+  getTwitterUserId: '获取Twitter用户id',
+  getYoutubeChannelId: '获取Youtube频道id',
 
   // Steam
   groups: '组',
@@ -149,6 +159,7 @@ const data = {
   gettingTwitchChannelId: '正在获取Twitch频道Id',
 
   // Twitter
+  twitterUser: '推特用户',
   retweets: '转推',
   followingTwitterUser: '正在关注推特用户',
   unfollowingTwitterUser: '正在取关推特用户',
@@ -167,6 +178,7 @@ const data = {
   deletingVkWall: '正在撤销转发Vk动态',
 
   // YouTube
+  youtubeChannel: 'YouTube频道',
   likes: '点赞',
   loginYtb: '请先<a href="https://accounts.google.com/ServiceLogin?service=youtube" target="_blank">登录YouTube</a>',
   tryUpdateYtbAuth: '请尝试<a href="https://www.youtube.com/#auth" target="_blank">更新YouTube凭证</a>',

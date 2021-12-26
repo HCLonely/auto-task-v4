@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-24 16:41:12
- * @LastEditTime : 2021-12-25 20:27:09
+ * @LastEditTime : 2021-12-26 12:13:08
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/globalOptions.ts
  * @Description  : 全局设置选项
@@ -148,7 +148,7 @@ const saveData = () => {
 const changeGlobalOptions = (showType: 'page' | 'swal') => {
   try {
     let globalOptionsForm = `<form id="globalOptionsForm" class="auto-task-form">
-  <table class="auto-task-table"><thead><tr><td>${__('type')}</td><td>${__('option')}</td><td>${__('value')}</td></tr></thead><tbody>`;
+      <table class="auto-task-table"><thead><tr><td>${__('type')}</td><td>${__('option')}</td><td>${__('value')}</td></tr></thead><tbody>`;
     for (const [type, data1] of Object.entries(globalOptions)) {
       for (const [option, data2] of Object.entries(data1)) {
         if (type === 'other') {

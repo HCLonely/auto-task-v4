@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 13:18:21
- * @LastEditTime : 2021-12-21 20:05:13
+ * @LastEditTime : 2021-12-26 12:17:24
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/global.d.ts
  */
@@ -167,6 +167,7 @@ declare global {
     version: string
     script: {
       version: string
+      name: string
     }
   }
   const GM_info: gmInfo; // eslint-disable-line camelcase
