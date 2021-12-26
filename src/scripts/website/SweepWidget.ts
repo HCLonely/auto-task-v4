@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-21 10:01:05
- * @LastEditTime : 2021-12-25 20:37:59
+ * @LastEditTime : 2021-12-26 19:56:19
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/SweepWidget.ts
  * @Description  : https://sweepwidget.com/
@@ -36,13 +36,13 @@ class SweepWidget extends Website {
   static test(): boolean {
     return /^https?:\/\/sweepwidget\.com\/view\/[\d]+/.test(window.location.href);
   }
-  async before(): Promise<void> {
+  async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
         echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
       }
     } catch (error) {
-      throwError(error as Error, 'SweepWidget.before');
+      throwError(error as Error, 'SweepWidget.after');
     }
   }
   init(): boolean {

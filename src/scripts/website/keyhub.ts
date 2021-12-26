@@ -1,9 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2021-12-25 13:03:33
+ * @LastEditTime : 2021-12-26 19:55:36
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/scripts/website/Keyhub.ts
+ * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
  * @Description  : https://key-hub.eu/
  */
 
@@ -43,7 +43,7 @@ class Keyhub extends Website {
   static test(): boolean {
     return window.location.host === 'key-hub.eu';
   }
-  async before(): Promise<void> {
+  async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
         echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
@@ -52,7 +52,7 @@ class Keyhub extends Website {
         echoLog({ html: `<li><font class="warning>${__('checkLeftKeyFailed')}</font></li>` });
       }
     } catch (error) {
-      throwError(error as Error, 'Keyhub.before');
+      throwError(error as Error, 'Keyhub.after');
     }
   }
   init(): boolean {

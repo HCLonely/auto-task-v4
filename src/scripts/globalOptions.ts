@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-24 16:41:12
- * @LastEditTime : 2021-12-26 12:13:08
+ * @LastEditTime : 2021-12-26 20:14:48
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/globalOptions.ts
  * @Description  : 全局设置选项
@@ -88,7 +88,8 @@ const defaultGlobalOptions: globalOptions = {
     twitterVerifyId: '783214',
     youtubeVerifyChannel: 'UCrXUsMBcfTVqwAS7DKg9C0Q',
     checkLogin: true,
-    checkLeftKey: true
+    checkLeftKey: true,
+    defaultShowButton: true
   }
 };
 

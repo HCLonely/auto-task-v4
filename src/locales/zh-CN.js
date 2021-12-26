@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2021-12-26 13:42:39
+ * @LastEditTime : 2021-12-26 20:04:35
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -89,6 +89,8 @@ const data = {
   getId: '获取 %0 id',
   getTwitterUserId: '获取Twitter用户id',
   getYoutubeChannelId: '获取Youtube频道id',
+  showButton: '显示按钮',
+  hideButton: '隐藏按钮',
 
   // Steam
   groups: '组',

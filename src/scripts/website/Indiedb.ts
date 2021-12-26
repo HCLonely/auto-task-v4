@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 14:37:33
- * @LastEditTime : 2021-12-25 13:03:28
+ * @LastEditTime : 2021-12-26 19:55:26
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Indiedb.ts
  * @Description  : https://www.indiedb.com/giveaways
@@ -26,7 +26,7 @@ class Indiedb {
   static test(): boolean {
     return window.location.host === 'www.indiedb.com';
   }
-  async before(): Promise<void> {
+  async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
         echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
@@ -35,7 +35,7 @@ class Indiedb {
         echoLog({ html: `<li><font class="warning>${__('checkLeftKeyFailed')}</font></li>` });
       }
     } catch (error) {
-      throwError(error as Error, 'Indiedb.before');
+      throwError(error as Error, 'Indiedb.after');
     }
   }
   async doTask(): Promise<boolean> {

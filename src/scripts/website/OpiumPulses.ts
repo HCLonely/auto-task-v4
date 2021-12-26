@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 17:22:20
- * @LastEditTime : 2021-12-25 13:03:40
+ * @LastEditTime : 2021-12-26 19:55:51
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/OpiumPulses.ts
  * @Description  : https://www.opiumpulses.com/giveaways
@@ -36,14 +36,14 @@ class OpiumPulses {
   static test(): boolean {
     return window.location.host === 'www.opiumpulses.com';
   }
-  async before(): Promise<void> {
+  async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
         echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
       }
       this.maxPoints = parseInt(this.options.maxPoint, 10);
     } catch (error) {
-      throwError(error as Error, 'OpiumPulses.before');
+      throwError(error as Error, 'OpiumPulses.after');
     }
   }
   async doFreeTask(): Promise<void> {
@@ -122,7 +122,7 @@ class OpiumPulses {
   #checkLogin(): boolean {
     try {
       if (!globalOptions.other.checkLogin) return true;
-      if ($('a[href*="/site/login"]').length > 0) {
+      if ($('a[href*="/site/login"]').length > 1) {
         window.open('/site/login', '_self');
       }
       return true;

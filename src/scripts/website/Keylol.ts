@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-15 13:58:41
- * @LastEditTime : 2021-12-24 16:30:36
+ * @LastEditTime : 2021-12-26 19:52:54
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Keylol.ts
  * @Description  : https://keylol.com/f319-1
@@ -61,7 +61,7 @@ class Keylol extends Website {
   ]
 
   static test() {
-    return window.location.host === 'keylol.com' && !window.location.href.includes('mod=forumdisplay') && !!$('.subforum_left_title_left_up a').eq(3)
+    return window.location.host === 'keylol.com' && !!$('.subforum_left_title_left_up a').eq(3)
       .attr('href')
       ?.includes('319');
   }

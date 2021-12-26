@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2021-12-25 13:03:21
+ * @LastEditTime : 2021-12-26 19:54:56
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  : https://gleam.io
@@ -66,19 +66,41 @@ class Gleam extends Website {
     return window.location.host === 'gleam.io';
   }
 
-  async before() {
+  async after() {
     try {
       if (window.location.search.includes('8b07d23f4bfa65f9')) {
-        return true;
-      }
-      if (!await this.#checkLeftKey()) {
+        const checkComplete = setInterval(() => {
+          if ($('.entry-content .entry-method i.fa-check').length > 0) {
+            clearInterval(checkComplete);
+            window.close();
+          }
+        });
+        for (const task of $('.entry-content .entry-method')) {
+          const taskInfo = $(task).find('.user-links');
+          const expandInfo = $(task).find('.expandable');
+          const aElements = expandInfo.find('a.btn,a:contains(Continue),button:contains(Continue)');
+          if (aElements.length > 0) {
+            for (const element of aElements) {
+              const $element = $(element);
+              const href = $element.attr('href');
+              $element.removeAttr('href')[0].click();
+              $element.attr('href', href as string);
+              await delay(1000);
+            }
+          }
+          taskInfo[0].click();
+          await delay(1000);
+        }
+        echoLog({ html: `<li><font class="warning">${__('gleamTaskNotice')}</font></li>` });
+      } else if (!await this.#checkLeftKey()) {
         echoLog({ html: `<li><font class="warning>${__('checkLeftKeyFailed')}</font></li>` });
       }
     } catch (error) {
-      throwError(error as Error, 'Gleam.before');
+      throwError(error as Error, 'Gleam.after');
       return false;
     }
   }
+
   init(): boolean {
     try {
       const logStatus = echoLog({ text: __('initing') });
@@ -325,39 +347,6 @@ class Gleam extends Website {
       return false;
     } catch (error) {
       throwError(error as Error, 'Gleam.getGleamLink');
-      return false;
-    }
-  }
-
-  async after() {
-    try {
-      if (window.location.search.includes('8b07d23f4bfa65f9')) {
-        const checkComplete = setInterval(() => {
-          if ($('.entry-content .entry-method i.fa-check').length > 0) {
-            clearInterval(checkComplete);
-            window.close();
-          }
-        });
-        for (const task of $('.entry-content .entry-method')) {
-          const taskInfo = $(task).find('.user-links');
-          const expandInfo = $(task).find('.expandable');
-          const aElements = expandInfo.find('a.btn,a:contains(Continue),button:contains(Continue)');
-          if (aElements.length > 0) {
-            for (const element of aElements) {
-              const $element = $(element);
-              const href = $element.attr('href');
-              $element.removeAttr('href')[0].click();
-              $element.attr('href', href as string);
-              await delay(1000);
-            }
-          }
-          taskInfo[0].click();
-          await delay(1000);
-        }
-        echoLog({ html: `<li><font class="warning">${__('gleamTaskNotice')}</font></li>` });
-      }
-    } catch (error) {
-      throwError(error as Error, 'Gleam.after');
       return false;
     }
   }

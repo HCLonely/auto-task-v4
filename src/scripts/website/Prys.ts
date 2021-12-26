@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 20:22:33
- * @LastEditTime : 2021-12-25 13:03:50
+ * @LastEditTime : 2021-12-26 19:56:10
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Prys.ts
  * @Description  : https://prys.revadike.com/
@@ -39,7 +39,7 @@ class Prys extends Website {
   static test(): boolean {
     return window.location.host === 'prys.revadike.com';
   }
-  async before(): Promise<void> {
+  async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
         echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
@@ -48,7 +48,7 @@ class Prys extends Website {
         echoLog({ html: `<li><font class="warning>${__('checkLeftKeyFailed')}</font></li>` });
       }
     } catch (error) {
-      throwError(error as Error, 'Prys.before');
+      throwError(error as Error, 'Prys.after');
     }
   }
   init(): boolean { // todo

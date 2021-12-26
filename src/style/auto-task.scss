@@ -1,3 +1,49 @@
+.colorful-button {
+  position: relative;
+  padding: 5px 10px;
+  text-align: center;
+  color: #fff;
+  text-decoration: none;
+  background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+  border-radius: 30px;
+  background-size: 400%;
+  text-transform: capitalize;
+
+  &:hover {
+    animation: animate 8s linear infinite;
+
+    &::before {
+      filter: blur(20px);
+      opacity: 1;
+    }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    z-index: -1;
+    background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+    border-radius: 40px;
+    background-size: 400%;
+    opacity: -1;
+    transition: 0.5s;
+  }
+
+  @keyframes animate {
+    0% {
+      background-position: 0%;
+    }
+
+    100% {
+      background-position: 100%;
+    }
+  }
+}
+
 #auto-task-info {
   position: fixed;
   bottom: 10px;
@@ -115,5 +161,48 @@ body.auto-task-options {
     #getYoutubeChannelId {
       margin-top: 5px;
     }
+
+    button {
+      @extend .colorful-button;
+      z-index: 1;
+    }
+  }
+}
+#auto-task-buttons,
+.show-button-div {
+  position: fixed;
+  top: 30px;
+  right: 15px;
+  width: auto;
+  z-index: 999999999 !important;
+
+  /*
+  &.FreeAnyWhere-buttons,
+  &.GiveawaySu-buttons,
+  &.GiveeClub-buttons,
+  &.Givekey-buttons,
+  &.Gleam-buttons,
+  &.Indiedb-buttons,
+  &.Keyhub-buttons,
+  &.Keylol-buttons,
+  &.OpiumPulses-buttons,
+  &.Opquests-buttons,
+  &.Prys-buttons,
+  &.SweepWidget-buttons {
+    width: 100px;
+  }
+  */
+
+  p {
+    line-height: 30px;
+    height: 40px;
+    text-align: center;
+  }
+  a.auto-task-website-btn {
+    @extend .colorful-button;
+    width: 150px;
+    height: 40px;
+    line-height: 30px;
+    font-size: 20px;
   }
 }

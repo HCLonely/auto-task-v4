@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-12-25 20:43:03
+ * @LastEditTime : 2021-12-26 20:17:53
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -15,16 +15,7 @@ import { Websites, WebsiteType } from './scripts/website/index';
 import whiteListOptions from './scripts/social/whiteList';
 import websiteOptions from './scripts/website/options';
 import __ from './scripts/tools/i18n';
-import { changeGlobalOptions } from './scripts/globalOptions';
-// import { changeGlobalOptions } from './scripts/globalOptions';
-
-let website: WebsiteType;
-for (const Website of Websites) {
-  if (Website.test()) {
-    website = new Website();
-    break;
-  }
-}
+import { globalOptions, changeGlobalOptions } from './scripts/globalOptions';
 
 declare const commonOptions: {
   headers?: {
@@ -41,7 +32,7 @@ if (window.location.hostname === 'discord.com') {
   }
 }
 
-window.onload = async () => {
+const loadScript = async () => {
   if (window.location.hostname === 'www.twitch.tv' && window.location.hash === '#auth') {
     const authToken = Cookies.get('auth-token');
     const isLogin = !!Cookies.get('login');
@@ -86,30 +77,59 @@ window.onload = async () => {
     Swal.fire('', __('closePageNotice'));
   }
 
+  let website: WebsiteType;
+  for (const Website of Websites) {
+    if (Website.test()) {
+      website = new Website();
+      break;
+    }
+  }
+
+  // @ts-ignore
   if (!website) {
     console.log('Auto Task脚本停止加载：当前网站不支持');
     return;
   }
 
-  $('body').append('<div id="auto-task-info"></div>'); // eslint-disable-line
   // @ts-ignore
   if (website?.before) await website?.before();
 
+  $('body').append(`<div id="auto-task-info"></div><div id="auto-task-buttons" style="display:${globalOptions.other.defaultShowButton ? 'block' : 'none'};"></div><div class="show-button-div" style="display:${globalOptions.other.defaultShowButton ? 'none' : 'block'};"><a class="auto-task-website-btn" href="javascript:void(0);" target="_self" title="${__('showButton')}"></a></div>`); // eslint-disable-line
+
+  $('a.auto-task-website-btn').on('click', () => {
+    $('#auto-task-buttons').show();
+    $('div.show-button-div').hide();
+  });
   // do something
   // @ts-ignore
   if (website?.after) await website?.after();
 
   // @ts-ignore
-  if (website?.buttons) {
+  if (website?.buttons && $('#auto-task-buttons').children().length === 0) {
+    $('#auto-task-buttons').addClass(`${website.name}-buttons`);
     // @ts-ignore
     for (const button of website.buttons) {
     // @ts-ignore
       if (website[button]) {
-      // @ts-ignore
-        GM_registerMenuCommand(__(button), () => { website[button](); }); // eslint-disable-line new-cap
+        // @ts-ignore
+        // GM_registerMenuCommand(__(button), () => { website[button](); }); // eslint-disable-line new-cap
+        const btnElement =
+          $(`<p><a class="auto-task-website-btn ${website.name}-button" href="javascript:void(0);" target="_self">${__(button)}</a></p>`)
+          // @ts-ignore
+            .on('click', () => { website[button](); });
+        $('#auto-task-buttons').append(btnElement);
       }
     }
   }
+
+  const hideButtonElement =
+    $(`<p><a class="auto-task-website-btn ${website.name}-button" href="javascript:void(0);" target="_self">${__('hideButton')}</a></p>`)
+      .on('click', () => {
+        $('#auto-task-buttons').hide();
+        $('div.show-button-div').show();
+      });
+  $('#auto-task-buttons').append(hideButtonElement);
+
   // @ts-ignore
   if (website?.options) {
     // @ts-ignore
@@ -130,3 +150,9 @@ window.onload = async () => {
   GM_addStyle(style); // eslint-disable-line new-cap
   console.log('%c%s', 'color:#1bbe1a', 'Auto Task脚本初始化完成！');
 };
+
+if (window.location.hostname === 'opquests.com') {
+  loadScript();
+} else {
+  window.onload = loadScript;
+}

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2021-12-25 13:02:53
+ * @LastEditTime : 2021-12-26 19:53:22
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.ts
  * @Description  : https://giveaway.su/
@@ -62,7 +62,7 @@ class GiveawaySu extends Website {
   static test(): boolean {
     return /^https?:\/\/giveaway\.su\/giveaway\/view\/[\d]+/.test(window.location.href);
   }
-  async before(): Promise<void> {
+  async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
         echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
@@ -71,7 +71,7 @@ class GiveawaySu extends Website {
         echoLog({ html: `<li><font class="warning>${__('checkLeftKeyFailed')}</font></li>` });
       }
     } catch (error) {
-      throwError(error as Error, 'Giveawaysu.before');
+      throwError(error as Error, 'Giveawaysu.after');
     }
   }
   init(): boolean {

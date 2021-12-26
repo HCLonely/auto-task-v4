@@ -2,7 +2,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 16:22:46
- * @LastEditTime : 2021-12-24 16:34:49
+ * @LastEditTime : 2021-12-26 20:30:31
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/webpack.dev.config.js
  * @Description  :
@@ -60,6 +60,7 @@ module.exports = {
               exportType: 'string'
             }
           },
+          'postcss-loader',
           'sass-loader'
         ]
       }

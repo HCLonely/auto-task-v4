@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 11:46:52
- * @LastEditTime : 2021-12-25 13:03:03
+ * @LastEditTime : 2021-12-26 19:53:35
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/GiveeClub.ts
  * @Description  : https://givee.club/
@@ -28,7 +28,7 @@ class GiveeClub extends GiveawaySu {
   static test(): boolean {
     return /^https?:\/\/givee\.club\/.*?\/event\/[\d]+/.test(window.location.href);
   }
-  async before(): Promise<void> {
+  async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
         echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
@@ -37,7 +37,7 @@ class GiveeClub extends GiveawaySu {
         echoLog({ html: `<li><font class="warning>${__('checkLeftKeyFailed')}</font></li>` });
       }
     } catch (error) {
-      throwError(error as Error, 'GiveeClub.before');
+      throwError(error as Error, 'GiveeClub.after');
     }
   }
   init(): boolean {
