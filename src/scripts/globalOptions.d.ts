@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-24 17:21:16
- * @LastEditTime : 2021-12-28 15:15:21
+ * @LastEditTime : 2021-12-28 17:53:21
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/globalOptions.d.ts
  */
@@ -75,13 +75,7 @@ interface globalOptions {
       curators: boolean
     }
   },
-  other: {
-    twitterVerifyId: string,
-    youtubeVerifyChannel: string,
-    checkLogin: boolean,
-    checkLeftKey: boolean,
-    defaultShowButton: boolean,
-    defaultShowLog: boolean,
+  position: {
     buttonSideX: 'right' | 'left',
     buttonSideY: 'top' | 'bottom',
     buttonDistance: string,
@@ -91,5 +85,18 @@ interface globalOptions {
     logSideX: 'right' | 'left',
     logSideY: 'top' | 'bottom',
     logDistance: string
+  },
+  hotKey: {
+    doTaskKey: string,
+    undoTaskKey: string,
+    toggleLogKey: string
+  },
+  other: {
+    twitterVerifyId: string,
+    youtubeVerifyChannel: string,
+    checkLogin: boolean,
+    checkLeftKey: boolean,
+    defaultShowButton: boolean,
+    defaultShowLog: boolean,
   }
 }

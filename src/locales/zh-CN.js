@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2021-12-28 15:45:07
+ * @LastEditTime : 2021-12-28 17:54:28
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -87,23 +87,28 @@ const data = {
   os: '系统',
   browser: '浏览器',
   getId: '获取 %0 id',
-  getTwitterUserId: '获取Twitter用户id',
-  getYoutubeChannelId: '获取Youtube频道id',
+  getTwitterUserId: '获取Twitter用户id(获取id功能仅在设置页面可用)',
+  getYoutubeChannelId: '获取Youtube频道id(获取id功能仅在设置页面可用)',
   showButton: '显示按钮',
   hideButton: '隐藏按钮',
   showLog: '显示日志',
   hideLog: '隐藏日志',
   defaultShowButton: '默认显示按钮',
   defaultShowLog: '默认显示日志',
-  buttonSideX: '按钮区域水平方向定位</br>left: 靠左 | right: 靠右',
-  buttonSideY: '按钮区域垂直方向定位</br>top: 靠上 | bottom: 靠下',
-  buttonDistance: '按钮区域距边缘的距离</br>格式: X距离,Y距离',
-  showButtonSideX: '显示按钮水平方向定位</br>left: 靠左 | right: 靠右',
-  showButtonSideY: '显示按钮垂直方向定位</br>top: 靠上 | bottom: 靠下',
-  showButtonDistance: '显示按钮距边缘的距离</br>格式: X距离,Y距离',
-  logSideX: '日志区域水平方向定位</br>left: 靠左 | right: 靠右',
-  logSideY: '日志区域垂直方向定位</br>top: 靠上 | bottom: 靠下',
-  logDistance: '日志区域距边缘的距离</br>格式: X距离,Y距离',
+  position: '组件位置',
+  buttonSideX: '按钮区域水平方向定位(实时预览功能仅在设置页面可用)</br>left: 靠左 | right: 靠右',
+  buttonSideY: '按钮区域垂直方向定位(实时预览功能仅在设置页面可用)</br>top: 靠上 | bottom: 靠下',
+  buttonDistance: '按钮区域距边缘的距离(实时预览功能仅在设置页面可用)</br>格式: X距离,Y距离',
+  showButtonSideX: '显示按钮水平方向定位(实时预览功能仅在设置页面可用)</br>left: 靠左 | right: 靠右',
+  showButtonSideY: '显示按钮垂直方向定位(实时预览功能仅在设置页面可用)</br>top: 靠上 | bottom: 靠下',
+  showButtonDistance: '显示按钮距边缘的距离(实时预览功能仅在设置页面可用)</br>格式: X距离,Y距离',
+  logSideX: '日志区域水平方向定位(实时预览功能仅在设置页面可用)</br>left: 靠左 | right: 靠右',
+  logSideY: '日志区域垂直方向定位(实时预览功能仅在设置页面可用)</br>top: 靠上 | bottom: 靠下',
+  logDistance: '日志区域距边缘的距离(实时预览功能仅在设置页面可用)</br>格式: X距离,Y距离',
+  hotKey: '快捷键',
+  doTaskKey: '做任务快捷键</br>(实时预览功能仅在设置页面可用)',
+  undoTaskKey: '撤销任务快捷键</br>(实时预览功能仅在设置页面可用)',
+  toggleLogKey: '显示/隐藏日志快捷键</br>(实时预览功能仅在设置页面可用)',
 
   // Steam
   groups: '组',

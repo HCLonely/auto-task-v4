@@ -50,6 +50,7 @@
     "pnpm-lock.yaml"
   ],
   "cSpell.words": [
+    "keyboardjs",
     "uglifyjs"
   ]
 }

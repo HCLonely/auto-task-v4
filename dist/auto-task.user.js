@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.28-Alpha
+// @version            4.0.30-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -75,6 +75,7 @@
 // @require            https://cdn.jsdelivr.net/npm/regenerator-runtime@0.13.5/runtime.min.js
 // @require            https://cdn.jsdelivr.net/npm/js-sha1@0.6.0/src/sha1.min.js
 // @require            https://cdn.jsdelivr.net/npm/sweetalert2@11
+// @require            https://cdn.jsdelivr.net/npm/keyboardjs@2.6.4/dist/keyboard.min.js
 // ==/UserScript==
 
 console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
@@ -617,23 +618,28 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       os: '系统',
       browser: '浏览器',
       getId: '获取 %0 id',
-      getTwitterUserId: '获取Twitter用户id',
-      getYoutubeChannelId: '获取Youtube频道id',
+      getTwitterUserId: '获取Twitter用户id(获取id功能仅在设置页面可用)',
+      getYoutubeChannelId: '获取Youtube频道id(获取id功能仅在设置页面可用)',
       showButton: '显示按钮',
       hideButton: '隐藏按钮',
       showLog: '显示日志',
       hideLog: '隐藏日志',
       defaultShowButton: '默认显示按钮',
       defaultShowLog: '默认显示日志',
-      buttonSideX: '按钮区域水平方向定位</br>left: 靠左 | right: 靠右',
-      buttonSideY: '按钮区域垂直方向定位</br>top: 靠上 | bottom: 靠下',
-      buttonDistance: '按钮区域距边缘的距离</br>格式: X距离,Y距离',
-      showButtonSideX: '显示按钮水平方向定位</br>left: 靠左 | right: 靠右',
-      showButtonSideY: '显示按钮垂直方向定位</br>top: 靠上 | bottom: 靠下',
-      showButtonDistance: '显示按钮距边缘的距离</br>格式: X距离,Y距离',
-      logSideX: '日志区域水平方向定位</br>left: 靠左 | right: 靠右',
-      logSideY: '日志区域垂直方向定位</br>top: 靠上 | bottom: 靠下',
-      logDistance: '日志区域距边缘的距离</br>格式: X距离,Y距离',
+      position: '组件位置',
+      buttonSideX: '按钮区域水平方向定位(实时预览功能仅在设置页面可用)</br>left: 靠左 | right: 靠右',
+      buttonSideY: '按钮区域垂直方向定位(实时预览功能仅在设置页面可用)</br>top: 靠上 | bottom: 靠下',
+      buttonDistance: '按钮区域距边缘的距离(实时预览功能仅在设置页面可用)</br>格式: X距离,Y距离',
+      showButtonSideX: '显示按钮水平方向定位(实时预览功能仅在设置页面可用)</br>left: 靠左 | right: 靠右',
+      showButtonSideY: '显示按钮垂直方向定位(实时预览功能仅在设置页面可用)</br>top: 靠上 | bottom: 靠下',
+      showButtonDistance: '显示按钮距边缘的距离(实时预览功能仅在设置页面可用)</br>格式: X距离,Y距离',
+      logSideX: '日志区域水平方向定位(实时预览功能仅在设置页面可用)</br>left: 靠左 | right: 靠右',
+      logSideY: '日志区域垂直方向定位(实时预览功能仅在设置页面可用)</br>top: 靠上 | bottom: 靠下',
+      logDistance: '日志区域距边缘的距离(实时预览功能仅在设置页面可用)</br>格式: X距离,Y距离',
+      hotKey: '快捷键',
+      doTaskKey: '做任务快捷键</br>(实时预览功能仅在设置页面可用)',
+      undoTaskKey: '撤销任务快捷键</br>(实时预览功能仅在设置页面可用)',
+      toggleLogKey: '显示/隐藏日志快捷键</br>(实时预览功能仅在设置页面可用)',
       groups: '组',
       wishlists: '愿望单',
       follows: '游戏关注',
@@ -1285,13 +1291,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           curators: true
         }
       },
-      other: {
-        twitterVerifyId: '783214',
-        youtubeVerifyChannel: 'UCrXUsMBcfTVqwAS7DKg9C0Q',
-        checkLogin: true,
-        checkLeftKey: true,
-        defaultShowButton: true,
-        defaultShowLog: true,
+      position: {
         buttonSideX: 'right',
         buttonSideY: 'top',
         buttonDistance: '15,30',
@@ -1301,6 +1301,19 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         logSideX: 'right',
         logSideY: 'bottom',
         logDistance: '10,10'
+      },
+      hotKey: {
+        doTaskKey: 'alt + d',
+        undoTaskKey: 'alt + u',
+        toggleLogKey: 'alt + l'
+      },
+      other: {
+        twitterVerifyId: '783214',
+        youtubeVerifyChannel: 'UCrXUsMBcfTVqwAS7DKg9C0Q',
+        checkLogin: true,
+        checkLeftKey: true,
+        defaultShowButton: true,
+        defaultShowLog: true
       }
     };
     const userDefinedGlobalOptions = GM_getValue('globalOptions') || {};
@@ -1353,11 +1366,11 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       <table class="auto-task-table"><thead><tr><td>${i18n('type')}</td><td>${i18n('option')}</td><td>${i18n('value')}</td></tr></thead><tbody>`;
         for (const [ type, data1 ] of Object.entries(globalOptions)) {
           for (const [ option, data2 ] of Object.entries(data1)) {
-            if (type === 'other') {
+            if ([ 'other', 'position', 'hotKey' ].includes(type)) {
               if (typeof data2 === 'boolean') {
-                globalOptionsForm += `<tr>${Object.keys(data1).indexOf(option) === 0 ? `<th rowspan="${Object.keys(data1).length}" style="background-color: ${stringToColour(type)}66">${i18n(type)}</th>` : ''}<td>${i18n(option)}</td><td><label><input type="checkbox" name="${type}.${option}"${data2 ? ' checked="checked"' : ''}/><span><i></i></span></label></td></tr>`;
+                globalOptionsForm += `<tr style="background-color: ${stringToColour(type)}44">${Object.keys(data1).indexOf(option) === 0 ? `<th rowspan="${Object.keys(data1).length}">${i18n(type)}</th>` : ''}<td>${i18n(option)}</td><td><label><input type="checkbox" name="${type}.${option}"${data2 ? ' checked="checked"' : ''}/><span><i></i></span></label></td></tr>`;
               } else {
-                globalOptionsForm += `<tr>${Object.keys(data1).indexOf(option) === 0 ? `<th rowspan="${Object.keys(data1).length}" style="background-color: ${stringToColour(type)}66">${i18n(type)}</th>` : ''}<td>${i18n(option)}</td><td><input class="editOption" type="text" name="${type}.${option}" value="${data2}"/></td></tr>`;
+                globalOptionsForm += `<tr style="background-color: ${stringToColour(type)}44">${Object.keys(data1).indexOf(option) === 0 ? `<th rowspan="${Object.keys(data1).length}" style="background-color: ${stringToColour(type)}66">${i18n(type)}</th>` : ''}<td>${i18n(option)}</td><td><input class="editOption" type="text" name="${type}.${option}" value="${data2}"/></td></tr>`;
               }
             } else {
               for (const [ socialType, data3 ] of Object.entries(data2)) {
@@ -9141,8 +9154,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           $('#getYoutubeChannelId').on('click', () => {
             Setting_classPrivateMethodGet(this, Setting_getId, Setting_getId2).call(this, 'youtubeChannel');
           });
-          $('input[name^="other.button"],input[name^="other.showButton"],input[name="other.log"]').on('input', function() {
-            const type = $(this).attr('name').replace('other.', '');
+          $('input[name^="position"]').on('input', function() {
+            const type = $(this).attr('name').replace('position.', '');
             const xLabel = 'rightleft';
             const yLabel = 'topbottpm';
             switch (type) {
@@ -9150,9 +9163,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
              case 'buttonSideY':
              case 'buttonDistance':
               {
-                const distance = $('input[name="other.buttonDistance"]').val();
-                const sideX = $('input[name="other.buttonSideX"]').val();
-                const sideY = $('input[name="other.buttonSideY"]').val();
+                const distance = $('input[name="position.buttonDistance"]').val();
+                const sideX = $('input[name="position.buttonSideX"]').val();
+                const sideY = $('input[name="position.buttonSideY"]').val();
                 if (![ 'right', 'left' ].includes(sideX)) {
                   break;
                 }
@@ -9171,9 +9184,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
              case 'showButtonSideY':
              case 'showButtonDistance':
               {
-                const distance = $('input[name="other.showButtonDistance"]').val();
-                const sideX = $('input[name="other.showButtonSideX"]').val();
-                const sideY = $('input[name="other.showButtonSideY"]').val();
+                const distance = $('input[name="position.showButtonDistance"]').val();
+                const sideX = $('input[name="position.showButtonSideX"]').val();
+                const sideY = $('input[name="position.showButtonSideY"]').val();
                 if (![ 'right', 'left' ].includes(sideX)) {
                   break;
                 }
@@ -9192,9 +9205,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
              case 'logSideY':
              case 'logDistance':
               {
-                const distance = $('input[name="other.logDistance"]').val();
-                const sideX = $('input[name="other.logSideX"]').val();
-                const sideY = $('input[name="other.logSideY"]').val();
+                const distance = $('input[name="position.logDistance"]').val();
+                const sideX = $('input[name="position.logSideX"]').val();
+                const sideY = $('input[name="position.logSideY"]').val();
                 if (![ 'right', 'left' ].includes(sideX)) {
                   break;
                 }
@@ -9212,6 +9225,17 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
              default:
               break;
             }
+          });
+          $('input[name^="hotKey"]').attr('readonly', 'readonly').off('keydown').on('keydown', function(event) {
+            let functionKey = '';
+            if (event.altKey) {
+              functionKey += 'alt + ';
+            } else if (event.ctrlKey) {
+              functionKey += 'ctrl + ';
+            } else if (event.shiftKey) {
+              functionKey += 'shift + ';
+            }
+            $(this).val(functionKey + (event.key.length === 1 ? event.key.toLowerCase() : ''));
           });
         } catch (error) {
           throwError(error, 'Setting.after');
@@ -9300,6 +9324,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       });
     };
     const options = websiteOptions;
+    const external_keyboardJS_namespaceObject = keyboardJS;
+    var external_keyboardJS_default = __webpack_require__.n(external_keyboardJS_namespaceObject);
     if (window.location.hostname === 'discord.com') {
       var _window$localStorage, _window$localStorage$;
       const discordAuth = (_window$localStorage = window.localStorage) === null || _window$localStorage === void 0 ? void 0 : (_window$localStorage$ = _window$localStorage.getItem('token')) === null || _window$localStorage$ === void 0 ? void 0 : _window$localStorage$.replace(/^"|"$/g, '');
@@ -9377,11 +9403,33 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       if ((_website = website) !== null && _website !== void 0 && _website.before) {
         await ((_website2 = website) === null || _website2 === void 0 ? void 0 : _website2.before());
       }
-      $('body').append(`<div id="auto-task-info" style="display:${globalOptions.other.defaultShowLog ? 'block' : 'none'};${globalOptions.other.logSideX}:${globalOptions.other.logDistance.split(',')[0]}px;${globalOptions.other.logSideY}:${globalOptions.other.logDistance.split(',')[1]}px;"></div><div id="auto-task-buttons" style="display:${globalOptions.other.defaultShowButton ? 'block' : 'none'};${globalOptions.other.buttonSideX}:${globalOptions.other.buttonDistance.split(',')[0]}px;${globalOptions.other.buttonSideY}:${globalOptions.other.buttonDistance.split(',')[1]}px;"></div><div class="show-button-div" style="display:${globalOptions.other.defaultShowButton ? 'none' : 'block'};${globalOptions.other.showButtonSideX}:${globalOptions.other.showButtonDistance.split(',')[0]}px;${globalOptions.other.showButtonSideY}:${globalOptions.other.showButtonDistance.split(',')[1]}px;"><a class="auto-task-website-btn" href="javascript:void(0);" target="_self" title="${i18n('showButton')}"></a></div>`);
-      $('a.auto-task-website-btn').on('click', () => {
+      $('body').append(`<div id="auto-task-info" style="display:${globalOptions.other.defaultShowLog ? 'block' : 'none'};${globalOptions.position.logSideX}:${globalOptions.position.logDistance.split(',')[0]}px;${globalOptions.position.logSideY}:${globalOptions.position.logDistance.split(',')[1]}px;"></div><div id="auto-task-buttons" style="display:${globalOptions.other.defaultShowButton ? 'block' : 'none'};${globalOptions.position.buttonSideX}:${globalOptions.position.buttonDistance.split(',')[0]}px;${globalOptions.position.buttonSideY}:${globalOptions.position.buttonDistance.split(',')[1]}px;"></div><div class="show-button-div" style="display:${globalOptions.other.defaultShowButton ? 'none' : 'block'};${globalOptions.position.showButtonSideX}:${globalOptions.position.showButtonDistance.split(',')[0]}px;${globalOptions.position.showButtonSideY}:${globalOptions.position.showButtonDistance.split(',')[1]}px;"><a class="auto-task-website-btn" href="javascript:void(0);" target="_self" title="${i18n('showButton')}"></a></div>`);
+      $('div.show-button-div').on('click', () => {
         $('#auto-task-buttons').show();
         $('div.show-button-div').hide();
       });
+      const toggleLog = () => {
+        const $this = $('#toggle-log');
+        const status = $this.attr('data-status');
+        if (status === 'show') {
+          $('#auto-task-info').hide();
+          $this.attr('data-status', 'hide').text(i18n('showLog'));
+        } else {
+          $('#auto-task-info').show();
+          $this.attr('data-status', 'show').text(i18n('hideLog'));
+        }
+      };
+      external_keyboardJS_default().bind(globalOptions.hotKey.doTaskKey, () => {
+        if (website.doTask) {
+          website.doTask();
+        }
+      });
+      external_keyboardJS_default().bind(globalOptions.hotKey.undoTaskKey, () => {
+        if (website.undoTask) {
+          website.doTask();
+        }
+      });
+      external_keyboardJS_default().bind(globalOptions.hotKey.toggleLogKey, toggleLog);
       if ((_website3 = website) !== null && _website3 !== void 0 && _website3.after) {
         await ((_website4 = website) === null || _website4 === void 0 ? void 0 : _website4.after());
       }
@@ -9403,20 +9451,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         $('#auto-task-buttons').hide();
         $('div.show-button-div').show();
       });
-      const hideLogElement = $(`<p><a class="auto-task-website-btn ${website.name}-button" href="javascript:void(0);" target="_self" data-status="show">
-    ${i18n('hideLog')}</a></p>`);
-      hideLogElement.find('a.auto-task-website-btn').on('click', function() {
-        const $this = $(this);
-        const status = $this.attr('data-status');
-        if (status === 'show') {
-          $('#auto-task-info').hide();
-          $this.attr('data-status', 'hide').text(i18n('showLog'));
-        } else {
-          $('#auto-task-info').show();
-          $this.attr('data-status', 'show').text(i18n('hideLog'));
-        }
-      });
-      $('#auto-task-buttons').append(hideButtonElement).append(hideLogElement);
+      const toggleLogElement = $(`<p><a id="toggle-log" class="auto-task-website-btn ${website.name}-button" href="javascript:void(0);" target="_self" data-status="${globalOptions.other.defaultShowLog ? 'show' : 'hide'}">
+      ${globalOptions.other.defaultShowLog ? i18n('hideLog') : i18n('showLog')}</a></p>`);
+      toggleLogElement.find('a.auto-task-website-btn').on('click', toggleLog);
+      $('#auto-task-buttons').append(hideButtonElement).append(toggleLogElement);
       if ((_website6 = website) !== null && _website6 !== void 0 && _website6.options) {
         GM_registerMenuCommand(i18n('changeWebsiteOptions'), () => {
           options(website.name, website.options);
@@ -9433,7 +9471,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           window.open('https://auto-task.hclonely.com/setting.html', '_blank');
         });
       }
-      unsafeWindow.website = website;
+      unsafeWindow.keyboardJS = external_keyboardJS_default();
       GM_addStyle(auto_task.Z);
       console.log('%c%s', 'color:#1bbe1a', 'Auto Task脚本初始化完成！');
     };

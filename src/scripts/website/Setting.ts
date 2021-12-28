@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-25 19:00:53
- * @LastEditTime : 2021-12-28 16:02:17
+ * @LastEditTime : 2021-12-28 17:32:50
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Setting.ts
  * @Description  : 设置页面
@@ -40,9 +40,9 @@ class Setting {
       $('input[name="other.youtubeVerifyChannel"]').after(`<button id="getYoutubeChannelId" type="button">${__('getYoutubeChannelId')}</button>`);
       $('#getYoutubeChannelId').on('click', () => { this.#getId('youtubeChannel'); });
 
-      $('input[name^="other.button"],input[name^="other.showButton"],input[name="other.log"]').on('input', function () {
+      $('input[name^="position"]').on('input', function () {
         const type = ($(this).attr('name') as string)
-          .replace('other.', '');
+          .replace('position.', '');
         const xLabel = 'rightleft';
         const yLabel = 'topbottpm';
         switch (type) {
@@ -50,9 +50,9 @@ class Setting {
         case 'buttonSideY':
         case 'buttonDistance':
         {
-          const distance = $('input[name="other.buttonDistance"]').val() as string;
-          const sideX = $('input[name="other.buttonSideX"]').val() as string;
-          const sideY = $('input[name="other.buttonSideY"]').val() as string;
+          const distance = $('input[name="position.buttonDistance"]').val() as string;
+          const sideX = $('input[name="position.buttonSideX"]').val() as string;
+          const sideY = $('input[name="position.buttonSideY"]').val() as string;
           if (!['right', 'left'].includes(sideX)) break;
           if (!['top', 'bottom'].includes(sideY)) break;
           if (!/^[\d]+?,[\d]+$/.test(distance)) break;
@@ -67,9 +67,9 @@ class Setting {
         case 'showButtonSideY':
         case 'showButtonDistance':
         {
-          const distance = $('input[name="other.showButtonDistance"]').val() as string;
-          const sideX = $('input[name="other.showButtonSideX"]').val() as string;
-          const sideY = $('input[name="other.showButtonSideY"]').val() as string;
+          const distance = $('input[name="position.showButtonDistance"]').val() as string;
+          const sideX = $('input[name="position.showButtonSideX"]').val() as string;
+          const sideY = $('input[name="position.showButtonSideY"]').val() as string;
           if (!['right', 'left'].includes(sideX)) break;
           if (!['top', 'bottom'].includes(sideY)) break;
           if (!/^[\d]+?,[\d]+$/.test(distance)) break;
@@ -84,9 +84,9 @@ class Setting {
         case 'logSideY':
         case 'logDistance':
         {
-          const distance = $('input[name="other.logDistance"]').val() as string;
-          const sideX = $('input[name="other.logSideX"]').val() as string;
-          const sideY = $('input[name="other.logSideY"]').val() as string;
+          const distance = $('input[name="position.logDistance"]').val() as string;
+          const sideX = $('input[name="position.logSideX"]').val() as string;
+          const sideY = $('input[name="position.logSideY"]').val() as string;
           if (!['right', 'left'].includes(sideX)) break;
           if (!['top', 'bottom'].includes(sideY)) break;
           if (!/^[\d]+?,[\d]+$/.test(distance)) break;
@@ -101,6 +101,20 @@ class Setting {
           break;
         }
       });
+
+      $('input[name^="hotKey"]').attr('readonly', 'readonly')
+        .off('keydown')
+        .on('keydown', function (event) {
+          let functionKey = '';
+          if (event.altKey) {
+            functionKey += 'alt + ';
+          } else if (event.ctrlKey) {
+            functionKey += 'ctrl + ';
+          } else if (event.shiftKey) {
+            functionKey += 'shift + ';
+          }
+          $(this).val(functionKey + (event.key.length === 1 ? event.key.toLowerCase() : ''));
+        });
     } catch (error) {
       throwError(error as Error, 'Setting.after');
     }

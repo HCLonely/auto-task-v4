@@ -2,7 +2,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 16:22:46
- * @LastEditTime : 2021-12-28 13:59:04
+ * @LastEditTime : 2021-12-28 17:36:27
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/webpack.dev.config.js
  * @Description  :
@@ -99,6 +99,7 @@ module.exports = {
   },
   externals: {
     sweetalert2: 'Swal',
-    'js-cookie': 'Cookies'
+    'js-cookie': 'Cookies',
+    keyboardjs: 'keyboardJS'
   }
 };

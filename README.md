@@ -9,18 +9,15 @@
 
 ### 使用
 
-1. 点击Tampermonkey扩展图标；
-2. 点击`auto-task-new`下面的功能。
-
-![Usage](https://s2.loli.net/2021/12/05/PYh4tKZb2W1axOT.png)
+> 点击相应的按钮即可！
 
 ## todo
 
-- [ ] 快捷键设置
 - [ ] 设置同步
 - [ ] 任务历史
 - [ ] 添加giveaway.su专版
 - [ ] 功能模板
+- [x] 快捷键设置
 - [x] 按钮区域及日志区域自定义位置
 - [x] 添加UI & 美化
 - [x] 隐藏按钮、日志

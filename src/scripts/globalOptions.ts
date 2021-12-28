@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-24 16:41:12
- * @LastEditTime : 2021-12-28 15:15:52
+ * @LastEditTime : 2021-12-28 17:58:02
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/globalOptions.ts
  * @Description  : 全局设置选项
@@ -84,13 +84,7 @@ const defaultGlobalOptions: globalOptions = {
       curators: true
     }
   },
-  other: {
-    twitterVerifyId: '783214',
-    youtubeVerifyChannel: 'UCrXUsMBcfTVqwAS7DKg9C0Q',
-    checkLogin: true,
-    checkLeftKey: true,
-    defaultShowButton: true,
-    defaultShowLog: true,
+  position: {
     buttonSideX: 'right',
     buttonSideY: 'top',
     buttonDistance: '15,30',
@@ -100,6 +94,19 @@ const defaultGlobalOptions: globalOptions = {
     logSideX: 'right',
     logSideY: 'bottom',
     logDistance: '10,10'
+  },
+  hotKey: {
+    doTaskKey: 'alt + d',
+    undoTaskKey: 'alt + u',
+    toggleLogKey: 'alt + l'
+  },
+  other: {
+    twitterVerifyId: '783214',
+    youtubeVerifyChannel: 'UCrXUsMBcfTVqwAS7DKg9C0Q',
+    checkLogin: true,
+    checkLeftKey: true,
+    defaultShowButton: true,
+    defaultShowLog: true
   }
 };
 
@@ -162,19 +169,19 @@ const changeGlobalOptions = (showType: 'page' | 'swal') => {
       <table class="auto-task-table"><thead><tr><td>${__('type')}</td><td>${__('option')}</td><td>${__('value')}</td></tr></thead><tbody>`;
     for (const [type, data1] of Object.entries(globalOptions)) {
       for (const [option, data2] of Object.entries(data1)) {
-        if (type === 'other') {
+        if (['other', 'position', 'hotKey'].includes(type)) {
           if (typeof data2 === 'boolean') {
             globalOptionsForm +=
-            `<tr>${
+            `<tr style="background-color: ${stringToColour(type)}44">${
               Object.keys(data1).indexOf(option) === 0 ?
-                `<th rowspan="${Object.keys(data1).length}" style="background-color: ${stringToColour(type)}66">${__(type)}</th>` :
+                `<th rowspan="${Object.keys(data1).length}">${__(type)}</th>` :
                 ''
             }<td>${__(option)}</td><td><label><input type="checkbox" name="${type}.${option}"${
               data2 ? ' checked="checked"' : ''
             }/><span><i></i></span></label></td></tr>`;
           } else {
             globalOptionsForm +=
-            `<tr>${
+            `<tr style="background-color: ${stringToColour(type)}44">${
               Object.keys(data1).indexOf(option) === 0 ?
                 `<th rowspan="${Object.keys(data1).length}" style="background-color: ${stringToColour(type)}66">${__(type)}</th>` :
                 ''

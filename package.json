@@ -16,6 +16,7 @@
     "@babel/preset-env": "^7.16.0",
     "@types/jquery": "^3.5.7",
     "@types/js-cookie": "^3.0.0",
+    "@types/keyboardjs": "^2.5.0",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "@xuanmo/javascript-utils": "^0.0.31",

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-12-28 15:50:26
+ * @LastEditTime : 2021-12-28 18:03:05
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -16,6 +16,7 @@ import whiteListOptions from './scripts/social/whiteList';
 import websiteOptions from './scripts/website/options';
 import __ from './scripts/tools/i18n';
 import { globalOptions, changeGlobalOptions } from './scripts/globalOptions';
+import keyboardJS from 'keyboardjs';
 
 declare const commonOptions: {
   headers?: {
@@ -94,17 +95,41 @@ const loadScript = async () => {
   // @ts-ignore
   if (website?.before) await website?.before();
 
-  $('body').append(`<div id="auto-task-info" style="display:${globalOptions.other.defaultShowLog ? 'block' : 'none'};${globalOptions.other.logSideX}:${globalOptions.other.logDistance.split(',')[0]}px;${globalOptions.other.logSideY}:${globalOptions.other.logDistance.split(',')[1]}px;"></div><div id="auto-task-buttons" style="display:${globalOptions.other.defaultShowButton ? 'block' : 'none'};${globalOptions.other.buttonSideX}:${globalOptions.other.buttonDistance.split(',')[0]}px;${globalOptions.other.buttonSideY}:${globalOptions.other.buttonDistance.split(',')[1]}px;"></div><div class="show-button-div" style="display:${globalOptions.other.defaultShowButton ? 'none' : 'block'};${globalOptions.other.showButtonSideX}:${globalOptions.other.showButtonDistance.split(',')[0]}px;${globalOptions.other.showButtonSideY}:${globalOptions.other.showButtonDistance.split(',')[1]}px;"><a class="auto-task-website-btn" href="javascript:void(0);" target="_self" title="${__('showButton')}"></a></div>`); // eslint-disable-line
+  $('body').append(`<div id="auto-task-info" style="display:${globalOptions.other.defaultShowLog ? 'block' : 'none'};${globalOptions.position.logSideX}:${globalOptions.position.logDistance.split(',')[0]}px;${globalOptions.position.logSideY}:${globalOptions.position.logDistance.split(',')[1]}px;"></div><div id="auto-task-buttons" style="display:${globalOptions.other.defaultShowButton ? 'block' : 'none'};${globalOptions.position.buttonSideX}:${globalOptions.position.buttonDistance.split(',')[0]}px;${globalOptions.position.buttonSideY}:${globalOptions.position.buttonDistance.split(',')[1]}px;"></div><div class="show-button-div" style="display:${globalOptions.other.defaultShowButton ? 'none' : 'block'};${globalOptions.position.showButtonSideX}:${globalOptions.position.showButtonDistance.split(',')[0]}px;${globalOptions.position.showButtonSideY}:${globalOptions.position.showButtonDistance.split(',')[1]}px;"><a class="auto-task-website-btn" href="javascript:void(0);" target="_self" title="${__('showButton')}"></a></div>`); // eslint-disable-line
 
-  $('a.auto-task-website-btn').on('click', () => {
+  $('div.show-button-div').on('click', () => {
     $('#auto-task-buttons').show();
     $('div.show-button-div').hide();
   });
+
+  const toggleLog = () => {
+    const $this = $('#toggle-log');
+    const status = $this.attr('data-status');
+    if (status === 'show') {
+      $('#auto-task-info').hide();
+      $this.attr('data-status', 'hide').text(__('showLog'));
+    } else {
+      $('#auto-task-info').show();
+      $this.attr('data-status', 'show').text(__('hideLog'));
+    }
+  };
+
+  // INFO: 按键绑定
+  keyboardJS.bind(globalOptions.hotKey.doTaskKey, () => {
+    // @ts-ignore
+    if (website.doTask) website.doTask();
+  });
+  keyboardJS.bind(globalOptions.hotKey.undoTaskKey, () => {
+    // @ts-ignore
+    if (website.undoTask) website.doTask();
+  });
+  keyboardJS.bind(globalOptions.hotKey.toggleLogKey, toggleLog);
 
   // do something
   // @ts-ignore
   if (website?.after) await website?.after();
 
+  // INFO: 网站功能按钮
   // @ts-ignore
   if (website?.buttons && $('#auto-task-buttons').children().length === 0) {
     $('#auto-task-buttons').addClass(`${website.name}-buttons`);
@@ -123,27 +148,21 @@ const loadScript = async () => {
     }
   }
 
+  // INFO: 隐藏按钮
   const hideButtonElement = $(`<p><a class="auto-task-website-btn ${website.name}-button" href="javascript:void(0);" target="_self">
     ${__('hideButton')}</a></p>`);
   hideButtonElement.find('a.auto-task-website-btn').on('click', () => {
     $('#auto-task-buttons').hide();
     $('div.show-button-div').show();
   });
-  const hideLogElement = $(`<p><a class="auto-task-website-btn ${website.name}-button" href="javascript:void(0);" target="_self" data-status="show">
-    ${__('hideLog')}</a></p>`);
-  hideLogElement.find('a.auto-task-website-btn').on('click', function () {
-    const $this = $(this);
-    const status = $this.attr('data-status');
-    if (status === 'show') {
-      $('#auto-task-info').hide();
-      $this.attr('data-status', 'hide').text(__('showLog'));
-    } else {
-      $('#auto-task-info').show();
-      $this.attr('data-status', 'show').text(__('hideLog'));
-    }
-  });
+  const toggleLogElement =
+    $(`<p><a id="toggle-log" class="auto-task-website-btn ${website.name}-button" href="javascript:void(0);" target="_self" data-status="${
+      globalOptions.other.defaultShowLog ? 'show' : 'hide'}">
+      ${globalOptions.other.defaultShowLog ? __('hideLog') : __('showLog')}</a></p>`);
+  toggleLogElement.find('a.auto-task-website-btn').on('click', toggleLog);
   $('#auto-task-buttons').append(hideButtonElement)
-    .append(hideLogElement);
+    .append(toggleLogElement);
+
   // @ts-ignore
   if (website?.options) {
     // @ts-ignore
@@ -159,7 +178,8 @@ const loadScript = async () => {
   }
 
   // 调试用
-  unsafeWindow.website = website;
+  // @ts-ignore
+  unsafeWindow.keyboardJS = keyboardJS;
 
   GM_addStyle(style); // eslint-disable-line new-cap
   console.log('%c%s', 'color:#1bbe1a', 'Auto Task脚本初始化完成！');
