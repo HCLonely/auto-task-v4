@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-24 16:41:12
- * @LastEditTime : 2021-12-26 20:14:48
+ * @LastEditTime : 2021-12-28 15:15:52
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/globalOptions.ts
  * @Description  : 全局设置选项
@@ -89,7 +89,17 @@ const defaultGlobalOptions: globalOptions = {
     youtubeVerifyChannel: 'UCrXUsMBcfTVqwAS7DKg9C0Q',
     checkLogin: true,
     checkLeftKey: true,
-    defaultShowButton: true
+    defaultShowButton: true,
+    defaultShowLog: true,
+    buttonSideX: 'right',
+    buttonSideY: 'top',
+    buttonDistance: '15,30',
+    showButtonSideX: 'right',
+    showButtonSideY: 'top',
+    showButtonDistance: '15,30',
+    logSideX: 'right',
+    logSideY: 'bottom',
+    logDistance: '10,10'
   }
 };
 
@@ -159,9 +169,9 @@ const changeGlobalOptions = (showType: 'page' | 'swal') => {
               Object.keys(data1).indexOf(option) === 0 ?
                 `<th rowspan="${Object.keys(data1).length}" style="background-color: ${stringToColour(type)}66">${__(type)}</th>` :
                 ''
-            }<td>${__(option)}</td><td><input type="checkbox" name="${type}.${option}"${
+            }<td>${__(option)}</td><td><label><input type="checkbox" name="${type}.${option}"${
               data2 ? ' checked="checked"' : ''
-            }/></td></tr>`;
+            }/><span><i></i></span></label></td></tr>`;
           } else {
             globalOptionsForm +=
             `<tr>${
@@ -179,9 +189,9 @@ const changeGlobalOptions = (showType: 'page' | 'swal') => {
                 `<th rowspan="${Object.keys(data1).map((key) => Object.keys(data1[key]).length)
                   .reduce((acr, cur) => acr + cur)}" style="background-color: ${stringToColour(type)}66">${__(type)}</th>` :
                 ''
-            }<td>${option}.${__(socialType)}</td><td><input type="checkbox" name="${type}.${option}.${socialType}"${
+            }<td>${option}.${__(socialType)}</td><td><label><input type="checkbox" name="${type}.${option}.${socialType}"${
               data3 ? ' checked="checked"' : ''
-            }/></td></tr>`;
+            }/><span><i></i></span></label></td></tr>`;
           }
         }
       }

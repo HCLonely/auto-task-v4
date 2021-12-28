@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-12-26 20:17:53
+ * @LastEditTime : 2021-12-28 15:50:26
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -94,12 +94,13 @@ const loadScript = async () => {
   // @ts-ignore
   if (website?.before) await website?.before();
 
-  $('body').append(`<div id="auto-task-info"></div><div id="auto-task-buttons" style="display:${globalOptions.other.defaultShowButton ? 'block' : 'none'};"></div><div class="show-button-div" style="display:${globalOptions.other.defaultShowButton ? 'none' : 'block'};"><a class="auto-task-website-btn" href="javascript:void(0);" target="_self" title="${__('showButton')}"></a></div>`); // eslint-disable-line
+  $('body').append(`<div id="auto-task-info" style="display:${globalOptions.other.defaultShowLog ? 'block' : 'none'};${globalOptions.other.logSideX}:${globalOptions.other.logDistance.split(',')[0]}px;${globalOptions.other.logSideY}:${globalOptions.other.logDistance.split(',')[1]}px;"></div><div id="auto-task-buttons" style="display:${globalOptions.other.defaultShowButton ? 'block' : 'none'};${globalOptions.other.buttonSideX}:${globalOptions.other.buttonDistance.split(',')[0]}px;${globalOptions.other.buttonSideY}:${globalOptions.other.buttonDistance.split(',')[1]}px;"></div><div class="show-button-div" style="display:${globalOptions.other.defaultShowButton ? 'none' : 'block'};${globalOptions.other.showButtonSideX}:${globalOptions.other.showButtonDistance.split(',')[0]}px;${globalOptions.other.showButtonSideY}:${globalOptions.other.showButtonDistance.split(',')[1]}px;"><a class="auto-task-website-btn" href="javascript:void(0);" target="_self" title="${__('showButton')}"></a></div>`); // eslint-disable-line
 
   $('a.auto-task-website-btn').on('click', () => {
     $('#auto-task-buttons').show();
     $('div.show-button-div').hide();
   });
+
   // do something
   // @ts-ignore
   if (website?.after) await website?.after();
@@ -114,22 +115,35 @@ const loadScript = async () => {
         // @ts-ignore
         // GM_registerMenuCommand(__(button), () => { website[button](); }); // eslint-disable-line new-cap
         const btnElement =
-          $(`<p><a class="auto-task-website-btn ${website.name}-button" href="javascript:void(0);" target="_self">${__(button)}</a></p>`)
-          // @ts-ignore
-            .on('click', () => { website[button](); });
+          $(`<p><a class="auto-task-website-btn ${website.name}-button" href="javascript:void(0);" target="_self">${__(button)}</a></p>`);
+        // @ts-ignore
+        btnElement.find('a.auto-task-website-btn').on('click', () => { website[button](); });
         $('#auto-task-buttons').append(btnElement);
       }
     }
   }
 
-  const hideButtonElement =
-    $(`<p><a class="auto-task-website-btn ${website.name}-button" href="javascript:void(0);" target="_self">${__('hideButton')}</a></p>`)
-      .on('click', () => {
-        $('#auto-task-buttons').hide();
-        $('div.show-button-div').show();
-      });
-  $('#auto-task-buttons').append(hideButtonElement);
-
+  const hideButtonElement = $(`<p><a class="auto-task-website-btn ${website.name}-button" href="javascript:void(0);" target="_self">
+    ${__('hideButton')}</a></p>`);
+  hideButtonElement.find('a.auto-task-website-btn').on('click', () => {
+    $('#auto-task-buttons').hide();
+    $('div.show-button-div').show();
+  });
+  const hideLogElement = $(`<p><a class="auto-task-website-btn ${website.name}-button" href="javascript:void(0);" target="_self" data-status="show">
+    ${__('hideLog')}</a></p>`);
+  hideLogElement.find('a.auto-task-website-btn').on('click', function () {
+    const $this = $(this);
+    const status = $this.attr('data-status');
+    if (status === 'show') {
+      $('#auto-task-info').hide();
+      $this.attr('data-status', 'hide').text(__('showLog'));
+    } else {
+      $('#auto-task-info').show();
+      $this.attr('data-status', 'show').text(__('hideLog'));
+    }
+  });
+  $('#auto-task-buttons').append(hideButtonElement)
+    .append(hideLogElement);
   // @ts-ignore
   if (website?.options) {
     // @ts-ignore
@@ -154,5 +168,5 @@ const loadScript = async () => {
 if (window.location.hostname === 'opquests.com') {
   loadScript();
 } else {
-  window.onload = loadScript;
+  $(loadScript);
 }

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-25 19:00:53
- * @LastEditTime : 2021-12-26 13:56:25
+ * @LastEditTime : 2021-12-28 16:02:17
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Setting.ts
  * @Description  : 设置页面
@@ -30,14 +30,80 @@ class Setting {
       .addClass('auto-task-options');
   }
   after(): void {
-    this.#environment();
-    changeGlobalOptions('page');
-    whiteListOptions('page');
+    try {
+      this.#environment();
+      changeGlobalOptions('page');
+      whiteListOptions('page');
 
-    $('input[name="other.twitterVerifyId"]').after(`<button id="getTwitterUserId" type="button">${__('getTwitterUserId')}</button>`);
-    $('#getTwitterUserId').on('click', () => { this.#getId('twitterUser'); });
-    $('input[name="other.youtubeVerifyChannel"]').after(`<button id="getYoutubeChannelId" type="button">${__('getYoutubeChannelId')}</button>`);
-    $('#getYoutubeChannelId').on('click', () => { this.#getId('youtubeChannel'); });
+      $('input[name="other.twitterVerifyId"]').after(`<button id="getTwitterUserId" type="button">${__('getTwitterUserId')}</button>`);
+      $('#getTwitterUserId').on('click', () => { this.#getId('twitterUser'); });
+      $('input[name="other.youtubeVerifyChannel"]').after(`<button id="getYoutubeChannelId" type="button">${__('getYoutubeChannelId')}</button>`);
+      $('#getYoutubeChannelId').on('click', () => { this.#getId('youtubeChannel'); });
+
+      $('input[name^="other.button"],input[name^="other.showButton"],input[name="other.log"]').on('input', function () {
+        const type = ($(this).attr('name') as string)
+          .replace('other.', '');
+        const xLabel = 'rightleft';
+        const yLabel = 'topbottpm';
+        switch (type) {
+        case 'buttonSideX':
+        case 'buttonSideY':
+        case 'buttonDistance':
+        {
+          const distance = $('input[name="other.buttonDistance"]').val() as string;
+          const sideX = $('input[name="other.buttonSideX"]').val() as string;
+          const sideY = $('input[name="other.buttonSideY"]').val() as string;
+          if (!['right', 'left'].includes(sideX)) break;
+          if (!['top', 'bottom'].includes(sideY)) break;
+          if (!/^[\d]+?,[\d]+$/.test(distance)) break;
+          const distanceArr = distance.split(',');
+          $('#auto-task-buttons').css(sideX, `${distanceArr[0]}px`)
+            .css(sideY, `${distanceArr[1]}px`)
+            .css(xLabel.replace(sideX, ''), '')
+            .css(yLabel.replace(sideY, ''), '');
+          break;
+        }
+        case 'showButtonSideX':
+        case 'showButtonSideY':
+        case 'showButtonDistance':
+        {
+          const distance = $('input[name="other.showButtonDistance"]').val() as string;
+          const sideX = $('input[name="other.showButtonSideX"]').val() as string;
+          const sideY = $('input[name="other.showButtonSideY"]').val() as string;
+          if (!['right', 'left'].includes(sideX)) break;
+          if (!['top', 'bottom'].includes(sideY)) break;
+          if (!/^[\d]+?,[\d]+$/.test(distance)) break;
+          const distanceArr = distance.split(',');
+          $('div.show-button-div').css(sideX, `${distanceArr[0]}px`)
+            .css(sideY, `${distanceArr[1]}px`)
+            .css(xLabel.replace(sideX, ''), '')
+            .css(yLabel.replace(sideY, ''), '');
+          break;
+        }
+        case 'logSideX':
+        case 'logSideY':
+        case 'logDistance':
+        {
+          const distance = $('input[name="other.logDistance"]').val() as string;
+          const sideX = $('input[name="other.logSideX"]').val() as string;
+          const sideY = $('input[name="other.logSideY"]').val() as string;
+          if (!['right', 'left'].includes(sideX)) break;
+          if (!['top', 'bottom'].includes(sideY)) break;
+          if (!/^[\d]+?,[\d]+$/.test(distance)) break;
+          const distanceArr = distance.split(',');
+          $('#auto-task-info').css(sideX, `${distanceArr[0]}px`)
+            .css(sideY, `${distanceArr[1]}px`)
+            .css(xLabel.replace(sideX, ''), '')
+            .css(yLabel.replace(sideY, ''), '');
+          break;
+        }
+        default:
+          break;
+        }
+      });
+    } catch (error) {
+      throwError(error as Error, 'Setting.after');
+    }
   }
   saveGlobalOptions(): void {
     saveData();

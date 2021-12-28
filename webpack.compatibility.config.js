@@ -2,7 +2,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-12 17:39:48
- * @LastEditTime : 2021-12-22 17:06:44
+ * @LastEditTime : 2021-12-28 13:58:47
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/webpack.compatibility.config.js
  * @Description  :
@@ -58,6 +58,16 @@ module.exports = {
             loader: 'css-loader',
             options: {
               exportType: 'string'
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  'postcss-preset-env'
+                ]
+              }
             }
           },
           'sass-loader'

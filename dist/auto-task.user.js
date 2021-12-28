@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.27-Alpha
+// @version            4.0.28-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -386,7 +386,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         });
       });
     },
-    135: function(module, __webpack_exports__, __webpack_require__) {
+    786: function(module, __webpack_exports__, __webpack_require__) {
       'use strict';
       __webpack_require__.d(__webpack_exports__, {
         Z: function() {
@@ -398,7 +398,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       var _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(400);
       var _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(_node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
       var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(_node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default());
-      ___CSS_LOADER_EXPORT___.push([ module.id, '.colorful-button,#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn,body.auto-task-options .auto-task-form button{position:relative;padding:5px 10px;text-align:center;color:#fff;text-decoration:none;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:30px;background-size:400%;text-transform:capitalize}.colorful-button:hover,#auto-task-buttons a.auto-task-website-btn:hover,.show-button-div a.auto-task-website-btn:hover,body.auto-task-options .auto-task-form button:hover{-webkit-animation:animate 8s linear infinite;animation:animate 8s linear infinite}.colorful-button:hover::before,#auto-task-buttons a.auto-task-website-btn:hover::before,.show-button-div a.auto-task-website-btn:hover::before,body.auto-task-options .auto-task-form button:hover::before{filter:blur(20px);opacity:1}.colorful-button::before,#auto-task-buttons a.auto-task-website-btn::before,.show-button-div a.auto-task-website-btn::before,body.auto-task-options .auto-task-form button::before{content:"";position:absolute;top:-5px;left:-5px;right:-5px;bottom:-5px;z-index:-1;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:40px;background-size:400%;opacity:-1;transition:.5s}@-webkit-keyframes animate{0%{background-position:0%}100%{background-position:100%}}@keyframes animate{0%{background-position:0%}100%{background-position:100%}}#auto-task-info{position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;max-height:600px;overflow-y:auto;color:#000;background-color:#fff;padding-left:5px;z-index:999999999 !important}#auto-task-info li{text-align:left}#auto-task-info .success{color:green}#auto-task-info .error{color:red}#auto-task-info .warning{color:blue}#auto-task-info .info{color:#ff0}.auto-task-keylol{text-transform:capitalize;margin-left:10px;text-decoration:none !important;border:solid 1px;border-radius:5px;padding:0 2px}.auto-task-keylol[selected=selected]{background-color:blue;color:#fff}.auto-task-form table{font-family:verdana,arial,sans-serif;font-size:11px;color:#333;border-width:1px;border-color:#999;border-collapse:collapse;width:100%}.auto-task-form table thead td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;font-weight:bold;background-color:#fff}.auto-task-form table tbody tr{background-color:#d4e3e5}.auto-task-form table tbody tr:hover{background-color:#ff6 !important}.auto-task-form table tbody tr th{background-color:#c3dde0;border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;text-transform:capitalize}.auto-task-form table tbody tr td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}.swal2-modal{width:70% !important}body.auto-task-options{padding-top:10px;text-align:center}body.auto-task-options .auto-task-form{width:80%;max-width:1000px;margin:0 auto;padding-bottom:20px}body.auto-task-options .auto-task-form input.editOption{width:80%}body.auto-task-options .auto-task-form #getTwitterUserId,body.auto-task-options .auto-task-form #getYoutubeChannelId{margin-top:5px}body.auto-task-options .auto-task-form button{z-index:1}#auto-task-buttons,.show-button-div{position:fixed;top:30px;right:15px;width:auto;z-index:999999999 !important}#auto-task-buttons p,.show-button-div p{line-height:30px;height:40px;text-align:center}#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn{width:150px;height:40px;line-height:30px;font-size:20px}', '' ]);
+      ___CSS_LOADER_EXPORT___.push([ module.id, '.colorful-button,#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn,body.auto-task-options .auto-task-form table button{position:relative;padding:5px 10px;text-align:center;color:#fff;text-decoration:none;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:30px;background-size:400%;text-transform:capitalize}.colorful-button:hover,#auto-task-buttons a.auto-task-website-btn:hover,.show-button-div a.auto-task-website-btn:hover,body.auto-task-options .auto-task-form table button:hover{animation:animate 8s linear infinite}.colorful-button:hover::before,#auto-task-buttons a.auto-task-website-btn:hover::before,.show-button-div a.auto-task-website-btn:hover::before,body.auto-task-options .auto-task-form table button:hover::before{filter:blur(20px);opacity:1}.colorful-button::before,#auto-task-buttons a.auto-task-website-btn::before,.show-button-div a.auto-task-website-btn::before,body.auto-task-options .auto-task-form table button::before{content:"";position:absolute;top:-5px;left:-5px;right:-5px;bottom:-5px;z-index:-1;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:40px;background-size:400%;opacity:-1;transition:.5s}@keyframes animate{0%{background-position:0%}100%{background-position:100%}}#auto-task-info{position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;max-height:600px;overflow-y:auto;color:#000;background-color:#fff;padding-left:5px;z-index:999999999 !important;border:solid 2px #add8e6;border-radius:10px}#auto-task-info li{text-align:left}#auto-task-info .success{color:green}#auto-task-info .error{color:red}#auto-task-info .warning{color:blue}#auto-task-info .info{color:#ff0}.auto-task-keylol{text-transform:capitalize;margin-left:10px;text-decoration:none !important;border:solid 1px;border-radius:5px;padding:0 2px}.auto-task-keylol[selected=selected]{background-color:blue;color:#fff}.auto-task-form table{font-family:verdana,arial,sans-serif;font-size:11px;color:#333;border-width:1px;border-color:#999;border-collapse:collapse;width:100%}.auto-task-form table thead td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;font-weight:bold;background-color:#fff}.auto-task-form table tbody tr{background-color:#d4e3e5}.auto-task-form table tbody tr:hover{background-color:#ff6 !important}.auto-task-form table tbody tr th{background-color:#c3dde0;border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;text-transform:capitalize}.auto-task-form table tbody tr td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}.swal2-modal{width:70% !important;max-width:1000px !important}body.auto-task-options{padding-top:10px;text-align:center}body.auto-task-options .auto-task-form{width:80%;max-width:1000px;margin:0 auto;padding-bottom:20px}body.auto-task-options .auto-task-form table input.editOption{width:80%}body.auto-task-options .auto-task-form table #getTwitterUserId,body.auto-task-options .auto-task-form table #getYoutubeChannelId{margin-top:5px}body.auto-task-options .auto-task-form table button{z-index:1}body.auto-task-options .auto-task-form table input[type=text]{outline-style:none;border:1px solid #ccc;border-radius:3px;padding:5px 10px;font-size:14px}body.auto-task-options .auto-task-form table input[type=text]:focus{border-color:#66afe9;outline:0;box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)}body.auto-task-options .auto-task-form table label{position:relative;width:160px;height:80px;cursor:pointer;transform:scale(0.25);margin:-25% 0;top:-30px}body.auto-task-options .auto-task-form table label input{position:relative;z-index:1;-webkit-appearance:none;appearance:none}body.auto-task-options .auto-task-form table label input:checked~span{background:#05be05;box-shadow:0 15px 25px rgba(5,190,5,0.4)}body.auto-task-options .auto-task-form table label input:checked~span i{left:84px}body.auto-task-options .auto-task-form table label input:checked~span i::before{background:#05be05;box-shadow:35px 0 0 #05be05}body.auto-task-options .auto-task-form table label input:checked~span i::after{bottom:12px;height:15px;border-bottom-left-radius:15px;border-bottom-right-radius:15px;background:#05be05}body.auto-task-options .auto-task-form table label span{position:absolute;top:0;left:0;width:100%;height:100%;background:#fe0000;border-radius:80px;transition:.5s;box-shadow:0 15px 25px rgba(254,0,0,0.4)}body.auto-task-options .auto-task-form table label span i{position:absolute;top:4px;left:4px;width:72px;height:72px;background:#fff;border-radius:50%}body.auto-task-options .auto-task-form table label span i::before{content:"";position:absolute;top:22px;left:12px;width:12px;height:12px;border-radius:50%;background:#fe0000;box-shadow:35px 0 0 #fe0000;transition:.5s}body.auto-task-options .auto-task-form table label span i::after{content:"";position:absolute;bottom:15px;left:calc(50% - 15px);width:30px;height:6px;border-radius:6px;background:#fe0000;transition:.5s}#auto-task-buttons,.show-button-div{position:fixed;top:30px;right:15px;width:150px;z-index:999999999 !important;transform:scale(0.9)}#auto-task-buttons.FreeAnyWhere-buttons,#auto-task-buttons.GiveawaySu-buttons,#auto-task-buttons.GiveeClub-buttons,#auto-task-buttons.Givekey-buttons,#auto-task-buttons.Gleam-buttons,#auto-task-buttons.Indiedb-buttons,#auto-task-buttons.Keyhub-buttons,#auto-task-buttons.Keylol-buttons,#auto-task-buttons.Opquests-buttons,#auto-task-buttons.Prys-buttons,#auto-task-buttons.SweepWidget-buttons,.show-button-div.FreeAnyWhere-buttons,.show-button-div.GiveawaySu-buttons,.show-button-div.GiveeClub-buttons,.show-button-div.Givekey-buttons,.show-button-div.Gleam-buttons,.show-button-div.Indiedb-buttons,.show-button-div.Keyhub-buttons,.show-button-div.Keylol-buttons,.show-button-div.Opquests-buttons,.show-button-div.Prys-buttons,.show-button-div.SweepWidget-buttons{width:130px}#auto-task-buttons p,.show-button-div p{line-height:30px;height:40px;text-align:center;margin:5px !important}#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn{width:150px;height:40px;line-height:30px;font-size:20px}.show-button-div{width:20px}', '' ]);
       const __WEBPACK_DEFAULT_EXPORT__ = ___CSS_LOADER_EXPORT___.toString();
     },
     400: function(module) {
@@ -535,7 +535,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
     const external_Swal_namespaceObject = Swal;
     var external_Swal_default = __webpack_require__.n(external_Swal_namespaceObject);
     const external_Cookies_namespaceObject = Cookies;
-    var auto_task = __webpack_require__(135);
+    var auto_task = __webpack_require__(786);
     var javascript_utils_umd_min = __webpack_require__(514);
     const data = {
       website: '网站',
@@ -621,6 +621,19 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       getYoutubeChannelId: '获取Youtube频道id',
       showButton: '显示按钮',
       hideButton: '隐藏按钮',
+      showLog: '显示日志',
+      hideLog: '隐藏日志',
+      defaultShowButton: '默认显示按钮',
+      defaultShowLog: '默认显示日志',
+      buttonSideX: '按钮区域水平方向定位</br>left: 靠左 | right: 靠右',
+      buttonSideY: '按钮区域垂直方向定位</br>top: 靠上 | bottom: 靠下',
+      buttonDistance: '按钮区域距边缘的距离</br>格式: X距离,Y距离',
+      showButtonSideX: '显示按钮水平方向定位</br>left: 靠左 | right: 靠右',
+      showButtonSideY: '显示按钮垂直方向定位</br>top: 靠上 | bottom: 靠下',
+      showButtonDistance: '显示按钮距边缘的距离</br>格式: X距离,Y距离',
+      logSideX: '日志区域水平方向定位</br>left: 靠左 | right: 靠右',
+      logSideY: '日志区域垂直方向定位</br>top: 靠上 | bottom: 靠下',
+      logDistance: '日志区域距边缘的距离</br>格式: X距离,Y距离',
       groups: '组',
       wishlists: '愿望单',
       follows: '游戏关注',
@@ -1277,7 +1290,17 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         youtubeVerifyChannel: 'UCrXUsMBcfTVqwAS7DKg9C0Q',
         checkLogin: true,
         checkLeftKey: true,
-        defaultShowButton: true
+        defaultShowButton: true,
+        defaultShowLog: true,
+        buttonSideX: 'right',
+        buttonSideY: 'top',
+        buttonDistance: '15,30',
+        showButtonSideX: 'right',
+        showButtonSideY: 'top',
+        showButtonDistance: '15,30',
+        logSideX: 'right',
+        logSideY: 'bottom',
+        logDistance: '10,10'
       }
     };
     const userDefinedGlobalOptions = GM_getValue('globalOptions') || {};
@@ -1332,13 +1355,13 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           for (const [ option, data2 ] of Object.entries(data1)) {
             if (type === 'other') {
               if (typeof data2 === 'boolean') {
-                globalOptionsForm += `<tr>${Object.keys(data1).indexOf(option) === 0 ? `<th rowspan="${Object.keys(data1).length}" style="background-color: ${stringToColour(type)}66">${i18n(type)}</th>` : ''}<td>${i18n(option)}</td><td><input type="checkbox" name="${type}.${option}"${data2 ? ' checked="checked"' : ''}/></td></tr>`;
+                globalOptionsForm += `<tr>${Object.keys(data1).indexOf(option) === 0 ? `<th rowspan="${Object.keys(data1).length}" style="background-color: ${stringToColour(type)}66">${i18n(type)}</th>` : ''}<td>${i18n(option)}</td><td><label><input type="checkbox" name="${type}.${option}"${data2 ? ' checked="checked"' : ''}/><span><i></i></span></label></td></tr>`;
               } else {
                 globalOptionsForm += `<tr>${Object.keys(data1).indexOf(option) === 0 ? `<th rowspan="${Object.keys(data1).length}" style="background-color: ${stringToColour(type)}66">${i18n(type)}</th>` : ''}<td>${i18n(option)}</td><td><input class="editOption" type="text" name="${type}.${option}" value="${data2}"/></td></tr>`;
               }
             } else {
               for (const [ socialType, data3 ] of Object.entries(data2)) {
-                globalOptionsForm += `<tr style="background-color: ${stringToColour(option)}66">${Object.keys(data1).indexOf(option) === 0 ? `<th rowspan="${Object.keys(data1).map(key => Object.keys(data1[key]).length).reduce((acr, cur) => acr + cur)}" style="background-color: ${stringToColour(type)}66">${i18n(type)}</th>` : ''}<td>${option}.${i18n(socialType)}</td><td><input type="checkbox" name="${type}.${option}.${socialType}"${data3 ? ' checked="checked"' : ''}/></td></tr>`;
+                globalOptionsForm += `<tr style="background-color: ${stringToColour(option)}66">${Object.keys(data1).indexOf(option) === 0 ? `<th rowspan="${Object.keys(data1).map(key => Object.keys(data1[key]).length).reduce((acr, cur) => acr + cur)}" style="background-color: ${stringToColour(type)}66">${i18n(type)}</th>` : ''}<td>${option}.${i18n(socialType)}</td><td><label><input type="checkbox" name="${type}.${option}.${socialType}"${data3 ? ' checked="checked"' : ''}/><span><i></i></span></label></td></tr>`;
               }
             }
           }
@@ -9106,17 +9129,93 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         $('body').html('').addClass('auto-task-options');
       }
       after() {
-        Setting_classPrivateMethodGet(this, _environment, _environment2).call(this);
-        changeGlobalOptions('page');
-        whiteList('page');
-        $('input[name="other.twitterVerifyId"]').after(`<button id="getTwitterUserId" type="button">${i18n('getTwitterUserId')}</button>`);
-        $('#getTwitterUserId').on('click', () => {
-          Setting_classPrivateMethodGet(this, Setting_getId, Setting_getId2).call(this, 'twitterUser');
-        });
-        $('input[name="other.youtubeVerifyChannel"]').after(`<button id="getYoutubeChannelId" type="button">${i18n('getYoutubeChannelId')}</button>`);
-        $('#getYoutubeChannelId').on('click', () => {
-          Setting_classPrivateMethodGet(this, Setting_getId, Setting_getId2).call(this, 'youtubeChannel');
-        });
+        try {
+          Setting_classPrivateMethodGet(this, _environment, _environment2).call(this);
+          changeGlobalOptions('page');
+          whiteList('page');
+          $('input[name="other.twitterVerifyId"]').after(`<button id="getTwitterUserId" type="button">${i18n('getTwitterUserId')}</button>`);
+          $('#getTwitterUserId').on('click', () => {
+            Setting_classPrivateMethodGet(this, Setting_getId, Setting_getId2).call(this, 'twitterUser');
+          });
+          $('input[name="other.youtubeVerifyChannel"]').after(`<button id="getYoutubeChannelId" type="button">${i18n('getYoutubeChannelId')}</button>`);
+          $('#getYoutubeChannelId').on('click', () => {
+            Setting_classPrivateMethodGet(this, Setting_getId, Setting_getId2).call(this, 'youtubeChannel');
+          });
+          $('input[name^="other.button"],input[name^="other.showButton"],input[name="other.log"]').on('input', function() {
+            const type = $(this).attr('name').replace('other.', '');
+            const xLabel = 'rightleft';
+            const yLabel = 'topbottpm';
+            switch (type) {
+             case 'buttonSideX':
+             case 'buttonSideY':
+             case 'buttonDistance':
+              {
+                const distance = $('input[name="other.buttonDistance"]').val();
+                const sideX = $('input[name="other.buttonSideX"]').val();
+                const sideY = $('input[name="other.buttonSideY"]').val();
+                if (![ 'right', 'left' ].includes(sideX)) {
+                  break;
+                }
+                if (![ 'top', 'bottom' ].includes(sideY)) {
+                  break;
+                }
+                if (!/^[\d]+?,[\d]+$/.test(distance)) {
+                  break;
+                }
+                const distanceArr = distance.split(',');
+                $('#auto-task-buttons').css(sideX, `${distanceArr[0]}px`).css(sideY, `${distanceArr[1]}px`).css(xLabel.replace(sideX, ''), '').css(yLabel.replace(sideY, ''), '');
+                break;
+              }
+
+             case 'showButtonSideX':
+             case 'showButtonSideY':
+             case 'showButtonDistance':
+              {
+                const distance = $('input[name="other.showButtonDistance"]').val();
+                const sideX = $('input[name="other.showButtonSideX"]').val();
+                const sideY = $('input[name="other.showButtonSideY"]').val();
+                if (![ 'right', 'left' ].includes(sideX)) {
+                  break;
+                }
+                if (![ 'top', 'bottom' ].includes(sideY)) {
+                  break;
+                }
+                if (!/^[\d]+?,[\d]+$/.test(distance)) {
+                  break;
+                }
+                const distanceArr = distance.split(',');
+                $('div.show-button-div').css(sideX, `${distanceArr[0]}px`).css(sideY, `${distanceArr[1]}px`).css(xLabel.replace(sideX, ''), '').css(yLabel.replace(sideY, ''), '');
+                break;
+              }
+
+             case 'logSideX':
+             case 'logSideY':
+             case 'logDistance':
+              {
+                const distance = $('input[name="other.logDistance"]').val();
+                const sideX = $('input[name="other.logSideX"]').val();
+                const sideY = $('input[name="other.logSideY"]').val();
+                if (![ 'right', 'left' ].includes(sideX)) {
+                  break;
+                }
+                if (![ 'top', 'bottom' ].includes(sideY)) {
+                  break;
+                }
+                if (!/^[\d]+?,[\d]+$/.test(distance)) {
+                  break;
+                }
+                const distanceArr = distance.split(',');
+                $('#auto-task-info').css(sideX, `${distanceArr[0]}px`).css(sideY, `${distanceArr[1]}px`).css(xLabel.replace(sideX, ''), '').css(yLabel.replace(sideY, ''), '');
+                break;
+              }
+
+             default:
+              break;
+            }
+          });
+        } catch (error) {
+          throwError(error, 'Setting.after');
+        }
       }
       saveGlobalOptions() {
         saveData();
@@ -9278,7 +9377,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       if ((_website = website) !== null && _website !== void 0 && _website.before) {
         await ((_website2 = website) === null || _website2 === void 0 ? void 0 : _website2.before());
       }
-      $('body').append(`<div id="auto-task-info"></div><div id="auto-task-buttons" style="display:${globalOptions.other.defaultShowButton ? 'block' : 'none'};"></div><div class="show-button-div" style="display:${globalOptions.other.defaultShowButton ? 'none' : 'block'};"><a class="auto-task-website-btn" href="javascript:void(0);" target="_self" title="${i18n('showButton')}"></a></div>`);
+      $('body').append(`<div id="auto-task-info" style="display:${globalOptions.other.defaultShowLog ? 'block' : 'none'};${globalOptions.other.logSideX}:${globalOptions.other.logDistance.split(',')[0]}px;${globalOptions.other.logSideY}:${globalOptions.other.logDistance.split(',')[1]}px;"></div><div id="auto-task-buttons" style="display:${globalOptions.other.defaultShowButton ? 'block' : 'none'};${globalOptions.other.buttonSideX}:${globalOptions.other.buttonDistance.split(',')[0]}px;${globalOptions.other.buttonSideY}:${globalOptions.other.buttonDistance.split(',')[1]}px;"></div><div class="show-button-div" style="display:${globalOptions.other.defaultShowButton ? 'none' : 'block'};${globalOptions.other.showButtonSideX}:${globalOptions.other.showButtonDistance.split(',')[0]}px;${globalOptions.other.showButtonSideY}:${globalOptions.other.showButtonDistance.split(',')[1]}px;"><a class="auto-task-website-btn" href="javascript:void(0);" target="_self" title="${i18n('showButton')}"></a></div>`);
       $('a.auto-task-website-btn').on('click', () => {
         $('#auto-task-buttons').show();
         $('div.show-button-div').hide();
@@ -9290,18 +9389,34 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         $('#auto-task-buttons').addClass(`${website.name}-buttons`);
         for (const button of website.buttons) {
           if (website[button]) {
-            const btnElement = $(`<p><a class="auto-task-website-btn ${website.name}-button" href="javascript:void(0);" target="_self">${i18n(button)}</a></p>`).on('click', () => {
+            const btnElement = $(`<p><a class="auto-task-website-btn ${website.name}-button" href="javascript:void(0);" target="_self">${i18n(button)}</a></p>`);
+            btnElement.find('a.auto-task-website-btn').on('click', () => {
               website[button]();
             });
             $('#auto-task-buttons').append(btnElement);
           }
         }
       }
-      const hideButtonElement = $(`<p><a class="auto-task-website-btn ${website.name}-button" href="javascript:void(0);" target="_self">${i18n('hideButton')}</a></p>`).on('click', () => {
+      const hideButtonElement = $(`<p><a class="auto-task-website-btn ${website.name}-button" href="javascript:void(0);" target="_self">
+    ${i18n('hideButton')}</a></p>`);
+      hideButtonElement.find('a.auto-task-website-btn').on('click', () => {
         $('#auto-task-buttons').hide();
         $('div.show-button-div').show();
       });
-      $('#auto-task-buttons').append(hideButtonElement);
+      const hideLogElement = $(`<p><a class="auto-task-website-btn ${website.name}-button" href="javascript:void(0);" target="_self" data-status="show">
+    ${i18n('hideLog')}</a></p>`);
+      hideLogElement.find('a.auto-task-website-btn').on('click', function() {
+        const $this = $(this);
+        const status = $this.attr('data-status');
+        if (status === 'show') {
+          $('#auto-task-info').hide();
+          $this.attr('data-status', 'hide').text(i18n('showLog'));
+        } else {
+          $('#auto-task-info').show();
+          $this.attr('data-status', 'show').text(i18n('hideLog'));
+        }
+      });
+      $('#auto-task-buttons').append(hideButtonElement).append(hideLogElement);
       if ((_website6 = website) !== null && _website6 !== void 0 && _website6.options) {
         GM_registerMenuCommand(i18n('changeWebsiteOptions'), () => {
           options(website.name, website.options);
@@ -9325,7 +9440,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     if (window.location.hostname === 'opquests.com') {
       loadScript();
     } else {
-      window.onload = loadScript;
+      $(loadScript);
     }
   }();
 })();
