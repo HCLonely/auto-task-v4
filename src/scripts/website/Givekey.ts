@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-13 17:57:40
- * @LastEditTime : 2021-12-25 13:03:10
+ * @LastEditTime : 2021-12-28 19:03:36
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Givekey.ts
  * @Description  : https://givekey.ru
@@ -99,7 +99,7 @@ class Givekey extends Website {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
       if (action === 'undo') {
-        this.socialTasks = GM_getValue<gkSocialTasks>(`gkTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
+        this.socialTasks = GM_getValue<gkGMTasks>(`gkTasks-${this.giveawayId}`)?.tasks || defaultTasks; // eslint-disable-line new-cap
       }
 
       const tasks = $('.card-body:has("button") .row');
@@ -155,7 +155,7 @@ class Givekey extends Website {
       this.tasks = unique(this.tasks);
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as gkSocialTasks;
       this.socialTasks = this.uniqueTasks(this.socialTasks) as gkSocialTasks;
-      GM_setValue(`gkTasks-${this.giveawayId}`, this.socialTasks); // eslint-disable-line new-cap
+      GM_setValue(`gkTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() }); // eslint-disable-line new-cap
       return true;
     } catch (error) {
       throwError(error as Error, 'Givekey.classifyTask');

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2021-12-26 19:55:36
+ * @LastEditTime : 2021-12-28 19:05:29
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
  * @Description  : https://key-hub.eu/
@@ -79,7 +79,7 @@ class Keyhub extends Website {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
       if (action === 'undo') {
-        this.socialTasks = GM_getValue<khSocialTasks>(`khTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
+        this.socialTasks = GM_getValue<khGMTasks>(`khTasks-${this.giveawayId}`)?.tasks || { ...defaultTasks }; // eslint-disable-line new-cap
       }
 
       const tasks = $('.task a');
@@ -115,7 +115,7 @@ class Keyhub extends Website {
       logStatus.success();
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as khSocialTasks;
       this.socialTasks = this.uniqueTasks(this.socialTasks) as khSocialTasks;
-      GM_setValue(`khTasks-${this.giveawayId}`, this.socialTasks); // eslint-disable-line new-cap
+      GM_setValue(`khTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() }); // eslint-disable-line new-cap
       return true;
     } catch (error) {
       throwError(error as Error, 'Keyhub.classifyTask');

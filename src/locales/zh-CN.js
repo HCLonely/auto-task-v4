@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2021-12-28 17:54:28
+ * @LastEditTime : 2021-12-29 17:43:53
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -109,6 +109,24 @@ const data = {
   doTaskKey: '做任务快捷键</br>(实时预览功能仅在设置页面可用)',
   undoTaskKey: '撤销任务快捷键</br>(实时预览功能仅在设置页面可用)',
   toggleLogKey: '显示/隐藏日志快捷键</br>(实时预览功能仅在设置页面可用)',
+  clearHistory: '清空历史',
+  clearHistoryFinished: '已清空任务历史！',
+  deleteTask: '删除任务',
+  lastChangeTime: '最后一次修改时间',
+  clearTaskFinished: '删除以下任务完成！',
+  clearTaskFailed: '删除任务失败，没有找到任务名！',
+  groupLinks: '群组',
+  wishlistLinks: '愿望单',
+  curatorLinks: '鉴赏家',
+  curatorLikeLinks: '开发商等',
+  followLinks: '关注游戏',
+  forumLinks: '论坛',
+  announcementLinks: '通知',
+  workshopVoteLinks: '创意工坊点赞',
+  nameLinks: '任务',
+  serverLinks: '服务器',
+  userLinks: '用户',
+  channelLinks: '频道',
 
   // Steam
   groups: '组',
@@ -117,7 +135,7 @@ const data = {
   forums: '论坛',
   workshops: '创意工坊收藏',
   curators: '鉴赏家',
-  workshopVotes: '创意工坊点在',
+  workshopVotes: '创意工坊点赞',
   announcements: '社区通知',
   steamCommunity: 'Steam社区',
   steamStore: 'Steam商店',

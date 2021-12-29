@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 13:18:21
- * @LastEditTime : 2021-12-26 12:17:24
+ * @LastEditTime : 2021-12-28 19:15:44
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/global.d.ts
  */
@@ -170,13 +170,16 @@ declare global {
       name: string
     }
   }
-  const GM_info: gmInfo; // eslint-disable-line camelcase
-  function GM_xmlhttpRequest(details: MonkeyXhrDetails): { abort: () => void } // eslint-disable-line camelcase
-  function GM_addStyle(style: string): void // eslint-disable-line camelcase
-  function GM_setValue(name: string, value: any): void // eslint-disable-line camelcase
-  function GM_getValue<T>(name: string, defaultValue?: T): undefined | T // eslint-disable-line camelcase
-  function GM_registerMenuCommand(name: string, callback: () => void): void // eslint-disable-line camelcase
-  function GM_openInTab(url: string, options?: { // eslint-disable-line camelcase
+  /* eslint-disable camelcase */
+  const GM_info: gmInfo;
+  function GM_xmlhttpRequest(details: MonkeyXhrDetails): { abort: () => void }
+  function GM_addStyle(style: string): void
+  function GM_setValue(name: string, value: any): void
+  function GM_getValue<T>(name: string, defaultValue?: T): undefined | T
+  function GM_listValues(): Array<string>
+  function GM_deleteValue(name: string): void
+  function GM_registerMenuCommand(name: string, callback: () => void): void
+  function GM_openInTab(url: string, options?: {
     active?: boolean
     insert?: boolean
     setParent?: boolean
@@ -185,7 +188,8 @@ declare global {
     close: () => void
     onclose: () => void
     closed: boolean
-  }
+    }
+  /* eslint-enable camelcase */
   function sha1(value: string): string
 
 }

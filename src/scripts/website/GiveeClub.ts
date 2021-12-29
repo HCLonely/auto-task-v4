@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 11:46:52
- * @LastEditTime : 2021-12-26 19:53:35
+ * @LastEditTime : 2021-12-28 19:03:08
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/GiveeClub.ts
  * @Description  : https://givee.club/
@@ -60,7 +60,7 @@ class GiveeClub extends GiveawaySu {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
       if (action === 'undo') {
-        this.socialTasks = GM_getValue<gasSocialTasks>(`gcTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
+        this.socialTasks = GM_getValue<gasGMTasks>(`gcTasks-${this.giveawayId}`)?.tasks || defaultTasks; // eslint-disable-line new-cap
         return true;
       }
 
@@ -130,7 +130,7 @@ class GiveeClub extends GiveawaySu {
       logStatus.success();
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as gasSocialTasks;
       this.socialTasks = this.undoneTasks;
-      GM_setValue(`gcTasks-${this.giveawayId}`, this.socialTasks); // eslint-disable-line new-cap
+      GM_setValue(`gcTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() }); // eslint-disable-line new-cap
       return true;
     } catch (error) {
       throwError(error as Error, 'GiveeClub.classifyTask');

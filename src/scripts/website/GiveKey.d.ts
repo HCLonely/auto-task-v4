@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-24 15:48:27
- * @LastEditTime : 2021-12-24 15:48:28
+ * @LastEditTime : 2021-12-28 19:03:26
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/GiveKey.d.ts
  */
@@ -22,4 +22,8 @@ declare interface gkSocialTasks {
   discord: {
     serverLinks: Array<string>
   }
+}
+declare interface gkGMTasks {
+  tasks: gkSocialTasks
+  time: number
 }

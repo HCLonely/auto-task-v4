@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:43:23
- * @LastEditTime : 2021-12-24 15:49:40
+ * @LastEditTime : 2021-12-28 19:01:56
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.d.ts
  */
@@ -36,6 +36,10 @@ declare interface gasSocialTasks {
     channelLinks: Array<string>
     likeLinks: Array<string>
   }
+}
+declare interface gasGMTasks {
+  tasks: gasSocialTasks
+  time: number
 }
 declare interface gasTaskInfo {
   id: string

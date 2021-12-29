@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.30-Alpha
+// @version            4.0.31-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -27,6 +27,7 @@
 // @include            *://*.reddit.com/*
 // @include            *://twitter.com/settings/account?k*
 // @include            https://auto-task.hclonely.com/setting.html
+// @include            https://auto-task-test.hclonely.com/setting.html
 
 // @grant              GM_setValue
 // @grant              GM_getValue
@@ -76,6 +77,8 @@
 // @require            https://cdn.jsdelivr.net/npm/js-sha1@0.6.0/src/sha1.min.js
 // @require            https://cdn.jsdelivr.net/npm/sweetalert2@11
 // @require            https://cdn.jsdelivr.net/npm/keyboardjs@2.6.4/dist/keyboard.min.js
+// @require            https://cdn.jsdelivr.net/npm/dayjs@1.10.7/dayjs.min.js
+// @noframes
 // ==/UserScript==
 
 console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
@@ -399,7 +402,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       var _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(400);
       var _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(_node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
       var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(_node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default());
-      ___CSS_LOADER_EXPORT___.push([ module.id, '.colorful-button,#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn,body.auto-task-options .auto-task-form table button{position:relative;padding:5px 10px;text-align:center;color:#fff;text-decoration:none;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:30px;background-size:400%;text-transform:capitalize}.colorful-button:hover,#auto-task-buttons a.auto-task-website-btn:hover,.show-button-div a.auto-task-website-btn:hover,body.auto-task-options .auto-task-form table button:hover{animation:animate 8s linear infinite}.colorful-button:hover::before,#auto-task-buttons a.auto-task-website-btn:hover::before,.show-button-div a.auto-task-website-btn:hover::before,body.auto-task-options .auto-task-form table button:hover::before{filter:blur(20px);opacity:1}.colorful-button::before,#auto-task-buttons a.auto-task-website-btn::before,.show-button-div a.auto-task-website-btn::before,body.auto-task-options .auto-task-form table button::before{content:"";position:absolute;top:-5px;left:-5px;right:-5px;bottom:-5px;z-index:-1;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:40px;background-size:400%;opacity:-1;transition:.5s}@keyframes animate{0%{background-position:0%}100%{background-position:100%}}#auto-task-info{position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;max-height:600px;overflow-y:auto;color:#000;background-color:#fff;padding-left:5px;z-index:999999999 !important;border:solid 2px #add8e6;border-radius:10px}#auto-task-info li{text-align:left}#auto-task-info .success{color:green}#auto-task-info .error{color:red}#auto-task-info .warning{color:blue}#auto-task-info .info{color:#ff0}.auto-task-keylol{text-transform:capitalize;margin-left:10px;text-decoration:none !important;border:solid 1px;border-radius:5px;padding:0 2px}.auto-task-keylol[selected=selected]{background-color:blue;color:#fff}.auto-task-form table{font-family:verdana,arial,sans-serif;font-size:11px;color:#333;border-width:1px;border-color:#999;border-collapse:collapse;width:100%}.auto-task-form table thead td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;font-weight:bold;background-color:#fff}.auto-task-form table tbody tr{background-color:#d4e3e5}.auto-task-form table tbody tr:hover{background-color:#ff6 !important}.auto-task-form table tbody tr th{background-color:#c3dde0;border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;text-transform:capitalize}.auto-task-form table tbody tr td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}.swal2-modal{width:70% !important;max-width:1000px !important}body.auto-task-options{padding-top:10px;text-align:center}body.auto-task-options .auto-task-form{width:80%;max-width:1000px;margin:0 auto;padding-bottom:20px}body.auto-task-options .auto-task-form table input.editOption{width:80%}body.auto-task-options .auto-task-form table #getTwitterUserId,body.auto-task-options .auto-task-form table #getYoutubeChannelId{margin-top:5px}body.auto-task-options .auto-task-form table button{z-index:1}body.auto-task-options .auto-task-form table input[type=text]{outline-style:none;border:1px solid #ccc;border-radius:3px;padding:5px 10px;font-size:14px}body.auto-task-options .auto-task-form table input[type=text]:focus{border-color:#66afe9;outline:0;box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)}body.auto-task-options .auto-task-form table label{position:relative;width:160px;height:80px;cursor:pointer;transform:scale(0.25);margin:-25% 0;top:-30px}body.auto-task-options .auto-task-form table label input{position:relative;z-index:1;-webkit-appearance:none;appearance:none}body.auto-task-options .auto-task-form table label input:checked~span{background:#05be05;box-shadow:0 15px 25px rgba(5,190,5,0.4)}body.auto-task-options .auto-task-form table label input:checked~span i{left:84px}body.auto-task-options .auto-task-form table label input:checked~span i::before{background:#05be05;box-shadow:35px 0 0 #05be05}body.auto-task-options .auto-task-form table label input:checked~span i::after{bottom:12px;height:15px;border-bottom-left-radius:15px;border-bottom-right-radius:15px;background:#05be05}body.auto-task-options .auto-task-form table label span{position:absolute;top:0;left:0;width:100%;height:100%;background:#fe0000;border-radius:80px;transition:.5s;box-shadow:0 15px 25px rgba(254,0,0,0.4)}body.auto-task-options .auto-task-form table label span i{position:absolute;top:4px;left:4px;width:72px;height:72px;background:#fff;border-radius:50%}body.auto-task-options .auto-task-form table label span i::before{content:"";position:absolute;top:22px;left:12px;width:12px;height:12px;border-radius:50%;background:#fe0000;box-shadow:35px 0 0 #fe0000;transition:.5s}body.auto-task-options .auto-task-form table label span i::after{content:"";position:absolute;bottom:15px;left:calc(50% - 15px);width:30px;height:6px;border-radius:6px;background:#fe0000;transition:.5s}#auto-task-buttons,.show-button-div{position:fixed;top:30px;right:15px;width:150px;z-index:999999999 !important;transform:scale(0.9)}#auto-task-buttons.FreeAnyWhere-buttons,#auto-task-buttons.GiveawaySu-buttons,#auto-task-buttons.GiveeClub-buttons,#auto-task-buttons.Givekey-buttons,#auto-task-buttons.Gleam-buttons,#auto-task-buttons.Indiedb-buttons,#auto-task-buttons.Keyhub-buttons,#auto-task-buttons.Keylol-buttons,#auto-task-buttons.Opquests-buttons,#auto-task-buttons.Prys-buttons,#auto-task-buttons.SweepWidget-buttons,.show-button-div.FreeAnyWhere-buttons,.show-button-div.GiveawaySu-buttons,.show-button-div.GiveeClub-buttons,.show-button-div.Givekey-buttons,.show-button-div.Gleam-buttons,.show-button-div.Indiedb-buttons,.show-button-div.Keyhub-buttons,.show-button-div.Keylol-buttons,.show-button-div.Opquests-buttons,.show-button-div.Prys-buttons,.show-button-div.SweepWidget-buttons{width:130px}#auto-task-buttons p,.show-button-div p{line-height:30px;height:40px;text-align:center;margin:5px !important}#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn{width:150px;height:40px;line-height:30px;font-size:20px}.show-button-div{width:20px}', '' ]);
+      ___CSS_LOADER_EXPORT___.push([ module.id, '.colorful-button,#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn,body.auto-task-options .auto-task-form table button{position:relative;padding:5px 10px;text-align:center;color:#fff;text-decoration:none;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:30px;background-size:400%;text-transform:capitalize}.colorful-button:hover,#auto-task-buttons a.auto-task-website-btn:hover,.show-button-div a.auto-task-website-btn:hover,body.auto-task-options .auto-task-form table button:hover{animation:animate 8s linear infinite;cursor:pointer}.colorful-button:hover::before,#auto-task-buttons a.auto-task-website-btn:hover::before,.show-button-div a.auto-task-website-btn:hover::before,body.auto-task-options .auto-task-form table button:hover::before{filter:blur(20px);opacity:1}.colorful-button::before,#auto-task-buttons a.auto-task-website-btn::before,.show-button-div a.auto-task-website-btn::before,body.auto-task-options .auto-task-form table button::before{content:"";position:absolute;top:-5px;left:-5px;right:-5px;bottom:-5px;z-index:-1;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:40px;background-size:400%;opacity:-1;transition:.5s}@keyframes animate{0%{background-position:0%}100%{background-position:100%}}#auto-task-info{position:fixed;bottom:10px;right:10px;width:300px;max-width:60%;max-height:600px;overflow-y:auto;color:#000;background-color:#fff;padding-left:5px;z-index:999999999 !important;border:solid 2px #add8e6;border-radius:10px}#auto-task-info li{text-align:left}#auto-task-info .success{color:green}#auto-task-info .error{color:red}#auto-task-info .warning{color:blue}#auto-task-info .info{color:#ff0}.auto-task-keylol{text-transform:capitalize;margin-left:10px;text-decoration:none !important;border:solid 1px;border-radius:5px;padding:0 2px}.auto-task-keylol[selected=selected]{background-color:blue !important;color:#fff !important}.auto-task-form table{font-family:verdana,arial,sans-serif;font-size:11px;color:#333;border-width:1px;border-color:#999;border-collapse:collapse;width:100%}.auto-task-form table thead td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;font-weight:bold;background-color:#fff}.auto-task-form table tbody tr{background-color:#d4e3e5}.auto-task-form table tbody tr:hover{background-color:#ff6 !important}.auto-task-form table tbody tr th{background-color:#c3dde0;border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;text-transform:capitalize}.auto-task-form table tbody tr td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}.swal2-modal{width:70% !important;max-width:1000px !important}body.auto-task-options{padding-top:10px;text-align:center}body.auto-task-options .auto-task-form{width:80%;max-width:1000px;margin:0 auto;padding-bottom:20px}body.auto-task-options .auto-task-form table input.editOption{width:80%}body.auto-task-options .auto-task-form table #getTwitterUserId,body.auto-task-options .auto-task-form table #getYoutubeChannelId{margin-top:5px}body.auto-task-options .auto-task-form table button{z-index:1}body.auto-task-options .auto-task-form table input[type=text]{outline-style:none;border:1px solid #ccc;border-radius:3px;padding:5px 10px;font-size:14px}body.auto-task-options .auto-task-form table input[type=text]:focus{border-color:#66afe9;outline:0;box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)}body.auto-task-options .auto-task-form table label{position:relative;width:160px;height:80px;cursor:pointer;transform:scale(0.25);margin:-25% 0;top:-30px;display:inline-block}body.auto-task-options .auto-task-form table label input{position:relative;z-index:1;-webkit-appearance:none;appearance:none}body.auto-task-options .auto-task-form table label input:checked~span{background:#05be05;box-shadow:0 15px 25px rgba(5,190,5,0.4)}body.auto-task-options .auto-task-form table label input:checked~span i{left:84px}body.auto-task-options .auto-task-form table label input:checked~span i::before{background:#05be05;box-shadow:35px 0 0 #05be05}body.auto-task-options .auto-task-form table label input:checked~span i::after{bottom:12px;height:15px;border-bottom-left-radius:15px;border-bottom-right-radius:15px;background:#05be05}body.auto-task-options .auto-task-form table label span{position:absolute;top:0;left:0;width:100%;height:100%;background:#fe0000;border-radius:80px;transition:.5s;box-shadow:0 15px 25px rgba(254,0,0,0.4)}body.auto-task-options .auto-task-form table label span i{position:absolute;top:4px;left:4px;width:72px;height:72px;background:#fff;border-radius:50%}body.auto-task-options .auto-task-form table label span i::before{content:"";position:absolute;top:22px;left:12px;width:12px;height:12px;border-radius:50%;background:#fe0000;box-shadow:35px 0 0 #fe0000;transition:.5s}body.auto-task-options .auto-task-form table label span i::after{content:"";position:absolute;bottom:15px;left:calc(50% - 15px);width:30px;height:6px;border-radius:6px;background:#fe0000;transition:.5s}body.auto-task-history{font-size:15px;font-weight:400;line-height:1.5}body.auto-task-history .container a{color:#007bff;text-decoration:none;background-color:transparent}body.auto-task-history .container .card{width:80%;max-width:800px;border-radius:10px;background:rgba(118,118,118,0.10196);border-top:1px solid rgba(255,255,255,0.50196);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 15px 25px rgba(0,0,0,0.10196);margin:20px auto;position:relative;display:flex;flex-direction:column;word-wrap:break-word;background-clip:border-box;border:1px solid rgba(0,0,0,.125);border-radius:.25rem}body.auto-task-history .container .card .title{text-align:center;font-size:30px;font-weight:bold;margin:5px 0}body.auto-task-history .container .card .title a:hover{text-decoration:none}body.auto-task-history .container .card ul{margin-bottom:25px}body.auto-task-history .container .card ul a:hover{text-decoration:underline}body.auto-task-history .container .card .delete-task{right:10px;width:38px;height:35px;position:absolute;font-size:24px;cursor:pointer;border-radius:10px}body.auto-task-history .container .card .delete-task:hover{background:#fff}body.auto-task-history .container .card .time{right:5px;position:absolute;bottom:0;color:#e83e8c;font-family:\'SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace\';font-size:15px}#auto-task-buttons,.show-button-div{position:fixed;top:30px;right:15px;width:150px;z-index:999999999 !important;transform:scale(0.9)}#auto-task-buttons.FreeAnyWhere-buttons,#auto-task-buttons.GiveawaySu-buttons,#auto-task-buttons.GiveeClub-buttons,#auto-task-buttons.Givekey-buttons,#auto-task-buttons.Gleam-buttons,#auto-task-buttons.Indiedb-buttons,#auto-task-buttons.Keyhub-buttons,#auto-task-buttons.Keylol-buttons,#auto-task-buttons.Opquests-buttons,#auto-task-buttons.Prys-buttons,#auto-task-buttons.SweepWidget-buttons,.show-button-div.FreeAnyWhere-buttons,.show-button-div.GiveawaySu-buttons,.show-button-div.GiveeClub-buttons,.show-button-div.Givekey-buttons,.show-button-div.Gleam-buttons,.show-button-div.Indiedb-buttons,.show-button-div.Keyhub-buttons,.show-button-div.Keylol-buttons,.show-button-div.Opquests-buttons,.show-button-div.Prys-buttons,.show-button-div.SweepWidget-buttons{width:130px}#auto-task-buttons p,.show-button-div p{line-height:30px;height:40px;text-align:center;margin:5px !important}#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn{width:150px;height:40px;line-height:30px;font-size:20px}.show-button-div{width:20px}', '' ]);
       const __WEBPACK_DEFAULT_EXPORT__ = ___CSS_LOADER_EXPORT___.toString();
     },
     400: function(module) {
@@ -640,13 +643,31 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       doTaskKey: '做任务快捷键</br>(实时预览功能仅在设置页面可用)',
       undoTaskKey: '撤销任务快捷键</br>(实时预览功能仅在设置页面可用)',
       toggleLogKey: '显示/隐藏日志快捷键</br>(实时预览功能仅在设置页面可用)',
+      clearHistory: '清空历史',
+      clearHistoryFinished: '已清空任务历史！',
+      deleteTask: '删除任务',
+      lastChangeTime: '最后一次修改时间',
+      clearTaskFinished: '删除以下任务完成！',
+      clearTaskFailed: '删除任务失败，没有找到任务名！',
+      groupLinks: '群组',
+      wishlistLinks: '愿望单',
+      curatorLinks: '鉴赏家',
+      curatorLikeLinks: '开发商等',
+      followLinks: '关注游戏',
+      forumLinks: '论坛',
+      announcementLinks: '通知',
+      workshopVoteLinks: '创意工坊点赞',
+      nameLinks: '任务',
+      serverLinks: '服务器',
+      userLinks: '用户',
+      channelLinks: '频道',
       groups: '组',
       wishlists: '愿望单',
       follows: '游戏关注',
       forums: '论坛',
       workshops: '创意工坊收藏',
       curators: '鉴赏家',
-      workshopVotes: '创意工坊点在',
+      workshopVotes: '创意工坊点赞',
       announcements: '社区通知',
       steamCommunity: 'Steam社区',
       steamStore: 'Steam商店',
@@ -6045,7 +6066,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             text: i18n('getTasksInfo')
           });
           if (action === 'undo') {
-            this.socialTasks = GM_getValue(`fawTasks-${this.giveawayId}`) || {
+            var _GM_getValue;
+            this.socialTasks = ((_GM_getValue = GM_getValue(`fawTasks-${this.giveawayId}`)) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.tasks) || {
               ...FreeAnyWhere_defaultTasks
             };
           }
@@ -6145,7 +6167,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
               logStatus.success();
               this.undoneTasks = this.uniqueTasks(this.undoneTasks);
               this.socialTasks = this.uniqueTasks(this.socialTasks);
-              GM_setValue(`fawTasks-${this.giveawayId}`, this.socialTasks);
+              GM_setValue(`fawTasks-${this.giveawayId}`, {
+                tasks: this.socialTasks,
+                time: new Date().getTime()
+              });
               return true;
             }
             logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
@@ -6394,7 +6419,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             text: i18n('getTasksInfo')
           });
           if (action === 'undo') {
-            this.socialTasks = GM_getValue(`gasTasks-${this.giveawayId}`) || GiveawaySu_defaultTasks;
+            var _GM_getValue;
+            this.socialTasks = ((_GM_getValue = GM_getValue(`gasTasks-${this.giveawayId}`)) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.tasks) || GiveawaySu_defaultTasks;
             return true;
           }
           const pro = [];
@@ -6469,7 +6495,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           logStatus.success();
           this.undoneTasks = this.uniqueTasks(this.undoneTasks);
           this.socialTasks = this.undoneTasks;
-          GM_setValue(`gasTasks-${this.giveawayId}`, this.socialTasks);
+          GM_setValue(`gasTasks-${this.giveawayId}`, {
+            tasks: this.socialTasks,
+            time: new Date().getTime()
+          });
           return true;
         } catch (error) {
           throwError(error, 'Giveawaysu.classifyTask');
@@ -6987,7 +7016,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             text: i18n('getTasksInfo')
           });
           if (action === 'undo') {
-            this.socialTasks = GM_getValue(`khTasks-${this.giveawayId}`) || {
+            var _GM_getValue;
+            this.socialTasks = ((_GM_getValue = GM_getValue(`khTasks-${this.giveawayId}`)) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.tasks) || {
               ...Keyhub_defaultTasks
             };
           }
@@ -7040,7 +7070,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           logStatus.success();
           this.undoneTasks = this.uniqueTasks(this.undoneTasks);
           this.socialTasks = this.uniqueTasks(this.socialTasks);
-          GM_setValue(`khTasks-${this.giveawayId}`, this.socialTasks);
+          GM_setValue(`khTasks-${this.giveawayId}`, {
+            tasks: this.socialTasks,
+            time: new Date().getTime()
+          });
           return true;
         } catch (error) {
           throwError(error, 'Keyhub.classifyTask');
@@ -7242,7 +7275,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             text: i18n('getTasksInfo')
           });
           if (action === 'undo') {
-            this.socialTasks = GM_getValue(`gkTasks-${this.giveawayId}`) || Givekey_defaultTasks;
+            var _GM_getValue;
+            this.socialTasks = ((_GM_getValue = GM_getValue(`gkTasks-${this.giveawayId}`)) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.tasks) || Givekey_defaultTasks;
           }
           const tasks = $('.card-body:has("button") .row');
           for (const task of tasks) {
@@ -7318,7 +7352,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           this.tasks = unique(this.tasks);
           this.undoneTasks = this.uniqueTasks(this.undoneTasks);
           this.socialTasks = this.uniqueTasks(this.socialTasks);
-          GM_setValue(`gkTasks-${this.giveawayId}`, this.socialTasks);
+          GM_setValue(`gkTasks-${this.giveawayId}`, {
+            tasks: this.socialTasks,
+            time: new Date().getTime()
+          });
           return true;
         } catch (error) {
           throwError(error, 'Givekey.classifyTask');
@@ -7531,7 +7568,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             text: i18n('getTasksInfo')
           });
           if (action === 'undo') {
-            this.socialTasks = GM_getValue(`gcTasks-${this.giveawayId}`) || GiveawaySu_defaultTasks;
+            var _GM_getValue;
+            this.socialTasks = ((_GM_getValue = GM_getValue(`gcTasks-${this.giveawayId}`)) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.tasks) || GiveawaySu_defaultTasks;
             return true;
           }
           const pro = [];
@@ -7594,7 +7632,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           logStatus.success();
           this.undoneTasks = this.uniqueTasks(this.undoneTasks);
           this.socialTasks = this.undoneTasks;
-          GM_setValue(`gcTasks-${this.giveawayId}`, this.socialTasks);
+          GM_setValue(`gcTasks-${this.giveawayId}`, {
+            tasks: this.socialTasks,
+            time: new Date().getTime()
+          });
           return true;
         } catch (error) {
           throwError(error, 'GiveeClub.classifyTask');
@@ -7906,7 +7947,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       after() {
         try {
-          const mainPost = $('#postlist>div[id^="post_"]:first');
+          const selecter = this.name === 'Keylol' ? '#postlist>div[id^="post_"]:first' : 'div.container';
+          const mainPost = $(selecter);
           const discordLinks = mainPost.find('a[href*="discord.com"]');
           const redditLinks = mainPost.find('a[href*="reddit.com"]');
           const insLinks = mainPost.find('a[href*="instagram.com"]');
@@ -8388,7 +8430,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             text: i18n('getTasksInfo')
           });
           if (action === 'undo') {
-            this.socialTasks = GM_getValue(`gleamTasks-${this.giveawayId}`) || {
+            var _GM_getValue;
+            this.socialTasks = ((_GM_getValue = GM_getValue(`gleamTasks-${this.giveawayId}`)) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.tasks) || {
               ...Gleam_defaultTasks
             };
           }
@@ -8528,7 +8571,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           logStatus.success();
           this.undoneTasks = this.uniqueTasks(this.undoneTasks);
           this.socialTasks = this.uniqueTasks(this.socialTasks);
-          GM_setValue(`gleamTasks-${this.giveawayId}`, this.socialTasks);
+          GM_setValue(`gleamTasks-${this.giveawayId}`, {
+            tasks: this.socialTasks,
+            time: new Date().getTime()
+          });
           return true;
         } catch (error) {
           throwError(error, 'Gleam.classifyTask');
@@ -9291,7 +9337,153 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
     }
     const website_Setting = Setting;
-    const Websites = [ website_FreeAnyWhere, GiveawaySu, website_Indiedb, website_Keyhub, website_Givekey, website_GiveeClub, website_OpiumPulses, website_Keylol, website_Opquests, website_Gleam, website_SweepWidget, website_Setting ];
+    const external_dayjs_namespaceObject = dayjs;
+    function History_classPrivateMethodInitSpec(obj, privateSet) {
+      History_checkPrivateRedeclaration(obj, privateSet);
+      privateSet.add(obj);
+    }
+    function History_checkPrivateRedeclaration(obj, privateCollection) {
+      if (privateCollection.has(obj)) {
+        throw new TypeError('Cannot initialize the same private elements twice on an object');
+      }
+    }
+    function History_defineProperty(obj, key, value) {
+      if (key in obj) {
+        Object.defineProperty(obj, key, {
+          value: value,
+          enumerable: true,
+          configurable: true,
+          writable: true
+        });
+      } else {
+        obj[key] = value;
+      }
+      return obj;
+    }
+    function History_classPrivateMethodGet(receiver, privateSet, fn) {
+      if (!privateSet.has(receiver)) {
+        throw new TypeError('attempted to get private field on non-instance');
+      }
+      return fn;
+    }
+    var _addItem = new WeakSet();
+    class History extends website_Keylol {
+      constructor() {
+        super(...arguments);
+        History_classPrivateMethodInitSpec(this, _addItem);
+        History_defineProperty(this, 'name', 'History');
+        History_defineProperty(this, 'buttons', [ 'doTask', 'undoTask', 'selectAll', 'selectNone', 'invertSelect', 'clearHistory' ]);
+      }
+      static test() {
+        return window.location.host === 'auto-task-test.hclonely.com' && window.location.pathname === '/setting.html';
+      }
+      before() {
+        try {
+          $('body').html('<div class="container"></div>').addClass('auto-task-history');
+          const data = GM_listValues() || [];
+          const tasksHistory = data.map(value => /^[\w]+?Tasks-/.test(value) ? value : null).filter(value => value);
+          for (const item of tasksHistory) {
+            History_classPrivateMethodGet(this, _addItem, _addItem2).call(this, item);
+          }
+        } catch (error) {
+          throwError(error, 'History.before');
+        }
+      }
+      clearHistory() {
+        try {
+          const data = GM_listValues() || [];
+          const tasksHistory = data.map(value => /^[\w]+?Tasks-/.test(value) ? value : null).filter(value => value);
+          for (const item of tasksHistory) {
+            GM_deleteValue(item);
+          }
+          external_Swal_default().fire({
+            title: i18n('clearHistoryFinished'),
+            icon: 'success'
+          });
+        } catch (error) {
+          throwError(error, 'History.after');
+        }
+      }
+    }
+    function _addItem2(item) {
+      try {
+        const tasksData = GM_getValue(item);
+        if (!(tasksData !== null && tasksData !== void 0 && tasksData.tasks)) {
+          return;
+        }
+        let html = '';
+        let title = '';
+        let link = '';
+        const [ website, id ] = item.split('-');
+        switch (website) {
+         case 'fawTasks':
+          title = `Freeanywhere[${id}]`;
+          link = `https://freeanywhere.net/#/giveaway/${id}`;
+          break;
+
+         case 'gasTasks':
+          title = `Giveawaysu[${id}]`;
+          link = `https://giveaway.su/giveaway/view/${id}`;
+          break;
+
+         case 'gcTasks':
+          title = `GiveeClub[${id}]`;
+          link = `https://givee.club/event/${id}`;
+          break;
+
+         case 'gkTasks':
+          title = `Givekey[${id}]`;
+          link = `https://givekey.ru/giveaway/${id}`;
+          break;
+
+         case 'gleamTasks':
+          title = `Gleam[${id}]`;
+          link = `https://gleam.io${id}`;
+          break;
+
+         case 'khTasks':
+          title = `keyhub[${id}]`;
+          link = `https://key-hub.eu/giveaway/${id}`;
+          break;
+
+         case 'prysTasks':
+          title = `Prys[${id}]`;
+          link = `https://prys.revadike.com/giveaway/?id=${id}`;
+          break;
+
+         default:
+          return;
+        }
+        for (const [ social, types ] of Object.entries(tasksData.tasks)) {
+          for (const [ type, tasks ] of Object.entries(types)) {
+            for (const task of tasks) {
+              html += `<li>${social}.${i18n(type.replace('Link', ''))}: <a href="${task}" target="_blank">${task.length > 60 ? `${task.slice(0, 60)}...` : task}</a></li>`;
+            }
+          }
+        }
+        $('.container').append(`<div class="card"><div class="title"><a href="${link}" target="_blank">${title}</a><span class="delete-task" data-name="${item}" title="${i18n('deleteTask')}"><svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2734" width="32" height="32"><path d="M607.897867 768.043004c-17.717453 0-31.994625-14.277171-31.994625-31.994625L575.903242 383.935495c0-17.717453 14.277171-31.994625 31.994625-31.994625s31.994625 14.277171 31.994625 31.994625l0 351.94087C639.892491 753.593818 625.61532 768.043004 607.897867 768.043004z" p-id="2735" fill="#d81e06"></path><path d="M415.930119 768.043004c-17.717453 0-31.994625-14.277171-31.994625-31.994625L383.935495 383.935495c0-17.717453 14.277171-31.994625 31.994625-31.994625 17.717453 0 31.994625 14.277171 31.994625 31.994625l0 351.94087C447.924744 753.593818 433.647573 768.043004 415.930119 768.043004z" p-id="2736" fill="#d81e06"></path><path d="M928.016126 223.962372l-159.973123 0L768.043004 159.973123c0-52.980346-42.659499-95.983874-95.295817-95.983874L351.94087 63.989249c-52.980346 0-95.983874 43.003528-95.983874 95.983874l0 63.989249-159.973123 0c-17.717453 0-31.994625 14.277171-31.994625 31.994625s14.277171 31.994625 31.994625 31.994625l832.032253 0c17.717453 0 31.994625-14.277171 31.994625-31.994625S945.73358 223.962372 928.016126 223.962372zM319.946246 159.973123c0-17.545439 14.449185-31.994625 31.994625-31.994625l320.806316 0c17.545439 0 31.306568 14.105157 31.306568 31.994625l0 63.989249L319.946246 223.962372 319.946246 159.973123 319.946246 159.973123z" p-id="2737" fill="#d81e06"></path><path d="M736.048379 960.010751 288.123635 960.010751c-52.980346 0-95.983874-43.003528-95.983874-95.983874L192.139761 383.591466c0-17.717453 14.277171-31.994625 31.994625-31.994625s31.994625 14.277171 31.994625 31.994625l0 480.435411c0 17.717453 14.449185 31.994625 31.994625 31.994625l448.096758 0c17.717453 0 31.994625-14.277171 31.994625-31.994625L768.215018 384.795565c0-17.717453 14.277171-31.994625 31.994625-31.994625s31.994625 14.277171 31.994625 31.994625l0 479.231312C832.032253 916.835209 789.028725 960.010751 736.048379 960.010751z" p-id="2738" fill="#d81e06"></path></svg></span></div><ul>${html}</ul><span class="time">${i18n('lastChangeTime')}: ${external_dayjs_namespaceObject(tasksData.time).format('YYYY-MM-DD HH:mm:ss')}</span></div>`);
+        $('span.delete-task').on('click', function() {
+          const itemName = $(this).attr('data-name');
+          if (itemName) {
+            GM_deleteValue(itemName);
+            external_Swal_default().fire({
+              title: i18n('clearTaskFinished'),
+              text: itemName,
+              icon: 'success'
+            });
+          } else {
+            external_Swal_default().fire({
+              title: i18n('clearTaskFailed'),
+              icon: 'error'
+            });
+          }
+        });
+      } catch (error) {
+        throwError(error, 'History.addItem');
+      }
+    }
+    const website_History = History;
+    const Websites = [ website_FreeAnyWhere, GiveawaySu, website_Indiedb, website_Keyhub, website_Givekey, website_GiveeClub, website_OpiumPulses, website_Keylol, website_Opquests, website_Gleam, website_SweepWidget, website_Setting, website_History ];
     const websiteOptions = function(website, options) {
       let websiteOptionsForm = `<form id="websiteOptionsForm" class="auto-task-form">
   <table class="auto-task-table"><thead><tr><td>${i18n('option')}</td><td>${i18n('value')}</td></tr></thead><tbody>`;

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-24 15:52:25
- * @LastEditTime : 2021-12-24 15:52:26
+ * @LastEditTime : 2021-12-28 19:06:58
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Prys.d.ts
  */
@@ -16,4 +16,8 @@ interface prysSocialTasks {
     groupLinks: Array<string>
     curatorLinks: Array<string>
   }
+}
+declare interface prysGMTasks {
+  tasks: prysSocialTasks
+  time: number
 }

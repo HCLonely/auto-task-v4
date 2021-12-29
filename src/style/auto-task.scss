@@ -11,6 +11,7 @@
 
   &:hover {
     animation: animate 8s linear infinite;
+    cursor: pointer;
 
     &::before {
       filter: blur(20px);
@@ -89,8 +90,8 @@
   padding: 0 2px;
 
   &[selected="selected"] {
-    background-color: blue;
-    color: #fff;
+    background-color: blue !important;
+    color: #fff !important;
   }
 }
 
@@ -194,6 +195,7 @@ body.auto-task-options {
         transform: scale(0.25);
         margin: -25% 0;
         top: -30px;
+        display: inline-block;
 
         input {
           position: relative;
@@ -272,6 +274,83 @@ body.auto-task-options {
       }
     }
 
+  }
+}
+
+body.auto-task-history {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.5;
+
+  .container {
+    a {
+      color: #007bff;
+      text-decoration: none;
+      background-color: transparent;
+    }
+
+    .card {
+      width: 80%;
+      max-width: 800px;
+      border-radius: 10px;
+      background: #7676761a;
+      border-top: 1px solid #ffffff80;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 15px 25px #0000001a;
+      margin: 20px auto;
+
+      position: relative;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      word-wrap: break-word;
+      background-clip: border-box;
+      border: 1px solid rgba(0, 0, 0, .125);
+      border-radius: .25rem;
+
+      .title {
+        text-align: center;
+        font-size: 30px;
+        font-weight: bold;
+        margin: 5px 0;
+
+        a:hover {
+          text-decoration: none;
+        }
+      }
+
+      ul {
+        margin-bottom: 25px;
+
+        a:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .delete-task {
+        right: 10px;
+        width: 38px;
+        height: 35px;
+        position: absolute;
+        font-size: 24px;
+        cursor: pointer;
+        border-radius: 10px;
+
+        &:hover {
+          background: #fff;
+        }
+      }
+
+      .time {
+        right: 5px;
+        position: absolute;
+        bottom: 0;
+        color: #e83e8c;
+        font-family: 'SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace';
+        font-size: 15px;
+      }
+    }
   }
 }
 

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2021-12-26 19:54:56
+ * @LastEditTime : 2021-12-28 19:04:33
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  : https://gleam.io
@@ -118,7 +118,7 @@ class Gleam extends Website {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
       if (action === 'undo') {
-        this.socialTasks = GM_getValue<gleamSocialTasks>(`gleamTasks-${this.giveawayId}`) || { ...defaultTasks }; // eslint-disable-line new-cap
+        this.socialTasks = GM_getValue<gleamGMTasks>(`gleamTasks-${this.giveawayId}`)?.tasks || { ...defaultTasks }; // eslint-disable-line new-cap
       }
 
       const tasks = $('.entry-content .entry-method');
@@ -228,7 +228,7 @@ class Gleam extends Website {
       logStatus.success();
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as gleamSocialTasks;
       this.socialTasks = this.uniqueTasks(this.socialTasks) as gleamSocialTasks;
-      GM_setValue(`gleamTasks-${this.giveawayId}`, this.socialTasks); // eslint-disable-line new-cap
+      GM_setValue(`gleamTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() }); // eslint-disable-line new-cap
       return true;
     } catch (error) {
       throwError(error as Error, 'Gleam.classifyTask');

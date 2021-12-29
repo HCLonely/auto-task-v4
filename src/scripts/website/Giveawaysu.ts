@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2021-12-26 19:53:22
+ * @LastEditTime : 2021-12-28 19:02:07
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.ts
  * @Description  : https://giveaway.su/
@@ -95,7 +95,7 @@ class GiveawaySu extends Website {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
       if (action === 'undo') {
-        this.socialTasks = GM_getValue<gasSocialTasks>(`gasTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
+        this.socialTasks = GM_getValue<gasGMTasks>(`gasTasks-${this.giveawayId}`)?.tasks || defaultTasks; // eslint-disable-line new-cap
         return true;
       }
 
@@ -173,7 +173,7 @@ class GiveawaySu extends Website {
       logStatus.success();
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as gasSocialTasks;
       this.socialTasks = this.undoneTasks;
-      GM_setValue(`gasTasks-${this.giveawayId}`, this.socialTasks); // eslint-disable-line new-cap
+      GM_setValue(`gasTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() }); // eslint-disable-line new-cap
       return true;
     } catch (error) {
       throwError(error as Error, 'Giveawaysu.classifyTask');

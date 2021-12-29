@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-new
 // @namespace          auto-task-new
-// @version            4.0.30-Alpha
+// @version            4.0.31-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @run-at             document-start
@@ -27,6 +27,7 @@
 // @include            *://*.reddit.com/*
 // @include            *://twitter.com/settings/account?k*
 // @include            https://auto-task.hclonely.com/setting.html
+// @include            https://auto-task-test.hclonely.com/setting.html
 
 // @grant              GM_setValue
 // @grant              GM_getValue
@@ -76,6 +77,8 @@
 // @require            https://cdn.jsdelivr.net/npm/js-sha1@0.6.0/src/sha1.min.js
 // @require            https://cdn.jsdelivr.net/npm/sweetalert2@11
 // @require            https://cdn.jsdelivr.net/npm/keyboardjs@2.6.4/dist/keyboard.min.js
+// @require            https://cdn.jsdelivr.net/npm/dayjs@1.10.7/dayjs.min.js
+// @noframes
 // ==/UserScript==
 
 console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
