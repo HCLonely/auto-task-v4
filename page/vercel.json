@@ -7,9 +7,7 @@
     {
       "src": "/(.*)",
       "status": 404,
-      "headers": {
-        "Location": "https://auto-task-doc.js.org/"
-      }
+      "dest": "/index.html"
     }
   ]
 }
