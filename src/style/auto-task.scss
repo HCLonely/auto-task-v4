@@ -327,6 +327,11 @@ body.auto-task-history {
       ul {
         margin-bottom: 25px;
 
+        li {
+          margin-bottom: 5px;
+          line-height: 20px;
+        }
+
         a:hover {
           text-decoration: underline;
         }
