@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-28 18:53:41
- * @LastEditTime : 2021-12-29 17:44:57
+ * @LastEditTime : 2021-12-30 12:02:29
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/History.ts
  * @Description  : 任务历史页面
@@ -25,7 +25,7 @@ class History extends Keylol {
   ]
 
   static test(): boolean {
-    return window.location.host === 'auto-task-test.hclonely.com' && window.location.pathname === '/setting.html';
+    return window.location.host === 'auto-task-v4.hclonely.com' && window.location.pathname === '/history.html';
   }
   before(): void {
     try {
@@ -99,8 +99,8 @@ class History extends Keylol {
       for (const [social, types] of Object.entries(tasksData.tasks)) {
         for (const [type, tasks] of Object.entries(types)) {
           for (const task of tasks as Array<string>) {
-            html += `<li>${social}.${__(type.replace('Link', ''))}: <a href="${task}" target="_blank">${
-              task.length > 60 ? `${task.slice(0, 60)
+            html += `<li><font class="auto-task-capitalize">${social}.${__(type.replace('Link', ''))}: </font><a href="${task}" target="_blank">${
+              task.length > 55 ? `${task.slice(0, 55)
               }...` : task}</a></li>`;
           }
         }

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2021-12-29 17:43:53
+ * @LastEditTime : 2021-12-30 12:00:42
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -109,24 +109,32 @@ const data = {
   doTaskKey: '做任务快捷键</br>(实时预览功能仅在设置页面可用)',
   undoTaskKey: '撤销任务快捷键</br>(实时预览功能仅在设置页面可用)',
   toggleLogKey: '显示/隐藏日志快捷键</br>(实时预览功能仅在设置页面可用)',
+  tasksHistory: '任务历史',
   clearHistory: '清空历史',
   clearHistoryFinished: '已清空任务历史！',
   deleteTask: '删除任务',
   lastChangeTime: '最后一次修改时间',
   clearTaskFinished: '删除以下任务完成！',
   clearTaskFailed: '删除任务失败，没有找到任务名！',
-  groupLinks: '群组',
-  wishlistLinks: '愿望单',
-  curatorLinks: '鉴赏家',
-  curatorLikeLinks: '开发商等',
-  followLinks: '关注游戏',
-  forumLinks: '论坛',
-  announcementLinks: '通知',
-  workshopVoteLinks: '创意工坊点赞',
-  nameLinks: '任务',
-  serverLinks: '服务器',
-  userLinks: '用户',
-  channelLinks: '频道',
+  syncData: '数据同步',
+  settingData: '正在上传数据...',
+  gettingData: '正在获取数据...',
+  help: '帮助',
+  fileName: '文件名',
+  upload2gist: '同步到Gist',
+  downloadFromGist: '从Gist同步',
+  saveAndTest: '保存配置并测试',
+  testSuccess: '测试成功！',
+  testFailed: '测试失败！',
+  saveAndTestNotice: '请先保存配置并测试！',
+  processingData: '正在处理数据...',
+  updatingData: '正在上传数据...',
+  syncDataSuccess: '同步数据成功！',
+  syncDataFailed: '同步数据失败，请在控制台查看错误信息！',
+  downloadingData: '正在下载数据...',
+  checkedNoData: '没有检测到远程数据，请确认配置是否正确！',
+  savingData: '正在保存数据...',
+  syncHistory: '同步任务历史',
 
   // Steam
   groups: '组',

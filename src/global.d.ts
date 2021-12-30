@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 13:18:21
- * @LastEditTime : 2021-12-28 19:15:44
+ * @LastEditTime : 2021-12-29 20:39:02
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/global.d.ts
  */
@@ -192,5 +192,8 @@ declare global {
   /* eslint-enable camelcase */
   function sha1(value: string): string
 
+  interface commonObject {
+    [key: string]: any
+  }
 }
 export { };

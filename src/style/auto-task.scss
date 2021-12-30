@@ -49,9 +49,9 @@
   position: fixed;
   bottom: 10px;
   right: 10px;
-  width: 300px;
-  max-width: 60%;
-  max-height: 600px;
+  width: 60%;
+  max-width: 500px;
+  max-height: 60%;
   overflow-y: auto;
   color: #000;
   background-color: #fff;
@@ -82,6 +82,7 @@
 }
 
 .auto-task-keylol {
+  display: inline-block;
   text-transform: capitalize;
   margin-left: 10px;
   text-decoration: none !important;
@@ -317,6 +318,9 @@ body.auto-task-history {
 
         a:hover {
           text-decoration: none;
+          background: #93e1ff;
+          border-radius: 10px;
+          padding: 3px;
         }
       }
 
@@ -395,4 +399,27 @@ body.auto-task-history {
 
 .show-button-div {
   width: 20px;
+}
+
+.auto-task-capitalize {
+  text-transform: capitalize !important;
+}
+
+.swal2-file:focus,
+.swal2-input:focus,
+.swal2-textarea:focus {
+  box-shadow: inset 0px 0px 4px 1px rgb(100 150 200 / 50%) !important;
+}
+
+.swal2-checkbox-custom {
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: inherit;
+  margin: 1em auto;
+
+  input {
+    flex-shrink: 0;
+    margin: 0 .4em;
+  }
 }

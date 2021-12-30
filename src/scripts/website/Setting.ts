@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-25 19:00:53
- * @LastEditTime : 2021-12-28 17:32:50
+ * @LastEditTime : 2021-12-30 12:01:59
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Setting.ts
  * @Description  : 设置页面
@@ -15,15 +15,22 @@ import { ua } from '@xuanmo/javascript-utils';
 import Twitter from '../social/Twitter';
 import { getInfo } from '../social/Youtube';
 import Swal from 'sweetalert2';
+import syncOptions from '../dataSync';
 
 class Setting {
   name = 'Setting'
   buttons: Array<string> = [
-    'saveGlobalOptions'
+    'saveGlobalOptions',
+    'syncData',
+    'tasksHistory'
   ]
+  dataSync = syncOptions
+  tasksHistory(): void {
+    window.open('https://auto-task-v4.hclonely.com/history.html', '_blank');
+  }
 
   static test(): boolean {
-    return window.location.host === 'auto-task.hclonely.com' && window.location.pathname === '/setting.html';
+    return window.location.host === 'auto-task-v4.hclonely.com' && window.location.pathname === '/setting.html';
   }
   before(): void {
     $('body').html('')

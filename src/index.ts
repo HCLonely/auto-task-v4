@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-12-28 18:03:05
+ * @LastEditTime : 2021-12-30 12:00:53
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -17,6 +17,7 @@ import websiteOptions from './scripts/website/options';
 import __ from './scripts/tools/i18n';
 import { globalOptions, changeGlobalOptions } from './scripts/globalOptions';
 import keyboardJS from 'keyboardjs';
+import syncOptions from './scripts/dataSync';
 
 declare const commonOptions: {
   headers?: {
@@ -88,7 +89,7 @@ const loadScript = async () => {
 
   // @ts-ignore
   if (!website) {
-    console.log('Auto Task脚本停止加载：当前网站不支持');
+    console.log('%c%s', 'color:#ff0000', 'Auto Task脚本停止加载：当前网站不支持！');
     return;
   }
 
@@ -172,8 +173,12 @@ const loadScript = async () => {
   if (website.name !== 'Setting') {
     GM_registerMenuCommand(__('whiteList'), () => { whiteListOptions('swal'); }); // eslint-disable-line new-cap
     GM_registerMenuCommand(__('changeGlobalOptions'), () => { changeGlobalOptions('swal'); }); // eslint-disable-line new-cap
+    GM_registerMenuCommand(__('tasksHistory'), () => { // eslint-disable-line new-cap
+      window.open('https://auto-task-v4.hclonely.com/history.html', '_blank');
+    });
+    GM_registerMenuCommand(__('syncData'), syncOptions); // eslint-disable-line new-cap
     GM_registerMenuCommand(__('settingPage'), () => { // eslint-disable-line new-cap
-      window.open('https://auto-task.hclonely.com/setting.html', '_blank');
+      window.open('https://auto-task-v4.hclonely.com/setting.html', '_blank');
     });
   }
 

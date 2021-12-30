@@ -1,13 +1,13 @@
 // ==UserScript==
-// @name               auto-task-new
-// @namespace          auto-task-new
-// @version            4.0.31-Alpha
+// @name               auto-task-v4
+// @namespace          auto-task-v4
+// @version            4.0.32-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
+// @license            MIT
 // @run-at             document-start
-// @compatible         chrome 没有测试其他浏览器的兼容性
-// @homepage           https://github.com/HCLonely/auto-task-new
-// @supportURL         https://github.com/HCLonely/auto-task-new
+// @homepage           https://github.com/HCLonely/auto-task-v4
+// @supportURL         https://github.com/HCLonely/auto-task-v4/issues
 
 // @include            *://freeanywhere.net/*
 // @include            *://giveaway.su/giveaway/view/*
@@ -26,14 +26,13 @@
 // @include            *://www.youtube.com/*
 // @include            *://*.reddit.com/*
 // @include            *://twitter.com/settings/account?k*
-// @include            https://auto-task.hclonely.com/setting.html
-// @include            https://auto-task-test.hclonely.com/setting.html
+// @include            https://auto-task-v4.hclonely.com/setting.html
+// @include            https://auto-task-v4.hclonely.com/history.html
 
 // @grant              GM_setValue
 // @grant              GM_getValue
 // @grant              GM_listValues
 // @grant              GM_deleteValue
-// @grant              GM_addValueChangeListener
 // @grant              GM_addStyle
 // @grant              GM_xmlhttpRequest
 // @grant              GM_getResourceText
@@ -78,6 +77,8 @@
 // @require            https://cdn.jsdelivr.net/npm/sweetalert2@11
 // @require            https://cdn.jsdelivr.net/npm/keyboardjs@2.6.4/dist/keyboard.min.js
 // @require            https://cdn.jsdelivr.net/npm/dayjs@1.10.7/dayjs.min.js
+
+// @compatible         Tampermonkey Only
 // @noframes
 // ==/UserScript==
 
