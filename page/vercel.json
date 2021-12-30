@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "/(.*)",
+      "status": 404,
+      "headers": {
+        "Location": "https://example.com/"
+      }
+    }
+  ]
+}
