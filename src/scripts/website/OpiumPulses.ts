@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 17:22:20
- * @LastEditTime : 2021-12-26 19:55:51
+ * @LastEditTime : 2021-12-31 13:48:19
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/OpiumPulses.ts
  * @Description  : https://www.opiumpulses.com/giveaways
@@ -39,7 +39,7 @@ class OpiumPulses {
   async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
-        echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
+        echoLog({ html: `<li><font class="warning">${__('checkLoginFailed')}</font></li>` });
       }
       this.maxPoints = parseInt(this.options.maxPoint, 10);
     } catch (error) {

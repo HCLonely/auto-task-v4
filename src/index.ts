@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-12-30 12:00:53
+ * @LastEditTime : 2021-12-31 13:46:47
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -18,6 +18,8 @@ import __ from './scripts/tools/i18n';
 import { globalOptions, changeGlobalOptions } from './scripts/globalOptions';
 import keyboardJS from 'keyboardjs';
 import syncOptions from './scripts/dataSync';
+import updateChecker from './scripts/updateChecker';
+import echoLog from './scripts/echoLog';
 
 declare const commonOptions: {
   headers?: {
@@ -184,10 +186,24 @@ const loadScript = async () => {
 
   // 调试用
   // @ts-ignore
-  unsafeWindow.keyboardJS = keyboardJS;
+  // unsafeWindow.keyboardJS = keyboardJS;
 
   GM_addStyle(style); // eslint-disable-line new-cap
   console.log('%c%s', 'color:#1bbe1a', 'Auto Task脚本初始化完成！');
+
+  if (!GM_getValue<number>('notice')) { // eslint-disable-line new-cap
+    Swal.fire({
+      title: __('swalNotice'),
+      icon: 'warning'
+    }).then(() => {
+      window.open(__('noticeLink'), '_blank');
+      GM_setValue('notice', new Date().getTime()); // eslint-disable-line new-cap
+    });
+    echoLog({ html: `<li><font class="warning">${__('echoNotice', __('noticeLink'))}</font></li>` }).font?.find('a').on('click', () => {
+      GM_setValue('notice', new Date().getTime()); // eslint-disable-line new-cap
+    });
+  }
+  updateChecker();
 };
 
 if (window.location.hostname === 'opquests.com') {

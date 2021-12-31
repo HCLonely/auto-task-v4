@@ -103,6 +103,8 @@ const defaultGlobalOptions: globalOptions = {
   other: {
     twitterVerifyId: '783214',
     youtubeVerifyChannel: 'UCrXUsMBcfTVqwAS7DKg9C0Q',
+    autoUpdateSource: 'jsDelivr',
+    language: 'zh',
     checkLogin: true,
     checkLeftKey: true,
     defaultShowButton: true,

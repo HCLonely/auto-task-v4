@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2021-12-28 19:05:29
+ * @LastEditTime : 2021-12-31 13:48:10
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
  * @Description  : https://key-hub.eu/
@@ -46,10 +46,10 @@ class Keyhub extends Website {
   async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
-        echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
+        echoLog({ html: `<li><font class="warning">${__('checkLoginFailed')}</font></li>` });
       }
       if (!await this.#checkLeftKey()) {
-        echoLog({ html: `<li><font class="warning>${__('checkLeftKeyFailed')}</font></li>` });
+        echoLog({ html: `<li><font class="warning">${__('checkLeftKeyFailed')}</font></li>` });
       }
     } catch (error) {
       throwError(error as Error, 'Keyhub.after');

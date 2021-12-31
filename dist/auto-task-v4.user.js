@@ -1,13 +1,16 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.0.32-Alpha
+// @version            4.0.33-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @license            MIT
 // @run-at             document-start
-// @homepage           https://github.com/HCLonely/auto-task-v4
+// @homepage           https://auto-task-doc.js.org/
 // @supportURL         https://github.com/HCLonely/auto-task-v4/issues
+// @updateURL          https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4.user.js
+// @installURL         https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4.user.js
+// @downloadURL        https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4.user.js
 
 // @include            *://freeanywhere.net/*
 // @include            *://giveaway.su/giveaway/view/*
@@ -403,7 +406,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       var _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(400);
       var _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(_node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
       var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(_node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default());
-      ___CSS_LOADER_EXPORT___.push([ module.id, '.colorful-button,#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn,body.auto-task-options .auto-task-form table button{position:relative;padding:5px 10px;text-align:center;color:#fff;text-decoration:none;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:30px;background-size:400%;text-transform:capitalize}.colorful-button:hover,#auto-task-buttons a.auto-task-website-btn:hover,.show-button-div a.auto-task-website-btn:hover,body.auto-task-options .auto-task-form table button:hover{animation:animate 8s linear infinite;cursor:pointer}.colorful-button:hover::before,#auto-task-buttons a.auto-task-website-btn:hover::before,.show-button-div a.auto-task-website-btn:hover::before,body.auto-task-options .auto-task-form table button:hover::before{filter:blur(20px);opacity:1}.colorful-button::before,#auto-task-buttons a.auto-task-website-btn::before,.show-button-div a.auto-task-website-btn::before,body.auto-task-options .auto-task-form table button::before{content:"";position:absolute;top:-5px;left:-5px;right:-5px;bottom:-5px;z-index:-1;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:40px;background-size:400%;opacity:-1;transition:.5s}@keyframes animate{0%{background-position:0%}100%{background-position:100%}}#auto-task-info{position:fixed;bottom:10px;right:10px;width:60%;max-width:500px;max-height:60%;overflow-y:auto;color:#000;background-color:#fff;padding-left:5px;z-index:999999999 !important;border:solid 2px #add8e6;border-radius:10px}#auto-task-info li{text-align:left}#auto-task-info .success{color:green}#auto-task-info .error{color:red}#auto-task-info .warning{color:blue}#auto-task-info .info{color:#ff0}.auto-task-keylol{display:inline-block;text-transform:capitalize;margin-left:10px;text-decoration:none !important;border:solid 1px;border-radius:5px;padding:0 2px}.auto-task-keylol[selected=selected]{background-color:blue !important;color:#fff !important}.auto-task-form table{font-family:verdana,arial,sans-serif;font-size:11px;color:#333;border-width:1px;border-color:#999;border-collapse:collapse;width:100%}.auto-task-form table thead td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;font-weight:bold;background-color:#fff}.auto-task-form table tbody tr{background-color:#d4e3e5}.auto-task-form table tbody tr:hover{background-color:#ff6 !important}.auto-task-form table tbody tr th{background-color:#c3dde0;border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;text-transform:capitalize}.auto-task-form table tbody tr td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}.swal2-modal{width:70% !important;max-width:1000px !important}body.auto-task-options{padding-top:10px;text-align:center}body.auto-task-options .auto-task-form{width:80%;max-width:1000px;margin:0 auto;padding-bottom:20px}body.auto-task-options .auto-task-form table input.editOption{width:80%}body.auto-task-options .auto-task-form table #getTwitterUserId,body.auto-task-options .auto-task-form table #getYoutubeChannelId{margin-top:5px}body.auto-task-options .auto-task-form table button{z-index:1}body.auto-task-options .auto-task-form table input[type=text]{outline-style:none;border:1px solid #ccc;border-radius:3px;padding:5px 10px;font-size:14px}body.auto-task-options .auto-task-form table input[type=text]:focus{border-color:#66afe9;outline:0;box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)}body.auto-task-options .auto-task-form table label{position:relative;width:160px;height:80px;cursor:pointer;transform:scale(0.25);margin:-25% 0;top:-30px;display:inline-block}body.auto-task-options .auto-task-form table label input{position:relative;z-index:1;-webkit-appearance:none;appearance:none}body.auto-task-options .auto-task-form table label input:checked~span{background:#05be05;box-shadow:0 15px 25px rgba(5,190,5,0.4)}body.auto-task-options .auto-task-form table label input:checked~span i{left:84px}body.auto-task-options .auto-task-form table label input:checked~span i::before{background:#05be05;box-shadow:35px 0 0 #05be05}body.auto-task-options .auto-task-form table label input:checked~span i::after{bottom:12px;height:15px;border-bottom-left-radius:15px;border-bottom-right-radius:15px;background:#05be05}body.auto-task-options .auto-task-form table label span{position:absolute;top:0;left:0;width:100%;height:100%;background:#fe0000;border-radius:80px;transition:.5s;box-shadow:0 15px 25px rgba(254,0,0,0.4)}body.auto-task-options .auto-task-form table label span i{position:absolute;top:4px;left:4px;width:72px;height:72px;background:#fff;border-radius:50%}body.auto-task-options .auto-task-form table label span i::before{content:"";position:absolute;top:22px;left:12px;width:12px;height:12px;border-radius:50%;background:#fe0000;box-shadow:35px 0 0 #fe0000;transition:.5s}body.auto-task-options .auto-task-form table label span i::after{content:"";position:absolute;bottom:15px;left:calc(50% - 15px);width:30px;height:6px;border-radius:6px;background:#fe0000;transition:.5s}body.auto-task-history{font-size:15px;font-weight:400;line-height:1.5}body.auto-task-history .container a{color:#007bff;text-decoration:none;background-color:transparent}body.auto-task-history .container .card{width:80%;max-width:800px;border-radius:10px;background:rgba(118,118,118,0.10196);border-top:1px solid rgba(255,255,255,0.50196);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 15px 25px rgba(0,0,0,0.10196);margin:20px auto;position:relative;display:flex;flex-direction:column;word-wrap:break-word;background-clip:border-box;border:1px solid rgba(0,0,0,.125);border-radius:.25rem}body.auto-task-history .container .card .title{text-align:center;font-size:30px;font-weight:bold;margin:5px 0}body.auto-task-history .container .card .title a:hover{text-decoration:none;background:#93e1ff;border-radius:10px;padding:3px}body.auto-task-history .container .card ul{margin-bottom:25px}body.auto-task-history .container .card ul a:hover{text-decoration:underline}body.auto-task-history .container .card .delete-task{right:10px;width:38px;height:35px;position:absolute;font-size:24px;cursor:pointer;border-radius:10px}body.auto-task-history .container .card .delete-task:hover{background:#fff}body.auto-task-history .container .card .time{right:5px;position:absolute;bottom:0;color:#e83e8c;font-family:\'SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace\';font-size:15px}#auto-task-buttons,.show-button-div{position:fixed;top:30px;right:15px;width:150px;z-index:999999999 !important;transform:scale(0.9)}#auto-task-buttons.FreeAnyWhere-buttons,#auto-task-buttons.GiveawaySu-buttons,#auto-task-buttons.GiveeClub-buttons,#auto-task-buttons.Givekey-buttons,#auto-task-buttons.Gleam-buttons,#auto-task-buttons.Indiedb-buttons,#auto-task-buttons.Keyhub-buttons,#auto-task-buttons.Keylol-buttons,#auto-task-buttons.Opquests-buttons,#auto-task-buttons.Prys-buttons,#auto-task-buttons.SweepWidget-buttons,.show-button-div.FreeAnyWhere-buttons,.show-button-div.GiveawaySu-buttons,.show-button-div.GiveeClub-buttons,.show-button-div.Givekey-buttons,.show-button-div.Gleam-buttons,.show-button-div.Indiedb-buttons,.show-button-div.Keyhub-buttons,.show-button-div.Keylol-buttons,.show-button-div.Opquests-buttons,.show-button-div.Prys-buttons,.show-button-div.SweepWidget-buttons{width:130px}#auto-task-buttons p,.show-button-div p{line-height:30px;height:40px;text-align:center;margin:5px !important}#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn{width:150px;height:40px;line-height:30px;font-size:20px}.show-button-div{width:20px}.auto-task-capitalize{text-transform:capitalize !important}.swal2-file:focus,.swal2-input:focus,.swal2-textarea:focus{box-shadow:inset 0px 0px 4px 1px rgba(100,150,200,.5) !important}.swal2-checkbox-custom{align-items:center;justify-content:center;background:#fff;color:inherit;margin:1em auto}.swal2-checkbox-custom input{flex-shrink:0;margin:0 .4em}', '' ]);
+      ___CSS_LOADER_EXPORT___.push([ module.id, '.colorful-button,#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn,body.auto-task-options .auto-task-form table button{position:relative;padding:5px 10px;text-align:center;color:#fff;text-decoration:none;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:30px;background-size:400%;text-transform:capitalize}.colorful-button:hover,#auto-task-buttons a.auto-task-website-btn:hover,.show-button-div a.auto-task-website-btn:hover,body.auto-task-options .auto-task-form table button:hover{animation:animate 8s linear infinite;cursor:pointer}.colorful-button:hover::before,#auto-task-buttons a.auto-task-website-btn:hover::before,.show-button-div a.auto-task-website-btn:hover::before,body.auto-task-options .auto-task-form table button:hover::before{filter:blur(20px);opacity:1}.colorful-button::before,#auto-task-buttons a.auto-task-website-btn::before,.show-button-div a.auto-task-website-btn::before,body.auto-task-options .auto-task-form table button::before{content:"";position:absolute;top:-5px;left:-5px;right:-5px;bottom:-5px;z-index:-1;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:40px;background-size:400%;opacity:-1;transition:.5s}@keyframes animate{0%{background-position:0%}100%{background-position:100%}}#auto-task-info{position:fixed;bottom:10px;right:10px;width:60%;max-width:500px;max-height:60%;overflow-y:auto;color:#000;background-color:#fff;padding-left:5px;z-index:999999999 !important;border:solid 2px #add8e6;border-radius:10px}#auto-task-info li{text-align:left}#auto-task-info .success{color:green}#auto-task-info .error{color:red}#auto-task-info .warning{color:blue}#auto-task-info .info{color:#ff0}.auto-task-keylol{display:inline-block;text-transform:capitalize;margin-left:10px;text-decoration:none !important;border:solid 1px;border-radius:5px;padding:0 2px}.auto-task-keylol[selected=selected]{background-color:blue !important;color:#fff !important}.auto-task-form table{font-family:verdana,arial,sans-serif;font-size:11px;color:#333;border-width:1px;border-color:#999;border-collapse:collapse;width:100%}.auto-task-form table thead td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;font-weight:bold;background-color:#fff}.auto-task-form table tbody tr{background-color:#d4e3e5}.auto-task-form table tbody tr:hover{background-color:#ff6 !important}.auto-task-form table tbody tr th{background-color:#c3dde0;border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;text-transform:capitalize}.auto-task-form table tbody tr td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}.swal2-modal{width:70% !important;max-width:1000px !important}body.auto-task-options{padding-top:10px;text-align:center}body.auto-task-options .auto-task-form{width:80%;max-width:1000px;margin:0 auto;padding-bottom:20px}body.auto-task-options .auto-task-form table input.editOption{width:80%}body.auto-task-options .auto-task-form table #getTwitterUserId,body.auto-task-options .auto-task-form table #getYoutubeChannelId{margin-top:5px}body.auto-task-options .auto-task-form table button{z-index:1}body.auto-task-options .auto-task-form table input[type=text]{outline-style:none;border:1px solid #ccc;border-radius:3px;padding:5px 10px;font-size:14px}body.auto-task-options .auto-task-form table input[type=text]:focus{border-color:#66afe9;outline:0;box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)}body.auto-task-options .auto-task-form table label{position:relative;width:160px;height:80px;cursor:pointer;transform:scale(0.25);margin:-25% 0;top:-30px;display:inline-block}body.auto-task-options .auto-task-form table label input{position:relative;z-index:1;-webkit-appearance:none;appearance:none}body.auto-task-options .auto-task-form table label input:checked~span{background:#05be05;box-shadow:0 15px 25px rgba(5,190,5,0.4)}body.auto-task-options .auto-task-form table label input:checked~span i{left:84px}body.auto-task-options .auto-task-form table label input:checked~span i::before{background:#05be05;box-shadow:35px 0 0 #05be05}body.auto-task-options .auto-task-form table label input:checked~span i::after{bottom:12px;height:15px;border-bottom-left-radius:15px;border-bottom-right-radius:15px;background:#05be05}body.auto-task-options .auto-task-form table label span{position:absolute;top:0;left:0;width:100%;height:100%;background:#fe0000;border-radius:80px;transition:.5s;box-shadow:0 15px 25px rgba(254,0,0,0.4)}body.auto-task-options .auto-task-form table label span i{position:absolute;top:4px;left:4px;width:72px;height:72px;background:#fff;border-radius:50%}body.auto-task-options .auto-task-form table label span i::before{content:"";position:absolute;top:22px;left:12px;width:12px;height:12px;border-radius:50%;background:#fe0000;box-shadow:35px 0 0 #fe0000;transition:.5s}body.auto-task-options .auto-task-form table label span i::after{content:"";position:absolute;bottom:15px;left:calc(50% - 15px);width:30px;height:6px;border-radius:6px;background:#fe0000;transition:.5s}body.auto-task-history{font-size:15px;font-weight:400;line-height:1.5}body.auto-task-history .container a{color:#007bff;text-decoration:none;background-color:transparent}body.auto-task-history .container .card{width:80%;max-width:800px;border-radius:10px;background:rgba(118,118,118,0.10196);border-top:1px solid rgba(255,255,255,0.50196);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 15px 25px rgba(0,0,0,0.10196);margin:20px auto;position:relative;display:flex;flex-direction:column;word-wrap:break-word;background-clip:border-box;border:1px solid rgba(0,0,0,.125);border-radius:.25rem}body.auto-task-history .container .card .title{text-align:center;font-size:30px;font-weight:bold;margin:5px 0}body.auto-task-history .container .card .title a:hover{text-decoration:none;background:#93e1ff;border-radius:10px;padding:3px}body.auto-task-history .container .card ul{margin-bottom:25px}body.auto-task-history .container .card ul li{margin-bottom:5px;line-height:20px}body.auto-task-history .container .card ul a:hover{text-decoration:underline}body.auto-task-history .container .card .delete-task{right:10px;width:38px;height:35px;position:absolute;font-size:24px;cursor:pointer;border-radius:10px}body.auto-task-history .container .card .delete-task:hover{background:#fff}body.auto-task-history .container .card .time{right:5px;position:absolute;bottom:0;color:#e83e8c;font-family:\'SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace\';font-size:15px}#auto-task-buttons,.show-button-div{position:fixed;top:30px;right:15px;width:150px;z-index:999999999 !important;transform:scale(0.9)}#auto-task-buttons p,.show-button-div p{line-height:30px;height:40px;text-align:center;margin:5px !important}#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn{width:150px;height:40px;line-height:30px;font-size:20px}.show-button-div{width:20px}.auto-task-capitalize{text-transform:capitalize !important}.swal2-file:focus,.swal2-input:focus,.swal2-textarea:focus{box-shadow:inset 0px 0px 4px 1px rgba(100,150,200,.5) !important}.swal2-checkbox-custom{align-items:center;justify-content:center;background:#fff;color:inherit;margin:1em auto}.swal2-checkbox-custom input{flex-shrink:0;margin:0 .4em}', '' ]);
       const __WEBPACK_DEFAULT_EXPORT__ = ___CSS_LOADER_EXPORT___.toString();
     },
     400: function(module) {
@@ -542,243 +545,78 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
     const external_Cookies_namespaceObject = Cookies;
     var auto_task = __webpack_require__(786);
     var javascript_utils_umd_min = __webpack_require__(514);
-    const data = {
-      website: '网站',
-      type: '类型',
-      edit: '编辑',
-      whiteList: '白名单',
-      skipTask: '跳过取消做任务',
-      whiteListOptions: '白名单设置',
-      changeWhiteListOption: '设置白名单(%0)',
-      whiteListNotFound: '找不到此项白名单: %0',
-      changeWhiteListSuccess: '白名单修改成功，刷新生效！',
-      changeWebsiteOptions: '网站设置',
-      changeGlobalOptions: '全局设置',
-      ok: '是',
-      save: '保存',
-      close: '关闭',
-      return: '返回',
-      option: '选项',
-      value: '值',
-      websiteOptions: '当前网站设置',
-      changeWebsiteOptionsSuccess: '更改当前网站设置成功，刷新生效！',
-      changeGlobalOptionsSuccess: '更改全局设置成功，刷新生效！',
-      needLogin: '请先登录！',
-      getTasksInfo: '正在获取并处理任务信息',
-      gettingKey: '正在获取Key...',
-      verifyingTask: '正在验证任务',
-      notice: '自动任务脚本提醒',
-      noKeysLeft: '此页面已经没有剩余key了，是否关闭？',
-      giveawayEnded: '此活动已结束，是否关闭？',
-      giveawayNotWork: '此活动因某些原因(已结束/暂停/未开始...)不可用(如果是脚本误判请及时反馈)，是否关闭？',
-      confirm: '确定',
-      cancel: '取消',
-      unKnown: '未知',
-      unKnownTaskType: '未识别的任务',
-      doing: '正在做任务',
-      allTasksComplete: '所有任务已完成！',
-      getTaskIdFailed: '获取任务Id失败！',
-      initSuccess: '%0 初始化成功！',
-      initFailed: '%0 初始化失败！',
-      errorLink: '链接错误: %0',
-      needInit: '请先初始化',
-      verifyingAuth: '正在验证%0凭证...',
-      updatingAuth: '正在更新%0凭证...',
-      initing: '正在初始化...',
-      getFailed: '获取%0失败！',
-      checkLoginFailed: '检测登录状态失败！',
-      checkLeftKeyFailed: '检测剩余Key失败！',
-      userId: '用户Id',
-      joiningGiveaway: '正在加入赠Key',
-      needJoinGiveaway: '需要先加入赠Key',
-      cannotUndo: '此网站不支持取消任务',
-      verifyAuth: '正在验证 %0 凭证...',
-      closePageNotice: '如果此页面没有自动关闭，请自行关闭本页面。',
-      errorReport: '检测到脚本报错，是否前往反馈BUG？',
-      visitingLink: '正在访问链接: ',
-      doTask: '做任务',
-      undoTask: '撤销任务',
-      verifyTask: '验证任务',
-      getKey: '获取Key',
-      selectAll: '全选',
-      selectNone: '全不选',
-      invertSelect: '反选',
-      doFreeTask: '加入免费赠品',
-      doPointTask: '加入点数赠品',
-      skipTaskOption: '设置中已配置跳过任务',
-      other: '其他',
-      globalOptions: '全局设置',
-      checkLogin: '登录检测</br>需要登录的网站自动登录，部分本网站支持',
-      checkLeftKey: '剩余Key检测</br>赠Key活动结束提示是否关闭，部分本网站支持',
-      twitterVerifyId: '通过尝试关注该账号验证Twitter凭证</br>默认为Twitter官方帐号 783214',
-      youtubeVerifyChannel: '通过尝试订阅该频道验证YouTube凭证</br>默认为YouTube官方频道 UCrXUsMBcfTVqwAS7DKg9C0Q',
-      saveGlobalOptions: '保存全局设置',
-      settingPage: '设置页面',
-      name: '名称',
-      version: '版本',
-      scriptManager: '脚本管理器',
-      script: '脚本',
-      environment: '环境',
-      os: '系统',
-      browser: '浏览器',
-      getId: '获取 %0 id',
-      getTwitterUserId: '获取Twitter用户id(获取id功能仅在设置页面可用)',
-      getYoutubeChannelId: '获取Youtube频道id(获取id功能仅在设置页面可用)',
-      showButton: '显示按钮',
-      hideButton: '隐藏按钮',
-      showLog: '显示日志',
-      hideLog: '隐藏日志',
-      defaultShowButton: '默认显示按钮',
-      defaultShowLog: '默认显示日志',
-      position: '组件位置',
-      buttonSideX: '按钮区域水平方向定位(实时预览功能仅在设置页面可用)</br>left: 靠左 | right: 靠右',
-      buttonSideY: '按钮区域垂直方向定位(实时预览功能仅在设置页面可用)</br>top: 靠上 | bottom: 靠下',
-      buttonDistance: '按钮区域距边缘的距离(实时预览功能仅在设置页面可用)</br>格式: X距离,Y距离',
-      showButtonSideX: '显示按钮水平方向定位(实时预览功能仅在设置页面可用)</br>left: 靠左 | right: 靠右',
-      showButtonSideY: '显示按钮垂直方向定位(实时预览功能仅在设置页面可用)</br>top: 靠上 | bottom: 靠下',
-      showButtonDistance: '显示按钮距边缘的距离(实时预览功能仅在设置页面可用)</br>格式: X距离,Y距离',
-      logSideX: '日志区域水平方向定位(实时预览功能仅在设置页面可用)</br>left: 靠左 | right: 靠右',
-      logSideY: '日志区域垂直方向定位(实时预览功能仅在设置页面可用)</br>top: 靠上 | bottom: 靠下',
-      logDistance: '日志区域距边缘的距离(实时预览功能仅在设置页面可用)</br>格式: X距离,Y距离',
-      hotKey: '快捷键',
-      doTaskKey: '做任务快捷键</br>(实时预览功能仅在设置页面可用)',
-      undoTaskKey: '撤销任务快捷键</br>(实时预览功能仅在设置页面可用)',
-      toggleLogKey: '显示/隐藏日志快捷键</br>(实时预览功能仅在设置页面可用)',
-      tasksHistory: '任务历史',
-      clearHistory: '清空历史',
-      clearHistoryFinished: '已清空任务历史！',
-      deleteTask: '删除任务',
-      lastChangeTime: '最后一次修改时间',
-      clearTaskFinished: '删除以下任务完成！',
-      clearTaskFailed: '删除任务失败，没有找到任务名！',
-      syncData: '数据同步',
-      settingData: '正在上传数据...',
-      gettingData: '正在获取数据...',
-      help: '帮助',
-      fileName: '文件名',
-      upload2gist: '同步到Gist',
-      downloadFromGist: '从Gist同步',
-      saveAndTest: '保存配置并测试',
-      testSuccess: '测试成功！',
-      testFailed: '测试失败！',
-      saveAndTestNotice: '请先保存配置并测试！',
-      processingData: '正在处理数据...',
-      updatingData: '正在上传数据...',
-      syncDataSuccess: '同步数据成功！',
-      syncDataFailed: '同步数据失败，请在控制台查看错误信息！',
-      downloadingData: '正在下载数据...',
-      checkedNoData: '没有检测到远程数据，请确认配置是否正确！',
-      savingData: '正在保存数据...',
-      syncHistory: '同步任务历史',
-      groups: '组',
-      wishlists: '愿望单',
-      follows: '游戏关注',
-      forums: '论坛',
-      workshops: '创意工坊收藏',
-      curators: '鉴赏家',
-      workshopVotes: '创意工坊点赞',
-      announcements: '社区通知',
-      steamCommunity: 'Steam社区',
-      steamStore: 'Steam商店',
-      needLoginSteamStore: '请先<a href="https://store.steampowered.com/login/" target="_blank">登录Steam商店</a>',
-      needLoginSteamCommunity: '请先<a href="https://steamcommunity.com/login/home/" target="_blank">登录Steam社区</a>',
-      joiningSteamGroup: '正在加入Steam组',
-      leavingSteamGroup: '正在退出Steam组',
-      gettingSteamGroupId: '正在获取Steam组Id',
-      subscribingForum: '正在订阅Steam论坛',
-      unsubscribingForum: '正在取消订阅Steam论坛',
-      gettingForumId: '正在获取Steam论坛Id',
-      followingCurator: '正在关注Steam鉴赏家',
-      unfollowingCurator: '正在取关Steam鉴赏家',
-      addingToWishlist: '正在添加游戏到Steam愿望单',
-      removingFromWishlist: '正在从Steam愿望单移除游戏',
-      followingGame: '正在关注Steam游戏',
-      unfollowingGame: '正在取关Steam游戏',
-      favoritingWorkshop: '正在收藏Steam创意工坊物品',
-      unfavoritingWorkshop: '正在取消收藏Steam创意工坊物品',
-      gettingWorkshopAppId: '正在获取Steam创意工坊物品Id',
-      votingUpWorkshop: '正在点赞Steam创意工坊物品',
-      gettingAnnouncementParams: '正在获取Steam通知信息',
-      likingAnnouncement: '正在点赞Steam通知',
-      changingArea: '正在更换Steam地区: %0...',
-      notNeededChangeArea: '当前地区不需要更换',
-      noAnotherArea: '请检测是否开启正确开启代理',
-      gettingAreaInfo: '正在获取Steam地区信息...',
-      changeAreaNotice: '疑似锁区游戏，尝试换区执行',
-      steamFinishNotice: 'Steam任务完成，尝试将购物车地区换回CN',
-      servers: '服务器',
-      joiningDiscordServer: '正在加入Discord服务器',
-      leavingDiscordServer: '正在退出Discord服务器',
-      gettingDiscordGuild: '正在获取Discord服务器Id',
-      users: '用户',
-      loginIns: '请先<a href="https://www.instagram.com/accounts/login/" target="_blank">登录Instagram</a>',
-      insBanned: '您的Instagram账户已被封禁',
-      verifyingInsAuth: '正在验证Instagram凭证...',
-      gettingInsUserId: '正在获取Instagram用户Id',
-      followingIns: '正在关注Instagram用户',
-      unfollowingIns: '正在取关Instagram用户',
-      reddits: '社区/用户',
-      loginReddit: '请先<a href="https://www.reddit.com/login/" target="_blank">登录Reddit</a>',
-      changingRedditVersion: '正在切换Reddit为新版页面...',
-      joiningReddit: '正在加入Reddit社区',
-      leavingReddit: '正在退出Reddit社区',
-      followingRedditUser: '正在关注Reddit用户',
-      unfollowingRedditUser: '正在取关Reddit用户',
-      channels: '频道',
-      followingTwitchChannel: '正在关注Twitch频道',
-      unfollowingTwitchChannel: '正在取关Twitch频道',
-      gettingTwitchChannelId: '正在获取Twitch频道Id',
-      twitterUser: '推特用户',
-      retweets: '转推',
-      followingTwitterUser: '正在关注推特用户',
-      unfollowingTwitterUser: '正在取关推特用户',
-      retweetting: '正在转推',
-      unretweetting: '正在撤销转推',
-      names: '组/社区/动态',
-      loginVk: '请先<a href="https://vk.com/login/" target="_blank">登录Vk</a>',
-      gettingVkId: '正在获取Vk任务Id',
-      joiningVkGroup: '正在加入Vk组',
-      leavingVkGroup: '正在退出Vk组',
-      joiningVkPublic: '正在加入Vk社区',
-      leavingVkPublic: '正在退出Vk社区',
-      sendingVkWall: '正在转发Vk动态',
-      deletingVkWall: '正在撤销转发Vk动态',
-      youtubeChannel: 'YouTube频道',
-      likes: '点赞',
-      loginYtb: '请先<a href="https://accounts.google.com/ServiceLogin?service=youtube" target="_blank">登录YouTube</a>',
-      tryUpdateYtbAuth: '请尝试<a href="https://www.youtube.com/#auth" target="_blank">更新YouTube凭证</a>',
-      gettingYtbToken: '正在获取YouTube Token...',
-      followingYtbChannel: '正在订阅YouTube频道',
-      unfollowingYtbChannel: '正在退订YouTube频道',
-      likingYtbVideo: '正在点赞YouTube视频',
-      unlikingYtbVideo: '正在取消点赞YouTube视频',
-      giveKeyNoticeBefore: '每次验证间隔15s',
-      giveKeyNoticeAfter: '如果没有key, 请在<a href="https://givekey.ru/profile" target="_blank">https://givekey.ru/profile</a>查看',
-      noPoints: '点数不够，跳过抽奖',
-      getNeedPointsFailed: '获取所需点数失败，跳过抽奖',
-      joiningLottery: '正在加入抽奖',
-      doingGleamTask: '正在做Gleam任务...',
-      gettingGleamLink: '正在获取Gleam任务链接...',
-      gleamTaskNotice: '如果此页面长时间未关闭，请完成任一任务后自行关闭！',
-      verifiedGleamTasks: '已尝试验证所有任务，验证失败的任务请尝试手动验证或完成！',
-      SweepWidgetNotice: '正在处理并验证任务，每次验证任务有1~3s间隔防止触发验证过快警告...'
-    };
-    const zh_CN = data;
-    const languages = {
-      zh: zh_CN
-    };
-    const language = 'zh';
-    const I18n = function(key) {
-      var _languages$language;
-      for (var _len = arguments.length, argvs = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        argvs[_key - 1] = arguments[_key];
+    const httpRequest = async function(options) {
+      let times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      try {
+        const result = await new Promise(resolve => {
+          if (options.dataType) {
+            options.responseType = options.dataType;
+          }
+          const requestObj = {
+            ...{
+              timeout: 3e4,
+              ontimeout(data) {
+                resolve({
+                  result: 'Error',
+                  statusText: 'Timeout',
+                  status: 601,
+                  data: data,
+                  options: options
+                });
+              },
+              onabort(data) {
+                resolve({
+                  result: 'Error',
+                  statusText: 'Aborted',
+                  status: 602,
+                  data: data,
+                  options: options
+                });
+              },
+              onerror(data) {
+                resolve({
+                  result: 'Error',
+                  statusText: 'Error',
+                  status: 603,
+                  data: data,
+                  options: options
+                });
+              },
+              onload(data) {
+                resolve({
+                  result: 'Success',
+                  statusText: 'Load',
+                  status: 600,
+                  data: data,
+                  options: options
+                });
+              }
+            },
+            ...options
+          };
+          GM_xmlhttpRequest(requestObj);
+        });
+        console.log('发送请求:', result);
+        if (result.status !== 600 && times < 2) {
+          return await httpRequest(options, times + 1);
+        }
+        return result;
+      } catch (error) {
+        throwError(error, 'httpRequest');
+        console.log('发送请求:', {
+          errorMsg: error,
+          options: options
+        });
+        return {
+          result: 'JsError',
+          statusText: 'Error',
+          status: 604,
+          error: error,
+          options: options
+        };
       }
-      if (!((_languages$language = languages[language]) !== null && _languages$language !== void 0 && _languages$language[key])) {
-        return key;
-      }
-      return languages[language][key].replace(/%([\d]+)/g, (match, index) => argvs[parseInt(index, 10)]);
     };
-    const i18n = I18n;
+    const tools_httpRequest = httpRequest;
     const echoLog = _ref => {
       let {
         type,
@@ -987,122 +825,6 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       }
     };
     const scripts_echoLog = echoLog;
-    function throwError(error, name) {
-      scripts_echoLog({
-        html: `<li><font class="success">${i18n('initSuccess', 'Steam')}</font></li>`
-      });
-      scripts_echoLog({
-        text: i18n('updatingAuth', i18n('steamStore'))
-      }).error();
-      scripts_echoLog({
-        text: i18n('updatingAuth', i18n('steamCommunity'))
-      }).success();
-      external_Swal_default().fire({
-        title: i18n('errorReport'),
-        icon: 'error',
-        showCancelButton: true,
-        confirmButtonText: i18n('ok'),
-        cancelButtonText: i18n('close')
-      }).then(_ref => {
-        let {
-          value
-        } = _ref;
-        if (value) {
-          window.open(`https://github.com/HCLonely/auto-task-v4/issues/new?title=${encodeURIComponent(`脚本报错: ${name}`)}&body=${encodeURIComponent(`错误链接: [${window.location.href}](${window.location.href})
-
-环境:
-\`\`\`
-${JSON.stringify((0, javascript_utils_umd_min.ua)(), null, 4)}
-\`\`\`
-脚本管理器: \`${GM_info.scriptHandler} ${GM_info.version}\`
-脚本版本: \`${GM_info.script.version}\`
-
-报错信息:
-\`\`\`
-${error.stack}
-\`\`\`
-
-执行日志:
-\`\`\`
-${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\n')}
-\`\`\`
-`)}`, '_blank');
-        }
-      });
-      console.log('%c%s', 'color:white;background:red', `${name}\n${error.stack}`);
-    }
-    const httpRequest = async function(options) {
-      let times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-      try {
-        const result = await new Promise(resolve => {
-          if (options.dataType) {
-            options.responseType = options.dataType;
-          }
-          const requestObj = {
-            ...{
-              timeout: 3e4,
-              ontimeout(data) {
-                resolve({
-                  result: 'Error',
-                  statusText: 'Timeout',
-                  status: 601,
-                  data: data,
-                  options: options
-                });
-              },
-              onabort(data) {
-                resolve({
-                  result: 'Error',
-                  statusText: 'Aborted',
-                  status: 602,
-                  data: data,
-                  options: options
-                });
-              },
-              onerror(data) {
-                resolve({
-                  result: 'Error',
-                  statusText: 'Error',
-                  status: 603,
-                  data: data,
-                  options: options
-                });
-              },
-              onload(data) {
-                resolve({
-                  result: 'Success',
-                  statusText: 'Load',
-                  status: 600,
-                  data: data,
-                  options: options
-                });
-              }
-            },
-            ...options
-          };
-          GM_xmlhttpRequest(requestObj);
-        });
-        console.log('发送请求:', result);
-        if (result.status !== 600 && times < 2) {
-          return await httpRequest(options, times + 1);
-        }
-        return result;
-      } catch (error) {
-        throwError(error, 'httpRequest');
-        console.log('发送请求:', {
-          errorMsg: error,
-          options: options
-        });
-        return {
-          result: 'JsError',
-          statusText: 'Error',
-          status: 604,
-          error: error,
-          options: options
-        };
-      }
-    };
-    const tools_httpRequest = httpRequest;
     const unique = array => {
       try {
         return [ ...new Set(array) ];
@@ -1218,40 +940,6 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         return '#fff';
       }
     };
-    function _defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
-    class Social {
-      constructor() {
-        _defineProperty(this, 'tasks', void 0);
-      }
-      getRealParams(name, links, doTask, link2param) {
-        try {
-          let realParams = [];
-          if (links.length > 0) {
-            realParams = [ ...realParams, ...links.map(link => link2param(link)).filter(link => link) ];
-          }
-          if (!doTask && this.tasks[name].length > 0) {
-            realParams = [ ...realParams, ...this.tasks[name] ];
-          }
-          return unique(realParams);
-        } catch (error) {
-          throwError(error, 'Social.getRealParams');
-          return [];
-        }
-      }
-    }
-    const social_Social = Social;
     const defaultGlobalOptions = {
       doTask: {
         discord: {
@@ -1340,6 +1028,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       other: {
         twitterVerifyId: '783214',
         youtubeVerifyChannel: 'UCrXUsMBcfTVqwAS7DKg9C0Q',
+        autoUpdateSource: 'jsDelivr',
+        language: 'zh',
         checkLogin: true,
         checkLeftKey: true,
         defaultShowButton: true,
@@ -1433,6 +1123,560 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         throwError(error, 'changeGlobalOptions');
       }
     };
+    const data = {
+      website: '网站',
+      type: '类型',
+      edit: '编辑',
+      whiteList: '白名单',
+      skipTask: '跳过撤销任务',
+      whiteListOptions: '白名单设置',
+      changeWhiteListOption: '设置白名单(%0)',
+      whiteListNotFound: '找不到此项白名单: %0',
+      changeWhiteListSuccess: '白名单修改成功，刷新生效！',
+      changeWebsiteOptions: '网站设置',
+      changeGlobalOptions: '全局设置',
+      ok: '是',
+      save: '保存',
+      close: '关闭',
+      return: '返回',
+      option: '选项',
+      value: '值',
+      websiteOptions: '当前网站设置',
+      changeWebsiteOptionsSuccess: '更改当前网站设置成功，刷新生效！',
+      changeGlobalOptionsSuccess: '更改全局设置成功，刷新生效！',
+      needLogin: '请先登录！',
+      getTasksInfo: '正在获取并处理任务信息...',
+      gettingKey: '正在获取Key...',
+      verifyingTask: '正在验证任务',
+      notice: '自动任务脚本提醒',
+      noKeysLeft: '此页面已经没有剩余key了，是否关闭？',
+      giveawayEnded: '此活动已结束，是否关闭？',
+      giveawayNotWork: '此活动因某些原因(已结束/暂停/未开始...)不可用(如果是脚本误判请及时反馈)，是否关闭？',
+      confirm: '确定',
+      cancel: '取消',
+      unKnown: '未知',
+      unKnownTaskType: '未识别的任务',
+      doing: '正在做任务',
+      allTasksComplete: '所有任务已完成！',
+      getTaskIdFailed: '获取任务Id失败！',
+      initSuccess: '%0 初始化成功！',
+      initFailed: '%0 初始化失败！',
+      errorLink: '链接错误: %0',
+      needInit: '请先初始化',
+      verifyingAuth: '正在验证%0凭证...',
+      updatingAuth: '正在更新%0凭证...',
+      initing: '正在初始化...',
+      getFailed: '获取%0失败！',
+      checkLoginFailed: '检测登录状态失败！',
+      checkLeftKeyFailed: '检测剩余Key失败！',
+      userId: '用户Id',
+      joiningGiveaway: '正在加入赠Key',
+      needJoinGiveaway: '需要先加入赠Key',
+      cannotUndo: '此网站不支持取消任务',
+      verifyAuth: '正在验证 %0 凭证...',
+      closePageNotice: '如果此页面没有自动关闭，请自行关闭本页面。',
+      errorReport: '检测到脚本报错，是否前往反馈BUG？',
+      visitingLink: '正在访问链接: ',
+      doTask: '做任务',
+      undoTask: '撤销任务',
+      verifyTask: '验证任务',
+      getKey: '获取Key',
+      selectAll: '全选',
+      selectNone: '全不选',
+      invertSelect: '反选',
+      doFreeTask: '加入免费赠品',
+      doPointTask: '加入点数赠品',
+      skipTaskOption: '设置中已配置跳过任务',
+      other: '其他',
+      globalOptions: '全局设置',
+      checkLogin: '登录检测</br>需要登录的网站自动登录，部分本网站支持',
+      checkLeftKey: '剩余Key检测</br>赠Key活动结束提示是否关闭，部分本网站支持',
+      twitterVerifyId: '通过尝试关注该账号验证Twitter凭证</br>默认为Twitter官方帐号 783214',
+      youtubeVerifyChannel: '通过尝试订阅该频道验证YouTube凭证</br>默认为YouTube官方频道 UCrXUsMBcfTVqwAS7DKg9C0Q',
+      autoUpdateSource: '更新源</br>github: 需代理，实时更新</br>jsdelivr: 可不用代理，更新有延迟</br>auto: 首先使用github源更新，失败后尝试用jsdelivr源更新',
+      saveGlobalOptions: '保存全局设置',
+      settingPage: '设置页面',
+      name: '名称',
+      version: '版本',
+      scriptManager: '脚本管理器',
+      script: '脚本',
+      environment: '环境',
+      os: '系统',
+      browser: '浏览器',
+      getId: '获取 %0 id',
+      getTwitterUserId: '获取Twitter用户id(获取id功能仅在设置页面可用)',
+      getYoutubeChannelId: '获取Youtube频道id(获取id功能仅在设置页面可用)',
+      showButton: '显示按钮',
+      hideButton: '隐藏按钮',
+      showLog: '显示日志',
+      hideLog: '隐藏日志',
+      defaultShowButton: '默认显示按钮',
+      defaultShowLog: '默认显示日志',
+      position: '组件位置',
+      buttonSideX: '按钮区域水平方向定位(实时预览功能仅在设置页面可用)</br>left: 靠左 | right: 靠右',
+      buttonSideY: '按钮区域垂直方向定位(实时预览功能仅在设置页面可用)</br>top: 靠上 | bottom: 靠下',
+      buttonDistance: '按钮区域距边缘的距离(实时预览功能仅在设置页面可用)</br>格式: X距离,Y距离',
+      showButtonSideX: '显示按钮水平方向定位(实时预览功能仅在设置页面可用)</br>left: 靠左 | right: 靠右',
+      showButtonSideY: '显示按钮垂直方向定位(实时预览功能仅在设置页面可用)</br>top: 靠上 | bottom: 靠下',
+      showButtonDistance: '显示按钮距边缘的距离(实时预览功能仅在设置页面可用)</br>格式: X距离,Y距离',
+      logSideX: '日志区域水平方向定位(实时预览功能仅在设置页面可用)</br>left: 靠左 | right: 靠右',
+      logSideY: '日志区域垂直方向定位(实时预览功能仅在设置页面可用)</br>top: 靠上 | bottom: 靠下',
+      logDistance: '日志区域距边缘的距离(实时预览功能仅在设置页面可用)</br>格式: X距离,Y距离',
+      hotKey: '快捷键',
+      doTaskKey: '做任务快捷键</br>(实时预览功能仅在设置页面可用)',
+      undoTaskKey: '撤销任务快捷键</br>(实时预览功能仅在设置页面可用)',
+      toggleLogKey: '显示/隐藏日志快捷键</br>(实时预览功能仅在设置页面可用)',
+      tasksHistory: '任务历史',
+      clearHistory: '清空历史',
+      clearHistoryFinished: '已清空任务历史！',
+      deleteTask: '删除任务',
+      lastChangeTime: '最后一次修改时间',
+      clearTaskFinished: '删除以下任务完成！',
+      clearTaskFailed: '删除任务失败，没有找到任务名！',
+      syncData: '数据同步',
+      settingData: '正在上传数据...',
+      gettingData: '正在获取数据...',
+      help: '帮助',
+      fileName: '文件名',
+      upload2gist: '同步到Gist',
+      downloadFromGist: '从Gist同步',
+      saveAndTest: '保存配置并测试',
+      testSuccess: '测试成功！',
+      testFailed: '测试失败！',
+      saveAndTestNotice: '请先保存配置并测试！',
+      processingData: '正在处理数据...',
+      updatingData: '正在上传数据...',
+      syncDataSuccess: '同步数据成功！',
+      syncDataFailed: '同步数据失败，请在控制台查看错误信息！',
+      downloadingData: '正在下载数据...',
+      checkedNoData: '没有检测到远程数据，请确认配置是否正确！',
+      savingData: '正在保存数据...',
+      syncHistory: '同步任务历史',
+      checkUpdateFailed: '检测更新失败',
+      newVersionNotice: '检测到新版本V%0, <a href="%1" target="_blank">点此更新</a>',
+      language: '语言</br>目前仅支持zh: 中文, en: 英文',
+      gistOptions: 'Gist 设置',
+      swalNotice: '检测到您第一次安装V4版本脚本，请前往阅读用前必读内容！',
+      echoNotice: '检测到您第一次安装V4版本脚本，请<a href="%0" target="_blank">点此前往</a>阅读用前必读内容！',
+      noticeLink: 'https://auto-task-doc.js.org/guide/#用前必读',
+      groups: '组',
+      wishlists: '愿望单',
+      follows: '游戏关注',
+      forums: '论坛',
+      workshops: '创意工坊收藏',
+      curators: '鉴赏家',
+      workshopVotes: '创意工坊点赞',
+      announcements: '社区通知',
+      steamCommunity: 'Steam社区',
+      steamStore: 'Steam商店',
+      needLoginSteamStore: '请先<a href="https://store.steampowered.com/login/" target="_blank">登录Steam商店</a>',
+      needLoginSteamCommunity: '请先<a href="https://steamcommunity.com/login/home/" target="_blank">登录Steam社区</a>',
+      joiningSteamGroup: '正在加入Steam组',
+      leavingSteamGroup: '正在退出Steam组',
+      gettingSteamGroupId: '正在获取Steam组Id',
+      subscribingForum: '正在订阅Steam论坛',
+      unsubscribingForum: '正在取消订阅Steam论坛',
+      gettingForumId: '正在获取Steam论坛Id',
+      followingCurator: '正在关注Steam鉴赏家',
+      unfollowingCurator: '正在取关Steam鉴赏家',
+      addingToWishlist: '正在添加游戏到Steam愿望单',
+      removingFromWishlist: '正在从Steam愿望单移除游戏',
+      followingGame: '正在关注Steam游戏',
+      unfollowingGame: '正在取关Steam游戏',
+      favoritingWorkshop: '正在收藏Steam创意工坊物品',
+      unfavoritingWorkshop: '正在取消收藏Steam创意工坊物品',
+      gettingWorkshopAppId: '正在获取Steam创意工坊物品Id',
+      votingUpWorkshop: '正在点赞Steam创意工坊物品',
+      gettingAnnouncementParams: '正在获取Steam通知信息',
+      likingAnnouncement: '正在点赞Steam通知',
+      changingArea: '正在更换Steam地区: %0...',
+      notNeededChangeArea: '当前地区不需要更换',
+      noAnotherArea: '请检测是否开启正确开启代理',
+      gettingAreaInfo: '正在获取Steam地区信息...',
+      changeAreaNotice: '疑似锁区游戏，尝试换区执行',
+      steamFinishNotice: 'Steam任务完成，尝试将购物车地区换回CN',
+      servers: '服务器',
+      joiningDiscordServer: '正在加入Discord服务器',
+      leavingDiscordServer: '正在退出Discord服务器',
+      gettingDiscordGuild: '正在获取Discord服务器Id',
+      users: '用户',
+      loginIns: '请先<a href="https://www.instagram.com/accounts/login/" target="_blank">登录Instagram</a>',
+      insBanned: '您的Instagram账户已被封禁',
+      verifyingInsAuth: '正在验证Instagram凭证...',
+      gettingInsUserId: '正在获取Instagram用户Id',
+      followingIns: '正在关注Instagram用户',
+      unfollowingIns: '正在取关Instagram用户',
+      reddits: '社区/用户',
+      loginReddit: '请先<a href="https://www.reddit.com/login/" target="_blank">登录Reddit</a>',
+      changingRedditVersion: '正在切换Reddit为新版页面...',
+      joiningReddit: '正在加入Reddit社区',
+      leavingReddit: '正在退出Reddit社区',
+      followingRedditUser: '正在关注Reddit用户',
+      unfollowingRedditUser: '正在取关Reddit用户',
+      channels: '频道',
+      followingTwitchChannel: '正在关注Twitch频道',
+      unfollowingTwitchChannel: '正在取关Twitch频道',
+      gettingTwitchChannelId: '正在获取Twitch频道Id',
+      twitterUser: '推特用户',
+      retweets: '转推',
+      followingTwitterUser: '正在关注推特用户',
+      unfollowingTwitterUser: '正在取关推特用户',
+      retweetting: '正在转推',
+      unretweetting: '正在撤销转推',
+      names: '组/社区/动态',
+      loginVk: '请先<a href="https://vk.com/login/" target="_blank">登录Vk</a>',
+      gettingVkId: '正在获取Vk任务Id',
+      joiningVkGroup: '正在加入Vk组',
+      leavingVkGroup: '正在退出Vk组',
+      joiningVkPublic: '正在加入Vk社区',
+      leavingVkPublic: '正在退出Vk社区',
+      sendingVkWall: '正在转发Vk动态',
+      deletingVkWall: '正在撤销转发Vk动态',
+      youtubeChannel: 'YouTube频道',
+      likes: '点赞',
+      loginYtb: '请先<a href="https://accounts.google.com/ServiceLogin?service=youtube" target="_blank">登录YouTube</a>',
+      tryUpdateYtbAuth: '请尝试<a href="https://www.youtube.com/#auth" target="_blank">更新YouTube凭证</a>',
+      gettingYtbToken: '正在获取YouTube Token...',
+      followingYtbChannel: '正在订阅YouTube频道',
+      unfollowingYtbChannel: '正在退订YouTube频道',
+      likingYtbVideo: '正在点赞YouTube视频',
+      unlikingYtbVideo: '正在取消点赞YouTube视频',
+      giveKeyNoticeBefore: '每次验证间隔15s',
+      giveKeyNoticeAfter: '如果没有key, 请在<a href="https://givekey.ru/profile" target="_blank">https://givekey.ru/profile</a>查看',
+      noPoints: '点数不够，跳过抽奖',
+      getNeedPointsFailed: '获取所需点数失败，跳过抽奖',
+      joiningLottery: '正在加入抽奖',
+      doingGleamTask: '正在做Gleam任务...',
+      gettingGleamLink: '正在获取Gleam任务链接...',
+      gleamTaskNotice: '如果此页面长时间未关闭，请完成任一任务后自行关闭！',
+      verifiedGleamTasks: '已尝试验证所有任务，验证失败的任务请尝试手动验证或完成！',
+      SweepWidgetNotice: '正在处理并验证任务，每次验证任务有1~3s间隔防止触发验证过快警告...'
+    };
+    const zh_CN = data;
+    const en_US_data = {
+      website: 'Website',
+      type: 'Type',
+      edit: 'Edit',
+      whiteList: 'Whitelist',
+      skipTask: 'Skip undo task',
+      whiteListOptions: 'Whitelist options',
+      changeWhiteListOption: 'Whitelist option(%0)',
+      whiteListNotFound: 'Cannot find this whitelist: %0',
+      changeWhiteListSuccess: 'The whitelist is successfully modified, and the page refresh will take effect!',
+      changeWebsiteOptions: 'Website options',
+      changeGlobalOptions: 'Global options',
+      ok: 'OK',
+      save: 'Save',
+      close: 'Close',
+      return: 'Return',
+      option: 'Option',
+      value: 'Value',
+      websiteOptions: 'Current website settings',
+      changeWebsiteOptionsSuccess: 'The current website setting is changed successfully, and the page refresh will take effect!',
+      changeGlobalOptionsSuccess: 'The global setting is changed successfully, and the refresh will take effect!',
+      needLogin: 'Please log in first!',
+      getTasksInfo: 'Obtaining and processing task information...',
+      gettingKey: 'Getting Key...',
+      verifyingTask: 'Verifying task',
+      notice: 'Automatic task script notice',
+      noKeysLeft: 'There are no more keys left on this page. Do you want to close it?',
+      giveawayEnded: 'This event has ended, do you want to close it?',
+      giveawayNotWork: 'This activity is unavailable for some reasons (ended/suspended/not started...)' + ' (if it is a script misjudgment, please give us feedback in time), is it closed?',
+      confirm: 'Confirm',
+      cancel: 'Cancel',
+      unKnown: 'Unknown',
+      unKnownTaskType: 'Unrecognized task',
+      doing: 'Doing a task',
+      allTasksComplete: 'All tasks have been completed!',
+      getTaskIdFailed: 'Failed to obtain task Id!',
+      initSuccess: '%0 was initialized successfully!',
+      initFailed: '%0 initialization failed!',
+      errorLink: 'Link error: %0',
+      needInit: 'Please initialize first',
+      verifyingAuth: 'Verifying %0 token...',
+      updatingAuth: 'Update %0 token...',
+      initing: 'Initializing...',
+      getFailed: 'Failed to get %0!',
+      checkLoginFailed: 'Failed to detect login status!',
+      checkLeftKeyFailed: 'Failed to detect the remaining keys!',
+      userId: 'User Id',
+      joiningGiveaway: 'Joining giveaway',
+      needJoinGiveaway: 'Need to join the giveaway first',
+      cannotUndo: 'This website does not support canceling tasks',
+      verifyAuth: 'Verifying %0 token...',
+      closePageNotice: 'f this page does not close automatically, please close this page yourself.',
+      errorReport: 'A script error is detected, do you want to report the BUG?',
+      visitingLink: 'Visiting link: ',
+      doTask: 'DoTask',
+      undoTask: 'UndoTask',
+      verifyTask: 'Verify',
+      getKey: 'GetKey',
+      selectAll: 'SelectAll',
+      selectNone: 'SelectNone',
+      invertSelect: 'InvertSelect',
+      doFreeTask: 'FreeTask',
+      doPointTask: 'PointTask',
+      skipTaskOption: 'Skip task has been configured in the settings',
+      other: 'Other',
+      globalOptions: 'Global Options',
+      checkLogin: 'Login detection</br>Need to log in to the website automatically log in, part of this website supports.',
+      checkLeftKey: 'Key remaining detection</br>The end of the giveaway event prompts whether to close or not, part of this website supports.',
+      twitterVerifyId: 'Verify Twitter token by trying to follow the account.</br>The default is the official Twitter account 783214.',
+      youtubeVerifyChannel: 'Verify YouTube token by trying to subscribe to the channel.</br>' + 'The default is the official YouTube channel UCrXUsMBcfTVqwAS7DKg9C0Q.',
+      autoUpdateSource: 'The source to update</br>github: Fast update.</br>' + 'jsdelivr: Update is delayed</br>auto: First use github source to update, after failure, try to update with jsdelivr source.',
+      saveGlobalOptions: 'Save global settings',
+      settingPage: 'Setting Page',
+      name: 'Name',
+      version: 'Version',
+      scriptManager: 'Script Manager',
+      script: 'Script',
+      environment: 'Environment',
+      os: 'OS',
+      browser: 'Browser',
+      getId: 'Get %0 id',
+      getTwitterUserId: 'Get Twitter user id (Get id function is only available on the settings page).',
+      getYoutubeChannelId: 'Get Youtube channel id (Get id function is only available on the settings page).',
+      showButton: 'ShowButton',
+      hideButton: 'HideButton',
+      showLog: 'ShowLog',
+      hideLog: 'HideLog',
+      defaultShowButton: 'Default display button',
+      defaultShowLog: 'Display log by default',
+      position: 'Component position',
+      buttonSideX: 'Horizontal positioning of the button area (real-time preview function is only available on the setting page).' + '</br>left: left | right: right',
+      buttonSideY: 'The button area is positioned in the vertical direction (real-time preview function is only available on the settings page).' + '</br>top: top | bottom: bottom',
+      buttonDistance: 'The distance between the button area and the edge (the real-time preview function is only available on the setting page).' + '</br> Format: X distance, Y distance',
+      showButtonSideX: 'ShowButton horizontal positioning (real-time preview function is only available on the setting page).' + '</br>left: left | right: right',
+      showButtonSideY: 'ShowButton vertical positioning (real-time preview function is only available on the setting page).' + '</br>top: top | bottom: bottom',
+      showButtonDistance: 'The distance between the ShowButton and the edge (real-time preview function is only available on the setting page).' + '</br> Format: X distance, Y distance',
+      logSideX: 'Horizontal positioning of the log area (real-time preview function is only available on the setting page).' + '</br>left: left | right: right',
+      logSideY: 'Vertical positioning of the log area (real-time preview function is only available on the setting page).' + '</br>top: top | bottom: bottom',
+      logDistance: 'The distance between the log area and the edge (the real-time preview function is only available on the setting page).' + '</br> Format: X distance, Y distance',
+      hotKey: 'Shortcut key',
+      doTaskKey: 'DoTask shortcut keys</br> (real-time preview function is only available on the settings page).',
+      undoTaskKey: 'UndoTask shortcut keys</br> (real-time preview function is only available on the settings page).',
+      toggleLogKey: 'ShowLog/HideLog shortcut keys</br> (real-time preview function is only available on the settings page).',
+      tasksHistory: 'Tasks history',
+      clearHistory: 'Clear history',
+      clearHistoryFinished: 'The mission history has been cleared!',
+      deleteTask: 'Delete task',
+      lastChangeTime: 'Last Change Time',
+      clearTaskFinished: 'Delete the following tasks completed!',
+      clearTaskFailed: 'Failed to delete the task, the task name was not found!',
+      syncData: 'Data synchronization',
+      settingData: 'Uploading data...',
+      gettingData: 'Getting data...',
+      help: 'Help',
+      fileName: 'Filename',
+      upload2gist: 'Sync to Gist',
+      downloadFromGist: 'Sync from Gist',
+      saveAndTest: 'Save configuration and test',
+      testSuccess: 'Test success!',
+      testFailed: 'Test failed!',
+      saveAndTestNotice: 'Please save the configuration and test first!',
+      processingData: 'Processing data...',
+      updatingData: 'Uploading data...',
+      syncDataSuccess: 'Synchronized data successfully!',
+      syncDataFailed: 'Failed to synchronize data, please check the error message on the console!',
+      downloadingData: 'Downloading data...',
+      checkedNoData: 'No remote data is detected, please confirm whether the configuration is correct!',
+      savingData: 'Saving data...',
+      syncHistory: 'Synchronize tasks history',
+      checkUpdateFailed: 'Check update failed',
+      newVersionNotice: 'Checked a new version V%0, <a href="%1" target="_blank">click to update</a>',
+      language: 'Language</br> Currently only supports zh: Chinese, en: English',
+      gistOptions: 'Gist Settings',
+      swalNotice: 'It is detected that you are installing the V4 version script for the first time' + ', please go to read the READ ME FIRST content before use!',
+      echoNotice: 'It is detected that you are installing the V4 version script for the first time' + ', please <a href="%0" target="_blank">click here</a> to read the READ ME FIRST content before use!',
+      noticeLink: 'https://auto-task-doc.js.org/en/guide/#read-me-first',
+      groups: 'Group',
+      wishlists: 'Wishlist',
+      follows: 'Follow Game',
+      forums: 'Forum',
+      workshops: 'Favorite Workshop',
+      curators: 'Curator',
+      workshopVotes: 'Voteup Workshop',
+      announcements: 'Announcement',
+      steamCommunity: 'Steam Community',
+      steamStore: 'Steam Store',
+      needLoginSteamStore: 'Please <a href="https://store.steampowered.com/login/" target="_blank">log in to the Steam Store</a>',
+      needLoginSteamCommunity: 'Please <a href="https://steamcommunity.com/login/home/" target="_blank">log in to the Steam Community</a>',
+      joiningSteamGroup: 'Joining Steam Group',
+      leavingSteamGroup: 'Leaving Steam Group',
+      gettingSteamGroupId: 'Getting Steam Group Id',
+      subscribingForum: 'Subscribing the Steam Forum',
+      unsubscribingForum: 'Unsubscribing the Steam Forum',
+      gettingForumId: 'Getting Steam Forum Id',
+      followingCurator: 'Following Steam Curator',
+      unfollowingCurator: 'Unfollowing Steam Curator',
+      addingToWishlist: 'Adding the game to the Steam wishlist',
+      removingFromWishlist: 'Removing the game from the Steam wishlist',
+      followingGame: 'Following Steam games',
+      unfollowingGame: 'Unfollowing Steam games',
+      favoritingWorkshop: 'Favouring Steam Workshop Items',
+      unfavoritingWorkshop: 'Unfavoriting Steam Workshop Items',
+      gettingWorkshopAppId: 'Getting Steam Workshop Item Id',
+      votingUpWorkshop: 'Liking Steam workshop items',
+      gettingAnnouncementParams: 'Getting Steam announcement information',
+      likingAnnouncement: 'Liking Steam announcement',
+      changingArea: 'Changing Steam area: %0...',
+      notNeededChangeArea: 'The current area does not need to be changed',
+      noAnotherArea: 'Please check whether the proxy is turned on correctly',
+      gettingAreaInfo: 'Getting Steam area information...',
+      changeAreaNotice: 'Suspected of a locked zone game, try to change the zone to execute',
+      steamFinishNotice: 'Steam task completed, try to change the shopping cart area back to CN',
+      servers: 'Server',
+      joiningDiscordServer: 'Joining Discord Server',
+      leavingDiscordServer: 'Leaving Discord Server',
+      gettingDiscordGuild: 'Getting Discord server Id',
+      users: 'User',
+      loginIns: 'Please <a href="https://www.instagram.com/accounts/login/" target="_blank">log in to Instagram</a>',
+      insBanned: 'Your Instagram account has been banned',
+      verifyingInsAuth: 'Verifying Instagram token...',
+      gettingInsUserId: 'Getting Instagram user Id',
+      followingIns: 'Following Instagram user',
+      unfollowingIns: 'Unfollowing Instagram user',
+      reddits: 'Reddit/User',
+      loginReddit: 'Please <a href="https://www.reddit.com/login/" target="_blank">log in to Reddit</a>',
+      changingRedditVersion: 'Switching Reddit to a new version page...',
+      joiningReddit: 'Joining the Reddit',
+      leavingReddit: 'Leaving the Reddit',
+      followingRedditUser: 'Following Reddit User',
+      unfollowingRedditUser: 'Unfollowing Reddit User',
+      channels: 'Channel',
+      followingTwitchChannel: 'Following Twitch Channel',
+      unfollowingTwitchChannel: 'Unfollowing Twitch Channel',
+      gettingTwitchChannelId: 'Getting Twitch Channel Id',
+      twitterUser: 'Twitter User',
+      retweets: 'Retweet',
+      followingTwitterUser: 'Following Twitter User',
+      unfollowingTwitterUser: 'Unfollowing Twitter User',
+      retweetting: 'Retweeting',
+      unretweetting: 'Unretweeting',
+      names: 'Group/Public/Wall',
+      loginVk: 'Please <a href="https://vk.com/login/" target="_blank">log in to Vk</a>',
+      gettingVkId: 'Getting Vk task Id',
+      joiningVkGroup: 'Joining Vk Group',
+      leavingVkGroup: 'Leaving Vk Group',
+      joiningVkPublic: 'Joining Vk Public',
+      leavingVkPublic: 'Leaving Vk Public',
+      sendingVkWall: 'Sending Vk Wall',
+      deletingVkWall: 'Deleting Vk Wall',
+      youtubeChannel: 'YouTube Channel',
+      likes: 'Like',
+      loginYtb: 'Please <a href="https://accounts.google.com/ServiceLogin?service=youtube" target="_blank">log in to YouTube</a>',
+      tryUpdateYtbAuth: 'Please try to <a href="https://www.youtube.com/#auth" target="_blank">update YouTube token</a>',
+      gettingYtbToken: 'Getting YouTube Token...',
+      followingYtbChannel: 'Subscribing to YouTube channel',
+      unfollowingYtbChannel: 'Unsubscribing to YouTube channel',
+      likingYtbVideo: 'Liking YouTube video',
+      unlikingYtbVideo: 'Unliking YouTube video',
+      giveKeyNoticeBefore: 'Each verification interval is 15s',
+      giveKeyNoticeAfter: 'If there is no key, please check at <a href="https://givekey.ru/profile" target="_blank">https://givekey.ru/profile</a>',
+      noPoints: 'Not enough points, skip the lottery',
+      getNeedPointsFailed: 'ailed to obtain the required points, skip the lottery',
+      joiningLottery: 'Joining the lottery',
+      doingGleamTask: 'Doing Gleam Task...',
+      gettingGleamLink: 'Getting Gleam task link...',
+      gleamTaskNotice: 'If this page has not been closed for a long time, please close it yourself after completing any task!',
+      verifiedGleamTasks: 'Attempted to verify all tasks. If the verification fails, please try to verify manually or complete it!',
+      SweepWidgetNotice: 'The task is being processed and verified. ' + 'There is an interval of 1~3s for each verification task to prevent the triggering of too fast verification warning...'
+    };
+    const en_US = en_US_data;
+    const languages = {
+      zh: zh_CN,
+      en: en_US
+    };
+    const language = [ 'zh', 'en' ].includes(globalOptions.other.language) ? globalOptions.other.language : 'en';
+    const I18n = function(key) {
+      var _languages$language;
+      for (var _len = arguments.length, argvs = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        argvs[_key - 1] = arguments[_key];
+      }
+      if (!((_languages$language = languages[language]) !== null && _languages$language !== void 0 && _languages$language[key])) {
+        return key;
+      }
+      return languages[language][key].replace(/%([\d]+)/g, (match, index) => argvs[parseInt(index, 10)]);
+    };
+    const i18n = I18n;
+    function throwError(error, name) {
+      scripts_echoLog({
+        html: `<li><font class="success">${i18n('initSuccess', 'Steam')}</font></li>`
+      });
+      scripts_echoLog({
+        text: i18n('updatingAuth', i18n('steamStore'))
+      }).error();
+      scripts_echoLog({
+        text: i18n('updatingAuth', i18n('steamCommunity'))
+      }).success();
+      external_Swal_default().fire({
+        title: i18n('errorReport'),
+        icon: 'error',
+        showCancelButton: true,
+        confirmButtonText: i18n('ok'),
+        cancelButtonText: i18n('close')
+      }).then(_ref => {
+        let {
+          value
+        } = _ref;
+        if (value) {
+          window.open(`https://github.com/HCLonely/auto-task-v4/issues/new?title=${encodeURIComponent(`脚本报错: ${name}`)}&labels=bug&body=${encodeURIComponent(`错误链接: [${window.location.href}](${window.location.href})
+
+环境:
+\`\`\`
+${JSON.stringify((0, javascript_utils_umd_min.ua)(), null, 4)}
+\`\`\`
+脚本管理器: \`${GM_info.scriptHandler} ${GM_info.version}\`
+脚本版本: \`${GM_info.script.version}\`
+
+报错信息:
+\`\`\`
+${error.stack}
+\`\`\`
+
+执行日志:
+\`\`\`
+${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\n')}
+\`\`\`
+`)}`, '_blank');
+        }
+      });
+      console.log('%c%s', 'color:white;background:red', `${name}\n${error.stack}`);
+    }
+    function _defineProperty(obj, key, value) {
+      if (key in obj) {
+        Object.defineProperty(obj, key, {
+          value: value,
+          enumerable: true,
+          configurable: true,
+          writable: true
+        });
+      } else {
+        obj[key] = value;
+      }
+      return obj;
+    }
+    class Social {
+      constructor() {
+        _defineProperty(this, 'tasks', void 0);
+      }
+      getRealParams(name, links, doTask, link2param) {
+        try {
+          let realParams = [];
+          if (links.length > 0) {
+            realParams = [ ...realParams, ...links.map(link => link2param(link)).filter(link => link) ];
+          }
+          if (!doTask && this.tasks[name].length > 0) {
+            realParams = [ ...realParams, ...this.tasks[name] ];
+          }
+          return unique(realParams);
+        } catch (error) {
+          throwError(error, 'Social.getRealParams');
+          return [];
+        }
+      }
+    }
+    const social_Social = Social;
     function _classPrivateMethodInitSpec(obj, privateSet) {
       _checkPrivateRedeclaration(obj, privateSet);
       privateSet.add(obj);
@@ -6389,12 +6633,12 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         try {
           if (!GiveawaySu_classPrivateMethodGet(this, _checkLogin, _checkLogin2).call(this)) {
             scripts_echoLog({
-              html: `<li><font class="warning>${i18n('checkLoginFailed')}</font></li>`
+              html: `<li><font class="warning">${i18n('checkLoginFailed')}</font></li>`
             });
           }
           if (!await GiveawaySu_classPrivateMethodGet(this, _checkLeftKey, _checkLeftKey2).call(this)) {
             scripts_echoLog({
-              html: `<li><font class="warning>${i18n('checkLeftKeyFailed')}</font></li>`
+              html: `<li><font class="warning">${i18n('checkLeftKeyFailed')}</font></li>`
             });
           }
         } catch (error) {
@@ -6617,12 +6861,12 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         try {
           if (!Indiedb_classPrivateMethodGet(this, Indiedb_checkLogin, Indiedb_checkLogin2).call(this)) {
             scripts_echoLog({
-              html: `<li><font class="warning>${i18n('checkLoginFailed')}</font></li>`
+              html: `<li><font class="warning">${i18n('checkLoginFailed')}</font></li>`
             });
           }
           if (!await Indiedb_classPrivateMethodGet(this, Indiedb_checkLeftKey, Indiedb_checkLeftKey2).call(this)) {
             scripts_echoLog({
-              html: `<li><font class="warning>${i18n('checkLeftKeyFailed')}</font></li>`
+              html: `<li><font class="warning">${i18n('checkLeftKeyFailed')}</font></li>`
             });
           }
         } catch (error) {
@@ -6984,12 +7228,12 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         try {
           if (!Keyhub_classPrivateMethodGet(this, Keyhub_checkLogin, Keyhub_checkLogin2).call(this)) {
             scripts_echoLog({
-              html: `<li><font class="warning>${i18n('checkLoginFailed')}</font></li>`
+              html: `<li><font class="warning">${i18n('checkLoginFailed')}</font></li>`
             });
           }
           if (!await Keyhub_classPrivateMethodGet(this, Keyhub_checkLeftKey, Keyhub_checkLeftKey2).call(this)) {
             scripts_echoLog({
-              html: `<li><font class="warning>${i18n('checkLeftKeyFailed')}</font></li>`
+              html: `<li><font class="warning">${i18n('checkLeftKeyFailed')}</font></li>`
             });
           }
         } catch (error) {
@@ -7243,7 +7487,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           });
           if (!await Givekey_classPrivateMethodGet(this, Givekey_checkLeftKey, Givekey_checkLeftKey2).call(this)) {
             scripts_echoLog({
-              html: `<li><font class="warning>${i18n('checkLeftKeyFailed')}</font></li>`
+              html: `<li><font class="warning">${i18n('checkLeftKeyFailed')}</font></li>`
             });
           }
         } catch (error) {
@@ -7539,12 +7783,12 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         try {
           if (!GiveeClub_classPrivateMethodGet(this, GiveeClub_checkLogin, GiveeClub_checkLogin2).call(this)) {
             scripts_echoLog({
-              html: `<li><font class="warning>${i18n('checkLoginFailed')}</font></li>`
+              html: `<li><font class="warning">${i18n('checkLoginFailed')}</font></li>`
             });
           }
           if (!await GiveeClub_classPrivateMethodGet(this, GiveeClub_checkLeftKey, GiveeClub_checkLeftKey2).call(this)) {
             scripts_echoLog({
-              html: `<li><font class="warning>${i18n('checkLeftKeyFailed')}</font></li>`
+              html: `<li><font class="warning">${i18n('checkLeftKeyFailed')}</font></li>`
             });
           }
         } catch (error) {
@@ -7760,7 +8004,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         try {
           if (!OpiumPulses_classPrivateMethodGet(this, OpiumPulses_checkLogin, OpiumPulses_checkLogin2).call(this)) {
             scripts_echoLog({
-              html: `<li><font class="warning>${i18n('checkLoginFailed')}</font></li>`
+              html: `<li><font class="warning">${i18n('checkLoginFailed')}</font></li>`
             });
           }
           this.maxPoints = parseInt(this.options.maxPoint, 10);
@@ -8190,7 +8434,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         try {
           if (!Opquests_classPrivateMethodGet(this, Opquests_checkLogin, Opquests_checkLogin2).call(this)) {
             scripts_echoLog({
-              html: `<li><font class="warning>${i18n('checkLoginFailed')}</font></li>`
+              html: `<li><font class="warning">${i18n('checkLoginFailed')}</font></li>`
             });
           }
         } catch (error) {
@@ -8409,7 +8653,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             });
           } else if (!await Gleam_classPrivateMethodGet(this, Gleam_checkLeftKey, Gleam_checkLeftKey2).call(this)) {
             scripts_echoLog({
-              html: `<li><font class="warning>${i18n('checkLeftKeyFailed')}</font></li>`
+              html: `<li><font class="warning">${i18n('checkLeftKeyFailed')}</font></li>`
             });
           }
         } catch (error) {
@@ -8808,7 +9052,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         try {
           if (!SweepWidget_classPrivateMethodGet(this, SweepWidget_checkLogin, SweepWidget_checkLogin2).call(this)) {
             scripts_echoLog({
-              html: `<li><font class="warning>${i18n('checkLoginFailed')}</font></li>`
+              html: `<li><font class="warning">${i18n('checkLoginFailed')}</font></li>`
             });
           }
         } catch (error) {
@@ -9115,7 +9359,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             title: i18n('changeWhiteListOption', value),
             input: 'textarea',
             html: `<input id="socialLink" class="swal2-input" placeholder="在此处输入链接获取id">
-        <button id="link2id" data-type="${value}" class="swal2-confirm swal2-styled">获取id</button>`,
+        <button id="link2id" data-type="${value}" class="swal2-confirm swal2-styled">获取id</button>
+        <p style="margin-bottom:0 !important;">在下方填写白名单，每行一个</p>`,
             inputValue: whiteList[social][type].join('\n'),
             showConfirmButton: true,
             confirmButtonText: i18n('save'),
@@ -9234,141 +9479,145 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
     };
     const syncOptions = () => {
-      const {
-        TOKEN,
-        GIST_ID,
-        FILE_NAME,
-        SYNC_HISTORY
-      } = GM_getValue('gistOptions') || {
-        TOKEN: '',
-        GIST_ID: '',
-        FILE_NAME: '',
-        SYNC_HISTORY: true
-      };
-      external_Swal_default().fire({
-        title: 'Gist 设置',
-        html: `<p>Github Token<input id="github-token" class="swal2-input" placeholder="Github Token" value="${TOKEN}"></p>` + `<p>Gist ID<input id="gist-id" class="swal2-input" placeholder="Gist ID" value="${GIST_ID}"></p>` + `<p>${i18n('fileName')}<input id="file-name" class="swal2-input" placeholder="${i18n('fileName')}" value="${FILE_NAME}"></p>` + '<p><label for="sync-history" class="swal2-checkbox-custom" style="display: flex;">' + `<input id="sync-history" type="checkbox"${SYNC_HISTORY ? ' checked="checked"' : ''}/>` + `<span class="swal2-label">${i18n('syncHistory')}</span></label></p>` + `<p><button id="upload-data" type="button" class="swal2-confirm swal2-styled" style="display: inline-block;">
-      ${i18n('upload2gist')}</button>` + `<button id="download-data" type="button" class="swal2-confirm swal2-styled" style="display: inline-block;">
-      ${i18n('downloadFromGist')}</button></p>`,
-        focusConfirm: false,
-        showLoaderOnConfirm: true,
-        footer: `<a href="https://github.com/HCLonely/IG-Helper/blob/master/README.md" target="_blank">${i18n('help')}</a>`,
-        preConfirm: async () => {
-          const token = $('#github-token').val();
-          const gistId = $('#gist-id').val();
-          const fileName = $('#file-name').val();
-          const syncHistory = $('#sync-history').prop('checked');
-          GM_setValue('gistOptions', {
-            TOKEN: token,
-            GIST_ID: gistId,
-            FILE_NAME: fileName,
-            SYNC_HISTORY: syncHistory
-          });
-          return await getGistData(token, gistId, fileName);
-        },
-        allowOutsideClick: () => !external_Swal_default().isLoading(),
-        confirmButtonText: i18n('saveAndTest'),
-        showCancelButton: true,
-        cancelButtonText: i18n('close')
-      }).then(_ref => {
-        let {
-          value
-        } = _ref;
-        if (value) {
-          external_Swal_default().fire({
-            icon: 'success',
-            title: i18n('testSuccess')
-          }).then(syncOptions);
-        } else if (value !== undefined) {
-          external_Swal_default().fire({
-            icon: 'error',
-            title: i18n('testFailed')
-          }).then(syncOptions);
-        }
-      });
-      $('#upload-data').on('click', async () => {
+      try {
         const {
           TOKEN,
           GIST_ID,
-          FILE_NAME
-        } = GM_getValue('gistOptions') || {};
-        if (!(TOKEN && GIST_ID && FILE_NAME)) {
-          return external_Swal_default().fire({
-            icon: 'error',
-            title: i18n('saveAndTestNotice')
-          }).then(syncOptions);
-        }
+          FILE_NAME,
+          SYNC_HISTORY
+        } = GM_getValue('gistOptions') || {
+          TOKEN: '',
+          GIST_ID: '',
+          FILE_NAME: '',
+          SYNC_HISTORY: true
+        };
         external_Swal_default().fire({
-          icon: 'info',
-          title: i18n('processingData')
-        });
-        const data = {};
-        const names = GM_listValues();
-        const SYNC_HISTORY = $('#sync-history').prop('checked');
-        for (const name of names) {
-          if (name === 'gistOptions' || /^[\w]+?Auth$/.test(name)) {
-            continue;
+          title: i18n('gistOptions'),
+          html: `<p>Github Token<input id="github-token" class="swal2-input" placeholder="Github Token" value="${TOKEN}"></p>` + `<p>Gist ID<input id="gist-id" class="swal2-input" placeholder="Gist ID" value="${GIST_ID}"></p>` + `<p>${i18n('fileName')}<input id="file-name" class="swal2-input" placeholder="${i18n('fileName')}" value="${FILE_NAME}"></p>` + '<p><label for="sync-history" class="swal2-checkbox-custom" style="display: flex;">' + `<input id="sync-history" type="checkbox"${SYNC_HISTORY ? ' checked="checked"' : ''}/>` + `<span class="swal2-label">${i18n('syncHistory')}</span></label></p>` + `<p><button id="upload-data" type="button" class="swal2-confirm swal2-styled" style="display: inline-block;">
+      ${i18n('upload2gist')}</button>` + `<button id="download-data" type="button" class="swal2-confirm swal2-styled" style="display: inline-block;">
+      ${i18n('downloadFromGist')}</button></p>`,
+          focusConfirm: false,
+          showLoaderOnConfirm: true,
+          footer: `<a href="https://auto-task-doc.js.org/guide/#%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5" target="_blank">${i18n('help')}</a>`,
+          preConfirm: async () => {
+            const token = $('#github-token').val();
+            const gistId = $('#gist-id').val();
+            const fileName = $('#file-name').val();
+            const syncHistory = $('#sync-history').prop('checked');
+            GM_setValue('gistOptions', {
+              TOKEN: token,
+              GIST_ID: gistId,
+              FILE_NAME: fileName,
+              SYNC_HISTORY: syncHistory
+            });
+            return await getGistData(token, gistId, fileName);
+          },
+          allowOutsideClick: () => !external_Swal_default().isLoading(),
+          confirmButtonText: i18n('saveAndTest'),
+          showCancelButton: true,
+          cancelButtonText: i18n('close')
+        }).then(_ref => {
+          let {
+            value
+          } = _ref;
+          if (value) {
+            external_Swal_default().fire({
+              icon: 'success',
+              title: i18n('testSuccess')
+            }).then(syncOptions);
+          } else if (value !== undefined) {
+            external_Swal_default().fire({
+              icon: 'error',
+              title: i18n('testFailed')
+            }).then(syncOptions);
           }
-          if (!SYNC_HISTORY && /^[\w]+?Tasks-/.test(name)) {
-            continue;
-          }
-          data[name] = GM_getValue(name);
-        }
-        external_Swal_default().update({
-          icon: 'info',
-          title: i18n('updatingData')
         });
-        if (await setGistData(TOKEN, GIST_ID, FILE_NAME, data)) {
+        $('#upload-data').on('click', async () => {
+          const {
+            TOKEN,
+            GIST_ID,
+            FILE_NAME
+          } = GM_getValue('gistOptions') || {};
+          if (!(TOKEN && GIST_ID && FILE_NAME)) {
+            return external_Swal_default().fire({
+              icon: 'error',
+              title: i18n('saveAndTestNotice')
+            }).then(syncOptions);
+          }
+          external_Swal_default().fire({
+            icon: 'info',
+            title: i18n('processingData')
+          });
+          const data = {};
+          const names = GM_listValues();
+          const SYNC_HISTORY = $('#sync-history').prop('checked');
+          for (const name of names) {
+            if (name === 'gistOptions' || /^[\w]+?Auth$/.test(name)) {
+              continue;
+            }
+            if (!SYNC_HISTORY && /^[\w]+?Tasks-/.test(name)) {
+              continue;
+            }
+            data[name] = GM_getValue(name);
+          }
+          external_Swal_default().update({
+            icon: 'info',
+            title: i18n('updatingData')
+          });
+          if (await setGistData(TOKEN, GIST_ID, FILE_NAME, data)) {
+            external_Swal_default().fire({
+              icon: 'success',
+              title: i18n('syncDataSuccess')
+            });
+          } else {
+            external_Swal_default().fire({
+              icon: 'error',
+              title: i18n('syncDataFailed')
+            });
+          }
+        });
+        $('#download-data').on('click', async () => {
+          const {
+            TOKEN,
+            GIST_ID,
+            FILE_NAME
+          } = GM_getValue('gistOptions') || {};
+          if (!(TOKEN && GIST_ID && FILE_NAME)) {
+            return external_Swal_default().fire({
+              icon: 'error',
+              title: i18n('saveAndTestNotice')
+            }).then(syncOptions);
+          }
+          external_Swal_default().fire({
+            icon: 'info',
+            title: i18n('downloadingData')
+          });
+          const data = await getGistData(TOKEN, GIST_ID, FILE_NAME);
+          if (!data) {
+            return external_Swal_default().fire({
+              icon: 'error',
+              title: i18n('checkedNoData')
+            }).then(syncOptions);
+          }
+          external_Swal_default().update({
+            icon: 'info',
+            title: i18n('savingData')
+          });
+          const SYNC_HISTORY = $('#sync-history').prop('checked');
+          for (const [ name, value ] of Object.entries(data)) {
+            if (!SYNC_HISTORY && /^[\w]+?Tasks-/.test(name)) {
+              continue;
+            }
+            GM_setValue(name, value);
+          }
           external_Swal_default().fire({
             icon: 'success',
             title: i18n('syncDataSuccess')
           });
-        } else {
-          external_Swal_default().fire({
-            icon: 'error',
-            title: i18n('syncDataFailed')
-          });
-        }
-      });
-      $('#download-data').on('click', async () => {
-        const {
-          TOKEN,
-          GIST_ID,
-          FILE_NAME
-        } = GM_getValue('gistOptions') || {};
-        if (!(TOKEN && GIST_ID && FILE_NAME)) {
-          return external_Swal_default().fire({
-            icon: 'error',
-            title: i18n('saveAndTestNotice')
-          }).then(syncOptions);
-        }
-        external_Swal_default().fire({
-          icon: 'info',
-          title: i18n('downloadingData')
         });
-        const data = await getGistData(TOKEN, GIST_ID, FILE_NAME);
-        if (!data) {
-          return external_Swal_default().fire({
-            icon: 'error',
-            title: i18n('checkedNoData')
-          }).then(syncOptions);
-        }
-        external_Swal_default().update({
-          icon: 'info',
-          title: i18n('savingData')
-        });
-        const SYNC_HISTORY = $('#sync-history').prop('checked');
-        for (const [ name, value ] of Object.entries(data)) {
-          if (!SYNC_HISTORY && /^[\w]+?Tasks-/.test(name)) {
-            continue;
-          }
-          GM_setValue(name, value);
-        }
-        external_Swal_default().fire({
-          icon: 'success',
-          title: i18n('syncDataSuccess')
-        });
-      });
+      } catch (error) {
+        throwError(error, 'syncOptions');
+      }
     };
     const dataSync = syncOptions;
     function Setting_classPrivateMethodInitSpec(obj, privateSet) {
@@ -9749,6 +9998,85 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     const options = websiteOptions;
     const external_keyboardJS_namespaceObject = keyboardJS;
     var external_keyboardJS_default = __webpack_require__.n(external_keyboardJS_namespaceObject);
+    const checkUpdate = async (source, auto) => {
+      try {
+        const checkUrl = source === 'github' ? 'https://raw.githubusercontent.com/HCLonely/auto-task-v4/main/package.json' : 'https://cdn.jsdelivr.net/gh/HCLonely/auto-task-v4@main/package.json';
+        const {
+          result,
+          statusText,
+          status,
+          data
+        } = await tools_httpRequest({
+          url: checkUrl,
+          responseType: 'json',
+          method: 'GET',
+          timeout: 3e4
+        });
+        if (result === 'Success') {
+          var _data$response;
+          if (data !== null && data !== void 0 && (_data$response = data.response) !== null && _data$response !== void 0 && _data$response.version) {
+            return data.response.version;
+          }
+          if (!auto) {
+            scripts_echoLog({
+              html: `<li><font class="error">${i18n('checkUpdateFailed')}[${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})]</font></li>`
+            });
+          }
+          return false;
+        }
+        if (!auto) {
+          scripts_echoLog({
+            html: `<li><font class="error">${i18n('checkUpdateFailed')}[${result}:${statusText}(${status})]</font></li>`
+          });
+        }
+        return false;
+      } catch (error) {
+        throwError(error, 'checkUpdate');
+        return false;
+      }
+    };
+    const updateChecker = async () => {
+      try {
+        const currentVersion = GM_info.script.version;
+        const updateSource = globalOptions.other.autoUpdateSource || 'auto';
+        const githubUpdateLink = `https://github.com/HCLonely/auto-task-new/raw/main/dist/${GM_info.script.name}.user.js`;
+        const jsdelivrUpdateLink = `https://cdn.jsdelivr.net/gh/HCLonely/auto-task-v4@main/dist/${GM_info.script.name}.user.js`;
+        let version;
+        let updateLink = '';
+        if (updateSource === 'github') {
+          version = await checkUpdate('github', false) || currentVersion;
+          updateLink = githubUpdateLink;
+        } else if (updateSource === 'jsdelivr') {
+          version = await checkUpdate('jsdelivr', false) || currentVersion;
+          updateLink = jsdelivrUpdateLink;
+        } else {
+          const githubVersion = await checkUpdate('github', true);
+          if (githubVersion) {
+            version = githubVersion;
+            updateLink = githubUpdateLink;
+          } else {
+            const jsdelivrVersion = await checkUpdate('jsdelivr', true);
+            if (jsdelivrVersion) {
+              version = jsdelivrVersion;
+              updateLink = jsdelivrUpdateLink;
+            } else {
+              version = currentVersion;
+              scripts_echoLog({
+                html: `<li><font class="error">${i18n('checkUpdateFailed')}</font></li>`
+              });
+            }
+          }
+        }
+        if (version !== currentVersion) {
+          scripts_echoLog({
+            html: `<li><font class="warning">${i18n('newVersionNotice', version, updateLink)}</font></li>`
+          });
+        }
+      } catch (error) {
+        throwError(error, 'updateChecker');
+      }
+    };
+    const scripts_updateChecker = updateChecker;
     if (window.location.hostname === 'discord.com') {
       var _window$localStorage, _window$localStorage$;
       const discordAuth = (_window$localStorage = window.localStorage) === null || _window$localStorage === void 0 ? void 0 : (_window$localStorage$ = _window$localStorage.getItem('token')) === null || _window$localStorage$ === void 0 ? void 0 : _window$localStorage$.replace(/^"|"$/g, '');
@@ -9898,9 +10226,24 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           window.open('https://auto-task-v4.hclonely.com/setting.html', '_blank');
         });
       }
-      unsafeWindow.keyboardJS = external_keyboardJS_default();
       GM_addStyle(auto_task.Z);
       console.log('%c%s', 'color:#1bbe1a', 'Auto Task脚本初始化完成！');
+      if (!GM_getValue('notice')) {
+        var _echoLog$font;
+        external_Swal_default().fire({
+          title: i18n('swalNotice'),
+          icon: 'warning'
+        }).then(() => {
+          window.open(i18n('noticeLink'), '_blank');
+          GM_setValue('notice', new Date().getTime());
+        });
+        (_echoLog$font = scripts_echoLog({
+          html: `<li><font class="warning">${i18n('echoNotice', i18n('noticeLink'))}</font></li>`
+        }).font) === null || _echoLog$font === void 0 ? void 0 : _echoLog$font.find('a').on('click', () => {
+          GM_setValue('notice', new Date().getTime());
+        });
+      }
+      scripts_updateChecker();
     };
     if (window.location.hostname === 'opquests.com') {
       loadScript();

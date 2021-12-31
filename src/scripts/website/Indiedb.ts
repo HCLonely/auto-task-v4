@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 14:37:33
- * @LastEditTime : 2021-12-26 19:55:26
+ * @LastEditTime : 2021-12-31 13:47:59
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Indiedb.ts
  * @Description  : https://www.indiedb.com/giveaways
@@ -29,10 +29,10 @@ class Indiedb {
   async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
-        echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
+        echoLog({ html: `<li><font class="warning">${__('checkLoginFailed')}</font></li>` });
       }
       if (!await this.#checkLeftKey()) {
-        echoLog({ html: `<li><font class="warning>${__('checkLeftKeyFailed')}</font></li>` });
+        echoLog({ html: `<li><font class="warning">${__('checkLeftKeyFailed')}</font></li>` });
       }
     } catch (error) {
       throwError(error as Error, 'Indiedb.after');

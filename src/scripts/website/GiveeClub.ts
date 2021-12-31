@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 11:46:52
- * @LastEditTime : 2021-12-28 19:03:08
+ * @LastEditTime : 2021-12-31 13:47:18
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/GiveeClub.ts
  * @Description  : https://givee.club/
@@ -31,10 +31,10 @@ class GiveeClub extends GiveawaySu {
   async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
-        echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
+        echoLog({ html: `<li><font class="warning">${__('checkLoginFailed')}</font></li>` });
       }
       if (!await this.#checkLeftKey()) {
-        echoLog({ html: `<li><font class="warning>${__('checkLeftKeyFailed')}</font></li>` });
+        echoLog({ html: `<li><font class="warning">${__('checkLeftKeyFailed')}</font></li>` });
       }
     } catch (error) {
       throwError(error as Error, 'GiveeClub.after');

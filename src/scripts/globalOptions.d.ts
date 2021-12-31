@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-24 17:21:16
- * @LastEditTime : 2021-12-28 17:53:21
+ * @LastEditTime : 2021-12-30 17:06:09
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/globalOptions.d.ts
  */
@@ -94,6 +94,8 @@ interface globalOptions {
   other: {
     twitterVerifyId: string,
     youtubeVerifyChannel: string,
+    autoUpdateSource: string,
+    language: string,
     checkLogin: boolean,
     checkLeftKey: boolean,
     defaultShowButton: boolean,

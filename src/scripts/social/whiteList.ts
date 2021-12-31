@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-06 13:16:38
- * @LastEditTime : 2021-12-25 20:37:02
+ * @LastEditTime : 2021-12-30 16:11:31
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/whiteList.ts
  * @Description  : 白名单相关
@@ -163,7 +163,8 @@ const whiteListOptions = function (showType: 'page' | 'swal'): void {
         title: __('changeWhiteListOption', value),
         input: 'textarea',
         html: `<input id="socialLink" class="swal2-input" placeholder="在此处输入链接获取id">
-        <button id="link2id" data-type="${value}" class="swal2-confirm swal2-styled">获取id</button>`,
+        <button id="link2id" data-type="${value}" class="swal2-confirm swal2-styled">获取id</button>
+        <p style="margin-bottom:0 !important;">在下方填写白名单，每行一个</p>`,
         // @ts-ignore
         inputValue: whiteList[social][type].join('\n'),
         showConfirmButton: true,

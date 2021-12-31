@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2021-12-29 19:17:47
+ * @LastEditTime : 2021-12-31 13:47:45
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  : https://gleam.io
@@ -93,7 +93,7 @@ class Gleam extends Website {
         }
         echoLog({ html: `<li><font class="warning">${__('gleamTaskNotice')}</font></li>` });
       } else if (!await this.#checkLeftKey()) {
-        echoLog({ html: `<li><font class="warning>${__('checkLeftKeyFailed')}</font></li>` });
+        echoLog({ html: `<li><font class="warning">${__('checkLeftKeyFailed')}</font></li>` });
       }
     } catch (error) {
       throwError(error as Error, 'Gleam.after');

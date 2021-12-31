@@ -197,12 +197,10 @@ abstract class Website {
           pro.push(this.social.visitLink(link));
         }
       }
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       if (doTask && tasks.extra && this.extraDoTask) {
         const hasExtra = Object.values(tasks.extra).reduce((total, arr) => [...total, ...arr]).length > 0;
         if (hasExtra) {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           pro.push(this.extraDoTask(tasks.extra));
         }

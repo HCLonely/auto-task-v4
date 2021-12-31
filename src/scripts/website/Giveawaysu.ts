@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2021-12-28 19:02:07
+ * @LastEditTime : 2021-12-31 13:47:07
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.ts
  * @Description  : https://giveaway.su/
@@ -65,10 +65,10 @@ class GiveawaySu extends Website {
   async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
-        echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
+        echoLog({ html: `<li><font class="warning">${__('checkLoginFailed')}</font></li>` });
       }
       if (!await this.#checkLeftKey()) {
-        echoLog({ html: `<li><font class="warning>${__('checkLeftKeyFailed')}</font></li>` });
+        echoLog({ html: `<li><font class="warning">${__('checkLeftKeyFailed')}</font></li>` });
       }
     } catch (error) {
       throwError(error as Error, 'Giveawaysu.after');

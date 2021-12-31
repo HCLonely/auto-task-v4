@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 20:22:33
- * @LastEditTime : 2021-12-28 19:07:19
+ * @LastEditTime : 2021-12-31 13:48:40
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Prys.ts
  * @Description  : https://prys.revadike.com/
@@ -42,10 +42,10 @@ class Prys extends Website {
   async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
-        echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
+        echoLog({ html: `<li><font class="warning">${__('checkLoginFailed')}</font></li>` });
       }
       if (!await this.#checkLeftKey()) {
-        echoLog({ html: `<li><font class="warning>${__('checkLeftKeyFailed')}</font></li>` });
+        echoLog({ html: `<li><font class="warning">${__('checkLeftKeyFailed')}</font></li>` });
       }
     } catch (error) {
       throwError(error as Error, 'Prys.after');

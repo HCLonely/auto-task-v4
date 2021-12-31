@@ -2,7 +2,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-12 17:39:48
- * @LastEditTime : 2021-12-28 17:36:34
+ * @LastEditTime : 2021-12-30 15:26:44
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/webpack.compatibility.config.js
  * @Description  :
@@ -10,6 +10,9 @@
 const fs = require('fs');
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const { DefinePlugin } = require('webpack');
+const VERSION = JSON.parse(fs.readFileSync('package.json')).version;
+const NAME = 'auto-task-v4.compatibility';
 
 module.exports = {
   resolve: {
@@ -25,7 +28,7 @@ module.exports = {
     index: './src/index.ts'
   },
   output: {
-    filename: 'auto-task.compatibility.user.js',
+    filename: `${NAME}.user.js`,
     path: path.resolve(__dirname, 'dist'),
     clean: false,
     environment: {
@@ -75,13 +78,22 @@ module.exports = {
       }
     ]
   },
-  plugins: [],
+  plugins: [
+    new DefinePlugin({
+      __VERSION__: VERSION,
+      __NAME__: NAME,
+      __UPDATE_URL__: `https://github.com/HCLonely/auto-task-new/raw/main/dist/${NAME}.user.js`
+    })
+  ],
   optimization: {
     minimizer: [new UglifyJsPlugin({
       sourceMap: false,
       uglifyOptions: {
         output: {
           preamble: fs.readFileSync('./src/header.js').toString()
+            .replace(/__VERSION__/g, VERSION)
+            .replace(/__NAME__/g, NAME)
+            .replace(/__UPDATE_URL__/g, `https://github.com/HCLonely/auto-task-new/raw/main/dist/${NAME}.user.js`)
         }
       }
     })]

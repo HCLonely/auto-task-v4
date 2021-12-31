@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-13 17:57:40
- * @LastEditTime : 2021-12-28 19:03:36
+ * @LastEditTime : 2021-12-31 13:47:36
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Givekey.ts
  * @Description  : https://givekey.ru
@@ -63,7 +63,7 @@ class Givekey extends Website {
         });
       });
       if (!await this.#checkLeftKey()) {
-        echoLog({ html: `<li><font class="warning>${__('checkLeftKeyFailed')}</font></li>` });
+        echoLog({ html: `<li><font class="warning">${__('checkLeftKeyFailed')}</font></li>` });
       }
     } catch (error) {
       throwError(error as Error, 'Givekey.after');

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-18 13:31:23
- * @LastEditTime : 2021-12-26 19:55:59
+ * @LastEditTime : 2021-12-31 13:48:28
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Opquests.ts
  * @Description  : https://opquests.com/
@@ -38,7 +38,7 @@ class Opquests extends Website {
   async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
-        echoLog({ html: `<li><font class="warning>${__('checkLoginFailed')}</font></li>` });
+        echoLog({ html: `<li><font class="warning">${__('checkLoginFailed')}</font></li>` });
       }
     } catch (error) {
       throwError(error as Error, 'Opquests.after');

@@ -1,13 +1,16 @@
 // ==UserScript==
-// @name               auto-task-v4
-// @namespace          auto-task-v4
-// @version            4.0.32-Alpha
+// @name               __NAME__
+// @namespace          __NAME__
+// @version            __VERSION__
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @license            MIT
 // @run-at             document-start
-// @homepage           https://github.com/HCLonely/auto-task-v4
+// @homepage           https://auto-task-doc.js.org/
 // @supportURL         https://github.com/HCLonely/auto-task-v4/issues
+// @updateURL          __UPDATE_URL__
+// @installURL         __UPDATE_URL__
+// @downloadURL        __UPDATE_URL__
 
 // @include            *://freeanywhere.net/*
 // @include            *://giveaway.su/giveaway/view/*

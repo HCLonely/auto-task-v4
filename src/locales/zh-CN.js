@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2021-12-30 12:00:42
+ * @LastEditTime : 2021-12-31 13:39:56
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -12,7 +12,7 @@ const data = {
   type: '类型',
   edit: '编辑',
   whiteList: '白名单',
-  skipTask: '跳过取消做任务',
+  skipTask: '跳过撤销任务',
   whiteListOptions: '白名单设置',
   changeWhiteListOption: '设置白名单(%0)',
   whiteListNotFound: '找不到此项白名单: %0',
@@ -29,7 +29,7 @@ const data = {
   changeWebsiteOptionsSuccess: '更改当前网站设置成功，刷新生效！',
   changeGlobalOptionsSuccess: '更改全局设置成功，刷新生效！',
   needLogin: '请先登录！',
-  getTasksInfo: '正在获取并处理任务信息',
+  getTasksInfo: '正在获取并处理任务信息...',
   gettingKey: '正在获取Key...',
   verifyingTask: '正在验证任务',
   notice: '自动任务脚本提醒',
@@ -77,6 +77,7 @@ const data = {
   checkLeftKey: '剩余Key检测</br>赠Key活动结束提示是否关闭，部分本网站支持',
   twitterVerifyId: '通过尝试关注该账号验证Twitter凭证</br>默认为Twitter官方帐号 783214',
   youtubeVerifyChannel: '通过尝试订阅该频道验证YouTube凭证</br>默认为YouTube官方频道 UCrXUsMBcfTVqwAS7DKg9C0Q',
+  autoUpdateSource: '更新源</br>github: 需代理，实时更新</br>jsdelivr: 可不用代理，更新有延迟</br>auto: 首先使用github源更新，失败后尝试用jsdelivr源更新',
   saveGlobalOptions: '保存全局设置',
   settingPage: '设置页面',
   name: '名称',
@@ -135,6 +136,13 @@ const data = {
   checkedNoData: '没有检测到远程数据，请确认配置是否正确！',
   savingData: '正在保存数据...',
   syncHistory: '同步任务历史',
+  checkUpdateFailed: '检测更新失败',
+  newVersionNotice: '检测到新版本V%0, <a href="%1" target="_blank">点此更新</a>',
+  language: '语言</br>目前仅支持zh: 中文, en: 英文',
+  gistOptions: 'Gist 设置',
+  swalNotice: '检测到您第一次安装V4版本脚本，请前往阅读用前必读内容！',
+  echoNotice: '检测到您第一次安装V4版本脚本，请<a href="%0" target="_blank">点此前往</a>阅读用前必读内容！',
+  noticeLink: 'https://auto-task-doc.js.org/guide/#用前必读',
 
   // Steam
   groups: '组',
