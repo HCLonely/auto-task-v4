@@ -28,7 +28,7 @@
 - [js-cookie](https://github.com/js-cookie/js-cookie)
 - [sweetalert2](https://github.com/sweetalert2/sweetalert2)
 - [keyjokerScript](https://github.com/jiyeme/keyjokerScript)
-- [s-sha1](https://github.com/emn178/js-sha1)
+- [js-sha1](https://github.com/emn178/js-sha1)
 - [keyboardjs](https://github.com/RobertWHurst/KeyboardJS)
 - [dayjs](https://github.com/iamkun/dayjs)
 - [@D-xuanmo/javascript-utils](https://github.com/D-xuanmo/javascript-utils)
