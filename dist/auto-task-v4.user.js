@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.0.33-Alpha
+// @version            4.0.34-Alpha
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @license            MIT
