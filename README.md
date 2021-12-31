@@ -17,27 +17,26 @@
 - [使用说明](https://auto-task-doc.js.org/guide/)
 - [Document](https://auto-task-doc.js.org/en/guide/)
 
-## todo
+## Todo
 
 - [ ] 添加giveaway.su专版
 - [ ] 功能模板
-- [x] 脚本英文
-- [x] 更新检测
-- [x] 设置页面、历史页面重生成 & 链接修改
-- [x] 设置同步
-- [x] 兼容性: 仅支持 Tampermonkey
-- [x] 任务历史
-- [x] 快捷键设置
-- [x] 按钮区域及日志区域自定义位置
-- [x] 添加UI & 美化
-- [x] 隐藏按钮、日志
-- [x] style 兼容性
-- [x] css外置
-- [x] bug反馈
-- [x] steam更换地区优化
-- [x] Gleam options
-- [x] Gleam验证任务
-- [x] 白名单
+
+## 感谢以下开源项目
+
+- [jQuery](https://github.com/jquery/jquery)
+- [js-cookie](https://github.com/js-cookie/js-cookie)
+- [sweetalert2](https://github.com/sweetalert2/sweetalert2)
+- [keyjokerScript](https://github.com/jiyeme/keyjokerScript)
+- [s-sha1](https://github.com/emn178/js-sha1)
+- [keyboardjs](https://github.com/RobertWHurst/KeyboardJS)
+- [dayjs](https://github.com/iamkun/dayjs)
+- [@D-xuanmo/javascript-utils](https://github.com/D-xuanmo/javascript-utils)
+- [webpack](https://github.com/webpack/webpack)
+- [babel](https://github.com/babel/babel)
+- [sass](https://github.com/sass/dart-sass)
+- [postcss](https://github.com/postcss/postcss)
+- [eslint](https://github.com/eslint/eslint)
 
 ## License
 
