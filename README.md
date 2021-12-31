@@ -11,15 +11,18 @@
 
 - [正式版](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4.user.js)
 - [兼容版](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4.compatibility.user.js)：正式版不能正常使用时可尝试使用此版本
+- [GiveawaySu特供版](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4-for-giveawaysu.user.js)
 
 ### 使用
 
 - [使用说明](https://auto-task-doc.js.org/guide/)
 - [Document](https://auto-task-doc.js.org/en/guide/)
+- [GS特供版使用说明](https://auto-task-doc.js.org/guide/#GS特供版使用说明)
+- [Document For GS Special Edition](https://auto-task-doc.js.org/en/guide/#for-giveawaysu)
 
 ## Todo
 
-- [ ] 添加giveaway.su专版
+- [x] 添加giveaway.su专版
 - [ ] 功能模板
 
 ## 感谢以下开源项目

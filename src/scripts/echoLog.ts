@@ -17,7 +17,6 @@ const echoLog = ({ type, text, html, id }: { type?: string, text?: string, html?
     info: () => emptyStatus,
     view: () => emptyStatus
   };
-  console.log('echo');
   try {
     let ele: JQuery;
     if (type) {

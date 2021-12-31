@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.1.0-Beta
+// @version            4.1.1-Beta
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @license            MIT
@@ -72,6 +72,7 @@
 // @connect            giveaway.su
 // @connect            google.com
 // @connect            www.vloot.io
+// @connect            givee.club
 // @connect            *
 // @require            https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
 // @require            https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js
@@ -631,7 +632,6 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         info: () => emptyStatus,
         view: () => emptyStatus
       };
-      console.log('echo');
       try {
         var _ele$;
         let ele;

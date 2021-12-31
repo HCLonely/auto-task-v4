@@ -1,13 +1,14 @@
 {
   "name": "auto-task-new",
-  "version": "4.1.0-Beta",
+  "version": "4.1.1-Beta",
   "description": "赠Key站自动任务脚本",
   "main": "package.json",
   "scripts": {
     "test": "eslint",
     "tsc": "tsc",
+    "gs": "webpack --config webpack.giveawaysu.config.js",
     "pack": "webpack --config webpack.config.js",
-    "build": "webpack --config webpack.config.js && webpack --config webpack.compatibility.config.js"
+    "build": "webpack --config webpack.config.js && webpack --config webpack.compatibility.config.js && webpack --config webpack.giveawaysu.config.js"
   },
   "author": "HCLonely",
   "license": "MIT",

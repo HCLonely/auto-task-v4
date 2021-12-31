@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:28
- * @LastEditTime : 2021-12-24 16:21:36
+ * @LastEditTime : 2021-12-31 19:05:04
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Website.ts
  * @Description  :
@@ -213,7 +213,7 @@ abstract class Website {
       return false;
     }
   }
-  protected async doTask(): Promise<boolean> {
+  async doTask(): Promise<boolean> {
     try {
       return await this.toggleTask('do');
     } catch (error) {
@@ -221,7 +221,7 @@ abstract class Website {
       return false;
     }
   }
-  protected async undoTask(): Promise<boolean> {
+  async undoTask(): Promise<boolean> {
     try {
       return await this.toggleTask('undo');
     } catch (error) {
