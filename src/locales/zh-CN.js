@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2021-12-31 13:39:56
+ * @LastEditTime : 2021-12-31 14:50:33
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -143,6 +143,10 @@ const data = {
   swalNotice: '检测到您第一次安装V4版本脚本，请前往阅读用前必读内容！',
   echoNotice: '检测到您第一次安装V4版本脚本，请<a href="%0" target="_blank">点此前往</a>阅读用前必读内容！',
   noticeLink: 'https://auto-task-doc.js.org/guide/#用前必读',
+  toGithub: '前往Github反馈',
+  toKeylol: '前往其乐论坛反馈',
+  copySuccess: '错误信息已复制到剪切板，是否前往其乐论坛反馈？',
+  copyFailed: '请复制下方错误信息后前往Keylol论坛反馈！',
 
   // Steam
   groups: '组',

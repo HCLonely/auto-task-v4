@@ -1,6 +1,6 @@
 {
   "name": "auto-task-new",
-  "version": "4.0.34-Alpha",
+  "version": "4.1.0-Beta",
   "description": "赠Key站自动任务脚本",
   "main": "package.json",
   "scripts": {

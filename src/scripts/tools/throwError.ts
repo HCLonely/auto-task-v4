@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 14:08:18
- * @LastEditTime : 2021-12-31 13:21:34
+ * @LastEditTime : 2021-12-31 14:54:33
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/tools/throwError.ts
  * @Description  : 错误处理函数
@@ -10,20 +10,18 @@
 import Swal from 'sweetalert2';
 import { ua } from '@xuanmo/javascript-utils';
 import __ from './i18n';
-import echoLog from '../echoLog';
 /* eslint-disable camelcase */
 export default function throwError(error:Error, name:string):void {
-  echoLog({ html: `<li><font class="success">${__('initSuccess', 'Steam')}</font></li>` });
-  echoLog({ text: __('updatingAuth', __('steamStore')) }).error();
-  echoLog({ text: __('updatingAuth', __('steamCommunity')) }).success();
   Swal.fire({
     title: __('errorReport'),
     icon: 'error',
     showCancelButton: true,
-    confirmButtonText: __('ok'),
+    confirmButtonText: __('toGithub'),
+    showDenyButton: true,
+    denyButtonText: __('toKeylol'),
     cancelButtonText: __('close')
-  }).then(({ value }) => {
-    if (value) {
+  }).then(({ isDenied, isConfirmed }) => {
+    if (isConfirmed) {
       window.open(`https://github.com/HCLonely/auto-task-v4/issues/new?title=${encodeURIComponent(`脚本报错: ${name}`)}&labels=bug&body=${
         encodeURIComponent(`错误链接: [${window.location.href}](${window.location.href})
 
@@ -45,6 +43,44 @@ ${$.makeArray($('#auto-task-info>li')).map((element) => element.innerText)
     .join('\n')}
 \`\`\`
 `)}`, '_blank');
+    } else if (isDenied) {
+      const text = `错误链接: [url=${window.location.href}]${window.location.href}[/url]
+
+环境:
+
+[code]${JSON.stringify(ua(), null, 4)}[/code]
+
+脚本管理器: ${GM_info.scriptHandler} ${GM_info.version}
+脚本版本: ${GM_info.script.version}
+
+报错信息:
+[code]${error.stack}[/code]
+
+执行日志:
+[code]${$.makeArray($('#auto-task-info>li')).map((element) => element.innerText)
+    .join('\n')}[/code]`;
+      const textarea = $('<textarea>');
+      $('body').append(textarea);
+      textarea.val(text).trigger('select');
+      if (document.execCommand('Copy')) {
+        Swal.fire({
+          title: __('copySuccess'),
+          icon: 'success',
+          confirmButtonText: __('ok')
+        }).then(() => {
+          window.open('https://keylol.com/forum.php?mod=post&action=reply&fid=319&tid=455167', '_blank');
+        });
+      } else {
+        Swal.fire({
+          title: __('copyFailed'),
+          input: 'textarea',
+          inputValue: text,
+          confirmButtonText: __('ok')
+        }).then(() => {
+          window.open('https://keylol.com/forum.php?mod=post&action=reply&fid=319&tid=455167', '_blank');
+        });
+      }
+      textarea.remove();
     }
   });
   console.log('%c%s', 'color:white;background:red', `${name}\n${error.stack}`);

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2021-12-31 13:41:45
+ * @LastEditTime : 2021-12-31 14:50:51
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/en-US.js
  * @Description  : i18n英文
@@ -157,6 +157,10 @@ const data = {
   echoNotice: 'It is detected that you are installing the V4 version script for the first time' +
     ', please <a href="%0" target="_blank">click here</a> to read the READ ME FIRST content before use!',
   noticeLink: 'https://auto-task-doc.js.org/en/guide/#read-me-first',
+  toGithub: 'Feedback(Github)',
+  toKeylol: 'Feedback(Keylol)',
+  copySuccess: 'The error message has been copied to the clipboard. Do you want to go to the Keylol forum to give feedback?',
+  copyFailed: 'Please copy the error information below and report back to the Keylol forum!',
 
   // Steam
   groups: 'Group',

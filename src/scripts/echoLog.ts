@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:03:26
- * @LastEditTime : 2021-12-24 17:29:11
+ * @LastEditTime : 2021-12-31 14:51:31
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/echoLog.ts
  * @Description  :
@@ -17,6 +17,7 @@ const echoLog = ({ type, text, html, id }: { type?: string, text?: string, html?
     info: () => emptyStatus,
     view: () => emptyStatus
   };
+  console.log('echo');
   try {
     let ele: JQuery;
     if (type) {

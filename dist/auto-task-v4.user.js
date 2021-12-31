@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.0.34-Alpha
+// @version            4.1.0-Beta
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @license            MIT
@@ -631,6 +631,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         info: () => emptyStatus,
         view: () => emptyStatus
       };
+      console.log('echo');
       try {
         var _ele$;
         let ele;
@@ -1259,6 +1260,10 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       swalNotice: '检测到您第一次安装V4版本脚本，请前往阅读用前必读内容！',
       echoNotice: '检测到您第一次安装V4版本脚本，请<a href="%0" target="_blank">点此前往</a>阅读用前必读内容！',
       noticeLink: 'https://auto-task-doc.js.org/guide/#用前必读',
+      toGithub: '前往Github反馈',
+      toKeylol: '前往其乐论坛反馈',
+      copySuccess: '错误信息已复制到剪切板，是否前往其乐论坛反馈？',
+      copyFailed: '请复制下方错误信息后前往Keylol论坛反馈！',
       groups: '组',
       wishlists: '愿望单',
       follows: '游戏关注',
@@ -1489,6 +1494,10 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       swalNotice: 'It is detected that you are installing the V4 version script for the first time' + ', please go to read the READ ME FIRST content before use!',
       echoNotice: 'It is detected that you are installing the V4 version script for the first time' + ', please <a href="%0" target="_blank">click here</a> to read the READ ME FIRST content before use!',
       noticeLink: 'https://auto-task-doc.js.org/en/guide/#read-me-first',
+      toGithub: 'Feedback(Github)',
+      toKeylol: 'Feedback(Keylol)',
+      copySuccess: 'The error message has been copied to the clipboard. Do you want to go to the Keylol forum to give feedback?',
+      copyFailed: 'Please copy the error information below and report back to the Keylol forum!',
       groups: 'Group',
       wishlists: 'Wishlist',
       follows: 'Follow Game',
@@ -1600,26 +1609,20 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
     };
     const i18n = I18n;
     function throwError(error, name) {
-      scripts_echoLog({
-        html: `<li><font class="success">${i18n('initSuccess', 'Steam')}</font></li>`
-      });
-      scripts_echoLog({
-        text: i18n('updatingAuth', i18n('steamStore'))
-      }).error();
-      scripts_echoLog({
-        text: i18n('updatingAuth', i18n('steamCommunity'))
-      }).success();
       external_Swal_default().fire({
         title: i18n('errorReport'),
         icon: 'error',
         showCancelButton: true,
-        confirmButtonText: i18n('ok'),
+        confirmButtonText: i18n('toGithub'),
+        showDenyButton: true,
+        denyButtonText: i18n('toKeylol'),
         cancelButtonText: i18n('close')
       }).then(_ref => {
         let {
-          value
+          isDenied,
+          isConfirmed
         } = _ref;
-        if (value) {
+        if (isConfirmed) {
           window.open(`https://github.com/HCLonely/auto-task-v4/issues/new?title=${encodeURIComponent(`脚本报错: ${name}`)}&labels=bug&body=${encodeURIComponent(`错误链接: [${window.location.href}](${window.location.href})
 
 环境:
@@ -1639,6 +1642,43 @@ ${error.stack}
 ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\n')}
 \`\`\`
 `)}`, '_blank');
+        } else if (isDenied) {
+          const text = `错误链接: [url=${window.location.href}]${window.location.href}[/url]
+
+环境:
+
+[code]${JSON.stringify((0, javascript_utils_umd_min.ua)(), null, 4)}[/code]
+
+脚本管理器: ${GM_info.scriptHandler} ${GM_info.version}
+脚本版本: ${GM_info.script.version}
+
+报错信息:
+[code]${error.stack}[/code]
+
+执行日志:
+[code]${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\n')}[/code]`;
+          const textarea = $('<textarea>');
+          $('body').append(textarea);
+          textarea.val(text).trigger('select');
+          if (document.execCommand('Copy')) {
+            external_Swal_default().fire({
+              title: i18n('copySuccess'),
+              icon: 'success',
+              confirmButtonText: i18n('ok')
+            }).then(() => {
+              window.open('https://keylol.com/forum.php?mod=post&action=reply&fid=319&tid=455167', '_blank');
+            });
+          } else {
+            external_Swal_default().fire({
+              title: i18n('copyFailed'),
+              input: 'textarea',
+              inputValue: text,
+              confirmButtonText: i18n('ok')
+            }).then(() => {
+              window.open('https://keylol.com/forum.php?mod=post&action=reply&fid=319&tid=455167', '_blank');
+            });
+          }
+          textarea.remove();
         }
       });
       console.log('%c%s', 'color:white;background:red', `${name}\n${error.stack}`);

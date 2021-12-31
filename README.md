@@ -1,5 +1,10 @@
 # AutoTask
 
+![Test](https://github.com/HCLonely/auto-task/workflows/Test/badge.svg)
+![OSSAR](https://github.com/HCLonely/auto-task/workflows/OSSAR/badge.svg)
+
+自动完成 Key 站任务。
+
 ## 使用说明
 
 ### 安装
@@ -33,3 +38,7 @@
 - [x] Gleam options
 - [x] Gleam验证任务
 - [x] 白名单
+
+## License
+
+[MIT © HCLonely](https://github.com/HCLonely/auto-task-v4/blob/master/LICENSE)
