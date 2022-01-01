@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 12:18:06
- * @LastEditTime : 2021-12-25 17:19:52
+ * @LastEditTime : 2022-01-01 10:50:45
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Youtube.ts
  * @Description  : Youtube 订阅/取消订阅频道，点赞/取消点赞视频
@@ -379,8 +379,8 @@ class Youtube extends Social {
         echoLog({ type: 'globalOptionsSkip', text: 'youtube.channels' });
       } else {
         const realChannels = this.getRealParams('channels', channelLinks, doTask, (link) => {
-          if (/^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
-            return link.match(/url=(https:\/\/www.youtube.com\/.*)/)?.[1];
+          if (/^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www\.youtube\.com\/.*/.test(link)) {
+            return link.match(/url=(https:\/\/www\.youtube\.com\/.*)/)?.[1];
           }
           return link;
         });
@@ -398,8 +398,8 @@ class Youtube extends Social {
         echoLog({ type: 'globalOptionsSkip', text: 'youtube.likes' });
       } else {
         const realLikes = this.getRealParams('likes', videoLinks, doTask, (link) => {
-          if (/^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
-            return link.match(/url=(https:\/\/www.youtube.com\/.*)/)?.[1];
+          if (/^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www\.youtube\.com\/.*/.test(link)) {
+            return link.match(/url=(https:\/\/www\.youtube\.com\/.*)/)?.[1];
           }
           return link;
         });

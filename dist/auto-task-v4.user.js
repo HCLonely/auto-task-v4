@@ -1666,7 +1666,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
               icon: 'success',
               confirmButtonText: i18n('ok')
             }).then(() => {
-              window.open('https://keylol.com/forum.php?mod=post&action=reply&fid=319&tid=455167', '_blank');
+              window.open('https://keylol.com/forum.php?mod=post&action=reply&fid=319&tid=777450', '_blank');
             });
           } else {
             external_Swal_default().fire({
@@ -1675,7 +1675,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
               inputValue: text,
               confirmButtonText: i18n('ok')
             }).then(() => {
-              window.open('https://keylol.com/forum.php?mod=post&action=reply&fid=319&tid=455167', '_blank');
+              window.open('https://keylol.com/forum.php?mod=post&action=reply&fid=319&tid=777450', '_blank');
             });
           }
           textarea.remove();
@@ -4329,9 +4329,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             });
           } else {
             const realChannels = this.getRealParams('channels', channelLinks, doTask, link => {
-              if (/^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
+              if (/^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www\.youtube\.com\/.*/.test(link)) {
                 var _link$match;
-                return (_link$match = link.match(/url=(https:\/\/www.youtube.com\/.*)/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
+                return (_link$match = link.match(/url=(https:\/\/www\.youtube\.com\/.*)/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
               }
               return link;
             });
@@ -4352,9 +4352,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             });
           } else {
             const realLikes = this.getRealParams('likes', videoLinks, doTask, link => {
-              if (/^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link)) {
+              if (/^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www\.youtube\.com\/.*/.test(link)) {
                 var _link$match2;
-                return (_link$match2 = link.match(/url=(https:\/\/www.youtube.com\/.*)/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1];
+                return (_link$match2 = link.match(/url=(https:\/\/www\.youtube\.com\/.*)/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1];
               }
               return link;
             });
@@ -5009,9 +5009,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
               var _link$match10;
               if (link.includes('store.steampowered.com')) {
                 var _link$match9;
-                return (_link$match9 = link.match(/store.steampowered.com\/news\/app\/([\d]+)\/view\/([\d]+)/)) === null || _link$match9 === void 0 ? void 0 : _link$match9.slice(1, 3).join('/');
+                return (_link$match9 = link.match(/store\.steampowered\.com\/news\/app\/([\d]+)\/view\/([\d]+)/)) === null || _link$match9 === void 0 ? void 0 : _link$match9.slice(1, 3).join('/');
               }
-              return (_link$match10 = link.match(/steamcommunity.com\/games\/([\d]+)\/announcements\/detail\/([\d]+)/)) === null || _link$match10 === void 0 ? void 0 : _link$match10.slice(1, 3).join('/');
+              return (_link$match10 = link.match(/steamcommunity\.com\/games\/([\d]+)\/announcements\/detail\/([\d]+)/)) === null || _link$match10 === void 0 ? void 0 : _link$match10.slice(1, 3).join('/');
             });
             if (doTask && realAnnouncements.length > 0) {
               for (const id of realAnnouncements) {
@@ -9833,7 +9833,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             $('#socialLink').val(await new social_Twitter().userName2id(name) || '');
           } else if (type === 'youtubeChannel') {
             var _link$match2, _await$getInfo, _await$getInfo$params;
-            const name = /^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link) ? (_link$match2 = link.match(/url=(https:\/\/www.youtube.com\/.*)/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1] : link;
+            const name = /^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link) ? (_link$match2 = link.match(/url=(https:\/\/www\.youtube\.com\/.*)/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1] : link;
             $('#socialLink').val(((_await$getInfo = await getInfo(name, 'channel')) === null || _await$getInfo === void 0 ? void 0 : (_await$getInfo$params = _await$getInfo.params) === null || _await$getInfo$params === void 0 ? void 0 : _await$getInfo$params.channelId) || '');
           }
         });

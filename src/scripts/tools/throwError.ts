@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 14:08:18
- * @LastEditTime : 2021-12-31 14:54:33
+ * @LastEditTime : 2022-01-01 13:52:17
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/tools/throwError.ts
  * @Description  : 错误处理函数
@@ -68,7 +68,7 @@ ${$.makeArray($('#auto-task-info>li')).map((element) => element.innerText)
           icon: 'success',
           confirmButtonText: __('ok')
         }).then(() => {
-          window.open('https://keylol.com/forum.php?mod=post&action=reply&fid=319&tid=455167', '_blank');
+          window.open('https://keylol.com/forum.php?mod=post&action=reply&fid=319&tid=777450', '_blank');
         });
       } else {
         Swal.fire({
@@ -77,7 +77,7 @@ ${$.makeArray($('#auto-task-info>li')).map((element) => element.innerText)
           inputValue: text,
           confirmButtonText: __('ok')
         }).then(() => {
-          window.open('https://keylol.com/forum.php?mod=post&action=reply&fid=319&tid=455167', '_blank');
+          window.open('https://keylol.com/forum.php?mod=post&action=reply&fid=319&tid=777450', '_blank');
         });
       }
       textarea.remove();

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-25 19:00:53
- * @LastEditTime : 2021-12-30 12:01:59
+ * @LastEditTime : 2022-01-01 10:49:29
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Setting.ts
  * @Description  : 设置页面
@@ -149,7 +149,7 @@ class Setting {
           $('#socialLink').val(await new Twitter().userName2id(name) || '');
         } else if (type === 'youtubeChannel') {
           const name = /^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link) ?
-            link.match(/url=(https:\/\/www.youtube.com\/.*)/)?.[1] :
+            link.match(/url=(https:\/\/www\.youtube\.com\/.*)/)?.[1] :
             link;
           $('#socialLink').val((await getInfo(name as string, 'channel'))?.params?.channelId || '');
         }

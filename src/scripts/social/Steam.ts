@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2021-12-25 13:02:10
+ * @LastEditTime : 2022-01-01 10:51:54
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -1081,10 +1081,10 @@ class Steam extends Social {
         const realAnnouncements = this.getRealParams('announcements', announcementLinks, doTask,
           (link) => {
             if (link.includes('store.steampowered.com')) {
-              return link.match(/store.steampowered.com\/news\/app\/([\d]+)\/view\/([\d]+)/)?.slice(1, 3)
+              return link.match(/store\.steampowered\.com\/news\/app\/([\d]+)\/view\/([\d]+)/)?.slice(1, 3)
                 .join('/');
             }
-            return link.match(/steamcommunity.com\/games\/([\d]+)\/announcements\/detail\/([\d]+)/)?.slice(1, 3)
+            return link.match(/steamcommunity\.com\/games\/([\d]+)\/announcements\/detail\/([\d]+)/)?.slice(1, 3)
               .join('/');
           });
         if (doTask && realAnnouncements.length > 0) {
