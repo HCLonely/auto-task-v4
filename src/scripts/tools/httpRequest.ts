@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 13:55:36
- * @LastEditTime : 2021-12-29 20:06:54
+ * @LastEditTime : 2022-01-02 11:07:40
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/tools/httpRequest.ts
  * @Description  : http请求函数封装
@@ -30,7 +30,7 @@ const httpRequest = async (options: httpRequestOptions, times = 0): Promise<http
           }
         }, ...options
       };
-      GM_xmlhttpRequest(requestObj); // eslint-disable-line new-cap
+      GM_xmlhttpRequest(requestObj);
     });
     console.log('发送请求:', result);
     if (result.status !== 600 && times < 2) {

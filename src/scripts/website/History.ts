@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-28 18:53:41
- * @LastEditTime : 2021-12-30 12:02:29
+ * @LastEditTime : 2022-01-02 11:08:10
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/History.ts
  * @Description  : 任务历史页面
@@ -14,7 +14,7 @@ import Keylol from './Keylol';
 import * as dayjs from 'dayjs';
 
 class History extends Keylol {
-  name = 'History'
+  name = 'History';
   buttons: Array<string> = [
     'doTask',
     'undoTask',
@@ -22,7 +22,7 @@ class History extends Keylol {
     'selectNone',
     'invertSelect',
     'clearHistory'
-  ]
+  ];
 
   static test(): boolean {
     return window.location.host === 'auto-task-v4.hclonely.com' && window.location.pathname === '/history.html';
@@ -31,7 +31,7 @@ class History extends Keylol {
     try {
       $('body').html('<div class="container"></div>')
         .addClass('auto-task-history');
-      const data = GM_listValues() || []; // eslint-disable-line new-cap
+      const data = GM_listValues() || [];
       const tasksHistory = data.map((value) => (/^[\w]+?Tasks-/.test(value) ? value : null)).filter((value) => value) as Array<string>;
       for (const item of tasksHistory) {
         this.#addItem(item);
@@ -42,10 +42,10 @@ class History extends Keylol {
   }
   clearHistory(): void {
     try {
-      const data = GM_listValues() || []; // eslint-disable-line new-cap
+      const data = GM_listValues() || [];
       const tasksHistory = data.map((value) => (/^[\w]+?Tasks-/.test(value) ? value : null)).filter((value) => value) as Array<string>;
       for (const item of tasksHistory) {
-        GM_deleteValue(item); // eslint-disable-line new-cap
+        GM_deleteValue(item);
       }
       Swal.fire({
         title: __('clearHistoryFinished'),
@@ -57,7 +57,7 @@ class History extends Keylol {
   }
   #addItem(item: string) {
     try {
-      const tasksData = GM_getValue<fawGMTasks | gasGMTasks | gkGMTasks | khGMTasks | prysGMTasks>(item); // eslint-disable-line new-cap
+      const tasksData = GM_getValue<fawGMTasks | gasGMTasks | gkGMTasks | khGMTasks | prysGMTasks>(item);
       if (!tasksData?.tasks) return;
       let html = '';
       let title = '';
@@ -110,7 +110,7 @@ class History extends Keylol {
       $('span.delete-task').on('click', function () {
         const itemName = $(this).attr('data-name');
         if (itemName) {
-          GM_deleteValue(itemName); // eslint-disable-line new-cap
+          GM_deleteValue(itemName);
           Swal.fire({
             title: __('clearTaskFinished'),
             text: itemName,

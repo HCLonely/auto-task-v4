@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-21 10:01:05
- * @LastEditTime : 2021-12-31 13:48:52
+ * @LastEditTime : 2022-01-02 12:54:55
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/SweepWidget.ts
  * @Description  : https://sweepwidget.com/
@@ -24,14 +24,14 @@ const defaultOptions: options = {
 };
 
 class SweepWidget extends Website {
-  name = 'SweepWidget'
+  name = 'SweepWidget';
   options = {
     ...defaultOptions,
-    ...GM_getValue<options>('SweepWidgetOptions') // eslint-disable-line new-cap
-  }
+    ...GM_getValue<options>('SweepWidgetOptions')
+  };
   buttons: Array<string> = [
     'doTask'
-  ]
+  ];
 
   static test(): boolean {
     return /^https?:\/\/sweepwidget\.com\/view\/[\d]+/.test(window.location.href);
@@ -39,7 +39,7 @@ class SweepWidget extends Website {
   async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
-        echoLog({ html: `<li><font class="warning">${__('checkLoginFailed')}</font></li>` });
+        echoLog({}).warning(__('checkLoginFailed'));
       }
     } catch (error) {
       throwError(error as Error, 'SweepWidget.after');
@@ -82,7 +82,7 @@ class SweepWidget extends Website {
       }
       const logStatus = echoLog({ text: __('SweepWidgetNotice') });
 
-      // this.socialTasks = GM_getValue<swSocialTasks>(`swTasks-${this.giveawayId}`) || defaultTasks; // eslint-disable-line new-cap
+      // this.socialTasks = GM_getValue<swSocialTasks>(`swTasks-${this.giveawayId}`) || defaultTasks;
 
       const tasks = $('#sw_inner_entry_methods_l2_wrapper>div.sw_entry');
       for (const task of tasks) {
@@ -115,7 +115,7 @@ class SweepWidget extends Website {
       /*
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as gasSocialTasks;
       this.socialTasks = this.undoneTasks;
-      GM_setValue(`swTasks-${this.giveawayId}`, this.socialTasks); // eslint-disable-line new-cap
+      GM_setValue(`swTasks-${this.giveawayId}`, this.socialTasks);
       */
       return true;
     } catch (error) {

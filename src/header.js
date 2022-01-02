@@ -38,11 +38,9 @@
 // @grant              GM_deleteValue
 // @grant              GM_addStyle
 // @grant              GM_xmlhttpRequest
-// @grant              GM_getResourceText
 // @grant              GM_registerMenuCommand
 // @grant              GM_info
 // @grant              GM_openInTab
-// @grant              GM_notification
 // @grant              unsafeWindow
 // @grant              window.close
 // @grant              window.localStorage

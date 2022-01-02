@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2021-12-25 13:01:48
+ * @LastEditTime : 2022-01-02 12:38:07
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
@@ -19,9 +19,9 @@ const defaultTasks: discordTasks = { servers: [] };
 
 class Discord extends Social {
   tasks = { ...defaultTasks };
-  whiteList: discordTasks = GM_getValue<whiteList>('whiteList')?.discord || { ...defaultTasks }; // eslint-disable-line new-cap
-  #auth: auth = GM_getValue<auth>('discordAuth') || {}; // eslint-disable-line new-cap
-  #cache: cache = GM_getValue<cache>('discordCache') || {}; // eslint-disable-line new-cap
+  whiteList: discordTasks = GM_getValue<whiteList>('whiteList')?.discord || { ...defaultTasks };
+  #auth: auth = GM_getValue<auth>('discordAuth') || {};
+  #cache: cache = GM_getValue<cache>('discordCache') || {};
   #initialized = false;
 
   // TODO:优化
@@ -43,17 +43,17 @@ class Discord extends Social {
       }
       const isVerified: boolean = await this.#verifyAuth();
       if (isVerified) {
-        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Discord')}</font></li>` });
+        echoLog({}).success(__('initSuccess', 'Discord'));
         this.#initialized = true;
         return true;
       }
-      GM_setValue('discordAuth', { auth: null }); // eslint-disable-line new-cap
+      GM_setValue('discordAuth', { auth: null });
       if (await this.#updateAuth()) {
-        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Discord')}</font></li>` });
+        echoLog({}).success(__('initSuccess', 'Discord'));
         this.#initialized = true;
         return true;
       }
-      echoLog({ html: `<li><font class="success">${__('initFailed', 'Discord')}</font></li>` });
+      echoLog({}).error(__('initFailed', 'Discord'));
       return false;
     } catch (error) {
       throwError(error as Error, 'Discord.init');
@@ -99,10 +99,10 @@ class Discord extends Social {
     try {
       const logStatus = echoLog({ text: __('updatingAuth', 'Discord') });
       return await new Promise((resolve) => {
-        const newTab = GM_openInTab('https://discord.com/channels/@me#auth', // eslint-disable-line new-cap
+        const newTab = GM_openInTab('https://discord.com/channels/@me#auth',
           { active: true, insert: true, setParent: true });
         newTab.onclose = async () => {
-          const auth = GM_getValue<auth>('discordAuth')?.auth; // eslint-disable-line new-cap
+          const auth = GM_getValue<auth>('discordAuth')?.auth;
           if (auth) {
             this.#auth = { auth };
             logStatus.success();
@@ -273,7 +273,7 @@ class Discord extends Social {
      */
     try {
       this.#cache[inviteId] = guild;
-      GM_setValue('discordCache', this.#cache); // eslint-disable-line new-cap
+      GM_setValue('discordCache', this.#cache);
     } catch (error) {
       throwError(error as Error, 'Discord.setCache');
     }

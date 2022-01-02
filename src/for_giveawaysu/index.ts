@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2021-12-31 20:21:58
+ * @LastEditTime : 2022-01-02 12:34:24
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/for_giveawaysu/index.ts
  * @Description  :
@@ -20,7 +20,7 @@ declare const commonOptions: {
 
 if (window.location.hostname === 'discord.com') {
   const discordAuth = window.localStorage?.getItem('token')?.replace(/^"|"$/g, '');
-  GM_setValue('discordAuth', { auth: discordAuth }); // eslint-disable-line new-cap
+  GM_setValue('discordAuth', { auth: discordAuth });
   if (discordAuth && window.location.hash === '#auth') {
     window.close();
     Swal.fire('', __('closePageNotice'));
@@ -32,7 +32,7 @@ const loadScript = async () => {
     const authToken = Cookies.get('auth-token');
     const isLogin = !!Cookies.get('login');
     if (isLogin) {
-      GM_setValue('twitchAuth', { authToken, clientId: commonOptions?.headers?.['Client-ID'] }); // eslint-disable-line new-cap
+      GM_setValue('twitchAuth', { authToken, clientId: commonOptions?.headers?.['Client-ID'] });
       window.close();
       Swal.fire('', __('closePageNotice'));
     } else {
@@ -43,7 +43,7 @@ const loadScript = async () => {
     const ct0 = Cookies.get('ct0');
     const isLogin = !!Cookies.get('twid');
     if (isLogin && ct0) {
-      GM_setValue('twitterAuth', { ct0 }); // eslint-disable-line new-cap
+      GM_setValue('twitterAuth', { ct0 });
       window.close();
       Swal.fire('', __('closePageNotice'));
     } else {
@@ -53,7 +53,7 @@ const loadScript = async () => {
   if (window.location.hostname === 'www.youtube.com' && window.location.hash === '#auth') {
     const PAPISID = Cookies.get('__Secure-3PAPISID');
     if (PAPISID) {
-      GM_setValue('youtubeAuth', { PAPISID }); // eslint-disable-line new-cap
+      GM_setValue('youtubeAuth', { PAPISID });
       window.close();
       Swal.fire('', __('closePageNotice'));
     } else {
@@ -61,20 +61,21 @@ const loadScript = async () => {
     }
   }
   if (window.location.hostname === 'www.reddit.com' &&
-    (window.location.hash === '#auth' || GM_getValue('redditAuth') === '#auth')) { // eslint-disable-line new-cap
+    (window.location.hash === '#auth' || GM_getValue('redditAuth') === '#auth')) {
     const betaButton = $('#redesign-beta-optin-btn');
     if (betaButton.length > 0) {
-      GM_setValue('redditAuth', '#auth'); // eslint-disable-line new-cap
+      GM_setValue('redditAuth', '#auth');
       return betaButton[0].click();
     }
-    GM_setValue('redditAuth', null); // eslint-disable-line new-cap
+    GM_setValue('redditAuth', null);
     window.close();
     Swal.fire('', __('closePageNotice'));
   }
 
   if (!Giveawaysu.test()) return;
   const website = new Giveawaysu();
-  $('body').append(`<div id="auto-task-info-div" style="position: fixed;bottom: 10px;right: 10px;width: 300px;max-width: 60%;max-height: 600px;color: #000;background-color: #fff;padding-left: 5px;z-index: 999999999 !important;"><h2 style="text-align: center;"><button id="auto-do-task" class="btn btn-success">${__('doTask')}</button></h2><div id="auto-task-info" style="overflow-y: auto;max-height: 500px;"></div></div>`); // eslint-disable-line
+  // eslint-disable-next-line max-len
+  $('body').append(`<div id="auto-task-info-div" style="position: fixed;bottom: 10px;right: 10px;width: 300px;max-width: 60%;max-height: 600px;color: #000;background-color: #fff;padding-left: 5px;z-index: 999999999 !important;"><h2 style="text-align: center;"><button id="auto-do-task" class="btn btn-success">${__('doTask')}</button></h2><div id="auto-task-info" style="overflow-y: auto;max-height: 500px;"></div></div>`);
   await website.after();
   $('#auto-do-task').on('click', () => { website.doTask(); });
 

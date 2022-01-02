@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2021-12-31 13:48:10
+ * @LastEditTime : 2022-01-02 12:51:25
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
  * @Description  : https://key-hub.eu/
@@ -31,14 +31,14 @@ const defaultTasks: khSocialTasks = {
 };
 
 class Keyhub extends Website {
-  name = 'Keyhub'
-  socialTasks: khSocialTasks = { ...defaultTasks }
-  undoneTasks: khSocialTasks = { ...defaultTasks }
+  name = 'Keyhub';
+  socialTasks: khSocialTasks = { ...defaultTasks };
+  undoneTasks: khSocialTasks = { ...defaultTasks };
   buttons: Array<string> = [
     'doTask',
     'undoTask',
     'verifyTask'
-  ]
+  ];
 
   static test(): boolean {
     return window.location.host === 'key-hub.eu';
@@ -46,10 +46,10 @@ class Keyhub extends Website {
   async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
-        echoLog({ html: `<li><font class="warning">${__('checkLoginFailed')}</font></li>` });
+        echoLog({}).warning(__('checkLoginFailed'));
       }
       if (!await this.#checkLeftKey()) {
-        echoLog({ html: `<li><font class="warning">${__('checkLeftKeyFailed')}</font></li>` });
+        echoLog({}).warning(__('checkLeftKeyFailed'));
       }
     } catch (error) {
       throwError(error as Error, 'Keyhub.after');
@@ -79,7 +79,7 @@ class Keyhub extends Website {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
       if (action === 'undo') {
-        this.socialTasks = GM_getValue<khGMTasks>(`khTasks-${this.giveawayId}`)?.tasks || { ...defaultTasks }; // eslint-disable-line new-cap
+        this.socialTasks = GM_getValue<khGMTasks>(`khTasks-${this.giveawayId}`)?.tasks || { ...defaultTasks };
       }
 
       const tasks = $('.task a');
@@ -108,14 +108,14 @@ class Keyhub extends Website {
           if (action === 'undo') this.socialTasks.discord.serverLinks.push(link);
           if (action === 'do') this.undoneTasks.discord.serverLinks.push(link);
         } else {
-          echoLog({ html: `<li><font class="warning">${__('unKnownTaskType', `${taskDes}(${link})`)}</font></li>` });
+          echoLog({}).warning(`${__('unKnownTaskType')}: ${taskDes}(${link})`);
         }
       }
 
       logStatus.success();
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as khSocialTasks;
       this.socialTasks = this.uniqueTasks(this.socialTasks) as khSocialTasks;
-      GM_setValue(`khTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() }); // eslint-disable-line new-cap
+      GM_setValue(`khTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() });
       return true;
     } catch (error) {
       throwError(error as Error, 'Keyhub.classifyTask');
@@ -141,7 +141,7 @@ class Keyhub extends Website {
         this.giveawayId = giveawayId;
         return true;
       }
-      echoLog({ html: `<li><font class="error">${__('getFailed', 'GiveawayId')}</font></li>` });
+      echoLog({}).error(__('getFailed', 'GiveawayId'));
       return false;
     } catch (error) {
       throwError(error as Error, 'Keyhub.getGiveawayId');

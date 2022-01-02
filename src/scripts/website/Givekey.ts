@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-13 17:57:40
- * @LastEditTime : 2021-12-31 13:47:36
+ * @LastEditTime : 2022-01-02 12:46:41
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Givekey.ts
  * @Description  : https://givekey.ru
@@ -37,16 +37,16 @@ const defaultTasks: gkSocialTasks = {
 };
 
 class Givekey extends Website {
-  name = 'Givekey'
-  tasks: Array<string> = []
-  socialTasks: gkSocialTasks = { ...defaultTasks }
-  undoneTasks: gkSocialTasks = { ...defaultTasks }
-  userId!: string
+  name = 'Givekey';
+  tasks: Array<string> = [];
+  socialTasks: gkSocialTasks = { ...defaultTasks };
+  undoneTasks: gkSocialTasks = { ...defaultTasks };
+  userId!: string;
   buttons: Array<string> = [
     'doTask',
     'undoTask',
     'verifyTask'
-  ]
+  ];
 
   static test(): boolean {
     return window.location.host === 'givekey.ru';
@@ -63,7 +63,7 @@ class Givekey extends Website {
         });
       });
       if (!await this.#checkLeftKey()) {
-        echoLog({ html: `<li><font class="warning">${__('checkLeftKeyFailed')}</font></li>` });
+        echoLog({}).warning(__('checkLeftKeyFailed'));
       }
     } catch (error) {
       throwError(error as Error, 'Givekey.after');
@@ -99,7 +99,7 @@ class Givekey extends Website {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
       if (action === 'undo') {
-        this.socialTasks = GM_getValue<gkGMTasks>(`gkTasks-${this.giveawayId}`)?.tasks || defaultTasks; // eslint-disable-line new-cap
+        this.socialTasks = GM_getValue<gkGMTasks>(`gkTasks-${this.giveawayId}`)?.tasks || defaultTasks;
       }
 
       const tasks = $('.card-body:has("button") .row');
@@ -147,7 +147,7 @@ class Givekey extends Website {
           this.socialTasks.discord.serverLinks.push(href);
           if (action === 'do' && !isSuccess) this.undoneTasks.discord.serverLinks.push(href);
         } else {
-          echoLog({ html: `<li><font class="warning">${__('unKnownTaskType')}: ${text}(${href})</font></li>` });
+          echoLog({}).warning(`${__('unKnownTaskType')}: ${text}(${href})`);
         }
       }
 
@@ -155,7 +155,7 @@ class Givekey extends Website {
       this.tasks = unique(this.tasks);
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as gkSocialTasks;
       this.socialTasks = this.uniqueTasks(this.socialTasks) as gkSocialTasks;
-      GM_setValue(`gkTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() }); // eslint-disable-line new-cap
+      GM_setValue(`gkTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() });
       return true;
     } catch (error) {
       throwError(error as Error, 'Givekey.classifyTask');
@@ -171,18 +171,17 @@ class Givekey extends Website {
       if (this.tasks.length === 0 && !(await this.classifyTask('verify'))) {
         return false;
       }
-      echoLog({ html: `<li><font class="warning">${__('giveKeyNoticeBefore')}</font></li>` });
+      echoLog({}).warning(__('giveKeyNoticeBefore'));
       const taskLength = this.tasks.length;
       for (let i = 0; i < taskLength; i++) { // eslint-disable-line
-      // for (const task of this.tasks) {
         await this.#verify(this.tasks[i]);
         if (i < (taskLength - 1)) {
           await delay(15000);
         }
       }
 
-      echoLog({ html: `<li><font class="success">${__('allTasksComplete')}</font></li>` });
-      echoLog({ html: `<li><font class="warning">${__('giveKeyNoticeAfter')}</font></li>` });
+      echoLog({}).success(__('allTasksComplete'));
+      echoLog({}).warning(__('giveKeyNoticeAfter'));
       return true;
     } catch (error) {
       throwError(error as Error, 'Givekey.verifyTask');
@@ -210,7 +209,7 @@ class Givekey extends Website {
               resolve(true);
             } else if (data.status === 'end') {
               logStatus.success();
-              echoLog({ html: `<li><font class="success">${data.key}</font></li>` });
+              echoLog({}).success(data.key);
               resolve(true);
             } else {
               logStatus.error(`Error:${data.msg}`);

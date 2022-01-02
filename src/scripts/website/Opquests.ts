@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-18 13:31:23
- * @LastEditTime : 2021-12-31 13:48:28
+ * @LastEditTime : 2022-01-02 12:52:33
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Opquests.ts
  * @Description  : https://opquests.com/
@@ -26,11 +26,11 @@ const defaultTasks: oqSocialTasks = {
 };
 
 class Opquests extends Website {
-  name = 'Opquests'
-  undoneTasks: oqSocialTasks = { ...defaultTasks }
+  name = 'Opquests';
+  undoneTasks: oqSocialTasks = { ...defaultTasks };
   buttons: Array<string> = [
     'doTask'
-  ]
+  ];
 
   static test(): boolean {
     return window.location.host === 'opquests.com';
@@ -38,7 +38,7 @@ class Opquests extends Website {
   async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
-        echoLog({ html: `<li><font class="warning">${__('checkLoginFailed')}</font></li>` });
+        echoLog({}).warning(__('checkLoginFailed'));
       }
     } catch (error) {
       throwError(error as Error, 'Opquests.after');
@@ -92,13 +92,13 @@ class Opquests extends Website {
         } else if (/store\.steampowered\.com\/(publisher|developer)\//.test(link) && /follow/gim.test(taskDes)) {
           this.undoneTasks.steam.curatorLikeLinks.push(link);
         } else {
-          echoLog({ html: `<li><font class="warning">${__('unKnownTaskType', `${taskDes}(${link})`)}</font></li>` });
+          echoLog({}).warning(`${__('unKnownTaskType')}: ${taskDes}(${link})`);
         }
       }
 
       logStatus.success();
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as oqSocialTasks;
-      // GM_setValue(`oqTasks-${this.giveawayId}`, this.socialTasks); // eslint-disable-line new-cap
+      // GM_setValue(`oqTasks-${this.giveawayId}`, this.socialTasks);
       return true;
     } catch (error) {
       throwError(error as Error, 'Opquests.classifyTask');
@@ -113,7 +113,7 @@ class Opquests extends Website {
         this.giveawayId = giveawayId;
         return true;
       }
-      echoLog({ html: `<li><font class="error">${__('getFailed', 'GiveawayId')}</font></li>` });
+      echoLog({}).error(__('getFailed', 'GiveawayId'));
       return false;
     } catch (error) {
       throwError(error as Error, 'Opquests.getGiveawayId');

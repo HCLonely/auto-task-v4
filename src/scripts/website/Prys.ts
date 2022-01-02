@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 20:22:33
- * @LastEditTime : 2021-12-31 13:48:40
+ * @LastEditTime : 2022-01-02 12:53:50
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Prys.ts
  * @Description  : https://prys.revadike.com/
@@ -27,14 +27,14 @@ const defaultTasks: prysSocialTasks = {
 };
 
 class Prys extends Website {
-  name = 'Prys'
-  socialTasks: prysSocialTasks = { ...defaultTasks }
-  undoneTasks: prysSocialTasks = { ...defaultTasks }
+  name = 'Prys';
+  socialTasks: prysSocialTasks = { ...defaultTasks };
+  undoneTasks: prysSocialTasks = { ...defaultTasks };
   buttons: Array<string> = [
     'doTask',
     'undoTask',
     'verifyTask'
-  ]
+  ];
 
   static test(): boolean {
     return window.location.host === 'prys.revadike.com';
@@ -42,10 +42,10 @@ class Prys extends Website {
   async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
-        echoLog({ html: `<li><font class="warning">${__('checkLoginFailed')}</font></li>` });
+        echoLog({}).warning(__('checkLoginFailed'));
       }
       if (!await this.#checkLeftKey()) {
-        echoLog({ html: `<li><font class="warning">${__('checkLeftKeyFailed')}</font></li>` });
+        echoLog({}).warning(__('checkLeftKeyFailed'));
       }
     } catch (error) {
       throwError(error as Error, 'Prys.after');
@@ -72,7 +72,7 @@ class Prys extends Website {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
       if (action === 'undo') {
-        this.socialTasks = GM_getValue<prysGMTasks>(`prysTasks-${this.giveawayId}`)?.tasks || { ...defaultTasks }; // eslint-disable-line new-cap
+        this.socialTasks = GM_getValue<prysGMTasks>(`prysTasks-${this.giveawayId}`)?.tasks || { ...defaultTasks };
       }
 
       const steps = $('#steps tbody tr');
@@ -111,7 +111,7 @@ class Prys extends Website {
       logStatus.success();
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as prysSocialTasks;
       this.socialTasks = this.uniqueTasks(this.socialTasks) as prysSocialTasks;
-      GM_setValue(`prysTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() }); // eslint-disable-line new-cap
+      GM_setValue(`prysTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() });
       return true;
     } catch (error) {
       throwError(error as Error, 'Prys.classifyTask');
@@ -138,9 +138,9 @@ class Prys extends Website {
           }));
         }
         await Promise.all(pro);
-        echoLog({ html: `<li><font class="success">${__('allTasksComplete')}</font></li>` });
+        echoLog({}).success(__('allTasksComplete'));
       } else {
-        echoLog({ html: `<li><font class="success">${__('allTasksComplete')}</font></li>` });
+        echoLog({}).success(__('allTasksComplete'));
       }
     } catch (error) {
       throwError(error as Error, 'Prys.verifyTask');
@@ -154,7 +154,7 @@ class Prys extends Website {
         this.giveawayId = giveawayId;
         return true;
       }
-      echoLog({ html: `<li><font class="error">${__('getFailed', 'GiveawayId')}</font></li>` });
+      echoLog({}).error(__('getFailed', 'GiveawayId'));
       return false;
     } catch (error) {
       throwError(error as Error, 'Prys.getGiveawayId');
@@ -190,7 +190,7 @@ class Prys extends Website {
     try {
       if (!globalOptions.other.checkLogin) return true;
       if ($('button:contains("Sign")').length > 0) {
-        echoLog({ html: `<li><font class="warning">${__('needLogin')}</font></li>` });
+        echoLog({}).warning(__('needLogin'));
       }
       return true;
     } catch (error) {

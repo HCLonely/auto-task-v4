@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:03
- * @LastEditTime : 2021-12-28 19:01:22
+ * @LastEditTime : 2022-01-02 12:42:55
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Freeanywhere.ts
  * @Description  : https://freeanywhere.net
@@ -31,16 +31,16 @@ const defaultTasks: fawSocialTasks = {
 };
 
 class FreeAnyWhere extends Website {
-  name = 'FreeAnyWhere'
-  tasks: Array<fawTaskInfo> = []
-  socialTasks: fawSocialTasks = { ...defaultTasks }
-  undoneTasks: fawSocialTasks = { ...defaultTasks }
+  name = 'FreeAnyWhere';
+  tasks: Array<fawTaskInfo> = [];
+  socialTasks: fawSocialTasks = { ...defaultTasks };
+  undoneTasks: fawSocialTasks = { ...defaultTasks };
   buttons: Array<string> = [
     'doTask',
     'undoTask',
     'verifyTask',
     'getKey'
-  ]
+  ];
 
   static test(): boolean {
     return window.location.host === 'freeanywhere.net';
@@ -78,7 +78,7 @@ class FreeAnyWhere extends Website {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
       if (action === 'undo') {
-        this.socialTasks = GM_getValue<fawGMTasks>(`fawTasks-${this.giveawayId}`)?.tasks || { ...defaultTasks }; // eslint-disable-line new-cap
+        this.socialTasks = GM_getValue<fawGMTasks>(`fawTasks-${this.giveawayId}`)?.tasks || { ...defaultTasks };
       }
 
       const { result, statusText, status, data } = await httpRequest({
@@ -137,14 +137,14 @@ class FreeAnyWhere extends Website {
               // todo
               break;
             default:
-              echoLog({ html: `<li><font class="warning">${__('unKnownTaskType')}: ${social}</font></li>` });
+              echoLog({}).warning(`${__('unKnownTaskType')}: ${social}`);
               break;
             }
           }
           logStatus.success();
           this.undoneTasks = this.uniqueTasks(this.undoneTasks) as fawSocialTasks;
           this.socialTasks = this.uniqueTasks(this.socialTasks) as fawSocialTasks;
-          GM_setValue(`fawTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() }); // eslint-disable-line new-cap
+          GM_setValue(`fawTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() });
           return true;
         }
         logStatus.error(`Error:${data?.statusText}(${data?.status})`);
@@ -172,7 +172,7 @@ class FreeAnyWhere extends Website {
         await delay(1000);
       }
       await Promise.all(pro);
-      echoLog({ html: `<li><font class="success">${__('allTasksComplete')}</font></li>` });
+      echoLog({}).success(__('allTasksComplete'));
       return !!await this.getKey(true);
     } catch (error) {
       throwError(error as Error, 'Freeanywhere.verifyTask');
@@ -196,7 +196,7 @@ class FreeAnyWhere extends Website {
       if (result === 'Success') {
         if (data?.response?.reward) {
           logStatus.success();
-          echoLog({ html: `<li><font class="success">${data.response.reward}</font></li>` });
+          echoLog({}).success(data.response.reward);
           return data.response.reward;
         }
         logStatus.error(`Error:${data?.statusText}(${data?.status})`);
@@ -217,7 +217,7 @@ class FreeAnyWhere extends Website {
         this.giveawayId = giveawayId;
         return true;
       }
-      echoLog({ html: `<li><font class="error">${__('getFailed', 'GiveawayId')}</font></li>` });
+      echoLog({}).error(__('getFailed', 'GiveawayId'));
       return false;
     } catch (error) {
       throwError(error as Error, 'FreeAnyWhere.getGiveawayId');

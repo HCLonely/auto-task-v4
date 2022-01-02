@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 11:47:59
- * @LastEditTime : 2021-12-25 13:02:27
+ * @LastEditTime : 2022-01-02 12:40:15
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Vk.ts
  * @Description  : Vk 加入/退出群组，关注/取关用户，转发/取消转发动态
@@ -28,9 +28,9 @@ interface dataParams {
 const defaultTasks: vkTasks = { names: [] };
 class Vk extends Social {
   tasks = { ...defaultTasks };
-  whiteList: vkTasks = GM_getValue<whiteList>('whiteList')?.vk || { ...defaultTasks }; // eslint-disable-line new-cap
+  whiteList: vkTasks = GM_getValue<whiteList>('whiteList')?.vk || { ...defaultTasks };
   #username = '';
-  #cache: cache = GM_getValue<cache>('vkCache') || {}; // eslint-disable-line new-cap
+  #cache: cache = GM_getValue<cache>('vkCache') || {};
   #initialized = false;
 
   async init(): Promise<boolean> {
@@ -44,11 +44,11 @@ class Vk extends Social {
       }
       const isVerified: boolean = await this.#verifyAuth();
       if (isVerified) {
-        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Vk')}</font></li>` });
+        echoLog({}).success(__('initSuccess', 'Vk'));
         this.#initialized = true;
         return true;
       }
-      echoLog({ html: `<li><font class="success">${__('initFailed', 'Vk')}</font></li>` });
+      echoLog({}).error(__('initFailed', 'Vk'));
       return false;
     } catch (error) {
       throwError(error as Error, 'Vk.init');
@@ -468,7 +468,7 @@ class Vk extends Social {
      */
     try {
       this.#cache[name] = postId;
-      GM_setValue('vkCache', this.#cache); // eslint-disable-line new-cap
+      GM_setValue('vkCache', this.#cache);
     } catch (error) {
       throwError(error as Error, 'Vk.setCache');
     }

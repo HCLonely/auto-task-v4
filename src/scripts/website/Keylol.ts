@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-15 13:58:41
- * @LastEditTime : 2021-12-29 15:48:37
+ * @LastEditTime : 2022-01-02 12:31:44
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Keylol.ts
  * @Description  : https://keylol.com/f319-1
@@ -49,16 +49,16 @@ const defaultTasks: keylolSocialTasks = {
   }
 };
 class Keylol extends Website {
-  name = 'Keylol'
-  socialTasks: keylolSocialTasks = { ...defaultTasks }
-  undoneTasks: keylolSocialTasks = { ...defaultTasks }
+  name = 'Keylol';
+  socialTasks: keylolSocialTasks = { ...defaultTasks };
+  undoneTasks: keylolSocialTasks = { ...defaultTasks };
   buttons: Array<string> = [
     'doTask',
     'undoTask',
     'selectAll',
     'selectNone',
     'invertSelect'
-  ]
+  ];
 
   static test() {
     return window.location.host === 'keylol.com' && !!$('.subforum_left_title_left_up a').eq(3)
@@ -178,10 +178,8 @@ class Keylol extends Website {
         const link = button.attr('data-link');
 
         if (!(social && type && link)) continue;
-        // eslint-disable-next-line
         // @ts-ignore
         if (action === 'do') this.undoneTasks[social][type].push(link);
-        // eslint-disable-next-line
         // @ts-ignore
         if (action === 'undo') this.socialTasks[social][type].push(link);
       }

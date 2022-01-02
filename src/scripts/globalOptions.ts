@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-24 16:41:12
- * @LastEditTime : 2021-12-28 17:58:02
+ * @LastEditTime : 2022-01-02 11:09:31
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/globalOptions.ts
  * @Description  : 全局设置选项
@@ -112,7 +112,7 @@ const defaultGlobalOptions: globalOptions = {
   }
 };
 
-const userDefinedGlobalOptions = GM_getValue<object>('globalOptions') || {}; // eslint-disable-line new-cap
+const userDefinedGlobalOptions = GM_getValue<object>('globalOptions') || {};
 const assignObject = (obj1: globalOptions, obj2: object): globalOptions => {
   try {
     const newObj = {};
@@ -156,7 +156,7 @@ const saveData = () => {
       return element;
     });
 
-    GM_setValue('globalOptions', globalOptions); // eslint-disable-line new-cap
+    GM_setValue('globalOptions', globalOptions);
     Swal.fire({
       title: __('changeGlobalOptionsSuccess'),
       icon: 'success'

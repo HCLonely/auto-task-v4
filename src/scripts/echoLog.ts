@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:03:26
- * @LastEditTime : 2021-12-31 14:51:31
+ * @LastEditTime : 2022-01-02 12:35:10
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/echoLog.ts
  * @Description  :
@@ -136,7 +136,7 @@ const echoLog = ({ type, text, html, id }: { type?: string, text?: string, html?
     } else if (html) {
       ele = $(html as string);
     } else {
-      return emptyStatus;
+      ele = $('<li><font></font></li>');
     }
     ele.addClass('card-text');
     $('#auto-task-info').append(ele);

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2021-12-31 13:47:07
+ * @LastEditTime : 2022-01-02 11:07:58
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.ts
  * @Description  : https://giveaway.su/
@@ -51,13 +51,13 @@ const defaultTasks: gasSocialTasks = {
 };
 
 class GiveawaySu extends Website {
-  name = 'GiveawaySu'
-  socialTasks: gasSocialTasks = defaultTasks
-  undoneTasks: gasSocialTasks = defaultTasks
+  name = 'GiveawaySu';
+  socialTasks: gasSocialTasks = defaultTasks;
+  undoneTasks: gasSocialTasks = defaultTasks;
   buttons: Array<string> = [
     'doTask',
     'undoTask'
-  ]
+  ];
 
   static test(): boolean {
     return /^https?:\/\/giveaway\.su\/giveaway\/view\/[\d]+/.test(window.location.href);
@@ -65,10 +65,10 @@ class GiveawaySu extends Website {
   async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
-        echoLog({ html: `<li><font class="warning">${__('checkLoginFailed')}</font></li>` });
+        echoLog({}).warning(__('checkLoginFailed'));
       }
       if (!await this.#checkLeftKey()) {
-        echoLog({ html: `<li><font class="warning">${__('checkLeftKeyFailed')}</font></li>` });
+        echoLog({}).warning(__('checkLeftKeyFailed'));
       }
     } catch (error) {
       throwError(error as Error, 'Giveawaysu.after');
@@ -95,7 +95,7 @@ class GiveawaySu extends Website {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
       if (action === 'undo') {
-        this.socialTasks = GM_getValue<gasGMTasks>(`gasTasks-${this.giveawayId}`)?.tasks || defaultTasks; // eslint-disable-line new-cap
+        this.socialTasks = GM_getValue<gasGMTasks>(`gasTasks-${this.giveawayId}`)?.tasks || defaultTasks;
         return true;
       }
 
@@ -173,7 +173,7 @@ class GiveawaySu extends Website {
       logStatus.success();
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as gasSocialTasks;
       this.socialTasks = this.undoneTasks;
-      GM_setValue(`gasTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() }); // eslint-disable-line new-cap
+      GM_setValue(`gasTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() });
       return true;
     } catch (error) {
       throwError(error as Error, 'Giveawaysu.classifyTask');

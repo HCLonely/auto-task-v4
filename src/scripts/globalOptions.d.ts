@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-24 17:21:16
- * @LastEditTime : 2021-12-30 17:06:09
+ * @LastEditTime : 2022-01-02 10:42:28
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/globalOptions.d.ts
  */
@@ -18,27 +18,27 @@ interface globalOptions {
       channels: boolean
     },
     twitter: {
-      users: boolean,
+      users: boolean
       retweets: boolean
     },
     vk: {
       names: boolean
     },
     youtube: {
-      channels: boolean,
+      channels: boolean
       likes: boolean
     },
     reddit: {
       reddits: boolean
     },
     steam: {
-      groups: boolean,
-      wishlists: boolean,
-      follows: boolean,
-      forums: boolean,
-      workshops: boolean,
-      curators: boolean,
-      workshopVotes: boolean,
+      groups: boolean
+      wishlists: boolean
+      follows: boolean
+      forums: boolean
+      workshops: boolean
+      curators: boolean
+      workshopVotes: boolean
       announcements: boolean
     }
   },
@@ -53,52 +53,52 @@ interface globalOptions {
       channels: boolean
     },
     twitter: {
-      users: boolean,
+      users: boolean
       retweets: boolean
     },
     vk: {
       names: boolean
     },
     youtube: {
-      channels: boolean,
+      channels: boolean
       likes: boolean
     },
     reddit: {
       reddits: boolean
     },
     steam: {
-      groups: boolean,
-      wishlists: boolean,
-      follows: boolean,
-      forums: boolean,
-      workshops: boolean,
+      groups: boolean
+      wishlists: boolean
+      follows: boolean
+      forums: boolean
+      workshops: boolean
       curators: boolean
     }
   },
   position: {
-    buttonSideX: 'right' | 'left',
-    buttonSideY: 'top' | 'bottom',
-    buttonDistance: string,
-    showButtonSideX: 'right' | 'left',
-    showButtonSideY: 'top' | 'bottom',
-    showButtonDistance: string,
-    logSideX: 'right' | 'left',
-    logSideY: 'top' | 'bottom',
+    buttonSideX: 'right' | 'left'
+    buttonSideY: 'top' | 'bottom'
+    buttonDistance: string
+    showButtonSideX: 'right' | 'left'
+    showButtonSideY: 'top' | 'bottom'
+    showButtonDistance: string
+    logSideX: 'right' | 'left'
+    logSideY: 'top' | 'bottom'
     logDistance: string
   },
   hotKey: {
-    doTaskKey: string,
-    undoTaskKey: string,
+    doTaskKey: string
+    undoTaskKey: string
     toggleLogKey: string
   },
   other: {
-    twitterVerifyId: string,
-    youtubeVerifyChannel: string,
-    autoUpdateSource: string,
-    language: string,
-    checkLogin: boolean,
-    checkLeftKey: boolean,
-    defaultShowButton: boolean,
-    defaultShowLog: boolean,
+    twitterVerifyId: string
+    youtubeVerifyChannel: string
+    autoUpdateSource: string
+    language: string
+    checkLogin: boolean
+    checkLeftKey: boolean
+    defaultShowButton: boolean
+    defaultShowLog: boolean
   }
 }

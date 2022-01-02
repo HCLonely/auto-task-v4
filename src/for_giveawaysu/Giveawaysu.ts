@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2021-12-31 19:59:27
+ * @LastEditTime : 2022-01-02 12:57:53
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/for_giveawaysu/Giveawaysu.ts
  * @Description  : https://giveaway.su/
@@ -86,10 +86,10 @@ class GiveawaySu {
   async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
-        echoLog({ html: `<li><font class="warning">${__('checkLoginFailed')}</font></li>` });
+        echoLog({}).warning(__('checkLoginFailed'));
       }
       if (!await this.#checkLeftKey()) {
-        echoLog({ html: `<li><font class="warning">${__('checkLeftKeyFailed')}</font></li>` });
+        echoLog({}).warning(__('checkLeftKeyFailed'));
       }
     } catch (error) {
       throwError(error as Error, 'Giveawaysu.after');
@@ -326,7 +326,6 @@ class GiveawaySu {
     for (const [social, types] of Object.entries(allTasks)) {
       result[social as socialType] = {};
       for (const [type, tasks] of Object.entries(types)) {
-        // eslint-disable-next-line
         // @ts-ignore
         result[social][type] = unique(tasks as Array<string>);
       }
@@ -369,7 +368,7 @@ class GiveawaySu {
         pro.push(this.social.steam.toggle({ doTask, ...tasks.steam }));
       }
       await Promise.all(pro);
-      echoLog({ html: `<li><font class="success">${__('allTasksComplete')}</font></li>` });
+      echoLog({}).success(__('allTasksComplete'));
       return true;
     } catch (error) {
       throwError(error as Error, 'GiveawaySu.toggleTask');

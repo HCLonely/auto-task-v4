@@ -10,7 +10,6 @@
 import Swal from 'sweetalert2';
 import { ua } from '@xuanmo/javascript-utils';
 import __ from './i18n';
-/* eslint-disable camelcase */
 export default function throwError(error:Error, name:string):void {
   Swal.fire({
     title: __('errorReport'),

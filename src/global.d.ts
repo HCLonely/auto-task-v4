@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 13:18:21
- * @LastEditTime : 2021-12-29 20:39:02
+ * @LastEditTime : 2022-01-02 10:50:47
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/global.d.ts
  */
@@ -195,5 +195,7 @@ declare global {
   interface commonObject {
     [key: string]: any
   }
+
 }
+
 export { };

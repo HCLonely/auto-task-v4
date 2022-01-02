@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-29 19:53:51
- * @LastEditTime : 2021-12-31 10:55:41
+ * @LastEditTime : 2022-01-02 11:09:25
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/dataSync.ts
  * @Description  : 数据同步
@@ -87,7 +87,7 @@ const syncOptions = (): void => {
       GIST_ID,
       FILE_NAME,
       SYNC_HISTORY
-    } = GM_getValue('gistOptions') || { TOKEN: '', GIST_ID: '', FILE_NAME: '', SYNC_HISTORY: true }; // eslint-disable-line new-cap
+    } = GM_getValue('gistOptions') || { TOKEN: '', GIST_ID: '', FILE_NAME: '', SYNC_HISTORY: true };
 
     Swal.fire({
       title: __('gistOptions'),
@@ -110,7 +110,7 @@ const syncOptions = (): void => {
         const gistId = $('#gist-id').val() as string;
         const fileName = $('#file-name').val() as string;
         const syncHistory = $('#sync-history').prop('checked');
-        GM_setValue('gistOptions', { TOKEN: token, GIST_ID: gistId, FILE_NAME: fileName, SYNC_HISTORY: syncHistory }); // eslint-disable-line new-cap
+        GM_setValue('gistOptions', { TOKEN: token, GIST_ID: gistId, FILE_NAME: fileName, SYNC_HISTORY: syncHistory });
         return await getGistData(token, gistId, fileName);
       },
       allowOutsideClick: () => !Swal.isLoading(),
@@ -131,7 +131,7 @@ const syncOptions = (): void => {
       }
     });
     $('#upload-data').on('click', async () => {
-      const { TOKEN, GIST_ID, FILE_NAME } = GM_getValue('gistOptions') || {}; // eslint-disable-line new-cap
+      const { TOKEN, GIST_ID, FILE_NAME } = GM_getValue('gistOptions') || {};
       if (!(TOKEN && GIST_ID && FILE_NAME)) {
         return Swal.fire({
           icon: 'error',
@@ -143,12 +143,12 @@ const syncOptions = (): void => {
         title: __('processingData')
       });
       const data: commonObject = {};
-      const names = GM_listValues(); // eslint-disable-line new-cap
+      const names = GM_listValues();
       const SYNC_HISTORY = $('#sync-history').prop('checked');
       for (const name of names) {
         if (name === 'gistOptions' || /^[\w]+?Auth$/.test(name)) continue;
         if (!SYNC_HISTORY && /^[\w]+?Tasks-/.test(name)) continue;
-        data[name] = GM_getValue(name); // eslint-disable-line new-cap
+        data[name] = GM_getValue(name);
       }
       Swal.update({
         icon: 'info',
@@ -167,7 +167,7 @@ const syncOptions = (): void => {
       }
     });
     $('#download-data').on('click', async () => {
-      const { TOKEN, GIST_ID, FILE_NAME } = GM_getValue('gistOptions') || {}; // eslint-disable-line new-cap
+      const { TOKEN, GIST_ID, FILE_NAME } = GM_getValue('gistOptions') || {};
       if (!(TOKEN && GIST_ID && FILE_NAME)) {
         return Swal.fire({
           icon: 'error',
@@ -192,7 +192,7 @@ const syncOptions = (): void => {
       const SYNC_HISTORY = $('#sync-history').prop('checked');
       for (const [name, value] of Object.entries(data)) {
         if (!SYNC_HISTORY && /^[\w]+?Tasks-/.test(name)) continue;
-        GM_setValue(name, value); // eslint-disable-line new-cap
+        GM_setValue(name, value);
       }
       Swal.fire({
         icon: 'success',

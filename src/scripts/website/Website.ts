@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:28
- * @LastEditTime : 2021-12-31 19:05:04
+ * @LastEditTime : 2022-01-02 12:55:08
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Website.ts
  * @Description  :
@@ -24,9 +24,11 @@ import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 
 abstract class Website {
-  undoneTasks!: webSocialTasks;
-  socialTasks!: webSocialTasks;
-  giveawayId!: string;
+  abstract name: string
+  abstract buttons: Array<string>
+  undoneTasks!: webSocialTasks
+  socialTasks!: webSocialTasks
+  giveawayId!: string
   protected socialInitialized = {
     discord: false,
     instagram: false,
@@ -36,8 +38,8 @@ abstract class Website {
     vk: false,
     youtube: false,
     steam: false
-  };
-  protected initialized = false;
+  }
+  protected initialized = false
   protected social: {
     discord?: Discord
     instagram?: Instagram
@@ -147,7 +149,6 @@ abstract class Website {
     for (const [social, types] of Object.entries(allTasks)) {
       result[social as socialType] = {};
       for (const [type, tasks] of Object.entries(types)) {
-        // eslint-disable-next-line
         // @ts-ignore
         result[social][type] = unique(tasks as Array<string>);
       }
@@ -206,7 +207,7 @@ abstract class Website {
         }
       }
       await Promise.all(pro);
-      echoLog({ html: `<li><font class="success">${__('allTasksComplete')}</font></li>` });
+      echoLog({}).success(__('allTasksComplete'));
       return true;
     } catch (error) {
       throwError(error as Error, 'Website.toggleTask');
@@ -228,12 +229,6 @@ abstract class Website {
       throwError(error as Error, 'Website.undoTask');
       return false;
     }
-  }
-  protected checkLogin(): boolean | Promise<boolean> {
-    return true;
-  }
-  protected checkLeftKey(): boolean | Promise<boolean> {
-    return true;
   }
 }
 

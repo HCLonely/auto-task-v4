@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-30 09:43:32
- * @LastEditTime : 2021-12-25 13:01:58
+ * @LastEditTime : 2022-01-02 12:37:58
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Reddit.ts
  * @Description  : Reddit 订阅&取消订阅
@@ -18,7 +18,7 @@ import { globalOptions } from '../globalOptions';
 const defaultTasks: redditTasks = { reddits: [] };
 class Reddit extends Social {
   tasks = { ...defaultTasks };
-  whiteList: redditTasks = GM_getValue<whiteList>('whiteList')?.reddit || { ...defaultTasks }; // eslint-disable-line new-cap
+  whiteList: redditTasks = GM_getValue<whiteList>('whiteList')?.reddit || { ...defaultTasks };
   #auth!: auth;
   #initialized = false;
 
@@ -33,11 +33,11 @@ class Reddit extends Social {
       }
       const isVerified: boolean = await this.#updateAuth();
       if (isVerified) {
-        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Reddit')}</font></li>` });
+        echoLog({}).success(__('initSuccess', 'Reddit'));
         this.#initialized = true;
         return true;
       }
-      echoLog({ html: `<li><font class="error">${__('initFailed', 'Reddit')}</font></li>` });
+      echoLog({}).error(__('initFailed', 'Reddit'));
       return false;
     } catch (error) {
       throwError(error as Error, 'Reddit.init');
@@ -52,9 +52,9 @@ class Reddit extends Social {
      */
     try {
       const logStatus = echoLog({ text: __('changingRedditVersion') });
-      GM_setValue('redditAuth', null); // eslint-disable-line new-cap
+      GM_setValue('redditAuth', null);
       return await new Promise((resolve) => {
-        const newTab = GM_openInTab('https://www.reddit.com/#auth', // eslint-disable-line new-cap
+        const newTab = GM_openInTab('https://www.reddit.com/#auth',
           { active: true, insert: true, setParent: true });
         newTab.onclose = async () => {
           logStatus.success();

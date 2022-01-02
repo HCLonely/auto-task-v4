@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2021-12-31 13:47:45
+ * @LastEditTime : 2022-01-02 12:47:20
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  : https://gleam.io
@@ -49,18 +49,18 @@ const defaultOptions: options = {
   gameroundUsername: ''
 };
 class Gleam extends Website {
-  name = 'Gleam'
-  undoneTasks: gleamSocialTasks = { ...defaultTasks }
-  socialTasks: gleamSocialTasks = { ...defaultTasks }
+  name = 'Gleam';
+  undoneTasks: gleamSocialTasks = { ...defaultTasks };
+  socialTasks: gleamSocialTasks = { ...defaultTasks };
   options = {
     ...defaultOptions,
-    ...GM_getValue<options>('GleamOptions') // eslint-disable-line new-cap
-  }
+    ...GM_getValue<options>('GleamOptions')
+  };
   buttons: Array<string> = [
     'doTask',
     'undoTask',
     'verifyTask'
-  ]
+  ];
 
   static test(): boolean {
     return window.location.host === 'gleam.io';
@@ -91,9 +91,9 @@ class Gleam extends Website {
           taskInfo[0].click();
           await delay(1000);
         }
-        echoLog({ html: `<li><font class="warning">${__('gleamTaskNotice')}</font></li>` });
+        echoLog({}).warning(__('gleamTaskNotice'));
       } else if (!await this.#checkLeftKey()) {
-        echoLog({ html: `<li><font class="warning">${__('checkLeftKeyFailed')}</font></li>` });
+        echoLog({}).warning(__('checkLeftKeyFailed'));
       }
     } catch (error) {
       throwError(error as Error, 'Gleam.after');
@@ -118,7 +118,7 @@ class Gleam extends Website {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
       if (action === 'undo') {
-        this.socialTasks = GM_getValue<gleamGMTasks>(`gleamTasks-${this.giveawayId}`)?.tasks || { ...defaultTasks }; // eslint-disable-line new-cap
+        this.socialTasks = GM_getValue<gleamGMTasks>(`gleamTasks-${this.giveawayId}`)?.tasks || { ...defaultTasks };
       }
 
       const tasks = $('.entry-content .entry-method');
@@ -222,14 +222,14 @@ class Gleam extends Website {
         ) {
           // skip
         } else {
-          echoLog({ html: `<li><font class="warning">${__('unKnownTaskType')}: ${taskText}</font></li>` });
+          echoLog({}).warning(`${__('unKnownTaskType')}: ${taskText}`);
         }
       }
 
       logStatus.success();
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as gleamSocialTasks;
       this.socialTasks = this.uniqueTasks(this.socialTasks) as gleamSocialTasks;
-      GM_setValue(`gleamTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() }); // eslint-disable-line new-cap
+      GM_setValue(`gleamTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() });
       return true;
     } catch (error) {
       throwError(error as Error, 'Gleam.classifyTask');
@@ -298,7 +298,7 @@ class Gleam extends Website {
     try {
       const logStatus = echoLog({ text: __('doingGleamTask') });
       return await new Promise((resolve) => {
-        GM_openInTab(`${link}?8b07d23f4bfa65f9`, // eslint-disable-line new-cap
+        GM_openInTab(`${link}?8b07d23f4bfa65f9`,
           { active: true, insert: true, setParent: true })
           .onclose = () => {
             logStatus.success();

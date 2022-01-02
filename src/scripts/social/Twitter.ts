@@ -1,11 +1,10 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:36:57
- * @LastEditTime : 2021-12-26 13:31:56
+ * @LastEditTime : 2022-01-02 12:39:56
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitter.ts
  * @Description  : Twitter 关注/取关用户,转推/取消转推推文
- ! 功能验证
  */
 
 import Social from './Social';
@@ -19,10 +18,10 @@ import { globalOptions } from '../globalOptions';
 const defaultTasks: twitterTasks = { users: [], retweets: [], likes: [] };
 class Twitter extends Social {
   tasks = { ...defaultTasks };
-  whiteList: twitterTasks = GM_getValue<whiteList>('whiteList')?.twitter || { ...defaultTasks }; // eslint-disable-line new-cap
+  whiteList: twitterTasks = GM_getValue<whiteList>('whiteList')?.twitter || { ...defaultTasks };
   #verifyId = globalOptions.other.twitterVerifyId;
-  #auth: auth = GM_getValue<auth>('twitterAuth') || {}; // eslint-disable-line new-cap
-  #cache: cache = GM_getValue<cache>('twitterCache') || {}; // eslint-disable-line new-cap
+  #auth: auth = GM_getValue<auth>('twitterAuth') || {};
+  #cache: cache = GM_getValue<cache>('twitterCache') || {};
   #initialized = false;
 
   async init(): Promise<boolean> {
@@ -43,17 +42,17 @@ class Twitter extends Social {
       }
       const isVerified = await this.#verifyAuth();
       if (isVerified) {
-        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Twitter')}</font></li>` });
+        echoLog({}).success(__('initSuccess', 'Twitter'));
         this.#initialized = true;
         return true;
       }
-      GM_setValue('twitterAuth', null); // eslint-disable-line new-cap
+      GM_setValue('twitterAuth', null);
       if (await this.#updateAuth()) {
-        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Twitter')}</font></li>` });
+        echoLog({}).success(__('initSuccess', 'Twitter'));
         this.#initialized = true;
         return true;
       }
-      echoLog({ html: `<li><font class="success">${__('initFailed', 'Twitter')}</font></li>` });
+      echoLog({}).error(__('initFailed', 'Twitter'));
       return false;
     } catch (error) {
       throwError(error as Error, 'Twitter.init');
@@ -84,10 +83,10 @@ class Twitter extends Social {
     try {
       const logStatus = echoLog({ text: __('updatingAuth', 'Twitter') });
       return await new Promise((resolve) => {
-        const newTab = GM_openInTab('https://twitter.com/settings/account?k#auth', // eslint-disable-line new-cap
+        const newTab = GM_openInTab('https://twitter.com/settings/account?k#auth',
           { active: true, insert: true, setParent: true });
         newTab.onclose = async () => {
-          const auth = GM_getValue<auth>('twitterAuth'); // eslint-disable-line new-cap
+          const auth = GM_getValue<auth>('twitterAuth');
           if (auth) {
             this.#auth = auth;
             logStatus.success();
@@ -338,7 +337,7 @@ class Twitter extends Social {
      */
     try {
       this.#cache[name] = id;
-      GM_setValue('twitterCache', this.#cache); // eslint-disable-line new-cap
+      GM_setValue('twitterCache', this.#cache);
     } catch (error) {
       throwError(error as Error, 'Twitter.setCache');
     }

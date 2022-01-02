@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-06 13:16:38
- * @LastEditTime : 2021-12-30 16:11:31
+ * @LastEditTime : 2022-01-02 12:40:35
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/whiteList.ts
  * @Description  : 白名单相关
@@ -123,7 +123,7 @@ const disabledType = {
 
 const whiteListOptions = function (showType: 'page' | 'swal'): void {
   try {
-    const whiteList = { ...defaultWhiteList, ...(GM_getValue<whiteList>('whiteList') || {}) }; // eslint-disable-line new-cap
+    const whiteList = { ...defaultWhiteList, ...(GM_getValue<whiteList>('whiteList') || {}) };
     let whiteListOptionsForm = `<form id="whiteListForm" class="auto-task-form">
   <table class="auto-task-table"><thead><tr><td>${__('website')}</td><td>${__('type')}</td><td>${__('edit')}</td></tr></thead><tbody>`;
     for (const [social, types] of Object.entries(whiteList)) {
@@ -156,7 +156,7 @@ const whiteListOptions = function (showType: 'page' | 'swal'): void {
       const [social, type] = value.split('.');
       // @ts-ignore
       if (!whiteList?.[social]?.[type]) {
-        echoLog({ html: `<li><font class="warning">${__('whiteListNotFound', value)}</font></li>` });
+        echoLog({}).warning(__('whiteListNotFound', value));
         return;
       }
       Swal.fire({
@@ -182,7 +182,7 @@ const whiteListOptions = function (showType: 'page' | 'swal'): void {
         } else if (isConfirmed) {
           // @ts-ignore
           whiteList[social][type] = value.split('\n');
-          GM_setValue('whiteList', whiteList); // eslint-disable-line new-cap
+          GM_setValue('whiteList', whiteList);
           Swal.fire({
             title: __('changeWhiteListSuccess'),
             icon: 'success'

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 11:46:52
- * @LastEditTime : 2021-12-31 13:47:18
+ * @LastEditTime : 2022-01-02 12:44:47
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/GiveeClub.ts
  * @Description  : https://givee.club/
@@ -19,11 +19,11 @@ import { GiveawaySu, defaultTasks } from './GiveawaySu';
 import { globalOptions } from '../globalOptions';
 
 class GiveeClub extends GiveawaySu {
-  name = 'GiveeClub'
+  name = 'GiveeClub';
   buttons: Array<string> = [
     'doTask',
     'undoTask'
-  ]
+  ];
 
   static test(): boolean {
     return /^https?:\/\/givee\.club\/.*?\/event\/[\d]+/.test(window.location.href);
@@ -31,10 +31,10 @@ class GiveeClub extends GiveawaySu {
   async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
-        echoLog({ html: `<li><font class="warning">${__('checkLoginFailed')}</font></li>` });
+        echoLog({}).warning(__('checkLoginFailed'));
       }
       if (!await this.#checkLeftKey()) {
-        echoLog({ html: `<li><font class="warning">${__('checkLeftKeyFailed')}</font></li>` });
+        echoLog({}).warning(__('checkLeftKeyFailed'));
       }
     } catch (error) {
       throwError(error as Error, 'GiveeClub.after');
@@ -43,7 +43,7 @@ class GiveeClub extends GiveawaySu {
   init(): boolean {
     try {
       const logStatus = echoLog({ text: __('initing') });
-      if (!this.checkLogin()) {
+      if (!this.#checkLogin()) {
         logStatus.warning(__('needLogin'));
         return false;
       }
@@ -60,7 +60,7 @@ class GiveeClub extends GiveawaySu {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
       if (action === 'undo') {
-        this.socialTasks = GM_getValue<gasGMTasks>(`gcTasks-${this.giveawayId}`)?.tasks || defaultTasks; // eslint-disable-line new-cap
+        this.socialTasks = GM_getValue<gasGMTasks>(`gcTasks-${this.giveawayId}`)?.tasks || defaultTasks;
         return true;
       }
 
@@ -130,7 +130,7 @@ class GiveeClub extends GiveawaySu {
       logStatus.success();
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as gasSocialTasks;
       this.socialTasks = this.undoneTasks;
-      GM_setValue(`gcTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() }); // eslint-disable-line new-cap
+      GM_setValue(`gcTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() });
       return true;
     } catch (error) {
       throwError(error as Error, 'GiveeClub.classifyTask');

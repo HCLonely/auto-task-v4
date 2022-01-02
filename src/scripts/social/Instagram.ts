@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-29 12:54:16
- * @LastEditTime : 2021-12-25 13:01:53
+ * @LastEditTime : 2022-01-02 12:37:25
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Instagram.ts
  * @Description  : Instagram 关注&取关用户
@@ -18,8 +18,8 @@ import { globalOptions } from '../globalOptions';
 const defaultTasks: instagramTasks = { users: [] };
 class Instagram extends Social {
   tasks = { ...defaultTasks };
-  whiteList: instagramTasks = GM_getValue<whiteList>('whiteList')?.instagram || { ...defaultTasks }; // eslint-disable-line new-cap
-  #cache: cache = GM_getValue<cache>('instagramCache') || {}; // eslint-disable-line new-cap
+  whiteList: instagramTasks = GM_getValue<whiteList>('whiteList')?.instagram || { ...defaultTasks };
+  #cache: cache = GM_getValue<cache>('instagramCache') || {};
   #auth: auth = {};
   #initialized = false;
 
@@ -34,11 +34,11 @@ class Instagram extends Social {
       }
       const isVerified = await this.#getUserInfo();
       if (isVerified) {
-        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Instagram')}</font></li>` });
+        echoLog({}).success(__('initSuccess', 'Instagram'));
         this.#initialized = true;
         return true;
       }
-      echoLog({ html: `<li><font class="success">${__('initFailed', 'Instagram')}</font></li>` });
+      echoLog({}).error(__('initFailed', 'Instagram'));
       return false;
     } catch (error) {
       throwError(error as Error, 'Instagram.init');
@@ -241,7 +241,7 @@ class Instagram extends Social {
      */
     try {
       this.#cache[name] = id;
-      GM_setValue('instagramCache', this.#cache); // eslint-disable-line new-cap
+      GM_setValue('instagramCache', this.#cache);
     } catch (error) {
       throwError(error as Error, 'Instagram.setCache');
     }

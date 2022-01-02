@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 14:20:30
- * @LastEditTime : 2021-12-30 15:33:21
+ * @LastEditTime : 2022-01-02 12:56:15
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/updateChecker.ts
  * @Description  : 更新检测
@@ -30,12 +30,12 @@ const checkUpdate = async (source: 'github' | 'jsdelivr', auto: boolean): Promis
         return data.response.version;
       }
       if (!auto) {
-        echoLog({ html: `<li><font class="error">${__('checkUpdateFailed')}[${data?.statusText}(${data?.status})]</font></li>` });
+        echoLog({}).error(`${__('checkUpdateFailed')}[${data?.statusText}(${data?.status})]`);
       }
       return false;
     }
     if (!auto) {
-      echoLog({ html: `<li><font class="error">${__('checkUpdateFailed')}[${result}:${statusText}(${status})]</font></li>` });
+      echoLog({}).error(`${__('checkUpdateFailed')}[${result}:${statusText}(${status})]`);
     }
     return false;
   } catch (error) {
@@ -45,12 +45,12 @@ const checkUpdate = async (source: 'github' | 'jsdelivr', auto: boolean): Promis
 };
 const updateChecker = async () => {
   try {
-    const currentVersion = GM_info.script.version; // eslint-disable-line camelcase
+    const currentVersion = GM_info.script.version;
     const updateSource = globalOptions.other.autoUpdateSource || 'auto';
     const githubUpdateLink =
-      `https://github.com/HCLonely/auto-task-new/raw/main/dist/${GM_info.script.name}.user.js`; // eslint-disable-line camelcase
+      `https://github.com/HCLonely/auto-task-new/raw/main/dist/${GM_info.script.name}.user.js`;
     const jsdelivrUpdateLink =
-      `https://cdn.jsdelivr.net/gh/HCLonely/auto-task-v4@main/dist/${GM_info.script.name}.user.js`; // eslint-disable-line camelcase
+      `https://cdn.jsdelivr.net/gh/HCLonely/auto-task-v4@main/dist/${GM_info.script.name}.user.js`;
     let version: string;
     let updateLink = '';
 
@@ -72,12 +72,12 @@ const updateChecker = async () => {
           updateLink = jsdelivrUpdateLink;
         } else {
           version = currentVersion;
-          echoLog({ html: `<li><font class="error">${__('checkUpdateFailed')}</font></li>` });
+          echoLog({}).error(__('checkUpdateFailed'));
         }
       }
     }
     if (version !== currentVersion) {
-      echoLog({ html: `<li><font class="warning">${__('newVersionNotice', version, updateLink)}</font></li>` });
+      echoLog({}).warning(__('newVersionNotice', version, updateLink));
     }
   } catch (error) {
     throwError(error as Error, 'updateChecker');

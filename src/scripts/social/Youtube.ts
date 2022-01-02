@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 12:18:06
- * @LastEditTime : 2022-01-01 10:50:45
+ * @LastEditTime : 2022-01-02 12:41:10
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Youtube.ts
  * @Description  : Youtube 订阅/取消订阅频道，点赞/取消点赞视频
@@ -87,8 +87,8 @@ const getInfo = async function (link: string, type: string): Promise <youtubeInf
 
 class Youtube extends Social {
   tasks = { ...defaultTasks };
-  whiteList: youtubeTasks = GM_getValue<whiteList>('whiteList')?.youtube || { ...defaultTasks }; // eslint-disable-line new-cap
-  #auth: auth = GM_getValue<auth>('youtubeAuth') || {}; // eslint-disable-line new-cap
+  whiteList: youtubeTasks = GM_getValue<whiteList>('whiteList')?.youtube || { ...defaultTasks };
+  #auth: auth = GM_getValue<auth>('youtubeAuth') || {};
   #initialized = false;
   #verifyChannel = `https://www.youtube.com/channel/${globalOptions.other.youtubeVerifyChannel}`;
 
@@ -110,17 +110,17 @@ class Youtube extends Social {
       }
       const isVerified: boolean = await this.#verifyAuth();
       if (isVerified) {
-        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Youtube')}</font></li>` });
+        echoLog({}).success(__('initSuccess', 'Youtube'));
         this.#initialized = true;
         return true;
       }
-      GM_setValue('youtubeAuth', null); // eslint-disable-line new-cap
+      GM_setValue('youtubeAuth', null);
       if (await this.#updateAuth()) {
-        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Youtube')}</font></li>` });
+        echoLog({}).success(__('initSuccess', 'Youtube'));
         this.#initialized = true;
         return true;
       }
-      echoLog({ html: `<li><font class="success">${__('initFailed', 'Youtube')}</font></li>` });
+      echoLog({}).error(__('initFailed', 'Youtube'));
       return false;
     } catch (error) {
       throwError(error as Error, 'Youtube.init');
@@ -150,10 +150,10 @@ class Youtube extends Social {
     try {
       const logStatus = echoLog({ text: __('updatingAuth', 'Youtube') });
       return await new Promise((resolve) => {
-        const newTab = GM_openInTab('https://www.youtube.com/#auth', // eslint-disable-line new-cap
+        const newTab = GM_openInTab('https://www.youtube.com/#auth',
           { active: true, insert: true, setParent: true });
         newTab.onclose = async () => {
-          const auth = GM_getValue<auth>('youtubeAuth'); // eslint-disable-line new-cap
+          const auth = GM_getValue<auth>('youtubeAuth');
           if (auth) {
             this.#auth = auth;
             logStatus.success();

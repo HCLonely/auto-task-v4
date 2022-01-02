@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 14:37:33
- * @LastEditTime : 2021-12-31 13:47:59
+ * @LastEditTime : 2022-01-02 12:48:45
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Indiedb.ts
  * @Description  : https://www.indiedb.com/giveaways
@@ -18,10 +18,10 @@ import { globalOptions } from '../globalOptions';
 declare function urlPath(value?: string): string
 
 class Indiedb {
-  name = 'Indiedb'
+  name = 'Indiedb';
   buttons: Array<string> = [
     'doTask'
-  ]
+  ];
 
   static test(): boolean {
     return window.location.host === 'www.indiedb.com';
@@ -29,10 +29,10 @@ class Indiedb {
   async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
-        echoLog({ html: `<li><font class="warning">${__('checkLoginFailed')}</font></li>` });
+        echoLog({}).warning(__('checkLoginFailed'));
       }
       if (!await this.#checkLeftKey()) {
-        echoLog({ html: `<li><font class="warning">${__('checkLeftKeyFailed')}</font></li>` });
+        echoLog({}).warning(__('checkLeftKeyFailed'));
       }
     } catch (error) {
       throwError(error as Error, 'Indiedb.after');
@@ -52,7 +52,7 @@ class Indiedb {
   async #join(): Promise<boolean> {
     try {
       if ($('a.buttonenter:contains(Register to join)').length > 0) {
-        echoLog({ html: `<li><font class="error">${__('needLogin')}</font></li>` });
+        echoLog({}).error(__('needLogin'));
         return false;
       }
       const currentoption = $('a.buttonenter.buttongiveaway');
@@ -89,7 +89,7 @@ class Indiedb {
       } else if (/success/gim.test($('a.buttonenter.buttongiveaway').text())) {
         return true;
       }
-      echoLog({ html: `<li><font class="warning">${__('needJoinGiveaway')}</font></li>` });
+      echoLog({}).warning(__('needJoinGiveaway'));
       return false;
     } catch (error) {
       throwError(error as Error, 'Indiedb.init');
@@ -124,7 +124,7 @@ class Indiedb {
                 text = 'visitpromo';
               }
 
-              pro.push(new Promise((resolve) => { // eslint-disable-line
+              pro.push(new Promise((resolve) => {
                 $.ajax({
                   type: 'POST',
                   url: urlPath(`/giveaways/ajax/${text}/${id[0]}`),
@@ -243,10 +243,10 @@ class Indiedb {
           }
         }
         await Promise.all(pro);
-        echoLog({ html: `<li><font class="success">${__('allTasksComplete')}</font></li>` });
+        echoLog({}).success(__('allTasksComplete'));
         return true;
       }
-      echoLog({ html: `<li><font class="error">${__('getFailed', 'TaskId')}</font></li>` });
+      echoLog({}).error(__('getFailed', 'TaskId'));
       return false;
     } catch (error) {
       throwError(error as Error, 'Indiedb.classifyTask');

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-25 19:00:53
- * @LastEditTime : 2022-01-01 10:49:29
+ * @LastEditTime : 2022-01-02 12:32:13
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Setting.ts
  * @Description  : 设置页面
@@ -18,13 +18,14 @@ import Swal from 'sweetalert2';
 import syncOptions from '../dataSync';
 
 class Setting {
-  name = 'Setting'
+  name = 'Setting';
   buttons: Array<string> = [
     'saveGlobalOptions',
     'syncData',
     'tasksHistory'
-  ]
-  dataSync = syncOptions
+  ];
+  dataSync = syncOptions;
+
   tasksHistory(): void {
     window.open('https://auto-task-v4.hclonely.com/history.html', '_blank');
   }
@@ -159,7 +160,6 @@ class Setting {
     }
   }
   #environment(): void {
-    /* eslint-disable camelcase */
     try {
       const userAgent = ua();
       const environmentForm = `<form id="environmentForm" class="auto-task-form">
@@ -173,7 +173,6 @@ class Setting {
     } catch (error) {
       throwError(error as Error, 'Setting.environment');
     }
-    /* eslint-enable camelcase */
   }
 }
 

@@ -1,14 +1,13 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2022-01-01 10:51:54
+ * @LastEditTime : 2022-01-02 12:39:02
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
  */
 // eslint-disable-next-line
 /// <reference path = "Steam.d.ts" />
-/* eslint-disable id-length */
 
 import Social from './Social';
 import echoLog from '../echoLog';
@@ -32,8 +31,8 @@ const defaultTasks: steamTasks = {
 
 class Steam extends Social {
   tasks = { ...defaultTasks };
-  whiteList: steamTasks = GM_getValue<whiteList>('whiteList')?.steam || { ...defaultTasks }; // eslint-disable-line new-cap
-  #cache: steamCache = GM_getValue<steamCache>('steamCache') || { // eslint-disable-line new-cap
+  whiteList: steamTasks = GM_getValue<whiteList>('whiteList')?.steam || { ...defaultTasks };
+  #cache: steamCache = GM_getValue<steamCache>('steamCache') || {
     group: {},
     forum: {},
     workshop: {},
@@ -55,10 +54,10 @@ class Steam extends Social {
       const isVerified = (await this.#updateStoreAuth()) && await (this.#updateCommunityAuth());
       if (isVerified) {
         this.#initialized = true;
-        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Steam')}</font></li>` });
+        echoLog({}).success(__('initSuccess', 'Steam'));
         return true;
       }
-      echoLog({ html: `<li><font class="success">${__('initFailed', 'Steam')}</font></li>` });
+      echoLog({}).error(__('initFailed', 'Steam'));
       return false;
     } catch (error) {
       throwError(error as Error, 'Steam.init');
@@ -1097,7 +1096,7 @@ class Steam extends Social {
       // TODO: 返回值处理
       return Promise.all(prom).then(async () => {
         if (this.#area !== 'CN') {
-          echoLog({ html: `<li><font class="warning">${__('steamFinishNotice')}</font></li>` });
+          echoLog({}).warning(__('steamFinishNotice'));
           await this.#changeArea('CN');
         }
         return true;
@@ -1115,7 +1114,7 @@ class Steam extends Social {
      */
     try {
       this.#cache[type][name] = id;
-      GM_setValue('steamCache', this.#cache); // eslint-disable-line new-cap
+      GM_setValue('steamCache', this.#cache);
     } catch (error) {
       throwError(error as Error, 'Steam.setCache');
     }

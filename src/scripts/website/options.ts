@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-11 13:22:26
- * @LastEditTime : 2021-12-11 13:49:46
+ * @LastEditTime : 2022-01-02 11:09:11
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/options.ts
  * @Description  :
@@ -34,7 +34,7 @@ const websiteOptions = function (website:string, options: options): void {
           options[value.name] = value.value;
           return value;
         });
-      GM_setValue(`${website}Options`, options); // eslint-disable-line new-cap
+      GM_setValue(`${website}Options`, options);
       Swal.fire({
         title: __('changeWebsiteOptionsSuccess'),
         icon: 'success'

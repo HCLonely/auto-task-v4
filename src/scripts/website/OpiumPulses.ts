@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 17:22:20
- * @LastEditTime : 2021-12-31 13:48:19
+ * @LastEditTime : 2022-01-02 12:52:20
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/OpiumPulses.ts
  * @Description  : https://www.opiumpulses.com/giveaways
@@ -21,17 +21,17 @@ const defaultOptions = {
   maxPoint: '99999999'
 };
 class OpiumPulses {
-  name = 'OpiumPulses'
+  name = 'OpiumPulses';
   options = {
     ...defaultOptions,
-    ...GM_getValue<options>('OpiumPulsesOptions') // eslint-disable-line new-cap
-  }
-  maxPoints = 99999999
-  myPoints = 0
+    ...GM_getValue<options>('OpiumPulsesOptions')
+  };
+  maxPoints = 99999999;
+  myPoints = 0;
   buttons: Array<string> = [
     'doFreeTask',
     'doPointTask'
-  ]
+  ];
 
   static test(): boolean {
     return window.location.host === 'www.opiumpulses.com';
@@ -39,7 +39,7 @@ class OpiumPulses {
   async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
-        echoLog({ html: `<li><font class="warning">${__('checkLoginFailed')}</font></li>` });
+        echoLog({}).warning(__('checkLoginFailed'));
       }
       this.maxPoints = parseInt(this.options.maxPoint, 10);
     } catch (error) {
@@ -74,9 +74,9 @@ class OpiumPulses {
           .text()
           .trim();
         if (type === 'points' && needPoints > this.myPoints) {
-          echoLog({ html: `<li><font class="warning">${__('noPoints')}: ${name}</font></li>` });
+          echoLog({}).warning(`${__('noPoints')}: ${name}`);
         } else if (type === 'points' && !needPoints) {
-          echoLog({ html: `<li><font class="warning">${__('getNeedPointsFailed')}: ${name}</font></li>` });
+          echoLog({}).warning(`${__('getNeedPointsFailed')}: ${name}`);
         } else if (!(type === 'points' && needPoints > this.maxPoints)) {
           const logStatus = echoLog({ text: `${__('joiningLottery')}<a href="${$(item).find('a.giveaways-page-item-img-btn-more')
             .attr('href')}" target="_blank">${name}</a>...` });

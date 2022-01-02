@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 14:58:11
- * @LastEditTime : 2021-12-25 20:33:55
+ * @LastEditTime : 2022-01-02 11:07:46
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/tools/tools.ts
  * @Description  : 其他工具函数
@@ -29,7 +29,7 @@ interface redirectLinksCache {
 const getRedirectLink = async (link: string | undefined): Promise<string | null> => {
   try {
     if (!link) return null;
-    const redirectLinksCache = GM_getValue<redirectLinksCache>('redirectLinks') || {}; // eslint-disable-line new-cap
+    const redirectLinksCache = GM_getValue<redirectLinksCache>('redirectLinks') || {};
     if (redirectLinksCache[link]) redirectLinksCache[link];
     return await httpRequest({
       url: link,
@@ -37,7 +37,7 @@ const getRedirectLink = async (link: string | undefined): Promise<string | null>
     }).then(({ data }) => {
       if (data?.finalUrl) {
         redirectLinksCache[link] = data.finalUrl;
-        GM_setValue('redirectLinks', redirectLinksCache); // eslint-disable-line new-cap
+        GM_setValue('redirectLinks', redirectLinksCache);
         return data.finalUrl;
       }
       return null;

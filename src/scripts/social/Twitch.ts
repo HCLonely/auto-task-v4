@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:00:41
- * @LastEditTime : 2021-12-25 13:02:15
+ * @LastEditTime : 2022-01-02 12:39:34
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitch.ts
  * @Description  : Twitch 关注/取关频道
@@ -18,9 +18,9 @@ import { globalOptions } from '../globalOptions';
 const defaultTasks: twitchTasks = { channels: [] };
 class Twitch extends Social {
   tasks = { ...defaultTasks };
-  whiteList: twitchTasks = GM_getValue<whiteList>('whiteList')?.twitch || { ...defaultTasks }; // eslint-disable-line new-cap
-  #auth: auth = GM_getValue<auth>('twitchAuth') || {}; // eslint-disable-line new-cap
-  #cache: cache = GM_getValue<cache>('twitchCache') || {}; // eslint-disable-line new-cap
+  whiteList: twitchTasks = GM_getValue<whiteList>('whiteList')?.twitch || { ...defaultTasks };
+  #auth: auth = GM_getValue<auth>('twitchAuth') || {};
+  #cache: cache = GM_getValue<cache>('twitchCache') || {};
   #initialized = false;
 
   async init(): Promise<boolean> {
@@ -41,17 +41,17 @@ class Twitch extends Social {
       }
       const isVerified: boolean = await this.#verifyAuth();
       if (isVerified) {
-        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Twitch')}</font></li>` });
+        echoLog({}).success(__('initSuccess', 'Twitch'));
         this.#initialized = true;
         return true;
       }
-      GM_setValue('twitchAuth', null); // eslint-disable-line new-cap
+      GM_setValue('twitchAuth', null);
       if (await this.#updateAuth()) {
-        echoLog({ html: `<li><font class="success">${__('initSuccess', 'Twitch')}</font></li>` });
+        echoLog({}).success(__('initSuccess', 'Twitch'));
         this.#initialized = true;
         return true;
       }
-      echoLog({ html: `<li><font class="success">${__('initFailed', 'Twitch')}</font></li>` });
+      echoLog({}).error(__('initFailed', 'Twitch'));
       return false;
     } catch (error) {
       throwError(error as Error, 'Twitch.init');
@@ -102,10 +102,10 @@ class Twitch extends Social {
     try {
       const logStatus = echoLog({ text: __('updatingAuth', 'Twitch') });
       return await new Promise((resolve) => {
-        const newTab = GM_openInTab('https://www.twitch.tv/#auth', // eslint-disable-line new-cap
+        const newTab = GM_openInTab('https://www.twitch.tv/#auth',
           { active: true, insert: true, setParent: true });
         newTab.onclose = async () => {
-          const auth = GM_getValue<auth>('twitchAuth'); // eslint-disable-line new-cap
+          const auth = GM_getValue<auth>('twitchAuth');
           if (auth) {
             this.#auth = auth;
             logStatus.success();
@@ -266,7 +266,7 @@ class Twitch extends Social {
      */
     try {
       this.#cache[name] = id;
-      GM_setValue('twitchCache', this.#cache); // eslint-disable-line new-cap
+      GM_setValue('twitchCache', this.#cache);
     } catch (error) {
       throwError(error as Error, 'Twitch.setCache');
     }
