@@ -2,7 +2,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 16:22:46
- * @LastEditTime : 2021-12-31 19:35:34
+ * @LastEditTime : 2022-01-02 21:12:12
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/webpack.giveawaysu.config.js
  * @Description  :

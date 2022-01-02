@@ -8,7 +8,7 @@
     "tsc": "tsc",
     "gs": "webpack --config webpack.giveawaysu.config.js",
     "pack": "webpack --config webpack.config.js",
-    "build": "webpack --config webpack.config.js && webpack --config webpack.compatibility.config.js && webpack --config webpack.giveawaysu.config.js"
+    "build": "webpack --config webpack.config.js && webpack --config webpack.compatibility.config.js && webpack --config webpack.giveawaysu.config.js && cp ./dist/* ./page/dist"
   },
   "author": "HCLonely",
   "license": "MIT",
