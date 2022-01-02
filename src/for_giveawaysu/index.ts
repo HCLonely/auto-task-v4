@@ -75,9 +75,10 @@ const loadScript = async () => {
   if (!Giveawaysu.test()) return;
   const website = new Giveawaysu();
   // eslint-disable-next-line max-len
-  $('body').append(`<div id="auto-task-info-div" style="position: fixed;bottom: 10px;right: 10px;width: 300px;max-width: 60%;max-height: 600px;color: #000;background-color: #fff;padding-left: 5px;z-index: 999999999 !important;"><h2 style="text-align: center;"><button id="auto-do-task" class="btn btn-success">${__('doTask')}</button></h2><div id="auto-task-info" style="overflow-y: auto;max-height: 500px;"></div></div>`);
+  $('body').append(`<div id="auto-task-info-div" style="position: fixed;bottom: 10px;right: 10px;width: 300px;max-width: 60%;max-height: 600px;color: #000;background-color: #fff;padding-left: 5px;z-index: 999999999 !important;"><h2 style="text-align: center;"><button id="auto-do-task" class="btn btn-success">${__('doTask')}</button><button id="auto-verify-task" class="btn btn-success">${__('verifyTask')}</button></h2><div id="auto-task-info" style="overflow-y: auto;max-height: 500px;"></div></div>`);
   await website.after();
   $('#auto-do-task').on('click', () => { website.doTask(); });
+  $('#auto-verify-task').on('click', () => { website.verifyTask(); });
 
   console.log('%c%s', 'color:#1bbe1a', 'Auto TaskGS特供脚本初始化完成！');
 };

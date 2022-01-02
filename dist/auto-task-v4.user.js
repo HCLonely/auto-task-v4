@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.1.1-Beta
+// @version            4.1.2-Beta
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @license            MIT
@@ -38,11 +38,9 @@
 // @grant              GM_deleteValue
 // @grant              GM_addStyle
 // @grant              GM_xmlhttpRequest
-// @grant              GM_getResourceText
 // @grant              GM_registerMenuCommand
 // @grant              GM_info
 // @grant              GM_openInTab
-// @grant              GM_notification
 // @grant              unsafeWindow
 // @grant              window.close
 // @grant              window.localStorage
@@ -773,7 +771,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         } else if (html) {
           ele = $(html);
         } else {
-          return emptyStatus;
+          ele = $('<li><font></font></li>');
         }
         ele.addClass('card-text');
         $('#auto-task-info').append(ele);
@@ -1835,9 +1833,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           }
           const isVerified = await _classPrivateMethodGet(this, _verifyAuth, _verifyAuth2).call(this);
           if (isVerified) {
-            scripts_echoLog({
-              html: `<li><font class="success">${i18n('initSuccess', 'Discord')}</font></li>`
-            });
+            scripts_echoLog({}).success(i18n('initSuccess', 'Discord'));
             _classPrivateFieldSet(this, _initialized, true);
             return true;
           }
@@ -1845,15 +1841,11 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             auth: null
           });
           if (await _classPrivateMethodGet(this, _updateAuth, _updateAuth2).call(this)) {
-            scripts_echoLog({
-              html: `<li><font class="success">${i18n('initSuccess', 'Discord')}</font></li>`
-            });
+            scripts_echoLog({}).success(i18n('initSuccess', 'Discord'));
             _classPrivateFieldSet(this, _initialized, true);
             return true;
           }
-          scripts_echoLog({
-            html: `<li><font class="success">${i18n('initFailed', 'Discord')}</font></li>`
-          });
+          scripts_echoLog({}).error(i18n('initFailed', 'Discord'));
           return false;
         } catch (error) {
           throwError(error, 'Discord.init');
@@ -2195,15 +2187,11 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           }
           const isVerified = await Instagram_classPrivateMethodGet(this, _getUserInfo, _getUserInfo2).call(this);
           if (isVerified) {
-            scripts_echoLog({
-              html: `<li><font class="success">${i18n('initSuccess', 'Instagram')}</font></li>`
-            });
+            scripts_echoLog({}).success(i18n('initSuccess', 'Instagram'));
             Instagram_classPrivateFieldSet(this, Instagram_initialized, true);
             return true;
           }
-          scripts_echoLog({
-            html: `<li><font class="success">${i18n('initFailed', 'Instagram')}</font></li>`
-          });
+          scripts_echoLog({}).error(i18n('initFailed', 'Instagram'));
           return false;
         } catch (error) {
           throwError(error, 'Instagram.init');
@@ -2516,15 +2504,11 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           }
           const isVerified = await Reddit_classPrivateMethodGet(this, Reddit_updateAuth, Reddit_updateAuth2).call(this);
           if (isVerified) {
-            scripts_echoLog({
-              html: `<li><font class="success">${i18n('initSuccess', 'Reddit')}</font></li>`
-            });
+            scripts_echoLog({}).success(i18n('initSuccess', 'Reddit'));
             Reddit_classPrivateFieldSet(this, Reddit_initialized, true);
             return true;
           }
-          scripts_echoLog({
-            html: `<li><font class="error">${i18n('initFailed', 'Reddit')}</font></li>`
-          });
+          scripts_echoLog({}).error(i18n('initFailed', 'Reddit'));
           return false;
         } catch (error) {
           throwError(error, 'Reddit.init');
@@ -2823,23 +2807,17 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           }
           const isVerified = await Twitch_classPrivateMethodGet(this, Twitch_verifyAuth, Twitch_verifyAuth2).call(this);
           if (isVerified) {
-            scripts_echoLog({
-              html: `<li><font class="success">${i18n('initSuccess', 'Twitch')}</font></li>`
-            });
+            scripts_echoLog({}).success(i18n('initSuccess', 'Twitch'));
             Twitch_classPrivateFieldSet(this, Twitch_initialized, true);
             return true;
           }
           GM_setValue('twitchAuth', null);
           if (await Twitch_classPrivateMethodGet(this, Twitch_updateAuth, Twitch_updateAuth2).call(this)) {
-            scripts_echoLog({
-              html: `<li><font class="success">${i18n('initSuccess', 'Twitch')}</font></li>`
-            });
+            scripts_echoLog({}).success(i18n('initSuccess', 'Twitch'));
             Twitch_classPrivateFieldSet(this, Twitch_initialized, true);
             return true;
           }
-          scripts_echoLog({
-            html: `<li><font class="success">${i18n('initFailed', 'Twitch')}</font></li>`
-          });
+          scripts_echoLog({}).error(i18n('initFailed', 'Twitch'));
           return false;
         } catch (error) {
           throwError(error, 'Twitch.init');
@@ -3186,23 +3164,17 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           }
           const isVerified = await Twitter_classPrivateMethodGet(this, Twitter_verifyAuth, Twitter_verifyAuth2).call(this);
           if (isVerified) {
-            scripts_echoLog({
-              html: `<li><font class="success">${i18n('initSuccess', 'Twitter')}</font></li>`
-            });
+            scripts_echoLog({}).success(i18n('initSuccess', 'Twitter'));
             Twitter_classPrivateFieldSet(this, Twitter_initialized, true);
             return true;
           }
           GM_setValue('twitterAuth', null);
           if (await Twitter_classPrivateMethodGet(this, Twitter_updateAuth, Twitter_updateAuth2).call(this)) {
-            scripts_echoLog({
-              html: `<li><font class="success">${i18n('initSuccess', 'Twitter')}</font></li>`
-            });
+            scripts_echoLog({}).success(i18n('initSuccess', 'Twitter'));
             Twitter_classPrivateFieldSet(this, Twitter_initialized, true);
             return true;
           }
-          scripts_echoLog({
-            html: `<li><font class="success">${i18n('initFailed', 'Twitter')}</font></li>`
-          });
+          scripts_echoLog({}).error(i18n('initFailed', 'Twitter'));
           return false;
         } catch (error) {
           throwError(error, 'Twitter.init');
@@ -3621,15 +3593,11 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           }
           const isVerified = await Vk_classPrivateMethodGet(this, Vk_verifyAuth, Vk_verifyAuth2).call(this);
           if (isVerified) {
-            scripts_echoLog({
-              html: `<li><font class="success">${i18n('initSuccess', 'Vk')}</font></li>`
-            });
+            scripts_echoLog({}).success(i18n('initSuccess', 'Vk'));
             Vk_classPrivateFieldSet(this, Vk_initialized, true);
             return true;
           }
-          scripts_echoLog({
-            html: `<li><font class="success">${i18n('initFailed', 'Vk')}</font></li>`
-          });
+          scripts_echoLog({}).error(i18n('initFailed', 'Vk'));
           return false;
         } catch (error) {
           throwError(error, 'Vk.init');
@@ -4285,23 +4253,17 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           }
           const isVerified = await Youtube_classPrivateMethodGet(this, Youtube_verifyAuth, Youtube_verifyAuth2).call(this);
           if (isVerified) {
-            scripts_echoLog({
-              html: `<li><font class="success">${i18n('initSuccess', 'Youtube')}</font></li>`
-            });
+            scripts_echoLog({}).success(i18n('initSuccess', 'Youtube'));
             Youtube_classPrivateFieldSet(this, Youtube_initialized, true);
             return true;
           }
           GM_setValue('youtubeAuth', null);
           if (await Youtube_classPrivateMethodGet(this, Youtube_updateAuth, Youtube_updateAuth2).call(this)) {
-            scripts_echoLog({
-              html: `<li><font class="success">${i18n('initSuccess', 'Youtube')}</font></li>`
-            });
+            scripts_echoLog({}).success(i18n('initSuccess', 'Youtube'));
             Youtube_classPrivateFieldSet(this, Youtube_initialized, true);
             return true;
           }
-          scripts_echoLog({
-            html: `<li><font class="success">${i18n('initFailed', 'Youtube')}</font></li>`
-          });
+          scripts_echoLog({}).error(i18n('initFailed', 'Youtube'));
           return false;
         } catch (error) {
           throwError(error, 'Youtube.init');
@@ -4782,14 +4744,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           const isVerified = await Steam_classPrivateMethodGet(this, _updateStoreAuth, _updateStoreAuth2).call(this) && await Steam_classPrivateMethodGet(this, _updateCommunityAuth, _updateCommunityAuth2).call(this);
           if (isVerified) {
             Steam_classPrivateFieldSet(this, Steam_initialized, true);
-            scripts_echoLog({
-              html: `<li><font class="success">${i18n('initSuccess', 'Steam')}</font></li>`
-            });
+            scripts_echoLog({}).success(i18n('initSuccess', 'Steam'));
             return true;
           }
-          scripts_echoLog({
-            html: `<li><font class="success">${i18n('initFailed', 'Steam')}</font></li>`
-          });
+          scripts_echoLog({}).error(i18n('initFailed', 'Steam'));
           return false;
         } catch (error) {
           throwError(error, 'Steam.init');
@@ -5022,9 +4980,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           }
           return Promise.all(prom).then(async () => {
             if (Steam_classPrivateFieldGet(this, _area) !== 'CN') {
-              scripts_echoLog({
-                html: `<li><font class="warning">${i18n('steamFinishNotice')}</font></li>`
-              });
+              scripts_echoLog({}).warning(i18n('steamFinishNotice'));
               await Steam_classPrivateMethodGet(this, _changeArea, _changeArea2).call(this, 'CN');
             }
             return true;
@@ -6213,9 +6169,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             }
           }
           await Promise.all(pro);
-          scripts_echoLog({
-            html: `<li><font class="success">${i18n('allTasksComplete')}</font></li>`
-          });
+          scripts_echoLog({}).success(i18n('allTasksComplete'));
           return true;
         } catch (error) {
           throwError(error, 'Website.toggleTask');
@@ -6237,12 +6191,6 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           throwError(error, 'Website.undoTask');
           return false;
         }
-      }
-      checkLogin() {
-        return true;
-      }
-      checkLeftKey() {
-        return true;
       }
     }
     async function _bind2(name, init) {
@@ -6451,9 +6399,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
                   break;
 
                  default:
-                  scripts_echoLog({
-                    html: `<li><font class="warning">${i18n('unKnownTaskType')}: ${social}</font></li>`
-                  });
+                  scripts_echoLog({}).warning(`${i18n('unKnownTaskType')}: ${social}`);
                   break;
                 }
               }
@@ -6491,9 +6437,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             await delay(1e3);
           }
           await Promise.all(pro);
-          scripts_echoLog({
-            html: `<li><font class="success">${i18n('allTasksComplete')}</font></li>`
-          });
+          scripts_echoLog({}).success(i18n('allTasksComplete'));
           return !!await this.getKey(true);
         } catch (error) {
           throwError(error, 'Freeanywhere.verifyTask');
@@ -6525,9 +6469,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             var _data$response2;
             if (data !== null && data !== void 0 && (_data$response2 = data.response) !== null && _data$response2 !== void 0 && _data$response2.reward) {
               logStatus.success();
-              scripts_echoLog({
-                html: `<li><font class="success">${data.response.reward}</font></li>`
-              });
+              scripts_echoLog({}).success(data.response.reward);
               return data.response.reward;
             }
             logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
@@ -6549,9 +6491,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           this.giveawayId = giveawayId;
           return true;
         }
-        scripts_echoLog({
-          html: `<li><font class="error">${i18n('getFailed', 'GiveawayId')}</font></li>`
-        });
+        scripts_echoLog({}).error(i18n('getFailed', 'GiveawayId'));
         return false;
       } catch (error) {
         throwError(error, 'FreeAnyWhere.getGiveawayId');
@@ -6672,14 +6612,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       async after() {
         try {
           if (!GiveawaySu_classPrivateMethodGet(this, _checkLogin, _checkLogin2).call(this)) {
-            scripts_echoLog({
-              html: `<li><font class="warning">${i18n('checkLoginFailed')}</font></li>`
-            });
+            scripts_echoLog({}).warning(i18n('checkLoginFailed'));
           }
           if (!await GiveawaySu_classPrivateMethodGet(this, _checkLeftKey, _checkLeftKey2).call(this)) {
-            scripts_echoLog({
-              html: `<li><font class="warning">${i18n('checkLeftKeyFailed')}</font></li>`
-            });
+            scripts_echoLog({}).warning(i18n('checkLeftKeyFailed'));
           }
         } catch (error) {
           throwError(error, 'Giveawaysu.after');
@@ -6900,14 +6836,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       async after() {
         try {
           if (!Indiedb_classPrivateMethodGet(this, Indiedb_checkLogin, Indiedb_checkLogin2).call(this)) {
-            scripts_echoLog({
-              html: `<li><font class="warning">${i18n('checkLoginFailed')}</font></li>`
-            });
+            scripts_echoLog({}).warning(i18n('checkLoginFailed'));
           }
           if (!await Indiedb_classPrivateMethodGet(this, Indiedb_checkLeftKey, Indiedb_checkLeftKey2).call(this)) {
-            scripts_echoLog({
-              html: `<li><font class="warning">${i18n('checkLeftKeyFailed')}</font></li>`
-            });
+            scripts_echoLog({}).warning(i18n('checkLeftKeyFailed'));
           }
         } catch (error) {
           throwError(error, 'Indiedb.after');
@@ -6928,9 +6860,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     async function _join2() {
       try {
         if ($('a.buttonenter:contains(Register to join)').length > 0) {
-          scripts_echoLog({
-            html: `<li><font class="error">${i18n('needLogin')}</font></li>`
-          });
+          scripts_echoLog({}).error(i18n('needLogin'));
           return false;
         }
         const currentoption = $('a.buttonenter.buttongiveaway');
@@ -6976,9 +6906,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         } else if (/success/gim.test($('a.buttonenter.buttongiveaway').text())) {
           return true;
         }
-        scripts_echoLog({
-          html: `<li><font class="warning">${i18n('needJoinGiveaway')}</font></li>`
-        });
+        scripts_echoLog({}).warning(i18n('needJoinGiveaway'));
         return false;
       } catch (error) {
         throwError(error, 'Indiedb.init');
@@ -7147,14 +7075,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             }
           }
           await Promise.all(pro);
-          scripts_echoLog({
-            html: `<li><font class="success">${i18n('allTasksComplete')}</font></li>`
-          });
+          scripts_echoLog({}).success(i18n('allTasksComplete'));
           return true;
         }
-        scripts_echoLog({
-          html: `<li><font class="error">${i18n('getFailed', 'TaskId')}</font></li>`
-        });
+        scripts_echoLog({}).error(i18n('getFailed', 'TaskId'));
         return false;
       } catch (error) {
         throwError(error, 'Indiedb.classifyTask');
@@ -7267,14 +7191,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       async after() {
         try {
           if (!Keyhub_classPrivateMethodGet(this, Keyhub_checkLogin, Keyhub_checkLogin2).call(this)) {
-            scripts_echoLog({
-              html: `<li><font class="warning">${i18n('checkLoginFailed')}</font></li>`
-            });
+            scripts_echoLog({}).warning(i18n('checkLoginFailed'));
           }
           if (!await Keyhub_classPrivateMethodGet(this, Keyhub_checkLeftKey, Keyhub_checkLeftKey2).call(this)) {
-            scripts_echoLog({
-              html: `<li><font class="warning">${i18n('checkLeftKeyFailed')}</font></li>`
-            });
+            scripts_echoLog({}).warning(i18n('checkLeftKeyFailed'));
           }
         } catch (error) {
           throwError(error, 'Keyhub.after');
@@ -7355,9 +7275,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
                 this.undoneTasks.discord.serverLinks.push(link);
               }
             } else {
-              scripts_echoLog({
-                html: `<li><font class="warning">${i18n('unKnownTaskType', `${taskDes}(${link})`)}</font></li>`
-              });
+              scripts_echoLog({}).warning(`${i18n('unKnownTaskType')}: ${taskDes}(${link})`);
             }
           }
           logStatus.success();
@@ -7394,9 +7312,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           this.giveawayId = giveawayId;
           return true;
         }
-        scripts_echoLog({
-          html: `<li><font class="error">${i18n('getFailed', 'GiveawayId')}</font></li>`
-        });
+        scripts_echoLog({}).error(i18n('getFailed', 'GiveawayId'));
         return false;
       } catch (error) {
         throwError(error, 'Keyhub.getGiveawayId');
@@ -7526,9 +7442,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             });
           });
           if (!await Givekey_classPrivateMethodGet(this, Givekey_checkLeftKey, Givekey_checkLeftKey2).call(this)) {
-            scripts_echoLog({
-              html: `<li><font class="warning">${i18n('checkLeftKeyFailed')}</font></li>`
-            });
+            scripts_echoLog({}).warning(i18n('checkLeftKeyFailed'));
           }
         } catch (error) {
           throwError(error, 'Givekey.after');
@@ -7636,9 +7550,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
                 this.undoneTasks.discord.serverLinks.push(href);
               }
             } else {
-              scripts_echoLog({
-                html: `<li><font class="warning">${i18n('unKnownTaskType')}: ${text}(${href})</font></li>`
-              });
+              scripts_echoLog({}).warning(`${i18n('unKnownTaskType')}: ${text}(${href})`);
             }
           }
           logStatus.success();
@@ -7663,9 +7575,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           if (this.tasks.length === 0 && !await this.classifyTask('verify')) {
             return false;
           }
-          scripts_echoLog({
-            html: `<li><font class="warning">${i18n('giveKeyNoticeBefore')}</font></li>`
-          });
+          scripts_echoLog({}).warning(i18n('giveKeyNoticeBefore'));
           const taskLength = this.tasks.length;
           for (let i = 0; i < taskLength; i++) {
             await Givekey_classPrivateMethodGet(this, Givekey_verify, Givekey_verify2).call(this, this.tasks[i]);
@@ -7673,12 +7583,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
               await delay(15e3);
             }
           }
-          scripts_echoLog({
-            html: `<li><font class="success">${i18n('allTasksComplete')}</font></li>`
-          });
-          scripts_echoLog({
-            html: `<li><font class="warning">${i18n('giveKeyNoticeAfter')}</font></li>`
-          });
+          scripts_echoLog({}).success(i18n('allTasksComplete'));
+          scripts_echoLog({}).warning(i18n('giveKeyNoticeAfter'));
           return true;
         } catch (error) {
           throwError(error, 'Givekey.verifyTask');
@@ -7710,9 +7616,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
                 resolve(true);
               } else if (data.status === 'end') {
                 logStatus.success();
-                scripts_echoLog({
-                  html: `<li><font class="success">${data.key}</font></li>`
-                });
+                scripts_echoLog({}).success(data.key);
                 resolve(true);
               } else {
                 logStatus.error(`Error:${data.msg}`);
@@ -7822,14 +7726,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       async after() {
         try {
           if (!GiveeClub_classPrivateMethodGet(this, GiveeClub_checkLogin, GiveeClub_checkLogin2).call(this)) {
-            scripts_echoLog({
-              html: `<li><font class="warning">${i18n('checkLoginFailed')}</font></li>`
-            });
+            scripts_echoLog({}).warning(i18n('checkLoginFailed'));
           }
           if (!await GiveeClub_classPrivateMethodGet(this, GiveeClub_checkLeftKey, GiveeClub_checkLeftKey2).call(this)) {
-            scripts_echoLog({
-              html: `<li><font class="warning">${i18n('checkLeftKeyFailed')}</font></li>`
-            });
+            scripts_echoLog({}).warning(i18n('checkLeftKeyFailed'));
           }
         } catch (error) {
           throwError(error, 'GiveeClub.after');
@@ -7840,7 +7740,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           const logStatus = scripts_echoLog({
             text: i18n('initing')
           });
-          if (!this.checkLogin()) {
+          if (!GiveeClub_classPrivateMethodGet(this, GiveeClub_checkLogin, GiveeClub_checkLogin2).call(this)) {
             logStatus.warning(i18n('needLogin'));
             return false;
           }
@@ -8043,9 +7943,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       async after() {
         try {
           if (!OpiumPulses_classPrivateMethodGet(this, OpiumPulses_checkLogin, OpiumPulses_checkLogin2).call(this)) {
-            scripts_echoLog({
-              html: `<li><font class="warning">${i18n('checkLoginFailed')}</font></li>`
-            });
+            scripts_echoLog({}).warning(i18n('checkLoginFailed'));
           }
           this.maxPoints = parseInt(this.options.maxPoint, 10);
         } catch (error) {
@@ -8083,13 +7981,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           const needPoints = parseInt(((_$$find$text$match = $(item).find('.giveaways-page-item-header-points').text().match(/[\d]+/gim)) === null || _$$find$text$match === void 0 ? void 0 : _$$find$text$match[0]) || '999999', 10);
           const name = $(item).find('.giveaways-page-item-footer-name').text().trim();
           if (type === 'points' && needPoints > this.myPoints) {
-            scripts_echoLog({
-              html: `<li><font class="warning">${i18n('noPoints')}: ${name}</font></li>`
-            });
+            scripts_echoLog({}).warning(`${i18n('noPoints')}: ${name}`);
           } else if (type === 'points' && !needPoints) {
-            scripts_echoLog({
-              html: `<li><font class="warning">${i18n('getNeedPointsFailed')}: ${name}</font></li>`
-            });
+            scripts_echoLog({}).warning(`${i18n('getNeedPointsFailed')}: ${name}`);
           } else if (!(type === 'points' && needPoints > this.maxPoints)) {
             var _aElement$attr;
             const logStatus = scripts_echoLog({
@@ -8473,9 +8367,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       async after() {
         try {
           if (!Opquests_classPrivateMethodGet(this, Opquests_checkLogin, Opquests_checkLogin2).call(this)) {
-            scripts_echoLog({
-              html: `<li><font class="warning">${i18n('checkLoginFailed')}</font></li>`
-            });
+            scripts_echoLog({}).warning(i18n('checkLoginFailed'));
           }
         } catch (error) {
           throwError(error, 'Opquests.after');
@@ -8531,9 +8423,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             } else if (/store\.steampowered\.com\/(publisher|developer)\//.test(link) && /follow/gim.test(taskDes)) {
               this.undoneTasks.steam.curatorLikeLinks.push(link);
             } else {
-              scripts_echoLog({
-                html: `<li><font class="warning">${i18n('unKnownTaskType', `${taskDes}(${link})`)}</font></li>`
-              });
+              scripts_echoLog({}).warning(`${i18n('unKnownTaskType')}: ${taskDes}(${link})`);
             }
           }
           logStatus.success();
@@ -8553,9 +8443,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           this.giveawayId = giveawayId;
           return true;
         }
-        scripts_echoLog({
-          html: `<li><font class="error">${i18n('getFailed', 'GiveawayId')}</font></li>`
-        });
+        scripts_echoLog({}).error(i18n('getFailed', 'GiveawayId'));
         return false;
       } catch (error) {
         throwError(error, 'Opquests.getGiveawayId');
@@ -8688,13 +8576,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
               taskInfo[0].click();
               await delay(1e3);
             }
-            scripts_echoLog({
-              html: `<li><font class="warning">${i18n('gleamTaskNotice')}</font></li>`
-            });
+            scripts_echoLog({}).warning(i18n('gleamTaskNotice'));
           } else if (!await Gleam_classPrivateMethodGet(this, Gleam_checkLeftKey, Gleam_checkLeftKey2).call(this)) {
-            scripts_echoLog({
-              html: `<li><font class="warning">${i18n('checkLeftKeyFailed')}</font></li>`
-            });
+            scripts_echoLog({}).warning(i18n('checkLeftKeyFailed'));
           }
         } catch (error) {
           throwError(error, 'Gleam.after');
@@ -8856,9 +8740,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
               }
               this.undoneTasks.extra.gleam.push(gleamLink);
             } else if (socialIcon.hasClass('fa-question') || socialIcon.hasClass('fa-reddit') || socialIcon.hasClass('fa-facebook-f') && taskText.includes('Visit') || socialIcon.hasClass('fa-shield') && taskText.includes('Check out')) {} else {
-              scripts_echoLog({
-                html: `<li><font class="warning">${i18n('unKnownTaskType')}: ${taskText}</font></li>`
-              });
+              scripts_echoLog({}).warning(`${i18n('unKnownTaskType')}: ${taskText}`);
             }
           }
           logStatus.success();
@@ -9091,9 +8973,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       async after() {
         try {
           if (!SweepWidget_classPrivateMethodGet(this, SweepWidget_checkLogin, SweepWidget_checkLogin2).call(this)) {
-            scripts_echoLog({
-              html: `<li><font class="warning">${i18n('checkLoginFailed')}</font></li>`
-            });
+            scripts_echoLog({}).warning(i18n('checkLoginFailed'));
           }
         } catch (error) {
           throwError(error, 'SweepWidget.after');
@@ -9390,9 +9270,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           }
           const [ social, type ] = value.split('.');
           if (!(whiteList !== null && whiteList !== void 0 && (_whiteList$social = whiteList[social]) !== null && _whiteList$social !== void 0 && _whiteList$social[type])) {
-            scripts_echoLog({
-              html: `<li><font class="warning">${i18n('whiteListNotFound', value)}</font></li>`
-            });
+            scripts_echoLog({}).warning(i18n('whiteListNotFound', value));
             return;
           }
           external_Swal_default().fire({
@@ -10058,16 +9936,12 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             return data.response.version;
           }
           if (!auto) {
-            scripts_echoLog({
-              html: `<li><font class="error">${i18n('checkUpdateFailed')}[${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})]</font></li>`
-            });
+            scripts_echoLog({}).error(`${i18n('checkUpdateFailed')}[${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})]`);
           }
           return false;
         }
         if (!auto) {
-          scripts_echoLog({
-            html: `<li><font class="error">${i18n('checkUpdateFailed')}[${result}:${statusText}(${status})]</font></li>`
-          });
+          scripts_echoLog({}).error(`${i18n('checkUpdateFailed')}[${result}:${statusText}(${status})]`);
         }
         return false;
       } catch (error) {
@@ -10101,16 +9975,12 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
               updateLink = jsdelivrUpdateLink;
             } else {
               version = currentVersion;
-              scripts_echoLog({
-                html: `<li><font class="error">${i18n('checkUpdateFailed')}</font></li>`
-              });
+              scripts_echoLog({}).error(i18n('checkUpdateFailed'));
             }
           }
         }
         if (version !== currentVersion) {
-          scripts_echoLog({
-            html: `<li><font class="warning">${i18n('newVersionNotice', version, updateLink)}</font></li>`
-          });
+          scripts_echoLog({}).warning(i18n('newVersionNotice', version, updateLink));
         }
       } catch (error) {
         throwError(error, 'updateChecker');
@@ -10269,7 +10139,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       GM_addStyle(auto_task.Z);
       console.log('%c%s', 'color:#1bbe1a', 'Auto Task脚本初始化完成！');
       if (!GM_getValue('notice')) {
-        var _echoLog$font;
+        var _echoLog$warning$font;
         external_Swal_default().fire({
           title: i18n('swalNotice'),
           icon: 'warning'
@@ -10277,9 +10147,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           window.open(i18n('noticeLink'), '_blank');
           GM_setValue('notice', new Date().getTime());
         });
-        (_echoLog$font = scripts_echoLog({
-          html: `<li><font class="warning">${i18n('echoNotice', i18n('noticeLink'))}</font></li>`
-        }).font) === null || _echoLog$font === void 0 ? void 0 : _echoLog$font.find('a').on('click', () => {
+        (_echoLog$warning$font = scripts_echoLog({}).warning(i18n('echoNotice', i18n('noticeLink'))).font) === null || _echoLog$warning$font === void 0 ? void 0 : _echoLog$warning$font.find('a').on('click', () => {
           GM_setValue('notice', new Date().getTime());
         });
       }

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2022-01-02 12:57:53
+ * @LastEditTime : 2022-01-02 20:00:06
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/for_giveawaysu/Giveawaysu.ts
  * @Description  : https://giveaway.su/
@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 import throwError from '../scripts/tools/throwError';
 import echoLog from '../scripts/echoLog';
 import __ from '../scripts/tools/i18n';
-import { getRedirectLink, unique } from '../scripts/tools/tools';
+import { delay, getRedirectLink, unique } from '../scripts/tools/tools';
 import { globalOptions } from '../scripts/globalOptions';
 
 import Discord from '../scripts/social/Discord';
@@ -112,7 +112,7 @@ class GiveawaySu {
       return false;
     }
   }
-  async classifyTask(): Promise<boolean> {
+  async #classifyTask(): Promise<boolean> {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
 
@@ -188,7 +188,7 @@ class GiveawaySu {
       }
       await Promise.all(pro);
       logStatus.success();
-      this.undoneTasks = this.uniqueTasks(this.undoneTasks) as gasSocialTasks;
+      this.undoneTasks = this.#uniqueTasks(this.undoneTasks) as gasSocialTasks;
       return true;
     } catch (error) {
       throwError(error as Error, 'Giveawaysu.classifyTask');
@@ -250,7 +250,7 @@ class GiveawaySu {
       return { name, result: false };
     }
   }
-  async initSocial(): Promise<boolean> {
+  async #initSocial(): Promise<boolean> {
     try {
       const pro = [];
       const tasks = this.undoneTasks;
@@ -321,7 +321,7 @@ class GiveawaySu {
       return false;
     }
   }
-  uniqueTasks(allTasks: webSocialTasks): webSocialTasks {
+  #uniqueTasks(allTasks: webSocialTasks): webSocialTasks {
     const result: webSocialTasks = {};
     for (const [social, types] of Object.entries(allTasks)) {
       result[social as socialType] = {};
@@ -332,15 +332,15 @@ class GiveawaySu {
     }
     return result;
   }
-  async toggleTask(): Promise<boolean> {
+  async #toggleTask(): Promise<boolean> {
     try {
       if (!this.initialized && !this.init()) {
         return false;
       }
-      if (!(await this.classifyTask())) {
+      if (!(await this.#classifyTask())) {
         return false;
       }
-      if (!(await this.initSocial())) {
+      if (!(await this.#initSocial())) {
         return false;
       }
       const pro = [];
@@ -381,10 +381,34 @@ class GiveawaySu {
         $('#auto-task-info-div,style:contains(".swal2-popup.swal2-toast")').remove();
         $('#getKey').off();
       });
-      return await this.toggleTask();
+      return await this.#toggleTask();
     } catch (error) {
       throwError(error as Error, 'GiveawaySu.doTask');
       return false;
+    }
+  }
+  async verifyTask(): Promise<void> {
+    try {
+      const tasks = $('#actions tr');
+      for (const task of tasks) {
+        const $task = $(task);
+        if ($task.attr('data-action-id') !== 'adjs') {
+          const icon = $task.find('i.glyphicon-refresh');
+          const button = icon.parent();
+          if (button.prop('tagName') === 'A') {
+            const href = button.attr('href') as string;
+            button.attr('href', 'javascript:void(0);').attr('target', '_self')[0].click();
+            button.attr('href', href);
+            continue;
+          }
+          if (!icon.hasClass('spin') && !icon.hasClass('glyphicon-ok')) {
+            button[0].click();
+            await delay(1000);
+          }
+        }
+      }
+    } catch (error) {
+      throwError(error as Error, 'GiveawaySu.verifyTask');
     }
   }
 }
