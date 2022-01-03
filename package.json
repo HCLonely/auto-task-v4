@@ -1,6 +1,10 @@
 {
   "name": "auto-task-new",
   "version": "4.1.2-Beta",
+  "change": [
+    "添加备用更新源",
+    "添加更新日志"
+  ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",
   "scripts": {
@@ -8,7 +12,7 @@
     "tsc": "tsc",
     "gs": "webpack --config webpack.giveawaysu.config.js",
     "pack": "webpack --config webpack.config.js",
-    "build": "webpack --config webpack.config.js && webpack --config webpack.compatibility.config.js && webpack --config webpack.giveawaysu.config.js && cp ./dist/* ./page/dist"
+    "build": "webpack --config webpack.config.js && webpack --config webpack.compatibility.config.js && webpack --config webpack.giveawaysu.config.js && cp ./dist/* ./page/dist && cp ./package.json ./page/"
   },
   "author": "HCLonely",
   "license": "MIT",
