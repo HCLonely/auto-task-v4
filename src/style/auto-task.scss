@@ -79,6 +79,14 @@
   .info {
     color: yellow;
   }
+
+  .update-text {
+    color: green;
+    border: solid 2px #8dcb69;
+    margin: 5px 10px 5px 20px;
+    border-radius: 10px;
+    padding: 5px 20px;
+  }
 }
 
 .auto-task-keylol {
@@ -296,6 +304,7 @@ body.auto-task-history {
       border-radius: 10px;
       background: #7676761a;
       border-top: 1px solid #ffffff80;
+      -webkit-backdrop-filter: blur(20px);
       backdrop-filter: blur(20px);
       box-shadow: 0 15px 25px #0000001a;
       margin: 20px auto;
@@ -306,6 +315,7 @@ body.auto-task-history {
       -ms-flex-direction: column;
       flex-direction: column;
       word-wrap: break-word;
+      -webkit-background-clip: border-box;
       background-clip: border-box;
       border: 1px solid rgba(0, 0, 0, .125);
       border-radius: .25rem;
@@ -368,7 +378,7 @@ body.auto-task-history {
   position: fixed;
   top: 30px;
   right: 15px;
-  width: 150px;
+  width: 170px;
   z-index: 999999999 !important;
   transform: scale(0.9);
 

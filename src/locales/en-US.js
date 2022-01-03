@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2021-12-31 14:50:51
+ * @LastEditTime : 2022-01-03 14:06:40
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/en-US.js
  * @Description  : i18n英文
@@ -79,9 +79,9 @@ const data = {
   twitterVerifyId: 'Verify Twitter token by trying to follow the account.</br>The default is the official Twitter account 783214.',
   youtubeVerifyChannel: 'Verify YouTube token by trying to subscribe to the channel.</br>' +
     'The default is the official YouTube channel UCrXUsMBcfTVqwAS7DKg9C0Q.',
-  autoUpdateSource: 'The source to update</br>github: Fast update.</br>' +
-    'jsdelivr: Update is delayed</br>auto: First use github source to update, after failure, try to update with jsdelivr source.',
-  saveGlobalOptions: 'Save global settings',
+  autoUpdateSource: 'The source to update</br>github: Fast update.</br>jsdelivr: Update is delayed.</br>' +
+    'standby: Standby source.</br>auto: Try to update using github, jsdelivr, standby sources in turn.',
+  saveGlobalOptions: 'SaveSettings',
   settingPage: 'Setting Page',
   name: 'Name',
   version: 'Version',
@@ -122,7 +122,7 @@ const data = {
   doTaskKey: 'DoTask shortcut keys</br> (real-time preview function is only available on the settings page).',
   undoTaskKey: 'UndoTask shortcut keys</br> (real-time preview function is only available on the settings page).',
   toggleLogKey: 'ShowLog/HideLog shortcut keys</br> (real-time preview function is only available on the settings page).',
-  tasksHistory: 'Tasks history',
+  tasksHistory: 'TasksHistory',
   clearHistory: 'Clear history',
   clearHistoryFinished: 'The mission history has been cleared!',
   deleteTask: 'Delete task',
@@ -161,6 +161,7 @@ const data = {
   toKeylol: 'Feedback(Keylol)',
   copySuccess: 'The error message has been copied to the clipboard. Do you want to go to the Keylol forum to give feedback?',
   copyFailed: 'Please copy the error information below and report back to the Keylol forum!',
+  updateText: 'Updates in version %0:',
 
   // Steam
   groups: 'Group',

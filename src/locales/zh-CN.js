@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2021-12-31 14:50:33
+ * @LastEditTime : 2022-01-03 14:02:28
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -77,7 +77,7 @@ const data = {
   checkLeftKey: '剩余Key检测</br>赠Key活动结束提示是否关闭，部分本网站支持',
   twitterVerifyId: '通过尝试关注该账号验证Twitter凭证</br>默认为Twitter官方帐号 783214',
   youtubeVerifyChannel: '通过尝试订阅该频道验证YouTube凭证</br>默认为YouTube官方频道 UCrXUsMBcfTVqwAS7DKg9C0Q',
-  autoUpdateSource: '更新源</br>github: 需代理，实时更新</br>jsdelivr: 可不用代理，更新有延迟</br>auto: 首先使用github源更新，失败后尝试用jsdelivr源更新',
+  autoUpdateSource: '更新源</br>github: 需代理，实时更新</br>jsdelivr: 可不用代理，更新有延迟</br>standby: 备用</br>auto: 依次使用github, jsdelivr, standby源进行尝试更新',
   saveGlobalOptions: '保存全局设置',
   settingPage: '设置页面',
   name: '名称',
@@ -147,6 +147,7 @@ const data = {
   toKeylol: '前往其乐论坛反馈',
   copySuccess: '错误信息已复制到剪切板，是否前往其乐论坛反馈？',
   copyFailed: '请复制下方错误信息后前往Keylol论坛反馈！',
+  updateText: '%0 版本更新内容：',
 
   // Steam
   groups: '组',

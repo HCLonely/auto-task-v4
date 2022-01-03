@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-24 16:41:12
- * @LastEditTime : 2022-01-02 11:09:31
+ * @LastEditTime : 2022-01-03 13:48:12
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/globalOptions.ts
  * @Description  : 全局设置选项
@@ -103,7 +103,7 @@ const defaultGlobalOptions: globalOptions = {
   other: {
     twitterVerifyId: '783214',
     youtubeVerifyChannel: 'UCrXUsMBcfTVqwAS7DKg9C0Q',
-    autoUpdateSource: 'jsDelivr',
+    autoUpdateSource: 'jsdelivr',
     language: 'zh',
     checkLogin: true,
     checkLeftKey: true,

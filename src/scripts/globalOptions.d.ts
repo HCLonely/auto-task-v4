@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-24 17:21:16
- * @LastEditTime : 2022-01-02 10:42:28
+ * @LastEditTime : 2022-01-03 13:37:56
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/globalOptions.d.ts
  */
@@ -94,7 +94,7 @@ interface globalOptions {
   other: {
     twitterVerifyId: string
     youtubeVerifyChannel: string
-    autoUpdateSource: string
+    autoUpdateSource: 'github' | 'jsdelivr' | 'standby'
     language: string
     checkLogin: boolean
     checkLeftKey: boolean
