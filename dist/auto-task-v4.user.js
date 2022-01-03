@@ -9985,11 +9985,12 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           scripts_echoLog({}).error(i18n('checkUpdateFailed'));
         }
         if (packageData && version !== currentVersion) {
+          var _packageData$change;
           scripts_echoLog({
             html: `<li><font>${i18n('newVersionNotice', version, `${updateLink}dist/${GM_info.script.name}.user.js`)}</font></li>`
           });
           scripts_echoLog({
-            html: `<li>${i18n('updateText', version)}</li><ol class="update-text">${packageData.change.map(change => `<li>${change}</li>`).join('')}</ol>`
+            html: `<li>${i18n('updateText', version)}</li><ol class="update-text">${(_packageData$change = packageData.change) === null || _packageData$change === void 0 ? void 0 : _packageData$change.map(change => `<li>${change}</li>`).join('')}</ol>`
           });
         }
       } catch (error) {

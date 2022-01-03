@@ -3,7 +3,8 @@
   "version": "4.1.3-Beta",
   "change": [
     "添加备用更新源",
-    "添加更新日志"
+    "添加更新日志",
+    "一些优化"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

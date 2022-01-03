@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 14:20:30
- * @LastEditTime : 2022-01-03 14:06:03
+ * @LastEditTime : 2022-01-03 14:30:39
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/updateChecker.ts
  * @Description  : 更新检测
@@ -83,7 +83,7 @@ const updateChecker = async () => {
     if (packageData && version !== currentVersion) {
       echoLog({ html: `<li><font>${__('newVersionNotice', version, `${updateLink}dist/${GM_info.script.name}.user.js`)}</font></li>` });
       echoLog({ html: `<li>${__('updateText', version)}</li><ol class="update-text">${
-        packageData.change.map((change) => `<li>${change}</li>`).join('')}</ol>` });
+        packageData.change?.map((change) => `<li>${change}</li>`).join('')}</ol>` });
     }
   } catch (error) {
     throwError(error as Error, 'updateChecker');
