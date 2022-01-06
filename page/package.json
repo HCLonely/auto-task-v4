@@ -1,10 +1,10 @@
 {
   "name": "auto-task-new",
-  "version": "4.1.3-Beta",
+  "version": "4.1.4-Beta",
   "change": [
-    "添加备用更新源",
-    "添加更新日志",
-    "一些优化"
+    "更新检测优化",
+    "Keylol任务识别优化",
+    "Gleam剩余Key检测优化"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

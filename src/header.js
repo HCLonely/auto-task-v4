@@ -71,6 +71,7 @@
 // @connect            google.com
 // @connect            www.vloot.io
 // @connect            givee.club
+// @connect            auto-task-v4.hclonely.com
 // @connect            *
 // @require            https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
 // @require            https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js

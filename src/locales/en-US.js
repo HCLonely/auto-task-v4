@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2022-01-03 14:06:40
+ * @LastEditTime : 2022-01-06 11:17:03
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/en-US.js
  * @Description  : i18n英文
@@ -35,7 +35,7 @@ const data = {
   notice: 'Automatic task script notice',
   noKeysLeft: 'There are no more keys left on this page. Do you want to close it?',
   giveawayEnded: 'This event has ended, do you want to close it?',
-  giveawayNotWork: 'This activity is unavailable for some reasons (ended/suspended/not started...)' +
+  giveawayNotWork: 'This activity is unavailable for some reasons (banned/ended/paused/not started...)' +
   ' (if it is a script misjudgment, please give us feedback in time), is it closed?',
   confirm: 'Confirm',
   cancel: 'Cancel',

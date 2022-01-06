@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 14:20:30
- * @LastEditTime : 2022-01-03 14:30:39
+ * @LastEditTime : 2022-01-03 15:28:20
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/updateChecker.ts
  * @Description  : 更新检测
@@ -20,7 +20,7 @@ interface packageJson {
 }
 const checkUpdate = async (updateLink:string, auto: boolean): Promise<false | packageJson> => {
   try {
-    const checkUrl = `${updateLink}/package.json`;
+    const checkUrl = `${updateLink}package.json`;
     const { result, statusText, status, data } = await httpRequest({
       url: checkUrl,
       responseType: 'json',

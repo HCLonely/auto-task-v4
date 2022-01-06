@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.1.3-Beta
+// @version            4.1.4-Beta
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @license            MIT
@@ -71,6 +71,7 @@
 // @connect            google.com
 // @connect            www.vloot.io
 // @connect            givee.club
+// @connect            auto-task-v4.hclonely.com
 // @connect            *
 // @require            https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
 // @require            https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js
@@ -1385,7 +1386,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       notice: 'Automatic task script notice',
       noKeysLeft: 'There are no more keys left on this page. Do you want to close it?',
       giveawayEnded: 'This event has ended, do you want to close it?',
-      giveawayNotWork: 'This activity is unavailable for some reasons (ended/suspended/not started...)' + ' (if it is a script misjudgment, please give us feedback in time), is it closed?',
+      giveawayNotWork: 'This activity is unavailable for some reasons (banned/ended/paused/not started...)' + ' (if it is a script misjudgment, please give us feedback in time), is it closed?',
       confirm: 'Confirm',
       cancel: 'Cancel',
       unKnown: 'Unknown',
@@ -8150,7 +8151,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           if (discordLinks.length > 0) {
             for (const discordLink of discordLinks) {
               const link = $(discordLink).attr('href');
-              if (!link) {
+              if (!(link && /^https?:\/\/discord\.com\/invite\/.+/.test(link))) {
                 continue;
               }
               Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, discordLink, 'discord', 'serverLinks', link);
@@ -8159,7 +8160,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           if (redditLinks.length > 0) {
             for (const redditLink of redditLinks) {
               const link = $(redditLink).attr('href');
-              if (!link) {
+              if (!(link && /^https?:\/\/www\.reddit\.com\/(r|user)\/.+/.test(link))) {
                 continue;
               }
               Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, redditLink, 'reddit', 'redditLinks', link);
@@ -8168,7 +8169,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           if (insLinks.length > 0) {
             for (const insLink of insLinks) {
               const link = $(insLink).attr('href');
-              if (!link) {
+              if (!(link && /^https:\/\/www\.instagram\.com\/.+/.test(link))) {
                 continue;
               }
               Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, insLink, 'instagram', 'userLinks', link);
@@ -8177,7 +8178,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           if (twitterLinks.length > 0) {
             for (const twitterLink of twitterLinks) {
               const link = $(twitterLink).attr('href');
-              if (!link) {
+              if (!(link && /^https:\/\/twitter\.com\/.+/.test(link))) {
                 continue;
               }
               if (/https:\/\/twitter\.com\/.*?\/status\/[\d]+/.test(link)) {
@@ -8190,7 +8191,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           if (twitchLinks.length > 0) {
             for (const twitchLink of twitchLinks) {
               const link = $(twitchLink).attr('href');
-              if (!link) {
+              if (!(link && /^https:\/\/(www\.)?twitch\.tv\/.+/.test(link))) {
                 continue;
               }
               Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, twitchLink, 'twitch', 'channelLinks', link);
@@ -8199,7 +8200,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           if (vkLinks.length > 0) {
             for (const vkLink of vkLinks) {
               const link = $(vkLink).attr('href');
-              if (!link) {
+              if (!(link && /^https:\/\/vk\.com\/.+/.test(link))) {
                 continue;
               }
               Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, vkLink, 'vk', 'nameLinks', link);
@@ -8741,7 +8742,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
                 continue;
               }
               this.undoneTasks.extra.gleam.push(gleamLink);
-            } else if (socialIcon.hasClass('fa-question') || socialIcon.hasClass('fa-reddit') || socialIcon.hasClass('fa-facebook-f') && taskText.includes('Visit') || socialIcon.hasClass('fa-shield') && taskText.includes('Check out')) {} else {
+            } else if (socialIcon.hasClass('fa-question') || socialIcon.hasClass('fa-reddit') || socialIcon.hasClass('fa-facebook-f') || socialIcon.hasClass('fa-shield') && taskText.includes('Check out')) {} else {
               scripts_echoLog({}).warning(`${i18n('unKnownTaskType')}: ${taskText}`);
             }
           }
@@ -8892,10 +8893,27 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     }
     async function Gleam_checkLeftKey2() {
       try {
+        var _$$attr, _$$attr$match, _$$attr2, _$$attr2$match;
         if (!globalOptions.other.checkLeftKey) {
           return true;
         }
-        if ($('.entry-content:visible').length === 0) {
+        const campaignString = (_$$attr = $('div.popup-blocks-container').attr('ng-init')) === null || _$$attr === void 0 ? void 0 : (_$$attr$match = _$$attr.match(/initCampaign\(([\w\W]+?)\)$/)) === null || _$$attr$match === void 0 ? void 0 : _$$attr$match[1];
+        if (!campaignString) {
+          return false;
+        }
+        const {
+          campaign,
+          incentive
+        } = JSON.parse(campaignString);
+        const controllerString = (_$$attr2 = $('div.campaign.reward').attr('ng-init')) === null || _$$attr2 === void 0 ? void 0 : (_$$attr2$match = _$$attr2.match(/initContestant\(([\w\W]+?)\);/)) === null || _$$attr2$match === void 0 ? void 0 : _$$attr2$match[1];
+        let ownedKey = false;
+        if (controllerString) {
+          var _JSON$parse$contestan, _JSON$parse$contestan2, _JSON$parse$contestan3, _JSON$parse$contestan4;
+          if ((_JSON$parse$contestan = JSON.parse(controllerString).contestant) !== null && _JSON$parse$contestan !== void 0 && (_JSON$parse$contestan2 = _JSON$parse$contestan.claims) !== null && _JSON$parse$contestan2 !== void 0 && (_JSON$parse$contestan3 = _JSON$parse$contestan2.incentives) !== null && _JSON$parse$contestan3 !== void 0 && (_JSON$parse$contestan4 = _JSON$parse$contestan3[incentive.id]) !== null && _JSON$parse$contestan4 !== void 0 && _JSON$parse$contestan4.length) {
+            ownedKey = true;
+          }
+        }
+        if (campaign.banned || campaign.finished && !ownedKey || campaign.paused || new Date().getTime() < campaign.starts_at * 1e3) {
           await external_Swal_default().fire({
             icon: 'warning',
             title: i18n('notice'),
@@ -9920,7 +9938,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     var external_keyboardJS_default = __webpack_require__.n(external_keyboardJS_namespaceObject);
     const checkUpdate = async (updateLink, auto) => {
       try {
-        const checkUrl = `${updateLink}/package.json`;
+        const checkUrl = `${updateLink}package.json`;
         const {
           result,
           statusText,

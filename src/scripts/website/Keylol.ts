@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-15 13:58:41
- * @LastEditTime : 2022-01-02 12:31:44
+ * @LastEditTime : 2022-01-03 15:36:59
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Keylol.ts
  * @Description  : https://keylol.com/f319-1
@@ -84,28 +84,28 @@ class Keylol extends Website {
       if (discordLinks.length > 0) {
         for (const discordLink of discordLinks) {
           const link = $(discordLink).attr('href');
-          if (!link) continue;
+          if (!(link && /^https?:\/\/discord\.com\/invite\/.+/.test(link))) continue;
           this.#addBtn(discordLink, 'discord', 'serverLinks', link);
         }
       }
       if (redditLinks.length > 0) {
         for (const redditLink of redditLinks) {
           const link = $(redditLink).attr('href');
-          if (!link) continue;
+          if (!(link && /^https?:\/\/www\.reddit\.com\/(r|user)\/.+/.test(link))) continue;
           this.#addBtn(redditLink, 'reddit', 'redditLinks', link);
         }
       }
       if (insLinks.length > 0) {
         for (const insLink of insLinks) {
           const link = $(insLink).attr('href');
-          if (!link) continue;
+          if (!(link && /^https:\/\/www\.instagram\.com\/.+/.test(link))) continue;
           this.#addBtn(insLink, 'instagram', 'userLinks', link);
         }
       }
       if (twitterLinks.length > 0) {
         for (const twitterLink of twitterLinks) {
           const link = $(twitterLink).attr('href');
-          if (!link) continue;
+          if (!(link && /^https:\/\/twitter\.com\/.+/.test(link))) continue;
           if (/https:\/\/twitter\.com\/.*?\/status\/[\d]+/.test(link)) {
             this.#addBtn(twitterLink, 'twitter', 'retweetLinks', link);
           } else {
@@ -116,14 +116,14 @@ class Keylol extends Website {
       if (twitchLinks.length > 0) {
         for (const twitchLink of twitchLinks) {
           const link = $(twitchLink).attr('href');
-          if (!link) continue;
+          if (!(link && /^https:\/\/(www\.)?twitch\.tv\/.+/.test(link))) continue;
           this.#addBtn(twitchLink, 'twitch', 'channelLinks', link);
         }
       }
       if (vkLinks.length > 0) {
         for (const vkLink of vkLinks) {
           const link = $(vkLink).attr('href');
-          if (!link) continue;
+          if (!(link && /^https:\/\/vk\.com\/.+/.test(link))) continue;
           this.#addBtn(vkLink, 'vk', 'nameLinks', link);
         }
       }
