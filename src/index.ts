@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2022-01-02 12:57:04
+ * @LastEditTime : 2022-01-06 13:35:09
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -196,7 +196,7 @@ const loadScript = async () => {
       GM_setValue('notice', new Date().getTime());
     });
 
-    echoLog({}).warning(__('echoNotice', __('noticeLink'))).font?.find('a').on('click', () => {
+    echoLog({ html: `<li><font class="warning">${__('echoNotice', __('noticeLink'))}</font></li>` }).font?.find('a').on('click', () => {
       GM_setValue('notice', new Date().getTime());
     });
   }

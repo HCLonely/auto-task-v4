@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 13:18:21
- * @LastEditTime : 2022-01-02 10:50:47
+ * @LastEditTime : 2022-01-06 12:03:45
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/global.d.ts
  */
@@ -179,6 +179,7 @@ declare global {
   function GM_listValues(): Array<string>
   function GM_deleteValue(name: string): void
   function GM_registerMenuCommand(name: string, callback: () => void): void
+  function GM_setClipboard(text: string, type?: string): void
   function GM_openInTab(url: string, options?: {
     active?: boolean
     insert?: boolean

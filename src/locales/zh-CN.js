@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2022-01-03 14:02:28
+ * @LastEditTime : 2022-01-06 12:10:11
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -137,11 +137,11 @@ const data = {
   savingData: '正在保存数据...',
   syncHistory: '同步任务历史',
   checkUpdateFailed: '检测更新失败',
-  newVersionNotice: '检测到新版本V%0, <a href="%1" target="_blank">点此更新</a>',
+  newVersionNotice: '检测到新版本V%0, <a class="high-light" href="%1" target="_blank">点此更新</a>',
   language: '语言</br>目前仅支持zh: 中文, en: 英文',
   gistOptions: 'Gist 设置',
   swalNotice: '检测到您第一次安装V4版本脚本，请前往阅读用前必读内容！',
-  echoNotice: '检测到您第一次安装V4版本脚本，请<a href="%0" target="_blank">点此前往</a>阅读用前必读内容！',
+  echoNotice: '检测到您第一次安装V4版本脚本，请<a class="high-light" href="%0" target="_blank">点此前往</a>阅读用前必读内容！',
   noticeLink: 'https://auto-task-doc.js.org/guide/#用前必读',
   toGithub: '前往Github反馈',
   toKeylol: '前往其乐论坛反馈',

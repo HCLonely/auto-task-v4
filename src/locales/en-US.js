@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2022-01-06 11:17:03
+ * @LastEditTime : 2022-01-06 12:10:48
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/en-US.js
  * @Description  : i18n英文
@@ -149,13 +149,13 @@ const data = {
   savingData: 'Saving data...',
   syncHistory: 'Synchronize tasks history',
   checkUpdateFailed: 'Check update failed',
-  newVersionNotice: 'Checked a new version V%0, <a href="%1" target="_blank">click to update</a>',
+  newVersionNotice: 'Checked a new version V%0, <a class="high-light" href="%1" target="_blank">click to update</a>',
   language: 'Language</br> Currently only supports zh: Chinese, en: English',
   gistOptions: 'Gist Settings',
   swalNotice: 'It is detected that you are installing the V4 version script for the first time' +
     ', please go to read the READ ME FIRST content before use!',
   echoNotice: 'It is detected that you are installing the V4 version script for the first time' +
-    ', please <a href="%0" target="_blank">click here</a> to read the READ ME FIRST content before use!',
+    ', please <a class="high-light" href="%0" target="_blank">click here</a> to read the READ ME FIRST content before use!',
   noticeLink: 'https://auto-task-doc.js.org/en/guide/#read-me-first',
   toGithub: 'Feedback(Github)',
   toKeylol: 'Feedback(Keylol)',

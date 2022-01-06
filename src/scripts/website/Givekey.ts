@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-13 17:57:40
- * @LastEditTime : 2022-01-02 12:46:41
+ * @LastEditTime : 2022-01-06 13:37:17
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Givekey.ts
  * @Description  : https://givekey.ru
@@ -181,7 +181,7 @@ class Givekey extends Website {
       }
 
       echoLog({}).success(__('allTasksComplete'));
-      echoLog({}).warning(__('giveKeyNoticeAfter'));
+      echoLog({ html: `<li><font class="warning">${__('giveKeyNoticeAfter')}</font></li>` });
       return true;
     } catch (error) {
       throwError(error as Error, 'Givekey.verifyTask');

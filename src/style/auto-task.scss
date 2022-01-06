@@ -62,6 +62,11 @@
 
   li {
     text-align: left;
+
+    a.high-light {
+      color: #00aeff;
+      font-weight: bold;
+    }
   }
 
   .success {

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 14:08:18
- * @LastEditTime : 2022-01-01 13:52:17
+ * @LastEditTime : 2022-01-06 12:05:21
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/tools/throwError.ts
  * @Description  : 错误处理函数
@@ -58,28 +58,14 @@ ${$.makeArray($('#auto-task-info>li')).map((element) => element.innerText)
 执行日志:
 [code]${$.makeArray($('#auto-task-info>li')).map((element) => element.innerText)
     .join('\n')}[/code]`;
-      const textarea = $('<textarea>');
-      $('body').append(textarea);
-      textarea.val(text).trigger('select');
-      if (document.execCommand('Copy')) {
-        Swal.fire({
-          title: __('copySuccess'),
-          icon: 'success',
-          confirmButtonText: __('ok')
-        }).then(() => {
-          window.open('https://keylol.com/forum.php?mod=post&action=reply&fid=319&tid=777450', '_blank');
-        });
-      } else {
-        Swal.fire({
-          title: __('copyFailed'),
-          input: 'textarea',
-          inputValue: text,
-          confirmButtonText: __('ok')
-        }).then(() => {
-          window.open('https://keylol.com/forum.php?mod=post&action=reply&fid=319&tid=777450', '_blank');
-        });
-      }
-      textarea.remove();
+      GM_setClipboard(text);
+      Swal.fire({
+        title: __('copySuccess'),
+        icon: 'success',
+        confirmButtonText: __('ok')
+      }).then(() => {
+        window.open('https://keylol.com/forum.php?mod=post&action=reply&fid=319&tid=777450', '_blank');
+      });
     }
   });
   console.log('%c%s', 'color:white;background:red', `${name}\n${error.stack}`);
