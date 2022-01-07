@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2022-01-06 12:10:48
+ * @LastEditTime : 2022-01-07 10:09:45
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/en-US.js
  * @Description  : i18n英文
@@ -275,6 +275,10 @@ const data = {
   gettingGleamLink: 'Getting Gleam task link...',
   gleamTaskNotice: 'If this page has not been closed for a long time, please close it yourself after completing any task!',
   verifiedGleamTasks: 'Attempted to verify all tasks. If the verification fails, please try to verify manually or complete it!',
+
+  // GiveawaySu
+  gsNotice: 'In order to avoid getting the "0000-0000-0000" key, the "Grab Key" button has been hidden,' +
+    ' please close the script when obtaining the key!',
 
   // SweepWidget
   SweepWidgetNotice: 'The task is being processed and verified. ' +

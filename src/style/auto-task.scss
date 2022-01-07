@@ -445,3 +445,8 @@ body.auto-task-history {
     margin: 0 .4em;
   }
 }
+
+/* 避免GiveawaySu得到0000Key, 隐藏"Grab key"按钮 */
+.giveaway-actions #getKey {
+  display: none !important;
+}

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 14:20:30
- * @LastEditTime : 2022-01-03 15:28:20
+ * @LastEditTime : 2022-01-07 09:59:57
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/updateChecker.ts
  * @Description  : 更新检测
@@ -20,7 +20,7 @@ interface packageJson {
 }
 const checkUpdate = async (updateLink:string, auto: boolean): Promise<false | packageJson> => {
   try {
-    const checkUrl = `${updateLink}package.json`;
+    const checkUrl = `${updateLink}package.json?time=${new Date().getTime()}`;
     const { result, statusText, status, data } = await httpRequest({
       url: checkUrl,
       responseType: 'json',
@@ -43,6 +43,33 @@ const checkUpdate = async (updateLink:string, auto: boolean): Promise<false | pa
     return false;
   } catch (error) {
     throwError(error as Error, 'checkUpdate');
+    return false;
+  }
+};
+const hasNewVersion = (currentVersion: string, remoteVersion: string): boolean => {
+  try {
+    const [currentRealVersion] = currentVersion.split('-');
+    const [remoteRealVersion] = remoteVersion.split('-');
+    const [currentVersion1, currentVersion2, currentVersion3] = currentRealVersion.split('.').map((value) => parseInt(value, 10));
+    const [remoteVersion1, remoteVersion2, remoteVersion3] = remoteRealVersion.split('.').map((value) => parseInt(value, 10));
+    if (remoteVersion1 > currentVersion1) {
+      return true;
+    }
+    if (remoteVersion1 < currentVersion1) {
+      return false;
+    }
+    if (remoteVersion2 > currentVersion2) {
+      return true;
+    }
+    if (remoteVersion2 < currentVersion2) {
+      return false;
+    }
+    if (remoteVersion3 > currentVersion3) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    throwError(error as Error, 'compareVersion');
     return false;
   }
 };
@@ -80,7 +107,7 @@ const updateChecker = async () => {
       version = currentVersion;
       echoLog({}).error(__('checkUpdateFailed'));
     }
-    if (packageData && version !== currentVersion) {
+    if (packageData && hasNewVersion(currentVersion, version)) {
       echoLog({ html: `<li><font>${__('newVersionNotice', version, `${updateLink}dist/${GM_info.script.name}.user.js`)}</font></li>` });
       echoLog({ html: `<li>${__('updateText', version)}</li><ol class="update-text">${
         packageData.change?.map((change) => `<li>${change}</li>`).join('')}</ol>` });

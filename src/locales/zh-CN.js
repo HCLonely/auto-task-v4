@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2022-01-06 12:10:11
+ * @LastEditTime : 2022-01-07 10:03:36
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -261,6 +261,9 @@ const data = {
   gettingGleamLink: '正在获取Gleam任务链接...',
   gleamTaskNotice: '如果此页面长时间未关闭，请完成任一任务后自行关闭！',
   verifiedGleamTasks: '已尝试验证所有任务，验证失败的任务请尝试手动验证或完成！',
+
+  // GiveawaySu
+  gsNotice: '为避免得到"0000-0000-0000"key, 已自动屏蔽"Grab Key"按钮，获取key时请关闭脚本！',
 
   // SweepWidget
   SweepWidgetNotice: '正在处理并验证任务，每次验证任务有1~3s间隔防止触发验证过快警告...'

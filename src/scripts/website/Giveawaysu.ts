@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2022-01-02 11:07:58
+ * @LastEditTime : 2022-01-07 10:04:58
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.ts
  * @Description  : https://giveaway.su/
@@ -70,6 +70,7 @@ class GiveawaySu extends Website {
       if (!await this.#checkLeftKey()) {
         echoLog({}).warning(__('checkLeftKeyFailed'));
       }
+      echoLog({}).warning(__('gsNotice'));
     } catch (error) {
       throwError(error as Error, 'Giveawaysu.after');
     }
