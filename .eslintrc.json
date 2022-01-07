@@ -28,7 +28,8 @@
     "$": true
   },
   "ignorePatterns": [
-    "dist/**/*"
+    "dist/**/*",
+    "src/header.js"
   ],
   "rules": {
     "indent": [

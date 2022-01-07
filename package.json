@@ -1,9 +1,8 @@
 {
   "name": "auto-task-new",
-  "version": "4.1.6-Beta",
+  "version": "4.1.7-Beta",
   "change": [
-    "避免GiveawaySu得到0000Key, 自动隐藏\"Grab key\"按钮",
-    "更新检测优化"
+    "Gleam任务识别优化，自动填写表单优化"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",
@@ -14,7 +13,7 @@
     "pack": "webpack --config webpack.config.js",
     "build": "webpack --config webpack.config.js && webpack --config webpack.compatibility.config.js && webpack --config webpack.giveawaysu.config.js && node copy.js"
   },
-  "author": "HCLonely",
+  "author": "HCLonely <h1606051253@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.16.0",

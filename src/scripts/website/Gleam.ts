@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2022-01-06 11:18:54
+ * @LastEditTime : 2022-01-07 16:10:58
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  : https://gleam.io
@@ -199,10 +199,20 @@ class Gleam extends Website {
           }
         } else if (socialIcon.hasClass('fa-shield') && taskText
           .includes('earn.vloot.io')) {
-          expandInfo.find('input').val(this.options.vlootUsername);
+          const continueBtn = expandInfo.find('span:contains(Continue),button:contains(Continue)');
+          for (const button of continueBtn) {
+            button.click();
+            await delay(500);
+            expandInfo.find('input').val(this.options.vlootUsername);
+          }
         } else if (socialIcon.hasClass('fa-gamepad-alt') && taskText
           .includes('Gameround')) {
-          expandInfo.find('input').val(this.options.gameroundUsername);
+          const continueBtn = expandInfo.find('span:contains(Continue),button:contains(Continue)');
+          for (const button of continueBtn) {
+            button.click();
+            await delay(500);
+            expandInfo.find('input').val(this.options.gameroundUsername);
+          }
         } else if (socialIcon.hasClass('fa-bullhorn') && taskText
           .includes('Complete')) {
           if (action !== 'do') continue;
@@ -218,6 +228,7 @@ class Gleam extends Website {
           socialIcon.hasClass('fa-question') ||
           socialIcon.hasClass('fa-reddit') ||
           socialIcon.hasClass('fa-facebook-f') ||
+          socialIcon.hasClass('fa-telegram-plane') ||
           (socialIcon.hasClass('fa-shield') && taskText.includes('Check out'))
         ) {
           // skip

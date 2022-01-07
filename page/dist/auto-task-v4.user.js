@@ -1,8 +1,9 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.1.6-Beta
-// @description        赠Key站自动任务
+// @version            4.1.7-Beta
+// @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
+// @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
 // @license            MIT
 // @run-at             document-start
@@ -8718,9 +8719,19 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
                 }
               }
             } else if (socialIcon.hasClass('fa-shield') && taskText.includes('earn.vloot.io')) {
-              expandInfo.find('input').val(this.options.vlootUsername);
+              const continueBtn = expandInfo.find('span:contains(Continue),button:contains(Continue)');
+              for (const button of continueBtn) {
+                button.click();
+                await delay(500);
+                expandInfo.find('input').val(this.options.vlootUsername);
+              }
             } else if (socialIcon.hasClass('fa-gamepad-alt') && taskText.includes('Gameround')) {
-              expandInfo.find('input').val(this.options.gameroundUsername);
+              const continueBtn = expandInfo.find('span:contains(Continue),button:contains(Continue)');
+              for (const button of continueBtn) {
+                button.click();
+                await delay(500);
+                expandInfo.find('input').val(this.options.gameroundUsername);
+              }
             } else if (socialIcon.hasClass('fa-bullhorn') && taskText.includes('Complete')) {
               if (action !== 'do') {
                 continue;
@@ -8734,7 +8745,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
                 continue;
               }
               this.undoneTasks.extra.gleam.push(gleamLink);
-            } else if (socialIcon.hasClass('fa-question') || socialIcon.hasClass('fa-reddit') || socialIcon.hasClass('fa-facebook-f') || socialIcon.hasClass('fa-shield') && taskText.includes('Check out')) {} else {
+            } else if (socialIcon.hasClass('fa-question') || socialIcon.hasClass('fa-reddit') || socialIcon.hasClass('fa-facebook-f') || socialIcon.hasClass('fa-telegram-plane') || socialIcon.hasClass('fa-shield') && taskText.includes('Check out')) {} else {
               scripts_echoLog({}).warning(`${i18n('unKnownTaskType')}: ${taskText}`);
             }
           }
