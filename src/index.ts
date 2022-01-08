@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2022-01-06 13:35:09
+ * @LastEditTime : 2022-01-08 17:19:28
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -128,7 +128,6 @@ const loadScript = async () => {
   });
   keyboardJS.bind(globalOptions.hotKey.toggleLogKey, toggleLog);
 
-  // do something
   // @ts-ignore
   if (website?.after) await website?.after();
 
@@ -141,7 +140,6 @@ const loadScript = async () => {
     // @ts-ignore
       if (website[button]) {
         // @ts-ignore
-        // GM_registerMenuCommand(__(button), () => { website[button](); });
         const btnElement =
           $(`<p><a class="auto-task-website-btn ${website.name}-button" href="javascript:void(0);" target="_self">${__(button)}</a></p>`);
         // @ts-ignore
@@ -173,12 +171,12 @@ const loadScript = async () => {
   }
 
   if (website.name !== 'Setting') {
-    GM_registerMenuCommand(__('whiteList'), () => { whiteListOptions('swal'); });
+    // GM_registerMenuCommand(__('whiteList'), () => { whiteListOptions('swal'); });
     GM_registerMenuCommand(__('changeGlobalOptions'), () => { changeGlobalOptions('swal'); });
-    GM_registerMenuCommand(__('tasksHistory'), () => {
-      window.open('https://auto-task-v4.hclonely.com/history.html', '_blank');
-    });
-    GM_registerMenuCommand(__('syncData'), syncOptions);
+    // GM_registerMenuCommand(__('tasksHistory'), () => {
+    //   window.open('https://auto-task-v4.hclonely.com/history.html', '_blank');
+    // });
+    // GM_registerMenuCommand(__('syncData'), syncOptions);
     GM_registerMenuCommand(__('settingPage'), () => {
       window.open('https://auto-task-v4.hclonely.com/setting.html', '_blank');
     });

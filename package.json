@@ -1,8 +1,10 @@
 {
   "name": "auto-task-new",
-  "version": "4.1.7-Beta",
+  "version": "4.1.8-Beta",
   "change": [
-    "Gleam任务识别优化，自动填写表单优化"
+    "油管、推特验证机制优化",
+    "白名单、任务历史、数据同步功能移动到设置页面",
+    "其他优化"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",
@@ -10,7 +12,7 @@
     "test": "eslint",
     "tsc": "tsc",
     "gs": "webpack --config webpack.giveawaysu.config.js",
-    "pack": "webpack --config webpack.config.js",
+    "dev": "webpack --config webpack.config.js",
     "build": "webpack --config webpack.config.js && webpack --config webpack.compatibility.config.js && webpack --config webpack.giveawaysu.config.js && node copy.js"
   },
   "author": "HCLonely <h1606051253@gmail.com>",

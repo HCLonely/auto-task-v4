@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2022-01-07 10:09:45
+ * @LastEditTime : 2022-01-08 17:03:59
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/en-US.js
  * @Description  : i18n英文
@@ -76,9 +76,11 @@ const data = {
   globalOptions: 'Global Options',
   checkLogin: 'Login detection</br>Need to log in to the website automatically log in, part of this website supports.',
   checkLeftKey: 'Key remaining detection</br>The end of the giveaway event prompts whether to close or not, part of this website supports.',
-  twitterVerifyId: 'Verify Twitter token by trying to follow the account.</br>The default is the official Twitter account 783214.',
+  twitterVerifyId: 'Verify Twitter token by trying to follow the account.</br>The default is the official Twitter account 783214.</br>' +
+    'If you don\'t want to follow the official account, you can change it to your own account.',
   youtubeVerifyChannel: 'Verify YouTube token by trying to subscribe to the channel.</br>' +
-    'The default is the official YouTube channel UCrXUsMBcfTVqwAS7DKg9C0Q.',
+    'The default is the official YouTube channel UCrXUsMBcfTVqwAS7DKg9C0Q.</br>' +
+    'If you don\'t want to follow the official channel, you can change it to your own channel.',
   autoUpdateSource: 'The source to update</br>github: Fast update.</br>jsdelivr: Update is delayed.</br>' +
     'standby: Standby source.</br>auto: Try to update using github, jsdelivr, standby sources in turn.',
   saveGlobalOptions: 'SaveSettings',
@@ -236,8 +238,8 @@ const data = {
   retweets: 'Retweet',
   followingTwitterUser: 'Following Twitter User',
   unfollowingTwitterUser: 'Unfollowing Twitter User',
-  retweetting: 'Retweeting',
-  unretweetting: 'Unretweeting',
+  retweetting: 'Retweetting',
+  unretweetting: 'Unretweetting',
 
   // Vk
   names: 'Group/Public/Wall',

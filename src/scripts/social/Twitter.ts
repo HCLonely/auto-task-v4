@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:36:57
- * @LastEditTime : 2022-01-02 12:39:56
+ * @LastEditTime : 2022-01-08 16:54:26
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitter.ts
  * @Description  : Twitter 关注/取关用户,转推/取消转推推文
@@ -343,5 +343,4 @@ class Twitter extends Social {
     }
   }
 }
-
 export default Twitter;

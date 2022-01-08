@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2022-01-02 12:38:07
+ * @LastEditTime : 2022-01-08 17:02:01
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
@@ -24,7 +24,6 @@ class Discord extends Social {
   #cache: cache = GM_getValue<cache>('discordCache') || {};
   #initialized = false;
 
-  // TODO:优化
   async init(): Promise<boolean> {
     /**
      * @description: 验证及获取Auth
@@ -93,7 +92,7 @@ class Discord extends Social {
   async #updateAuth(): Promise<boolean> {
     /**
      * @internal
-     * @description 通过打开Discord网站更新Token. // TODO: 需优化
+     * @description 通过打开Discord网站更新Token.
      * @return true: 更新Token成功 | false: 更新Token失败
      */
     try {

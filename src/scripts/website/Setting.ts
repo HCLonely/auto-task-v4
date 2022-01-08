@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-25 19:00:53
- * @LastEditTime : 2022-01-02 12:32:13
+ * @LastEditTime : 2022-01-08 17:18:55
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Setting.ts
  * @Description  : 设置页面
@@ -24,7 +24,7 @@ class Setting {
     'syncData',
     'tasksHistory'
   ];
-  dataSync = syncOptions;
+  syncData = syncOptions;
 
   tasksHistory(): void {
     window.open('https://auto-task-v4.hclonely.com/history.html', '_blank');

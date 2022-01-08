@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.1.7-Beta
+// @version            4.1.8-Beta
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1193,8 +1193,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       globalOptions: '全局设置',
       checkLogin: '登录检测</br>需要登录的网站自动登录，部分本网站支持',
       checkLeftKey: '剩余Key检测</br>赠Key活动结束提示是否关闭，部分本网站支持',
-      twitterVerifyId: '通过尝试关注该账号验证Twitter凭证</br>默认为Twitter官方帐号 783214',
-      youtubeVerifyChannel: '通过尝试订阅该频道验证YouTube凭证</br>默认为YouTube官方频道 UCrXUsMBcfTVqwAS7DKg9C0Q',
+      twitterVerifyId: '通过尝试关注该账号验证Twitter凭证</br>默认为Twitter官方帐号 783214</br>不想关注官方账号可以改为自己的帐号',
+      youtubeVerifyChannel: '通过尝试订阅该频道验证YouTube凭证</br>默认为YouTube官方频道 UCrXUsMBcfTVqwAS7DKg9C0Q</br>不想关注官方频道可以改为自己的频道',
       autoUpdateSource: '更新源</br>github: 需代理，实时更新</br>jsdelivr: 可不用代理，更新有延迟</br>standby: 备用</br>auto: 依次使用github, jsdelivr, standby源进行尝试更新',
       saveGlobalOptions: '保存全局设置',
       settingPage: '设置页面',
@@ -1429,8 +1429,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       globalOptions: 'Global Options',
       checkLogin: 'Login detection</br>Need to log in to the website automatically log in, part of this website supports.',
       checkLeftKey: 'Key remaining detection</br>The end of the giveaway event prompts whether to close or not, part of this website supports.',
-      twitterVerifyId: 'Verify Twitter token by trying to follow the account.</br>The default is the official Twitter account 783214.',
-      youtubeVerifyChannel: 'Verify YouTube token by trying to subscribe to the channel.</br>' + 'The default is the official YouTube channel UCrXUsMBcfTVqwAS7DKg9C0Q.',
+      twitterVerifyId: 'Verify Twitter token by trying to follow the account.</br>The default is the official Twitter account 783214.</br>' + 'If you don\'t want to follow the official account, you can change it to your own account.',
+      youtubeVerifyChannel: 'Verify YouTube token by trying to subscribe to the channel.</br>' + 'The default is the official YouTube channel UCrXUsMBcfTVqwAS7DKg9C0Q.</br>' + 'If you don\'t want to follow the official channel, you can change it to your own channel.',
       autoUpdateSource: 'The source to update</br>github: Fast update.</br>jsdelivr: Update is delayed.</br>' + 'standby: Standby source.</br>auto: Try to update using github, jsdelivr, standby sources in turn.',
       saveGlobalOptions: 'SaveSettings',
       settingPage: 'Setting Page',
@@ -1564,8 +1564,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       retweets: 'Retweet',
       followingTwitterUser: 'Following Twitter User',
       unfollowingTwitterUser: 'Unfollowing Twitter User',
-      retweetting: 'Retweeting',
-      unretweetting: 'Unretweeting',
+      retweetting: 'Retweetting',
+      unretweetting: 'Unretweetting',
       names: 'Group/Public/Wall',
       loginVk: 'Please <a href="https://vk.com/login/" target="_blank">log in to Vk</a>',
       gettingVkId: 'Getting Vk task Id',
@@ -4459,6 +4459,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
               }
               return true;
             }
+            if (verify && data.responseText.includes('You may not subscribe to yourself')) {
+              logStatus.success();
+              return true;
+            }
             logStatus.error(i18n('tryUpdateYtbAuth'), true);
             return false;
           }
@@ -5540,7 +5544,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         if (!doTask && this.whiteList.forums.includes(gameId)) {
           scripts_echoLog({
             type: 'whiteList',
-            text: 'Steam.unsubscribForum',
+            text: 'Steam.unsubscribeForum',
             id: gameId
           });
           return true;
@@ -8130,8 +8134,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       after() {
         try {
-          const selecter = this.name === 'Keylol' ? '#postlist>div[id^="post_"]:first' : 'div.container';
-          const mainPost = $(selecter);
+          const selector = this.name === 'Keylol' ? '#postlist>div[id^="post_"]:first' : 'div.container';
+          const mainPost = $(selector);
           const discordLinks = mainPost.find('a[href*="discord.com"]');
           const redditLinks = mainPost.find('a[href*="reddit.com"]');
           const insLinks = mainPost.find('a[href*="instagram.com"]');
@@ -9597,7 +9601,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         Setting_classPrivateMethodInitSpec(this, Setting_getId);
         Setting_defineProperty(this, 'name', 'Setting');
         Setting_defineProperty(this, 'buttons', [ 'saveGlobalOptions', 'syncData', 'tasksHistory' ]);
-        Setting_defineProperty(this, 'dataSync', dataSync);
+        Setting_defineProperty(this, 'syncData', dataSync);
       }
       tasksHistory() {
         window.open('https://auto-task-v4.hclonely.com/history.html', '_blank');
@@ -10181,16 +10185,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         });
       }
       if (website.name !== 'Setting') {
-        GM_registerMenuCommand(i18n('whiteList'), () => {
-          whiteList('swal');
-        });
         GM_registerMenuCommand(i18n('changeGlobalOptions'), () => {
           changeGlobalOptions('swal');
         });
-        GM_registerMenuCommand(i18n('tasksHistory'), () => {
-          window.open('https://auto-task-v4.hclonely.com/history.html', '_blank');
-        });
-        GM_registerMenuCommand(i18n('syncData'), dataSync);
         GM_registerMenuCommand(i18n('settingPage'), () => {
           window.open('https://auto-task-v4.hclonely.com/setting.html', '_blank');
         });

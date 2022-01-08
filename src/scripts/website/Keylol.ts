@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-15 13:58:41
- * @LastEditTime : 2022-01-03 15:36:59
+ * @LastEditTime : 2022-01-08 17:07:34
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Keylol.ts
  * @Description  : https://keylol.com/f319-1
@@ -70,8 +70,8 @@ class Keylol extends Website {
   }
   after(): void {
     try {
-      const selecter = this.name === 'Keylol' ? '#postlist>div[id^="post_"]:first' : 'div.container';
-      const mainPost = $(selecter);
+      const selector = this.name === 'Keylol' ? '#postlist>div[id^="post_"]:first' : 'div.container';
+      const mainPost = $(selector);
       const discordLinks = mainPost.find('a[href*="discord.com"]');
       const redditLinks = mainPost.find('a[href*="reddit.com"]');
       const insLinks = mainPost.find('a[href*="instagram.com"]');

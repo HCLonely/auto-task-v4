@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2022-01-02 12:39:02
+ * @LastEditTime : 2022-01-08 17:02:39
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -543,7 +543,7 @@ class Steam extends Social {
       */
     try {
       if (!doTask && this.whiteList.forums.includes(gameId)) {
-        echoLog({ type: 'whiteList', text: 'Steam.unsubscribForum', id: gameId });
+        echoLog({ type: 'whiteList', text: 'Steam.unsubscribeForum', id: gameId });
         return true;
       }
       const forumId = await this.#getForumId(gameId);
