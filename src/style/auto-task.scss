@@ -14,7 +14,7 @@
     cursor: pointer;
 
     &::before {
-      filter: blur(20px);
+      filter: blur(10px);
       opacity: 1;
     }
   }
