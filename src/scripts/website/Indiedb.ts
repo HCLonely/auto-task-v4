@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 14:37:33
- * @LastEditTime : 2022-01-02 12:48:45
+ * @LastEditTime : 2022-01-09 13:00:52
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Indiedb.ts
  * @Description  : https://www.indiedb.com/giveaways
@@ -268,7 +268,7 @@ class Indiedb {
   async #checkLeftKey() {
     try {
       if (!globalOptions.other.checkLeftKey) return true;
-      if ($('a.buttonenter:contains("next time")').length > 0) {
+      if ($('a.buttonenter:contains("next time")，a.buttonenter:contains("Giveaway is closed")').length > 0) {
         await Swal.fire({
           icon: 'warning',
           title: __('notice'),

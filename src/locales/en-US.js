@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2022-01-08 17:03:59
+ * @LastEditTime : 2022-01-09 13:19:55
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/en-US.js
  * @Description  : i18n英文
@@ -164,6 +164,11 @@ const data = {
   copySuccess: 'The error message has been copied to the clipboard. Do you want to go to the Keylol forum to give feedback?',
   copyFailed: 'Please copy the error information below and report back to the Keylol forum!',
   updateText: 'Updates in version %0:',
+  Active: 'Active',
+  Ended: 'Ended',
+  Banned: 'Banned',
+  Paused: 'Paused',
+  notStart: 'notStart',
 
   // Steam
   groups: 'Group',

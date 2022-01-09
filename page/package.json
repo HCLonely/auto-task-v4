@@ -1,10 +1,9 @@
 {
-  "name": "auto-task-new",
-  "version": "4.1.8-Beta",
+  "name": "auto-task-v4",
+  "version": "4.1.9-Beta",
   "change": [
-    "油管、推特验证机制优化",
-    "白名单、任务历史、数据同步功能移动到设置页面",
-    "其他优化"
+    "剩余Key检测优化",
+    "GiveeClub愿望单任务识别优化"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

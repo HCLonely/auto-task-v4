@@ -73,6 +73,11 @@
 // @connect            google.com
 // @connect            www.vloot.io
 // @connect            givee.club
+// @connect            gleam.io
+// @connect            www.indiedb.com
+// @connect            key-hub.eu
+// @connect            opquests.com
+// @connect            itch.io
 // @connect            auto-task-v4.hclonely.com
 // @connect            *
 // @require            https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js

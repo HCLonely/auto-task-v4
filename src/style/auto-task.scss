@@ -450,3 +450,25 @@ body.auto-task-history {
 .giveaway-actions #getKey {
   display: none !important;
 }
+
+.auto-task-giveaway-status {
+  color: #fff;
+  border-radius: 10px;
+  padding: 0 5px;
+  margin-left: 5px;
+
+  &.active {
+    background-color: #5cb85c;
+  }
+  &.not-active {
+    background-color: #d9534f;
+  }
+}
+.left-keys {
+  &.lk-green,
+  &.lk-yellow,
+  &.lk-red,
+  &.lk-black {
+    display: none !important;
+  }
+}

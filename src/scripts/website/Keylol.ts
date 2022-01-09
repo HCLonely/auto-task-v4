@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-15 13:58:41
- * @LastEditTime : 2022-01-08 17:07:34
+ * @LastEditTime : 2022-01-09 13:50:08
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Keylol.ts
  * @Description  : https://keylol.com/f319-1
@@ -12,6 +12,8 @@
 
 import throwError from '../tools/throwError';
 import Website from './Website';
+import leftKeyChecker from './leftKeyChecker';
+import __ from '../tools/i18n';
 
 const defaultTasks: keylolSocialTasks = {
   steam: {
@@ -160,6 +162,26 @@ class Keylol extends Website {
           if (!link) continue;
           this.#addBtn(ytbLink, 'youtube', 'channelLinks', link);
           this.#addBtn(ytbLink, 'youtube', 'videoLinks', link);
+        }
+      }
+
+      // eslint-disable-next-line max-len
+      const giveawayLinks = mainPost.find('a[href*="giveaway.su/giveaway/view/"],a[href*="givee.club/"],a[href*="gleam.io/"],a[href*="www.indiedb.com/giveaways/"],a[href*="key-hub.eu/giveaway/"],a[href*="opquests.com/quests/"],a[href*="itch.io/s/"]');
+      if (giveawayLinks.length > 0) {
+        for (const giveawayLink of giveawayLinks) {
+          const link = $(giveawayLink).attr('href');
+          if (!link) continue;
+          leftKeyChecker.classify(link).then((status) => {
+            if (!status) return;
+            if (/^Active/.test(status)) {
+              $(`a[href="${link}"]`).after(`<font class="auto-task-giveaway-status active" title="${__('Active')}">${status}</font>`);
+              return;
+            }
+            $(`a[href="${link}"]`).after(`<font class="auto-task-giveaway-status not-active" title="${__(status)}">${status}</font>`);
+          })
+            .catch((error) => {
+              throwError(error, 'keylol.after -> leftKeyChecker');
+            });
         }
       }
     } catch (error) {

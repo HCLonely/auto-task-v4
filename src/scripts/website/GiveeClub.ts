@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 11:46:52
- * @LastEditTime : 2022-01-02 12:44:47
+ * @LastEditTime : 2022-01-09 10:43:12
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/GiveeClub.ts
  * @Description  : https://givee.club/
@@ -86,6 +86,8 @@ class GiveeClub extends GiveawaySu {
               this.undoneTasks.steam.announcementLinks.push(taskLink);
             } else if (taskIcon.includes('plus') && /^https?:\/\/store\.steampowered\.com\/app\//.test(taskLink)) { // ok
               this.undoneTasks.steam.wishlistLinks.push(taskLink);
+            } else if (taskIcon.includes('plus') && taskDes.attr('data-steam-wishlist-appid')) { // ok
+              this.undoneTasks.steam.wishlistLinks.push(`https://store.steampowered.com/app/${taskDes.attr('data-steam-wishlist-appid')}`);
             } else if (/^https?:\/\/store\.steampowered\.com\/curator\//.test(taskLink)) { // ok
               this.undoneTasks.steam.curatorLinks.push(taskLink);
             } else if (taskIcon.includes('steam') && /follow|subscribe/gim.test(taskName)) { // 未识别
@@ -162,7 +164,7 @@ class GiveeClub extends GiveawaySu {
   async #checkLeftKey(): Promise<boolean> {
     try {
       if (!globalOptions.other.checkLeftKey) return true;
-      if ($('.event-ended').length > 0) {
+      if ($('.event-ended').length > 0 && $('.event-winner').length === 0) {
         await Swal.fire({
           icon: 'warning',
           title: __('notice'),

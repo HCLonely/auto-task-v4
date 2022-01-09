@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2022-01-08 17:19:28
+ * @LastEditTime : 2022-01-09 13:20:03
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  :
@@ -11,12 +11,12 @@ import Swal from 'sweetalert2';
 import * as Cookies from 'js-cookie';
 import style from './style/auto-task.scss';
 import { Websites, WebsiteType } from './scripts/website/index';
-import whiteListOptions from './scripts/social/whiteList';
+// import whiteListOptions from './scripts/social/whiteList';
 import websiteOptions from './scripts/website/options';
 import __ from './scripts/tools/i18n';
 import { globalOptions, changeGlobalOptions } from './scripts/globalOptions';
 import keyboardJS from 'keyboardjs';
-import syncOptions from './scripts/dataSync';
+// import syncOptions from './scripts/dataSync';
 import updateChecker from './scripts/updateChecker';
 import echoLog from './scripts/echoLog';
 

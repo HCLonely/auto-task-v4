@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2022-01-07 10:03:36
+ * @LastEditTime : 2022-01-09 13:19:36
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -148,6 +148,11 @@ const data = {
   copySuccess: '错误信息已复制到剪切板，是否前往其乐论坛反馈？',
   copyFailed: '请复制下方错误信息后前往Keylol论坛反馈！',
   updateText: '%0 版本更新内容：',
+  Active: '进行中',
+  Ended: '已结束',
+  Banned: '已封禁',
+  Paused: '已暂停',
+  notStart: '未开始',
 
   // Steam
   groups: '组',

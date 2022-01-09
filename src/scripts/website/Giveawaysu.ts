@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2022-01-07 10:04:58
+ * @LastEditTime : 2022-01-09 10:37:20
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.ts
  * @Description  : https://giveaway.su/
@@ -197,7 +197,7 @@ class GiveawaySu extends Website {
   async #checkLeftKey(): Promise<boolean> {
     try {
       if (!globalOptions.other.checkLeftKey) return true;
-      if ($('.giveaway-ended').length > 0) {
+      if ($('.giveaway-ended').length > 0 && $('.giveaway-key').length === 0) {
         await Swal.fire({
           icon: 'warning',
           title: __('notice'),
