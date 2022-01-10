@@ -1,9 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.1.9-Beta",
+  "version": "4.1.10-Beta",
   "change": [
-    "剩余Key检测优化",
-    "GiveeClub愿望单任务识别优化"
+    "点赞社区通知增加换区功能"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

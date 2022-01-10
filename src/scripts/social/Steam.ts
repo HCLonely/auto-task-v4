@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2022-01-08 17:02:39
+ * @LastEditTime : 2022-01-10 09:53:09
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -847,6 +847,11 @@ class Steam extends Social {
       });
       if (result === 'Success') {
         if (data?.status === 200) {
+          if (this.#area === 'CN' && data.responseText.includes('id="error_box"')) {
+            logStatus.warning(__('changeAreaNotice'));
+            if (!(await this.#changeArea())) return {};
+            return await this.#getAnnouncementParams(appId, viewId);
+          }
           const authWgToken = data.responseText.match(/authwgtoken&quot;:&quot;(.*?)&quot;/)?.[1];
           const clanId = data.responseText.match(/clanAccountID&quot;:([\d]+?),/)?.[1];
           const gid = data.responseText.match(/announcementGID&quot;:&quot;([\d]+?)&quot;/)?.[1];
