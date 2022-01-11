@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.1.10-Beta
+// @version            4.1.11-beta
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1481,7 +1481,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       lastChangeTime: 'Last Change Time',
       clearTaskFinished: 'Delete the following tasks completed!',
       clearTaskFailed: 'Failed to delete the task, the task name was not found!',
-      syncData: 'Data synchronization',
+      syncData: 'DataSync',
       settingData: 'Uploading data...',
       gettingData: 'Getting data...',
       help: 'Help',

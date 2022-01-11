@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2022-01-09 13:19:55
+ * @LastEditTime : 2022-01-11 16:09:55
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/en-US.js
  * @Description  : i18n英文
@@ -131,7 +131,7 @@ const data = {
   lastChangeTime: 'Last Change Time',
   clearTaskFinished: 'Delete the following tasks completed!',
   clearTaskFailed: 'Failed to delete the task, the task name was not found!',
-  syncData: 'Data synchronization',
+  syncData: 'DataSync',
   settingData: 'Uploading data...',
   gettingData: 'Getting data...',
   help: 'Help',

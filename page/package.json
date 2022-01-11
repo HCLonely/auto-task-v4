@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.1.10-Beta",
+  "version": "4.1.11-beta",
   "change": [
-    "点赞社区通知增加换区功能"
+    "修复一处英文文本"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",
