@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 12:18:06
- * @LastEditTime : 2022-01-08 17:01:24
+ * @LastEditTime : 2022-01-13 14:18:13
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Youtube.ts
  * @Description  : Youtube 订阅/取消订阅频道，点赞/取消点赞视频
@@ -18,7 +18,7 @@ import __ from '../tools/i18n';
 import { unique, delay } from '../tools/tools';
 import { globalOptions } from '../globalOptions';
 
-const defaultTasks: youtubeTasks = { channels: [], likes: [] };
+const defaultTasks = JSON.stringify({ channels: [], likes: [] });
 
 const getInfo = async function (link: string, type: string): Promise <youtubeInfo> {
   /**
@@ -86,8 +86,8 @@ const getInfo = async function (link: string, type: string): Promise <youtubeInf
 };
 
 class Youtube extends Social {
-  tasks = { ...defaultTasks };
-  whiteList: youtubeTasks = GM_getValue<whiteList>('whiteList')?.youtube || { ...defaultTasks };
+  tasks: youtubeTasks = JSON.parse(defaultTasks);
+  whiteList: youtubeTasks = GM_getValue<whiteList>('whiteList')?.youtube || JSON.parse(defaultTasks);
   #auth: auth = GM_getValue<auth>('youtubeAuth') || {};
   #initialized = false;
   #verifyChannel = `https://www.youtube.com/channel/${globalOptions.other.youtubeVerifyChannel}`;

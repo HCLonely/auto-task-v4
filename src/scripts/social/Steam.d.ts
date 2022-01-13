@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-05 10:43:43
- * @LastEditTime : 2022-01-02 11:25:06
+ * @LastEditTime : 2022-01-13 13:31:07
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.d.ts
  */
@@ -33,4 +33,5 @@ declare interface steamTasksParam {
   workshopVotes?: Array<string>
   curatorLikes?: Array<string>
   announcements?: Array<string>
+  licenseLinks?: Array<string>
 }

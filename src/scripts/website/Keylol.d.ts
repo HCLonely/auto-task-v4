@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-15 15:06:53
- * @LastEditTime : 2021-11-15 15:09:01
+ * @LastEditTime : 2022-01-13 11:40:45
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Keylol.d.ts
  * @Description  :
@@ -17,6 +17,7 @@ declare interface keylolSocialTasks {
     forumLinks: Array<string>
     announcementLinks: Array<string>
     workshopVoteLinks: Array<string>
+    licenseLinks: Array<string>
   },
   discord: {
     serverLinks: Array<string>

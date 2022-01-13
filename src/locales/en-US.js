@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2022-01-11 16:09:55
+ * @LastEditTime : 2022-01-13 11:50:06
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/en-US.js
  * @Description  : i18n英文
@@ -207,6 +207,9 @@ const data = {
   gettingAreaInfo: 'Getting Steam area information...',
   changeAreaNotice: 'Suspected of a locked zone game, try to change the zone to execute',
   steamFinishNotice: 'Steam task completed, try to change the shopping cart area back to CN',
+  gettingSubid: 'Getting subid',
+  addingFreeLicense: 'Adding free license',
+  missParams: 'Missing parameters',
 
   // Discord
   servers: 'Server',

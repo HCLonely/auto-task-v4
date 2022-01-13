@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.1.11-beta
+// @version            4.1.12-beta
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -12,6 +12,7 @@
 // @updateURL          https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4.user.js
 // @installURL         https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4.user.js
 // @downloadURL        https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4.user.js
+// @icon               https://auto-task-v4.hclonely.com/favicon.ico
 
 // @include            *://freeanywhere.net/*
 // @include            *://giveaway.su/giveaway/view/*
@@ -665,6 +666,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
            case 'removingFromWishlist':
            case 'followingGame':
            case 'unfollowingGame':
+           case 'gettingSubid':
+           case 'addingFreeLicense':
             ele = $(`<li>${i18n(type)}<a href="https://store.steampowered.com/app/${text}" target="_blank">${text}</a>...<font></font></li>`);
             break;
 
@@ -1312,6 +1315,9 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       gettingAreaInfo: '正在获取Steam地区信息...',
       changeAreaNotice: '疑似锁区游戏，尝试换区执行',
       steamFinishNotice: 'Steam任务完成，尝试将购物车地区换回CN',
+      gettingSubid: '正在获取游戏subid',
+      addingFreeLicense: '正在入库',
+      missParams: '缺少参数',
       servers: '服务器',
       joiningDiscordServer: '正在加入Discord服务器',
       leavingDiscordServer: '正在退出Discord服务器',
@@ -1553,6 +1559,9 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       gettingAreaInfo: 'Getting Steam area information...',
       changeAreaNotice: 'Suspected of a locked zone game, try to change the zone to execute',
       steamFinishNotice: 'Steam task completed, try to change the shopping cart area back to CN',
+      gettingSubid: 'Getting subid',
+      addingFreeLicense: 'Adding free license',
+      missParams: 'Missing parameters',
       servers: 'Server',
       joiningDiscordServer: 'Joining Discord Server',
       leavingDiscordServer: 'Leaving Discord Server',
@@ -1786,9 +1795,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return descriptor.value;
     }
-    const defaultTasks = {
+    const defaultTasks = JSON.stringify({
       servers: []
-    };
+    });
     var _auth = new WeakMap();
     var _cache = new WeakMap();
     var _initialized = new WeakMap();
@@ -1808,12 +1817,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         _classPrivateMethodInitSpec(this, _joinServer);
         _classPrivateMethodInitSpec(this, _updateAuth);
         _classPrivateMethodInitSpec(this, _verifyAuth);
-        Discord_defineProperty(this, 'tasks', {
-          ...defaultTasks
-        });
-        Discord_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.discord) || {
-          ...defaultTasks
-        });
+        Discord_defineProperty(this, 'tasks', JSON.parse(defaultTasks));
+        Discord_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.discord) || JSON.parse(defaultTasks));
         _classPrivateFieldInitSpec(this, _auth, {
           writable: true,
           value: GM_getValue('discordAuth') || {}
@@ -2151,9 +2156,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return descriptor.value;
     }
-    const Instagram_defaultTasks = {
+    const Instagram_defaultTasks = JSON.stringify({
       users: []
-    };
+    });
     var Instagram_cache = new WeakMap();
     var Instagram_auth = new WeakMap();
     var Instagram_initialized = new WeakMap();
@@ -2169,12 +2174,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         Instagram_classPrivateMethodInitSpec(this, _unfollowUser);
         Instagram_classPrivateMethodInitSpec(this, _followUser);
         Instagram_classPrivateMethodInitSpec(this, _getUserInfo);
-        Instagram_defineProperty(this, 'tasks', {
-          ...Instagram_defaultTasks
-        });
-        Instagram_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.instagram) || {
-          ...Instagram_defaultTasks
-        });
+        Instagram_defineProperty(this, 'tasks', JSON.parse(Instagram_defaultTasks));
+        Instagram_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.instagram) || JSON.parse(Instagram_defaultTasks));
         Instagram_classPrivateFieldInitSpec(this, Instagram_cache, {
           writable: true,
           value: GM_getValue('instagramCache') || {}
@@ -2477,9 +2478,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return descriptor.value;
     }
-    const Reddit_defaultTasks = {
+    const Reddit_defaultTasks = JSON.stringify({
       reddits: []
-    };
+    });
     var Reddit_auth = new WeakMap();
     var Reddit_initialized = new WeakMap();
     var _useBeta = new WeakSet();
@@ -2490,12 +2491,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         super(...arguments);
         Reddit_classPrivateMethodInitSpec(this, Reddit_updateAuth);
         Reddit_classPrivateMethodInitSpec(this, _useBeta);
-        Reddit_defineProperty(this, 'tasks', {
-          ...Reddit_defaultTasks
-        });
-        Reddit_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.reddit) || {
-          ...Reddit_defaultTasks
-        });
+        Reddit_defineProperty(this, 'tasks', JSON.parse(Reddit_defaultTasks));
+        Reddit_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.reddit) || JSON.parse(Reddit_defaultTasks));
         Reddit_classPrivateFieldInitSpec(this, Reddit_auth, {
           writable: true,
           value: void 0
@@ -2762,9 +2759,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return descriptor.value;
     }
-    const Twitch_defaultTasks = {
+    const Twitch_defaultTasks = JSON.stringify({
       channels: []
-    };
+    });
     var Twitch_auth = new WeakMap();
     var Twitch_cache = new WeakMap();
     var Twitch_initialized = new WeakMap();
@@ -2782,12 +2779,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         Twitch_classPrivateMethodInitSpec(this, _toggleChannel);
         Twitch_classPrivateMethodInitSpec(this, Twitch_updateAuth);
         Twitch_classPrivateMethodInitSpec(this, Twitch_verifyAuth);
-        Twitch_defineProperty(this, 'tasks', {
-          ...Twitch_defaultTasks
-        });
-        Twitch_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.twitch) || {
-          ...Twitch_defaultTasks
-        });
+        Twitch_defineProperty(this, 'tasks', JSON.parse(Twitch_defaultTasks));
+        Twitch_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.twitch) || JSON.parse(Twitch_defaultTasks));
         Twitch_classPrivateFieldInitSpec(this, Twitch_auth, {
           writable: true,
           value: GM_getValue('twitchAuth') || {}
@@ -3112,11 +3105,11 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return descriptor.value;
     }
-    const Twitter_defaultTasks = {
+    const Twitter_defaultTasks = JSON.stringify({
       users: [],
       retweets: [],
       likes: []
-    };
+    });
     var _verifyId = new WeakMap();
     var Twitter_auth = new WeakMap();
     var Twitter_cache = new WeakMap();
@@ -3135,12 +3128,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         Twitter_classPrivateMethodInitSpec(this, _toggleUser);
         Twitter_classPrivateMethodInitSpec(this, Twitter_updateAuth);
         Twitter_classPrivateMethodInitSpec(this, Twitter_verifyAuth);
-        Twitter_defineProperty(this, 'tasks', {
-          ...Twitter_defaultTasks
-        });
-        Twitter_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.twitter) || {
-          ...Twitter_defaultTasks
-        });
+        Twitter_defineProperty(this, 'tasks', JSON.parse(Twitter_defaultTasks));
+        Twitter_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.twitter) || JSON.parse(Twitter_defaultTasks));
         Twitter_classPrivateFieldInitSpec(this, _verifyId, {
           writable: true,
           value: globalOptions.other.twitterVerifyId
@@ -3549,9 +3538,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return descriptor.value;
     }
-    const Vk_defaultTasks = {
+    const Vk_defaultTasks = JSON.stringify({
       names: []
-    };
+    });
     var _username = new WeakMap();
     var Vk_cache = new WeakMap();
     var Vk_initialized = new WeakMap();
@@ -3575,12 +3564,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         Vk_classPrivateMethodInitSpec(this, _togglePublic);
         Vk_classPrivateMethodInitSpec(this, _toggleGroup);
         Vk_classPrivateMethodInitSpec(this, Vk_verifyAuth);
-        Vk_defineProperty(this, 'tasks', {
-          ...Vk_defaultTasks
-        });
-        Vk_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.vk) || {
-          ...Vk_defaultTasks
-        });
+        Vk_defineProperty(this, 'tasks', JSON.parse(Vk_defaultTasks));
+        Vk_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.vk) || JSON.parse(Vk_defaultTasks));
         Vk_classPrivateFieldInitSpec(this, _username, {
           writable: true,
           value: ''
@@ -4125,10 +4110,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return descriptor.value;
     }
-    const Youtube_defaultTasks = {
+    const Youtube_defaultTasks = JSON.stringify({
       channels: [],
       likes: []
-    };
+    });
     const getInfo = async function(link, type) {
       try {
         const logStatus = scripts_echoLog({
@@ -4228,12 +4213,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         Youtube_classPrivateMethodInitSpec(this, _getInfo);
         Youtube_classPrivateMethodInitSpec(this, Youtube_updateAuth);
         Youtube_classPrivateMethodInitSpec(this, Youtube_verifyAuth);
-        Youtube_defineProperty(this, 'tasks', {
-          ...Youtube_defaultTasks
-        });
-        Youtube_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.youtube) || {
-          ...Youtube_defaultTasks
-        });
+        Youtube_defineProperty(this, 'tasks', JSON.parse(Youtube_defaultTasks));
+        Youtube_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.youtube) || JSON.parse(Youtube_defaultTasks));
         Youtube_classPrivateFieldInitSpec(this, Youtube_auth, {
           writable: true,
           value: GM_getValue('youtubeAuth') || {}
@@ -4622,6 +4603,12 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return obj;
     }
+    function Steam_classPrivateMethodGet(receiver, privateSet, fn) {
+      if (!privateSet.has(receiver)) {
+        throw new TypeError('attempted to get private field on non-instance');
+      }
+      return fn;
+    }
     function Steam_classPrivateFieldSet(receiver, privateMap, value) {
       var descriptor = Steam_classExtractFieldDescriptor(receiver, privateMap, 'set');
       Steam_classApplyDescriptorSet(receiver, descriptor, value);
@@ -4636,12 +4623,6 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         }
         descriptor.value = value;
       }
-    }
-    function Steam_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
     }
     function Steam_classPrivateFieldGet(receiver, privateMap) {
       var descriptor = Steam_classExtractFieldDescriptor(receiver, privateMap, 'get');
@@ -4659,7 +4640,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return descriptor.value;
     }
-    const Steam_defaultTasks = {
+    const Steam_defaultTasks = JSON.stringify({
       groups: [],
       wishlists: [],
       follows: [],
@@ -4669,10 +4650,11 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       curators: [],
       curatorLikes: [],
       announcements: []
-    };
+    });
     var Steam_cache = new WeakMap();
     var Steam_auth = new WeakMap();
-    var Steam_initialized = new WeakMap();
+    var _storeInitialized = new WeakMap();
+    var _communityInitialized = new WeakMap();
     var _area = new WeakMap();
     var _updateStoreAuth = new WeakSet();
     var _updateCommunityAuth = new WeakSet();
@@ -4694,12 +4676,18 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     var _toggleCuratorLike = new WeakSet();
     var _getAnnouncementParams = new WeakSet();
     var _likeAnnouncement = new WeakSet();
+    var _appid2subid = new WeakSet();
+    var _addLicense = new WeakSet();
+    var _addFreeLicense = new WeakSet();
     var Steam_setCache = new WeakSet();
     class Steam extends social_Social {
       constructor() {
         var _GM_getValue;
         super(...arguments);
         Steam_classPrivateMethodInitSpec(this, Steam_setCache);
+        Steam_classPrivateMethodInitSpec(this, _addFreeLicense);
+        Steam_classPrivateMethodInitSpec(this, _addLicense);
+        Steam_classPrivateMethodInitSpec(this, _appid2subid);
         Steam_classPrivateMethodInitSpec(this, _likeAnnouncement);
         Steam_classPrivateMethodInitSpec(this, _getAnnouncementParams);
         Steam_classPrivateMethodInitSpec(this, _toggleCuratorLike);
@@ -4720,12 +4708,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         Steam_classPrivateMethodInitSpec(this, _getAreaInfo);
         Steam_classPrivateMethodInitSpec(this, _updateCommunityAuth);
         Steam_classPrivateMethodInitSpec(this, _updateStoreAuth);
-        Steam_defineProperty(this, 'tasks', {
-          ...Steam_defaultTasks
-        });
-        Steam_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.steam) || {
-          ...Steam_defaultTasks
-        });
+        Steam_defineProperty(this, 'tasks', JSON.parse(Steam_defaultTasks));
+        Steam_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.steam) || JSON.parse(Steam_defaultTasks));
         Steam_classPrivateFieldInitSpec(this, Steam_cache, {
           writable: true,
           value: GM_getValue('steamCache') || {
@@ -4739,7 +4723,11 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           writable: true,
           value: {}
         });
-        Steam_classPrivateFieldInitSpec(this, Steam_initialized, {
+        Steam_classPrivateFieldInitSpec(this, _storeInitialized, {
+          writable: true,
+          value: false
+        });
+        Steam_classPrivateFieldInitSpec(this, _communityInitialized, {
           writable: true,
           value: false
         });
@@ -4749,13 +4737,27 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         });
       }
       async init() {
+        let type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'all';
         try {
-          if (Steam_classPrivateFieldGet(this, Steam_initialized)) {
+          if (type === 'store') {
+            if (Steam_classPrivateFieldGet(this, _storeInitialized)) {
+              return true;
+            }
+            Steam_classPrivateFieldSet(this, _storeInitialized, await Steam_classPrivateMethodGet(this, _updateStoreAuth, _updateStoreAuth2).call(this));
+            scripts_echoLog({}).success(i18n('initSuccess', 'SteamStore'));
             return true;
           }
-          const isVerified = await Steam_classPrivateMethodGet(this, _updateStoreAuth, _updateStoreAuth2).call(this) && await Steam_classPrivateMethodGet(this, _updateCommunityAuth, _updateCommunityAuth2).call(this);
-          if (isVerified) {
-            Steam_classPrivateFieldSet(this, Steam_initialized, true);
+          if (type === 'community') {
+            if (Steam_classPrivateFieldGet(this, _communityInitialized)) {
+              return true;
+            }
+            Steam_classPrivateFieldSet(this, _communityInitialized, await Steam_classPrivateMethodGet(this, _updateCommunityAuth, _updateCommunityAuth2).call(this));
+            scripts_echoLog({}).success(i18n('initSuccess', 'SteamCommunity'));
+            return true;
+          }
+          Steam_classPrivateFieldSet(this, _storeInitialized, await Steam_classPrivateMethodGet(this, _updateStoreAuth, _updateStoreAuth2).call(this));
+          Steam_classPrivateFieldSet(this, _communityInitialized, await Steam_classPrivateMethodGet(this, _updateCommunityAuth, _updateCommunityAuth2).call(this));
+          if (Steam_classPrivateFieldGet(this, _storeInitialized) && Steam_classPrivateFieldGet(this, _communityInitialized)) {
             scripts_echoLog({}).success(i18n('initSuccess', 'Steam'));
             return true;
           }
@@ -4822,10 +4824,17 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           workshopVoteLinks = [],
           curatorLinks = [],
           curatorLikeLinks = [],
-          announcementLinks = []
+          announcementLinks = [],
+          licenseLinks = []
         } = _ref;
         try {
-          if (!Steam_classPrivateFieldGet(this, Steam_initialized)) {
+          if ([ ...groupLinks, ...forumLinks, ...workshopLinks, ...workshopVoteLinks ].length > 0 && !Steam_classPrivateFieldGet(this, _communityInitialized)) {
+            scripts_echoLog({
+              text: i18n('needInit')
+            });
+            return false;
+          }
+          if ([ ...wishlistLinks, ...followLinks, ...curatorLinks, ...curatorLikeLinks, ...announcementLinks, ...licenseLinks ].length > 0 && !Steam_classPrivateFieldGet(this, _storeInitialized)) {
             scripts_echoLog({
               text: i18n('needInit')
             });
@@ -4988,6 +4997,12 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
                 prom.push(Steam_classPrivateMethodGet(this, _likeAnnouncement, _likeAnnouncement2).call(this, id));
                 await delay(1e3);
               }
+            }
+          }
+          if (doTask && licenseLinks.length > 0) {
+            for (const id of licenseLinks) {
+              prom.push(Steam_classPrivateMethodGet(this, _addLicense, _addLicense2).call(this, id));
+              await delay(1e3);
             }
           }
           return Promise.all(prom).then(async () => {
@@ -5911,10 +5926,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       try {
         const [ appId, viewId ] = id.split('/');
         if (!(appId && viewId)) {
-          scripts_echoLog({
-            type: 'lost params',
-            text: id
-          });
+          scripts_echoLog({}).error(`${i18n('missParams')}(id)`);
           return false;
         }
         const {
@@ -5965,6 +5977,132 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         return false;
       } catch (error) {
         throwError(error, 'Steam.likeAnnouncement');
+        return false;
+      }
+    }
+    async function _appid2subid2(id) {
+      try {
+        const logStatus = scripts_echoLog({
+          type: 'gettingSubid',
+          text: id
+        });
+        const {
+          result,
+          statusText,
+          status,
+          data
+        } = await tools_httpRequest({
+          url: `https://store.steampowered.com/app/${id}`,
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+          }
+        });
+        if (result === 'Success') {
+          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+            var _data$responseText$ma13;
+            if (Steam_classPrivateFieldGet(this, _area) === 'CN' && data.responseText.includes('id="error_box"')) {
+              logStatus.warning(i18n('changeAreaNotice'));
+              const result = await Steam_classPrivateMethodGet(this, _changeArea, _changeArea2).call(this);
+              if (!result || result === 'CN' || result === 'skip') {
+                return false;
+              }
+              return await Steam_classPrivateMethodGet(this, _appid2subid, _appid2subid2).call(this, id);
+            }
+            const subid = (_data$responseText$ma13 = data.responseText.match(/name="subid" value="([\d]+?)"/)) === null || _data$responseText$ma13 === void 0 ? void 0 : _data$responseText$ma13[1];
+            if (subid) {
+              logStatus.success();
+              return subid;
+            }
+            logStatus.error(`Error:${data.statusText}(${data.status})`);
+            return false;
+          }
+          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+          return false;
+        }
+        logStatus.error(`${result}:${statusText}(${status})`);
+        return false;
+      } catch (error) {
+        throwError(error, 'Steam.appid2subid');
+        return false;
+      }
+    }
+    async function _addLicense2(id) {
+      try {
+        const subid = await Steam_classPrivateMethodGet(this, _appid2subid, _appid2subid2).call(this, id);
+        if (!subid) {
+          return false;
+        }
+        const logStatus = scripts_echoLog({
+          type: 'addingFreeLicense',
+          text: id
+        });
+        if (!await Steam_classPrivateMethodGet(this, _addFreeLicense, _addFreeLicense2).call(this, subid, logStatus)) {
+          return false;
+        }
+        const {
+          result,
+          statusText,
+          status,
+          data
+        } = await tools_httpRequest({
+          url: `https://store.steampowered.com/app/${id}`,
+          method: 'GET'
+        });
+        if (result === 'Success') {
+          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+            if (data.responseText.includes('ds_owned_flag ds_flag') || data.responseText.includes('class="already_in_library"')) {
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${data.statusText}(${data.status})`);
+            return false;
+          }
+          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+          return false;
+        }
+        logStatus.error(`${result}:${statusText}(${status})`);
+        return false;
+      } catch (error) {
+        throwError(error, 'Steam.addLicense');
+        return false;
+      }
+    }
+    async function _addFreeLicense2(id, logStatus) {
+      try {
+        const {
+          result,
+          statusText,
+          status,
+          data
+        } = await tools_httpRequest({
+          url: 'https://store.steampowered.com/checkout/addfreelicense',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            Host: 'store.steampowered.com',
+            Origin: 'https://store.steampowered.com',
+            Referer: 'https://store.steampowered.com/account/licenses/'
+          },
+          data: $.param({
+            action: 'add_to_cart',
+            sessionid: Steam_classPrivateFieldGet(this, Steam_auth).storeSessionID,
+            subid: id
+          }),
+          dataType: 'json'
+        });
+        if (result === 'Success') {
+          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+            logStatus.success();
+            return true;
+          }
+          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+          return false;
+        }
+        logStatus.error(`${result}:${statusText}(${status})`);
+        return false;
+      } catch (error) {
+        throwError(error, 'Steam.addFreeLicense');
         return false;
       }
     }
@@ -6020,7 +6158,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           twitter: false,
           vk: false,
           youtube: false,
-          steam: false
+          steamStore: false,
+          steamCommunity: false
         });
         Website_defineProperty(this, 'initialized', false);
         Website_defineProperty(this, 'social', {});
@@ -6031,58 +6170,69 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           const tasks = action === 'do' ? this.undoneTasks : this.socialTasks;
           if (tasks.discord) {
             const hasDiscord = Object.values(tasks.discord).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
-            if (hasDiscord && !this.socialInitialized.discord) {
+            if (hasDiscord && !this.socialInitialized.discord && !this.social.discord) {
               this.social.discord = new social_Discord();
               pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'discord', this.social.discord.init()));
             }
           }
           if (tasks.instagram) {
             const hasInstagram = Object.values(tasks.instagram).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
-            if (hasInstagram && !this.socialInitialized.instagram) {
+            if (hasInstagram && !this.socialInitialized.instagram && !this.social.instagram) {
               this.social.instagram = new social_Instagram();
               pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'instagram', this.social.instagram.init()));
             }
           }
           if (tasks.reddit) {
             const hasReddit = Object.values(tasks.reddit).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
-            if (hasReddit && !this.socialInitialized.reddit) {
+            if (hasReddit && !this.socialInitialized.reddit && !this.social.reddit) {
               this.social.reddit = new social_Reddit();
               pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'reddit', this.social.reddit.init()));
             }
           }
           if (tasks.twitch) {
             const hasTwitch = Object.values(tasks.twitch).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
-            if (hasTwitch && !this.socialInitialized.twitch) {
+            if (hasTwitch && !this.socialInitialized.twitch && !this.social.twitch) {
               this.social.twitch = new social_Twitch();
               pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'twitch', this.social.twitch.init()));
             }
           }
           if (tasks.twitter) {
             const hasTwitter = Object.values(tasks.twitter).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
-            if (hasTwitter && !this.socialInitialized.twitter) {
+            if (hasTwitter && !this.socialInitialized.twitter && !this.social.twitter) {
               this.social.twitter = new social_Twitter();
               pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'twitter', this.social.twitter.init()));
             }
           }
           if (tasks.vk) {
             const hasVk = Object.values(tasks.vk).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
-            if (hasVk && !this.socialInitialized.vk) {
+            if (hasVk && !this.socialInitialized.vk && !this.social.vk) {
               this.social.vk = new social_Vk();
               pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'vk', this.social.vk.init()));
             }
           }
           if (tasks.youtube) {
             const hasYoutube = Object.values(tasks.youtube).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
-            if (hasYoutube && !this.socialInitialized.youtube) {
+            if (hasYoutube && !this.socialInitialized.youtube && !this.social.youtube) {
               this.social.youtube = new Youtube();
               pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'youtube', this.social.youtube.init()));
             }
           }
           if (tasks.steam) {
-            const hasSteam = Object.values(tasks.steam).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
-            if (hasSteam && !this.socialInitialized.steam) {
-              this.social.steam = new social_Steam();
-              pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'steam', this.social.steam.init()));
+            const steamLength = Object.values(tasks.steam).reduce((total, arr) => [ ...total, ...arr ]).length;
+            if (steamLength > 0) {
+              if (!this.social.steam) {
+                this.social.steam = new social_Steam();
+              }
+              const steamCommunityLength = Object.keys(tasks.steam).map(type => {
+                var _tasks$steam, _tasks$steam$type;
+                return [ 'groupLinks', 'forumLinks', 'workshopLinks', 'workshopVoteLinks' ].includes(type) ? ((_tasks$steam = tasks.steam) === null || _tasks$steam === void 0 ? void 0 : (_tasks$steam$type = _tasks$steam[type]) === null || _tasks$steam$type === void 0 ? void 0 : _tasks$steam$type.length) || 0 : 0;
+              }).reduce((total, number) => total + number, 0);
+              if (steamLength - steamCommunityLength > 0 && !this.socialInitialized.steamStore) {
+                pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'steamStore', this.social.steam.init('store')));
+              }
+              if (steamCommunityLength > 0 && !this.socialInitialized.steamCommunity) {
+                pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'steamCommunity', this.social.steam.init('community')));
+              }
             }
           }
           if (tasks.links && tasks.links.length > 0) {
@@ -6255,7 +6405,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return fn;
     }
-    const FreeAnyWhere_defaultTasks = {
+    const FreeAnyWhere_defaultTasks = JSON.stringify({
       steam: {
         groupLinks: [],
         wishlistLinks: [],
@@ -6265,7 +6415,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       vk: {
         nameLinks: []
       }
-    };
+    });
     var _getGiveawayId = new WeakSet();
     var _verify = new WeakSet();
     class FreeAnyWhere extends website_Website {
@@ -6275,12 +6425,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         FreeAnyWhere_classPrivateMethodInitSpec(this, _getGiveawayId);
         FreeAnyWhere_defineProperty(this, 'name', 'FreeAnyWhere');
         FreeAnyWhere_defineProperty(this, 'tasks', []);
-        FreeAnyWhere_defineProperty(this, 'socialTasks', {
-          ...FreeAnyWhere_defaultTasks
-        });
-        FreeAnyWhere_defineProperty(this, 'undoneTasks', {
-          ...FreeAnyWhere_defaultTasks
-        });
+        FreeAnyWhere_defineProperty(this, 'socialTasks', JSON.parse(FreeAnyWhere_defaultTasks));
+        FreeAnyWhere_defineProperty(this, 'undoneTasks', JSON.parse(FreeAnyWhere_defaultTasks));
         FreeAnyWhere_defineProperty(this, 'buttons', [ 'doTask', 'undoTask', 'verifyTask', 'getKey' ]);
       }
       static test() {
@@ -6327,9 +6473,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           });
           if (action === 'undo') {
             var _GM_getValue;
-            this.socialTasks = ((_GM_getValue = GM_getValue(`fawTasks-${this.giveawayId}`)) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.tasks) || {
-              ...FreeAnyWhere_defaultTasks
-            };
+            this.socialTasks = ((_GM_getValue = GM_getValue(`fawTasks-${this.giveawayId}`)) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.tasks) || JSON.parse(FreeAnyWhere_defaultTasks);
           }
           const {
             result,
@@ -7176,7 +7320,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return fn;
     }
-    const Keyhub_defaultTasks = {
+    const Keyhub_defaultTasks = JSON.stringify({
       steam: {
         groupLinks: [],
         wishlistLinks: [],
@@ -7186,7 +7330,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         serverLinks: []
       },
       links: []
-    };
+    });
     var Keyhub_getGiveawayId = new WeakSet();
     var Keyhub_checkLeftKey = new WeakSet();
     var Keyhub_checkLogin = new WeakSet();
@@ -7197,12 +7341,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         Keyhub_classPrivateMethodInitSpec(this, Keyhub_checkLeftKey);
         Keyhub_classPrivateMethodInitSpec(this, Keyhub_getGiveawayId);
         Keyhub_defineProperty(this, 'name', 'Keyhub');
-        Keyhub_defineProperty(this, 'socialTasks', {
-          ...Keyhub_defaultTasks
-        });
-        Keyhub_defineProperty(this, 'undoneTasks', {
-          ...Keyhub_defaultTasks
-        });
+        Keyhub_defineProperty(this, 'socialTasks', JSON.parse(Keyhub_defaultTasks));
+        Keyhub_defineProperty(this, 'undoneTasks', JSON.parse(Keyhub_defaultTasks));
         Keyhub_defineProperty(this, 'buttons', [ 'doTask', 'undoTask', 'verifyTask' ]);
       }
       static test() {
@@ -7250,9 +7390,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           });
           if (action === 'undo') {
             var _GM_getValue;
-            this.socialTasks = ((_GM_getValue = GM_getValue(`khTasks-${this.giveawayId}`)) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.tasks) || {
-              ...Keyhub_defaultTasks
-            };
+            this.socialTasks = ((_GM_getValue = GM_getValue(`khTasks-${this.giveawayId}`)) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.tasks) || JSON.parse(Keyhub_defaultTasks);
           }
           const tasks = $('.task a');
           for (const task of tasks) {
@@ -7294,7 +7432,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
               if (action === 'do') {
                 this.undoneTasks.discord.serverLinks.push(link);
               }
-            } else {
+            } else if (/^https?:\/\/twitter\.com\/.*/.test(link) || /^https?:\/\/www\.twitch\.tv\/.*/.test(link)) {} else {
               scripts_echoLog({}).warning(`${i18n('unKnownTaskType')}: ${taskDes}(${link})`);
             }
           }
@@ -7411,7 +7549,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return fn;
     }
-    const Givekey_defaultTasks = {
+    const Givekey_defaultTasks = JSON.stringify({
       steam: {
         groupLinks: [],
         wishlistLinks: [],
@@ -7427,7 +7565,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       discord: {
         serverLinks: []
       }
-    };
+    });
     var Givekey_verify = new WeakSet();
     var Givekey_getGiveawayId = new WeakSet();
     var Givekey_checkLeftKey = new WeakSet();
@@ -7439,12 +7577,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         Givekey_classPrivateMethodInitSpec(this, Givekey_verify);
         Givekey_defineProperty(this, 'name', 'Givekey');
         Givekey_defineProperty(this, 'tasks', []);
-        Givekey_defineProperty(this, 'socialTasks', {
-          ...Givekey_defaultTasks
-        });
-        Givekey_defineProperty(this, 'undoneTasks', {
-          ...Givekey_defaultTasks
-        });
+        Givekey_defineProperty(this, 'socialTasks', JSON.parse(Givekey_defaultTasks));
+        Givekey_defineProperty(this, 'undoneTasks', JSON.parse(Givekey_defaultTasks));
         Givekey_defineProperty(this, 'userId', void 0);
         Givekey_defineProperty(this, 'buttons', [ 'doTask', 'undoTask', 'verifyTask' ]);
       }
@@ -7503,7 +7637,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           });
           if (action === 'undo') {
             var _GM_getValue;
-            this.socialTasks = ((_GM_getValue = GM_getValue(`gkTasks-${this.giveawayId}`)) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.tasks) || Givekey_defaultTasks;
+            this.socialTasks = ((_GM_getValue = GM_getValue(`gkTasks-${this.giveawayId}`)) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.tasks) || JSON.parse(Givekey_defaultTasks);
           }
           const tasks = $('.card-body:has("button") .row');
           for (const task of tasks) {
@@ -8331,7 +8465,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return fn;
     }
-    const Keylol_defaultTasks = {
+    const Keylol_defaultTasks = JSON.stringify({
       steam: {
         groupLinks: [],
         wishlistLinks: [],
@@ -8340,7 +8474,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         followLinks: [],
         forumLinks: [],
         announcementLinks: [],
-        workshopVoteLinks: []
+        workshopVoteLinks: [],
+        licenseLinks: []
       },
       discord: {
         serverLinks: []
@@ -8365,19 +8500,15 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         channelLinks: [],
         likeLinks: []
       }
-    };
+    });
     var _addBtn = new WeakSet();
     class Keylol extends website_Website {
       constructor() {
         super(...arguments);
         Keylol_classPrivateMethodInitSpec(this, _addBtn);
         Keylol_defineProperty(this, 'name', 'Keylol');
-        Keylol_defineProperty(this, 'socialTasks', {
-          ...Keylol_defaultTasks
-        });
-        Keylol_defineProperty(this, 'undoneTasks', {
-          ...Keylol_defaultTasks
-        });
+        Keylol_defineProperty(this, 'socialTasks', JSON.parse(Keylol_defaultTasks));
+        Keylol_defineProperty(this, 'undoneTasks', JSON.parse(Keylol_defaultTasks));
         Keylol_defineProperty(this, 'buttons', [ 'doTask', 'undoTask', 'selectAll', 'selectNone', 'invertSelect' ]);
       }
       static test() {
@@ -8520,18 +8651,26 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
               });
             }
           }
+          if (this.name === 'Keylol') {
+            const asfLinks = mainPost.find('a[href^="#asf"]');
+            if (asfLinks.length > 0) {
+              for (const asfLink of asfLinks) {
+                const link = $(asfLink).attr('href');
+                if (!link) {
+                  continue;
+                }
+                Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, $(`a[href="${link}"]`).after('<span style="color: #ccc; margin: 0 -5px 0 5px"> | </span>').next()[0], 'steam', 'licenseLinks', link.replace('#asf', ''));
+              }
+            }
+          }
         } catch (error) {
           throwError(error, 'keylol.after');
         }
       }
       classifyTask(action) {
         try {
-          this.socialTasks = {
-            ...Keylol_defaultTasks
-          };
-          this.undoneTasks = {
-            ...Keylol_defaultTasks
-          };
+          this.socialTasks = JSON.parse(Keylol_defaultTasks);
+          this.undoneTasks = JSON.parse(Keylol_defaultTasks);
           const selectedBtns = $('.auto-task-keylol[selected="selected"]');
           for (const btn of selectedBtns) {
             const button = $(btn);
@@ -8769,7 +8908,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return fn;
     }
-    const Gleam_defaultTasks = {
+    const Gleam_defaultTasks = JSON.stringify({
       steam: {
         groupLinks: [],
         wishlistLinks: [],
@@ -8793,7 +8932,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       extra: {
         gleam: []
       }
-    };
+    });
     const Gleam_defaultOptions = {
       vlootUsername: '',
       gameroundUsername: ''
@@ -8812,12 +8951,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         Gleam_classPrivateMethodInitSpec(this, _doGleamTask);
         Gleam_classPrivateMethodInitSpec(this, _checkSync);
         Gleam_defineProperty(this, 'name', 'Gleam');
-        Gleam_defineProperty(this, 'undoneTasks', {
-          ...Gleam_defaultTasks
-        });
-        Gleam_defineProperty(this, 'socialTasks', {
-          ...Gleam_defaultTasks
-        });
+        Gleam_defineProperty(this, 'undoneTasks', JSON.parse(Gleam_defaultTasks));
+        Gleam_defineProperty(this, 'socialTasks', JSON.parse(Gleam_defaultTasks));
         Gleam_defineProperty(this, 'options', {
           ...Gleam_defaultOptions,
           ...GM_getValue('GleamOptions')
@@ -8884,9 +9019,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           });
           if (action === 'undo') {
             var _GM_getValue;
-            this.socialTasks = ((_GM_getValue = GM_getValue(`gleamTasks-${this.giveawayId}`)) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.tasks) || {
-              ...Gleam_defaultTasks
-            };
+            this.socialTasks = ((_GM_getValue = GM_getValue(`gleamTasks-${this.giveawayId}`)) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.tasks) || JSON.parse(Gleam_defaultTasks);
           }
           const tasks = $('.entry-content .entry-method');
           for (const task of tasks) {

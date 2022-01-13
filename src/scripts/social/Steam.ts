@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2022-01-10 09:53:09
+ * @LastEditTime : 2022-01-13 14:21:40
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -17,7 +17,7 @@ import __ from '../tools/i18n';
 import { unique, delay } from '../tools/tools';
 import { globalOptions } from '../globalOptions';
 
-const defaultTasks: steamTasks = {
+const defaultTasks = JSON.stringify({
   groups: [],
   wishlists: [],
   follows: [],
@@ -27,11 +27,11 @@ const defaultTasks: steamTasks = {
   curators: [],
   curatorLikes: [],
   announcements: []
-};
+});
 
 class Steam extends Social {
-  tasks = { ...defaultTasks };
-  whiteList: steamTasks = GM_getValue<whiteList>('whiteList')?.steam || { ...defaultTasks };
+  tasks: steamTasks = JSON.parse(defaultTasks);
+  whiteList: steamTasks = GM_getValue<whiteList>('whiteList')?.steam || JSON.parse(defaultTasks);
   #cache: steamCache = GM_getValue<steamCache>('steamCache') || {
     group: {},
     forum: {},
@@ -39,21 +39,36 @@ class Steam extends Social {
     curator: {}
   };
   #auth: auth = {};
-  #initialized = false;
+  #storeInitialized = false;
+  #communityInitialized = false;
   #area = 'CN';
 
-  async init(): Promise<boolean> {
+  async init(type = 'all'): Promise<boolean> {
     /**
      * @description: 验证及获取Auth
      * @return true: 初始化完成 | false: 初始化失败，toggle方法不可用
      */
     try {
-      if (this.#initialized) {
+      if (type === 'store') {
+        if (this.#storeInitialized) {
+          return true;
+        }
+        this.#storeInitialized = await this.#updateStoreAuth();
+        echoLog({}).success(__('initSuccess', 'SteamStore'));
         return true;
       }
-      const isVerified = (await this.#updateStoreAuth()) && await (this.#updateCommunityAuth());
-      if (isVerified) {
-        this.#initialized = true;
+      if (type === 'community') {
+        if (this.#communityInitialized) {
+          return true;
+        }
+        this.#communityInitialized = await this.#updateCommunityAuth();
+        echoLog({}).success(__('initSuccess', 'SteamCommunity'));
+        return true;
+      }
+
+      this.#storeInitialized = await this.#updateStoreAuth();
+      this.#communityInitialized = await this.#updateCommunityAuth();
+      if (this.#storeInitialized && this.#communityInitialized) {
         echoLog({}).success(__('initSuccess', 'Steam'));
         return true;
       }
@@ -883,7 +898,7 @@ class Steam extends Social {
     try {
       const [appId, viewId] = id.split('/');
       if (!(appId && viewId)) {
-        echoLog({ type: 'lost params', text: id });
+        echoLog({}).error(`${__('missParams')}(id)`);
         return false;
       }
       const { authWgToken, clanId, gid } = await this.#getAnnouncementParams(appId, viewId);
@@ -925,6 +940,117 @@ class Steam extends Social {
     }
   }
 
+  async #appid2subid(id: string): Promise<string | false> {
+    /**
+      * @internal
+      * @description Steam游戏appid转subid
+      * @param id Steam游戏appid
+      * @return string: 转换成功，返回subid | false: 转换失败
+      */
+    try {
+      const logStatus = echoLog({ type: 'gettingSubid', text: id });
+      const { result, statusText, status, data } = await httpRequest({
+        url: `https://store.steampowered.com/app/${id}`,
+        method: 'GET',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+      });
+      if (result === 'Success') {
+        if (data?.status === 200) {
+          if (this.#area === 'CN' && data.responseText.includes('id="error_box"')) {
+            logStatus.warning(__('changeAreaNotice'));
+            const result = await this.#changeArea();
+            if (!result || result === 'CN' || result === 'skip') return false;
+            return await this.#appid2subid(id);
+          }
+          const subid = data.responseText.match(/name="subid" value="([\d]+?)"/)?.[1];
+          if (subid) {
+            logStatus.success();
+            return subid;
+          }
+          logStatus.error(`Error:${data.statusText}(${data.status})`);
+          return false;
+        }
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'Steam.appid2subid');
+      return false;
+    }
+  }
+  async #addLicense(id: string): Promise<boolean> {
+    try {
+      const subid = await this.#appid2subid(id);
+      if (!subid) return false;
+
+      const logStatus = echoLog({ type: 'addingFreeLicense', text: id });
+      if (!await this.#addFreeLicense(subid, logStatus)) return false;
+
+      const { result, statusText, status, data } = await httpRequest({
+        url: `https://store.steampowered.com/app/${id}`,
+        method: 'GET'
+      });
+      if (result === 'Success') {
+        if (data?.status === 200) {
+          if (data.responseText.includes('ds_owned_flag ds_flag') || data.responseText.includes('class="already_in_library"')) {
+            logStatus.success();
+            return true;
+          }
+          logStatus.error(`Error:${data.statusText}(${data.status})`);
+          return false;
+        }
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'Steam.addLicense');
+      return false;
+    }
+  }
+  async #addFreeLicense(id: string, logStatus: logStatus): Promise<boolean> {
+    /**
+      * @internal
+      * @description 入库免费游戏
+      * @param id Steam游戏subid
+      * @return true: 成功 | false: 失败
+      */
+    try {
+      const { result, statusText, status, data } = await httpRequest({
+        url: 'https://store.steampowered.com/checkout/addfreelicense',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+          Host: 'store.steampowered.com',
+          Origin: 'https://store.steampowered.com',
+          Referer: 'https://store.steampowered.com/account/licenses/'
+        },
+        data: $.param({
+          action: 'add_to_cart',
+          sessionid: this.#auth.storeSessionID,
+          subid: id
+        }),
+        dataType: 'json'
+      });
+      if (result === 'Success') {
+        if (data?.status === 200) {
+          logStatus.success();
+          return true;
+        }
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'Steam.addFreeLicense');
+      return false;
+    }
+  }
+
   async toggle({
     doTask = true,
     groupLinks = [],
@@ -935,7 +1061,8 @@ class Steam extends Social {
     workshopVoteLinks = [],
     curatorLinks = [],
     curatorLikeLinks = [],
-    announcementLinks = []
+    announcementLinks = [],
+    licenseLinks = []
   }: {
     doTask?: boolean,
     groupLinks?: Array<string>,
@@ -946,7 +1073,8 @@ class Steam extends Social {
     workshopVoteLinks?: Array<string>,
     curatorLinks?: Array<string>,
     curatorLikeLinks?: Array<string>,
-    announcementLinks?: Array<string>
+    announcementLinks?: Array<string>,
+    licenseLinks?: Array<string>
   }): Promise<boolean> {
     /**
      * @description 公有方法，统一处理Steam相关任务
@@ -954,7 +1082,12 @@ class Steam extends Social {
      * @param {?Array} xxxLinks Steam相关任务链接数组。
      */
     try {
-      if (!this.#initialized) {
+      if ([...groupLinks, ...forumLinks, ...workshopLinks, ...workshopVoteLinks].length > 0 && !this.#communityInitialized) {
+        echoLog({ text: __('needInit') });
+        return false;
+      }
+      if ([...wishlistLinks, ...followLinks, ...curatorLinks, ...curatorLikeLinks, ...announcementLinks, ...licenseLinks].length > 0 &&
+          !this.#storeInitialized) {
         echoLog({ text: __('needInit') });
         return false;
       }
@@ -1096,6 +1229,13 @@ class Steam extends Social {
             prom.push(this.#likeAnnouncement(id));
             await delay(1000);
           }
+        }
+      }
+
+      if (doTask && licenseLinks.length > 0) {
+        for (const id of licenseLinks) {
+          prom.push(this.#addLicense(id));
+          await delay(1000);
         }
       }
       // TODO: 返回值处理

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-15 13:58:41
- * @LastEditTime : 2022-01-09 13:50:08
+ * @LastEditTime : 2022-01-13 14:07:54
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Keylol.ts
  * @Description  : https://keylol.com/f319-1
@@ -15,7 +15,7 @@ import Website from './Website';
 import leftKeyChecker from './leftKeyChecker';
 import __ from '../tools/i18n';
 
-const defaultTasks: keylolSocialTasks = {
+const defaultTasks = JSON.stringify({
   steam: {
     groupLinks: [],
     wishlistLinks: [],
@@ -24,7 +24,8 @@ const defaultTasks: keylolSocialTasks = {
     followLinks: [],
     forumLinks: [],
     announcementLinks: [],
-    workshopVoteLinks: []
+    workshopVoteLinks: [],
+    licenseLinks: []
   },
   discord: {
     serverLinks: []
@@ -49,11 +50,11 @@ const defaultTasks: keylolSocialTasks = {
     channelLinks: [],
     likeLinks: []
   }
-};
+});
 class Keylol extends Website {
   name = 'Keylol';
-  socialTasks: keylolSocialTasks = { ...defaultTasks };
-  undoneTasks: keylolSocialTasks = { ...defaultTasks };
+  socialTasks: keylolSocialTasks = JSON.parse(defaultTasks);
+  undoneTasks: keylolSocialTasks = JSON.parse(defaultTasks);
   buttons: Array<string> = [
     'doTask',
     'undoTask',
@@ -184,14 +185,26 @@ class Keylol extends Website {
             });
         }
       }
+
+      if (this.name === 'Keylol') {
+        const asfLinks = mainPost.find('a[href^="#asf"]');
+        if (asfLinks.length > 0) {
+          for (const asfLink of asfLinks) {
+            const link = $(asfLink).attr('href');
+            if (!link) continue;
+            this.#addBtn($(`a[href="${link}"]`).after('<span style="color: #ccc; margin: 0 -5px 0 5px"> | </span>')
+              .next()[0], 'steam', 'licenseLinks', link.replace('#asf', ''));
+          }
+        }
+      }
     } catch (error) {
       throwError(error as Error, 'keylol.after');
     }
   }
   classifyTask(action: 'do' | 'undo'): boolean {
     try {
-      this.socialTasks = { ...defaultTasks };
-      this.undoneTasks = { ...defaultTasks };
+      this.socialTasks = JSON.parse(defaultTasks);
+      this.undoneTasks = JSON.parse(defaultTasks);
       const selectedBtns = $('.auto-task-keylol[selected="selected"]');
       for (const btn of selectedBtns) {
         const button = $(btn);

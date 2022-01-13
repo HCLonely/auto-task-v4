@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:28
- * @LastEditTime : 2022-01-02 12:55:08
+ * @LastEditTime : 2022-01-13 13:57:48
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Website.ts
  * @Description  :
@@ -37,7 +37,8 @@ abstract class Website {
     twitter: false,
     vk: false,
     youtube: false,
-    steam: false
+    steamStore: false,
+    steamCommunity: false
   }
   protected initialized = false
   protected social: {
@@ -69,58 +70,67 @@ abstract class Website {
       const tasks = action === 'do' ? this.undoneTasks : this.socialTasks;
       if (tasks.discord) {
         const hasDiscord = Object.values(tasks.discord).reduce((total, arr) => [...total, ...arr]).length > 0;
-        if (hasDiscord && !this.socialInitialized.discord) {
+        if (hasDiscord && !this.socialInitialized.discord && !this.social.discord) {
           this.social.discord = new Discord();
           pro.push(this.#bind('discord', this.social.discord.init()));
         }
       }
       if (tasks.instagram) {
         const hasInstagram = Object.values(tasks.instagram).reduce((total, arr) => [...total, ...arr]).length > 0;
-        if (hasInstagram && !this.socialInitialized.instagram) {
+        if (hasInstagram && !this.socialInitialized.instagram && !this.social.instagram) {
           this.social.instagram = new Instagram();
           pro.push(this.#bind('instagram', this.social.instagram.init()));
         }
       }
       if (tasks.reddit) {
         const hasReddit = Object.values(tasks.reddit).reduce((total, arr) => [...total, ...arr]).length > 0;
-        if (hasReddit && !this.socialInitialized.reddit) {
+        if (hasReddit && !this.socialInitialized.reddit && !this.social.reddit) {
           this.social.reddit = new Reddit();
           pro.push(this.#bind('reddit', this.social.reddit.init()));
         }
       }
       if (tasks.twitch) {
         const hasTwitch = Object.values(tasks.twitch).reduce((total, arr) => [...total, ...arr]).length > 0;
-        if (hasTwitch && !this.socialInitialized.twitch) {
+        if (hasTwitch && !this.socialInitialized.twitch && !this.social.twitch) {
           this.social.twitch = new Twitch();
           pro.push(this.#bind('twitch', this.social.twitch.init()));
         }
       }
       if (tasks.twitter) {
         const hasTwitter = Object.values(tasks.twitter).reduce((total, arr) => [...total, ...arr]).length > 0;
-        if (hasTwitter && !this.socialInitialized.twitter) {
+        if (hasTwitter && !this.socialInitialized.twitter && !this.social.twitter) {
           this.social.twitter = new Twitter();
           pro.push(this.#bind('twitter', this.social.twitter.init()));
         }
       }
       if (tasks.vk) {
         const hasVk = Object.values(tasks.vk).reduce((total, arr) => [...total, ...arr]).length > 0;
-        if (hasVk && !this.socialInitialized.vk) {
+        if (hasVk && !this.socialInitialized.vk && !this.social.vk) {
           this.social.vk = new Vk();
           pro.push(this.#bind('vk', this.social.vk.init()));
         }
       }
       if (tasks.youtube) {
         const hasYoutube = Object.values(tasks.youtube).reduce((total, arr) => [...total, ...arr]).length > 0;
-        if (hasYoutube && !this.socialInitialized.youtube) {
+        if (hasYoutube && !this.socialInitialized.youtube && !this.social.youtube) {
           this.social.youtube = new Youtube();
           pro.push(this.#bind('youtube', this.social.youtube.init()));
         }
       }
       if (tasks.steam) {
-        const hasSteam = Object.values(tasks.steam).reduce((total, arr) => [...total, ...arr]).length > 0;
-        if (hasSteam && !this.socialInitialized.steam) {
-          this.social.steam = new Steam();
-          pro.push(this.#bind('steam', this.social.steam.init()));
+        const steamLength = Object.values(tasks.steam).reduce((total, arr) => [...total, ...arr]).length;
+        if (steamLength > 0) {
+          if (!this.social.steam) this.social.steam = new Steam();
+          const steamCommunityLength = Object.keys(tasks.steam).map((type) => (
+            ['groupLinks', 'forumLinks', 'workshopLinks', 'workshopVoteLinks'].includes(type) ?
+              (tasks.steam?.[type as keyof typeof tasks.steam]?.length || 0) : 0))
+            .reduce((total, number) => total + number, 0);
+          if (steamLength - steamCommunityLength > 0 && !this.socialInitialized.steamStore) {
+            pro.push(this.#bind('steamStore', this.social.steam.init('store')));
+          }
+          if (steamCommunityLength > 0 && !this.socialInitialized.steamCommunity) {
+            pro.push(this.#bind('steamCommunity', this.social.steam.init('community')));
+          }
         }
       }
       if (tasks.links && tasks.links.length > 0) {

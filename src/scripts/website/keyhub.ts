@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2022-01-02 12:51:25
+ * @LastEditTime : 2022-01-13 14:10:46
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
  * @Description  : https://key-hub.eu/
@@ -18,7 +18,7 @@ import __ from '../tools/i18n';
 import { getRedirectLink } from '../tools/tools';
 import { globalOptions } from '../globalOptions';
 
-const defaultTasks: khSocialTasks = {
+const defaultTasks = JSON.stringify({
   steam: {
     groupLinks: [],
     wishlistLinks: [],
@@ -28,12 +28,12 @@ const defaultTasks: khSocialTasks = {
     serverLinks: []
   },
   links: []
-};
+});
 
 class Keyhub extends Website {
   name = 'Keyhub';
-  socialTasks: khSocialTasks = { ...defaultTasks };
-  undoneTasks: khSocialTasks = { ...defaultTasks };
+  socialTasks: khSocialTasks = JSON.parse(defaultTasks);
+  undoneTasks: khSocialTasks = JSON.parse(defaultTasks);
   buttons: Array<string> = [
     'doTask',
     'undoTask',
@@ -79,7 +79,7 @@ class Keyhub extends Website {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
       if (action === 'undo') {
-        this.socialTasks = GM_getValue<khGMTasks>(`khTasks-${this.giveawayId}`)?.tasks || { ...defaultTasks };
+        this.socialTasks = GM_getValue<khGMTasks>(`khTasks-${this.giveawayId}`)?.tasks || JSON.parse(defaultTasks);
       }
 
       const tasks = $('.task a');
@@ -107,6 +107,8 @@ class Keyhub extends Website {
         } else if (/^https?:\/\/discord\.com\/invite\//.test(link)) {
           if (action === 'undo') this.socialTasks.discord.serverLinks.push(link);
           if (action === 'do') this.undoneTasks.discord.serverLinks.push(link);
+        } else if (/^https?:\/\/twitter\.com\/.*/.test(link) || /^https?:\/\/www\.twitch\.tv\/.*/.test(link)) {
+          // skip
         } else {
           echoLog({}).warning(`${__('unKnownTaskType')}: ${taskDes}(${link})`);
         }

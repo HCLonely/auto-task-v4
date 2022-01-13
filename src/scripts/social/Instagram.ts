@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-29 12:54:16
- * @LastEditTime : 2022-01-02 12:37:25
+ * @LastEditTime : 2022-01-13 14:16:21
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Instagram.ts
  * @Description  : Instagram 关注&取关用户
@@ -15,10 +15,10 @@ import { unique, delay } from '../tools/tools';
 import __ from '../tools/i18n';
 import { globalOptions } from '../globalOptions';
 
-const defaultTasks: instagramTasks = { users: [] };
+const defaultTasks = JSON.stringify({ users: [] });
 class Instagram extends Social {
-  tasks = { ...defaultTasks };
-  whiteList: instagramTasks = GM_getValue<whiteList>('whiteList')?.instagram || { ...defaultTasks };
+  tasks: instagramTasks = JSON.parse(defaultTasks);
+  whiteList: instagramTasks = GM_getValue<whiteList>('whiteList')?.instagram || JSON.parse(defaultTasks);
   #cache: cache = GM_getValue<cache>('instagramCache') || {};
   #auth: auth = {};
   #initialized = false;

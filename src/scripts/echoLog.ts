@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:03:26
- * @LastEditTime : 2022-01-02 12:35:10
+ * @LastEditTime : 2022-01-13 11:55:00
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/echoLog.ts
  * @Description  :
@@ -42,6 +42,8 @@ const echoLog = ({ type, text, html, id }: { type?: string, text?: string, html?
       case 'removingFromWishlist':
       case 'followingGame':
       case 'unfollowingGame':
+      case 'gettingSubid':
+      case 'addingFreeLicense':
         ele = $(`<li>${__(type)}<a href="https://store.steampowered.com/app/${text}" target="_blank">${text}</a>...<font></font></li>`);
         break;
       case 'favoritingWorkshop':

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2022-01-07 16:10:58
+ * @LastEditTime : 2022-01-13 14:10:18
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  : https://gleam.io
@@ -19,7 +19,7 @@ import httpRequest from '../tools/httpRequest';
 import { delay } from '../tools/tools';
 import { globalOptions } from '../globalOptions';
 
-const defaultTasks: gleamSocialTasks = {
+const defaultTasks = JSON.stringify({
   steam: {
     groupLinks: [],
     wishlistLinks: [],
@@ -43,15 +43,15 @@ const defaultTasks: gleamSocialTasks = {
   extra: {
     gleam: []
   }
-};
+});
 const defaultOptions: options = {
   vlootUsername: '',
   gameroundUsername: ''
 };
 class Gleam extends Website {
   name = 'Gleam';
-  undoneTasks: gleamSocialTasks = { ...defaultTasks };
-  socialTasks: gleamSocialTasks = { ...defaultTasks };
+  undoneTasks: gleamSocialTasks = JSON.parse(defaultTasks);
+  socialTasks: gleamSocialTasks = JSON.parse(defaultTasks);
   options = {
     ...defaultOptions,
     ...GM_getValue<options>('GleamOptions')
@@ -118,7 +118,7 @@ class Gleam extends Website {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
       if (action === 'undo') {
-        this.socialTasks = GM_getValue<gleamGMTasks>(`gleamTasks-${this.giveawayId}`)?.tasks || { ...defaultTasks };
+        this.socialTasks = GM_getValue<gleamGMTasks>(`gleamTasks-${this.giveawayId}`)?.tasks || JSON.parse(defaultTasks);
       }
 
       const tasks = $('.entry-content .entry-method');

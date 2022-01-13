@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 20:22:33
- * @LastEditTime : 2022-01-02 12:53:50
+ * @LastEditTime : 2022-01-13 14:11:37
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Prys.ts
  * @Description  : https://prys.revadike.com/
@@ -19,17 +19,17 @@ import __ from '../tools/i18n';
 import { getRedirectLink } from '../tools/tools';
 import { globalOptions } from '../globalOptions';
 
-const defaultTasks: prysSocialTasks = {
+const defaultTasks = JSON.stringify({
   steam: {
     groupLinks: [],
     curatorLinks: []
   }
-};
+});
 
 class Prys extends Website {
   name = 'Prys';
-  socialTasks: prysSocialTasks = { ...defaultTasks };
-  undoneTasks: prysSocialTasks = { ...defaultTasks };
+  socialTasks: prysSocialTasks = JSON.parse(defaultTasks);
+  undoneTasks: prysSocialTasks = JSON.parse(defaultTasks);
   buttons: Array<string> = [
     'doTask',
     'undoTask',
@@ -72,7 +72,7 @@ class Prys extends Website {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
       if (action === 'undo') {
-        this.socialTasks = GM_getValue<prysGMTasks>(`prysTasks-${this.giveawayId}`)?.tasks || { ...defaultTasks };
+        this.socialTasks = GM_getValue<prysGMTasks>(`prysTasks-${this.giveawayId}`)?.tasks || JSON.parse(defaultTasks);
       }
 
       const steps = $('#steps tbody tr');

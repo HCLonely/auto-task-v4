@@ -1,8 +1,11 @@
 {
   "name": "auto-task-v4",
-  "version": "4.1.11-beta",
+  "version": "4.1.12-beta",
   "change": [
-    "修复一处英文文本错误"
+    "Keyhub任务识别优化",
+    "Keylol新增入库免费游戏功能",
+    "Steam凭证更新功能优化",
+    "修复已知BUG"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

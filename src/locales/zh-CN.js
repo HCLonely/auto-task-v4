@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2022-01-09 13:19:36
+ * @LastEditTime : 2022-01-13 11:49:47
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -191,6 +191,9 @@ const data = {
   gettingAreaInfo: '正在获取Steam地区信息...',
   changeAreaNotice: '疑似锁区游戏，尝试换区执行',
   steamFinishNotice: 'Steam任务完成，尝试将购物车地区换回CN',
+  gettingSubid: '正在获取游戏subid',
+  addingFreeLicense: '正在入库',
+  missParams: '缺少参数',
 
   // Discord
   servers: '服务器',

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-13 17:57:40
- * @LastEditTime : 2022-01-06 13:37:17
+ * @LastEditTime : 2022-01-13 14:09:50
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Givekey.ts
  * @Description  : https://givekey.ru
@@ -18,7 +18,7 @@ import { delay, getRedirectLink, unique } from '../tools/tools';
 import throwError from '../tools/throwError';
 import { globalOptions } from '../globalOptions';
 
-const defaultTasks: gkSocialTasks = {
+const defaultTasks = JSON.stringify({
   steam: {
     groupLinks: [],
     wishlistLinks: [],
@@ -34,13 +34,13 @@ const defaultTasks: gkSocialTasks = {
   discord: {
     serverLinks: []
   }
-};
+});
 
 class Givekey extends Website {
   name = 'Givekey';
   tasks: Array<string> = [];
-  socialTasks: gkSocialTasks = { ...defaultTasks };
-  undoneTasks: gkSocialTasks = { ...defaultTasks };
+  socialTasks: gkSocialTasks = JSON.parse(defaultTasks);
+  undoneTasks: gkSocialTasks = JSON.parse(defaultTasks);
   userId!: string;
   buttons: Array<string> = [
     'doTask',
@@ -99,7 +99,7 @@ class Givekey extends Website {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
       if (action === 'undo') {
-        this.socialTasks = GM_getValue<gkGMTasks>(`gkTasks-${this.giveawayId}`)?.tasks || defaultTasks;
+        this.socialTasks = GM_getValue<gkGMTasks>(`gkTasks-${this.giveawayId}`)?.tasks || JSON.parse(defaultTasks);
       }
 
       const tasks = $('.card-body:has("button") .row');

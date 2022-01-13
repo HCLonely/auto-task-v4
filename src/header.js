@@ -12,6 +12,7 @@
 // @updateURL          __UPDATE_URL__
 // @installURL         __UPDATE_URL__
 // @downloadURL        __UPDATE_URL__
+// @icon               https://auto-task-v4.hclonely.com/favicon.ico
 
 // @include            *://freeanywhere.net/*
 // @include            *://giveaway.su/giveaway/view/*

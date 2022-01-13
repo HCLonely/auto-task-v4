@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:36:57
- * @LastEditTime : 2022-01-08 16:54:26
+ * @LastEditTime : 2022-01-13 14:17:27
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitter.ts
  * @Description  : Twitter 关注/取关用户,转推/取消转推推文
@@ -15,10 +15,10 @@ import { unique, delay } from '../tools/tools';
 import __ from '../tools/i18n';
 import { globalOptions } from '../globalOptions';
 
-const defaultTasks: twitterTasks = { users: [], retweets: [], likes: [] };
+const defaultTasks = JSON.stringify({ users: [], retweets: [], likes: [] });
 class Twitter extends Social {
-  tasks = { ...defaultTasks };
-  whiteList: twitterTasks = GM_getValue<whiteList>('whiteList')?.twitter || { ...defaultTasks };
+  tasks: twitterTasks = JSON.parse(defaultTasks);
+  whiteList: twitterTasks = GM_getValue<whiteList>('whiteList')?.twitter || JSON.parse(defaultTasks);
   #verifyId = globalOptions.other.twitterVerifyId;
   #auth: auth = GM_getValue<auth>('twitterAuth') || {};
   #cache: cache = GM_getValue<cache>('twitterCache') || {};

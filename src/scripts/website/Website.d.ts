@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-05 11:32:20
- * @LastEditTime : 2021-12-24 16:07:48
+ * @LastEditTime : 2022-01-13 13:30:41
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Website.d.ts
  * @Description  :
@@ -26,6 +26,7 @@ declare interface steamWebTasks {
   workshopVoteLinks?: Array<string>
   curatorLikeLinks?: Array<string>
   announcementLinks?: Array<string>
+  licenseLinks?: Array<string>
 }
 declare interface twitchWebTasks {
   channelLinks?: Array<string>

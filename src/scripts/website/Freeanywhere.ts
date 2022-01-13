@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:03
- * @LastEditTime : 2022-01-02 12:42:55
+ * @LastEditTime : 2022-01-13 14:08:38
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Freeanywhere.ts
  * @Description  : https://freeanywhere.net
@@ -18,7 +18,7 @@ import __ from '../tools/i18n';
 import httpRequest from '../tools/httpRequest';
 import { delay } from '../tools/tools';
 
-const defaultTasks: fawSocialTasks = {
+const defaultTasks = JSON.stringify({
   steam: {
     groupLinks: [],
     wishlistLinks: [],
@@ -28,13 +28,13 @@ const defaultTasks: fawSocialTasks = {
   vk: {
     nameLinks: []
   }
-};
+});
 
 class FreeAnyWhere extends Website {
   name = 'FreeAnyWhere';
   tasks: Array<fawTaskInfo> = [];
-  socialTasks: fawSocialTasks = { ...defaultTasks };
-  undoneTasks: fawSocialTasks = { ...defaultTasks };
+  socialTasks: fawSocialTasks = JSON.parse(defaultTasks);
+  undoneTasks: fawSocialTasks = JSON.parse(defaultTasks);
   buttons: Array<string> = [
     'doTask',
     'undoTask',
@@ -78,7 +78,7 @@ class FreeAnyWhere extends Website {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
       if (action === 'undo') {
-        this.socialTasks = GM_getValue<fawGMTasks>(`fawTasks-${this.giveawayId}`)?.tasks || { ...defaultTasks };
+        this.socialTasks = GM_getValue<fawGMTasks>(`fawTasks-${this.giveawayId}`)?.tasks || JSON.parse(defaultTasks);
       }
 
       const { result, statusText, status, data } = await httpRequest({
