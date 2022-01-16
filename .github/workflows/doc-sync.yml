@@ -1,0 +1,29 @@
+name: Doc Sync
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  sync:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '16.x'
+    - run: |
+        pnpm install
+        git clone https://github.com/HCLonely/auto-task-doc.git
+        cp -Rf doc/* auto-task-doc/
+        cd auto-task-doc
+        git config user.name 'Doc Sync'
+        git config user.email ${{ secrets.EMAIL }}
+        git add .
+        git commit -m 'Update at ${date "+%Y-%m-%d %H:%M:%S"}'
+        git push
