@@ -3,8 +3,8 @@ name: Doc Sync
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    paths:
+      - 'package.json'
 
 jobs:
   sync:
@@ -17,17 +17,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '16.x'
-    - run: npm install
-    - uses: actions/checkout@v2
-      with:
-        repository: HCLonely/auto-task-doc
-        path: auto-task-doc
     - run: |
-        ls
-        cp -Rf doc/* auto-task-doc/
-        cd auto-task-doc
-        git config user.name 'Doc Sync'
-        git config user.email ${{ secrets.EMAIL }}
-        git add .
-        git commit -m 'Update at ${date "+%Y-%m-%d %H:%M:%S"}'
-        git push
+        npm install
+        node doc-repo-push.js
