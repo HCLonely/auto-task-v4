@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2022-01-16 17:31:53
- * @LastEditTime : 2022-01-16 18:17:07
+ * @LastEditTime : 2022-01-16 18:19:37
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/doc-repo-push.js
  * @Description  : 同步auto-task-doc仓库
@@ -19,7 +19,7 @@ stderr:
   ${stderr}`);
 };
 git('init');
-git('config', 'user.name', 'Doc Sync');
+git('config', 'user.name', 'HCLonely');
 git('config', 'user.email', 'h1606051253@gmail.com');
 git('add', '-A');
 git('commit', '-m', `Update at ${dayjs().format('YYYY-MM-DD HH:mm:ss')}`);
