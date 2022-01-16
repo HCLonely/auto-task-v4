@@ -1,7 +1,7 @@
 {
   "name": "auto-task-doc",
   "version": "4.0.0",
-  "main": "index.js",
+  "main": "package.json",
   "author": "HCLonely",
   "license": "MIT",
   "private": true,
