@@ -23,6 +23,7 @@ jobs:
         repository: HCLonely/auto-task-doc
         path: auto-task-doc
     - run: |
+        ls
         cp -Rf doc/* auto-task-doc/
         cd auto-task-doc
         git config user.name 'Doc Sync'
