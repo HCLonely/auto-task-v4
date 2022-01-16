@@ -18,6 +18,7 @@ jobs:
       with:
         node-version: '16.x'
     - run: |
+        npm install pnpm -g
         pnpm install
         git clone https://github.com/HCLonely/auto-task-doc.git
         cp -Rf doc/* auto-task-doc/
