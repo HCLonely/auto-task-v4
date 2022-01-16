@@ -11,7 +11,7 @@
     "tsc": "tsc",
     "gs": "webpack --config webpack.giveawaysu.config.js",
     "dev": "webpack --config webpack.config.js",
-    "build": "webpack --config webpack.config.js && webpack --config webpack.compatibility.config.js && webpack --config webpack.giveawaysu.config.js && node copy.js && node doc-sync.js"
+    "build": "webpack --config webpack.config.js && webpack --config webpack.compatibility.config.js && webpack --config webpack.giveawaysu.config.js && node copy.js && node doc-sync.js && node release.js"
   },
   "author": "HCLonely <h1606051253@gmail.com>",
   "license": "MIT",
@@ -32,6 +32,7 @@
     "eslint-plugin-import": "^2.24.2",
     "fs-extra": "^10.0.0",
     "js-cookie": "^3.0.1",
+    "js-yaml": "^4.1.0",
     "postcss": "^8.4.5",
     "postcss-loader": "^6.2.1",
     "postcss-preset-env": "^7.1.0",

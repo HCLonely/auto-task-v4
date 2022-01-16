@@ -1,0 +1,25 @@
+name: Release
+'on': workflow_dispatch
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+      - run: npm install && node relrase.js
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          prerelease: true
+          tag_name: v4.1.13-beta
+          name: 4.1.13-beta
+          body: '- 部分功能优化'
+          files: |-
+            dist/auto-task-v4-for-giveawaysu.user.js
+            dist/auto-task-v4.compatibility.user.js
+            dist/auto-task-v4.user.js
+          token: ${{ github.TOKEN }}

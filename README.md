@@ -1,9 +1,10 @@
 # AutoTask
 
-![Test](https://github.com/HCLonely/auto-task/workflows/Test/badge.svg)
-![OSSAR](https://github.com/HCLonely/auto-task/workflows/OSSAR/badge.svg)
-![License](https://img.shields.io/github/license/HCLonely/auto-task-v4?label=License)
-![Release](https://img.shields.io/github/v/release/HCLonely/auto-task-v4?include_prereleases)
+[![Test](https://github.com/HCLonely/auto-task/workflows/Test/badge.svg)](https://github.com/HCLonely/auto-task-v4/actions/workflows/Test.yml)
+[![OSSAR](https://github.com/HCLonely/auto-task/workflows/OSSAR/badge.svg)](https://github.com/HCLonely/auto-task-v4/actions/workflows/ossar-analysis.yml)
+[![Doc Sync](https://github.com/HCLonely/auto-task-v4/actions/workflows/doc-sync.yml/badge.svg)](https://github.com/HCLonely/auto-task-v4/actions/workflows/doc-sync.yml)
+[![License](https://img.shields.io/github/license/HCLonely/auto-task-v4?label=License)](https://github.com/HCLonely/auto-task-v4/blob/main/LICENSE)
+[![Release](https://img.shields.io/github/v/release/HCLonely/auto-task-v4?include_prereleases)](https://github.com/HCLonely/auto-task-v4/releases)
 
 自动完成 Key 站任务。
 
