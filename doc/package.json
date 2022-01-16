@@ -4,7 +4,6 @@
   "main": "package.json",
   "author": "HCLonely",
   "license": "MIT",
-  "private": true,
   "devDependencies": {
     "@vuepress/plugin-back-to-top": "^1.6.0",
     "vuepress": "^1.6.0"
