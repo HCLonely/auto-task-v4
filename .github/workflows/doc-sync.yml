@@ -17,9 +17,12 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '16.x'
+    - run: npm install
+    - uses: actions/checkout@v2
+      with:
+        repository: HCLonely/auto-task-doc
+        path: auto-task-doc
     - run: |
-        npm install
-        git clone https://github.com/HCLonely/auto-task-doc.git
         cp -Rf doc/* auto-task-doc/
         cd auto-task-doc
         git config user.name 'Doc Sync'
