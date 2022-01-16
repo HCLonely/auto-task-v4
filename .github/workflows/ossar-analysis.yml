@@ -5,7 +5,6 @@ name: OSSAR
 
 on:
   push:
-    branches: [master]
   pull_request:
 
 jobs:

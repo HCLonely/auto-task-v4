@@ -10,7 +10,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
-      - run: npm install && node relrase.js
+      - run: npm install
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
