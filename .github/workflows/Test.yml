@@ -16,16 +16,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: pnpm/action-setup@v2.0.1
-      with:
-        version: 6.24.2
     - name: Use Node.js
       uses: actions/setup-node@v1
       with:
         node-version: '16.x'
-        cache: 'pnpm'
-    - name: Install dependencies
-      run: pnpm install
+    - run: npm install
     - run: npm test
       env:
         CI: true

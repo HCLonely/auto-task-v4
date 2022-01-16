@@ -2,7 +2,7 @@ name: Doc Sync
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
@@ -17,19 +17,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '16.x'
-    - name: Cache pnpm modules
-      uses: actions/cache@v2
-      with:
-        path: ~/.pnpm-store
-        key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-        restore-keys: |
-          ${{ runner.os }}-
-    - name: Setup PNPM
-      uses: pnpm/action-setup@v2.0.1
-      with:
-        version: 6.24.2
-        run_install: true
     - run: |
+        npm install
         git clone https://github.com/HCLonely/auto-task-doc.git
         cp -Rf doc/* auto-task-doc/
         cd auto-task-doc
