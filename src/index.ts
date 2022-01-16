@@ -1,10 +1,10 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2022-01-09 13:20:03
+ * @LastEditTime : 2022-01-16 13:42:04
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
- * @Description  :
+ * @Description  : 入口文件
  */
 
 import Swal from 'sweetalert2';
@@ -19,6 +19,8 @@ import keyboardJS from 'keyboardjs';
 // import syncOptions from './scripts/dataSync';
 import updateChecker from './scripts/updateChecker';
 import echoLog from './scripts/echoLog';
+
+window.STYLE = GM_addStyle(style + GM_getResourceText('style'));
 
 declare const commonOptions: {
   headers?: {
@@ -182,7 +184,6 @@ const loadScript = async () => {
     });
   }
 
-  GM_addStyle(style);
   console.log('%c%s', 'color:#1bbe1a', 'Auto Task脚本初始化完成！');
 
   if (!GM_getValue<number>('notice')) {

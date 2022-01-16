@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2022-01-02 20:00:06
+ * @LastEditTime : 2022-01-15 22:31:27
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/for_giveawaysu/Giveawaysu.ts
  * @Description  : https://giveaway.su/
@@ -67,7 +67,8 @@ class GiveawaySu {
     twitch: false,
     vk: false,
     youtube: false,
-    steam: false
+    steamStore: false,
+    steamCommunity: false
   };
   initialized = false;
   social: {
@@ -297,10 +298,19 @@ class GiveawaySu {
         }
       }
       if (tasks.steam) {
-        const hasSteam = Object.values(tasks.steam).reduce((total, arr) => [...total, ...arr]).length > 0;
-        if (hasSteam && !this.socialInitialized.steam) {
-          this.social.steam = new Steam();
-          pro.push(this.#bind('steam', this.social.steam.init()));
+        const steamLength = Object.values(tasks.steam).reduce((total, arr) => [...total, ...arr]).length;
+        if (steamLength > 0) {
+          if (!this.social.steam) this.social.steam = new Steam();
+          const steamCommunityLength = Object.keys(tasks.steam).map((type) => (
+            ['groupLinks', 'forumLinks', 'workshopLinks', 'workshopVoteLinks'].includes(type) ?
+              (tasks.steam?.[type as keyof typeof tasks.steam]?.length || 0) : 0))
+            .reduce((total, number) => total + number, 0);
+          if (steamLength - steamCommunityLength > 0 && !this.socialInitialized.steamStore) {
+            pro.push(this.#bind('steamStore', this.social.steam.init('store')));
+          }
+          if (steamCommunityLength > 0 && !this.socialInitialized.steamCommunity) {
+            pro.push(this.#bind('steamCommunity', this.social.steam.init('community')));
+          }
         }
       }
 
@@ -378,7 +388,8 @@ class GiveawaySu {
   async doTask(): Promise<boolean> {
     try {
       $('#getKey').on('click', () => {
-        $('#auto-task-info-div,style:contains(".swal2-popup.swal2-toast")').remove();
+        $('#auto-task-info-div').remove();
+        $(window.STYLE).remove();
         $('#getKey').off();
       });
       return await this.#toggleTask();

@@ -2,14 +2,13 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-12 17:39:48
- * @LastEditTime : 2021-12-30 15:26:44
+ * @LastEditTime : 2022-01-16 14:27:44
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/webpack.compatibility.config.js
- * @Description  :
  */
 const fs = require('fs');
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const { DefinePlugin } = require('webpack');
 const VERSION = JSON.parse(fs.readFileSync('package.json')).version;
 const NAME = 'auto-task-v4.compatibility';
@@ -86,9 +85,11 @@ module.exports = {
     })
   ],
   optimization: {
-    minimizer: [new UglifyJsPlugin({
-      sourceMap: false,
-      uglifyOptions: {
+    minimize: true,
+    minimizer: [new TerserPlugin({
+      minify: TerserPlugin.uglifyJsMinify,
+      terserOptions: {
+        sourceMap: false,
         output: {
           preamble: fs.readFileSync('./src/header.js').toString()
             .replace(/__VERSION__/g, VERSION)

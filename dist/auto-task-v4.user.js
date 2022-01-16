@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.1.12-beta
+// @version            4.1.13-beta
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -44,6 +44,7 @@
 // @grant              GM_info
 // @grant              GM_openInTab
 // @grant              GM_setClipboard
+// @grant              GM_getResourceText
 // @grant              unsafeWindow
 // @grant              window.close
 // @grant              window.localStorage
@@ -85,11 +86,11 @@
 // @require            https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js
 // @require            https://cdn.jsdelivr.net/npm/regenerator-runtime@0.13.5/runtime.min.js
 // @require            https://cdn.jsdelivr.net/npm/js-sha1@0.6.0/src/sha1.min.js
-// @require            https://cdn.jsdelivr.net/npm/sweetalert2@11
+// @require            https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js
+// @resource           style https://cdn.jsdelivr.net/npm/sweetalert2@11.3.5/dist/sweetalert2.min.css
 // @require            https://cdn.jsdelivr.net/npm/keyboardjs@2.6.4/dist/keyboard.min.js
 // @require            https://cdn.jsdelivr.net/npm/dayjs@1.10.7/dayjs.min.js
 
-// @compatible         Tampermonkey Only
 // @noframes
 // ==/UserScript==
 
@@ -10462,6 +10463,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
     };
     const scripts_updateChecker = updateChecker;
+    window.STYLE = GM_addStyle(auto_task.Z + GM_getResourceText('style'));
     if (window.location.hostname === 'discord.com') {
       var _window$localStorage, _window$localStorage$;
       const discordAuth = (_window$localStorage = window.localStorage) === null || _window$localStorage === void 0 ? void 0 : (_window$localStorage$ = _window$localStorage.getItem('token')) === null || _window$localStorage$ === void 0 ? void 0 : _window$localStorage$.replace(/^"|"$/g, '');
@@ -10604,7 +10606,6 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           window.open('https://auto-task-v4.hclonely.com/setting.html', '_blank');
         });
       }
-      GM_addStyle(auto_task.Z);
       console.log('%c%s', 'color:#1bbe1a', 'Auto Task脚本初始化完成！');
       if (!GM_getValue('notice')) {
         var _echoLog$font;

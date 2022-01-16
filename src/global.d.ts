@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 13:18:21
- * @LastEditTime : 2022-01-06 12:03:45
+ * @LastEditTime : 2022-01-15 22:08:20
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/global.d.ts
  */
@@ -173,13 +173,14 @@ declare global {
   /* eslint-disable camelcase */
   const GM_info: gmInfo;
   function GM_xmlhttpRequest(details: MonkeyXhrDetails): { abort: () => void }
-  function GM_addStyle(style: string): void
+  function GM_addStyle(style: string): HTMLElement
   function GM_setValue(name: string, value: any): void
   function GM_getValue<T>(name: string, defaultValue?: T): undefined | T
   function GM_listValues(): Array<string>
   function GM_deleteValue(name: string): void
   function GM_registerMenuCommand(name: string, callback: () => void): void
   function GM_setClipboard(text: string, type?: string): void
+  function GM_getResourceText(name: string): string
   function GM_openInTab(url: string, options?: {
     active?: boolean
     insert?: boolean
@@ -197,6 +198,9 @@ declare global {
     [key: string]: any
   }
 
+  interface Window {
+    STYLE: HTMLElement
+  }
 }
 
 export { };

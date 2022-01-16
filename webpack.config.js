@@ -2,13 +2,13 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 16:22:46
- * @LastEditTime : 2022-01-08 21:07:07
+ * @LastEditTime : 2022-01-16 14:27:48
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/webpack.config.js
  */
 const fs = require('fs');
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const { DefinePlugin } = require('webpack');
 const VERSION = JSON.parse(fs.readFileSync('package.json')).version;
 const NAME = 'auto-task-v4';
@@ -90,9 +90,11 @@ module.exports = {
     })
   ],
   optimization: {
-    minimizer: [new UglifyJsPlugin({
-      sourceMap: false,
-      uglifyOptions: {
+    minimize: true,
+    minimizer: [new TerserPlugin({
+      minify: TerserPlugin.uglifyJsMinify,
+      terserOptions: {
+        sourceMap: false,
         compress: false,
         mangle: false,
         output: {

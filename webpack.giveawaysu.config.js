@@ -2,15 +2,14 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 16:22:46
- * @LastEditTime : 2022-01-02 21:12:12
+ * @LastEditTime : 2022-01-16 14:27:58
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/webpack.giveawaysu.config.js
- * @Description  :
  */
 const fs = require('fs');
 const path = require('path');
 const { DefinePlugin } = require('webpack');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const VERSION = JSON.parse(fs.readFileSync('package.json')).version;
 const NAME = 'auto-task-v4-for-giveawaysu';
 
@@ -53,6 +52,28 @@ module.exports = {
           }
         ],
         exclude: /node_modules/
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          {
+            loader: 'css-loader',
+            options: {
+              exportType: 'string'
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  'postcss-preset-env'
+                ]
+              }
+            }
+          },
+          'sass-loader'
+        ]
       }
     ]
   },
@@ -63,8 +84,10 @@ module.exports = {
     })
   ],
   optimization: {
-    minimizer: [new UglifyJsPlugin({
-      uglifyOptions: {
+    minimize: true,
+    minimizer: [new TerserPlugin({
+      minify: TerserPlugin.uglifyJsMinify,
+      terserOptions: {
         sourceMap: false,
         output: {
           preamble: fs.readFileSync('./src/for_giveawaysu/header.js').toString()

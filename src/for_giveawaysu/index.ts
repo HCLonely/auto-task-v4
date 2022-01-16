@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2022-01-02 12:34:24
+ * @LastEditTime : 2022-01-15 22:11:49
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/for_giveawaysu/index.ts
  * @Description  :
@@ -11,6 +11,9 @@ import Swal from 'sweetalert2';
 import * as Cookies from 'js-cookie';
 import __ from '../scripts/tools/i18n';
 import Giveawaysu from './Giveawaysu';
+import style from './index.scss';
+
+window.STYLE = GM_addStyle(style + GM_getResourceText('style'));
 
 declare const commonOptions: {
   headers?: {
@@ -80,7 +83,7 @@ const loadScript = async () => {
   $('#auto-do-task').on('click', () => { website.doTask(); });
   $('#auto-verify-task').on('click', () => { website.verifyTask(); });
 
-  console.log('%c%s', 'color:#1bbe1a', 'Auto TaskGS特供脚本初始化完成！');
+  console.log('%c%s', 'color:#1bbe1a', 'Auto Task GS特供脚本初始化完成！');
 };
 
 $(loadScript);

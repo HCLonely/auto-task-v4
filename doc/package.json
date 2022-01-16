@@ -1,0 +1,16 @@
+{
+  "name": "auto-task-doc",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "HCLonely",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@vuepress/plugin-back-to-top": "^1.6.0",
+    "vuepress": "^1.6.0"
+  },
+  "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
+  }
+}

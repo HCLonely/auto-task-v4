@@ -11,6 +11,7 @@
 // @updateURL          __UPDATE_URL__
 // @installURL         __UPDATE_URL__
 // @downloadURL        __UPDATE_URL__
+// @icon               https://auto-task-v4.hclonely.com/favicon.ico
 
 // @include            *://giveaway.su/giveaway/view/*
 // @include            *://discord.com/*
@@ -18,11 +19,13 @@
 // @include            *://www.youtube.com/*
 // @include            *://*.reddit.com/*
 
+// @grant              GM_addStyle
 // @grant              GM_setValue
 // @grant              GM_getValue
 // @grant              GM_xmlhttpRequest
 // @grant              GM_registerMenuCommand
 // @grant              GM_info
+// @grant              GM_getResourceText
 // @grant              GM_openInTab
 // @grant              window.close
 // @grant              window.localStorage
@@ -55,9 +58,10 @@
 // @require            https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js
 // @require            https://cdn.jsdelivr.net/npm/regenerator-runtime@0.13.5/runtime.min.js
 // @require            https://cdn.jsdelivr.net/npm/js-sha1@0.6.0/src/sha1.min.js
-// @require            https://cdn.jsdelivr.net/npm/sweetalert2@11
+// @require            https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js
+// @resource           style https://cdn.jsdelivr.net/npm/sweetalert2@11.3.5/dist/sweetalert2.min.css
+// @require            https://cdn.jsdelivr.net/npm/keyboardjs@2.6.4/dist/keyboard.min.js
 
-// @compatible         Tampermonkey Only
 // @noframes
 // ==/UserScript==
 

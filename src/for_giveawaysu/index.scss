@@ -1,0 +1,26 @@
+#auto-task-info {
+  li {
+    text-align: left;
+
+    a.high-light {
+      color: #00aeff;
+      font-weight: bold;
+    }
+  }
+
+  .success {
+    color: green;
+  }
+
+  .error {
+    color: red;
+  }
+
+  .warning {
+    color: blue;
+  }
+
+  .info {
+    color: yellow;
+  }
+}
