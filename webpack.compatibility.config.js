@@ -2,7 +2,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-12 17:39:48
- * @LastEditTime : 2022-01-16 14:27:44
+ * @LastEditTime : 2022-01-16 19:54:04
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/webpack.compatibility.config.js
  */
@@ -10,6 +10,7 @@ const fs = require('fs');
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const { DefinePlugin } = require('webpack');
+const WebpackBar = require('webpackbar');
 const VERSION = JSON.parse(fs.readFileSync('package.json')).version;
 const NAME = 'auto-task-v4.compatibility';
 
@@ -78,6 +79,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new WebpackBar(),
     new DefinePlugin({
       __VERSION__: VERSION,
       __NAME__: NAME,
