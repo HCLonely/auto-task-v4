@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.1.13-beta
+// @version            4.1.14-beta
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1323,6 +1323,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       joiningDiscordServer: '正在加入Discord服务器',
       leavingDiscordServer: '正在退出Discord服务器',
       gettingDiscordGuild: '正在获取Discord服务器Id',
+      getDiscordAuthFailed: '获取Discord凭证失败，请检测Discord帐号是否已登录',
       users: '用户',
       loginIns: '请先<a href="https://www.instagram.com/accounts/login/" target="_blank">登录Instagram</a>',
       insBanned: '您的Instagram账户已被封禁',
@@ -1567,6 +1568,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       joiningDiscordServer: 'Joining Discord Server',
       leavingDiscordServer: 'Leaving Discord Server',
       gettingDiscordGuild: 'Getting Discord server Id',
+      getDiscordAuthFailed: 'Failed to get Discord token, please check whether the Discord account is logged in',
       users: 'User',
       loginIns: 'Please <a href="https://www.instagram.com/accounts/login/" target="_blank">log in to Instagram</a>',
       insBanned: 'Your Instagram account has been banned',
@@ -6171,49 +6173,49 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           const tasks = action === 'do' ? this.undoneTasks : this.socialTasks;
           if (tasks.discord) {
             const hasDiscord = Object.values(tasks.discord).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
-            if (hasDiscord && !this.socialInitialized.discord && !this.social.discord) {
+            if (hasDiscord && (!this.socialInitialized.discord || !this.social.discord)) {
               this.social.discord = new social_Discord();
               pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'discord', this.social.discord.init()));
             }
           }
           if (tasks.instagram) {
             const hasInstagram = Object.values(tasks.instagram).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
-            if (hasInstagram && !this.socialInitialized.instagram && !this.social.instagram) {
+            if (hasInstagram && (!this.socialInitialized.instagram || !this.social.instagram)) {
               this.social.instagram = new social_Instagram();
               pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'instagram', this.social.instagram.init()));
             }
           }
           if (tasks.reddit) {
             const hasReddit = Object.values(tasks.reddit).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
-            if (hasReddit && !this.socialInitialized.reddit && !this.social.reddit) {
+            if (hasReddit && (!this.socialInitialized.reddit || !this.social.reddit)) {
               this.social.reddit = new social_Reddit();
               pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'reddit', this.social.reddit.init()));
             }
           }
           if (tasks.twitch) {
             const hasTwitch = Object.values(tasks.twitch).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
-            if (hasTwitch && !this.socialInitialized.twitch && !this.social.twitch) {
+            if (hasTwitch && (!this.socialInitialized.twitch || !this.social.twitch)) {
               this.social.twitch = new social_Twitch();
               pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'twitch', this.social.twitch.init()));
             }
           }
           if (tasks.twitter) {
             const hasTwitter = Object.values(tasks.twitter).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
-            if (hasTwitter && !this.socialInitialized.twitter && !this.social.twitter) {
+            if (hasTwitter && (!this.socialInitialized.twitter || !this.social.twitter)) {
               this.social.twitter = new social_Twitter();
               pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'twitter', this.social.twitter.init()));
             }
           }
           if (tasks.vk) {
             const hasVk = Object.values(tasks.vk).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
-            if (hasVk && !this.socialInitialized.vk && !this.social.vk) {
+            if (hasVk && (!this.socialInitialized.vk || !this.social.vk)) {
               this.social.vk = new social_Vk();
               pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'vk', this.social.vk.init()));
             }
           }
           if (tasks.youtube) {
             const hasYoutube = Object.values(tasks.youtube).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
-            if (hasYoutube && !this.socialInitialized.youtube && !this.social.youtube) {
+            if (hasYoutube && (!this.socialInitialized.youtube || !this.social.youtube)) {
               this.social.youtube = new Youtube();
               pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'youtube', this.social.youtube.init()));
             }
@@ -10467,12 +10469,19 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     if (window.location.hostname === 'discord.com') {
       var _window$localStorage, _window$localStorage$;
       const discordAuth = (_window$localStorage = window.localStorage) === null || _window$localStorage === void 0 ? void 0 : (_window$localStorage$ = _window$localStorage.getItem('token')) === null || _window$localStorage$ === void 0 ? void 0 : _window$localStorage$.replace(/^"|"$/g, '');
-      GM_setValue('discordAuth', {
-        auth: discordAuth
-      });
-      if (discordAuth && window.location.hash === '#auth') {
-        window.close();
-        external_Swal_default().fire('', i18n('closePageNotice'));
+      if (discordAuth && /^mfa\./.test(discordAuth)) {
+        GM_setValue('discordAuth', {
+          auth: discordAuth
+        });
+        if (window.location.hash === '#auth') {
+          window.close();
+          external_Swal_default().fire('', i18n('closePageNotice'));
+        }
+      } else {
+        external_Swal_default().fire({
+          text: i18n('getDiscordAuthFailed'),
+          icon: 'error'
+        });
       }
     }
     const loadScript = async () => {

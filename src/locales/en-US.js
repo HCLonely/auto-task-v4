@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2022-01-13 11:50:06
+ * @LastEditTime : 2022-01-17 10:46:18
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/en-US.js
  * @Description  : i18n英文
@@ -216,6 +216,7 @@ const data = {
   joiningDiscordServer: 'Joining Discord Server',
   leavingDiscordServer: 'Leaving Discord Server',
   gettingDiscordGuild: 'Getting Discord server Id',
+  getDiscordAuthFailed: 'Failed to get Discord token, please check whether the Discord account is logged in',
 
   // Instagram
   users: 'User',

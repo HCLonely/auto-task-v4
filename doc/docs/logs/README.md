@@ -5,6 +5,13 @@ lang: zh-CN
 
 ## V4.1
 
+### V4.1.14-beta
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.1.14-beta)
+
+- 初始化逻辑优化
+- Discord获取凭证逻辑优化
+
 ### V4.1.13-beta
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.1.13-beta)

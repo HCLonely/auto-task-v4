@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:28
- * @LastEditTime : 2022-01-13 13:57:48
+ * @LastEditTime : 2022-01-17 10:27:02
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Website.ts
  * @Description  :
@@ -70,49 +70,49 @@ abstract class Website {
       const tasks = action === 'do' ? this.undoneTasks : this.socialTasks;
       if (tasks.discord) {
         const hasDiscord = Object.values(tasks.discord).reduce((total, arr) => [...total, ...arr]).length > 0;
-        if (hasDiscord && !this.socialInitialized.discord && !this.social.discord) {
+        if (hasDiscord && (!this.socialInitialized.discord || !this.social.discord)) {
           this.social.discord = new Discord();
           pro.push(this.#bind('discord', this.social.discord.init()));
         }
       }
       if (tasks.instagram) {
         const hasInstagram = Object.values(tasks.instagram).reduce((total, arr) => [...total, ...arr]).length > 0;
-        if (hasInstagram && !this.socialInitialized.instagram && !this.social.instagram) {
+        if (hasInstagram && (!this.socialInitialized.instagram || !this.social.instagram)) {
           this.social.instagram = new Instagram();
           pro.push(this.#bind('instagram', this.social.instagram.init()));
         }
       }
       if (tasks.reddit) {
         const hasReddit = Object.values(tasks.reddit).reduce((total, arr) => [...total, ...arr]).length > 0;
-        if (hasReddit && !this.socialInitialized.reddit && !this.social.reddit) {
+        if (hasReddit && (!this.socialInitialized.reddit || !this.social.reddit)) {
           this.social.reddit = new Reddit();
           pro.push(this.#bind('reddit', this.social.reddit.init()));
         }
       }
       if (tasks.twitch) {
         const hasTwitch = Object.values(tasks.twitch).reduce((total, arr) => [...total, ...arr]).length > 0;
-        if (hasTwitch && !this.socialInitialized.twitch && !this.social.twitch) {
+        if (hasTwitch && (!this.socialInitialized.twitch || !this.social.twitch)) {
           this.social.twitch = new Twitch();
           pro.push(this.#bind('twitch', this.social.twitch.init()));
         }
       }
       if (tasks.twitter) {
         const hasTwitter = Object.values(tasks.twitter).reduce((total, arr) => [...total, ...arr]).length > 0;
-        if (hasTwitter && !this.socialInitialized.twitter && !this.social.twitter) {
+        if (hasTwitter && (!this.socialInitialized.twitter || !this.social.twitter)) {
           this.social.twitter = new Twitter();
           pro.push(this.#bind('twitter', this.social.twitter.init()));
         }
       }
       if (tasks.vk) {
         const hasVk = Object.values(tasks.vk).reduce((total, arr) => [...total, ...arr]).length > 0;
-        if (hasVk && !this.socialInitialized.vk && !this.social.vk) {
+        if (hasVk && (!this.socialInitialized.vk || !this.social.vk)) {
           this.social.vk = new Vk();
           pro.push(this.#bind('vk', this.social.vk.init()));
         }
       }
       if (tasks.youtube) {
         const hasYoutube = Object.values(tasks.youtube).reduce((total, arr) => [...total, ...arr]).length > 0;
-        if (hasYoutube && !this.socialInitialized.youtube && !this.social.youtube) {
+        if (hasYoutube && (!this.socialInitialized.youtube || !this.social.youtube)) {
           this.social.youtube = new Youtube();
           pro.push(this.#bind('youtube', this.social.youtube.init()));
         }

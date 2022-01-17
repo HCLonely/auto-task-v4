@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2022-01-13 11:49:47
+ * @LastEditTime : 2022-01-17 10:44:54
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -200,6 +200,7 @@ const data = {
   joiningDiscordServer: '正在加入Discord服务器',
   leavingDiscordServer: '正在退出Discord服务器',
   gettingDiscordGuild: '正在获取Discord服务器Id',
+  getDiscordAuthFailed: '获取Discord凭证失败，请检测Discord帐号是否已登录',
 
   // Instagram
   users: '用户',

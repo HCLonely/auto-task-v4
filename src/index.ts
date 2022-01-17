@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2022-01-16 13:42:04
+ * @LastEditTime : 2022-01-17 10:45:01
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  : 入口文件
@@ -30,10 +30,17 @@ declare const commonOptions: {
 
 if (window.location.hostname === 'discord.com') {
   const discordAuth = window.localStorage?.getItem('token')?.replace(/^"|"$/g, '');
-  GM_setValue('discordAuth', { auth: discordAuth });
-  if (discordAuth && window.location.hash === '#auth') {
-    window.close();
-    Swal.fire('', __('closePageNotice'));
+  if (discordAuth && /^mfa\./.test(discordAuth)) {
+    GM_setValue('discordAuth', { auth: discordAuth });
+    if (window.location.hash === '#auth') {
+      window.close();
+      Swal.fire('', __('closePageNotice'));
+    }
+  } else {
+    Swal.fire({
+      text: __('getDiscordAuthFailed'),
+      icon: 'error'
+    });
   }
 }
 

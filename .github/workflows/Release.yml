@@ -1,5 +1,8 @@
 name: Release
-'on': workflow_dispatch
+'on':
+  push:
+    branches:
+      - main
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -15,9 +18,11 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: true
-          tag_name: v4.1.13-beta
-          name: 4.1.13-beta
-          body: '- 部分功能优化'
+          tag_name: v4.1.14-beta
+          name: 4.1.14-beta
+          body: |-
+            - 初始化逻辑优化
+            - Discord获取凭证逻辑优化
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2022-01-16 19:03:01
- * @LastEditTime : 2022-01-16 19:46:57
+ * @LastEditTime : 2022-01-17 11:04:05
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/release.js
  * @Description  : 自动发布Release
@@ -31,6 +31,11 @@ if (version === releaseStep.with.name) {
   console.log(`Version ${chalk.yellow.bold('not be changed')}!`);
   return console.log(`Release action changed ${chalk.green.bold('successfully')}!`);
 }
+settings.on = {
+  push: {
+    branches: ['main']
+  }
+};
 options.prerelease = version.includes('-');
 options.tag_name = `v${version}`;
 options.name = version;
