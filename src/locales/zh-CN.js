@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2022-01-17 10:44:54
+ * @LastEditTime : 2022-01-17 18:17:00
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -194,6 +194,7 @@ const data = {
   gettingSubid: '正在获取游戏subid',
   addingFreeLicense: '正在入库',
   missParams: '缺少参数',
+  gettingLicenses: '正在获取Licenses...',
 
   // Discord
   servers: '服务器',

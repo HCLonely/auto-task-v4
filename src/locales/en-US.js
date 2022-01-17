@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2022-01-17 10:46:18
+ * @LastEditTime : 2022-01-17 18:17:21
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/en-US.js
  * @Description  : i18n英文
@@ -210,6 +210,7 @@ const data = {
   gettingSubid: 'Getting subid',
   addingFreeLicense: 'Adding free license',
   missParams: 'Missing parameters',
+  gettingLicenses: 'Getting licenses...',
 
   // Discord
   servers: 'Server',

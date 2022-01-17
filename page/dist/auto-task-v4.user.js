@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.1.14-beta
+// @version            4.1.15-beta
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -672,6 +672,10 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
             ele = $(`<li>${i18n(type)}<a href="https://store.steampowered.com/app/${text}" target="_blank">${text}</a>...<font></font></li>`);
             break;
 
+           case 'addingFreeLicenseSubid':
+            ele = $(`<li>${i18n('addingFreeLicense')}<a href="https://steamdb.info/sub/${text}/" target="_blank">${text}</a>...<font></font></li>`);
+            break;
+
            case 'favoritingWorkshop':
            case 'unfavoritingWorkshop':
            case 'gettingWorkshopAppId':
@@ -1319,6 +1323,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       gettingSubid: '正在获取游戏subid',
       addingFreeLicense: '正在入库',
       missParams: '缺少参数',
+      gettingLicenses: '正在获取Licenses...',
       servers: '服务器',
       joiningDiscordServer: '正在加入Discord服务器',
       leavingDiscordServer: '正在退出Discord服务器',
@@ -1564,6 +1569,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       gettingSubid: 'Getting subid',
       addingFreeLicense: 'Adding free license',
       missParams: 'Missing parameters',
+      gettingLicenses: 'Getting licenses...',
       servers: 'Server',
       joiningDiscordServer: 'Joining Discord Server',
       leavingDiscordServer: 'Leaving Discord Server',
@@ -4680,6 +4686,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     var _getAnnouncementParams = new WeakSet();
     var _likeAnnouncement = new WeakSet();
     var _appid2subid = new WeakSet();
+    var _getLicenses = new WeakSet();
     var _addLicense = new WeakSet();
     var _addFreeLicense = new WeakSet();
     var Steam_setCache = new WeakSet();
@@ -4690,6 +4697,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         Steam_classPrivateMethodInitSpec(this, Steam_setCache);
         Steam_classPrivateMethodInitSpec(this, _addFreeLicense);
         Steam_classPrivateMethodInitSpec(this, _addLicense);
+        Steam_classPrivateMethodInitSpec(this, _getLicenses);
         Steam_classPrivateMethodInitSpec(this, _appid2subid);
         Steam_classPrivateMethodInitSpec(this, _likeAnnouncement);
         Steam_classPrivateMethodInitSpec(this, _getAnnouncementParams);
@@ -6030,41 +6038,98 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         return false;
       }
     }
-    async function _addLicense2(id) {
+    async function _getLicenses2() {
       try {
-        const subid = await Steam_classPrivateMethodGet(this, _appid2subid, _appid2subid2).call(this, id);
-        if (!subid) {
-          return false;
-        }
         const logStatus = scripts_echoLog({
-          type: 'addingFreeLicense',
-          text: id
+          text: i18n('gettingLicenses')
         });
-        if (!await Steam_classPrivateMethodGet(this, _addFreeLicense, _addFreeLicense2).call(this, subid, logStatus)) {
-          return false;
-        }
         const {
           result,
           statusText,
           status,
           data
         } = await tools_httpRequest({
-          url: `https://store.steampowered.com/app/${id}`,
+          url: 'https://store.steampowered.com/account/licenses/',
           method: 'GET'
         });
         if (result === 'Success') {
           if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            if (data.responseText.includes('ds_owned_flag ds_flag') || data.responseText.includes('class="already_in_library"')) {
-              logStatus.success();
-              return true;
-            }
-            logStatus.error(`Error:${data.statusText}(${data.status})`);
-            return false;
+            logStatus.success();
+            return [ ...data.responseText.matchAll(/RemoveFreeLicense\([\s]*?([\d]+)/g) ].map(arr => arr[1]).filter(subid => subid);
           }
           logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
           return false;
         }
         logStatus.error(`${result}:${statusText}(${status})`);
+        return false;
+      } catch (error) {
+        throwError(error, 'Steam.getLicenses');
+        return false;
+      }
+    }
+    async function _addLicense2(id) {
+      try {
+        const [ type, ids ] = id.split('-');
+        if (type === 'appid') {
+          const subid = await Steam_classPrivateMethodGet(this, _appid2subid, _appid2subid2).call(this, ids);
+          if (!subid) {
+            return false;
+          }
+          const logStatus = scripts_echoLog({
+            type: 'addingFreeLicense',
+            text: ids
+          });
+          if (!await Steam_classPrivateMethodGet(this, _addFreeLicense, _addFreeLicense2).call(this, subid, logStatus)) {
+            return false;
+          }
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://store.steampowered.com/app/${ids}`,
+            method: 'GET'
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              if (data.responseText.includes('ds_owned_flag ds_flag') || data.responseText.includes('class="already_in_library"')) {
+                logStatus.success();
+                return true;
+              }
+              logStatus.error(`Error:${data.statusText}(${data.status})`);
+              return false;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } else if (type === 'subid') {
+          const logStatusArr = {};
+          for (const subid of ids.split(',')) {
+            const logStatus = scripts_echoLog({
+              type: 'addingFreeLicenseSubid',
+              text: subid
+            });
+            if (!await Steam_classPrivateMethodGet(this, _addFreeLicense, _addFreeLicense2).call(this, subid, logStatus)) {
+              return false;
+            }
+            logStatusArr[subid] = logStatus;
+          }
+          const licenses = await Steam_classPrivateMethodGet(this, _getLicenses, _getLicenses2).call(this);
+          if (!licenses) {
+            return false;
+          }
+          for (const subid of ids.split(',')) {
+            if (licenses.includes(subid)) {
+              logStatusArr[subid].success();
+            } else {
+              logStatusArr[subid].error();
+            }
+          }
+          return true;
+        }
         return false;
       } catch (error) {
         throwError(error, 'Steam.addLicense');
@@ -6096,7 +6161,6 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         });
         if (result === 'Success') {
           if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            logStatus.success();
             return true;
           }
           logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
@@ -6105,6 +6169,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         logStatus.error(`${result}:${statusText}(${status})`);
         return false;
       } catch (error) {
+        logStatus.error();
         throwError(error, 'Steam.addFreeLicense');
         return false;
       }
@@ -8662,7 +8727,17 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
                 if (!link) {
                   continue;
                 }
-                Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, $(`a[href="${link}"]`).after('<span style="color: #ccc; margin: 0 -5px 0 5px"> | </span>').next()[0], 'steam', 'licenseLinks', link.replace('#asf', ''));
+                Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, $(`a[href="${link}"]`).after('<span style="color: #ccc; margin: 0 -5px 0 5px"> | </span>').next()[0], 'steam', 'licenseLinks', `appid-${link.replace('#asf', '')}`);
+              }
+            }
+            const asfLinks2 = mainPost.find('.blockcode:contains("addlicense")');
+            if (asfLinks2.length > 0) {
+              for (const asfLink of asfLinks2) {
+                const subid = [ ...asfLink.innerText.matchAll(/s\/([\d]+)/g) ].map(arr => arr[1]);
+                if (subid.length === 0) {
+                  continue;
+                }
+                Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, $(asfLink).children('em')[0], 'steam', 'licenseLinks', `subid-${subid.join(',')}`);
               }
             }
           }

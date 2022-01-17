@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:03:26
- * @LastEditTime : 2022-01-13 11:55:00
+ * @LastEditTime : 2022-01-17 18:06:18
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/echoLog.ts
  * @Description  :
@@ -45,6 +45,9 @@ const echoLog = ({ type, text, html, id }: { type?: string, text?: string, html?
       case 'gettingSubid':
       case 'addingFreeLicense':
         ele = $(`<li>${__(type)}<a href="https://store.steampowered.com/app/${text}" target="_blank">${text}</a>...<font></font></li>`);
+        break;
+      case 'addingFreeLicenseSubid':
+        ele = $(`<li>${__('addingFreeLicense')}<a href="https://steamdb.info/sub/${text}/" target="_blank">${text}</a>...<font></font></li>`);
         break;
       case 'favoritingWorkshop':
       case 'unfavoritingWorkshop':

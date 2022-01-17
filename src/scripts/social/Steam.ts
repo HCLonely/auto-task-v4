@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2022-01-13 14:21:40
+ * @LastEditTime : 2022-01-17 18:44:27
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -980,31 +980,73 @@ class Steam extends Social {
       return false;
     }
   }
-  async #addLicense(id: string): Promise<boolean> {
+  async #getLicenses(): Promise<Array<string> | false> {
     try {
-      const subid = await this.#appid2subid(id);
-      if (!subid) return false;
-
-      const logStatus = echoLog({ type: 'addingFreeLicense', text: id });
-      if (!await this.#addFreeLicense(subid, logStatus)) return false;
-
+      const logStatus = echoLog({ text: __('gettingLicenses') });
       const { result, statusText, status, data } = await httpRequest({
-        url: `https://store.steampowered.com/app/${id}`,
+        url: 'https://store.steampowered.com/account/licenses/',
         method: 'GET'
       });
       if (result === 'Success') {
         if (data?.status === 200) {
-          if (data.responseText.includes('ds_owned_flag ds_flag') || data.responseText.includes('class="already_in_library"')) {
-            logStatus.success();
-            return true;
-          }
-          logStatus.error(`Error:${data.statusText}(${data.status})`);
-          return false;
+          logStatus.success();
+          return [...data.responseText.matchAll(/RemoveFreeLicense\([\s]*?([\d]+)/g)].map((arr) => arr[1]).filter((subid) => subid);
         }
         logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'Steam.getLicenses');
+      return false;
+    }
+  }
+  async #addLicense(id: string): Promise<boolean> {
+    try {
+      const [type, ids] = id.split('-');
+      if (type === 'appid') {
+        const subid = await this.#appid2subid(ids);
+        if (!subid) return false;
+        const logStatus = echoLog({ type: 'addingFreeLicense', text: ids });
+        if (!await this.#addFreeLicense(subid, logStatus)) return false;
+
+        const { result, statusText, status, data } = await httpRequest({
+          url: `https://store.steampowered.com/app/${ids}`,
+          method: 'GET'
+        });
+        if (result === 'Success') {
+          if (data?.status === 200) {
+            if (data.responseText.includes('ds_owned_flag ds_flag') || data.responseText.includes('class="already_in_library"')) {
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${data.statusText}(${data.status})`);
+            return false;
+          }
+          logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+          return false;
+        }
+        logStatus.error(`${result}:${statusText}(${status})`);
+        return false;
+      } else if (type === 'subid') {
+        const logStatusArr: commonObject = {};
+        for (const subid of ids.split(',')) {
+          const logStatus = echoLog({ type: 'addingFreeLicenseSubid', text: subid });
+          if (!await this.#addFreeLicense(subid, logStatus)) return false;
+          logStatusArr[subid] = logStatus;
+        }
+        const licenses = await this.#getLicenses();
+        if (!licenses) return false;
+        for (const subid of ids.split(',')) {
+          if (licenses.includes(subid)) {
+            logStatusArr[subid].success();
+          } else {
+            logStatusArr[subid].error();
+          }
+        }
+        return true;
+      }
       return false;
     } catch (error) {
       throwError(error as Error, 'Steam.addLicense');
@@ -1037,7 +1079,6 @@ class Steam extends Social {
       });
       if (result === 'Success') {
         if (data?.status === 200) {
-          logStatus.success();
           return true;
         }
         logStatus.error(`Error:${data?.statusText}(${data?.status})`);
@@ -1046,6 +1087,7 @@ class Steam extends Social {
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
+      logStatus.error();
       throwError(error as Error, 'Steam.addFreeLicense');
       return false;
     }

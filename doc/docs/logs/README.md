@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.1
 
+### V4.1.15-beta
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.1.15-beta)
+
+- 优化steam免费游戏入库机制
+
 ### V4.1.14-beta
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.1.14-beta)
