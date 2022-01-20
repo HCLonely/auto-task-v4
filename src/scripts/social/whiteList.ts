@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-06 13:16:38
- * @LastEditTime : 2022-01-02 12:40:35
+ * @LastEditTime : 2022-01-20 10:49:09
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/whiteList.ts
  * @Description  : 白名单相关
@@ -49,7 +49,9 @@ const defaultWhiteList: whiteList = {
     curators: [],
     workshopVotes: [],
     curatorLikes: [],
-    announcements: []
+    announcements: [],
+    licenses: [],
+    playtests: []
   }
 };
 

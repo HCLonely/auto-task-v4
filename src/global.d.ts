@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 13:18:21
- * @LastEditTime : 2022-01-15 22:08:20
+ * @LastEditTime : 2022-01-20 10:37:07
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/global.d.ts
  */
@@ -76,10 +76,12 @@ declare global {
     workshopVotes?: Array<string>
     curatorLikes?: Array<string>
     announcements?: Array<string>
+    licenses?: Array<string>
+    playtests?: Array<string>
   }
   type socialType = 'discord' | 'instagram' | 'reddit' | 'steam' | 'twitch' | 'twitter' | 'vk' | 'youtube'
   type taskTypes = 'servers' | 'users' | 'reddits' | 'channels' | 'retweets' | 'likes' | 'names' | 'groups' | 'publics' | 'walls' |
-    'wishlists' | 'follows' | 'forums' | 'workshops' | 'curators' | 'workshopVotes' | 'curatorLikes' | 'announcements'
+    'wishlists' | 'follows' | 'forums' | 'workshops' | 'curators' | 'workshopVotes' | 'curatorLikes' | 'announcements' | 'licenses' | 'playtests'
 
   interface discordTasks {
     servers: Array<string>
@@ -100,6 +102,8 @@ declare global {
     workshopVotes: Array<string>
     curatorLikes: Array<string>
     announcements: Array<string>
+    licenses: Array<string>
+    playtests: Array<string>
   }
   interface twitchTasks {
     channels: Array<string>

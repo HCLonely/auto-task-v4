@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-24 17:21:16
- * @LastEditTime : 2022-01-03 13:37:56
+ * @LastEditTime : 2022-01-20 10:39:04
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/globalOptions.d.ts
  */
@@ -40,6 +40,8 @@ interface globalOptions {
       curators: boolean
       workshopVotes: boolean
       announcements: boolean
+      licenses: true
+      playtests: true
     }
   },
   undoTask: {

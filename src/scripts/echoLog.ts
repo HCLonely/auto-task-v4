@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:03:26
- * @LastEditTime : 2022-01-17 18:06:18
+ * @LastEditTime : 2022-01-20 10:45:21
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/echoLog.ts
  * @Description  :
@@ -44,6 +44,7 @@ const echoLog = ({ type, text, html, id }: { type?: string, text?: string, html?
       case 'unfollowingGame':
       case 'gettingSubid':
       case 'addingFreeLicense':
+      case 'requestingPlayTestAccess':
         ele = $(`<li>${__(type)}<a href="https://store.steampowered.com/app/${text}" target="_blank">${text}</a>...<font></font></li>`);
         break;
       case 'addingFreeLicenseSubid':

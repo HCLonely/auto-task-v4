@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2022-01-17 18:17:00
+ * @LastEditTime : 2022-01-20 11:14:09
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -165,6 +165,8 @@ const data = {
   announcements: '社区通知',
   steamCommunity: 'Steam社区',
   steamStore: 'Steam商店',
+  licenses: '入库免费游戏',
+  playtests: '请求访问权限',
   needLoginSteamStore: '请先<a href="https://store.steampowered.com/login/" target="_blank">登录Steam商店</a>',
   needLoginSteamCommunity: '请先<a href="https://steamcommunity.com/login/home/" target="_blank">登录Steam社区</a>',
   joiningSteamGroup: '正在加入Steam组',
@@ -195,6 +197,7 @@ const data = {
   addingFreeLicense: '正在入库',
   missParams: '缺少参数',
   gettingLicenses: '正在获取Licenses...',
+  requestingPlayTestAccess: '正在请求访问权限',
 
   // Discord
   servers: '服务器',

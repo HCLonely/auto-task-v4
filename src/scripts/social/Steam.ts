@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2022-01-17 18:44:27
+ * @LastEditTime : 2022-01-20 11:21:39
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -1092,6 +1092,44 @@ class Steam extends Social {
       return false;
     }
   }
+  async #requestPlayTestAccess(id: string): Promise<boolean> {
+    /**
+      * @internal
+      * @description 请求访问权限
+      * @param id Steam游戏appid
+      * @return true: 成功 | false: 失败
+      */
+    try {
+      const logStatus = echoLog({ type: 'requestingPlayTestAccess', text: id });
+      const { result, statusText, status, data } = await httpRequest({
+        url: `https://store.steampowered.com/ajaxrequestplaytestaccess/${id}`,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+          Host: 'store.steampowered.com',
+          Origin: 'https://store.steampowered.com',
+          Referer: `https://store.steampowered.com/app/${id}`
+        },
+        data: $.param({
+          sessionid: this.#auth.storeSessionID
+        }),
+        dataType: 'json'
+      });
+      if (result === 'Success') {
+        if (data?.status === 200 && data?.response?.success === 1) {
+          logStatus.success();
+          return true;
+        }
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'Steam.requestPlayTestAccess');
+      return false;
+    }
+  }
 
   async toggle({
     doTask = true,
@@ -1104,7 +1142,8 @@ class Steam extends Social {
     curatorLinks = [],
     curatorLikeLinks = [],
     announcementLinks = [],
-    licenseLinks = []
+    licenseLinks = [],
+    playtestLinks = []
   }: {
     doTask?: boolean,
     groupLinks?: Array<string>,
@@ -1116,7 +1155,8 @@ class Steam extends Social {
     curatorLinks?: Array<string>,
     curatorLikeLinks?: Array<string>,
     announcementLinks?: Array<string>,
-    licenseLinks?: Array<string>
+    licenseLinks?: Array<string>,
+    playtestLinks?: Array<string>,
   }): Promise<boolean> {
     /**
      * @description 公有方法，统一处理Steam相关任务
@@ -1128,7 +1168,9 @@ class Steam extends Social {
         echoLog({ text: __('needInit') });
         return false;
       }
-      if ([...wishlistLinks, ...followLinks, ...curatorLinks, ...curatorLikeLinks, ...announcementLinks, ...licenseLinks].length > 0 &&
+      if ([
+        ...wishlistLinks, ...followLinks, ...curatorLinks, ...curatorLikeLinks, ...announcementLinks, ...licenseLinks, ...playtestLinks
+      ].length > 0 &&
           !this.#storeInitialized) {
         echoLog({ text: __('needInit') });
         return false;
@@ -1274,10 +1316,24 @@ class Steam extends Social {
         }
       }
 
-      if (doTask && licenseLinks.length > 0) {
+      if (doTask && !globalOptions.doTask.steam.licenses) {
+        echoLog({ type: 'globalOptionsSkip', text: 'steam.licenses' });
+      } else if (doTask && globalOptions.doTask.steam.licenses && licenseLinks.length > 0) {
         for (const id of licenseLinks) {
           prom.push(this.#addLicense(id));
           await delay(1000);
+        }
+      }
+
+      if (doTask && !globalOptions.doTask.steam.playtests) {
+        echoLog({ type: 'globalOptionsSkip', text: 'steam.playtests' });
+      } else {
+        const realPlaytests = this.getRealParams('playtests', playtestLinks, doTask, (link) => link.match(/app\/([\d]+)/)?.[1]);
+        if (doTask && globalOptions.doTask.steam.playtests && realPlaytests.length > 0) {
+          for (const id of realPlaytests) {
+            prom.push(this.#requestPlayTestAccess(id));
+            await delay(1000);
+          }
         }
       }
       // TODO: 返回值处理

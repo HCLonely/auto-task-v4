@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.1
 
+### V4.1.16-beta
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.1.16-beta)
+
+- 添加steam请求访问权限功能
+
 ### V4.1.15-beta
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.1.15-beta)

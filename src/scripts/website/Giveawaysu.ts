@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2022-01-09 10:37:20
+ * @LastEditTime : 2022-01-20 10:44:43
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.ts
  * @Description  : https://giveaway.su/
@@ -27,7 +27,8 @@ const defaultTasks: gasSocialTasks = {
     followLinks: [],
     forumLinks: [],
     announcementLinks: [],
-    workshopVoteLinks: []
+    workshopVoteLinks: [],
+    playtestLinks: []
   },
   discord: {
     serverLinks: []
@@ -133,6 +134,8 @@ class GiveawaySu extends Website {
               this.undoneTasks.steam.forumLinks.push(taskLink);
             } else if (taskIcon.includes('thumbs-up') && /^https?:\/\/steamcommunity\.com\/sharedfiles\/filedetails\/\?id=[\d]+/.test(taskLink)) {
               this.undoneTasks.steam.workshopVoteLinks.push(taskLink);
+            } else if (taskIcon.includes('plus') && /request.*playtest/gim.test(taskName)) {
+              this.undoneTasks.steam.playtestLinks.push(taskLink);
             } else if (taskIcon.includes('discord') || /join.*discord/gim.test(taskName)) {
               this.undoneTasks.discord.serverLinks.push(taskLink);
             } else if (taskIcon.includes('instagram') || /follow.*instagram/gim.test(taskName)) {

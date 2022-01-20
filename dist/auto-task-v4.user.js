@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.1.15-beta
+// @version            4.1.16-beta
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -669,6 +669,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
            case 'unfollowingGame':
            case 'gettingSubid':
            case 'addingFreeLicense':
+           case 'requestingPlayTestAccess':
             ele = $(`<li>${i18n(type)}<a href="https://store.steampowered.com/app/${text}" target="_blank">${text}</a>...<font></font></li>`);
             break;
 
@@ -988,7 +989,9 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
           workshops: true,
           curators: true,
           workshopVotes: true,
-          announcements: true
+          announcements: true,
+          licenses: true,
+          playtests: true
         }
       },
       undoTask: {
@@ -1294,6 +1297,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       announcements: '社区通知',
       steamCommunity: 'Steam社区',
       steamStore: 'Steam商店',
+      licenses: '入库免费游戏',
+      playtests: '请求访问权限',
       needLoginSteamStore: '请先<a href="https://store.steampowered.com/login/" target="_blank">登录Steam商店</a>',
       needLoginSteamCommunity: '请先<a href="https://steamcommunity.com/login/home/" target="_blank">登录Steam社区</a>',
       joiningSteamGroup: '正在加入Steam组',
@@ -1324,6 +1329,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       addingFreeLicense: '正在入库',
       missParams: '缺少参数',
       gettingLicenses: '正在获取Licenses...',
+      requestingPlayTestAccess: '正在请求访问权限',
       servers: '服务器',
       joiningDiscordServer: '正在加入Discord服务器',
       leavingDiscordServer: '正在退出Discord服务器',
@@ -1540,6 +1546,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       announcements: 'Announcement',
       steamCommunity: 'Steam Community',
       steamStore: 'Steam Store',
+      licenses: 'Add License',
+      playtests: 'Playtest Access',
       needLoginSteamStore: 'Please <a href="https://store.steampowered.com/login/" target="_blank">log in to the Steam Store</a>',
       needLoginSteamCommunity: 'Please <a href="https://steamcommunity.com/login/home/" target="_blank">log in to the Steam Community</a>',
       joiningSteamGroup: 'Joining Steam Group',
@@ -1570,6 +1578,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       addingFreeLicense: 'Adding free license',
       missParams: 'Missing parameters',
       gettingLicenses: 'Getting licenses...',
+      requestingPlayTestAccess: 'Requesting play test access',
       servers: 'Server',
       joiningDiscordServer: 'Joining Discord Server',
       leavingDiscordServer: 'Leaving Discord Server',
@@ -4689,12 +4698,14 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     var _getLicenses = new WeakSet();
     var _addLicense = new WeakSet();
     var _addFreeLicense = new WeakSet();
+    var _requestPlayTestAccess = new WeakSet();
     var Steam_setCache = new WeakSet();
     class Steam extends social_Social {
       constructor() {
         var _GM_getValue;
         super(...arguments);
         Steam_classPrivateMethodInitSpec(this, Steam_setCache);
+        Steam_classPrivateMethodInitSpec(this, _requestPlayTestAccess);
         Steam_classPrivateMethodInitSpec(this, _addFreeLicense);
         Steam_classPrivateMethodInitSpec(this, _addLicense);
         Steam_classPrivateMethodInitSpec(this, _getLicenses);
@@ -4836,7 +4847,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
           curatorLinks = [],
           curatorLikeLinks = [],
           announcementLinks = [],
-          licenseLinks = []
+          licenseLinks = [],
+          playtestLinks = []
         } = _ref;
         try {
           if ([ ...groupLinks, ...forumLinks, ...workshopLinks, ...workshopVoteLinks ].length > 0 && !Steam_classPrivateFieldGet(this, _communityInitialized)) {
@@ -4845,7 +4857,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
             });
             return false;
           }
-          if ([ ...wishlistLinks, ...followLinks, ...curatorLinks, ...curatorLikeLinks, ...announcementLinks, ...licenseLinks ].length > 0 && !Steam_classPrivateFieldGet(this, _storeInitialized)) {
+          if ([ ...wishlistLinks, ...followLinks, ...curatorLinks, ...curatorLikeLinks, ...announcementLinks, ...licenseLinks, ...playtestLinks ].length > 0 && !Steam_classPrivateFieldGet(this, _storeInitialized)) {
             scripts_echoLog({
               text: i18n('needInit')
             });
@@ -5010,10 +5022,32 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
               }
             }
           }
-          if (doTask && licenseLinks.length > 0) {
+          if (doTask && !globalOptions.doTask.steam.licenses) {
+            scripts_echoLog({
+              type: 'globalOptionsSkip',
+              text: 'steam.licenses'
+            });
+          } else if (doTask && globalOptions.doTask.steam.licenses && licenseLinks.length > 0) {
             for (const id of licenseLinks) {
               prom.push(Steam_classPrivateMethodGet(this, _addLicense, _addLicense2).call(this, id));
               await delay(1e3);
+            }
+          }
+          if (doTask && !globalOptions.doTask.steam.playtests) {
+            scripts_echoLog({
+              type: 'globalOptionsSkip',
+              text: 'steam.playtests'
+            });
+          } else {
+            const realPlaytests = this.getRealParams('playtests', playtestLinks, doTask, link => {
+              var _link$match11;
+              return (_link$match11 = link.match(/app\/([\d]+)/)) === null || _link$match11 === void 0 ? void 0 : _link$match11[1];
+            });
+            if (doTask && globalOptions.doTask.steam.playtests && realPlaytests.length > 0) {
+              for (const id of realPlaytests) {
+                prom.push(Steam_classPrivateMethodGet(this, _requestPlayTestAccess, _requestPlayTestAccess2).call(this, id));
+                await delay(1e3);
+              }
             }
           }
           return Promise.all(prom).then(async () => {
@@ -6174,6 +6208,47 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         return false;
       }
     }
+    async function _requestPlayTestAccess2(id) {
+      try {
+        const logStatus = scripts_echoLog({
+          type: 'requestingPlayTestAccess',
+          text: id
+        });
+        const {
+          result,
+          statusText,
+          status,
+          data
+        } = await tools_httpRequest({
+          url: `https://store.steampowered.com/ajaxrequestplaytestaccess/${id}`,
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            Host: 'store.steampowered.com',
+            Origin: 'https://store.steampowered.com',
+            Referer: `https://store.steampowered.com/app/${id}`
+          },
+          data: $.param({
+            sessionid: Steam_classPrivateFieldGet(this, Steam_auth).storeSessionID
+          }),
+          dataType: 'json'
+        });
+        if (result === 'Success') {
+          var _data$response8;
+          if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (data === null || data === void 0 ? void 0 : (_data$response8 = data.response) === null || _data$response8 === void 0 ? void 0 : _data$response8.success) === 1) {
+            logStatus.success();
+            return true;
+          }
+          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+          return false;
+        }
+        logStatus.error(`${result}:${statusText}(${status})`);
+        return false;
+      } catch (error) {
+        throwError(error, 'Steam.requestPlayTestAccess');
+        return false;
+      }
+    }
     function Steam_setCache2(type, name, id) {
       try {
         Steam_classPrivateFieldGet(this, Steam_cache)[type][name] = id;
@@ -6801,7 +6876,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         followLinks: [],
         forumLinks: [],
         announcementLinks: [],
-        workshopVoteLinks: []
+        workshopVoteLinks: [],
+        playtestLinks: []
       },
       discord: {
         serverLinks: []
@@ -6919,6 +6995,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
                   this.undoneTasks.steam.forumLinks.push(taskLink);
                 } else if (taskIcon.includes('thumbs-up') && /^https?:\/\/steamcommunity\.com\/sharedfiles\/filedetails\/\?id=[\d]+/.test(taskLink)) {
                   this.undoneTasks.steam.workshopVoteLinks.push(taskLink);
+                } else if (taskIcon.includes('plus') && /request.*playtest/gim.test(taskName)) {
+                  this.undoneTasks.steam.playtestLinks.push(taskLink);
                 } else if (taskIcon.includes('discord') || /join.*discord/gim.test(taskName)) {
                   this.undoneTasks.discord.serverLinks.push(taskLink);
                 } else if (taskIcon.includes('instagram') || /follow.*instagram/gim.test(taskName)) {
@@ -9663,7 +9741,9 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         curators: [],
         workshopVotes: [],
         curatorLikes: [],
-        announcements: []
+        announcements: [],
+        licenses: [],
+        playtests: []
       }
     };
     const link2id = async function(type) {

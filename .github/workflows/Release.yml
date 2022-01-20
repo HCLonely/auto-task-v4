@@ -18,9 +18,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: true
-          tag_name: v4.1.15-beta
-          name: 4.1.15-beta
-          body: '- 优化steam免费游戏入库机制'
+          tag_name: v4.1.16-beta
+          name: 4.1.16-beta
+          body: '- 添加steam请求访问权限功能'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

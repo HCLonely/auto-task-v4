@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2022-01-17 18:17:21
+ * @LastEditTime : 2022-01-20 11:14:43
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/en-US.js
  * @Description  : i18n英文
@@ -181,6 +181,8 @@ const data = {
   announcements: 'Announcement',
   steamCommunity: 'Steam Community',
   steamStore: 'Steam Store',
+  licenses: 'Add License',
+  playtests: 'Playtest Access',
   needLoginSteamStore: 'Please <a href="https://store.steampowered.com/login/" target="_blank">log in to the Steam Store</a>',
   needLoginSteamCommunity: 'Please <a href="https://steamcommunity.com/login/home/" target="_blank">log in to the Steam Community</a>',
   joiningSteamGroup: 'Joining Steam Group',
@@ -211,6 +213,7 @@ const data = {
   addingFreeLicense: 'Adding free license',
   missParams: 'Missing parameters',
   gettingLicenses: 'Getting licenses...',
+  requestingPlayTestAccess: 'Requesting play test access',
 
   // Discord
   servers: 'Server',

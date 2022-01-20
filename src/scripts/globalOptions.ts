@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-24 16:41:12
- * @LastEditTime : 2022-01-03 13:48:12
+ * @LastEditTime : 2022-01-20 10:38:18
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/globalOptions.ts
  * @Description  : 全局设置选项
@@ -48,7 +48,9 @@ const defaultGlobalOptions: globalOptions = {
       workshops: true,
       curators: true,
       workshopVotes: true,
-      announcements: true
+      announcements: true,
+      licenses: true,
+      playtests: true
     }
   },
   undoTask: {
