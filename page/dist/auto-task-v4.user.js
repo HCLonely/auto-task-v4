@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.1.16-beta
+// @version            4.1.17-beta
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -10622,21 +10622,31 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
     const scripts_updateChecker = updateChecker;
     window.STYLE = GM_addStyle(auto_task.Z + GM_getResourceText('style'));
     if (window.location.hostname === 'discord.com') {
-      var _window$localStorage, _window$localStorage$;
-      const discordAuth = (_window$localStorage = window.localStorage) === null || _window$localStorage === void 0 ? void 0 : (_window$localStorage$ = _window$localStorage.getItem('token')) === null || _window$localStorage$ === void 0 ? void 0 : _window$localStorage$.replace(/^"|"$/g, '');
-      if (discordAuth && /^mfa\./.test(discordAuth)) {
-        GM_setValue('discordAuth', {
-          auth: discordAuth
-        });
-        if (window.location.hash === '#auth') {
+      const LocalStorage = window.localStorage;
+      if (window.location.hash === '#auth') {
+        var _LocalStorage$getItem;
+        window.localStorage.removeItem = () => true;
+        const discordAuth = LocalStorage === null || LocalStorage === void 0 ? void 0 : (_LocalStorage$getItem = LocalStorage.getItem('token')) === null || _LocalStorage$getItem === void 0 ? void 0 : _LocalStorage$getItem.replace(/^"|"$/g, '');
+        if (discordAuth && /^mfa\./.test(discordAuth)) {
+          GM_setValue('discordAuth', {
+            auth: discordAuth
+          });
           window.close();
           external_Swal_default().fire('', i18n('closePageNotice'));
+        } else {
+          external_Swal_default().fire({
+            text: i18n('getDiscordAuthFailed'),
+            icon: 'error'
+          });
         }
       } else {
-        external_Swal_default().fire({
-          text: i18n('getDiscordAuthFailed'),
-          icon: 'error'
-        });
+        var _LocalStorage$getItem2;
+        const discordAuth = LocalStorage === null || LocalStorage === void 0 ? void 0 : (_LocalStorage$getItem2 = LocalStorage.getItem('token')) === null || _LocalStorage$getItem2 === void 0 ? void 0 : _LocalStorage$getItem2.replace(/^"|"$/g, '');
+        if (discordAuth && /^mfa\./.test(discordAuth)) {
+          GM_setValue('discordAuth', {
+            auth: discordAuth
+          });
+        }
       }
     }
     const loadScript = async () => {

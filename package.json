@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.1.16-beta",
+  "version": "4.1.17-beta",
   "change": [
-    "添加steam请求访问权限功能"
+    "修复获取Discord凭证失败的BUG(#2)"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

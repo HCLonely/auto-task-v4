@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2022-01-17 10:45:01
+ * @LastEditTime : 2022-01-20 14:01:10
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  : 入口文件
@@ -29,18 +29,25 @@ declare const commonOptions: {
 };
 
 if (window.location.hostname === 'discord.com') {
-  const discordAuth = window.localStorage?.getItem('token')?.replace(/^"|"$/g, '');
-  if (discordAuth && /^mfa\./.test(discordAuth)) {
-    GM_setValue('discordAuth', { auth: discordAuth });
-    if (window.location.hash === '#auth') {
+  const LocalStorage = window.localStorage;
+  if (window.location.hash === '#auth') {
+    window.localStorage.removeItem = () => true;
+    const discordAuth = LocalStorage?.getItem('token')?.replace(/^"|"$/g, '');
+    if (discordAuth && /^mfa\./.test(discordAuth)) {
+      GM_setValue('discordAuth', { auth: discordAuth });
       window.close();
       Swal.fire('', __('closePageNotice'));
+    } else {
+      Swal.fire({
+        text: __('getDiscordAuthFailed'),
+        icon: 'error'
+      });
     }
   } else {
-    Swal.fire({
-      text: __('getDiscordAuthFailed'),
-      icon: 'error'
-    });
+    const discordAuth = LocalStorage?.getItem('token')?.replace(/^"|"$/g, '');
+    if (discordAuth && /^mfa\./.test(discordAuth)) {
+      GM_setValue('discordAuth', { auth: discordAuth });
+    }
   }
 }
 

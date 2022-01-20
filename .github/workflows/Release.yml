@@ -18,9 +18,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: true
-          tag_name: v4.1.16-beta
-          name: 4.1.16-beta
-          body: '- 添加steam请求访问权限功能'
+          tag_name: v4.1.17-beta
+          name: 4.1.17-beta
+          body: '- 修复获取Discord凭证失败的BUG(#2)'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js
