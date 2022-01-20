@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2022-01-13 14:10:18
+ * @LastEditTime : 2022-01-20 17:36:28
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  : https://gleam.io
@@ -19,7 +19,7 @@ import httpRequest from '../tools/httpRequest';
 import { delay } from '../tools/tools';
 import { globalOptions } from '../globalOptions';
 
-const defaultTasks = JSON.stringify({
+const defaultTasksTemplate: gleamSocialTasks = {
   steam: {
     groupLinks: [],
     wishlistLinks: [],
@@ -43,7 +43,8 @@ const defaultTasks = JSON.stringify({
   extra: {
     gleam: []
   }
-});
+};
+const defaultTasks = JSON.stringify(defaultTasksTemplate);
 const defaultOptions: options = {
   vlootUsername: '',
   gameroundUsername: ''

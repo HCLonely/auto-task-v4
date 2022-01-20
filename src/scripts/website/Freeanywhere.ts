@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:03
- * @LastEditTime : 2022-01-13 14:08:38
+ * @LastEditTime : 2022-01-20 17:35:18
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Freeanywhere.ts
  * @Description  : https://freeanywhere.net
@@ -18,7 +18,7 @@ import __ from '../tools/i18n';
 import httpRequest from '../tools/httpRequest';
 import { delay } from '../tools/tools';
 
-const defaultTasks = JSON.stringify({
+const defaultTasksTemplate: fawSocialTasks = {
   steam: {
     groupLinks: [],
     wishlistLinks: [],
@@ -28,7 +28,8 @@ const defaultTasks = JSON.stringify({
   vk: {
     nameLinks: []
   }
-});
+};
+const defaultTasks = JSON.stringify(defaultTasksTemplate);
 
 class FreeAnyWhere extends Website {
   name = 'FreeAnyWhere';

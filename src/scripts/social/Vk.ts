@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 11:47:59
- * @LastEditTime : 2022-01-13 14:17:48
+ * @LastEditTime : 2022-01-20 17:34:07
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Vk.ts
  * @Description  : Vk 加入/退出群组，关注/取关用户，转发/取消转发动态
@@ -25,7 +25,8 @@ interface dataParams {
   publicJoined?: boolean
   wallHash?: string
 }
-const defaultTasks = JSON.stringify({ names: [] });
+const defaultTasksTemplate: vkTasks = { names: [] };
+const defaultTasks = JSON.stringify(defaultTasksTemplate);
 class Vk extends Social {
   tasks: vkTasks = JSON.parse(defaultTasks);
   whiteList: vkTasks = GM_getValue<whiteList>('whiteList')?.vk || JSON.parse(defaultTasks);

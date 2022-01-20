@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-15 13:58:41
- * @LastEditTime : 2022-01-17 18:40:40
+ * @LastEditTime : 2022-01-20 17:37:21
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Keylol.ts
  * @Description  : https://keylol.com/f319-1
@@ -15,7 +15,7 @@ import Website from './Website';
 import leftKeyChecker from './leftKeyChecker';
 import __ from '../tools/i18n';
 
-const defaultTasks = JSON.stringify({
+const defaultTasksTemplate: keylolSocialTasks = {
   steam: {
     groupLinks: [],
     wishlistLinks: [],
@@ -50,7 +50,8 @@ const defaultTasks = JSON.stringify({
     channelLinks: [],
     likeLinks: []
   }
-});
+};
+const defaultTasks = JSON.stringify(defaultTasksTemplate);
 class Keylol extends Website {
   name = 'Keylol';
   socialTasks: keylolSocialTasks = JSON.parse(defaultTasks);

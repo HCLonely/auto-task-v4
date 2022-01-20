@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-13 17:57:40
- * @LastEditTime : 2022-01-13 14:09:50
+ * @LastEditTime : 2022-01-20 17:35:59
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Givekey.ts
  * @Description  : https://givekey.ru
@@ -18,7 +18,7 @@ import { delay, getRedirectLink, unique } from '../tools/tools';
 import throwError from '../tools/throwError';
 import { globalOptions } from '../globalOptions';
 
-const defaultTasks = JSON.stringify({
+const defaultTasksTemplate: gkSocialTasks = {
   steam: {
     groupLinks: [],
     wishlistLinks: [],
@@ -34,7 +34,8 @@ const defaultTasks = JSON.stringify({
   discord: {
     serverLinks: []
   }
-});
+};
+const defaultTasks = JSON.stringify(defaultTasksTemplate);
 
 class Givekey extends Website {
   name = 'Givekey';

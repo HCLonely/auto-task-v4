@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.1.17-beta",
+  "version": "4.1.18-beta",
   "change": [
-    "修复获取Discord凭证失败的BUG(#2)"
+    "修复BUG(#3)"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

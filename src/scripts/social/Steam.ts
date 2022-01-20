@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2022-01-20 11:21:39
+ * @LastEditTime : 2022-01-20 17:32:52
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -17,7 +17,7 @@ import __ from '../tools/i18n';
 import { unique, delay } from '../tools/tools';
 import { globalOptions } from '../globalOptions';
 
-const defaultTasks = JSON.stringify({
+const defaultTasksTemplate: steamTasks = {
   groups: [],
   wishlists: [],
   follows: [],
@@ -26,8 +26,11 @@ const defaultTasks = JSON.stringify({
   workshopVotes: [],
   curators: [],
   curatorLikes: [],
-  announcements: []
-});
+  announcements: [],
+  licenses: [],
+  playtests: []
+};
+const defaultTasks = JSON.stringify(defaultTasksTemplate);
 
 class Steam extends Social {
   tasks: steamTasks = JSON.parse(defaultTasks);

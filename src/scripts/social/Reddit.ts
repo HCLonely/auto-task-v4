@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-30 09:43:32
- * @LastEditTime : 2022-01-13 14:16:28
+ * @LastEditTime : 2022-01-20 17:32:41
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Reddit.ts
  * @Description  : Reddit 订阅&取消订阅
@@ -15,7 +15,8 @@ import __ from '../tools/i18n';
 import { unique, delay } from '../tools/tools';
 import { globalOptions } from '../globalOptions';
 
-const defaultTasks = JSON.stringify({ reddits: [] });
+const defaultTasksTemplate: redditTasks = { reddits: [] };
+const defaultTasks = JSON.stringify(defaultTasksTemplate);
 class Reddit extends Social {
   tasks: redditTasks = JSON.parse(defaultTasks);
   whiteList: redditTasks = GM_getValue<whiteList>('whiteList')?.reddit || JSON.parse(defaultTasks);

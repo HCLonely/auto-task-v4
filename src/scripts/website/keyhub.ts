@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2022-01-13 14:10:46
+ * @LastEditTime : 2022-01-20 17:36:58
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
  * @Description  : https://key-hub.eu/
@@ -18,7 +18,7 @@ import __ from '../tools/i18n';
 import { getRedirectLink } from '../tools/tools';
 import { globalOptions } from '../globalOptions';
 
-const defaultTasks = JSON.stringify({
+const defaultTasksTemplate: khSocialTasks = {
   steam: {
     groupLinks: [],
     wishlistLinks: [],
@@ -28,7 +28,8 @@ const defaultTasks = JSON.stringify({
     serverLinks: []
   },
   links: []
-});
+};
+const defaultTasks = JSON.stringify(defaultTasksTemplate);
 
 class Keyhub extends Website {
   name = 'Keyhub';

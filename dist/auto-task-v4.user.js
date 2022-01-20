@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.1.17-beta
+// @version            4.1.18-beta
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1813,9 +1813,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return descriptor.value;
     }
-    const defaultTasks = JSON.stringify({
+    const defaultTasksTemplate = {
       servers: []
-    });
+    };
+    const defaultTasks = JSON.stringify(defaultTasksTemplate);
     var _auth = new WeakMap();
     var _cache = new WeakMap();
     var _initialized = new WeakMap();
@@ -2174,9 +2175,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return descriptor.value;
     }
-    const Instagram_defaultTasks = JSON.stringify({
+    const Instagram_defaultTasksTemplate = {
       users: []
-    });
+    };
+    const Instagram_defaultTasks = JSON.stringify(Instagram_defaultTasksTemplate);
     var Instagram_cache = new WeakMap();
     var Instagram_auth = new WeakMap();
     var Instagram_initialized = new WeakMap();
@@ -2496,9 +2498,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return descriptor.value;
     }
-    const Reddit_defaultTasks = JSON.stringify({
+    const Reddit_defaultTasksTemplate = {
       reddits: []
-    });
+    };
+    const Reddit_defaultTasks = JSON.stringify(Reddit_defaultTasksTemplate);
     var Reddit_auth = new WeakMap();
     var Reddit_initialized = new WeakMap();
     var _useBeta = new WeakSet();
@@ -2777,9 +2780,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return descriptor.value;
     }
-    const Twitch_defaultTasks = JSON.stringify({
+    const Twitch_defaultTasksTemplate = {
       channels: []
-    });
+    };
+    const Twitch_defaultTasks = JSON.stringify(Twitch_defaultTasksTemplate);
     var Twitch_auth = new WeakMap();
     var Twitch_cache = new WeakMap();
     var Twitch_initialized = new WeakMap();
@@ -3123,11 +3127,12 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return descriptor.value;
     }
-    const Twitter_defaultTasks = JSON.stringify({
+    const Twitter_defaultTasksTemplate = {
       users: [],
       retweets: [],
       likes: []
-    });
+    };
+    const Twitter_defaultTasks = JSON.stringify(Twitter_defaultTasksTemplate);
     var _verifyId = new WeakMap();
     var Twitter_auth = new WeakMap();
     var Twitter_cache = new WeakMap();
@@ -3556,9 +3561,10 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return descriptor.value;
     }
-    const Vk_defaultTasks = JSON.stringify({
+    const Vk_defaultTasksTemplate = {
       names: []
-    });
+    };
+    const Vk_defaultTasks = JSON.stringify(Vk_defaultTasksTemplate);
     var _username = new WeakMap();
     var Vk_cache = new WeakMap();
     var Vk_initialized = new WeakMap();
@@ -4128,10 +4134,11 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return descriptor.value;
     }
-    const Youtube_defaultTasks = JSON.stringify({
+    const Youtube_defaultTasksTemplate = {
       channels: [],
       likes: []
-    });
+    };
+    const Youtube_defaultTasks = JSON.stringify(Youtube_defaultTasksTemplate);
     const getInfo = async function(link, type) {
       try {
         const logStatus = scripts_echoLog({
@@ -4658,7 +4665,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return descriptor.value;
     }
-    const Steam_defaultTasks = JSON.stringify({
+    const Steam_defaultTasksTemplate = {
       groups: [],
       wishlists: [],
       follows: [],
@@ -4667,8 +4674,11 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       workshopVotes: [],
       curators: [],
       curatorLikes: [],
-      announcements: []
-    });
+      announcements: [],
+      licenses: [],
+      playtests: []
+    };
+    const Steam_defaultTasks = JSON.stringify(Steam_defaultTasksTemplate);
     var Steam_cache = new WeakMap();
     var Steam_auth = new WeakMap();
     var _storeInitialized = new WeakMap();
@@ -6548,7 +6558,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return fn;
     }
-    const FreeAnyWhere_defaultTasks = JSON.stringify({
+    const FreeAnyWhere_defaultTasksTemplate = {
       steam: {
         groupLinks: [],
         wishlistLinks: [],
@@ -6558,7 +6568,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       vk: {
         nameLinks: []
       }
-    });
+    };
+    const FreeAnyWhere_defaultTasks = JSON.stringify(FreeAnyWhere_defaultTasksTemplate);
     var _getGiveawayId = new WeakSet();
     var _verify = new WeakSet();
     class FreeAnyWhere extends website_Website {
@@ -7466,7 +7477,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return fn;
     }
-    const Keyhub_defaultTasks = JSON.stringify({
+    const Keyhub_defaultTasksTemplate = {
       steam: {
         groupLinks: [],
         wishlistLinks: [],
@@ -7476,7 +7487,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         serverLinks: []
       },
       links: []
-    });
+    };
+    const Keyhub_defaultTasks = JSON.stringify(Keyhub_defaultTasksTemplate);
     var Keyhub_getGiveawayId = new WeakSet();
     var Keyhub_checkLeftKey = new WeakSet();
     var Keyhub_checkLogin = new WeakSet();
@@ -7695,7 +7707,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return fn;
     }
-    const Givekey_defaultTasks = JSON.stringify({
+    const Givekey_defaultTasksTemplate = {
       steam: {
         groupLinks: [],
         wishlistLinks: [],
@@ -7711,7 +7723,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       discord: {
         serverLinks: []
       }
-    });
+    };
+    const Givekey_defaultTasks = JSON.stringify(Givekey_defaultTasksTemplate);
     var Givekey_verify = new WeakSet();
     var Givekey_getGiveawayId = new WeakSet();
     var Givekey_checkLeftKey = new WeakSet();
@@ -8611,7 +8624,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return fn;
     }
-    const Keylol_defaultTasks = JSON.stringify({
+    const Keylol_defaultTasksTemplate = {
       steam: {
         groupLinks: [],
         wishlistLinks: [],
@@ -8646,7 +8659,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
         channelLinks: [],
         likeLinks: []
       }
-    });
+    };
+    const Keylol_defaultTasks = JSON.stringify(Keylol_defaultTasksTemplate);
     var _addBtn = new WeakSet();
     class Keylol extends website_Website {
       constructor() {
@@ -9064,7 +9078,7 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       }
       return fn;
     }
-    const Gleam_defaultTasks = JSON.stringify({
+    const Gleam_defaultTasksTemplate = {
       steam: {
         groupLinks: [],
         wishlistLinks: [],
@@ -9088,7 +9102,8 @@ ${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\
       extra: {
         gleam: []
       }
-    });
+    };
+    const Gleam_defaultTasks = JSON.stringify(Gleam_defaultTasksTemplate);
     const Gleam_defaultOptions = {
       vlootUsername: '',
       gameroundUsername: ''

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 12:18:06
- * @LastEditTime : 2022-01-13 14:18:13
+ * @LastEditTime : 2022-01-20 17:34:37
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Youtube.ts
  * @Description  : Youtube 订阅/取消订阅频道，点赞/取消点赞视频
@@ -18,7 +18,8 @@ import __ from '../tools/i18n';
 import { unique, delay } from '../tools/tools';
 import { globalOptions } from '../globalOptions';
 
-const defaultTasks = JSON.stringify({ channels: [], likes: [] });
+const defaultTasksTemplate: youtubeTasks = { channels: [], likes: [] };
+const defaultTasks = JSON.stringify(defaultTasksTemplate);
 
 const getInfo = async function (link: string, type: string): Promise <youtubeInfo> {
   /**

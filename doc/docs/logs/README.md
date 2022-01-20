@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.1
 
+### V4.1.18-beta
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.1.18-beta)
+
+- 修复BUG([#3](https://github.com/HCLonely/auto-task-v4/issues/3))
+
 ### V4.1.17-beta
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.1.17-beta)

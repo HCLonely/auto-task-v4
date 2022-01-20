@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2022-01-13 14:16:13
+ * @LastEditTime : 2022-01-20 17:31:49
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
@@ -15,7 +15,8 @@ import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import { globalOptions } from '../globalOptions';
 
-const defaultTasks = JSON.stringify({ servers: [] });
+const defaultTasksTemplate: discordTasks = { servers: [] };
+const defaultTasks = JSON.stringify(defaultTasksTemplate);
 
 class Discord extends Social {
   tasks: discordTasks = JSON.parse(defaultTasks);
