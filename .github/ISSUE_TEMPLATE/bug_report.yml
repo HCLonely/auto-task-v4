@@ -45,6 +45,7 @@ body:
     attributes:
       label: 脚本管理器版本
       description: 使用的脚本管理器及其版本。<br>User script manager and its version.
+      render: auto
       placeholder: 请输入
     validations:
       required: true
@@ -53,6 +54,7 @@ body:
     attributes:
       label: 脚本版本
       description: 使用的脚本其版本。<br>User script version.
+      render: auto
       placeholder: 请输入
     validations:
       required: true
