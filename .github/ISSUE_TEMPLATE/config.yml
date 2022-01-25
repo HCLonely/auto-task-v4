@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: FAQ
+    url: https://auto-task-doc.js.org/FAQ/
+    about: 常见问题解决办法
+  - name: READ ME FIRST
+    url: https://auto-task-doc.js.org/guide/#用前必读
+    about: 用前必读
