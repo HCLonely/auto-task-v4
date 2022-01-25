@@ -4,6 +4,7 @@ labels: bug
 body:
   - type: textarea
     attributes:
+      label: 提交BUG前请先阅读一下内容
       value: |
         <!-- 请确认问题可以复现 | Please confirm that the problem can be reproduced -->
         <!-- 提交问题前请确认已进行以下操作，确认请在`[]`中打`x`-->
