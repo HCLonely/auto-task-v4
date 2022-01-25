@@ -17,6 +17,8 @@ body:
           required: true
         - label: 我已经查看了[issues](https://github.com/HCLonely/auto-task-v4/issues)但没有解决 | I have seen [issues](https://github.com/HCLonely/auto-task-v4/issues) but not solved.
           required: true
+    validations:
+      required: true
   - type: textarea
     id: description
     attributes:

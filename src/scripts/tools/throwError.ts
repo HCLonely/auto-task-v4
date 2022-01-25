@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 14:08:18
- * @LastEditTime : 2022-01-25 12:31:27
+ * @LastEditTime : 2022-01-25 12:34:55
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/tools/throwError.ts
  * @Description  : 错误处理函数
@@ -22,8 +22,8 @@ export default function throwError(error:Error, name:string):void {
   }).then(({ isDenied, isConfirmed }) => {
     if (isConfirmed) {
       // eslint-disable-next-line max-len
-      window.open(`https://github.com/HCLonely/auto-task-v4/issues/new?title=${encodeURIComponent(`[BUG] 脚本报错: ${name}`)}&labels=bug&template=bug_report.yml&website=${encodeURIComponent(window.location.href)}&browser=${JSON.stringify(ua(), null, 4)}&manager=${encodeURIComponent(`${GM_info.scriptHandler} ${GM_info.version}`)}&user-script=${encodeURIComponent(GM_info.script.version)}&logs=${encodeURIComponent(error.stack || 'null')}&run-logs=${$.makeArray($('#auto-task-info>li')).map((element) => element.innerText)
-        .join('\n')}`, '_blank');
+      window.open(`https://github.com/HCLonely/auto-task-v4/issues/new?title=${encodeURIComponent(`[BUG] 脚本报错: ${name}`)}&labels=bug&template=bug_report.yml&website=${encodeURIComponent(window.location.href)}&browser=${encodeURIComponent(JSON.stringify(ua(), null, 4))}&manager=${encodeURIComponent(`${GM_info.scriptHandler} ${GM_info.version}`)}&user-script=${encodeURIComponent(GM_info.script.version)}&logs=${encodeURIComponent(error.stack || 'null')}&run-logs=${encodeURIComponent($.makeArray($('#auto-task-info>li')).map((element) => element.innerText)
+        .join('\n'))}`, '_blank');
     } else if (isDenied) {
       const text = `错误链接: [url=${window.location.href}]${window.location.href}[/url]
 

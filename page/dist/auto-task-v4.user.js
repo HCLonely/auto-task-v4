@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.1.18-beta
+// @version            4.1.19-beta
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1670,25 +1670,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
           isConfirmed
         } = _ref;
         if (isConfirmed) {
-          window.open(`https://github.com/HCLonely/auto-task-v4/issues/new?title=${encodeURIComponent(`脚本报错: ${name}`)}&labels=bug&body=${encodeURIComponent(`错误链接: [${window.location.href}](${window.location.href})
-
-环境:
-\`\`\`
-${JSON.stringify((0, javascript_utils_umd_min.ua)(), null, 4)}
-\`\`\`
-脚本管理器: \`${GM_info.scriptHandler} ${GM_info.version}\`
-脚本版本: \`${GM_info.script.version}\`
-
-报错信息:
-\`\`\`
-${error.stack}
-\`\`\`
-
-执行日志:
-\`\`\`
-${$.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\n')}
-\`\`\`
-`)}`, '_blank');
+          window.open(`https://github.com/HCLonely/auto-task-v4/issues/new?title=${encodeURIComponent(`[BUG] 脚本报错: ${name}`)}&labels=bug&template=bug_report.yml&website=${encodeURIComponent(window.location.href)}&browser=${encodeURIComponent(JSON.stringify((0, 
+          javascript_utils_umd_min.ua)(), null, 4))}&manager=${encodeURIComponent(`${GM_info.scriptHandler} ${GM_info.version}`)}&user-script=${encodeURIComponent(GM_info.script.version)}&logs=${encodeURIComponent(error.stack || 'null')}&run-logs=${encodeURIComponent($.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\n'))}`, '_blank');
         } else if (isDenied) {
           const text = `错误链接: [url=${window.location.href}]${window.location.href}[/url]
 

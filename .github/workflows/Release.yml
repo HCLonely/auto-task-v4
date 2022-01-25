@@ -18,9 +18,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: true
-          tag_name: v4.1.18-beta
-          name: 4.1.18-beta
-          body: '- 修复BUG(#3)'
+          tag_name: v4.1.19-beta
+          name: 4.1.19-beta
+          body: '- 更新反馈模板'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

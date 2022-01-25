@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.1.18-beta",
+  "version": "4.1.19-beta",
   "change": [
-    "修复BUG(#3)"
+    "更新反馈模板"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",
