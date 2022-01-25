@@ -1,0 +1,62 @@
+name: Bug report
+description: 提交BUG
+labels: bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        <!-- 请确认问题可以复现 | Please confirm that the problem can be reproduced -->
+        <!-- 提交问题前请确认已进行以下操作，确认请在`[]`中打`x`-->
+        <!-- Please confirm the following before submitting a question, if confirmed, enter `x` in `[]` -->
+        - [] 我已经将脚本更新到了[最新版](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4.user.js) | I have updated this script to the [latest version](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4.user.js).
+        - [] 我尝试过使用[兼容版](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4.compatibility.user.js)但没有解决 | I have updated this script to the [compatible version](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4.compatibility.user.js) but not solved.
+        - [] 我已经查看了[常见问题解决办法](https://auto-task-doc.js.org/FAQ/)但没有解决 | I have seen [FAQ](https://auto-task-doc.js.org/en/FAQ/) but not solved.
+        - [] 我已经查看了[用前必读](https://auto-task-doc.js.org/guide/#用前必读)但没有解决 | I have seen [READ ME FIRST](https://auto-task-doc.js.org/en/guide/#read-me-first) but not solved.
+        - [] 我已经查看了[issues](https://github.com/HCLonely/auto-task-v4/issues)但没有解决 | I have seen [issues](https://github.com/HCLonely/auto-task-v4/issues) but not solved.
+  - type: textarea
+    id: description
+    attributes:
+      label: 问题描述及如何重现此问题
+      description: Problem description and how to reproduce the problem.
+      placeholder: 请输入
+    validations:
+      required: true
+  - type: input
+    id: website
+    attributes:
+      label: 关于哪一个网站，最好提供具体网址 [支持的网站](https://auto-task-doc.js.org/guide/#支持的网站)
+      description: Which website? It is better to provide a specific URL(required). [Supported website](https://auto-task-doc.js.org/en/guide/#supported-sites-and-tasks)
+      placeholder: 请输入
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: 使用的浏览器及其版本
+      description: Browser and its version.
+      placeholder: 请输入
+    validations:
+      required: true
+  - type: input
+    id: manager
+    attributes:
+      label: 使用的脚本管理器及其版本
+      description: User script manager and its version.
+      placeholder: 请输入
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 错误信息
+      description: 脚本直接报告的错误信息, 或者浏览器开发者工具 (F12 或 Ctrl+Shift+I 召唤) 里 Console / 控制台 一栏的输出。<br>The internal error information reported directly by the script, or the output in the Console column of the browser developer tools (F12 or Ctrl+Shift+I call).
+      render: shell
+      placeholder: 请输入
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 附加截图
+      description: Screenshot
+      placeholder: 可在此粘贴图片

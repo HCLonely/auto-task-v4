@@ -1,0 +1,26 @@
+name: Feature request
+about: 功能建议
+labels: 'feature'
+body:
+  - type: input
+    id: website
+    attributes:
+      label: 关于哪一个网站
+      description: Which website
+      placeholder: 请输入
+    validations:
+      required: true
+  - type: textarea
+    id: feature
+    attributes:
+      label: 关于哪一项功能
+      description: Which feature
+      placeholder: 请输入
+    validations:
+      required: true
+  - type: textarea
+    id: feature
+    attributes:
+      label: 期望的效果
+      description: Desired effect
+      placeholder: 请输入
