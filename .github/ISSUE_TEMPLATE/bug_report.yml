@@ -2,7 +2,7 @@ name: Bug report
 description: 提交BUG
 labels: bug
 body:
-  - type: markdown
+  - type: textarea
     attributes:
       value: |
         <!-- 请确认问题可以复现 | Please confirm that the problem can be reproduced -->
@@ -16,32 +16,32 @@ body:
   - type: textarea
     id: description
     attributes:
-      label: 问题描述及如何重现此问题
-      description: Problem description and how to reproduce the problem.
+      label: 问题描述
+      description: 问题描述及如何重现此问题。<br>Problem description and how to reproduce the problem.
       placeholder: 请输入
     validations:
       required: true
   - type: input
     id: website
     attributes:
-      label: 关于哪一个网站，最好提供具体网址 [支持的网站](https://auto-task-doc.js.org/guide/#支持的网站)
-      description: Which website? It is better to provide a specific URL(required). [Supported website](https://auto-task-doc.js.org/en/guide/#supported-sites-and-tasks)
+      label: 关于哪一个网站
+      description: 最好提供具体网址 [支持的网站](https://auto-task-doc.js.org/guide/#支持的网站) <br>Which website? It is better to provide a specific URL(required). [Supported website](https://auto-task-doc.js.org/en/guide/#supported-sites-and-tasks)
       placeholder: 请输入
     validations:
       required: true
   - type: input
     id: browser
     attributes:
-      label: 使用的浏览器及其版本
-      description: Browser and its version.
+      label: 浏览器版本
+      description: 使用的浏览器及其版本。<br>Browser and its version.
       placeholder: 请输入
     validations:
       required: true
   - type: input
     id: manager
     attributes:
-      label: 使用的脚本管理器及其版本
-      description: User script manager and its version.
+      label: 脚本管理器版本
+      description: 使用的脚本管理器及其版本。<br>User script manager and its version.
       placeholder: 请输入
     validations:
       required: true
