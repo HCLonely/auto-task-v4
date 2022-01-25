@@ -23,8 +23,6 @@ body:
       label: 问题描述
       description: 问题描述及如何重现此问题。<br>Problem description and how to reproduce the problem.
       placeholder: 请输入
-    validations:
-      required: true
   - type: input
     id: website
     attributes:
@@ -33,11 +31,12 @@ body:
       placeholder: 请输入
     validations:
       required: true
-  - type: input
+  - type: textarea
     id: browser
     attributes:
       label: 浏览器版本
       description: 使用的浏览器及其版本。<br>Browser and its version.
+      render: json
       placeholder: 请输入
     validations:
       required: true
@@ -46,6 +45,14 @@ body:
     attributes:
       label: 脚本管理器版本
       description: 使用的脚本管理器及其版本。<br>User script manager and its version.
+      placeholder: 请输入
+    validations:
+      required: true
+  - type: input
+    id: user-script
+    attributes:
+      label: 脚本版本
+      description: 使用的脚本其版本。<br>User script version.
       placeholder: 请输入
     validations:
       required: true
@@ -58,6 +65,13 @@ body:
       placeholder: 请输入
     validations:
       required: true
+  - type: textarea
+    id: run-logs
+    attributes:
+      label: 执行日志
+      description: 页面右下角的执行日志。<br>Execution log in the bottom right corner of the page..
+      render: auto
+      placeholder: 请输入
   - type: textarea
     id: screenshots
     attributes:
