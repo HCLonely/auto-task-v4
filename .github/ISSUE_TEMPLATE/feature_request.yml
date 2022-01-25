@@ -19,7 +19,7 @@ body:
     validations:
       required: true
   - type: textarea
-    id: feature
+    id: effect
     attributes:
       label: 期望的效果
       description: Desired effect
