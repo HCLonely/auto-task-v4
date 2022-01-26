@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2022-01-20 11:14:09
+ * @LastEditTime : 2022-01-26 11:23:20
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -153,6 +153,8 @@ const data = {
   Banned: '已封禁',
   Paused: '已暂停',
   notStart: '未开始',
+  noRemoteData: '检测到远程无数据',
+  errorRemoteDataFormat: '远程数据格式错误',
 
   // Steam
   groups: '组',

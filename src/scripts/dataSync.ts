@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-29 19:53:51
- * @LastEditTime : 2022-01-02 11:09:25
+ * @LastEditTime : 2022-01-26 12:43:09
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/dataSync.ts
  * @Description  : 数据同步
@@ -50,7 +50,7 @@ const setGistData = async (token: string, gistId: string, fileName: string, cont
     return false;
   }
 };
-const getGistData = async (token:string, gistId: string, fileName: string): Promise<boolean> => {
+const getGistData = async (token: string, gistId: string, fileName: string, test = false): Promise<boolean | globalOptions> => {
   try {
     const logStatus = echoLog({ text: __('gettingData') });
     const { result, statusText, status, data } = await httpRequest({
@@ -66,8 +66,24 @@ const getGistData = async (token:string, gistId: string, fileName: string): Prom
 
     if (result === 'Success') {
       if (data?.status === 200) {
+        const content = data.response?.files?.[fileName]?.content;
+        let formatedContent: globalOptions;
+        if (!content) {
+          logStatus.error(`Error:${__('noRemoteData')}`);
+          return false;
+        }
+        if (test) {
+          logStatus.success();
+          return true;
+        }
+        try {
+          formatedContent = JSON.parse(content);
+        } catch (error) {
+          logStatus.error(`Error:${__('errorRemoteDataFormat')}`);
+          return false;
+        }
         logStatus.success();
-        return JSON.parse(data.response?.files?.[fileName]?.content || null);
+        return formatedContent;
       }
       logStatus.error(`Error:${data?.statusText}(${data?.status})`);
       return false;
@@ -111,7 +127,7 @@ const syncOptions = (): void => {
         const fileName = $('#file-name').val() as string;
         const syncHistory = $('#sync-history').prop('checked');
         GM_setValue('gistOptions', { TOKEN: token, GIST_ID: gistId, FILE_NAME: fileName, SYNC_HISTORY: syncHistory });
-        return await getGistData(token, gistId, fileName);
+        return await getGistData(token, gistId, fileName, true);
       },
       allowOutsideClick: () => !Swal.isLoading(),
       confirmButtonText: __('saveAndTest'),

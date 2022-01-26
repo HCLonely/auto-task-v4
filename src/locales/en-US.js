@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2022-01-20 11:14:43
+ * @LastEditTime : 2022-01-26 11:24:39
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/en-US.js
  * @Description  : i18n英文
@@ -169,6 +169,8 @@ const data = {
   Banned: 'Banned',
   Paused: 'Paused',
   notStart: 'notStart',
+  noRemoteData: 'No data remotely',
+  errorRemoteDataFormat: 'Remote data has wrong format',
 
   // Steam
   groups: 'Group',

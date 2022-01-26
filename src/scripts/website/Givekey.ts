@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-13 17:57:40
- * @LastEditTime : 2022-01-20 17:35:59
+ * @LastEditTime : 2022-01-26 10:48:14
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Givekey.ts
  * @Description  : https://givekey.ru
@@ -144,7 +144,7 @@ class Givekey extends Website {
         } else if (/^https?:\/\/twitter\.com\//.test(href) && /Subscribe/gi.test(text)) {
           this.socialTasks.twitter.userLinks.push(href);
           if (action === 'do' && !isSuccess) this.undoneTasks.twitter.userLinks.push(href);
-        } else if (icon.hasClass('fa-discord')) {
+        } else if (icon.hasClass('fa-discord') || /^https?:\/\/discord\.com\/invite\//.test(href)) {
           this.socialTasks.discord.serverLinks.push(href);
           if (action === 'do' && !isSuccess) this.undoneTasks.discord.serverLinks.push(href);
         } else {

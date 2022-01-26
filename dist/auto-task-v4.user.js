@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.1.19-beta
+// @version            4.1.20-beta
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1287,6 +1287,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       Banned: '已封禁',
       Paused: '已暂停',
       notStart: '未开始',
+      noRemoteData: '检测到远程无数据',
+      errorRemoteDataFormat: '远程数据格式错误',
       groups: '组',
       wishlists: '愿望单',
       follows: '游戏关注',
@@ -1536,6 +1538,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       Banned: 'Banned',
       Paused: 'Paused',
       notStart: 'notStart',
+      noRemoteData: 'No data remotely',
+      errorRemoteDataFormat: 'Remote data has wrong format',
       groups: 'Group',
       wishlists: 'Wishlist',
       follows: 'Follow Game',
@@ -1983,7 +1987,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
           status,
           data
         } = await tools_httpRequest({
-          url: `https://discord.com/api/v6/invites/${inviteId}`,
+          url: `https://discord.com/api/v9/invites/${inviteId}`,
           method: 'POST',
           dataType: 'json',
           headers: {
@@ -2031,7 +2035,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
           status,
           data
         } = await tools_httpRequest({
-          url: `https://discord.com/api/v6/users/@me/guilds/${guild}`,
+          url: `https://discord.com/api/v9/users/@me/guilds/${guild}`,
           method: 'DELETE',
           headers: {
             authorization: _classPrivateFieldGet(this, _auth).auth
@@ -2065,12 +2069,13 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
           status,
           data
         } = await tools_httpRequest({
-          url: `https://discord.com/invite/${inviteId}`,
+          url: `https://discord.com/api/v9/invites/${inviteId}`,
+          responseType: 'json',
           method: 'GET'
         });
         if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200) {
-          var _data$responseText$ma;
-          const guild = (_data$responseText$ma = data.responseText.match(/https?:\/\/cdn\.discordapp\.com\/icons\/([\d]+?)\//)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
+          var _data$response2, _data$response2$guild;
+          const guild = (_data$response2 = data.response) === null || _data$response2 === void 0 ? void 0 : (_data$response2$guild = _data$response2.guild) === null || _data$response2$guild === void 0 ? void 0 : _data$response2$guild.id;
           if (guild) {
             logStatus.success();
             _classPrivateMethodGet(this, _setCache, _setCache2).call(this, inviteId, guild);
@@ -2094,6 +2099,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         throwError(error, 'Discord.setCache');
       }
     }
+    unsafeWindow.Discord = Discord;
     const social_Discord = Discord;
     function Instagram_classPrivateMethodInitSpec(obj, privateSet) {
       Instagram_checkPrivateRedeclaration(obj, privateSet);
@@ -7840,7 +7846,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
               if (action === 'do' && !isSuccess) {
                 this.undoneTasks.twitter.userLinks.push(href);
               }
-            } else if (icon.hasClass('fa-discord')) {
+            } else if (icon.hasClass('fa-discord') || /^https?:\/\/discord\.com\/invite\//.test(href)) {
               this.socialTasks.discord.serverLinks.push(href);
               if (action === 'do' && !isSuccess) {
                 this.undoneTasks.discord.serverLinks.push(href);
@@ -9952,7 +9958,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         return false;
       }
     };
-    const getGistData = async (token, gistId, fileName) => {
+    const getGistData = async function(token, gistId, fileName) {
+      let test = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
       try {
         const logStatus = scripts_echoLog({
           text: i18n('gettingData')
@@ -9975,8 +9982,24 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         if (result === 'Success') {
           if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
             var _data$response, _data$response$files2, _data$response$files3;
+            const content = (_data$response = data.response) === null || _data$response === void 0 ? void 0 : (_data$response$files2 = _data$response.files) === null || _data$response$files2 === void 0 ? void 0 : (_data$response$files3 = _data$response$files2[fileName]) === null || _data$response$files3 === void 0 ? void 0 : _data$response$files3.content;
+            let formatedContent;
+            if (!content) {
+              logStatus.error(`Error:${i18n('noRemoteData')}`);
+              return false;
+            }
+            if (test) {
+              logStatus.success();
+              return true;
+            }
+            try {
+              formatedContent = JSON.parse(content);
+            } catch (error) {
+              logStatus.error(`Error:${i18n('errorRemoteDataFormat')}`);
+              return false;
+            }
             logStatus.success();
-            return JSON.parse(((_data$response = data.response) === null || _data$response === void 0 ? void 0 : (_data$response$files2 = _data$response.files) === null || _data$response$files2 === void 0 ? void 0 : (_data$response$files3 = _data$response$files2[fileName]) === null || _data$response$files3 === void 0 ? void 0 : _data$response$files3.content) || null);
+            return formatedContent;
           }
           logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
           return false;
@@ -10020,7 +10043,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
               FILE_NAME: fileName,
               SYNC_HISTORY: syncHistory
             });
-            return await getGistData(token, gistId, fileName);
+            return await getGistData(token, gistId, fileName, true);
           },
           allowOutsideClick: () => !external_Swal_default().isLoading(),
           confirmButtonText: i18n('saveAndTest'),

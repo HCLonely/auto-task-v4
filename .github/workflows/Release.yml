@@ -18,9 +18,12 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: true
-          tag_name: v4.1.19-beta
-          name: 4.1.19-beta
-          body: '- 更新反馈模板'
+          tag_name: v4.1.20-beta
+          name: 4.1.20-beta
+          body: |-
+            - Givekey任务识别优化
+            - 修复Discord退组失败的BUG
+            - 数据同步功能优化
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

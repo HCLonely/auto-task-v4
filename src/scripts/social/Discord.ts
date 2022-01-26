@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2022-01-20 17:31:49
+ * @LastEditTime : 2022-01-26 11:10:32
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
@@ -129,7 +129,7 @@ class Discord extends Social {
     try {
       const logStatus = echoLog({ type: 'joiningDiscordServer', text: inviteId });
       const { result, statusText, status, data } = await httpRequest({
-        url: `https://discord.com/api/v6/invites/${inviteId}`,
+        url: `https://discord.com/api/v9/invites/${inviteId}`,
         method: 'POST',
         dataType: 'json',
         headers: { authorization: this.#auth.auth as string }
@@ -169,7 +169,7 @@ class Discord extends Social {
       }
       const logStatus = echoLog({ type: 'leavingDiscordServer', text: guild });
       const { result, statusText, status, data } = await httpRequest({
-        url: `https://discord.com/api/v6/users/@me/guilds/${guild}`,
+        url: `https://discord.com/api/v9/users/@me/guilds/${guild}`,
         method: 'DELETE',
         headers: { authorization: this.#auth.auth as string }
       });
@@ -200,11 +200,12 @@ class Discord extends Social {
         return guild;
       }
       const { result, statusText, status, data } = await httpRequest({
-        url: `https://discord.com/invite/${inviteId}`,
+        url: `https://discord.com/api/v9/invites/${inviteId}`,
+        responseType: 'json',
         method: 'GET'
       });
       if (result === 'Success' && data?.status === 200) {
-        const guild = data.responseText.match(/https?:\/\/cdn\.discordapp\.com\/icons\/([\d]+?)\//)?.[1];
+        const guild = data.response?.guild?.id;
         if (guild) {
           logStatus.success();
           this.#setCache(inviteId, guild);
@@ -279,5 +280,5 @@ class Discord extends Social {
     }
   }
 }
-
+unsafeWindow.Discord = Discord;
 export default Discord;

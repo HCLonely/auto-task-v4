@@ -2,15 +2,16 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 16:22:46
- * @LastEditTime : 2022-01-25 22:55:42
+ * @LastEditTime : 2022-01-26 12:24:46
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/webpack.config.js
+ * @FilePath     : /auto-task-new/webpack.dev.config.js
  */
 const fs = require('fs');
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const { DefinePlugin } = require('webpack');
 const WebpackBar = require('webpackbar');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const VERSION = JSON.parse(fs.readFileSync('package.json')).version;
 const NAME = 'auto-task-v4';
 
@@ -84,6 +85,12 @@ module.exports = {
     ]
   },
   plugins: [
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      reportFilename: '../doc/docs/.vuepress/public/report.html',
+      generateStatsFile: true,
+      openAnalyzer: false
+    }),
     new WebpackBar(),
     new DefinePlugin({
       __VERSION__: VERSION,

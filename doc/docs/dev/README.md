@@ -12,6 +12,8 @@ lang: zh-CN
 5. 运行`npm test`无报错
 6. 提交 PR
 
-## 目录结构
+## 依赖关系图
 
-更新中...
+<a href="/report.html" target="_blank">查看原页面</a>
+
+<iframe src="/report.html" style="width: 100%;height: 500px;"></iframe>

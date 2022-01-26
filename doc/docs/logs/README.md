@@ -5,6 +5,14 @@ lang: zh-CN
 
 ## V4.1
 
+### V4.1.20-beta
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.1.20-beta)
+
+- Givekey任务识别优化
+- 修复Discord退组失败的BUG
+- 数据同步功能优化
+
 ### V4.1.19-beta
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.1.19-beta)

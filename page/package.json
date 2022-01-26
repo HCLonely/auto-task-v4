@@ -1,8 +1,10 @@
 {
   "name": "auto-task-v4",
-  "version": "4.1.19-beta",
+  "version": "4.1.20-beta",
   "change": [
-    "更新反馈模板"
+    "Givekey任务识别优化",
+    "修复Discord退组失败的BUG",
+    "数据同步功能优化"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",
@@ -10,7 +12,8 @@
     "test": "eslint",
     "tsc": "tsc",
     "gs": "webpack --config webpack.giveawaysu.config.js",
-    "dev": "webpack --config webpack.config.js",
+    "dev": "webpack --config webpack.dev.config.js",
+    "analyze": "webpack-bundle-analyzer ./dist/stats.json",
     "build": "webpack --config webpack.config.js && webpack --config webpack.compatibility.config.js && webpack --config webpack.giveawaysu.config.js && node copy.js && node doc-sync.js && node release.js"
   },
   "author": "HCLonely <h1606051253@gmail.com>",
@@ -44,6 +47,7 @@
     "typescript": "^4.4.4",
     "uglify-js": "^3.14.5",
     "webpack": "^5.60.0",
+    "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.1",
     "webpackbar": "^5.0.2"
   }
