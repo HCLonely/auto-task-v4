@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 13:18:21
- * @LastEditTime : 2022-01-20 10:37:07
+ * @LastEditTime : 2022-01-29 16:23:36
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/global.d.ts
  */
@@ -172,6 +172,7 @@ declare global {
     script: {
       version: string
       name: string
+      'run-at': string
     }
   }
   /* eslint-disable camelcase */

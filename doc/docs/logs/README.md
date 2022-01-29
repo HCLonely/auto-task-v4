@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.1
 
+### V4.1.22-beta
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.1.22-beta)
+
+- 优化获取Discord凭证功能([#6](https://github.com/HCLonely/auto-task-v4/issues/6))
+
 ### V4.1.21-beta
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.1.21-beta)

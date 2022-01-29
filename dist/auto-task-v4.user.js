@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.1.21-beta
+// @version            4.1.22-beta
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -10675,7 +10675,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         var _LocalStorage$getItem;
         window.localStorage.removeItem = () => true;
         const discordAuth = LocalStorage === null || LocalStorage === void 0 ? void 0 : (_LocalStorage$getItem = LocalStorage.getItem('token')) === null || _LocalStorage$getItem === void 0 ? void 0 : _LocalStorage$getItem.replace(/^"|"$/g, '');
-        if (discordAuth && /^mfa\./.test(discordAuth)) {
+        if (discordAuth && discordAuth.length > 0) {
           GM_setValue('discordAuth', {
             auth: discordAuth
           });
@@ -10690,7 +10690,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       } else {
         var _LocalStorage$getItem2;
         const discordAuth = LocalStorage === null || LocalStorage === void 0 ? void 0 : (_LocalStorage$getItem2 = LocalStorage.getItem('token')) === null || _LocalStorage$getItem2 === void 0 ? void 0 : _LocalStorage$getItem2.replace(/^"|"$/g, '');
-        if (discordAuth && /^mfa\./.test(discordAuth)) {
+        if (discordAuth && discordAuth.length > 0) {
           GM_setValue('discordAuth', {
             auth: discordAuth
           });

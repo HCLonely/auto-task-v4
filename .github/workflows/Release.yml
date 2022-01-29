@@ -18,9 +18,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: true
-          tag_name: v4.1.21-beta
-          name: 4.1.21-beta
-          body: '- Sub入库功能优化'
+          tag_name: v4.1.22-beta
+          name: 4.1.22-beta
+          body: '- 优化获取Discord凭证功能(#6)'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

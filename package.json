@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.1.21-beta",
+  "version": "4.1.22-beta",
   "change": [
-    "Sub入库功能优化"
+    "优化获取Discord凭证功能(#6)"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",
