@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.1
 
+### V4.1.21-beta
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.1.21-beta)
+
+- Sub入库功能优化
+
 ### V4.1.20-beta
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.1.20-beta)

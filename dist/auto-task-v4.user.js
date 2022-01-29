@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.1.20-beta
+// @version            4.1.21-beta
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -6169,8 +6169,12 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         return false;
       }
     }
-    async function _addFreeLicense2(id, logStatus) {
+    async function _addFreeLicense2(id, logStatusPre) {
       try {
+        const logStatus = logStatusPre || scripts_echoLog({
+          type: 'addingFreeLicenseSubid',
+          text: id
+        });
         const {
           result,
           statusText,
@@ -6194,6 +6198,15 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         });
         if (result === 'Success') {
           if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+            if (Steam_classPrivateFieldGet(this, _area) === 'CN' && data.responseText.includes('id="error_box"')) {
+              logStatus.warning(i18n('changeAreaNotice'));
+              const result = await Steam_classPrivateMethodGet(this, _changeArea, _changeArea2).call(this);
+              if (!result || result === 'CN') {
+                return false;
+              }
+              return await Steam_classPrivateMethodGet(this, _addFreeLicense, _addFreeLicense2).call(this, id);
+            }
+            logStatus.success();
             return true;
           }
           logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
@@ -6202,7 +6215,6 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         logStatus.error(`${result}:${statusText}(${status})`);
         return false;
       } catch (error) {
-        logStatus.error();
         throwError(error, 'Steam.addFreeLicense');
         return false;
       }
@@ -8661,8 +8673,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         Keylol_defineProperty(this, 'buttons', [ 'doTask', 'undoTask', 'selectAll', 'selectNone', 'invertSelect' ]);
       }
       static test() {
-        var _$$eq$attr;
-        return window.location.host === 'keylol.com' && !!((_$$eq$attr = $('.subforum_left_title_left_up a').eq(3).attr('href')) !== null && _$$eq$attr !== void 0 && _$$eq$attr.includes('319'));
+        var _$$eq$attr, _$$eq$attr2;
+        return window.location.host === 'keylol.com' && (!!((_$$eq$attr = $('.subforum_left_title_left_up a').eq(3).attr('href')) !== null && _$$eq$attr !== void 0 && _$$eq$attr.includes('319')) || !!((_$$eq$attr2 = $('.subforum_left_title_left_up a').eq(3).attr('href')) !== null && _$$eq$attr2 !== void 0 && _$$eq$attr2.includes('234')));
       }
       init() {
         return true;
@@ -8809,6 +8821,21 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
                   continue;
                 }
                 Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, $(`a[href="${link}"]`).after('<span style="color: #ccc; margin: 0 -5px 0 5px"> | </span>').next()[0], 'steam', 'licenseLinks', `appid-${link.replace('#asf', '')}`);
+              }
+            }
+            const subLinks = mainPost.find('a[href*="steamdb.info/sub/"]');
+            if (subLinks.length > 0) {
+              for (const subLink of subLinks) {
+                var _link$match;
+                const link = $(subLink).attr('href');
+                if (!link) {
+                  continue;
+                }
+                const subid = (_link$match = link.match(/^https:\/\/steamdb\.info\/sub\/([\d]+)/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
+                if (!subid) {
+                  continue;
+                }
+                Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, subLink, 'steam', 'licenseLinks', `subid-${subid}`);
               }
             }
             const asfLinks2 = mainPost.find('.blockcode:contains("addlicense")');

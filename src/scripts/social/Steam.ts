@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2022-01-20 17:32:52
+ * @LastEditTime : 2022-01-29 10:28:25
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -1056,7 +1056,7 @@ class Steam extends Social {
       return false;
     }
   }
-  async #addFreeLicense(id: string, logStatus: logStatus): Promise<boolean> {
+  async #addFreeLicense(id: string, logStatusPre?: logStatus): Promise<boolean> {
     /**
       * @internal
       * @description 入库免费游戏
@@ -1064,6 +1064,7 @@ class Steam extends Social {
       * @return true: 成功 | false: 失败
       */
     try {
+      const logStatus = logStatusPre || echoLog({ type: 'addingFreeLicenseSubid', text: id });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://store.steampowered.com/checkout/addfreelicense',
         method: 'POST',
@@ -1082,6 +1083,13 @@ class Steam extends Social {
       });
       if (result === 'Success') {
         if (data?.status === 200) {
+          if (this.#area === 'CN' && data.responseText.includes('id="error_box"')) {
+            logStatus.warning(__('changeAreaNotice'));
+            const result = await this.#changeArea();
+            if (!result || result === 'CN') return false;
+            return await this.#addFreeLicense(id);
+          }
+          logStatus.success();
           return true;
         }
         logStatus.error(`Error:${data?.statusText}(${data?.status})`);
@@ -1090,7 +1098,6 @@ class Steam extends Social {
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      logStatus.error();
       throwError(error as Error, 'Steam.addFreeLicense');
       return false;
     }

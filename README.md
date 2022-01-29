@@ -7,6 +7,12 @@
 
 [![License](https://img.shields.io/github/license/HCLonely/auto-task-v4?label=License)](https://github.com/HCLonely/auto-task-v4/blob/main/LICENSE)
 [![Release](https://img.shields.io/github/v/release/HCLonely/auto-task-v4?include_prereleases)](https://github.com/HCLonely/auto-task-v4/releases)
+[![Checks](https://badgen.net/github/checks/HCLonely/auto-task-v4)](https://github.com/HCLonely/auto-task-v4/actions)
+[![Status](https://badgen.net/github/status/HCLonely/auto-task-v4)](https://github.com/HCLonely/auto-task-v4/actions)
+
+[![GitHub file size in bytes](https://img.shields.io/github/size/HCLonely/auto-task-v4/dist/auto-task-v4.user.js?label=auto-task-v4.user.js)](https://github.com/HCLonely/auto-task-v4/raw/main/dist/auto-task-v4.user.js)
+[![GitHub file size in bytes](https://img.shields.io/github/size/HCLonely/auto-task-v4/dist/auto-task-v4.compatibility.user.js?label=auto-task-v4.compatibility.user.js)](https://github.com/HCLonely/auto-task-v4/raw/main/dist/auto-task-v4.compatibility.user.js)
+[![GitHub file size in bytes](https://img.shields.io/github/size/HCLonely/auto-task-v4/dist/auto-task-v4-for-giveawaysu.user.js?label=auto-task-v4-for-giveawaysu.user.js)](https://github.com/HCLonely/auto-task-v4/raw/main/dist/auto-task-v4-for-giveawaysu.user.js)
 
 自动完成 Key 站任务。
 

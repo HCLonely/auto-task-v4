@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-15 13:58:41
- * @LastEditTime : 2022-01-20 17:37:21
+ * @LastEditTime : 2022-01-29 09:56:30
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Keylol.ts
  * @Description  : https://keylol.com/f319-1
@@ -65,9 +65,12 @@ class Keylol extends Website {
   ];
 
   static test() {
-    return window.location.host === 'keylol.com' && !!$('.subforum_left_title_left_up a').eq(3)
+    return window.location.host === 'keylol.com' && (!!$('.subforum_left_title_left_up a').eq(3)
       .attr('href')
-      ?.includes('319');
+      ?.includes('319') ||
+      !!$('.subforum_left_title_left_up a').eq(3)
+        .attr('href')
+        ?.includes('234'));
   }
   init() {
     return true;
@@ -195,6 +198,16 @@ class Keylol extends Website {
             if (!link) continue;
             this.#addBtn($(`a[href="${link}"]`).after('<span style="color: #ccc; margin: 0 -5px 0 5px"> | </span>')
               .next()[0], 'steam', 'licenseLinks', `appid-${link.replace('#asf', '')}`);
+          }
+        }
+        const subLinks = mainPost.find('a[href*="steamdb.info/sub/"]');
+        if (subLinks.length > 0) {
+          for (const subLink of subLinks) {
+            const link = $(subLink).attr('href');
+            if (!link) continue;
+            const subid = link.match(/^https:\/\/steamdb\.info\/sub\/([\d]+)/)?.[1];
+            if (!subid) continue;
+            this.#addBtn(subLink, 'steam', 'licenseLinks', `subid-${subid}`);
           }
         }
         const asfLinks2 = mainPost.find('.blockcode:contains("addlicense")');
