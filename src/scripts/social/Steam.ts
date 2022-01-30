@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2022-01-29 10:28:25
+ * @LastEditTime : 2022-01-30 12:09:57
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -19,6 +19,7 @@ import { globalOptions } from '../globalOptions';
 
 const defaultTasksTemplate: steamTasks = {
   groups: [],
+  officialGroups: [],
   wishlists: [],
   follows: [],
   forums: [],
@@ -34,13 +35,14 @@ const defaultTasks = JSON.stringify(defaultTasksTemplate);
 
 class Steam extends Social {
   tasks: steamTasks = JSON.parse(defaultTasks);
-  whiteList: steamTasks = GM_getValue<whiteList>('whiteList')?.steam || JSON.parse(defaultTasks);
-  #cache: steamCache = GM_getValue<steamCache>('steamCache') || {
+  whiteList: steamTasks = { ...JSON.parse(defaultTasks), ...GM_getValue<whiteList>('whiteList')?.steam };
+  #cache: steamCache = { ...{
     group: {},
+    officialGroup: {},
     forum: {},
     workshop: {},
     curator: {}
-  };
+  }, ...GM_getValue<steamCache>('steamCache') };
   #auth: auth = {};
   #storeInitialized = false;
   #communityInitialized = false;
@@ -342,6 +344,130 @@ class Steam extends Social {
           const groupId = data.responseText.match(/OpenGroupChat\( '([0-9]+)'/)?.[1];
           if (groupId) {
             this.#setCache('group', groupName, groupId);
+            logStatus.success();
+            return groupId;
+          }
+          logStatus.error(`Error:${data.statusText}(${data.status})`);
+          return false;
+        }
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'Steam.getGroupID');
+      return false;
+    }
+  }
+
+  async #joinOfficialGroup(gameId: string): Promise<boolean> {
+    /**
+     * @internal
+     * @description 加入Steam 官方组
+     * @param gameId Steam游戏Id
+     * @return true: 成功 | false: 失败
+     */
+    try {
+      const logStatus = echoLog({ type: 'joiningSteamOfficialGroup', text: gameId });
+      const { result, statusText, status, data } = await httpRequest({
+        url: `https://steamcommunity.com/games/${gameId}?action=join&sessionID=${this.#auth.communitySessionID}`,
+        method: 'GET',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+      });
+      if (result === 'Success') {
+        if (data?.status === 200 && !data.responseText.includes('id="publicGroupJoin"')) {
+          logStatus.success();
+          this.tasks.officialGroups = unique([...this.tasks.officialGroups, gameId]);
+          const groupId = data.responseText.match(/steam:\/\/friends\/joinchat\/([0-9]+)/)?.[1];
+          if (groupId) {
+            this.#setCache('officialGroup', gameId, groupId);
+          }
+          return true;
+        }
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'Steam.joinOfficialGroup');
+      return false;
+    }
+  }
+  async #leaveOfficialGroup(gameId: string): Promise<boolean> {
+    /**
+     * @internal
+     * @description 退出Steam组
+     * @param groupName Steam组名
+     * @return true: 成功 | false: 失败
+     */
+    try {
+      if (this.whiteList.officialGroups.includes(gameId)) {
+        echoLog({ type: 'whiteList', text: 'Steam.leaveOfficialGroup', id: gameId });
+        return true;
+      }
+      const groupId = await this.#getOfficialGroupId(gameId);
+      if (!groupId) return false;
+      const logStatus = echoLog({ type: 'leavingSteamOfficialGroup', text: gameId });
+      const { result, statusText, status, data } = await httpRequest({
+        url: `https://steamcommunity.com/id/${this.#auth.userName}/home_process`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+        data: $.param({ sessionID: this.#auth.communitySessionID, action: 'leaveGroup', groupId })
+      });
+      if (result === 'Success') {
+        if (data?.status === 200) {
+          const { result: resultR, statusText: statusTextR, status: statusR, data: dataR } = await httpRequest({
+            url: `https://steamcommunity.com/games/${gameId}`,
+            method: 'GET',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+          });
+          if (resultR === 'Success') {
+            if (dataR?.status === 200 && dataR.responseText.includes('id="publicGroupJoin"')) {
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${dataR?.statusText}(${dataR?.status})`);
+            return false;
+          }
+          logStatus.error(`${resultR}:${statusTextR}(${statusR})`);
+          return false;
+        }
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'Steam.leaveOfficialGroup');
+      return false;
+    }
+  }
+  async #getOfficialGroupId(gameId: string): Promise<false | string> {
+    /**
+     * @internal
+     * @description Steam游戏id转组id, 用于退官方组
+     * @param gameId Steam游戏id
+     * @return {string}: 转换成功，返回组id | false: 失败
+     */
+    try {
+      const logStatus = echoLog({ type: 'gettingSteamOfficialGroupId', text: gameId });
+      const groupId = this.#cache.officialGroup[gameId];
+      if (groupId) {
+        logStatus.success();
+        return groupId;
+      }
+      const { result, statusText, status, data } = await httpRequest({
+        url: `https://steamcommunity.com/games/${gameId}`,
+        method: 'GET',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+      });
+      if (result === 'Success') {
+        if (data?.status === 200) {
+          const groupId = data.responseText.match(/steam:\/\/friends\/joinchat\/([0-9]+)/)?.[1];
+          if (groupId) {
+            this.#setCache('officialGroup', gameId, groupId);
             logStatus.success();
             return groupId;
           }
@@ -1144,6 +1270,7 @@ class Steam extends Social {
   async toggle({
     doTask = true,
     groupLinks = [],
+    officialGroupLinks = [],
     wishlistLinks = [],
     followLinks = [],
     forumLinks = [],
@@ -1157,6 +1284,7 @@ class Steam extends Social {
   }: {
     doTask?: boolean,
     groupLinks?: Array<string>,
+    officialGroupLinks?: Array<string>,
     wishlistLinks?: Array<string>,
     followLinks?: Array<string>,
     forumLinks?: Array<string>,
@@ -1174,7 +1302,7 @@ class Steam extends Social {
      * @param {?Array} xxxLinks Steam相关任务链接数组。
      */
     try {
-      if ([...groupLinks, ...forumLinks, ...workshopLinks, ...workshopVoteLinks].length > 0 && !this.#communityInitialized) {
+      if ([...groupLinks, ...officialGroupLinks, ...forumLinks, ...workshopLinks, ...workshopVoteLinks].length > 0 && !this.#communityInitialized) {
         echoLog({ text: __('needInit') });
         return false;
       }
@@ -1200,6 +1328,25 @@ class Steam extends Social {
               prom.push(this.#joinGroup(group));
             } else {
               prom.push(this.#leaveGroup(group));
+            }
+            await delay(1000);
+          }
+        }
+      }
+
+      if (
+        (doTask && !globalOptions.doTask.steam.officialGroups) ||
+        (!doTask && !globalOptions.undoTask.steam.officialGroups)
+      ) {
+        echoLog({ type: 'globalOptionsSkip', text: 'steam.officialGroups' });
+      } else {
+        const realOfficialGroups = this.getRealParams('officialGroups', officialGroupLinks, doTask, (link) => link.match(/games\/(.+)\/?/)?.[1]);
+        if (realOfficialGroups.length > 0) {
+          for (const officialGroup of realOfficialGroups) {
+            if (doTask) {
+              prom.push(this.#joinOfficialGroup(officialGroup));
+            } else {
+              prom.push(this.#leaveOfficialGroup(officialGroup));
             }
             await delay(1000);
           }
@@ -1373,5 +1520,5 @@ class Steam extends Social {
     }
   }
 }
-
+unsafeWindow.Steam = Steam;
 export default Steam;

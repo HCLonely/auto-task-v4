@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-06 13:16:38
- * @LastEditTime : 2022-01-20 10:49:09
+ * @LastEditTime : 2022-01-30 12:06:46
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/whiteList.ts
  * @Description  : 白名单相关
@@ -42,6 +42,7 @@ const defaultWhiteList: whiteList = {
   },
   steam: {
     groups: [],
+    officialGroups: [],
     wishlists: [],
     follows: [],
     forums: [],
@@ -122,10 +123,21 @@ const disabledType = {
   steam: ['workshopVotes', 'curatorLikes', 'announcements'],
   twitter: ['likes']
 };
-
+const assignWhiteList = (whiteList: whiteList): whiteList => {
+  try {
+    const newWhiteList: whiteList = {};
+    for (const [key, value] of Object.entries(defaultWhiteList)) {
+      newWhiteList[key as keyof whiteList] = { ...value, ...whiteList[key as keyof whiteList] };
+    }
+    return newWhiteList;
+  } catch (error) {
+    throwError(error as Error, 'assignWhiteList');
+    return defaultWhiteList;
+  }
+};
 const whiteListOptions = function (showType: 'page' | 'swal'): void {
   try {
-    const whiteList = { ...defaultWhiteList, ...(GM_getValue<whiteList>('whiteList') || {}) };
+    const whiteList = assignWhiteList(GM_getValue<whiteList>('whiteList') || {});
     let whiteListOptionsForm = `<form id="whiteListForm" class="auto-task-form">
   <table class="auto-task-table"><thead><tr><td>${__('website')}</td><td>${__('type')}</td><td>${__('edit')}</td></tr></thead><tbody>`;
     for (const [social, types] of Object.entries(whiteList)) {

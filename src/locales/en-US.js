@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2022-01-26 11:24:39
+ * @LastEditTime : 2022-01-30 11:39:07
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/en-US.js
  * @Description  : i18n英文
@@ -174,6 +174,7 @@ const data = {
 
   // Steam
   groups: 'Group',
+  officialGroups: 'Official Group',
   wishlists: 'Wishlist',
   follows: 'Follow Game',
   forums: 'Forum',
@@ -190,6 +191,9 @@ const data = {
   joiningSteamGroup: 'Joining Steam Group',
   leavingSteamGroup: 'Leaving Steam Group',
   gettingSteamGroupId: 'Getting Steam Group Id',
+  joiningSteamOfficialGroup: 'Joining Steam Official Group',
+  leavingSteamOfficialGroup: 'Leaving Steam Official Group',
+  gettingSteamOfficialGroupId: 'Getting Steam Official Group Id',
   subscribingForum: 'Subscribing the Steam Forum',
   unsubscribingForum: 'Unsubscribing the Steam Forum',
   gettingForumId: 'Getting Steam Forum Id',

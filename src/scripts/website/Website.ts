@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:28
- * @LastEditTime : 2022-01-17 10:27:02
+ * @LastEditTime : 2022-01-30 11:50:45
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Website.ts
  * @Description  :
@@ -122,7 +122,7 @@ abstract class Website {
         if (steamLength > 0) {
           if (!this.social.steam) this.social.steam = new Steam();
           const steamCommunityLength = Object.keys(tasks.steam).map((type) => (
-            ['groupLinks', 'forumLinks', 'workshopLinks', 'workshopVoteLinks'].includes(type) ?
+            ['groupLinks', 'officialGroupLinks', 'forumLinks', 'workshopLinks', 'workshopVoteLinks'].includes(type) ?
               (tasks.steam?.[type as keyof typeof tasks.steam]?.length || 0) : 0))
             .reduce((total, number) => total + number, 0);
           if (steamLength - steamCommunityLength > 0 && !this.socialInitialized.steamStore) {

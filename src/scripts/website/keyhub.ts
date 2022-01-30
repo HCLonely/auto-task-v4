@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2022-01-20 17:36:58
+ * @LastEditTime : 2022-01-30 11:47:50
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
  * @Description  : https://key-hub.eu/
@@ -21,6 +21,7 @@ import { globalOptions } from '../globalOptions';
 const defaultTasksTemplate: khSocialTasks = {
   steam: {
     groupLinks: [],
+    officialGroupLinks: [],
     wishlistLinks: [],
     curatorLinks: []
   },
@@ -99,6 +100,9 @@ class Keyhub extends Website {
         } else if (/steamcommunity\.com\/groups\//.test(link)) {
           if (action === 'undo') this.socialTasks.steam.groupLinks.push(link);
           if (action === 'do') this.undoneTasks.steam.groupLinks.push(link);
+        } else if (/steamcommunity\.com\/games\/[\d]+/.test(link)) {
+          if (action === 'undo') this.socialTasks.steam.officialGroupLinks.push(link);
+          if (action === 'do') this.undoneTasks.steam.officialGroupLinks.push(link);
         } else if (/store\.steampowered\.com\/app\//.test(link) && /wishlist/gim.test(taskDes)) {
           if (action === 'undo') this.socialTasks.steam.wishlistLinks.push(link);
           if (action === 'do') this.undoneTasks.steam.wishlistLinks.push(link);
@@ -108,7 +112,8 @@ class Keyhub extends Website {
         } else if (/^https?:\/\/discord\.com\/invite\//.test(link)) {
           if (action === 'undo') this.socialTasks.discord.serverLinks.push(link);
           if (action === 'do') this.undoneTasks.discord.serverLinks.push(link);
-        } else if (/^https?:\/\/twitter\.com\/.*/.test(link) || /^https?:\/\/www\.twitch\.tv\/.*/.test(link)) {
+        } else if (/^https?:\/\/twitter\.com\/.*/.test(link) || /^https?:\/\/www\.twitch\.tv\/.*/.test(link) ||
+          /^https?:\/\/www\.facebook\.com\/.*/.test(link)) {
           // skip
         } else {
           echoLog({}).warning(`${__('unKnownTaskType')}: ${taskDes}(${link})`);

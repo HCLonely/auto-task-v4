@@ -17,10 +17,13 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          prerelease: true
-          tag_name: v4.1.22-beta
-          name: 4.1.22-beta
-          body: '- 优化获取Discord凭证功能(#6)'
+          prerelease: false
+          tag_name: v4.2.0
+          name: 4.2.0
+          body: |-
+            - Keyhub任务识别优化
+            - 添加Steam官方组功能支持
+            - 白名单功能优化
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

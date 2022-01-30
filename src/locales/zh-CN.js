@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2022-01-26 11:23:20
+ * @LastEditTime : 2022-01-30 11:38:23
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -158,6 +158,7 @@ const data = {
 
   // Steam
   groups: '组',
+  officialGroups: '官方组',
   wishlists: '愿望单',
   follows: '游戏关注',
   forums: '论坛',
@@ -174,6 +175,9 @@ const data = {
   joiningSteamGroup: '正在加入Steam组',
   leavingSteamGroup: '正在退出Steam组',
   gettingSteamGroupId: '正在获取Steam组Id',
+  joiningSteamOfficialGroup: '正在加入Steam官方组',
+  leavingSteamOfficialGroup: '正在退出Steam官方组',
+  gettingSteamOfficialGroupId: '正在获取Steam官方组Id',
   subscribingForum: '正在订阅Steam论坛',
   unsubscribingForum: '正在取消订阅Steam论坛',
   gettingForumId: '正在获取Steam论坛Id',

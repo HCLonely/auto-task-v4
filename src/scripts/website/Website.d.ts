@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-05 11:32:20
- * @LastEditTime : 2022-01-13 13:30:41
+ * @LastEditTime : 2022-01-30 11:31:39
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Website.d.ts
  * @Description  :
@@ -18,6 +18,7 @@ declare interface redditWebTasks {
 }
 declare interface steamWebTasks {
   groupLinks?: Array<string>
+  officialGroupLinks?: Array<string>
   wishlistLinks?: Array<string>
   followLinks?: Array<string>
   forumLinks?: Array<string>

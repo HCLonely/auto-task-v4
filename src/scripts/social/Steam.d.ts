@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-05 10:43:43
- * @LastEditTime : 2022-01-20 17:26:42
+ * @LastEditTime : 2022-01-30 11:23:53
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.d.ts
  */
@@ -25,6 +25,7 @@ declare interface announcementParams {
 
 declare interface steamTasksParam {
   groups?: Array<string>
+  officialGroups?: Array<string>
   wishlists?: Array<string>
   follows?: Array<string>
   forums?: Array<string>

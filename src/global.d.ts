@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 13:18:21
- * @LastEditTime : 2022-01-29 16:23:36
+ * @LastEditTime : 2022-01-30 11:32:55
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/global.d.ts
  */
@@ -66,6 +66,7 @@ declare global {
     likes?: Array<string>
     names?: Array<string>
     groups?: Array<string>
+    officialGroups?: Array<string>
     publics?: Array<string>
     walls?: Array<string>
     wishlists?: Array<string>
@@ -80,7 +81,7 @@ declare global {
     playtests?: Array<string>
   }
   type socialType = 'discord' | 'instagram' | 'reddit' | 'steam' | 'twitch' | 'twitter' | 'vk' | 'youtube'
-  type taskTypes = 'servers' | 'users' | 'reddits' | 'channels' | 'retweets' | 'likes' | 'names' | 'groups' | 'publics' | 'walls' |
+  type taskTypes = 'servers' | 'users' | 'reddits' | 'channels' | 'retweets' | 'likes' | 'names' | 'groups' | 'officialGroups' | 'publics' | 'walls' |
     'wishlists' | 'follows' | 'forums' | 'workshops' | 'curators' | 'workshopVotes' | 'curatorLikes' | 'announcements' | 'licenses' | 'playtests'
 
   interface discordTasks {
@@ -94,6 +95,7 @@ declare global {
   }
   interface steamTasks {
     groups: Array<string>
+    officialGroups: Array<string>
     wishlists: Array<string>
     follows: Array<string>
     forums: Array<string>
@@ -148,10 +150,11 @@ declare global {
   interface cache {
     [name: string]: string
   }
-  type steamCacheTypes = 'group' | 'forum' | 'workshop' | 'curator'
+  type steamCacheTypes = 'group' | 'officialGroup' | 'forum' | 'workshop' | 'curator'
 
   interface steamCache {
     group: cache
+    officialGroup: cache
     forum: cache
     workshop: cache
     curator: cache

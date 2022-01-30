@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2022-01-15 22:11:49
+ * @LastEditTime : 2022-01-30 12:13:26
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/for_giveawaysu/index.ts
  * @Description  :
@@ -22,11 +22,25 @@ declare const commonOptions: {
 };
 
 if (window.location.hostname === 'discord.com') {
-  const discordAuth = window.localStorage?.getItem('token')?.replace(/^"|"$/g, '');
-  GM_setValue('discordAuth', { auth: discordAuth });
-  if (discordAuth && window.location.hash === '#auth') {
-    window.close();
-    Swal.fire('', __('closePageNotice'));
+  const LocalStorage = window.localStorage;
+  if (window.location.hash === '#auth') {
+    window.localStorage.removeItem = () => true;
+    const discordAuth = LocalStorage?.getItem('token')?.replace(/^"|"$/g, '');
+    if (discordAuth && discordAuth.length > 0) {
+      GM_setValue('discordAuth', { auth: discordAuth });
+      window.close();
+      Swal.fire('', __('closePageNotice'));
+    } else {
+      Swal.fire({
+        text: __('getDiscordAuthFailed'),
+        icon: 'error'
+      });
+    }
+  } else {
+    const discordAuth = LocalStorage?.getItem('token')?.replace(/^"|"$/g, '');
+    if (discordAuth && discordAuth.length > 0) {
+      GM_setValue('discordAuth', { auth: discordAuth });
+    }
   }
 }
 

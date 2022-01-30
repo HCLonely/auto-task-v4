@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:36:57
- * @LastEditTime : 2022-01-20 17:33:41
+ * @LastEditTime : 2022-01-30 11:59:13
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitter.ts
  * @Description  : Twitter 关注/取关用户,转推/取消转推推文
@@ -19,7 +19,7 @@ const defaultTasksTemplate: twitterTasks = { users: [], retweets: [], likes: [] 
 const defaultTasks = JSON.stringify(defaultTasksTemplate);
 class Twitter extends Social {
   tasks: twitterTasks = JSON.parse(defaultTasks);
-  whiteList: twitterTasks = GM_getValue<whiteList>('whiteList')?.twitter || JSON.parse(defaultTasks);
+  whiteList: twitterTasks = { ...JSON.parse(defaultTasks), ...GM_getValue<whiteList>('whiteList')?.twitter };
   #verifyId = globalOptions.other.twitterVerifyId;
   #auth: auth = GM_getValue<auth>('twitterAuth') || {};
   #cache: cache = GM_getValue<cache>('twitterCache') || {};

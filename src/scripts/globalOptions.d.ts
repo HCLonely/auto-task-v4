@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-24 17:21:16
- * @LastEditTime : 2022-01-20 10:39:04
+ * @LastEditTime : 2022-01-30 11:30:13
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/globalOptions.d.ts
  */
@@ -33,6 +33,7 @@ interface globalOptions {
     },
     steam: {
       groups: boolean
+      officialGroups: boolean
       wishlists: boolean
       follows: boolean
       forums: boolean
@@ -70,6 +71,7 @@ interface globalOptions {
     },
     steam: {
       groups: boolean
+      officialGroups: boolean
       wishlists: boolean
       follows: boolean
       forums: boolean

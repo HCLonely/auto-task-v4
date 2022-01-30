@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2022-01-26 11:10:32
+ * @LastEditTime : 2022-01-30 11:58:03
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
@@ -20,7 +20,7 @@ const defaultTasks = JSON.stringify(defaultTasksTemplate);
 
 class Discord extends Social {
   tasks: discordTasks = JSON.parse(defaultTasks);
-  whiteList: discordTasks = GM_getValue<whiteList>('whiteList')?.discord || JSON.parse(defaultTasks);
+  whiteList: discordTasks = { ...JSON.parse(defaultTasks), ...GM_getValue<whiteList>('whiteList')?.discord };
   #auth: auth = GM_getValue<auth>('discordAuth') || {};
   #cache: cache = GM_getValue<cache>('discordCache') || {};
   #initialized = false;

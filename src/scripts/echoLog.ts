@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:03:26
- * @LastEditTime : 2022-01-20 10:45:21
+ * @LastEditTime : 2022-01-30 11:36:48
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/echoLog.ts
  * @Description  :
@@ -25,6 +25,11 @@ const echoLog = ({ type, text, html, id }: { type?: string, text?: string, html?
       case 'leavingSteamGroup':
       case 'gettingSteamGroupId':
         ele = $(`<li>${__(type)}<a href="https://steamcommunity.com/groups/${text}" target="_blank">${text}</a>...<font></font></li>`);
+        break;
+      case 'joiningSteamOfficialGroup':
+      case 'leavingSteamOfficialGroup':
+      case 'gettingSteamOfficialGroupId':
+        ele = $(`<li>${__(type)}<a href="https://steamcommunity.com/games/${text}" target="_blank">${text}</a>...<font></font></li>`);
         break;
       case 'subscribingForum':
       case 'unsubscribingForum':

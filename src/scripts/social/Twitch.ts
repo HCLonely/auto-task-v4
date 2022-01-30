@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:00:41
- * @LastEditTime : 2022-01-20 17:33:16
+ * @LastEditTime : 2022-01-30 11:59:00
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitch.ts
  * @Description  : Twitch 关注/取关频道
@@ -19,7 +19,7 @@ const defaultTasksTemplate: twitchTasks = { channels: [] };
 const defaultTasks = JSON.stringify(defaultTasksTemplate);
 class Twitch extends Social {
   tasks: twitchTasks = JSON.parse(defaultTasks);
-  whiteList: twitchTasks = GM_getValue<whiteList>('whiteList')?.twitch || JSON.parse(defaultTasks);
+  whiteList: twitchTasks = { ...JSON.parse(defaultTasks), ...GM_getValue<whiteList>('whiteList')?.twitch };
   #auth: auth = GM_getValue<auth>('twitchAuth') || {};
   #cache: cache = GM_getValue<cache>('twitchCache') || {};
   #initialized = false;

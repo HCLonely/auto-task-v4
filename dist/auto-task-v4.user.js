@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.1.22-beta
+// @version            4.2.0
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -651,6 +651,12 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
             ele = $(`<li>${i18n(type)}<a href="https://steamcommunity.com/groups/${text}" target="_blank">${text}</a>...<font></font></li>`);
             break;
 
+           case 'joiningSteamOfficialGroup':
+           case 'leavingSteamOfficialGroup':
+           case 'gettingSteamOfficialGroupId':
+            ele = $(`<li>${i18n(type)}<a href="https://steamcommunity.com/games/${text}" target="_blank">${text}</a>...<font></font></li>`);
+            break;
+
            case 'subscribingForum':
            case 'unsubscribingForum':
            case 'gettingForumId':
@@ -983,6 +989,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         },
         steam: {
           groups: true,
+          officialGroups: true,
           wishlists: true,
           follows: true,
           forums: true,
@@ -1020,6 +1027,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         },
         steam: {
           groups: true,
+          officialGroups: true,
           wishlists: true,
           follows: true,
           forums: true,
@@ -1290,6 +1298,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       noRemoteData: '检测到远程无数据',
       errorRemoteDataFormat: '远程数据格式错误',
       groups: '组',
+      officialGroups: '官方组',
       wishlists: '愿望单',
       follows: '游戏关注',
       forums: '论坛',
@@ -1306,6 +1315,9 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       joiningSteamGroup: '正在加入Steam组',
       leavingSteamGroup: '正在退出Steam组',
       gettingSteamGroupId: '正在获取Steam组Id',
+      joiningSteamOfficialGroup: '正在加入Steam官方组',
+      leavingSteamOfficialGroup: '正在退出Steam官方组',
+      gettingSteamOfficialGroupId: '正在获取Steam官方组Id',
       subscribingForum: '正在订阅Steam论坛',
       unsubscribingForum: '正在取消订阅Steam论坛',
       gettingForumId: '正在获取Steam论坛Id',
@@ -1541,6 +1553,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       noRemoteData: 'No data remotely',
       errorRemoteDataFormat: 'Remote data has wrong format',
       groups: 'Group',
+      officialGroups: 'Official Group',
       wishlists: 'Wishlist',
       follows: 'Follow Game',
       forums: 'Forum',
@@ -1557,6 +1570,9 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       joiningSteamGroup: 'Joining Steam Group',
       leavingSteamGroup: 'Leaving Steam Group',
       gettingSteamGroupId: 'Getting Steam Group Id',
+      joiningSteamOfficialGroup: 'Joining Steam Official Group',
+      leavingSteamOfficialGroup: 'Leaving Steam Official Group',
+      gettingSteamOfficialGroupId: 'Getting Steam Official Group Id',
       subscribingForum: 'Subscribing the Steam Forum',
       unsubscribingForum: 'Unsubscribing the Steam Forum',
       gettingForumId: 'Getting Steam Forum Id',
@@ -1824,7 +1840,10 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         _classPrivateMethodInitSpec(this, _updateAuth);
         _classPrivateMethodInitSpec(this, _verifyAuth);
         Discord_defineProperty(this, 'tasks', JSON.parse(defaultTasks));
-        Discord_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.discord) || JSON.parse(defaultTasks));
+        Discord_defineProperty(this, 'whiteList', {
+          ...JSON.parse(defaultTasks),
+          ...(_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.discord
+        });
         _classPrivateFieldInitSpec(this, _auth, {
           writable: true,
           value: GM_getValue('discordAuth') || {}
@@ -2184,7 +2203,10 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         Instagram_classPrivateMethodInitSpec(this, _followUser);
         Instagram_classPrivateMethodInitSpec(this, _getUserInfo);
         Instagram_defineProperty(this, 'tasks', JSON.parse(Instagram_defaultTasks));
-        Instagram_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.instagram) || JSON.parse(Instagram_defaultTasks));
+        Instagram_defineProperty(this, 'whiteList', {
+          ...JSON.parse(Instagram_defaultTasks),
+          ...(_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.instagram
+        });
         Instagram_classPrivateFieldInitSpec(this, Instagram_cache, {
           writable: true,
           value: GM_getValue('instagramCache') || {}
@@ -2502,7 +2524,10 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         Reddit_classPrivateMethodInitSpec(this, Reddit_updateAuth);
         Reddit_classPrivateMethodInitSpec(this, _useBeta);
         Reddit_defineProperty(this, 'tasks', JSON.parse(Reddit_defaultTasks));
-        Reddit_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.reddit) || JSON.parse(Reddit_defaultTasks));
+        Reddit_defineProperty(this, 'whiteList', {
+          ...JSON.parse(Reddit_defaultTasks),
+          ...(_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.reddit
+        });
         Reddit_classPrivateFieldInitSpec(this, Reddit_auth, {
           writable: true,
           value: void 0
@@ -2791,7 +2816,10 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         Twitch_classPrivateMethodInitSpec(this, Twitch_updateAuth);
         Twitch_classPrivateMethodInitSpec(this, Twitch_verifyAuth);
         Twitch_defineProperty(this, 'tasks', JSON.parse(Twitch_defaultTasks));
-        Twitch_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.twitch) || JSON.parse(Twitch_defaultTasks));
+        Twitch_defineProperty(this, 'whiteList', {
+          ...JSON.parse(Twitch_defaultTasks),
+          ...(_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.twitch
+        });
         Twitch_classPrivateFieldInitSpec(this, Twitch_auth, {
           writable: true,
           value: GM_getValue('twitchAuth') || {}
@@ -3141,7 +3169,10 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         Twitter_classPrivateMethodInitSpec(this, Twitter_updateAuth);
         Twitter_classPrivateMethodInitSpec(this, Twitter_verifyAuth);
         Twitter_defineProperty(this, 'tasks', JSON.parse(Twitter_defaultTasks));
-        Twitter_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.twitter) || JSON.parse(Twitter_defaultTasks));
+        Twitter_defineProperty(this, 'whiteList', {
+          ...JSON.parse(Twitter_defaultTasks),
+          ...(_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.twitter
+        });
         Twitter_classPrivateFieldInitSpec(this, _verifyId, {
           writable: true,
           value: globalOptions.other.twitterVerifyId
@@ -3578,7 +3609,10 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         Vk_classPrivateMethodInitSpec(this, _toggleGroup);
         Vk_classPrivateMethodInitSpec(this, Vk_verifyAuth);
         Vk_defineProperty(this, 'tasks', JSON.parse(Vk_defaultTasks));
-        Vk_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.vk) || JSON.parse(Vk_defaultTasks));
+        Vk_defineProperty(this, 'whiteList', {
+          ...JSON.parse(Vk_defaultTasks),
+          ...(_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.vk
+        });
         Vk_classPrivateFieldInitSpec(this, _username, {
           writable: true,
           value: ''
@@ -4228,7 +4262,10 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         Youtube_classPrivateMethodInitSpec(this, Youtube_updateAuth);
         Youtube_classPrivateMethodInitSpec(this, Youtube_verifyAuth);
         Youtube_defineProperty(this, 'tasks', JSON.parse(Youtube_defaultTasks));
-        Youtube_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.youtube) || JSON.parse(Youtube_defaultTasks));
+        Youtube_defineProperty(this, 'whiteList', {
+          ...JSON.parse(Youtube_defaultTasks),
+          ...(_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.youtube
+        });
         Youtube_classPrivateFieldInitSpec(this, Youtube_auth, {
           writable: true,
           value: GM_getValue('youtubeAuth') || {}
@@ -4656,6 +4693,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
     }
     const Steam_defaultTasksTemplate = {
       groups: [],
+      officialGroups: [],
       wishlists: [],
       follows: [],
       forums: [],
@@ -4680,6 +4718,9 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
     var _joinGroup = new WeakSet();
     var _leaveGroup = new WeakSet();
     var _getGroupId = new WeakSet();
+    var _joinOfficialGroup = new WeakSet();
+    var _leaveOfficialGroup = new WeakSet();
+    var _getOfficialGroupId = new WeakSet();
     var _addToWishlist = new WeakSet();
     var _removeFromWishlist = new WeakSet();
     var _toggleFollowGame = new WeakSet();
@@ -4722,6 +4763,9 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         Steam_classPrivateMethodInitSpec(this, _toggleFollowGame);
         Steam_classPrivateMethodInitSpec(this, _removeFromWishlist);
         Steam_classPrivateMethodInitSpec(this, _addToWishlist);
+        Steam_classPrivateMethodInitSpec(this, _getOfficialGroupId);
+        Steam_classPrivateMethodInitSpec(this, _leaveOfficialGroup);
+        Steam_classPrivateMethodInitSpec(this, _joinOfficialGroup);
         Steam_classPrivateMethodInitSpec(this, _getGroupId);
         Steam_classPrivateMethodInitSpec(this, _leaveGroup);
         Steam_classPrivateMethodInitSpec(this, _joinGroup);
@@ -4730,14 +4774,21 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         Steam_classPrivateMethodInitSpec(this, _updateCommunityAuth);
         Steam_classPrivateMethodInitSpec(this, _updateStoreAuth);
         Steam_defineProperty(this, 'tasks', JSON.parse(Steam_defaultTasks));
-        Steam_defineProperty(this, 'whiteList', ((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.steam) || JSON.parse(Steam_defaultTasks));
+        Steam_defineProperty(this, 'whiteList', {
+          ...JSON.parse(Steam_defaultTasks),
+          ...(_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.steam
+        });
         Steam_classPrivateFieldInitSpec(this, Steam_cache, {
           writable: true,
-          value: GM_getValue('steamCache') || {
-            group: {},
-            forum: {},
-            workshop: {},
-            curator: {}
+          value: {
+            ...{
+              group: {},
+              officialGroup: {},
+              forum: {},
+              workshop: {},
+              curator: {}
+            },
+            ...GM_getValue('steamCache')
           }
         });
         Steam_classPrivateFieldInitSpec(this, Steam_auth, {
@@ -4838,6 +4889,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         let {
           doTask = true,
           groupLinks = [],
+          officialGroupLinks = [],
           wishlistLinks = [],
           followLinks = [],
           forumLinks = [],
@@ -4850,7 +4902,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
           playtestLinks = []
         } = _ref;
         try {
-          if ([ ...groupLinks, ...forumLinks, ...workshopLinks, ...workshopVoteLinks ].length > 0 && !Steam_classPrivateFieldGet(this, _communityInitialized)) {
+          if ([ ...groupLinks, ...officialGroupLinks, ...forumLinks, ...workshopLinks, ...workshopVoteLinks ].length > 0 && !Steam_classPrivateFieldGet(this, _communityInitialized)) {
             scripts_echoLog({
               text: i18n('needInit')
             });
@@ -4884,6 +4936,27 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
               }
             }
           }
+          if (doTask && !globalOptions.doTask.steam.officialGroups || !doTask && !globalOptions.undoTask.steam.officialGroups) {
+            scripts_echoLog({
+              type: 'globalOptionsSkip',
+              text: 'steam.officialGroups'
+            });
+          } else {
+            const realOfficialGroups = this.getRealParams('officialGroups', officialGroupLinks, doTask, link => {
+              var _link$match2;
+              return (_link$match2 = link.match(/games\/(.+)\/?/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1];
+            });
+            if (realOfficialGroups.length > 0) {
+              for (const officialGroup of realOfficialGroups) {
+                if (doTask) {
+                  prom.push(Steam_classPrivateMethodGet(this, _joinOfficialGroup, _joinOfficialGroup2).call(this, officialGroup));
+                } else {
+                  prom.push(Steam_classPrivateMethodGet(this, _leaveOfficialGroup, _leaveOfficialGroup2).call(this, officialGroup));
+                }
+                await delay(1e3);
+              }
+            }
+          }
           if (doTask && !globalOptions.doTask.steam.wishlists || !doTask && !globalOptions.undoTask.steam.wishlists) {
             scripts_echoLog({
               type: 'globalOptionsSkip',
@@ -4891,8 +4964,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
             });
           } else {
             const realWishlists = this.getRealParams('wishlists', wishlistLinks, doTask, link => {
-              var _link$match2;
-              return (_link$match2 = link.match(/app\/([\d]+)/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1];
+              var _link$match3;
+              return (_link$match3 = link.match(/app\/([\d]+)/)) === null || _link$match3 === void 0 ? void 0 : _link$match3[1];
             });
             if (realWishlists.length > 0) {
               for (const game of realWishlists) {
@@ -4912,8 +4985,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
             });
           } else {
             const realFollows = this.getRealParams('follows', followLinks, doTask, link => {
-              var _link$match3;
-              return (_link$match3 = link.match(/app\/([\d]+)/)) === null || _link$match3 === void 0 ? void 0 : _link$match3[1];
+              var _link$match4;
+              return (_link$match4 = link.match(/app\/([\d]+)/)) === null || _link$match4 === void 0 ? void 0 : _link$match4[1];
             });
             if (realFollows.length > 0) {
               for (const game of realFollows) {
@@ -4929,8 +5002,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
             });
           } else {
             const realForums = this.getRealParams('forums', forumLinks, doTask, link => {
-              var _link$match4;
-              return (_link$match4 = link.match(/app\/([\d]+)/)) === null || _link$match4 === void 0 ? void 0 : _link$match4[1];
+              var _link$match5;
+              return (_link$match5 = link.match(/app\/([\d]+)/)) === null || _link$match5 === void 0 ? void 0 : _link$match5[1];
             });
             if (realForums.length > 0) {
               for (const forum of realForums) {
@@ -4946,8 +5019,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
             });
           } else {
             const realWorkshops = this.getRealParams('workshops', workshopLinks, doTask, link => {
-              var _link$match5;
-              return (_link$match5 = link.match(/\?id=([\d]+)/)) === null || _link$match5 === void 0 ? void 0 : _link$match5[1];
+              var _link$match6;
+              return (_link$match6 = link.match(/\?id=([\d]+)/)) === null || _link$match6 === void 0 ? void 0 : _link$match6[1];
             });
             if (realWorkshops.length > 0) {
               for (const workshop of realWorkshops) {
@@ -4963,8 +5036,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
             });
           } else {
             const realworkshopVotes = this.getRealParams('workshopVotes', workshopVoteLinks, doTask, link => {
-              var _link$match6;
-              return (_link$match6 = link.match(/\?id=([\d]+)/)) === null || _link$match6 === void 0 ? void 0 : _link$match6[1];
+              var _link$match7;
+              return (_link$match7 = link.match(/\?id=([\d]+)/)) === null || _link$match7 === void 0 ? void 0 : _link$match7[1];
             });
             if (doTask && realworkshopVotes.length > 0) {
               for (const workshop of realworkshopVotes) {
@@ -4980,12 +5053,12 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
             });
           } else {
             const realCurators = this.getRealParams('curators', curatorLinks, doTask, link => {
-              var _link$match7;
-              return (_link$match7 = link.match(/curator\/([\d]+)/)) === null || _link$match7 === void 0 ? void 0 : _link$match7[1];
+              var _link$match8;
+              return (_link$match8 = link.match(/curator\/([\d]+)/)) === null || _link$match8 === void 0 ? void 0 : _link$match8[1];
             });
             const realCuratorLikes = this.getRealParams('curatorLikes', curatorLikeLinks, doTask, link => {
-              var _link$match8;
-              return (_link$match8 = link.match(/https?:\/\/store\.steampowered\.com\/(.*?)\/([^/?]+)/)) === null || _link$match8 === void 0 ? void 0 : _link$match8.slice(1, 3).join('/');
+              var _link$match9;
+              return (_link$match9 = link.match(/https?:\/\/store\.steampowered\.com\/(.*?)\/([^/?]+)/)) === null || _link$match9 === void 0 ? void 0 : _link$match9.slice(1, 3).join('/');
             });
             if (realCurators.length > 0) {
               for (const curator of realCurators) {
@@ -5007,12 +5080,12 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
             });
           } else {
             const realAnnouncements = this.getRealParams('announcements', announcementLinks, doTask, link => {
-              var _link$match10;
+              var _link$match11;
               if (link.includes('store.steampowered.com')) {
-                var _link$match9;
-                return (_link$match9 = link.match(/store\.steampowered\.com\/news\/app\/([\d]+)\/view\/([\d]+)/)) === null || _link$match9 === void 0 ? void 0 : _link$match9.slice(1, 3).join('/');
+                var _link$match10;
+                return (_link$match10 = link.match(/store\.steampowered\.com\/news\/app\/([\d]+)\/view\/([\d]+)/)) === null || _link$match10 === void 0 ? void 0 : _link$match10.slice(1, 3).join('/');
               }
-              return (_link$match10 = link.match(/steamcommunity\.com\/games\/([\d]+)\/announcements\/detail\/([\d]+)/)) === null || _link$match10 === void 0 ? void 0 : _link$match10.slice(1, 3).join('/');
+              return (_link$match11 = link.match(/steamcommunity\.com\/games\/([\d]+)\/announcements\/detail\/([\d]+)/)) === null || _link$match11 === void 0 ? void 0 : _link$match11.slice(1, 3).join('/');
             });
             if (doTask && realAnnouncements.length > 0) {
               for (const id of realAnnouncements) {
@@ -5039,8 +5112,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
             });
           } else {
             const realPlaytests = this.getRealParams('playtests', playtestLinks, doTask, link => {
-              var _link$match11;
-              return (_link$match11 = link.match(/app\/([\d]+)/)) === null || _link$match11 === void 0 ? void 0 : _link$match11[1];
+              var _link$match12;
+              return (_link$match12 = link.match(/app\/([\d]+)/)) === null || _link$match12 === void 0 ? void 0 : _link$match12[1];
             });
             if (doTask && globalOptions.doTask.steam.playtests && realPlaytests.length > 0) {
               for (const id of realPlaytests) {
@@ -5390,6 +5463,160 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         return false;
       }
     }
+    async function _joinOfficialGroup2(gameId) {
+      try {
+        const logStatus = scripts_echoLog({
+          type: 'joiningSteamOfficialGroup',
+          text: gameId
+        });
+        const {
+          result,
+          statusText,
+          status,
+          data
+        } = await tools_httpRequest({
+          url: `https://steamcommunity.com/games/${gameId}?action=join&sessionID=${Steam_classPrivateFieldGet(this, Steam_auth).communitySessionID}`,
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+          }
+        });
+        if (result === 'Success') {
+          if ((data === null || data === void 0 ? void 0 : data.status) === 200 && !data.responseText.includes('id="publicGroupJoin"')) {
+            var _data$responseText$ma8;
+            logStatus.success();
+            this.tasks.officialGroups = unique([ ...this.tasks.officialGroups, gameId ]);
+            const groupId = (_data$responseText$ma8 = data.responseText.match(/steam:\/\/friends\/joinchat\/([0-9]+)/)) === null || _data$responseText$ma8 === void 0 ? void 0 : _data$responseText$ma8[1];
+            if (groupId) {
+              Steam_classPrivateMethodGet(this, Steam_setCache, Steam_setCache2).call(this, 'officialGroup', gameId, groupId);
+            }
+            return true;
+          }
+          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+          return false;
+        }
+        logStatus.error(`${result}:${statusText}(${status})`);
+        return false;
+      } catch (error) {
+        throwError(error, 'Steam.joinOfficialGroup');
+        return false;
+      }
+    }
+    async function _leaveOfficialGroup2(gameId) {
+      try {
+        if (this.whiteList.officialGroups.includes(gameId)) {
+          scripts_echoLog({
+            type: 'whiteList',
+            text: 'Steam.leaveOfficialGroup',
+            id: gameId
+          });
+          return true;
+        }
+        const groupId = await Steam_classPrivateMethodGet(this, _getOfficialGroupId, _getOfficialGroupId2).call(this, gameId);
+        if (!groupId) {
+          return false;
+        }
+        const logStatus = scripts_echoLog({
+          type: 'leavingSteamOfficialGroup',
+          text: gameId
+        });
+        const {
+          result,
+          statusText,
+          status,
+          data
+        } = await tools_httpRequest({
+          url: `https://steamcommunity.com/id/${Steam_classPrivateFieldGet(this, Steam_auth).userName}/home_process`,
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+          },
+          data: $.param({
+            sessionID: Steam_classPrivateFieldGet(this, Steam_auth).communitySessionID,
+            action: 'leaveGroup',
+            groupId: groupId
+          })
+        });
+        if (result === 'Success') {
+          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+            const {
+              result: resultR,
+              statusText: statusTextR,
+              status: statusR,
+              data: dataR
+            } = await tools_httpRequest({
+              url: `https://steamcommunity.com/games/${gameId}`,
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+              }
+            });
+            if (resultR === 'Success') {
+              if ((dataR === null || dataR === void 0 ? void 0 : dataR.status) === 200 && dataR.responseText.includes('id="publicGroupJoin"')) {
+                logStatus.success();
+                return true;
+              }
+              logStatus.error(`Error:${dataR === null || dataR === void 0 ? void 0 : dataR.statusText}(${dataR === null || dataR === void 0 ? void 0 : dataR.status})`);
+              return false;
+            }
+            logStatus.error(`${resultR}:${statusTextR}(${statusR})`);
+            return false;
+          }
+          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+          return false;
+        }
+        logStatus.error(`${result}:${statusText}(${status})`);
+        return false;
+      } catch (error) {
+        throwError(error, 'Steam.leaveOfficialGroup');
+        return false;
+      }
+    }
+    async function _getOfficialGroupId2(gameId) {
+      try {
+        const logStatus = scripts_echoLog({
+          type: 'gettingSteamOfficialGroupId',
+          text: gameId
+        });
+        const groupId = Steam_classPrivateFieldGet(this, Steam_cache).officialGroup[gameId];
+        if (groupId) {
+          logStatus.success();
+          return groupId;
+        }
+        const {
+          result,
+          statusText,
+          status,
+          data
+        } = await tools_httpRequest({
+          url: `https://steamcommunity.com/games/${gameId}`,
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+          }
+        });
+        if (result === 'Success') {
+          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+            var _data$responseText$ma9;
+            const groupId = (_data$responseText$ma9 = data.responseText.match(/steam:\/\/friends\/joinchat\/([0-9]+)/)) === null || _data$responseText$ma9 === void 0 ? void 0 : _data$responseText$ma9[1];
+            if (groupId) {
+              Steam_classPrivateMethodGet(this, Steam_setCache, Steam_setCache2).call(this, 'officialGroup', gameId, groupId);
+              logStatus.success();
+              return groupId;
+            }
+            logStatus.error(`Error:${data.statusText}(${data.status})`);
+            return false;
+          }
+          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+          return false;
+        }
+        logStatus.error(`${result}:${statusText}(${status})`);
+        return false;
+      } catch (error) {
+        throwError(error, 'Steam.getGroupID');
+        return false;
+      }
+    }
     async function _addToWishlist2(gameId) {
       try {
         var _data$response;
@@ -5689,8 +5916,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         });
         if (result === 'Success') {
           if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText, _data$responseText$ma8;
-            const forumId = (_data$responseText = data.responseText) === null || _data$responseText === void 0 ? void 0 : (_data$responseText$ma8 = _data$responseText.match(/General_([\d]+(_[\d]+)?)/)) === null || _data$responseText$ma8 === void 0 ? void 0 : _data$responseText$ma8[1];
+            var _data$responseText, _data$responseText$ma10;
+            const forumId = (_data$responseText = data.responseText) === null || _data$responseText === void 0 ? void 0 : (_data$responseText$ma10 = _data$responseText.match(/General_([\d]+(_[\d]+)?)/)) === null || _data$responseText$ma10 === void 0 ? void 0 : _data$responseText$ma10[1];
             if (forumId) {
               Steam_classPrivateMethodGet(this, Steam_setCache, Steam_setCache2).call(this, 'forum', gameId, forumId);
               logStatus.success();
@@ -5785,8 +6012,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         });
         if (result === 'Success') {
           if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText$ma9;
-            const appId = (_data$responseText$ma9 = data.responseText.match(/<input type="hidden" name="appid" value="([\d]+?)" \/>/)) === null || _data$responseText$ma9 === void 0 ? void 0 : _data$responseText$ma9[1];
+            var _data$responseText$ma11;
+            const appId = (_data$responseText$ma11 = data.responseText.match(/<input type="hidden" name="appid" value="([\d]+?)" \/>/)) === null || _data$responseText$ma11 === void 0 ? void 0 : _data$responseText$ma11[1];
             if (appId) {
               Steam_classPrivateMethodGet(this, Steam_setCache, Steam_setCache2).call(this, 'workshop', id, appId);
               logStatus.success();
@@ -5934,7 +6161,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         });
         if (result === 'Success') {
           if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText$ma10, _data$responseText$ma11, _data$responseText$ma12;
+            var _data$responseText$ma12, _data$responseText$ma13, _data$responseText$ma14;
             if (Steam_classPrivateFieldGet(this, _area) === 'CN' && data.responseText.includes('id="error_box"')) {
               logStatus.warning(i18n('changeAreaNotice'));
               if (!await Steam_classPrivateMethodGet(this, _changeArea, _changeArea2).call(this)) {
@@ -5942,9 +6169,9 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
               }
               return await Steam_classPrivateMethodGet(this, _getAnnouncementParams, _getAnnouncementParams2).call(this, appId, viewId);
             }
-            const authWgToken = (_data$responseText$ma10 = data.responseText.match(/authwgtoken&quot;:&quot;(.*?)&quot;/)) === null || _data$responseText$ma10 === void 0 ? void 0 : _data$responseText$ma10[1];
-            const clanId = (_data$responseText$ma11 = data.responseText.match(/clanAccountID&quot;:([\d]+?),/)) === null || _data$responseText$ma11 === void 0 ? void 0 : _data$responseText$ma11[1];
-            const gid = (_data$responseText$ma12 = data.responseText.match(/announcementGID&quot;:&quot;([\d]+?)&quot;/)) === null || _data$responseText$ma12 === void 0 ? void 0 : _data$responseText$ma12[1];
+            const authWgToken = (_data$responseText$ma12 = data.responseText.match(/authwgtoken&quot;:&quot;(.*?)&quot;/)) === null || _data$responseText$ma12 === void 0 ? void 0 : _data$responseText$ma12[1];
+            const clanId = (_data$responseText$ma13 = data.responseText.match(/clanAccountID&quot;:([\d]+?),/)) === null || _data$responseText$ma13 === void 0 ? void 0 : _data$responseText$ma13[1];
+            const gid = (_data$responseText$ma14 = data.responseText.match(/announcementGID&quot;:&quot;([\d]+?)&quot;/)) === null || _data$responseText$ma14 === void 0 ? void 0 : _data$responseText$ma14[1];
             if (authWgToken && clanId) {
               logStatus.success();
               return {
@@ -6044,7 +6271,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         });
         if (result === 'Success') {
           if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText$ma13;
+            var _data$responseText$ma15;
             if (Steam_classPrivateFieldGet(this, _area) === 'CN' && data.responseText.includes('id="error_box"')) {
               logStatus.warning(i18n('changeAreaNotice'));
               const result = await Steam_classPrivateMethodGet(this, _changeArea, _changeArea2).call(this);
@@ -6053,7 +6280,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
               }
               return await Steam_classPrivateMethodGet(this, _appid2subid, _appid2subid2).call(this, id);
             }
-            const subid = (_data$responseText$ma13 = data.responseText.match(/name="subid" value="([\d]+?)"/)) === null || _data$responseText$ma13 === void 0 ? void 0 : _data$responseText$ma13[1];
+            const subid = (_data$responseText$ma15 = data.responseText.match(/name="subid" value="([\d]+?)"/)) === null || _data$responseText$ma15 === void 0 ? void 0 : _data$responseText$ma15[1];
             if (subid) {
               logStatus.success();
               return subid;
@@ -6268,6 +6495,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         throwError(error, 'Steam.setCache');
       }
     }
+    unsafeWindow.Steam = Steam;
     const social_Steam = Steam;
     function Website_classPrivateMethodInitSpec(obj, privateSet) {
       Website_checkPrivateRedeclaration(obj, privateSet);
@@ -6379,7 +6607,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
               }
               const steamCommunityLength = Object.keys(tasks.steam).map(type => {
                 var _tasks$steam, _tasks$steam$type;
-                return [ 'groupLinks', 'forumLinks', 'workshopLinks', 'workshopVoteLinks' ].includes(type) ? ((_tasks$steam = tasks.steam) === null || _tasks$steam === void 0 ? void 0 : (_tasks$steam$type = _tasks$steam[type]) === null || _tasks$steam$type === void 0 ? void 0 : _tasks$steam$type.length) || 0 : 0;
+                return [ 'groupLinks', 'officialGroupLinks', 'forumLinks', 'workshopLinks', 'workshopVoteLinks' ].includes(type) ? ((_tasks$steam = tasks.steam) === null || _tasks$steam === void 0 ? void 0 : (_tasks$steam$type = _tasks$steam[type]) === null || _tasks$steam$type === void 0 ? void 0 : _tasks$steam$type.length) || 0 : 0;
               }).reduce((total, number) => total + number, 0);
               if (steamLength - steamCommunityLength > 0 && !this.socialInitialized.steamStore) {
                 pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'steamStore', this.social.steam.init('store')));
@@ -7481,6 +7709,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
     const Keyhub_defaultTasksTemplate = {
       steam: {
         groupLinks: [],
+        officialGroupLinks: [],
         wishlistLinks: [],
         curatorLinks: []
       },
@@ -7570,6 +7799,13 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
               if (action === 'do') {
                 this.undoneTasks.steam.groupLinks.push(link);
               }
+            } else if (/steamcommunity\.com\/games\/[\d]+/.test(link)) {
+              if (action === 'undo') {
+                this.socialTasks.steam.officialGroupLinks.push(link);
+              }
+              if (action === 'do') {
+                this.undoneTasks.steam.officialGroupLinks.push(link);
+              }
             } else if (/store\.steampowered\.com\/app\//.test(link) && /wishlist/gim.test(taskDes)) {
               if (action === 'undo') {
                 this.socialTasks.steam.wishlistLinks.push(link);
@@ -7591,7 +7827,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
               if (action === 'do') {
                 this.undoneTasks.discord.serverLinks.push(link);
               }
-            } else if (/^https?:\/\/twitter\.com\/.*/.test(link) || /^https?:\/\/www\.twitch\.tv\/.*/.test(link)) {} else {
+            } else if (/^https?:\/\/twitter\.com\/.*/.test(link) || /^https?:\/\/www\.twitch\.tv\/.*/.test(link) || /^https?:\/\/www\.facebook\.com\/.*/.test(link)) {} else {
               scripts_echoLog({}).warning(`${i18n('unKnownTaskType')}: ${taskDes}(${link})`);
             }
           }
@@ -9765,6 +10001,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       },
       steam: {
         groups: [],
+        officialGroups: [],
         wishlists: [],
         follows: [],
         forums: [],
@@ -9862,12 +10099,24 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       steam: [ 'workshopVotes', 'curatorLikes', 'announcements' ],
       twitter: [ 'likes' ]
     };
+    const assignWhiteList = whiteList => {
+      try {
+        const newWhiteList = {};
+        for (const [ key, value ] of Object.entries(defaultWhiteList)) {
+          newWhiteList[key] = {
+            ...value,
+            ...whiteList[key]
+          };
+        }
+        return newWhiteList;
+      } catch (error) {
+        throwError(error, 'assignWhiteList');
+        return defaultWhiteList;
+      }
+    };
     const whiteListOptions = function(showType) {
       try {
-        const whiteList = {
-          ...defaultWhiteList,
-          ...GM_getValue('whiteList') || {}
-        };
+        const whiteList = assignWhiteList(GM_getValue('whiteList') || {});
         let whiteListOptionsForm = `<form id="whiteListForm" class="auto-task-form">
   <table class="auto-task-table"><thead><tr><td>${i18n('website')}</td><td>${i18n('type')}</td><td>${i18n('edit')}</td></tr></thead><tbody>`;
         for (const [ social, types ] of Object.entries(whiteList)) {

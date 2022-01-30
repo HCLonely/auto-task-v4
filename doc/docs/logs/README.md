@@ -3,6 +3,16 @@ title: 更新日志
 lang: zh-CN
 ---
 
+## V4.2
+
+### V4.2.0
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.0)
+
+- Keyhub任务识别优化
+- 添加Steam官方组功能支持
+- 白名单功能优化
+
 ## V4.1
 
 ### V4.1.22-beta
