@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:03:26
- * @LastEditTime : 2022-01-30 11:36:48
+ * @LastEditTime : 2022-01-31 16:10:07
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/echoLog.ts
  * @Description  :
@@ -24,24 +24,24 @@ const echoLog = ({ type, text, html, id }: { type?: string, text?: string, html?
       case 'joiningSteamGroup':
       case 'leavingSteamGroup':
       case 'gettingSteamGroupId':
-        ele = $(`<li>${__(type)}<a href="https://steamcommunity.com/groups/${text}" target="_blank">${text}</a>...<font></font></li>`);
+        ele = $(`<li>${__(type)}[<a href="https://steamcommunity.com/groups/${text}" target="_blank">${text}</a>]...<font></font></li>`);
         break;
       case 'joiningSteamOfficialGroup':
       case 'leavingSteamOfficialGroup':
       case 'gettingSteamOfficialGroupId':
-        ele = $(`<li>${__(type)}<a href="https://steamcommunity.com/games/${text}" target="_blank">${text}</a>...<font></font></li>`);
+        ele = $(`<li>${__(type)}[<a href="https://steamcommunity.com/games/${text}" target="_blank">${text}</a>]...<font></font></li>`);
         break;
       case 'subscribingForum':
       case 'unsubscribingForum':
       case 'gettingForumId':
-        ele = $(`<li>${__(type)}<a href="https://steamcommunity.com/app/${text}/discussions/" target="_blank">${text}</a>...<font></font></li>`);
+        ele = $(`<li>${__(type)}[<a href="https://steamcommunity.com/app/${text}/discussions/" target="_blank">${text}</a>]...<font></font></li>`);
         break;
       case 'followingCurator':
       case 'unfollowingCurator':
       case 'getCuratorId':
-        ele = $(`<li>${__(type)}<a href="https://store.steampowered.com/${
+        ele = $(`<li>${__(type)}[<a href="https://store.steampowered.com/${
           text?.includes('/') ? text : `curator/${text}`
-        }" target="_blank">${text}</a>...<font></font></li>`);
+        }" target="_blank">${text}</a>]...<font></font></li>`);
         break;
       case 'addingToWishlist':
       case 'removingFromWishlist':
@@ -50,29 +50,29 @@ const echoLog = ({ type, text, html, id }: { type?: string, text?: string, html?
       case 'gettingSubid':
       case 'addingFreeLicense':
       case 'requestingPlayTestAccess':
-        ele = $(`<li>${__(type)}<a href="https://store.steampowered.com/app/${text}" target="_blank">${text}</a>...<font></font></li>`);
+        ele = $(`<li>${__(type)}[<a href="https://store.steampowered.com/app/${text}" target="_blank">${text}</a>]...<font></font></li>`);
         break;
       case 'addingFreeLicenseSubid':
-        ele = $(`<li>${__('addingFreeLicense')}<a href="https://steamdb.info/sub/${text}/" target="_blank">${text}</a>...<font></font></li>`);
+        ele = $(`<li>${__('addingFreeLicense')}[<a href="https://steamdb.info/sub/${text}/" target="_blank">${text}</a>]...<font></font></li>`);
         break;
       case 'favoritingWorkshop':
       case 'unfavoritingWorkshop':
       case 'gettingWorkshopAppId':
       case 'votingUpWorkshop':
-        ele = $(`<li>${__(type)}<a href="https://steamcommunity.com/sharedfiles/filedetails/?id=${text}" target="_blank">
-      ${text}</a>...<font></font></li>`);
+        ele = $(`<li>${__(type)}[<a href="https://steamcommunity.com/sharedfiles/filedetails/?id=${text}" target="_blank">
+      ${text}</a>]...<font></font></li>`);
         break;
       case 'gettingAnnouncementParams':
       case 'likingAnnouncement':
-        ele = $(`<li>${__(type)}<a href="https://store.steampowered.com/news/app/${text}/view/${id}" target="_blank">
-      ${id}</a>...<font></font></li>`);
+        ele = $(`<li>${__(type)}[<a href="https://store.steampowered.com/news/app/${text}/view/${id}" target="_blank">
+      ${id}</a>]...<font></font></li>`);
         break;
       case 'joiningDiscordServer':
       case 'gettingDiscordGuild':
-        ele = $(`<li>${__(type)}<a href="https://discord.com/invite/${text}" target="_blank">${text}</a>...<font></font></li>`);
+        ele = $(`<li>${__(type)}[<a href="https://discord.com/invite/${text}" target="_blank">${text}</a>]...<font></font></li>`);
         break;
       case 'leavingDiscordServer':
-        ele = $(`<li>${__(type)}<a href="https://discord.com/channels/@me/${text}" target="_blank">${text}</a>...<font></font></li>`);
+        ele = $(`<li>${__(type)}[<a href="https://discord.com/channels/@me/${text}" target="_blank">${text}</a>]...<font></font></li>`);
         break;
       case 'updateDiscordAuth':
         ele = $(`<li style="color:red;">${__('updateDiscordAuth')}</li>`);
@@ -80,17 +80,17 @@ const echoLog = ({ type, text, html, id }: { type?: string, text?: string, html?
       case 'followingTwitchChannel':
       case 'unfollowingTwitchChannel':
       case 'gettingTwitchChannelId':
-        ele = $(`<li>${__(type)}<a href="https://www.twitch.tv/${text}" target="_blank">${text}</a>...<font></font></li>`);
+        ele = $(`<li>${__(type)}[<a href="https://www.twitch.tv/${text}" target="_blank">${text}</a>]...<font></font></li>`);
         break;
       case 'gettingInsUserId':
       case 'followingIns':
       case 'unfollowingIns':
-        ele = $(`<li>${__(type)}<a href="https://www.instagram.com/${text}/" target="_blank">${text}</a>...<font></font></li>`);
+        ele = $(`<li>${__(type)}[<a href="https://www.instagram.com/${text}/" target="_blank">${text}</a>]...<font></font></li>`);
         break;
       case 'gettingTwitterUserId':
       case 'followingTwitterUser':
       case 'unfollowingTwitterUser':
-        ele = $(`<li>${__(type)}<a href="https://twitter.com/${text}" target="_blank">${text}</a>...<font></font></li>`);
+        ele = $(`<li>${__(type)}[<a href="https://twitter.com/${text}" target="_blank">${text}</a>]...<font></font></li>`);
         break;
       case 'retweetting':
       case 'unretweetting':
@@ -98,20 +98,20 @@ const echoLog = ({ type, text, html, id }: { type?: string, text?: string, html?
         break;
       case 'joiningReddit':
       case 'leavingReddit':
-        ele = $(`<li>${__(type)}<a href="https://www.reddit.com/r/${text}/" target="_blank">${text}</a>...<font></font></li>`);
+        ele = $(`<li>${__(type)}[<a href="https://www.reddit.com/r/${text}/" target="_blank">${text}</a>]...<font></font></li>`);
         break;
       case 'followingRedditUser':
       case 'unfollowingRedditUser':
-        ele = $(`<li>${__(type)}<a href="https://www.reddit.com/user/${text?.replace('u_', '')}" target="_blank">
-      ${text?.replace('u_', '')}</a>...<font></font></li>`);
+        ele = $(`<li>${__(type)}[<a href="https://www.reddit.com/user/${text?.replace('u_', '')}" target="_blank">
+      ${text?.replace('u_', '')}</a>]...<font></font></li>`);
         break;
       case 'followingYtbChannel':
       case 'unfollowingYtbChannel':
-        ele = $(`<li>${__(type)}<a href="https://www.youtube.com/channel/${text}" target="_blank">${text}</a>...<font></font></li>`);
+        ele = $(`<li>${__(type)}[<a href="https://www.youtube.com/channel/${text}" target="_blank">${text}</a>]...<font></font></li>`);
         break;
       case 'likingYtbVideo':
       case 'unlikingYtbVideo':
-        ele = $(`<li>${__(type)}<a href="https://www.youtube.com/watch?v=${text}" target="_blank">${text}</a>...<font></font></li>`);
+        ele = $(`<li>${__(type)}[<a href="https://www.youtube.com/watch?v=${text}" target="_blank">${text}</a>]...<font></font></li>`);
         break;
       case 'gettingVkId':
       case 'joiningVkGroup':
@@ -120,10 +120,10 @@ const echoLog = ({ type, text, html, id }: { type?: string, text?: string, html?
       case 'leavingVkPublic':
       case 'sendingVkWall':
       case 'deletingVkWall':
-        ele = $(`<li>${__(type)}<a href="https://vk.com/${text}/" target="_blank">${text}</a>...<font></font></li>`);
+        ele = $(`<li>${__(type)}[<a href="https://vk.com/${text}/" target="_blank">${text}</a>]...<font></font></li>`);
         break;
       case 'visitingLink':
-        ele = $(`<li>${__('visitingLink')}<a href="${text}" target="_blank">${text}</a>...<font></font></li>`);
+        ele = $(`<li>${__('visitingLink')}[<a href="${text}" target="_blank">${text}</a>]...<font></font></li>`);
         break;
       case 'verifyingInsAuth':
       case 'text':

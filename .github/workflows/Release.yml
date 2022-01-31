@@ -18,12 +18,11 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.2.0
-          name: 4.2.0
+          tag_name: v4.2.1
+          name: 4.2.1
           body: |-
-            - Keyhub任务识别优化
-            - 添加Steam官方组功能支持
-            - 白名单功能优化
+            - 修复已知BUG
+            - 一些优化
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.2.0
+// @version            4.2.1
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -648,25 +648,25 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
            case 'joiningSteamGroup':
            case 'leavingSteamGroup':
            case 'gettingSteamGroupId':
-            ele = $(`<li>${i18n(type)}<a href="https://steamcommunity.com/groups/${text}" target="_blank">${text}</a>...<font></font></li>`);
+            ele = $(`<li>${i18n(type)}[<a href="https://steamcommunity.com/groups/${text}" target="_blank">${text}</a>]...<font></font></li>`);
             break;
 
            case 'joiningSteamOfficialGroup':
            case 'leavingSteamOfficialGroup':
            case 'gettingSteamOfficialGroupId':
-            ele = $(`<li>${i18n(type)}<a href="https://steamcommunity.com/games/${text}" target="_blank">${text}</a>...<font></font></li>`);
+            ele = $(`<li>${i18n(type)}[<a href="https://steamcommunity.com/games/${text}" target="_blank">${text}</a>]...<font></font></li>`);
             break;
 
            case 'subscribingForum':
            case 'unsubscribingForum':
            case 'gettingForumId':
-            ele = $(`<li>${i18n(type)}<a href="https://steamcommunity.com/app/${text}/discussions/" target="_blank">${text}</a>...<font></font></li>`);
+            ele = $(`<li>${i18n(type)}[<a href="https://steamcommunity.com/app/${text}/discussions/" target="_blank">${text}</a>]...<font></font></li>`);
             break;
 
            case 'followingCurator':
            case 'unfollowingCurator':
            case 'getCuratorId':
-            ele = $(`<li>${i18n(type)}<a href="https://store.steampowered.com/${text !== null && text !== void 0 && text.includes('/') ? text : `curator/${text}`}" target="_blank">${text}</a>...<font></font></li>`);
+            ele = $(`<li>${i18n(type)}[<a href="https://store.steampowered.com/${text !== null && text !== void 0 && text.includes('/') ? text : `curator/${text}`}" target="_blank">${text}</a>]...<font></font></li>`);
             break;
 
            case 'addingToWishlist':
@@ -676,34 +676,34 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
            case 'gettingSubid':
            case 'addingFreeLicense':
            case 'requestingPlayTestAccess':
-            ele = $(`<li>${i18n(type)}<a href="https://store.steampowered.com/app/${text}" target="_blank">${text}</a>...<font></font></li>`);
+            ele = $(`<li>${i18n(type)}[<a href="https://store.steampowered.com/app/${text}" target="_blank">${text}</a>]...<font></font></li>`);
             break;
 
            case 'addingFreeLicenseSubid':
-            ele = $(`<li>${i18n('addingFreeLicense')}<a href="https://steamdb.info/sub/${text}/" target="_blank">${text}</a>...<font></font></li>`);
+            ele = $(`<li>${i18n('addingFreeLicense')}[<a href="https://steamdb.info/sub/${text}/" target="_blank">${text}</a>]...<font></font></li>`);
             break;
 
            case 'favoritingWorkshop':
            case 'unfavoritingWorkshop':
            case 'gettingWorkshopAppId':
            case 'votingUpWorkshop':
-            ele = $(`<li>${i18n(type)}<a href="https://steamcommunity.com/sharedfiles/filedetails/?id=${text}" target="_blank">
-      ${text}</a>...<font></font></li>`);
+            ele = $(`<li>${i18n(type)}[<a href="https://steamcommunity.com/sharedfiles/filedetails/?id=${text}" target="_blank">
+      ${text}</a>]...<font></font></li>`);
             break;
 
            case 'gettingAnnouncementParams':
            case 'likingAnnouncement':
-            ele = $(`<li>${i18n(type)}<a href="https://store.steampowered.com/news/app/${text}/view/${id}" target="_blank">
-      ${id}</a>...<font></font></li>`);
+            ele = $(`<li>${i18n(type)}[<a href="https://store.steampowered.com/news/app/${text}/view/${id}" target="_blank">
+      ${id}</a>]...<font></font></li>`);
             break;
 
            case 'joiningDiscordServer':
            case 'gettingDiscordGuild':
-            ele = $(`<li>${i18n(type)}<a href="https://discord.com/invite/${text}" target="_blank">${text}</a>...<font></font></li>`);
+            ele = $(`<li>${i18n(type)}[<a href="https://discord.com/invite/${text}" target="_blank">${text}</a>]...<font></font></li>`);
             break;
 
            case 'leavingDiscordServer':
-            ele = $(`<li>${i18n(type)}<a href="https://discord.com/channels/@me/${text}" target="_blank">${text}</a>...<font></font></li>`);
+            ele = $(`<li>${i18n(type)}[<a href="https://discord.com/channels/@me/${text}" target="_blank">${text}</a>]...<font></font></li>`);
             break;
 
            case 'updateDiscordAuth':
@@ -713,19 +713,19 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
            case 'followingTwitchChannel':
            case 'unfollowingTwitchChannel':
            case 'gettingTwitchChannelId':
-            ele = $(`<li>${i18n(type)}<a href="https://www.twitch.tv/${text}" target="_blank">${text}</a>...<font></font></li>`);
+            ele = $(`<li>${i18n(type)}[<a href="https://www.twitch.tv/${text}" target="_blank">${text}</a>]...<font></font></li>`);
             break;
 
            case 'gettingInsUserId':
            case 'followingIns':
            case 'unfollowingIns':
-            ele = $(`<li>${i18n(type)}<a href="https://www.instagram.com/${text}/" target="_blank">${text}</a>...<font></font></li>`);
+            ele = $(`<li>${i18n(type)}[<a href="https://www.instagram.com/${text}/" target="_blank">${text}</a>]...<font></font></li>`);
             break;
 
            case 'gettingTwitterUserId':
            case 'followingTwitterUser':
            case 'unfollowingTwitterUser':
-            ele = $(`<li>${i18n(type)}<a href="https://twitter.com/${text}" target="_blank">${text}</a>...<font></font></li>`);
+            ele = $(`<li>${i18n(type)}[<a href="https://twitter.com/${text}" target="_blank">${text}</a>]...<font></font></li>`);
             break;
 
            case 'retweetting':
@@ -735,23 +735,23 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
 
            case 'joiningReddit':
            case 'leavingReddit':
-            ele = $(`<li>${i18n(type)}<a href="https://www.reddit.com/r/${text}/" target="_blank">${text}</a>...<font></font></li>`);
+            ele = $(`<li>${i18n(type)}[<a href="https://www.reddit.com/r/${text}/" target="_blank">${text}</a>]...<font></font></li>`);
             break;
 
            case 'followingRedditUser':
            case 'unfollowingRedditUser':
-            ele = $(`<li>${i18n(type)}<a href="https://www.reddit.com/user/${text === null || text === void 0 ? void 0 : text.replace('u_', '')}" target="_blank">
-      ${text === null || text === void 0 ? void 0 : text.replace('u_', '')}</a>...<font></font></li>`);
+            ele = $(`<li>${i18n(type)}[<a href="https://www.reddit.com/user/${text === null || text === void 0 ? void 0 : text.replace('u_', '')}" target="_blank">
+      ${text === null || text === void 0 ? void 0 : text.replace('u_', '')}</a>]...<font></font></li>`);
             break;
 
            case 'followingYtbChannel':
            case 'unfollowingYtbChannel':
-            ele = $(`<li>${i18n(type)}<a href="https://www.youtube.com/channel/${text}" target="_blank">${text}</a>...<font></font></li>`);
+            ele = $(`<li>${i18n(type)}[<a href="https://www.youtube.com/channel/${text}" target="_blank">${text}</a>]...<font></font></li>`);
             break;
 
            case 'likingYtbVideo':
            case 'unlikingYtbVideo':
-            ele = $(`<li>${i18n(type)}<a href="https://www.youtube.com/watch?v=${text}" target="_blank">${text}</a>...<font></font></li>`);
+            ele = $(`<li>${i18n(type)}[<a href="https://www.youtube.com/watch?v=${text}" target="_blank">${text}</a>]...<font></font></li>`);
             break;
 
            case 'gettingVkId':
@@ -761,11 +761,11 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
            case 'leavingVkPublic':
            case 'sendingVkWall':
            case 'deletingVkWall':
-            ele = $(`<li>${i18n(type)}<a href="https://vk.com/${text}/" target="_blank">${text}</a>...<font></font></li>`);
+            ele = $(`<li>${i18n(type)}[<a href="https://vk.com/${text}/" target="_blank">${text}</a>]...<font></font></li>`);
             break;
 
            case 'visitingLink':
-            ele = $(`<li>${i18n('visitingLink')}<a href="${text}" target="_blank">${text}</a>...<font></font></li>`);
+            ele = $(`<li>${i18n('visitingLink')}[<a href="${text}" target="_blank">${text}</a>]...<font></font></li>`);
             break;
 
            case 'verifyingInsAuth':
@@ -8992,15 +8992,15 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
               if (!link) {
                 continue;
               }
-              if (/app\/[\d]+/.test(link)) {
-                Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, steamStoreLink, 'steam', 'followLinks', link);
-                Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, steamStoreLink, 'steam', 'wishlistLinks', link);
-              } else if (/curator\/[\d]+/.test(link)) {
+              if (/curator\/[\d]+/.test(link)) {
                 Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, steamStoreLink, 'steam', 'curatorLinks', link);
               } else if (/(publisher|developer|franchise)\/.+/.test(link)) {
                 Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, steamStoreLink, 'steam', 'curatorLikeLinks', link);
-              } else if (/newshub\/app\/[\d]+\/view\/[\d]+/.test(link)) {
+              } else if (/news(hub)?\/app\/[\d]+\/view\/[\d]+/.test(link)) {
                 Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, steamStoreLink, 'steam', 'announcementLinks', link);
+              } else if (/app\/[\d]+/.test(link)) {
+                Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, steamStoreLink, 'steam', 'followLinks', link);
+                Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, steamStoreLink, 'steam', 'wishlistLinks', link);
               }
             }
           }
@@ -9024,7 +9024,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
                 continue;
               }
               Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, ytbLink, 'youtube', 'channelLinks', link);
-              Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, ytbLink, 'youtube', 'videoLinks', link);
+              Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, ytbLink, 'youtube', 'likeLinks', link);
             }
           }
           const giveawayLinks = mainPost.find('a[href*="giveaway.su/giveaway/view/"],a[href*="givee.club/"],a[href*="gleam.io/"],a[href*="www.indiedb.com/giveaways/"],a[href*="key-hub.eu/giveaway/"],a[href*="opquests.com/quests/"],a[href*="itch.io/s/"]');

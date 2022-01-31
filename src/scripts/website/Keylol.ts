@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-15 13:58:41
- * @LastEditTime : 2022-01-29 09:56:30
+ * @LastEditTime : 2022-01-31 16:20:51
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Keylol.ts
  * @Description  : https://keylol.com/f319-1
@@ -138,15 +138,15 @@ class Keylol extends Website {
         for (const steamStoreLink of steamStoreLinks) {
           const link = $(steamStoreLink).attr('href');
           if (!link) continue;
-          if (/app\/[\d]+/.test(link)) {
-            this.#addBtn(steamStoreLink, 'steam', 'followLinks', link);
-            this.#addBtn(steamStoreLink, 'steam', 'wishlistLinks', link);
-          } else if (/curator\/[\d]+/.test(link)) {
+          if (/curator\/[\d]+/.test(link)) {
             this.#addBtn(steamStoreLink, 'steam', 'curatorLinks', link);
           } else if (/(publisher|developer|franchise)\/.+/.test(link)) {
             this.#addBtn(steamStoreLink, 'steam', 'curatorLikeLinks', link);
-          } else if (/newshub\/app\/[\d]+\/view\/[\d]+/.test(link)) {
+          } else if (/news(hub)?\/app\/[\d]+\/view\/[\d]+/.test(link)) {
             this.#addBtn(steamStoreLink, 'steam', 'announcementLinks', link);
+          } else if (/app\/[\d]+/.test(link)) {
+            this.#addBtn(steamStoreLink, 'steam', 'followLinks', link);
+            this.#addBtn(steamStoreLink, 'steam', 'wishlistLinks', link);
           }
         }
       }
@@ -166,7 +166,7 @@ class Keylol extends Website {
           const link = $(ytbLink).attr('href');
           if (!link) continue;
           this.#addBtn(ytbLink, 'youtube', 'channelLinks', link);
-          this.#addBtn(ytbLink, 'youtube', 'videoLinks', link);
+          this.#addBtn(ytbLink, 'youtube', 'likeLinks', link);
         }
       }
 
