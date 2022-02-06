@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-21 10:01:05
- * @LastEditTime : 2022-01-02 12:54:55
+ * @LastEditTime : 2022-02-06 11:39:25
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/SweepWidget.ts
  * @Description  : https://sweepwidget.com/
@@ -115,6 +115,7 @@ class SweepWidget extends Website {
       /*
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as gasSocialTasks;
       this.socialTasks = this.undoneTasks;
+      if (window.DEBUG) console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
       GM_setValue(`swTasks-${this.giveawayId}`, this.socialTasks);
       */
       return true;

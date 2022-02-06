@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 14:08:18
- * @LastEditTime : 2022-01-25 12:34:55
+ * @LastEditTime : 2022-02-06 11:28:31
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/tools/throwError.ts
  * @Description  : 错误处理函数
@@ -10,7 +10,8 @@
 import Swal from 'sweetalert2';
 import { ua } from '@xuanmo/javascript-utils';
 import __ from './i18n';
-export default function throwError(error:Error, name:string):void {
+export default function throwError(error: Error, name: string): void {
+  if (window.TRACE) console.trace('%cAuto-Task[Debug]:', 'color:blue');
   Swal.fire({
     title: __('errorReport'),
     icon: 'error',
@@ -50,5 +51,5 @@ export default function throwError(error:Error, name:string):void {
       });
     }
   });
-  console.log('%c%s', 'color:white;background:red', `${name}\n${error.stack}`);
+  console.log('%c%s', 'color:white;background:red', `Auto-Task[Error]: ${name}\n${error.stack}`);
 }

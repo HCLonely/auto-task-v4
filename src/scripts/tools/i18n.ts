@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 15:53:43
- * @LastEditTime : 2021-12-30 18:05:16
+ * @LastEditTime : 2022-02-06 11:42:08
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/tools/i18n.ts
  * @Description  : i18n

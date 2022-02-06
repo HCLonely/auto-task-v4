@@ -94,4 +94,4 @@
 // @noframes
 // ==/UserScript==
 
-console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
+console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');

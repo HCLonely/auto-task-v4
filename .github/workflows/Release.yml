@@ -18,11 +18,13 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.2.1
-          name: 4.2.1
+          tag_name: v4.2.2
+          name: 4.2.2
           body: |-
-            - 修复已知BUG
-            - 一些优化
+            - Keylol相关功能优化
+            - 控制台输出优化
+            - 调试功能优化
+            - 其他功能优化
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

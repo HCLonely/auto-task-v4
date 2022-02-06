@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-24 17:21:16
- * @LastEditTime : 2022-01-30 11:30:13
+ * @LastEditTime : 2022-02-06 11:05:10
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/globalOptions.d.ts
  */
@@ -104,5 +104,6 @@ interface globalOptions {
     checkLeftKey: boolean
     defaultShowButton: boolean
     defaultShowLog: boolean
+    debug: boolean
   }
 }

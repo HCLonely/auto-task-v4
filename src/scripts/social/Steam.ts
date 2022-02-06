@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2022-01-30 12:09:57
+ * @LastEditTime : 2022-02-06 11:48:33
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -52,7 +52,7 @@ class Steam extends Social {
     /**
      * @description: 验证及获取Auth
      * @return true: 初始化完成 | false: 初始化失败，toggle方法不可用
-     */
+    */
     try {
       if (type === 'store') {
         if (this.#storeInitialized) {
@@ -90,7 +90,7 @@ class Steam extends Social {
      * @internal
      * @description 更新Steam商店Token.
      * @return true: 更新Token成功 | false: 更新Token失败
-     */
+    */
     try {
       const logStatus = echoLog({ text: __('updatingAuth', __('steamStore')) });
       const { result, statusText, status, data } = await httpRequest({
@@ -128,7 +128,7 @@ class Steam extends Social {
      * @internal
      * @description 更新Steam社区Token.
      * @return true: 更新Token成功 | false: 更新Token失败
-     */
+    */
     try {
       const logStatus = echoLog({ text: __('updatingAuth', __('steamCommunity')) });
       const { result, statusText, status, data } = await httpRequest({
@@ -170,7 +170,7 @@ class Steam extends Social {
      * @internal
      * @description 获取当前购物车地区及可更换的地区（需自备梯子）
      * @return { currentArea : 当前购物车地区, areas : 可更换的地区 } | {}: 更新Token失败
-     */
+    */
     try {
       const logStatus = echoLog({ text: __('gettingAreaInfo') });
       const { result, statusText, status, data } = await httpRequest({
@@ -206,7 +206,7 @@ class Steam extends Social {
      * @internal
      * @description 更换国家/地区，仅限国区切换其他地区，防止限区游戏做任务失败
      * @return {string}: 更换成功，返回更换后的地区 | false: 更换地区失败
-     */
+    */
     try {
       let aimedArea = area;
       if (!aimedArea) {
@@ -257,7 +257,7 @@ class Steam extends Social {
      * @description 加入Steam组
      * @param groupName Steam组名
      * @return true: 成功 | false: 失败
-     */
+    */
     try {
       const logStatus = echoLog({ type: 'joiningSteamGroup', text: groupName });
       const { result, statusText, status, data } = await httpRequest({
@@ -288,7 +288,7 @@ class Steam extends Social {
      * @description 退出Steam组
      * @param groupName Steam组名
      * @return true: 成功 | false: 失败
-     */
+    */
     try {
       if (this.whiteList.groups.includes(groupName)) {
         echoLog({ type: 'whiteList', text: 'Steam.leaveGroup', id: groupName });
@@ -326,7 +326,7 @@ class Steam extends Social {
      * @description Steam组名转id, 用于退组
      * @param groupName Steam组名
      * @return {string}: 转换成功，返回组id | false: 失败
-     */
+    */
     try {
       const logStatus = echoLog({ type: 'gettingSteamGroupId', text: groupName });
       const groupId = this.#cache.group[groupName];
@@ -367,7 +367,7 @@ class Steam extends Social {
      * @description 加入Steam 官方组
      * @param gameId Steam游戏Id
      * @return true: 成功 | false: 失败
-     */
+    */
     try {
       const logStatus = echoLog({ type: 'joiningSteamOfficialGroup', text: gameId });
       const { result, statusText, status, data } = await httpRequest({
@@ -401,7 +401,7 @@ class Steam extends Social {
      * @description 退出Steam组
      * @param groupName Steam组名
      * @return true: 成功 | false: 失败
-     */
+    */
     try {
       if (this.whiteList.officialGroups.includes(gameId)) {
         echoLog({ type: 'whiteList', text: 'Steam.leaveOfficialGroup', id: gameId });
@@ -450,7 +450,7 @@ class Steam extends Social {
      * @description Steam游戏id转组id, 用于退官方组
      * @param gameId Steam游戏id
      * @return {string}: 转换成功，返回组id | false: 失败
-     */
+    */
     try {
       const logStatus = echoLog({ type: 'gettingSteamOfficialGroupId', text: gameId });
       const groupId = this.#cache.officialGroup[gameId];
@@ -491,7 +491,7 @@ class Steam extends Social {
      * @description Steam添加游戏到愿望单
      * @param gameId Steam游戏AppId
      * @return true: 成功 | false: 失败
-     */
+    */
     try {
       const logStatus = echoLog({ type: 'addingToWishlist', text: gameId });
       const { result, data } = await httpRequest({
@@ -549,7 +549,7 @@ class Steam extends Social {
      * @description 从Steam愿望单移除游戏
      * @param gameId Steam游戏AppId
      * @return true: 成功 | false: 失败
-     */
+    */
     try {
       if (this.whiteList.wishlists.includes(gameId)) {
         echoLog({ type: 'whiteList', text: 'Steam.removeFromWishlist', id: gameId });
@@ -606,7 +606,7 @@ class Steam extends Social {
      * @param gameId Steam游戏AppId
      * @param doTask true: 关注游戏 | false: 取关游戏
      * @return true: 成功 | false: 失败
-     */
+    */
     try {
       if (!doTask && this.whiteList.follows.includes(gameId)) {
         echoLog({ type: 'whiteList', text: 'Steam.unfollowGame', id: gameId });
@@ -651,7 +651,7 @@ class Steam extends Social {
      * @description 判断steam游戏是否已关注
      * @param gameId Steam游戏AppId
      * @return true: 已关注 | 'areaLocked': 游戏锁区 | false: 未关注
-     */
+    */
     try {
       const { result, data } = await httpRequest({
         url: `https://store.steampowered.com/app/${gameId}`,
@@ -684,7 +684,7 @@ class Steam extends Social {
       * @param gameId Steam游戏AppId
       * @param doTask true: 订阅论坛 | false: 取消订阅论坛
       * @return true: 成功 | false: 失败
-      */
+    */
     try {
       if (!doTask && this.whiteList.forums.includes(gameId)) {
         echoLog({ type: 'whiteList', text: 'Steam.unsubscribeForum', id: gameId });
@@ -725,7 +725,7 @@ class Steam extends Social {
       * @description Steam游戏AppId转论坛id
       * @param gameId Steam游戏AppId
       * @return string: 转换成功，返回论坛id | false: 失败
-      */
+    */
     try {
       const logStatus = echoLog({ type: 'gettingForumId', text: gameId });
       const forumId = this.#cache.forum[gameId];
@@ -765,7 +765,7 @@ class Steam extends Social {
       * @description 收藏Steam创意工坊物品
       * @param id 创意工坊物品id
       * @return true: 收藏成功 | false: 收藏失败
-      */
+    */
     try {
       if (!doTask && this.whiteList.workshops.includes(id)) {
         echoLog({ type: 'whiteList', text: 'Steam.unfavoriteWorkshop', id });
@@ -806,7 +806,7 @@ class Steam extends Social {
       * @description 获取创意工坊AppId
       * @param id 创意工坊物品id
       * @return string: 获取成功，返回AppId | false: 获取失败
-      */
+    */
     try {
       const logStatus = echoLog({ type: 'gettingWorkshopAppId', text: id });
       const appId = this.#cache.workshop[id];
@@ -845,7 +845,7 @@ class Steam extends Social {
       * @description 点赞创意工坊物品
       * @param id 创意工坊物品id
       * @return true: 点赞成功 | false: 点赞失败
-      */
+    */
     try {
       const logStatus = echoLog({ type: 'votingUpWorkshop', text: id });
       const { result, statusText, status, data } = await httpRequest({
@@ -878,7 +878,7 @@ class Steam extends Social {
       * @description 关注Steam鉴赏家/开发商/发行商
       * @param curatorId 鉴赏家id
       * @return true: 关注成功 | false: 关注失败
-      */
+    */
     try {
       if (!doTask && this.whiteList.curators.includes(curatorId)) {
         echoLog({ type: 'whiteList', text: 'Steam.unfollowCurator', id: curatorId });
@@ -914,7 +914,7 @@ class Steam extends Social {
       * @param path Curator类型
       * @param name Curator名字
       * @return string: 转换成功，返回鉴赏家id | false: 转换失败
-      */
+    */
     try {
       const logStatus = echoLog({ type: 'gettingCuratorId', text: `${path}/${name}` });
       const curatorId = this.#cache.curator[`${path}/${name}`];
@@ -956,7 +956,7 @@ class Steam extends Social {
       * @param link Curator类型/Curator名字
       * @param doTask true: 关注 | false: 取关
       * @return true: 成功 | false: 失败
-      */
+    */
     try {
       const [path, name] = link.split('/');
       if (!(path && name)) {
@@ -981,7 +981,7 @@ class Steam extends Social {
       * @param appId Steam游戏AppId
       * @param viewId Steam通知id
       * @return {object}: 成功 | {}: 失败
-      */
+    */
     try {
       const logStatus = echoLog({ type: 'gettingAnnouncementParams', text: appId, id: viewId });
       const { result, statusText, status, data } = await httpRequest({
@@ -1023,7 +1023,7 @@ class Steam extends Social {
       * @description 点赞Steam通知
       * @param id Steam游戏AppId/Steam通知id
       * @return true: 成功 | false: 失败
-      */
+    */
     try {
       const [appId, viewId] = id.split('/');
       if (!(appId && viewId)) {
@@ -1075,7 +1075,7 @@ class Steam extends Social {
       * @description Steam游戏appid转subid
       * @param id Steam游戏appid
       * @return string: 转换成功，返回subid | false: 转换失败
-      */
+    */
     try {
       const logStatus = echoLog({ type: 'gettingSubid', text: id });
       const { result, statusText, status, data } = await httpRequest({
@@ -1188,7 +1188,7 @@ class Steam extends Social {
       * @description 入库免费游戏
       * @param id Steam游戏subid
       * @return true: 成功 | false: 失败
-      */
+    */
     try {
       const logStatus = logStatusPre || echoLog({ type: 'addingFreeLicenseSubid', text: id });
       const { result, statusText, status, data } = await httpRequest({
@@ -1234,7 +1234,7 @@ class Steam extends Social {
       * @description 请求访问权限
       * @param id Steam游戏appid
       * @return true: 成功 | false: 失败
-      */
+    */
     try {
       const logStatus = echoLog({ type: 'requestingPlayTestAccess', text: id });
       const { result, statusText, status, data } = await httpRequest({
@@ -1300,7 +1300,7 @@ class Steam extends Social {
      * @description 公有方法，统一处理Steam相关任务
      * @param {boolean} doTask true: 做任务 | false: 取消任务
      * @param {?Array} xxxLinks Steam相关任务链接数组。
-     */
+    */
     try {
       if ([...groupLinks, ...officialGroupLinks, ...forumLinks, ...workshopLinks, ...workshopVoteLinks].length > 0 && !this.#communityInitialized) {
         echoLog({ text: __('needInit') });
@@ -1511,7 +1511,7 @@ class Steam extends Social {
      * @internal
      * @description 缓存id转换的对应关系
      * @return {void}
-     */
+    */
     try {
       this.#cache[type][name] = id;
       GM_setValue('steamCache', this.#cache);
@@ -1520,5 +1520,5 @@ class Steam extends Social {
     }
   }
 }
-unsafeWindow.Steam = Steam;
+
 export default Steam;

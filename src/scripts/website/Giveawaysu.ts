@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2022-01-20 17:35:33
+ * @LastEditTime : 2022-02-06 11:38:06
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.ts
  * @Description  : https://giveaway.su/
@@ -177,6 +177,7 @@ class GiveawaySu extends Website {
       logStatus.success();
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as gasSocialTasks;
       this.socialTasks = this.undoneTasks;
+      if (window.DEBUG) console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
       GM_setValue(`gasTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() });
       return true;
     } catch (error) {

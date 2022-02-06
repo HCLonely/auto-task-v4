@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-24 16:41:12
- * @LastEditTime : 2022-01-30 11:30:24
+ * @LastEditTime : 2022-02-06 11:05:01
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/globalOptions.ts
  * @Description  : 全局设置选项
@@ -112,7 +112,8 @@ const defaultGlobalOptions: globalOptions = {
     checkLogin: true,
     checkLeftKey: true,
     defaultShowButton: true,
-    defaultShowLog: true
+    defaultShowLog: true,
+    debug: false
   }
 };
 

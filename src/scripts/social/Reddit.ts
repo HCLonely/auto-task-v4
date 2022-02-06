@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-30 09:43:32
- * @LastEditTime : 2022-01-30 11:58:34
+ * @LastEditTime : 2022-02-06 11:48:28
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Reddit.ts
  * @Description  : Reddit 订阅&取消订阅
@@ -27,7 +27,7 @@ class Reddit extends Social {
     /**
      * @description: 验证及获取Auth
      * @return true: 初始化完成 | false: 初始化失败，toggle方法不可用
-     */
+    */
     try {
       if (this.#initialized) {
         return true;
@@ -50,7 +50,7 @@ class Reddit extends Social {
     /**
      * @description: 切换Reddit网站为新版，此脚本使用新版API
      * @return true: 切换成功 | false: 切换失败
-     */
+    */
     try {
       const logStatus = echoLog({ text: __('changingRedditVersion') });
       GM_setValue('redditAuth', null);
@@ -72,7 +72,7 @@ class Reddit extends Social {
      * @internal
      * @description 通过打开Reddit网站更新Token.
      * @return true: 更新Token成功 | false: 更新Token失败
-     */
+    */
     try {
       const logStatus = echoLog({ text: __('updatingAuth', 'Reddit') });
       const { result, statusText, status, data } = await httpRequest({
@@ -119,7 +119,7 @@ class Reddit extends Social {
      * @param name Reddit用户名或版块名
      * @param doTask true: 做任务 | false: 取消任务
      * @return true: 成功 | false: 失败
-     */
+    */
     try {
       if (!doTask && this.whiteList.reddits.includes(name)) {
         echoLog({ type: 'whiteList', text: 'Reddit.undoTask', id: name });
@@ -169,7 +169,7 @@ class Reddit extends Social {
      * @description 公有方法，统一处理Reddit相关任务
      * @param {boolean} doTask true: 做任务 | false: 取消任务
      * @param {?Array} redditLinks Reddit链接数组。
-     */
+    */
     try {
       if (!this.#initialized) {
         echoLog({ text: __('needInit') });

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 20:22:33
- * @LastEditTime : 2022-01-20 17:37:56
+ * @LastEditTime : 2022-02-06 11:39:14
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Prys.ts
  * @Description  : https://prys.revadike.com/
@@ -112,6 +112,7 @@ class Prys extends Website {
       logStatus.success();
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as prysSocialTasks;
       this.socialTasks = this.uniqueTasks(this.socialTasks) as prysSocialTasks;
+      if (window.DEBUG) console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
       GM_setValue(`prysTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() });
       return true;
     } catch (error) {

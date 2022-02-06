@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 13:18:21
- * @LastEditTime : 2022-01-30 11:32:55
+ * @LastEditTime : 2022-02-06 11:27:21
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/global.d.ts
  */
@@ -208,6 +208,8 @@ declare global {
 
   interface Window {
     STYLE: HTMLElement
+    DEBUG: boolean
+    TRACE: boolean
   }
 }
 

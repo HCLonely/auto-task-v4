@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 11:47:59
- * @LastEditTime : 2022-01-30 11:59:29
+ * @LastEditTime : 2022-02-06 11:48:41
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Vk.ts
  * @Description  : Vk 加入/退出群组，关注/取关用户，转发/取消转发动态
@@ -38,7 +38,7 @@ class Vk extends Social {
     /**
      * @description: 验证及获取Auth
      * @return true: 初始化完成 | false: 初始化失败，toggle方法不可用
-     */
+    */
     try {
       if (this.#initialized) {
         return true;
@@ -62,7 +62,7 @@ class Vk extends Social {
      * @internal
      * @description 检测Vk Token是否失效
      * @return true: Token有效 | false: Token失效
-     */
+    */
     try {
       const logStatus = echoLog({ text: __('verifyAuth', 'Vk') });
       const { result, statusText, status, data } = await httpRequest({
@@ -98,7 +98,7 @@ class Vk extends Social {
      * @param doTask true: 关注 | false: 取关
      * @param dataParam 请求参数
      * @return true: 成功 | false: 失败
-     */
+    */
     try {
       const logStatus = echoLog({ type: doTask ? 'joiningVkGroup' : 'leavingVkGroup', text: name });
       if ((dataParam.groupAct === 'enter' && !doTask) || (dataParam.groupAct === 'leave' && doTask)) {
@@ -153,7 +153,7 @@ class Vk extends Social {
      * @param doTask true: 关注 | false: 取关
      * @param dataParam 请求参数
      * @return true: 成功 | false: 失败
-     */
+    */
     try {
       const logStatus = echoLog({ type: doTask ? 'joiningVkPublic' : 'leavingVkPublic', text: name });
       if ((dataParam.publicJoined && doTask) || (!dataParam.publicJoined && !doTask)) {
@@ -198,7 +198,7 @@ class Vk extends Social {
      * @description 转发Vk Wall
      * @param name Wall Id
      * @return true: 成功 | false: 失败
-     */
+    */
     try {
       const logStatus = echoLog({ type: 'sendingVkWall', text: name });
       const { result, statusText, status, data } = await httpRequest({
@@ -286,7 +286,7 @@ class Vk extends Social {
      * @param name Wall Id
      * @param dataParam 请求参数
      * @return true: 成功 | false: 失败
-     */
+    */
     try {
       const logStatus = echoLog({ type: 'deletingVkWall', text: name });
       const { result, statusText, status, data } = await httpRequest({
@@ -334,7 +334,7 @@ class Vk extends Social {
      * @param name name
      * @param doTask true: 做任务 | false: 取消任务
      * @return {dataParams}: 获取成功，返回请求参数 | false: 获取失败
-     */
+    */
     try {
       let url = `https://vk.com/${name}`;
       if (/^wall-/.test(name)) {
@@ -394,7 +394,7 @@ class Vk extends Social {
      * @param name name
      * @param doTask true: 做任务 | false: 取消任务
      * @return true: 成功 | false: 失败
-     */
+    */
     try {
       if (!doTask && this.whiteList.names.includes(name)) {
         echoLog({ type: 'whiteList', text: 'Vk.undoTask', id: name });
@@ -432,7 +432,7 @@ class Vk extends Social {
      * @description 公有方法，统一处理Vk相关任务
      * @param {boolean} doTask true: 做任务 | false: 取消任务
      * @param {?Array} nameLinks Vk任务链接数组。
-     */
+    */
     try {
       if (!this.#initialized) {
         echoLog({ text: __('needInit') });
@@ -466,7 +466,7 @@ class Vk extends Social {
      * @internal
      * @description 缓存Vk Wall Id与Post Id的对应关系
      * @return {void}
-     */
+    */
     try {
       this.#cache[name] = postId;
       GM_setValue('vkCache', this.#cache);

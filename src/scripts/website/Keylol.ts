@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-15 13:58:41
- * @LastEditTime : 2022-01-31 16:20:51
+ * @LastEditTime : 2022-02-06 11:38:56
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Keylol.ts
  * @Description  : https://keylol.com/f319-1
@@ -77,17 +77,18 @@ class Keylol extends Website {
   }
   after(): void {
     try {
+      // 筛选可见元素
       const selector = this.name === 'Keylol' ? '#postlist>div[id^="post_"]:first' : 'div.container';
       const mainPost = $(selector);
-      const discordLinks = mainPost.find('a[href*="discord.com"]');
-      const redditLinks = mainPost.find('a[href*="reddit.com"]');
-      const insLinks = mainPost.find('a[href*="instagram.com"]');
-      const twitterLinks = mainPost.find('a[href*="twitter.com"]');
-      const twitchLinks = mainPost.find('a[href*="twitch.tv"]');
-      const vkLinks = mainPost.find('a[href*="vk.com"]');
-      const steamStoreLinks = mainPost.find('a[href*="store.steampowered.com"]');
-      const steamCommunityLinks = mainPost.find('a[href*="steamcommunity.com"]');
-      const ytbLinks = mainPost.find('a[href*="youtube.com"]');
+      const discordLinks = mainPost.find('a[href*="discord.com"]:visible');
+      const redditLinks = mainPost.find('a[href*="reddit.com"]:visible');
+      const insLinks = mainPost.find('a[href*="instagram.com"]:visible');
+      const twitterLinks = mainPost.find('a[href*="twitter.com"]:visible');
+      const twitchLinks = mainPost.find('a[href*="twitch.tv"]:visible');
+      const vkLinks = mainPost.find('a[href*="vk.com"]:visible');
+      const steamStoreLinks = mainPost.find('a[href*="store.steampowered.com"]:visible');
+      const steamCommunityLinks = mainPost.find('a[href*="steamcommunity.com"]:visible');
+      const ytbLinks = mainPost.find('a[href*="youtube.com"]:visible');
       if (discordLinks.length > 0) {
         for (const discordLink of discordLinks) {
           const link = $(discordLink).attr('href');
@@ -171,7 +172,7 @@ class Keylol extends Website {
       }
 
       // eslint-disable-next-line max-len
-      const giveawayLinks = mainPost.find('a[href*="giveaway.su/giveaway/view/"],a[href*="givee.club/"],a[href*="gleam.io/"],a[href*="www.indiedb.com/giveaways/"],a[href*="key-hub.eu/giveaway/"],a[href*="opquests.com/quests/"],a[href*="itch.io/s/"]');
+      const giveawayLinks = mainPost.find('a[href*="giveaway.su/giveaway/view/"]:visible,a[href*="givee.club/"]:visible,a[href*="gleam.io/"]:visible,a[href*="www.indiedb.com/giveaways/"]:visible,a[href*="key-hub.eu/giveaway/"]:visible,a[href*="opquests.com/quests/"]:visible,a[href*="itch.io/s/"]:visible');
       if (giveawayLinks.length > 0) {
         for (const giveawayLink of giveawayLinks) {
           const link = $(giveawayLink).attr('href');
@@ -191,7 +192,7 @@ class Keylol extends Website {
       }
 
       if (this.name === 'Keylol') {
-        const asfLinks = mainPost.find('a[href^="#asf"]');
+        const asfLinks = mainPost.find('a[href^="#asf"]:visible');
         if (asfLinks.length > 0) {
           for (const asfLink of asfLinks) {
             const link = $(asfLink).attr('href');
@@ -200,7 +201,7 @@ class Keylol extends Website {
               .next()[0], 'steam', 'licenseLinks', `appid-${link.replace('#asf', '')}`);
           }
         }
-        const subLinks = mainPost.find('a[href*="steamdb.info/sub/"]');
+        const subLinks = mainPost.find('a[href*="steamdb.info/sub/"]:visible');
         if (subLinks.length > 0) {
           for (const subLink of subLinks) {
             const link = $(subLink).attr('href');
@@ -210,7 +211,7 @@ class Keylol extends Website {
             this.#addBtn(subLink, 'steam', 'licenseLinks', `subid-${subid}`);
           }
         }
-        const asfLinks2 = mainPost.find('.blockcode:contains("addlicense")');
+        const asfLinks2 = mainPost.find('.blockcode:contains("addlicense"):visible');
         if (asfLinks2.length > 0) {
           for (const asfLink of asfLinks2) {
             const subid = [...asfLink.innerText.matchAll(/s\/([\d]+)/g)].map((arr) => arr[1]);
@@ -227,7 +228,7 @@ class Keylol extends Website {
     try {
       this.socialTasks = JSON.parse(defaultTasks);
       this.undoneTasks = JSON.parse(defaultTasks);
-      const selectedBtns = $('.auto-task-keylol[selected="selected"]');
+      const selectedBtns = $('.auto-task-keylol[selected="selected"]:visible');
       for (const btn of selectedBtns) {
         const button = $(btn);
         const social = button.attr('data-social');
@@ -243,6 +244,7 @@ class Keylol extends Website {
 
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as keylolSocialTasks;
       this.socialTasks = this.uniqueTasks(this.socialTasks) as keylolSocialTasks;
+      if (window.DEBUG) console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
       return true;
     } catch (error) {
       throwError(error as Error, 'Keylol.classifyTask');
@@ -251,21 +253,21 @@ class Keylol extends Website {
   }
   selectAll() {
     try {
-      $('.auto-task-keylol').attr('selected', 'selected');
+      $('.auto-task-keylol:visible').attr('selected', 'selected');
     } catch (error) {
       throwError(error as Error, 'Keylol.selectAll');
     }
   }
   selectNone() {
     try {
-      $('.auto-task-keylol').removeAttr('selected');
+      $('.auto-task-keylol:visible').removeAttr('selected');
     } catch (error) {
       throwError(error as Error, 'Keylol.selectNone');
     }
   }
   invertSelect() {
     try {
-      $('.auto-task-keylol').each((index, element) => {
+      $('.auto-task-keylol:visible').each((index, element) => {
         element.getAttribute('selected') ? element.removeAttribute('selected') : element.setAttribute('selected', 'selected');
       });
     } catch (error) {

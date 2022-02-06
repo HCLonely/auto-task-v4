@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2022-01-30 11:47:50
+ * @LastEditTime : 2022-02-06 11:38:45
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
  * @Description  : https://key-hub.eu/
@@ -123,6 +123,7 @@ class Keyhub extends Website {
       logStatus.success();
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as khSocialTasks;
       this.socialTasks = this.uniqueTasks(this.socialTasks) as khSocialTasks;
+      if (window.DEBUG) console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
       GM_setValue(`khTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() });
       return true;
     } catch (error) {

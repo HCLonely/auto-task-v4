@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-13 17:57:40
- * @LastEditTime : 2022-01-26 10:48:14
+ * @LastEditTime : 2022-02-06 11:38:18
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Givekey.ts
  * @Description  : https://givekey.ru
@@ -156,6 +156,7 @@ class Givekey extends Website {
       this.tasks = unique(this.tasks);
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as gkSocialTasks;
       this.socialTasks = this.uniqueTasks(this.socialTasks) as gkSocialTasks;
+      if (window.DEBUG) console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
       GM_setValue(`gkTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() });
       return true;
     } catch (error) {

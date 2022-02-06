@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 14:58:11
- * @LastEditTime : 2022-01-02 11:07:46
+ * @LastEditTime : 2022-02-06 11:42:57
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/tools/tools.ts
  * @Description  : 其他工具函数
@@ -10,7 +10,7 @@ import throwError from './throwError';
 import httpRequest from './httpRequest';
 import echoLog from '../echoLog';
 
-const unique = (array:Array<any>):Array<any> => {
+const unique = (array: Array<any>): Array<any> => {
   try {
     return [...new Set(array)];
   } catch (error) {

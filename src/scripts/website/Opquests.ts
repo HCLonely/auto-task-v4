@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-18 13:31:23
- * @LastEditTime : 2022-01-02 12:52:33
+ * @LastEditTime : 2022-02-06 11:39:08
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Opquests.ts
  * @Description  : https://opquests.com/
@@ -98,6 +98,7 @@ class Opquests extends Website {
 
       logStatus.success();
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as oqSocialTasks;
+      if (window.DEBUG) console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
       // GM_setValue(`oqTasks-${this.giveawayId}`, this.socialTasks);
       return true;
     } catch (error) {

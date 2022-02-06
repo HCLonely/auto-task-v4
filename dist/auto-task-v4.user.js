@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.2.1
+// @version            4.2.2
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -94,7 +94,7 @@
 // @noframes
 // ==/UserScript==
 
-console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
+console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
 
 (function() {
   var __webpack_modules__ = {
@@ -556,6 +556,9 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
     var javascript_utils_umd_min = __webpack_require__(514);
     const httpRequest = async function(options) {
       let times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      if (window.TRACE) {
+        console.trace('%cAuto-Task[Debug]:', 'color:blue');
+      }
       try {
         const result = await new Promise(resolve => {
           if (options.dataType) {
@@ -605,17 +608,19 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
           };
           GM_xmlhttpRequest(requestObj);
         });
-        console.log('发送请求:', result);
+        if (window.DEBUG) {
+          console.log('%cAuto-Task[httpRequest]:', 'color:blue', JSON.stringify(result));
+        }
         if (result.status !== 600 && times < 2) {
           return await httpRequest(options, times + 1);
         }
         return result;
       } catch (error) {
-        throwError(error, 'httpRequest');
-        console.log('发送请求:', {
+        console.log('%cAuto-Task[httpRequest]:', 'color:red', JSON.stringify({
           errorMsg: error,
           options: options
-        });
+        }));
+        throwError(error, 'httpRequest');
         return {
           result: 'JsError',
           statusText: 'Error',
@@ -1059,7 +1064,8 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         checkLogin: true,
         checkLeftKey: true,
         defaultShowButton: true,
-        defaultShowLog: true
+        defaultShowLog: true,
+        debug: false
       }
     };
     const userDefinedGlobalOptions = GM_getValue('globalOptions') || {};
@@ -1238,6 +1244,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       hideLog: '隐藏日志',
       defaultShowButton: '默认显示按钮',
       defaultShowLog: '默认显示日志',
+      debug: '输出调试日志，不要开启此选项！',
       position: '组件位置',
       buttonSideX: '按钮区域水平方向定位(实时预览功能仅在设置页面可用)</br>left: 靠左 | right: 靠右',
       buttonSideY: '按钮区域垂直方向定位(实时预览功能仅在设置页面可用)</br>top: 靠上 | bottom: 靠下',
@@ -1493,6 +1500,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       hideLog: 'HideLog',
       defaultShowButton: 'Default display button',
       defaultShowLog: 'Display log by default',
+      debug: 'Output debug log, do not enable this option!',
       position: 'Component position',
       buttonSideX: 'Horizontal positioning of the button area (real-time preview function is only available on the setting page).' + '</br>left: left | right: right',
       buttonSideY: 'The button area is positioned in the vertical direction (real-time preview function is only available on the settings page).' + '</br>top: top | bottom: bottom',
@@ -1676,6 +1684,9 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
     };
     const i18n = I18n;
     function throwError(error, name) {
+      if (window.TRACE) {
+        console.trace('%cAuto-Task[Debug]:', 'color:blue');
+      }
       external_Swal_default().fire({
         title: i18n('errorReport'),
         icon: 'error',
@@ -1717,7 +1728,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
           });
         }
       });
-      console.log('%c%s', 'color:white;background:red', `${name}\n${error.stack}`);
+      console.log('%c%s', 'color:white;background:red', `Auto-Task[Error]: ${name}\n${error.stack}`);
     }
     function _defineProperty(obj, key, value) {
       if (key in obj) {
@@ -2118,7 +2129,6 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         throwError(error, 'Discord.setCache');
       }
     }
-    unsafeWindow.Discord = Discord;
     const social_Discord = Discord;
     function Instagram_classPrivateMethodInitSpec(obj, privateSet) {
       Instagram_checkPrivateRedeclaration(obj, privateSet);
@@ -6495,7 +6505,6 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         throwError(error, 'Steam.setCache');
       }
     }
-    unsafeWindow.Steam = Steam;
     const social_Steam = Steam;
     function Website_classPrivateMethodInitSpec(obj, privateSet) {
       Website_checkPrivateRedeclaration(obj, privateSet);
@@ -6952,6 +6961,9 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
               logStatus.success();
               this.undoneTasks = this.uniqueTasks(this.undoneTasks);
               this.socialTasks = this.uniqueTasks(this.socialTasks);
+              if (window.DEBUG) {
+                console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
+              }
               GM_setValue(`fawTasks-${this.giveawayId}`, {
                 tasks: this.socialTasks,
                 time: new Date().getTime()
@@ -6959,7 +6971,6 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
               return true;
             }
             logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-            console.error(data);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -7274,6 +7285,9 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
           logStatus.success();
           this.undoneTasks = this.uniqueTasks(this.undoneTasks);
           this.socialTasks = this.undoneTasks;
+          if (window.DEBUG) {
+            console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
+          }
           GM_setValue(`gasTasks-${this.giveawayId}`, {
             tasks: this.socialTasks,
             time: new Date().getTime()
@@ -7500,16 +7514,17 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
                       ajax: 't'
                     },
                     error(response, error, exception) {
-                      console.log({
-                        response: response,
-                        error: error,
-                        exception: exception
-                      });
+                      if (window.DEBUG) {
+                        console.log('%cAuto-Task[Debug]:', 'color:red', {
+                          response: response,
+                          error: error,
+                          exception: exception
+                        });
+                      }
                       status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
                       resolve(true);
                     },
                     success(response) {
-                      console.log(response);
                       if (response.success) {
                         status.success(`Success:${response.text}`);
                         promo.addClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
@@ -7533,16 +7548,17 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
                       emailsystoggle: 4
                     },
                     error(response, error, exception) {
-                      console.log({
-                        response: response,
-                        error: error,
-                        exception: exception
-                      });
+                      if (window.DEBUG) {
+                        console.log('%cAuto-Task[Debug]:', 'color:red', {
+                          response: response,
+                          error: error,
+                          exception: exception
+                        });
+                      }
                       status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
                       resolve(true);
                     },
                     success(response) {
-                      console.log(response);
                       if (response.success) {
                         status.success(`Success:${response.text}`);
                         promo.toggleClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
@@ -7566,16 +7582,17 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
                     dataType: 'json',
                     data: data,
                     error(response, error, exception) {
-                      console.log({
-                        response: response,
-                        error: error,
-                        exception: exception
-                      });
+                      if (window.DEBUG) {
+                        console.log('%cAuto-Task[Debug]:', 'color:red', {
+                          response: response,
+                          error: error,
+                          exception: exception
+                        });
+                      }
                       status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
                       resolve(true);
                     },
                     success(response) {
-                      console.log(response);
                       if (response.success) {
                         status.success(`Success:${response.text}`);
                         promo.toggleClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
@@ -7598,16 +7615,17 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
                       ajax: 't'
                     },
                     error(response, error, exception) {
-                      console.log({
-                        response: response,
-                        error: error,
-                        exception: exception
-                      });
+                      if (window.DEBUG) {
+                        console.log('%cAuto-Task[Debug]:', 'color:red', {
+                          response: response,
+                          error: error,
+                          exception: exception
+                        });
+                      }
                       status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
                       resolve(true);
                     },
                     success(response) {
-                      console.log(response);
                       if (response.success) {
                         status.success(`Success:${response.text}`);
                         promo.toggleClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
@@ -7834,6 +7852,9 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
           logStatus.success();
           this.undoneTasks = this.uniqueTasks(this.undoneTasks);
           this.socialTasks = this.uniqueTasks(this.socialTasks);
+          if (window.DEBUG) {
+            console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
+          }
           GM_setValue(`khTasks-${this.giveawayId}`, {
             tasks: this.socialTasks,
             time: new Date().getTime()
@@ -8107,6 +8128,9 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
           this.tasks = unique(this.tasks);
           this.undoneTasks = this.uniqueTasks(this.undoneTasks);
           this.socialTasks = this.uniqueTasks(this.socialTasks);
+          if (window.DEBUG) {
+            console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
+          }
           GM_setValue(`gkTasks-${this.giveawayId}`, {
             tasks: this.socialTasks,
             time: new Date().getTime()
@@ -8379,6 +8403,9 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
           logStatus.success();
           this.undoneTasks = this.uniqueTasks(this.undoneTasks);
           this.socialTasks = this.undoneTasks;
+          if (window.DEBUG) {
+            console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
+          }
           GM_setValue(`gcTasks-${this.giveawayId}`, {
             tasks: this.socialTasks,
             time: new Date().getTime()
@@ -8919,15 +8946,15 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         try {
           const selector = this.name === 'Keylol' ? '#postlist>div[id^="post_"]:first' : 'div.container';
           const mainPost = $(selector);
-          const discordLinks = mainPost.find('a[href*="discord.com"]');
-          const redditLinks = mainPost.find('a[href*="reddit.com"]');
-          const insLinks = mainPost.find('a[href*="instagram.com"]');
-          const twitterLinks = mainPost.find('a[href*="twitter.com"]');
-          const twitchLinks = mainPost.find('a[href*="twitch.tv"]');
-          const vkLinks = mainPost.find('a[href*="vk.com"]');
-          const steamStoreLinks = mainPost.find('a[href*="store.steampowered.com"]');
-          const steamCommunityLinks = mainPost.find('a[href*="steamcommunity.com"]');
-          const ytbLinks = mainPost.find('a[href*="youtube.com"]');
+          const discordLinks = mainPost.find('a[href*="discord.com"]:visible');
+          const redditLinks = mainPost.find('a[href*="reddit.com"]:visible');
+          const insLinks = mainPost.find('a[href*="instagram.com"]:visible');
+          const twitterLinks = mainPost.find('a[href*="twitter.com"]:visible');
+          const twitchLinks = mainPost.find('a[href*="twitch.tv"]:visible');
+          const vkLinks = mainPost.find('a[href*="vk.com"]:visible');
+          const steamStoreLinks = mainPost.find('a[href*="store.steampowered.com"]:visible');
+          const steamCommunityLinks = mainPost.find('a[href*="steamcommunity.com"]:visible');
+          const ytbLinks = mainPost.find('a[href*="youtube.com"]:visible');
           if (discordLinks.length > 0) {
             for (const discordLink of discordLinks) {
               const link = $(discordLink).attr('href');
@@ -9027,7 +9054,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
               Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, ytbLink, 'youtube', 'likeLinks', link);
             }
           }
-          const giveawayLinks = mainPost.find('a[href*="giveaway.su/giveaway/view/"],a[href*="givee.club/"],a[href*="gleam.io/"],a[href*="www.indiedb.com/giveaways/"],a[href*="key-hub.eu/giveaway/"],a[href*="opquests.com/quests/"],a[href*="itch.io/s/"]');
+          const giveawayLinks = mainPost.find('a[href*="giveaway.su/giveaway/view/"]:visible,a[href*="givee.club/"]:visible,a[href*="gleam.io/"]:visible,a[href*="www.indiedb.com/giveaways/"]:visible,a[href*="key-hub.eu/giveaway/"]:visible,a[href*="opquests.com/quests/"]:visible,a[href*="itch.io/s/"]:visible');
           if (giveawayLinks.length > 0) {
             for (const giveawayLink of giveawayLinks) {
               const link = $(giveawayLink).attr('href');
@@ -9049,7 +9076,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
             }
           }
           if (this.name === 'Keylol') {
-            const asfLinks = mainPost.find('a[href^="#asf"]');
+            const asfLinks = mainPost.find('a[href^="#asf"]:visible');
             if (asfLinks.length > 0) {
               for (const asfLink of asfLinks) {
                 const link = $(asfLink).attr('href');
@@ -9059,7 +9086,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
                 Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, $(`a[href="${link}"]`).after('<span style="color: #ccc; margin: 0 -5px 0 5px"> | </span>').next()[0], 'steam', 'licenseLinks', `appid-${link.replace('#asf', '')}`);
               }
             }
-            const subLinks = mainPost.find('a[href*="steamdb.info/sub/"]');
+            const subLinks = mainPost.find('a[href*="steamdb.info/sub/"]:visible');
             if (subLinks.length > 0) {
               for (const subLink of subLinks) {
                 var _link$match;
@@ -9074,7 +9101,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
                 Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, subLink, 'steam', 'licenseLinks', `subid-${subid}`);
               }
             }
-            const asfLinks2 = mainPost.find('.blockcode:contains("addlicense")');
+            const asfLinks2 = mainPost.find('.blockcode:contains("addlicense"):visible');
             if (asfLinks2.length > 0) {
               for (const asfLink of asfLinks2) {
                 const subid = [ ...asfLink.innerText.matchAll(/s\/([\d]+)/g) ].map(arr => arr[1]);
@@ -9093,7 +9120,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         try {
           this.socialTasks = JSON.parse(Keylol_defaultTasks);
           this.undoneTasks = JSON.parse(Keylol_defaultTasks);
-          const selectedBtns = $('.auto-task-keylol[selected="selected"]');
+          const selectedBtns = $('.auto-task-keylol[selected="selected"]:visible');
           for (const btn of selectedBtns) {
             const button = $(btn);
             const social = button.attr('data-social');
@@ -9111,6 +9138,9 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
           }
           this.undoneTasks = this.uniqueTasks(this.undoneTasks);
           this.socialTasks = this.uniqueTasks(this.socialTasks);
+          if (window.DEBUG) {
+            console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
+          }
           return true;
         } catch (error) {
           throwError(error, 'Keylol.classifyTask');
@@ -9119,21 +9149,21 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       }
       selectAll() {
         try {
-          $('.auto-task-keylol').attr('selected', 'selected');
+          $('.auto-task-keylol:visible').attr('selected', 'selected');
         } catch (error) {
           throwError(error, 'Keylol.selectAll');
         }
       }
       selectNone() {
         try {
-          $('.auto-task-keylol').removeAttr('selected');
+          $('.auto-task-keylol:visible').removeAttr('selected');
         } catch (error) {
           throwError(error, 'Keylol.selectNone');
         }
       }
       invertSelect() {
         try {
-          $('.auto-task-keylol').each((index, element) => {
+          $('.auto-task-keylol:visible').each((index, element) => {
             element.getAttribute('selected') ? element.removeAttribute('selected') : element.setAttribute('selected', 'selected');
           });
         } catch (error) {
@@ -9265,6 +9295,9 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
           }
           logStatus.success();
           this.undoneTasks = this.uniqueTasks(this.undoneTasks);
+          if (window.DEBUG) {
+            console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
+          }
           return true;
         } catch (error) {
           throwError(error, 'Opquests.classifyTask');
@@ -9588,6 +9621,9 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
           logStatus.success();
           this.undoneTasks = this.uniqueTasks(this.undoneTasks);
           this.socialTasks = this.uniqueTasks(this.socialTasks);
+          if (window.DEBUG) {
+            console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
+          }
           GM_setValue(`gleamTasks-${this.giveawayId}`, {
             tasks: this.socialTasks,
             time: new Date().getTime()
@@ -10917,35 +10953,10 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       }
     };
     const scripts_updateChecker = updateChecker;
+    var _globalOptions$other, _globalOptions$other2;
     window.STYLE = GM_addStyle(auto_task.Z + GM_getResourceText('style'));
-    if (window.location.hostname === 'discord.com') {
-      const LocalStorage = window.localStorage;
-      if (window.location.hash === '#auth') {
-        var _LocalStorage$getItem;
-        window.localStorage.removeItem = () => true;
-        const discordAuth = LocalStorage === null || LocalStorage === void 0 ? void 0 : (_LocalStorage$getItem = LocalStorage.getItem('token')) === null || _LocalStorage$getItem === void 0 ? void 0 : _LocalStorage$getItem.replace(/^"|"$/g, '');
-        if (discordAuth && discordAuth.length > 0) {
-          GM_setValue('discordAuth', {
-            auth: discordAuth
-          });
-          window.close();
-          external_Swal_default().fire('', i18n('closePageNotice'));
-        } else {
-          external_Swal_default().fire({
-            text: i18n('getDiscordAuthFailed'),
-            icon: 'error'
-          });
-        }
-      } else {
-        var _LocalStorage$getItem2;
-        const discordAuth = LocalStorage === null || LocalStorage === void 0 ? void 0 : (_LocalStorage$getItem2 = LocalStorage.getItem('token')) === null || _LocalStorage$getItem2 === void 0 ? void 0 : _LocalStorage$getItem2.replace(/^"|"$/g, '');
-        if (discordAuth && discordAuth.length > 0) {
-          GM_setValue('discordAuth', {
-            auth: discordAuth
-          });
-        }
-      }
-    }
+    window.DEBUG = !!((_globalOptions$other = globalOptions.other) !== null && _globalOptions$other !== void 0 && _globalOptions$other.debug);
+    window.TRACE = !!((_globalOptions$other2 = globalOptions.other) !== null && _globalOptions$other2 !== void 0 && _globalOptions$other2.debug) && typeof console.trace === 'function';
     const loadScript = async () => {
       var _website, _website2, _website3, _website4, _website5, _website6;
       if (window.location.hostname === 'www.twitch.tv' && window.location.hash === '#auth') {
@@ -10962,6 +10973,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         } else {
           external_Swal_default().fire('', i18n('needLogin'));
         }
+        return;
       }
       if (window.location.hostname === 'twitter.com' && window.location.hash === '#auth') {
         const ct0 = external_Cookies_namespaceObject.get('ct0');
@@ -10975,6 +10987,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         } else {
           external_Swal_default().fire('', i18n('needLogin'));
         }
+        return;
       }
       if (window.location.hostname === 'www.youtube.com' && window.location.hash === '#auth') {
         const PAPISID = external_Cookies_namespaceObject.get('__Secure-3PAPISID');
@@ -10987,6 +11000,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         } else {
           external_Swal_default().fire('', i18n('needLogin'));
         }
+        return;
       }
       if (window.location.hostname === 'www.reddit.com' && (window.location.hash === '#auth' || GM_getValue('redditAuth') === '#auth')) {
         const betaButton = $('#redesign-beta-optin-btn');
@@ -10997,6 +11011,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         GM_setValue('redditAuth', null);
         window.close();
         external_Swal_default().fire('', i18n('closePageNotice'));
+        return;
       }
       let website;
       for (const Website of Websites) {
@@ -11006,7 +11021,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
         }
       }
       if (!website) {
-        console.log('%c%s', 'color:#ff0000', 'Auto Task脚本停止加载：当前网站不支持！');
+        console.log('%c%s', 'color:#ff0000', 'Auto-Task[Warning]: 脚本停止加载，当前网站不支持！');
         return;
       }
       if ((_website = website) !== null && _website !== void 0 && _website.before) {
@@ -11077,7 +11092,7 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
           window.open('https://auto-task-v4.hclonely.com/setting.html', '_blank');
         });
       }
-      console.log('%c%s', 'color:#1bbe1a', 'Auto Task脚本初始化完成！');
+      console.log('%c%s', 'color:#1bbe1a', 'Auto-Task[Load]: 脚本加载完成');
       if (!GM_getValue('notice')) {
         var _echoLog$font;
         external_Swal_default().fire({
@@ -11095,7 +11110,34 @@ console.log('%c%s', 'color:blue', 'Auto Task脚本开始加载');
       }
       scripts_updateChecker();
     };
-    if (window.location.hostname === 'opquests.com') {
+    if (window.location.hostname === 'discord.com') {
+      const LocalStorage = window.localStorage;
+      if (window.location.hash === '#auth') {
+        var _LocalStorage$getItem;
+        window.localStorage.removeItem = () => true;
+        const discordAuth = LocalStorage === null || LocalStorage === void 0 ? void 0 : (_LocalStorage$getItem = LocalStorage.getItem('token')) === null || _LocalStorage$getItem === void 0 ? void 0 : _LocalStorage$getItem.replace(/^"|"$/g, '');
+        if (discordAuth && discordAuth.length > 0) {
+          GM_setValue('discordAuth', {
+            auth: discordAuth
+          });
+          window.close();
+          external_Swal_default().fire('', i18n('closePageNotice'));
+        } else {
+          external_Swal_default().fire({
+            text: i18n('getDiscordAuthFailed'),
+            icon: 'error'
+          });
+        }
+      } else {
+        var _LocalStorage$getItem2;
+        const discordAuth = LocalStorage === null || LocalStorage === void 0 ? void 0 : (_LocalStorage$getItem2 = LocalStorage.getItem('token')) === null || _LocalStorage$getItem2 === void 0 ? void 0 : _LocalStorage$getItem2.replace(/^"|"$/g, '');
+        if (discordAuth && discordAuth.length > 0) {
+          GM_setValue('discordAuth', {
+            auth: discordAuth
+          });
+        }
+      }
+    } else if (window.location.hostname === 'opquests.com') {
       loadScript();
     } else {
       $(loadScript);

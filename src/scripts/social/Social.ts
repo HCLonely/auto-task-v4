@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-15 10:48:42
- * @LastEditTime : 2021-12-21 19:27:38
+ * @LastEditTime : 2022-02-06 11:48:31
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Social.ts
  * @Description  : Social通用模板
@@ -30,7 +30,7 @@ abstract class Social {
      * @internal
      * @description 将传入的链接转换为做任务需要的参数
      * @return {Array}: 参数数组
-     */
+    */
     try {
       let realParams: Array<string> = [];
       /*

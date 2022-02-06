@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2022-01-20 17:36:28
+ * @LastEditTime : 2022-02-06 11:38:31
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  : https://gleam.io
@@ -241,6 +241,7 @@ class Gleam extends Website {
       logStatus.success();
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as gleamSocialTasks;
       this.socialTasks = this.uniqueTasks(this.socialTasks) as gleamSocialTasks;
+      if (window.DEBUG) console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
       GM_setValue(`gleamTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() });
       return true;
     } catch (error) {

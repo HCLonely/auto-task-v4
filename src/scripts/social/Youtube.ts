@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 12:18:06
- * @LastEditTime : 2022-01-30 11:59:45
+ * @LastEditTime : 2022-02-06 11:50:05
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Youtube.ts
  * @Description  : Youtube 订阅/取消订阅频道，点赞/取消点赞视频
@@ -28,7 +28,7 @@ const getInfo = async function (link: string, type: string): Promise <youtubeInf
    * @param link link
    * @param type 任务类型
    * @return {youtubeInfo}: 获取成功，返回请求参数 | false: 获取失败
-   */
+  */
   try {
     const logStatus = echoLog({ text: __('gettingYtbToken') });
     const { result, statusText, status, data } = await httpRequest({
@@ -97,7 +97,7 @@ class Youtube extends Social {
     /**
      * @description: 验证及获取Auth
      * @return true: 初始化完成 | false: 初始化失败，toggle方法不可用
-     */
+    */
     try {
       if (this.#initialized) {
         return true;
@@ -134,7 +134,7 @@ class Youtube extends Social {
      * @internal
      * @description 检测Youtube Token是否失效
      * @return true: Token有效 | false: Token失效
-     */
+    */
     try {
       return await this.#toggleChannel({ link: this.#verifyChannel, doTask: true, verify: true });
     } catch (error) {
@@ -147,7 +147,7 @@ class Youtube extends Social {
      * @internal
      * @description 通过打开Youtube网站更新Token.
      * @return true: 更新Token成功 | false: 更新Token失败
-     */
+    */
     try {
       const logStatus = echoLog({ text: __('updatingAuth', 'Youtube') });
       return await new Promise((resolve) => {
@@ -183,7 +183,7 @@ class Youtube extends Social {
      * @param doTask true: 订阅频道 | false: 退订频道
      * @param verify true: 用于验证Token | false: 处理频道任务
      * @return true: 成功 | false: 失败
-     */
+    */
     try {
       const { params, needLogin } = await this.#getInfo(link, 'channel');
       const { apiKey, client, request, channelId } = params || {};
@@ -271,7 +271,7 @@ class Youtube extends Social {
      * @param link Youtube视频链接
      * @param doTask true: 点赞 | false: 取消点赞
      * @return true: 成功 | false: 失败
-     */
+    */
     try {
       const { params, needLogin } = await this.#getInfo(link, 'likeVideo');
       const { apiKey, client, request, videoId, likeParams } = params || {};
@@ -369,7 +369,7 @@ class Youtube extends Social {
      * @param {boolean} doTask true: 做任务 | false: 取消任务
      * @param {?Array} channelLinks Youtube频道链接数组。
      * @param {?Array} videoLinks Youtube视频推文链接数组。
-     */
+    */
     try {
       if (!this.#initialized) {
         echoLog({ text: __('needInit') });

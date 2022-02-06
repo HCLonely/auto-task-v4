@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2022-01-30 11:38:23
+ * @LastEditTime : 2022-02-06 11:08:02
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -96,6 +96,7 @@ const data = {
   hideLog: '隐藏日志',
   defaultShowButton: '默认显示按钮',
   defaultShowLog: '默认显示日志',
+  debug: '输出调试日志，不要开启此选项！',
   position: '组件位置',
   buttonSideX: '按钮区域水平方向定位(实时预览功能仅在设置页面可用)</br>left: 靠左 | right: 靠右',
   buttonSideY: '按钮区域垂直方向定位(实时预览功能仅在设置页面可用)</br>top: 靠上 | bottom: 靠下',

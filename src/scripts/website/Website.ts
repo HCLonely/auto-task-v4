@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:28
- * @LastEditTime : 2022-01-30 11:50:45
+ * @LastEditTime : 2022-02-06 11:51:07
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Website.ts
  * @Description  :
@@ -56,7 +56,7 @@ abstract class Website {
   abstract classifyTask(action: 'do' | 'undo' | 'verify'): Promise<boolean> | boolean
   abstract init(): boolean | Promise<boolean>
 
-  async #bind(name: string, init: Promise<boolean>):Promise<bindReturn> {
+  async #bind(name: string, init: Promise<boolean>): Promise<bindReturn> {
     try {
       return { name, result: await init };
     } catch (error) {

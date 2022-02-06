@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2022-01-30 11:39:07
+ * @LastEditTime : 2022-02-06 11:10:13
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/en-US.js
  * @Description  : i18n英文
@@ -101,6 +101,7 @@ const data = {
   hideLog: 'HideLog',
   defaultShowButton: 'Default display button',
   defaultShowLog: 'Display log by default',
+  debug: 'Output debug log, do not enable this option!',
   position: 'Component position',
   buttonSideX: 'Horizontal positioning of the button area (real-time preview function is only available on the setting page).' +
     '</br>left: left | right: right',

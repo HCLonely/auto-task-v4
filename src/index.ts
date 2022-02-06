@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2022-01-29 16:49:35
+ * @LastEditTime : 2022-02-06 11:37:38
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  : 入口文件
@@ -21,35 +21,14 @@ import updateChecker from './scripts/updateChecker';
 import echoLog from './scripts/echoLog';
 
 window.STYLE = GM_addStyle(style + GM_getResourceText('style'));
+window.DEBUG = !!globalOptions.other?.debug;
+window.TRACE = !!globalOptions.other?.debug && typeof console.trace === 'function';
 
 declare const commonOptions: {
   headers?: {
     'Client-ID': string
   }
 };
-
-if (window.location.hostname === 'discord.com') {
-  const LocalStorage = window.localStorage;
-  if (window.location.hash === '#auth') {
-    window.localStorage.removeItem = () => true;
-    const discordAuth = LocalStorage?.getItem('token')?.replace(/^"|"$/g, '');
-    if (discordAuth && discordAuth.length > 0) {
-      GM_setValue('discordAuth', { auth: discordAuth });
-      window.close();
-      Swal.fire('', __('closePageNotice'));
-    } else {
-      Swal.fire({
-        text: __('getDiscordAuthFailed'),
-        icon: 'error'
-      });
-    }
-  } else {
-    const discordAuth = LocalStorage?.getItem('token')?.replace(/^"|"$/g, '');
-    if (discordAuth && discordAuth.length > 0) {
-      GM_setValue('discordAuth', { auth: discordAuth });
-    }
-  }
-}
 
 const loadScript = async () => {
   if (window.location.hostname === 'www.twitch.tv' && window.location.hash === '#auth') {
@@ -62,6 +41,7 @@ const loadScript = async () => {
     } else {
       Swal.fire('', __('needLogin'));
     }
+    return;
   }
   if (window.location.hostname === 'twitter.com' && window.location.hash === '#auth') {
     const ct0 = Cookies.get('ct0');
@@ -73,6 +53,7 @@ const loadScript = async () => {
     } else {
       Swal.fire('', __('needLogin'));
     }
+    return;
   }
   if (window.location.hostname === 'www.youtube.com' && window.location.hash === '#auth') {
     const PAPISID = Cookies.get('__Secure-3PAPISID');
@@ -83,6 +64,7 @@ const loadScript = async () => {
     } else {
       Swal.fire('', __('needLogin'));
     }
+    return;
   }
   if (window.location.hostname === 'www.reddit.com' &&
     (window.location.hash === '#auth' || GM_getValue('redditAuth') === '#auth')) {
@@ -94,6 +76,7 @@ const loadScript = async () => {
     GM_setValue('redditAuth', null);
     window.close();
     Swal.fire('', __('closePageNotice'));
+    return;
   }
 
   let website: WebsiteType;
@@ -106,7 +89,7 @@ const loadScript = async () => {
 
   // @ts-ignore
   if (!website) {
-    console.log('%c%s', 'color:#ff0000', 'Auto Task脚本停止加载：当前网站不支持！');
+    console.log('%c%s', 'color:#ff0000', 'Auto-Task[Warning]: 脚本停止加载，当前网站不支持！');
     return;
   }
 
@@ -198,7 +181,7 @@ const loadScript = async () => {
     });
   }
 
-  console.log('%c%s', 'color:#1bbe1a', 'Auto Task脚本初始化完成！');
+  console.log('%c%s', 'color:#1bbe1a', 'Auto-Task[Load]: 脚本加载完成');
 
   if (!GM_getValue<number>('notice')) {
     Swal.fire({
@@ -216,7 +199,28 @@ const loadScript = async () => {
   updateChecker();
 };
 
-if (window.location.hostname === 'opquests.com') {
+if (window.location.hostname === 'discord.com') {
+  const LocalStorage = window.localStorage;
+  if (window.location.hash === '#auth') {
+    window.localStorage.removeItem = () => true;
+    const discordAuth = LocalStorage?.getItem('token')?.replace(/^"|"$/g, '');
+    if (discordAuth && discordAuth.length > 0) {
+      GM_setValue('discordAuth', { auth: discordAuth });
+      window.close();
+      Swal.fire('', __('closePageNotice'));
+    } else {
+      Swal.fire({
+        text: __('getDiscordAuthFailed'),
+        icon: 'error'
+      });
+    }
+  } else {
+    const discordAuth = LocalStorage?.getItem('token')?.replace(/^"|"$/g, '');
+    if (discordAuth && discordAuth.length > 0) {
+      GM_setValue('discordAuth', { auth: discordAuth });
+    }
+  }
+} else if (window.location.hostname === 'opquests.com') {
   loadScript();
 } else {
   $(loadScript);

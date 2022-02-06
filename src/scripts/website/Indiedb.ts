@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 14:37:33
- * @LastEditTime : 2022-01-09 13:00:52
+ * @LastEditTime : 2022-02-06 11:33:01
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Indiedb.ts
  * @Description  : https://www.indiedb.com/giveaways
@@ -132,12 +132,11 @@ class Indiedb {
                   dataType: 'json',
                   data: { ajax: 't' },
                   error(response, error, exception) {
-                    console.log({ response, error, exception });
+                    if (window.DEBUG) console.log('%cAuto-Task[Debug]:', 'color:red', { response, error, exception });
                     status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
                     resolve(true);
                   },
                   success(response) {
-                    console.log(response);
                     if (response.success) {
                       status.success(`Success:${response.text}`);
                       promo.addClass('buttonentered').closest('p')
@@ -160,12 +159,11 @@ class Indiedb {
                   dataType: 'json',
                   data: { ajax: 't', emailsystoggle: 4 },
                   error(response, error, exception) {
-                    console.log({ response, error, exception });
+                    if (window.DEBUG) console.log('%cAuto-Task[Debug]:', 'color:red', { response, error, exception });
                     status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
                     resolve(true);
                   },
                   success(response) {
-                    console.log(response);
                     if (response.success) {
                       status.success(`Success:${response.text}`);
                       promo.toggleClass('buttonentered').closest('p')
@@ -190,12 +188,11 @@ class Indiedb {
                   dataType: 'json',
                   data,
                   error(response, error, exception) {
-                    console.log({ response, error, exception });
+                    if (window.DEBUG) console.log('%cAuto-Task[Debug]:', 'color:red', { response, error, exception });
                     status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
                     resolve(true);
                   },
                   success(response) {
-                    console.log(response);
                     if (response.success) {
                       status.success(`Success:${response.text}`);
                       promo.toggleClass('buttonentered').closest('p')
@@ -218,12 +215,11 @@ class Indiedb {
                   dataType: 'json',
                   data: { ajax: 't' },
                   error(response, error, exception) {
-                    console.log({ response, error, exception });
+                    if (window.DEBUG) console.log('%cAuto-Task[Debug]:', 'color:red', { response, error, exception });
                     status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
                     resolve(true);
                   },
                   success(response) {
-                    console.log(response);
                     if (response.success) {
                       status.success(`Success:${response.text}`);
                       promo.toggleClass('buttonentered').closest('p')

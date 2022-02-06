@@ -5,6 +5,15 @@ lang: zh-CN
 
 ## V4.2
 
+### V4.2.2
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.2)
+
+- Keylol相关功能优化
+- 控制台输出优化
+- 调试功能优化
+- 其他功能优化
+
 ### V4.2.1
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.1)

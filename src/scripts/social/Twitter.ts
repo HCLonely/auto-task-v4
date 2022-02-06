@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:36:57
- * @LastEditTime : 2022-01-30 11:59:13
+ * @LastEditTime : 2022-02-06 11:48:39
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitter.ts
  * @Description  : Twitter 关注/取关用户,转推/取消转推推文
@@ -29,7 +29,7 @@ class Twitter extends Social {
     /**
      * @description: 验证及获取Auth
      * @return true: 初始化完成 | false: 初始化失败，toggle方法不可用
-     */
+    */
     try {
       if (this.#initialized) {
         return true;
@@ -66,7 +66,7 @@ class Twitter extends Social {
      * @internal
      * @description 检测Twitter Token是否失效
      * @return true: Token有效 | false: Token失效
-     */
+    */
     try {
       return await this.#toggleUser({ name: 'verify', doTask: true, verify: true });
     } catch (error) {
@@ -80,7 +80,7 @@ class Twitter extends Social {
      * @internal
      * @description 通过打开Twitter网站更新Token.
      * @return true: 更新Token成功 | false: 更新Token失败
-     */
+    */
     try {
       const logStatus = echoLog({ text: __('updatingAuth', 'Twitter') });
       return await new Promise((resolve) => {
@@ -112,7 +112,7 @@ class Twitter extends Social {
      * @param doTask true: 关注 | false: 取关
      * @param verify true: 用于验证Token | false: 处理用户任务
      * @return true: 成功 | false: 失败
-     */
+    */
     try {
       if (!doTask && !verify && this.whiteList.users.includes(name)) {
         echoLog({ type: 'whiteList', text: 'Twitter.unfollowUser', id: name });
@@ -175,7 +175,7 @@ class Twitter extends Social {
      * @description 通过用户名获取Id
      * @param name 用户名
      * @return {string}: 获取成功，返回用户Id | false: 获取失败
-     */
+    */
     try {
       const logStatus = echoLog({ type: 'gettingTwitterUserId', text: name });
       const userId = this.#cache[name];
@@ -233,7 +233,7 @@ class Twitter extends Social {
      * @param retweetId 推文Id
      * @param doTask true: 转推 | false: 撤销转推
      * @return true: 成功 | false: 失败
-     */
+    */
     try {
       if (!doTask && this.whiteList.retweets.includes(retweetId)) {
         echoLog({ type: 'whiteList', text: 'Twitter.unretweet', id: retweetId });
@@ -285,7 +285,7 @@ class Twitter extends Social {
      * @param {boolean} doTask true: 做任务 | false: 取消任务
      * @param {?Array} userLinks Twitter用户链接数组。
      * @param {?Array} retweetLinks 推文链接数组。
-     */
+    */
     try {
       if (!this.#initialized) {
         echoLog({ text: __('needInit') });
@@ -335,7 +335,7 @@ class Twitter extends Social {
      * @internal
      * @description 缓存用户名与用户Id的对应关系
      * @return {void}
-     */
+    */
     try {
       this.#cache[name] = id;
       GM_setValue('twitterCache', this.#cache);

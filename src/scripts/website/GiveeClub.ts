@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 11:46:52
- * @LastEditTime : 2022-01-09 10:43:12
+ * @LastEditTime : 2022-02-06 11:38:13
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/GiveeClub.ts
  * @Description  : https://givee.club/
@@ -132,6 +132,7 @@ class GiveeClub extends GiveawaySu {
       logStatus.success();
       this.undoneTasks = this.uniqueTasks(this.undoneTasks) as gasSocialTasks;
       this.socialTasks = this.undoneTasks;
+      if (window.DEBUG) console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
       GM_setValue(`gcTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() });
       return true;
     } catch (error) {

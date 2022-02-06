@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:03
- * @LastEditTime : 2022-01-20 17:35:18
+ * @LastEditTime : 2022-02-06 11:37:58
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Freeanywhere.ts
  * @Description  : https://freeanywhere.net
@@ -145,11 +145,11 @@ class FreeAnyWhere extends Website {
           logStatus.success();
           this.undoneTasks = this.uniqueTasks(this.undoneTasks) as fawSocialTasks;
           this.socialTasks = this.uniqueTasks(this.socialTasks) as fawSocialTasks;
+          if (window.DEBUG) console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
           GM_setValue(`fawTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() });
           return true;
         }
         logStatus.error(`Error:${data?.statusText}(${data?.status})`);
-        console.error(data);
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
