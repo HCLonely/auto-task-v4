@@ -1,5 +1,7 @@
 # AutoTask
 
+---
+
 [![Test](https://github.com/HCLonely/auto-task/workflows/Test/badge.svg)](https://github.com/HCLonely/auto-task-v4/actions/workflows/Test.yml)
 [![OSSAR](https://github.com/HCLonely/auto-task/workflows/OSSAR/badge.svg)](https://github.com/HCLonely/auto-task-v4/actions/workflows/ossar-analysis.yml)
 [![Document](https://github.com/HCLonely/auto-task-v4/actions/workflows/doc-sync.yml/badge.svg)](https://github.com/HCLonely/auto-task-v4/actions/workflows/doc-sync.yml)
@@ -13,7 +15,13 @@
 [![GitHub file size in bytes](https://img.shields.io/github/size/HCLonely/auto-task-v4/dist/auto-task-v4.compatibility.user.js?label=auto-task-v4.compatibility.user.js)](https://github.com/HCLonely/auto-task-v4/raw/main/dist/auto-task-v4.compatibility.user.js)
 [![GitHub file size in bytes](https://img.shields.io/github/size/HCLonely/auto-task-v4/dist/auto-task-v4-for-giveawaysu.user.js?label=auto-task-v4-for-giveawaysu.user.js)](https://github.com/HCLonely/auto-task-v4/raw/main/dist/auto-task-v4-for-giveawaysu.user.js)
 
-自动完成 Key 站任务。
+---
+
+[![Repobeats analytics image](https://repobeats.axiom.co/configs/e5c7c311a4d91763154bfbee13c9186759c29ae4 "Repobeats analytics image")](https://github.com/HCLonely/auto-task-v4/pulse)
+
+---
+
+一个自动完成 Key 站任务的用户脚本。
 
 ## 使用说明
 

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2022-02-06 11:48:33
+ * @LastEditTime : 2022-02-11 10:20:26
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -47,6 +47,7 @@ class Steam extends Social {
   #storeInitialized = false;
   #communityInitialized = false;
   #area = 'CN';
+  #areaStatus = 'end';
 
   async init(type = 'all'): Promise<boolean> {
     /**
@@ -208,16 +209,35 @@ class Steam extends Social {
      * @return {string}: 更换成功，返回更换后的地区 | false: 更换地区失败
     */
     try {
+      if (this.#areaStatus === 'waiting') {
+        await new Promise((resolve) => {
+          const checker = setInterval(() => {
+            if (this.#areaStatus !== 'waiting') {
+              clearInterval(checker);
+              resolve(true);
+            }
+          });
+        });
+      }
+      if (this.#area === area || (!area && this.#area !== 'CN')) {
+        return true;
+      }
+      this.#areaStatus = 'waiting';
       let aimedArea = area;
       if (!aimedArea) {
         const { currentArea, areas } = await this.#getAreaInfo();
-        if (!currentArea || !areas) return false;
+        if (!currentArea || !areas) {
+          this.#areaStatus = 'error';
+          return false;
+        }
         if (currentArea !== 'CN') {
+          this.#areaStatus = 'skip';
           echoLog({ text: 'notNeededChangeArea' });
           return 'skip';
         }
         const anotherArea = areas.filter((area) => area && area !== 'CN');
         if (!anotherArea || anotherArea.length === 0) {
+          this.#areaStatus = 'noAnotherArea';
           echoLog({ text: 'noAnotherArea' });
           return false;
         }
@@ -234,18 +254,23 @@ class Steam extends Social {
         if (data?.status === 200 && data.responseText === 'true') {
           const { currentArea } = await this.#getAreaInfo();
           if (currentArea === aimedArea) {
+            this.#areaStatus = 'success';
             logStatus.success();
             return currentArea;
           }
+          this.#areaStatus = 'error';
           logStatus.error('Error: change country filed');
           return 'CN';
         }
+        this.#areaStatus = 'error';
         logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return 'CN';
       }
+      this.#areaStatus = 'error';
       logStatus.error(`${result}:${statusText}(${status})`);
       return 'CN';
     } catch (error) {
+      this.#areaStatus = 'error';
       throwError(error as Error, 'Steam.changeArea');
       return false;
     }

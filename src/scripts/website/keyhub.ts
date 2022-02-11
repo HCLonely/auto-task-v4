@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2022-02-06 11:38:45
+ * @LastEditTime : 2022-02-11 10:27:32
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
  * @Description  : https://key-hub.eu/
@@ -53,6 +53,7 @@ class Keyhub extends Website {
       if (!await this.#checkLeftKey()) {
         echoLog({}).warning(__('checkLeftKeyFailed'));
       }
+      $('.NSFW').hide();
     } catch (error) {
       throwError(error as Error, 'Keyhub.after');
     }
@@ -84,7 +85,9 @@ class Keyhub extends Website {
         this.socialTasks = GM_getValue<khGMTasks>(`khTasks-${this.giveawayId}`)?.tasks || JSON.parse(defaultTasks);
       }
 
-      const tasks = $('.task a');
+      const tasks = $('.task:not(".googleads")')
+        .filter((index, element) => (action === 'do' ? $(element).find('i.fa-check-circle:visible').length === 0 : true))
+        .find('a');
       for (const task of tasks) {
         let link = $(task).attr('href');
         const taskDes = $(task).text()

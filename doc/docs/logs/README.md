@@ -5,6 +5,14 @@ lang: zh-CN
 
 ## V4.2
 
+### V4.2.3
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.3)
+
+- Keyhub任务识别优化
+- Steam换区功能优化
+- 其他功能优化
+
 ### V4.2.2
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.2)

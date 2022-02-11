@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2022-02-06 11:10:13
+ * @LastEditTime : 2022-02-11 10:38:13
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/en-US.js
  * @Description  : i18n英文
@@ -200,6 +200,7 @@ const data = {
   gettingForumId: 'Getting Steam Forum Id',
   followingCurator: 'Following Steam Curator',
   unfollowingCurator: 'Unfollowing Steam Curator',
+  gettingCuratorId: 'Getting Steam Curator Id',
   addingToWishlist: 'Adding the game to the Steam wishlist',
   removingFromWishlist: 'Removing the game from the Steam wishlist',
   followingGame: 'Following Steam games',

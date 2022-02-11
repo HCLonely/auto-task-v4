@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-15 13:58:41
- * @LastEditTime : 2022-02-06 11:38:56
+ * @LastEditTime : 2022-02-10 19:41:42
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Keylol.ts
  * @Description  : https://keylol.com/f319-1
@@ -214,8 +214,9 @@ class Keylol extends Website {
         const asfLinks2 = mainPost.find('.blockcode:contains("addlicense"):visible');
         if (asfLinks2.length > 0) {
           for (const asfLink of asfLinks2) {
-            const subid = [...asfLink.innerText.matchAll(/s\/([\d]+)/g)].map((arr) => arr[1]);
-            if (subid.length === 0) continue;
+            // const subid = [...asfLink.innerText.matchAll(/s\/([\d]+)/g)].map((arr) => arr[1]);
+            const subid = asfLink.innerText.match(/[\d]+/g);
+            if (!subid || subid.length === 0) continue;
             this.#addBtn($(asfLink).children('em')[0], 'steam', 'licenseLinks', `subid-${subid.join(',')}`);
           }
         }

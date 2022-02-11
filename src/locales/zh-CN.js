@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2022-02-06 11:08:02
+ * @LastEditTime : 2022-02-11 10:37:54
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -184,6 +184,7 @@ const data = {
   gettingForumId: '正在获取Steam论坛Id',
   followingCurator: '正在关注Steam鉴赏家',
   unfollowingCurator: '正在取关Steam鉴赏家',
+  gettingCuratorId: '正在获取Steam鉴赏家Id',
   addingToWishlist: '正在添加游戏到Steam愿望单',
   removingFromWishlist: '正在从Steam愿望单移除游戏',
   followingGame: '正在关注Steam游戏',

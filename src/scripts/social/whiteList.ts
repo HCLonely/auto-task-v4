@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-06 13:16:38
- * @LastEditTime : 2022-02-06 11:01:33
+ * @LastEditTime : 2022-02-10 12:38:07
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/whiteList.ts
  * @Description  : 白名单相关
@@ -142,15 +142,17 @@ const whiteListOptions = function (showType: 'page' | 'swal'): void {
   <table class="auto-task-table"><thead><tr><td>${__('website')}</td><td>${__('type')}</td><td>${__('edit')}</td></tr></thead><tbody>`;
     for (const [social, types] of Object.entries(whiteList)) {
       whiteListOptionsForm += Object.keys(types).map(
-      // @ts-ignore
-        (type, index) => (disabledType[social]?.includes(type) ? '' : `<tr style="background-color: ${stringToColour(social)}66">${
-          index === 0 ?
-            `<th rowspan="${
-            // @ts-ignore
-              Object.keys(types).length - (disabledType[social] || []).length
-            }" style="background-color: ${stringToColour(social)}66">${social}</th>` :
-            ''
-        }<td>${__(type)}</td><td><button type="button" class="editWhiteList" data-value="${social}.${type}">${__('edit')}</button></td></tr>`))
+        // @ts-ignore
+        (type, index) => (disabledType[social]?.includes(type) ?
+          '' :
+          `<tr style="background-color: ${stringToColour(social)}66">${
+            index === 0 ?
+              `<th rowspan="${
+                // @ts-ignore
+                Object.keys(types).length - (disabledType[social] || []).length
+              }" style="background-color: ${stringToColour(social)}66">${social}</th>` :
+              ''
+          }<td>${__(type)}</td><td><button type="button" class="editWhiteList" data-value="${social}.${type}">${__('edit')}</button></td></tr>`))
         .join('');
     }
     whiteListOptionsForm += '</tbody></table></form>';

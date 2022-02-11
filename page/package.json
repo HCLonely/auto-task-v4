@@ -1,10 +1,9 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.2",
+  "version": "4.2.3",
   "change": [
-    "Keylol相关功能优化",
-    "控制台输出优化",
-    "调试功能优化",
+    "Keyhub任务识别优化",
+    "Steam换区功能优化",
     "其他功能优化"
   ],
   "description": "赠Key站自动任务脚本",

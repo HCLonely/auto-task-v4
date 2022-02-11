@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.2.2
+// @version            4.2.3
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1330,6 +1330,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       gettingForumId: '正在获取Steam论坛Id',
       followingCurator: '正在关注Steam鉴赏家',
       unfollowingCurator: '正在取关Steam鉴赏家',
+      gettingCuratorId: '正在获取Steam鉴赏家Id',
       addingToWishlist: '正在添加游戏到Steam愿望单',
       removingFromWishlist: '正在从Steam愿望单移除游戏',
       followingGame: '正在关注Steam游戏',
@@ -1586,6 +1587,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       gettingForumId: 'Getting Steam Forum Id',
       followingCurator: 'Following Steam Curator',
       unfollowingCurator: 'Unfollowing Steam Curator',
+      gettingCuratorId: 'Getting Steam Curator Id',
       addingToWishlist: 'Adding the game to the Steam wishlist',
       removingFromWishlist: 'Removing the game from the Steam wishlist',
       followingGame: 'Following Steam games',
@@ -4721,6 +4723,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
     var _storeInitialized = new WeakMap();
     var _communityInitialized = new WeakMap();
     var _area = new WeakMap();
+    var _areaStatus = new WeakMap();
     var _updateStoreAuth = new WeakSet();
     var _updateCommunityAuth = new WeakSet();
     var _getAreaInfo = new WeakSet();
@@ -4816,6 +4819,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         Steam_classPrivateFieldInitSpec(this, _area, {
           writable: true,
           value: 'CN'
+        });
+        Steam_classPrivateFieldInitSpec(this, _areaStatus, {
+          writable: true,
+          value: 'end'
         });
       }
       async init() {
@@ -5275,6 +5282,20 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
     }
     async function _changeArea2(area) {
       try {
+        if (Steam_classPrivateFieldGet(this, _areaStatus) === 'waiting') {
+          await new Promise(resolve => {
+            const checker = setInterval(() => {
+              if (Steam_classPrivateFieldGet(this, _areaStatus) !== 'waiting') {
+                clearInterval(checker);
+                resolve(true);
+              }
+            });
+          });
+        }
+        if (Steam_classPrivateFieldGet(this, _area) === area || !area && Steam_classPrivateFieldGet(this, _area) !== 'CN') {
+          return true;
+        }
+        Steam_classPrivateFieldSet(this, _areaStatus, 'waiting');
         let aimedArea = area;
         if (!aimedArea) {
           const {
@@ -5282,9 +5303,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             areas
           } = await Steam_classPrivateMethodGet(this, _getAreaInfo, _getAreaInfo2).call(this);
           if (!currentArea || !areas) {
+            Steam_classPrivateFieldSet(this, _areaStatus, 'error');
             return false;
           }
           if (currentArea !== 'CN') {
+            Steam_classPrivateFieldSet(this, _areaStatus, 'skip');
             scripts_echoLog({
               text: 'notNeededChangeArea'
             });
@@ -5292,6 +5315,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           }
           const anotherArea = areas.filter(area => area && area !== 'CN');
           if (!anotherArea || anotherArea.length === 0) {
+            Steam_classPrivateFieldSet(this, _areaStatus, 'noAnotherArea');
             scripts_echoLog({
               text: 'noAnotherArea'
             });
@@ -5324,18 +5348,23 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               currentArea
             } = await Steam_classPrivateMethodGet(this, _getAreaInfo, _getAreaInfo2).call(this);
             if (currentArea === aimedArea) {
+              Steam_classPrivateFieldSet(this, _areaStatus, 'success');
               logStatus.success();
               return currentArea;
             }
+            Steam_classPrivateFieldSet(this, _areaStatus, 'error');
             logStatus.error('Error: change country filed');
             return 'CN';
           }
+          Steam_classPrivateFieldSet(this, _areaStatus, 'error');
           logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
           return 'CN';
         }
+        Steam_classPrivateFieldSet(this, _areaStatus, 'error');
         logStatus.error(`${result}:${statusText}(${status})`);
         return 'CN';
       } catch (error) {
+        Steam_classPrivateFieldSet(this, _areaStatus, 'error');
         throwError(error, 'Steam.changeArea');
         return false;
       }
@@ -7762,6 +7791,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           if (!await Keyhub_classPrivateMethodGet(this, Keyhub_checkLeftKey, Keyhub_checkLeftKey2).call(this)) {
             scripts_echoLog({}).warning(i18n('checkLeftKeyFailed'));
           }
+          $('.NSFW').hide();
         } catch (error) {
           throwError(error, 'Keyhub.after');
         }
@@ -7798,7 +7828,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             var _GM_getValue;
             this.socialTasks = ((_GM_getValue = GM_getValue(`khTasks-${this.giveawayId}`)) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.tasks) || JSON.parse(Keyhub_defaultTasks);
           }
-          const tasks = $('.task a');
+          const tasks = $('.task:not(".googleads")').filter((index, element) => action === 'do' ? $(element).find('i.fa-check-circle:visible').length === 0 : true).find('a');
           for (const task of tasks) {
             let link = $(task).attr('href');
             const taskDes = $(task).text().trim();
@@ -9104,8 +9134,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             const asfLinks2 = mainPost.find('.blockcode:contains("addlicense"):visible');
             if (asfLinks2.length > 0) {
               for (const asfLink of asfLinks2) {
-                const subid = [ ...asfLink.innerText.matchAll(/s\/([\d]+)/g) ].map(arr => arr[1]);
-                if (subid.length === 0) {
+                const subid = asfLink.innerText.match(/[\d]+/g);
+                if (!subid || subid.length === 0) {
                   continue;
                 }
                 Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, $(asfLink).children('em')[0], 'steam', 'licenseLinks', `subid-${subid.join(',')}`);
@@ -10785,11 +10815,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
           }
         }
-        $('.container').append(`<div class="card"><div class="title"><a href="${link}" target="_blank">${title}</a><span class="delete-task" data-name="${item}" title="${i18n('deleteTask')}"><svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2734" width="32" height="32"><path d="M607.897867 768.043004c-17.717453 0-31.994625-14.277171-31.994625-31.994625L575.903242 383.935495c0-17.717453 14.277171-31.994625 31.994625-31.994625s31.994625 14.277171 31.994625 31.994625l0 351.94087C639.892491 753.593818 625.61532 768.043004 607.897867 768.043004z" p-id="2735" fill="#d81e06"></path><path d="M415.930119 768.043004c-17.717453 0-31.994625-14.277171-31.994625-31.994625L383.935495 383.935495c0-17.717453 14.277171-31.994625 31.994625-31.994625 17.717453 0 31.994625 14.277171 31.994625 31.994625l0 351.94087C447.924744 753.593818 433.647573 768.043004 415.930119 768.043004z" p-id="2736" fill="#d81e06"></path><path d="M928.016126 223.962372l-159.973123 0L768.043004 159.973123c0-52.980346-42.659499-95.983874-95.295817-95.983874L351.94087 63.989249c-52.980346 0-95.983874 43.003528-95.983874 95.983874l0 63.989249-159.973123 0c-17.717453 0-31.994625 14.277171-31.994625 31.994625s14.277171 31.994625 31.994625 31.994625l832.032253 0c17.717453 0 31.994625-14.277171 31.994625-31.994625S945.73358 223.962372 928.016126 223.962372zM319.946246 159.973123c0-17.545439 14.449185-31.994625 31.994625-31.994625l320.806316 0c17.545439 0 31.306568 14.105157 31.306568 31.994625l0 63.989249L319.946246 223.962372 319.946246 159.973123 319.946246 159.973123z" p-id="2737" fill="#d81e06"></path><path d="M736.048379 960.010751 288.123635 960.010751c-52.980346 0-95.983874-43.003528-95.983874-95.983874L192.139761 383.591466c0-17.717453 14.277171-31.994625 31.994625-31.994625s31.994625 14.277171 31.994625 31.994625l0 480.435411c0 17.717453 14.449185 31.994625 31.994625 31.994625l448.096758 0c17.717453 0 31.994625-14.277171 31.994625-31.994625L768.215018 384.795565c0-17.717453 14.277171-31.994625 31.994625-31.994625s31.994625 14.277171 31.994625 31.994625l0 479.231312C832.032253 916.835209 789.028725 960.010751 736.048379 960.010751z" p-id="2738" fill="#d81e06"></path></svg></span></div><ul>${html}</ul><span class="time">${i18n('lastChangeTime')}: ${external_dayjs_namespaceObject(tasksData.time).format('YYYY-MM-DD HH:mm:ss')}</span></div>`);
+        $('.container').append(`<div class="card" data-name="${item}"><div class="title"><a href="${link}" target="_blank">${title}</a><span class="delete-task" data-name="${item}" title="${i18n('deleteTask')}"><svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2734" width="32" height="32"><path d="M607.897867 768.043004c-17.717453 0-31.994625-14.277171-31.994625-31.994625L575.903242 383.935495c0-17.717453 14.277171-31.994625 31.994625-31.994625s31.994625 14.277171 31.994625 31.994625l0 351.94087C639.892491 753.593818 625.61532 768.043004 607.897867 768.043004z" p-id="2735" fill="#d81e06"></path><path d="M415.930119 768.043004c-17.717453 0-31.994625-14.277171-31.994625-31.994625L383.935495 383.935495c0-17.717453 14.277171-31.994625 31.994625-31.994625 17.717453 0 31.994625 14.277171 31.994625 31.994625l0 351.94087C447.924744 753.593818 433.647573 768.043004 415.930119 768.043004z" p-id="2736" fill="#d81e06"></path><path d="M928.016126 223.962372l-159.973123 0L768.043004 159.973123c0-52.980346-42.659499-95.983874-95.295817-95.983874L351.94087 63.989249c-52.980346 0-95.983874 43.003528-95.983874 95.983874l0 63.989249-159.973123 0c-17.717453 0-31.994625 14.277171-31.994625 31.994625s14.277171 31.994625 31.994625 31.994625l832.032253 0c17.717453 0 31.994625-14.277171 31.994625-31.994625S945.73358 223.962372 928.016126 223.962372zM319.946246 159.973123c0-17.545439 14.449185-31.994625 31.994625-31.994625l320.806316 0c17.545439 0 31.306568 14.105157 31.306568 31.994625l0 63.989249L319.946246 223.962372 319.946246 159.973123 319.946246 159.973123z" p-id="2737" fill="#d81e06"></path><path d="M736.048379 960.010751 288.123635 960.010751c-52.980346 0-95.983874-43.003528-95.983874-95.983874L192.139761 383.591466c0-17.717453 14.277171-31.994625 31.994625-31.994625s31.994625 14.277171 31.994625 31.994625l0 480.435411c0 17.717453 14.449185 31.994625 31.994625 31.994625l448.096758 0c17.717453 0 31.994625-14.277171 31.994625-31.994625L768.215018 384.795565c0-17.717453 14.277171-31.994625 31.994625-31.994625s31.994625 14.277171 31.994625 31.994625l0 479.231312C832.032253 916.835209 789.028725 960.010751 736.048379 960.010751z" p-id="2738" fill="#d81e06"></path></svg></span></div><ul>${html}</ul><span class="time">${i18n('lastChangeTime')}: ${external_dayjs_namespaceObject(tasksData.time).format('YYYY-MM-DD HH:mm:ss')}</span></div>`);
         $('span.delete-task').on('click', function() {
           const itemName = $(this).attr('data-name');
           if (itemName) {
             GM_deleteValue(itemName);
+            $(`div.card[data-name="${itemName}"]`).remove();
             external_Swal_default().fire({
               title: i18n('clearTaskFinished'),
               text: itemName,
