@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2022-01-16 19:03:01
- * @LastEditTime : 2022-01-17 11:04:05
+ * @LastEditTime : 2022-02-11 10:52:10
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/release.js
  * @Description  : 自动发布Release
@@ -33,7 +33,8 @@ if (version === releaseStep.with.name) {
 }
 settings.on = {
   push: {
-    branches: ['main']
+    branches: ['main'],
+    paths: ['src/**']
   }
 };
 options.prerelease = version.includes('-');

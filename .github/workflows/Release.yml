@@ -3,6 +3,8 @@ name: Release
   push:
     branches:
       - main
+    paths:
+      - 'src/**'
 jobs:
   release:
     runs-on: ubuntu-latest
