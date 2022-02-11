@@ -17,7 +17,7 @@
 
 ---
 
-[![Repobeats analytics image](https://repobeats.axiom.co/configs/e5c7c311a4d91763154bfbee13c9186759c29ae4 "Repobeats analytics image")](https://github.com/HCLonely/auto-task-v4/pulse)
+[![Repobeats analytics image](https://repobeats.axiom.co/api/embed/e5c7c311a4d91763154bfbee13c9186759c29ae4.svg "Repobeats analytics image")](https://github.com/HCLonely/auto-task-v4/pulse)
 
 ---
 
