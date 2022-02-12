@@ -1,10 +1,9 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.3",
+  "version": "4.2.4",
   "change": [
-    "Keyhub任务识别优化",
-    "Steam换区功能优化",
-    "其他功能优化"
+    "Sub入库功能优化",
+    "更新相关功能优化"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

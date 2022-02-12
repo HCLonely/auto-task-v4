@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2022-02-11 10:20:26
+ * @LastEditTime : 2022-02-12 16:53:04
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -1134,17 +1134,19 @@ class Steam extends Social {
       return false;
     }
   }
-  async #getLicenses(): Promise<Array<string> | false> {
+  async #getLicenses(): Promise<Array<number> | false> {
     try {
       const logStatus = echoLog({ text: __('gettingLicenses') });
       const { result, statusText, status, data } = await httpRequest({
-        url: 'https://store.steampowered.com/account/licenses/',
-        method: 'GET'
+        url: `https://store.steampowered.com/dynamicstore/userdata/?t=${new Date().getTime()}`,
+        method: 'GET',
+        responseType: 'json'
       });
       if (result === 'Success') {
         if (data?.status === 200) {
           logStatus.success();
-          return [...data.responseText.matchAll(/RemoveFreeLicense\([\s]*?([\d]+)/g)].map((arr) => arr[1]).filter((subid) => subid);
+          // return [...data.responseText.matchAll(/RemoveFreeLicense\([\s]*?([\d]+)/g)].map((arr) => arr[1]).filter((subid) => subid);
+          return data.response?.rgOwnedPackages;
         }
         logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
@@ -1184,16 +1186,21 @@ class Steam extends Social {
         logStatus.error(`${result}:${statusText}(${status})`);
         return false;
       } else if (type === 'subid') {
+        if (this.#area === 'CN') {
+          echoLog({}).success(__('tryChangeAreaNotice'));
+          await this.#changeArea();
+        }
         const logStatusArr: commonObject = {};
-        for (const subid of ids.split(',')) {
+        const idsArr = ids.split(',');
+        for (const subid of idsArr) {
           const logStatus = echoLog({ type: 'addingFreeLicenseSubid', text: subid });
           if (!await this.#addFreeLicense(subid, logStatus)) return false;
           logStatusArr[subid] = logStatus;
         }
         const licenses = await this.#getLicenses();
         if (!licenses) return false;
-        for (const subid of ids.split(',')) {
-          if (licenses.includes(subid)) {
+        for (const subid of idsArr) {
+          if (licenses.includes(parseInt(subid, 10))) {
             logStatusArr[subid].success();
           } else {
             logStatusArr[subid].error();

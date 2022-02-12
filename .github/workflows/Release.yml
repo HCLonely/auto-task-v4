@@ -4,7 +4,7 @@ name: Release
     branches:
       - main
     paths:
-      - 'src/**'
+      - src/**
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -20,12 +20,11 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.2.3
-          name: 4.2.3
+          tag_name: v4.2.4
+          name: 4.2.4
           body: |-
-            - Keyhub任务识别优化
-            - Steam换区功能优化
-            - 其他功能优化
+            - Sub入库功能优化
+            - 更新相关功能优化
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-24 17:21:16
- * @LastEditTime : 2022-02-06 11:05:10
+ * @LastEditTime : 2022-02-12 17:59:21
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/globalOptions.d.ts
  */
@@ -105,5 +105,6 @@ interface globalOptions {
     defaultShowButton: boolean
     defaultShowLog: boolean
     debug: boolean
+    receivePreview: boolean
   }
 }

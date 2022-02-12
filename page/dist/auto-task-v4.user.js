@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.2.3
+// @version            4.2.4
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1065,7 +1065,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         checkLeftKey: true,
         defaultShowButton: true,
         defaultShowLog: true,
-        debug: false
+        debug: false,
+        receivePreview: true
       }
     };
     const userDefinedGlobalOptions = GM_getValue('globalOptions') || {};
@@ -1245,6 +1246,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       defaultShowButton: '默认显示按钮',
       defaultShowLog: '默认显示日志',
       debug: '输出调试日志，不要开启此选项！',
+      receivePreview: '接收预览版更新',
       position: '组件位置',
       buttonSideX: '按钮区域水平方向定位(实时预览功能仅在设置页面可用)</br>left: 靠左 | right: 靠右',
       buttonSideY: '按钮区域垂直方向定位(实时预览功能仅在设置页面可用)</br>top: 靠上 | bottom: 靠下',
@@ -1304,6 +1306,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       notStart: '未开始',
       noRemoteData: '检测到远程无数据',
       errorRemoteDataFormat: '远程数据格式错误',
+      updateHistory: '历史更新记录<a class="high-light" href="https://auto-task-doc.js.org/logs/" target="_blank">点此查看</a>',
       groups: '组',
       officialGroups: '官方组',
       wishlists: '愿望单',
@@ -1352,6 +1355,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       missParams: '缺少参数',
       gettingLicenses: '正在获取Licenses...',
       requestingPlayTestAccess: '正在请求访问权限',
+      tryChangeAreaNotice: '此功能无法检测游戏是否限区，因此会尝试换区后再入库，换区失败也不影响后续入库',
       servers: '服务器',
       joiningDiscordServer: '正在加入Discord服务器',
       leavingDiscordServer: '正在退出Discord服务器',
@@ -1502,6 +1506,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       defaultShowButton: 'Default display button',
       defaultShowLog: 'Display log by default',
       debug: 'Output debug log, do not enable this option!',
+      receivePreview: 'Receive preview updates',
       position: 'Component position',
       buttonSideX: 'Horizontal positioning of the button area (real-time preview function is only available on the setting page).' + '</br>left: left | right: right',
       buttonSideY: 'The button area is positioned in the vertical direction (real-time preview function is only available on the settings page).' + '</br>top: top | bottom: bottom',
@@ -1561,6 +1566,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       notStart: 'notStart',
       noRemoteData: 'No data remotely',
       errorRemoteDataFormat: 'Remote data has wrong format',
+      updateHistory: '<a class="high-light" href="https://auto-task-doc.js.org/logs/" target="_blank">Click here</a>' + ' to view the historical update record.',
       groups: 'Group',
       officialGroups: 'Official Group',
       wishlists: 'Wishlist',
@@ -1609,6 +1615,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       missParams: 'Missing parameters',
       gettingLicenses: 'Getting licenses...',
       requestingPlayTestAccess: 'Requesting play test access',
+      tryChangeAreaNotice: 'This function cannot detect whether the game is limited, so it will try to change the area before entering the library' + '. Failure to change the area will not affect the subsequent storage.',
       servers: 'Server',
       joiningDiscordServer: 'Joining Discord Server',
       leavingDiscordServer: 'Leaving Discord Server',
@@ -6348,13 +6355,15 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           status,
           data
         } = await tools_httpRequest({
-          url: 'https://store.steampowered.com/account/licenses/',
-          method: 'GET'
+          url: `https://store.steampowered.com/dynamicstore/userdata/?t=${new Date().getTime()}`,
+          method: 'GET',
+          responseType: 'json'
         });
         if (result === 'Success') {
           if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+            var _data$response8;
             logStatus.success();
-            return [ ...data.responseText.matchAll(/RemoveFreeLicense\([\s]*?([\d]+)/g) ].map(arr => arr[1]).filter(subid => subid);
+            return (_data$response8 = data.response) === null || _data$response8 === void 0 ? void 0 : _data$response8.rgOwnedPackages;
           }
           logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
           return false;
@@ -6405,8 +6414,13 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           logStatus.error(`${result}:${statusText}(${status})`);
           return false;
         } else if (type === 'subid') {
+          if (Steam_classPrivateFieldGet(this, _area) === 'CN') {
+            scripts_echoLog({}).success(i18n('tryChangeAreaNotice'));
+            await Steam_classPrivateMethodGet(this, _changeArea, _changeArea2).call(this);
+          }
           const logStatusArr = {};
-          for (const subid of ids.split(',')) {
+          const idsArr = ids.split(',');
+          for (const subid of idsArr) {
             const logStatus = scripts_echoLog({
               type: 'addingFreeLicenseSubid',
               text: subid
@@ -6420,8 +6434,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           if (!licenses) {
             return false;
           }
-          for (const subid of ids.split(',')) {
-            if (licenses.includes(subid)) {
+          for (const subid of idsArr) {
+            if (licenses.includes(parseInt(subid, 10))) {
               logStatusArr[subid].success();
             } else {
               logStatusArr[subid].error();
@@ -6511,8 +6525,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           dataType: 'json'
         });
         if (result === 'Success') {
-          var _data$response8;
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (data === null || data === void 0 ? void 0 : (_data$response8 = data.response) === null || _data$response8 === void 0 ? void 0 : _data$response8.success) === 1) {
+          var _data$response9;
+          if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (data === null || data === void 0 ? void 0 : (_data$response9 = data.response) === null || _data$response9 === void 0 ? void 0 : _data$response9.success) === 1) {
             logStatus.success();
             return true;
           }
@@ -10913,7 +10927,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
     const hasNewVersion = (currentVersion, remoteVersion) => {
       try {
         const [ currentRealVersion ] = currentVersion.split('-');
-        const [ remoteRealVersion ] = remoteVersion.split('-');
+        const [ remoteRealVersion, isPreview ] = remoteVersion.split('-');
+        if (isPreview && !globalOptions.other.receivePreview) {
+          return false;
+        }
         const [ currentVersion1, currentVersion2, currentVersion3 ] = currentRealVersion.split('.').map(value => parseInt(value, 10));
         const [ remoteVersion1, remoteVersion2, remoteVersion3 ] = remoteRealVersion.split('.').map(value => parseInt(value, 10));
         if (remoteVersion1 > currentVersion1) {
@@ -10976,7 +10993,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             html: `<li><font>${i18n('newVersionNotice', version, `${updateLink}dist/${GM_info.script.name}.user.js`)}</font></li>`
           });
           scripts_echoLog({
-            html: `<li>${i18n('updateText', version)}</li><ol class="update-text">${(_packageData$change = packageData.change) === null || _packageData$change === void 0 ? void 0 : _packageData$change.map(change => `<li>${change}</li>`).join('')}</ol>`
+            html: `<li>${i18n('updateText', version)}</li><ol class="update-text">${(_packageData$change = packageData.change) === null || _packageData$change === void 0 ? void 0 : _packageData$change.map(change => `<li>${change}</li>`).join('')}<li>${i18n('updateHistory')}</li></ol>`
           });
         }
       } catch (error) {

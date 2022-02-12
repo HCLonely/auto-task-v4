@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2022-02-11 10:37:54
+ * @LastEditTime : 2022-02-12 18:14:21
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -97,6 +97,7 @@ const data = {
   defaultShowButton: '默认显示按钮',
   defaultShowLog: '默认显示日志',
   debug: '输出调试日志，不要开启此选项！',
+  receivePreview: '接收预览版更新',
   position: '组件位置',
   buttonSideX: '按钮区域水平方向定位(实时预览功能仅在设置页面可用)</br>left: 靠左 | right: 靠右',
   buttonSideY: '按钮区域垂直方向定位(实时预览功能仅在设置页面可用)</br>top: 靠上 | bottom: 靠下',
@@ -156,6 +157,7 @@ const data = {
   notStart: '未开始',
   noRemoteData: '检测到远程无数据',
   errorRemoteDataFormat: '远程数据格式错误',
+  updateHistory: '历史更新记录<a class="high-light" href="https://auto-task-doc.js.org/logs/" target="_blank">点此查看</a>',
 
   // Steam
   groups: '组',
@@ -206,6 +208,7 @@ const data = {
   missParams: '缺少参数',
   gettingLicenses: '正在获取Licenses...',
   requestingPlayTestAccess: '正在请求访问权限',
+  tryChangeAreaNotice: '此功能无法检测游戏是否限区，因此会尝试换区后再入库，换区失败也不影响后续入库',
 
   // Discord
   servers: '服务器',

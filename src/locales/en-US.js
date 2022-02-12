@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2022-02-11 10:38:13
+ * @LastEditTime : 2022-02-12 18:14:29
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/en-US.js
  * @Description  : i18n英文
@@ -102,6 +102,7 @@ const data = {
   defaultShowButton: 'Default display button',
   defaultShowLog: 'Display log by default',
   debug: 'Output debug log, do not enable this option!',
+  receivePreview: 'Receive preview updates',
   position: 'Component position',
   buttonSideX: 'Horizontal positioning of the button area (real-time preview function is only available on the setting page).' +
     '</br>left: left | right: right',
@@ -172,6 +173,8 @@ const data = {
   notStart: 'notStart',
   noRemoteData: 'No data remotely',
   errorRemoteDataFormat: 'Remote data has wrong format',
+  updateHistory: '<a class="high-light" href="https://auto-task-doc.js.org/logs/" target="_blank">Click here</a>' +
+   ' to view the historical update record.',
 
   // Steam
   groups: 'Group',
@@ -222,6 +225,8 @@ const data = {
   missParams: 'Missing parameters',
   gettingLicenses: 'Getting licenses...',
   requestingPlayTestAccess: 'Requesting play test access',
+  tryChangeAreaNotice: 'This function cannot detect whether the game is limited, so it will try to change the area before entering the library' +
+    '. Failure to change the area will not affect the subsequent storage.',
 
   // Discord
   servers: 'Server',
