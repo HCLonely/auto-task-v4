@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2022-02-12 18:14:29
+ * @LastEditTime : 2022-02-13 22:18:23
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/en-US.js
  * @Description  : i18n英文
@@ -174,7 +174,7 @@ const data = {
   noRemoteData: 'No data remotely',
   errorRemoteDataFormat: 'Remote data has wrong format',
   updateHistory: '<a class="high-light" href="https://auto-task-doc.js.org/logs/" target="_blank">Click here</a>' +
-   ' to view the historical update record.',
+    ' to view the historical update record.',
 
   // Steam
   groups: 'Group',
@@ -262,6 +262,7 @@ const data = {
   // Twitter
   twitterUser: 'Twitter User',
   retweets: 'Retweet',
+  gettingTwitterUserId: 'Getting Twitter User Id',
   followingTwitterUser: 'Following Twitter User',
   unfollowingTwitterUser: 'Unfollowing Twitter User',
   retweetting: 'Retweetting',

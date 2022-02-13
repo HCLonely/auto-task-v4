@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2022-02-06 11:38:31
+ * @LastEditTime : 2022-02-13 22:19:03
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  : https://gleam.io
@@ -228,6 +228,7 @@ class Gleam extends Website {
         } else if (
           socialIcon.hasClass('fa-question') ||
           socialIcon.hasClass('fa-reddit') ||
+          socialIcon.hasClass('fa-instagram') ||
           socialIcon.hasClass('fa-facebook-f') ||
           socialIcon.hasClass('fa-telegram-plane') ||
           (socialIcon.hasClass('fa-shield') && taskText.includes('Check out'))

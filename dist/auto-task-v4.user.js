@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.2.4
+// @version            4.2.5
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1381,6 +1381,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       gettingTwitchChannelId: '正在获取Twitch频道Id',
       twitterUser: '推特用户',
       retweets: '转推',
+      gettingTwitterUserId: '正在获取推特用户Id',
       followingTwitterUser: '正在关注推特用户',
       unfollowingTwitterUser: '正在取关推特用户',
       retweetting: '正在转推',
@@ -1641,6 +1642,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       gettingTwitchChannelId: 'Getting Twitch Channel Id',
       twitterUser: 'Twitter User',
       retweets: 'Retweet',
+      gettingTwitterUserId: 'Getting Twitter User Id',
       followingTwitterUser: 'Following Twitter User',
       unfollowingTwitterUser: 'Unfollowing Twitter User',
       retweetting: 'Retweetting',
@@ -9658,7 +9660,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 continue;
               }
               this.undoneTasks.extra.gleam.push(gleamLink);
-            } else if (socialIcon.hasClass('fa-question') || socialIcon.hasClass('fa-reddit') || socialIcon.hasClass('fa-facebook-f') || socialIcon.hasClass('fa-telegram-plane') || socialIcon.hasClass('fa-shield') && taskText.includes('Check out')) {} else {
+            } else if (socialIcon.hasClass('fa-question') || socialIcon.hasClass('fa-reddit') || socialIcon.hasClass('fa-instagram') || socialIcon.hasClass('fa-facebook-f') || socialIcon.hasClass('fa-telegram-plane') || socialIcon.hasClass('fa-shield') && taskText.includes('Check out')) {} else {
               scripts_echoLog({}).warning(`${i18n('unKnownTaskType')}: ${taskText}`);
             }
           }

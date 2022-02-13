@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2022-02-12 18:14:21
+ * @LastEditTime : 2022-02-13 22:18:01
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -244,6 +244,7 @@ const data = {
   // Twitter
   twitterUser: '推特用户',
   retweets: '转推',
+  gettingTwitterUserId: '正在获取推特用户Id',
   followingTwitterUser: '正在关注推特用户',
   unfollowingTwitterUser: '正在取关推特用户',
   retweetting: '正在转推',
