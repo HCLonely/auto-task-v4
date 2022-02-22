@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2022-02-12 16:53:04
+ * @LastEditTime : 2022-02-22 09:18:46
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -60,6 +60,10 @@ class Steam extends Social {
           return true;
         }
         this.#storeInitialized = await this.#updateStoreAuth();
+        if (!this.#storeInitialized) {
+          echoLog({}).error(__('initFailed', 'Steam'));
+          return false;
+        }
         echoLog({}).success(__('initSuccess', 'SteamStore'));
         return true;
       }
@@ -68,6 +72,10 @@ class Steam extends Social {
           return true;
         }
         this.#communityInitialized = await this.#updateCommunityAuth();
+        if (!this.#communityInitialized) {
+          echoLog({}).error(__('initFailed', 'Steam'));
+          return false;
+        }
         echoLog({}).success(__('initSuccess', 'SteamCommunity'));
         return true;
       }

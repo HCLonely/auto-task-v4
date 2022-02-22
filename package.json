@@ -1,9 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.5",
+  "version": "4.2.6",
   "change": [
-    "Gleam任务识别优化",
-    "一处文本优化"
+    "优化Steam凭证获取逻辑"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

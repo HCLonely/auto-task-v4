@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.2
 
+### V4.2.6
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.6)
+
+- 优化Steam凭证获取逻辑
+
 ### V4.2.5
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.5)

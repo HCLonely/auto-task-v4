@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.2.5
+// @version            4.2.6
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -4842,6 +4842,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               return true;
             }
             Steam_classPrivateFieldSet(this, _storeInitialized, await Steam_classPrivateMethodGet(this, _updateStoreAuth, _updateStoreAuth2).call(this));
+            if (!Steam_classPrivateFieldGet(this, _storeInitialized)) {
+              scripts_echoLog({}).error(i18n('initFailed', 'Steam'));
+              return false;
+            }
             scripts_echoLog({}).success(i18n('initSuccess', 'SteamStore'));
             return true;
           }
@@ -4850,6 +4854,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               return true;
             }
             Steam_classPrivateFieldSet(this, _communityInitialized, await Steam_classPrivateMethodGet(this, _updateCommunityAuth, _updateCommunityAuth2).call(this));
+            if (!Steam_classPrivateFieldGet(this, _communityInitialized)) {
+              scripts_echoLog({}).error(i18n('initFailed', 'Steam'));
+              return false;
+            }
             scripts_echoLog({}).success(i18n('initSuccess', 'SteamCommunity'));
             return true;
           }

@@ -20,11 +20,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.2.5
-          name: 4.2.5
-          body: |-
-            - Gleam任务识别优化
-            - 一处文本优化
+          tag_name: v4.2.6
+          name: 4.2.6
+          body: '- 优化Steam凭证获取逻辑'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js
