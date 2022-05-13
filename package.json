@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.6",
+  "version": "4.2.7",
   "change": [
-    "优化Steam凭证获取逻辑"
+    "[重要]目前使用Discord相关功能可能会强制退出帐号，请谨慎使用！"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

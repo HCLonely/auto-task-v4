@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2022-02-13 22:18:23
+ * @LastEditTime : 2022-05-13 11:14:35
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/en-US.js
  * @Description  : i18n英文
@@ -234,6 +234,12 @@ const data = {
   leavingDiscordServer: 'Leaving Discord Server',
   gettingDiscordGuild: 'Getting Discord server Id',
   getDiscordAuthFailed: 'Failed to get Discord token, please check whether the Discord account is logged in',
+  discordImportantNotice: 'Important Reminder! ! !',
+  // eslint-disable-next-line max-len
+  discordImportantNoticeText: 'Due to the background update of the Discord website, currently using this script to join a group may cause the Discord account to be forcibly logged out, and two-step verification is required to log in normally, please use it with caution! ! !',
+  continue: 'Continue',
+  skipDiscordTask: 'Skip',
+  continueAndDontRemindAgain: 'Continue without Reminders',
 
   // Instagram
   users: 'User',

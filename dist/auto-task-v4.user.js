@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.2.6
+// @version            4.2.7
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1361,6 +1361,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       leavingDiscordServer: '正在退出Discord服务器',
       gettingDiscordGuild: '正在获取Discord服务器Id',
       getDiscordAuthFailed: '获取Discord凭证失败，请检测Discord帐号是否已登录',
+      discordImportantNotice: '重要提醒！！！',
+      discordImportantNoticeText: '由于Discord网站后台更新，目前使用此脚本加组后可能会导致Discord帐号被强制退出，且需要两步验证才能正常登录，请谨慎使用！！！',
+      continue: '继续',
+      skipDiscordTask: '跳过Discord任务',
+      continueAndDontRemindAgain: '继续且不再提醒',
       users: '用户',
       loginIns: '请先<a href="https://www.instagram.com/accounts/login/" target="_blank">登录Instagram</a>',
       insBanned: '您的Instagram账户已被封禁',
@@ -1622,6 +1627,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       leavingDiscordServer: 'Leaving Discord Server',
       gettingDiscordGuild: 'Getting Discord server Id',
       getDiscordAuthFailed: 'Failed to get Discord token, please check whether the Discord account is logged in',
+      discordImportantNotice: 'Important Reminder! ! !',
+      discordImportantNoticeText: 'Due to the background update of the Discord website, currently using this script to join a group may cause the Discord account to be forcibly logged out, and two-step verification is required to log in normally, please use it with caution! ! !',
+      continue: 'Continue',
+      skipDiscordTask: 'Skip',
+      continueAndDontRemindAgain: 'Continue without Reminders',
       users: 'User',
       loginIns: 'Please <a href="https://www.instagram.com/accounts/login/" target="_blank">log in to Instagram</a>',
       insBanned: 'Your Instagram account has been banned',
@@ -1801,21 +1811,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
       return obj;
     }
-    function _classPrivateFieldSet(receiver, privateMap, value) {
-      var descriptor = _classExtractFieldDescriptor(receiver, privateMap, 'set');
-      _classApplyDescriptorSet(receiver, descriptor, value);
-      return value;
-    }
-    function _classApplyDescriptorSet(receiver, descriptor, value) {
-      if (descriptor.set) {
-        descriptor.set.call(receiver, value);
-      } else {
-        if (!descriptor.writable) {
-          throw new TypeError('attempted to set read only private field');
-        }
-        descriptor.value = value;
-      }
-    }
     function _classPrivateMethodGet(receiver, privateSet, fn) {
       if (!privateSet.has(receiver)) {
         throw new TypeError('attempted to get private field on non-instance');
@@ -1826,17 +1821,32 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       var descriptor = _classExtractFieldDescriptor(receiver, privateMap, 'get');
       return _classApplyDescriptorGet(receiver, descriptor);
     }
+    function _classApplyDescriptorGet(receiver, descriptor) {
+      if (descriptor.get) {
+        return descriptor.get.call(receiver);
+      }
+      return descriptor.value;
+    }
+    function _classPrivateFieldSet(receiver, privateMap, value) {
+      var descriptor = _classExtractFieldDescriptor(receiver, privateMap, 'set');
+      _classApplyDescriptorSet(receiver, descriptor, value);
+      return value;
+    }
     function _classExtractFieldDescriptor(receiver, privateMap, action) {
       if (!privateMap.has(receiver)) {
         throw new TypeError('attempted to ' + action + ' private field on non-instance');
       }
       return privateMap.get(receiver);
     }
-    function _classApplyDescriptorGet(receiver, descriptor) {
-      if (descriptor.get) {
-        return descriptor.get.call(receiver);
+    function _classApplyDescriptorSet(receiver, descriptor, value) {
+      if (descriptor.set) {
+        descriptor.set.call(receiver, value);
+      } else {
+        if (!descriptor.writable) {
+          throw new TypeError('attempted to set read only private field');
+        }
+        descriptor.value = value;
       }
-      return descriptor.value;
     }
     const defaultTasksTemplate = {
       servers: []
@@ -1881,6 +1891,34 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
       async init() {
         try {
+          if (!GM_getValue('dontRemindDiscordAgain')) {
+            const result = await external_Swal_default().fire({
+              title: i18n('discordImportantNotice'),
+              text: i18n('discordImportantNoticeText'),
+              showCancelButton: true,
+              showDenyButton: true,
+              confirmButtonText: i18n('continue'),
+              cancelButtonText: i18n('skipDiscordTask'),
+              denyButtonText: i18n('continueAndDontRemindAgain')
+            }).then(_ref => {
+              let {
+                isConfirmed,
+                isDenied
+              } = _ref;
+              if (isConfirmed) {
+                return true;
+              }
+              if (isDenied) {
+                GM_setValue('dontRemindDiscordAgain', true);
+                return true;
+              }
+              return false;
+            });
+            if (!result) {
+              _classPrivateFieldSet(this, _initialized, false);
+              return false;
+            }
+          }
           if (_classPrivateFieldGet(this, _initialized)) {
             return true;
           }
@@ -1912,11 +1950,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async toggle(_ref) {
+      async toggle(_ref2) {
         let {
           doTask = true,
           serverLinks = []
-        } = _ref;
+        } = _ref2;
         try {
           if (!_classPrivateFieldGet(this, _initialized)) {
             scripts_echoLog({
@@ -2032,7 +2070,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           method: 'POST',
           dataType: 'json',
           headers: {
-            authorization: _classPrivateFieldGet(this, _auth).auth
+            authorization: _classPrivateFieldGet(this, _auth).auth,
+            origin: 'https://discord.com',
+            referer: `https://discord.com/invite/${inviteId}`
           }
         });
         if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200) {

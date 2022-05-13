@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2022-02-06 11:48:22
+ * @LastEditTime : 2022-05-13 11:03:44
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
@@ -14,6 +14,7 @@ import { unique, delay } from '../tools/tools';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import { globalOptions } from '../globalOptions';
+import Swal from 'sweetalert2';
 
 const defaultTasksTemplate: discordTasks = { servers: [] };
 const defaultTasks = JSON.stringify(defaultTasksTemplate);
@@ -31,6 +32,30 @@ class Discord extends Social {
      * @return true: 初始化完成 | false: 初始化失败，toggle方法不可用
     */
     try {
+      if (!GM_getValue('dontRemindDiscordAgain')) {
+        const result = await Swal.fire({
+          title: __('discordImportantNotice'),
+          text: __('discordImportantNoticeText'),
+          showCancelButton: true,
+          showDenyButton: true,
+          confirmButtonText: __('continue'),
+          cancelButtonText: __('skipDiscordTask'),
+          denyButtonText: __('continueAndDontRemindAgain')
+        }).then(({ isConfirmed, isDenied }) => {
+          if (isConfirmed) {
+            return true;
+          }
+          if (isDenied) {
+            GM_setValue('dontRemindDiscordAgain', true);
+            return true;
+          }
+          return false;
+        });
+        if (!result) {
+          this.#initialized = false;
+          return false;
+        }
+      }
       if (this.#initialized) {
         return true;
       }
@@ -132,7 +157,11 @@ class Discord extends Social {
         url: `https://discord.com/api/v9/invites/${inviteId}`,
         method: 'POST',
         dataType: 'json',
-        headers: { authorization: this.#auth.auth as string }
+        headers: {
+          authorization: this.#auth.auth as string,
+          origin: 'https://discord.com',
+          referer: `https://discord.com/invite/${inviteId}`
+        }
       });
       if (result === 'Success' && data?.status === 200) {
         logStatus.success();

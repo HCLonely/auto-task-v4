@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2022-02-13 22:18:01
+ * @LastEditTime : 2022-05-13 11:12:00
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -216,6 +216,11 @@ const data = {
   leavingDiscordServer: '正在退出Discord服务器',
   gettingDiscordGuild: '正在获取Discord服务器Id',
   getDiscordAuthFailed: '获取Discord凭证失败，请检测Discord帐号是否已登录',
+  discordImportantNotice: '重要提醒！！！',
+  discordImportantNoticeText: '由于Discord网站后台更新，目前使用此脚本加组后可能会导致Discord帐号被强制退出，且需要两步验证才能正常登录，请谨慎使用！！！',
+  continue: '继续',
+  skipDiscordTask: '跳过Discord任务',
+  continueAndDontRemindAgain: '继续且不再提醒',
 
   // Instagram
   users: '用户',

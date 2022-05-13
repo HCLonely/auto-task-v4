@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.2
 
+### V4.2.7
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.7)
+
+- [重要]目前使用Discord相关功能可能会强制退出帐号，请谨慎使用！
+
 ### V4.2.6
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.6)
