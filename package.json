@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.7",
+  "version": "4.2.8",
   "change": [
-    "[重要]目前使用Discord相关功能可能会强制退出帐号，请谨慎使用！"
+    "修复VK任务获取参数失败的BUG"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

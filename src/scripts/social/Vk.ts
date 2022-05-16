@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 11:47:59
- * @LastEditTime : 2022-02-06 11:48:41
+ * @LastEditTime : 2022-05-16 10:36:10
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Vk.ts
  * @Description  : Vk 加入/退出群组，关注/取关用户，转发/取消转发动态
@@ -353,7 +353,7 @@ class Vk extends Social {
       });
       if (result === 'Success') {
         if (data?.status === 200) {
-          const [, groupAct, groupId, groupHash] = data.responseText.match(/Groups.(enter|leave)\(.*?,.*?([\d]+?), '(.*?)'/) || [];
+          const [, groupAct, groupId, , groupHash] = data.responseText.match(/Groups.(enter|leave)\(.*?,.*?([\d]+?), (&#39;|')(.*?)(&#39;|')/) || [];
           const publicHash = data.responseText.match(/"enterHash":"(.*?)"/)?.[1];
           const publicPid = data.responseText.match(/"public_id":([\d]+?),/)?.[1];
           const publicJoined = !data.responseText.includes('Public.subscribe');
