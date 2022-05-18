@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.8",
+  "version": "4.2.9",
   "change": [
-    "修复VK任务获取参数失败的BUG"
+    "修复跳过Discors任务时不做其他任务的BUG(#9)"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

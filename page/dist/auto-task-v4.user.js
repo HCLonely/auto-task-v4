@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.2.8
+// @version            4.2.9
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1916,7 +1916,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             });
             if (!result) {
               _classPrivateFieldSet(this, _initialized, false);
-              return false;
+              return 'skip';
             }
           }
           if (_classPrivateFieldGet(this, _initialized)) {
@@ -6762,7 +6762,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           const pro = [];
           const doTask = action === 'do';
           const tasks = doTask ? this.undoneTasks : this.socialTasks;
-          if (this.social.discord) {
+          if (this.socialInitialized.discord !== 'skip' && this.social.discord) {
             pro.push(this.social.discord.toggle({
               doTask: doTask,
               ...tasks.discord

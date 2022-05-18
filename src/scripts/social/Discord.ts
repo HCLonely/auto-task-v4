@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2022-05-13 11:03:44
+ * @LastEditTime : 2022-05-18 10:04:03
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
@@ -26,7 +26,7 @@ class Discord extends Social {
   #cache: cache = GM_getValue<cache>('discordCache') || {};
   #initialized = false;
 
-  async init(): Promise<boolean> {
+  async init(): Promise<boolean | 'skip'> {
     /**
      * @description: 验证及获取Auth
      * @return true: 初始化完成 | false: 初始化失败，toggle方法不可用
@@ -53,7 +53,7 @@ class Discord extends Social {
         });
         if (!result) {
           this.#initialized = false;
-          return false;
+          return 'skip';
         }
       }
       if (this.#initialized) {

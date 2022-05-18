@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-05 11:32:20
- * @LastEditTime : 2022-01-30 11:31:39
+ * @LastEditTime : 2022-05-18 09:49:17
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Website.d.ts
  * @Description  :
@@ -61,7 +61,18 @@ declare interface webSocialTasks {
 }
 declare interface bindReturn {
   name: string
-  result: boolean
+  result: boolean | 'skip'
+}
+declare interface socialInitialized {
+  discord: boolean | 'skip'
+  instagram: boolean | 'skip'
+  reddit: boolean | 'skip'
+  twitch: boolean | 'skip'
+  twitter: boolean | 'skip'
+  vk: boolean | 'skip'
+  youtube: boolean | 'skip'
+  steamStore: boolean | 'skip'
+  steamCommunity: boolean | 'skip'
 }
 
 declare function initFunction():Promise<boolean>

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:28
- * @LastEditTime : 2022-02-06 11:51:07
+ * @LastEditTime : 2022-05-18 09:49:52
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Website.ts
  * @Description  :
@@ -29,7 +29,7 @@ abstract class Website {
   undoneTasks!: webSocialTasks
   socialTasks!: webSocialTasks
   giveawayId!: string
-  protected socialInitialized = {
+  protected socialInitialized: socialInitialized = {
     discord: false,
     instagram: false,
     reddit: false,
@@ -54,9 +54,9 @@ abstract class Website {
   } = {}
 
   abstract classifyTask(action: 'do' | 'undo' | 'verify'): Promise<boolean> | boolean
-  abstract init(): boolean | Promise<boolean>
+  abstract init(): boolean | 'skip' | Promise<boolean | 'skip'>
 
-  async #bind(name: string, init: Promise<boolean>): Promise<bindReturn> {
+  async #bind(name: string, init: Promise<boolean | 'skip'>): Promise<bindReturn> {
     try {
       return { name, result: await init };
     } catch (error) {
@@ -179,7 +179,7 @@ abstract class Website {
       const pro = [];
       const doTask = action === 'do';
       const tasks = doTask ? this.undoneTasks : this.socialTasks;
-      if (this.social.discord) {
+      if (this.socialInitialized.discord !== 'skip' && this.social.discord) {
         pro.push(this.social.discord.toggle({ doTask, ...tasks.discord }));
       }
       if (this.social.instagram) {

@@ -20,9 +20,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.2.8
-          name: 4.2.8
-          body: '- 修复VK任务获取参数失败的BUG'
+          tag_name: v4.2.9
+          name: 4.2.9
+          body: '- 修复跳过Discors任务时不做其他任务的BUG(#9)'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-15 10:48:42
- * @LastEditTime : 2022-02-06 11:48:31
+ * @LastEditTime : 2022-05-18 09:49:49
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Social.ts
  * @Description  : Social通用模板
@@ -16,7 +16,7 @@ interface toggleParams {
 abstract class Social {
   tasks!: socialTasks;
 
-  abstract init(): Promise<boolean>
+  abstract init(): Promise<boolean | 'skip'>
   abstract toggle(toggleParams: toggleParams): Promise<boolean>
 
   protected getRealParams(

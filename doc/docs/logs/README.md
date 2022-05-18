@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.2
 
+### V4.2.9
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.9)
+
+- 修复跳过Discors任务时不做其他任务的BUG([#9](https://github.com/HCLonely/auto-task-v4/issues/9))
+
 ### V4.2.8
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.8)

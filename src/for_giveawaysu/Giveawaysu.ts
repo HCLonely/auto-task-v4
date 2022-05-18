@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2022-01-20 10:48:53
+ * @LastEditTime : 2022-05-18 10:00:20
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/for_giveawaysu/Giveawaysu.ts
  * @Description  : https://giveaway.su/
@@ -61,7 +61,7 @@ const defaultTasks: gasSocialTasks = {
 class GiveawaySu {
   undoneTasks: gasSocialTasks = defaultTasks
   giveawayId!: string;
-  socialInitialized = {
+  socialInitialized: socialInitialized = {
     discord: false,
     instagram: false,
     reddit: false,
@@ -69,7 +69,8 @@ class GiveawaySu {
     vk: false,
     youtube: false,
     steamStore: false,
-    steamCommunity: false
+    steamCommunity: false,
+    twitter: true
   };
   initialized = false;
   social: {
@@ -246,7 +247,7 @@ class GiveawaySu {
     return false;
   }
 
-  async #bind(name: string, init: Promise<boolean>): Promise<bindReturn> {
+  async #bind(name: string, init: Promise<boolean | 'skip'>): Promise<bindReturn> {
     try {
       return { name, result: await init };
     } catch (error) {
@@ -359,7 +360,7 @@ class GiveawaySu {
       const pro = [];
       const doTask = true;
       const tasks = this.undoneTasks;
-      if (this.social.discord) {
+      if (this.socialInitialized.discord !== 'skip' && this.social.discord) {
         pro.push(this.social.discord.toggle({ doTask, ...tasks.discord }));
       }
       if (this.social.instagram) {
