@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2022-01-16 19:03:01
- * @LastEditTime : 2022-02-11 10:52:10
+ * @LastEditTime : 2022-05-22 11:17:34
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/release.js
  * @Description  : 自动发布Release
@@ -43,7 +43,10 @@ options.name = version;
 options.body = `- ${change.join('\n- ')}`;
 options.files = `dist/auto-task-v4-for-giveawaysu.user.js
 dist/auto-task-v4.compatibility.user.js
-dist/auto-task-v4.user.js`;
+dist/auto-task-v4.user.js
+dist/auto-task-v4-for-giveawaysu.all.user.js
+dist/auto-task-v4.compatibility.all.user.js
+dist/auto-task-v4.all.user.js`;
 options.token = '${{ github.TOKEN }}';
 releaseStep.with = options;
 fs.writeFileSync('./.github/workflows/Release.yml', yaml.dump(settings));

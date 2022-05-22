@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.9",
+  "version": "4.2.10",
   "change": [
-    "修复跳过Discors任务时不做其他任务的BUG(#9)"
+    "添加全资源版本"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",
@@ -12,7 +12,7 @@
     "gs": "webpack --config webpack.giveawaysu.config.js",
     "dev": "webpack --config webpack.dev.config.js",
     "analyze": "webpack-bundle-analyzer ./dist/stats.json",
-    "build": "webpack --config webpack.config.js && webpack --config webpack.compatibility.config.js && webpack --config webpack.giveawaysu.config.js && node copy.js && node doc-sync.js && node release.js"
+    "build": "webpack --config webpack.config.js && webpack --config webpack.compatibility.config.js && webpack --config webpack.giveawaysu.config.js && node build-all-static.js && node copy.js && node doc-sync.js && node release.js"
   },
   "author": "HCLonely <h1606051253@gmail.com>",
   "license": "MIT",

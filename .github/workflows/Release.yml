@@ -20,11 +20,14 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.2.9
-          name: 4.2.9
-          body: '- 修复跳过Discors任务时不做其他任务的BUG(#9)'
+          tag_name: v4.2.10
+          name: 4.2.10
+          body: '- 添加全资源版本'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js
             dist/auto-task-v4.user.js
+            dist/auto-task-v4-for-giveawaysu.all.user.js
+            dist/auto-task-v4.compatibility.all.user.js
+            dist/auto-task-v4.all.user.js
           token: ${{ github.TOKEN }}

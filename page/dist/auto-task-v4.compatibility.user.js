@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4.compatibility
 // @namespace          auto-task-v4.compatibility
-// @version            4.2.9
+// @version            4.2.10
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely

@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.2
 
+### V4.2.10
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.10)
+
+- 添加全资源版本
+
 ### V4.2.9
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.9)
