@@ -20,9 +20,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.2.10
-          name: 4.2.10
-          body: '- 添加全资源版本'
+          tag_name: v4.2.11
+          name: 4.2.11
+          body: '- 修复获取Twitter用户Id失败的BUG'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.10",
+  "version": "4.2.11",
   "change": [
-    "添加全资源版本"
+    "修复获取Twitter用户Id失败的BUG"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

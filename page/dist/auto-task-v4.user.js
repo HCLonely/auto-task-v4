@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.2.10
+// @version            4.2.11
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -3299,18 +3299,19 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             status,
             data
           } = await tools_httpRequest({
-            url: 'https://api.twitter.com/graphql/-xfUfZsnR_zqjFd-IfrN5A/UserByScreenName' + `?variables=%7B%22screen_name%22%3A%22${name}%22%2C%22withHighlightedLabel%22%3Atrue%7D`,
+            url: 'https://api.twitter.com/graphql/mCbpQvZAw6zu_4PvuAUVVQ/UserByScreenName' + `?variables=%7B%22screen_name%22%3A%22${name}%22%2C%22withSafetyModeUserFields%22%3Atrue%2C%22withSuperFollowsUserFields%22%3Atrue%7D`,
             method: 'GET',
             headers: {
               authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
-              'content-type': 'application/json'
+              'content-type': 'application/json',
+              referer: `https://twitter.com/${name}`,
+              'x-csrf-token': Twitter_classPrivateFieldGet(this, Twitter_auth).ct0
             },
-            responseType: 'json',
-            anonymous: true
+            responseType: 'json'
           });
           if (result === 'Success') {
             if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _response, _response$data, _response$data$user;
+              var _response, _response$data, _response$data$user, _response$data$user$r;
               let response = data.response || (typeof data.responseText === 'object' ? data.responseText : null);
               if (!response) {
                 try {
@@ -3319,7 +3320,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                   response = null;
                 }
               }
-              const userId = String((_response = response) === null || _response === void 0 ? void 0 : (_response$data = _response.data) === null || _response$data === void 0 ? void 0 : (_response$data$user = _response$data.user) === null || _response$data$user === void 0 ? void 0 : _response$data$user.rest_id);
+              const userId = String((_response = response) === null || _response === void 0 ? void 0 : (_response$data = _response.data) === null || _response$data === void 0 ? void 0 : (_response$data$user = _response$data.user) === null || _response$data$user === void 0 ? void 0 : (_response$data$user$r = _response$data$user.result) === null || _response$data$user$r === void 0 ? void 0 : _response$data$user$r.rest_id);
               if (userId) {
                 Twitter_classPrivateMethodGet(this, Twitter_setCache, Twitter_setCache2).call(this, name, userId);
                 logStatus.success();

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:36:57
- * @LastEditTime : 2022-02-06 11:48:39
+ * @LastEditTime : 2022-06-06 09:42:50
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitter.ts
  * @Description  : Twitter 关注/取关用户,转推/取消转推推文
@@ -185,16 +185,17 @@ class Twitter extends Social {
       }
       const { result, statusText, status, data } = await httpRequest({
         url: (
-          'https://api.twitter.com/graphql/-xfUfZsnR_zqjFd-IfrN5A/UserByScreenName' +
-          `?variables=%7B%22screen_name%22%3A%22${name}%22%2C%22withHighlightedLabel%22%3Atrue%7D`
+          'https://api.twitter.com/graphql/mCbpQvZAw6zu_4PvuAUVVQ/UserByScreenName' +
+          `?variables=%7B%22screen_name%22%3A%22${name}%22%2C%22withSafetyModeUserFields%22%3Atrue%2C%22withSuperFollowsUserFields%22%3Atrue%7D`
         ),
         method: 'GET',
         headers: {
           authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
-          'content-type': 'application/json'
+          'content-type': 'application/json',
+          referer: `https://twitter.com/${name}`,
+          'x-csrf-token': this.#auth.ct0 as string
         },
-        responseType: 'json',
-        anonymous: true
+        responseType: 'json'
       });
       if (result === 'Success') {
         if (data?.status === 200) {
@@ -206,7 +207,7 @@ class Twitter extends Social {
               response = null;
             }
           }
-          const userId = String(response?.data?.user?.rest_id); // eslint-disable-line camelcase
+          const userId = String(response?.data?.user?.result?.rest_id); // eslint-disable-line camelcase
           if (userId) {
             this.#setCache(name, userId);
             logStatus.success();

@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.2
 
+### V4.2.11
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.11)
+
+- 修复获取Twitter用户Id失败的BUG
+
 ### V4.2.10
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.10)
