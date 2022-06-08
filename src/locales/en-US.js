@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2022-05-13 11:14:35
+ * @LastEditTime : 2022-06-08 10:14:11
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/en-US.js
  * @Description  : i18n英文
@@ -314,6 +314,10 @@ const data = {
   // GiveawaySu
   gsNotice: 'In order to avoid getting the "0000-0000-0000" key, the "Grab Key" button has been hidden,' +
     ' please close the script when obtaining the key!',
+
+  // GiveeClub
+  giveeClubVerifyNotice: 'Verifying task...',
+  giveeClubVerifyFinished: 'Wait for the verification to complete and join it by yourself',
 
   // SweepWidget
   SweepWidgetNotice: 'The task is being processed and verified. ' +

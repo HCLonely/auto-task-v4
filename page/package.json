@@ -1,8 +1,9 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.11",
+  "version": "4.2.12",
   "change": [
-    "修复获取Twitter用户Id失败的BUG"
+    "Keyhub可识别任务增加",
+    "GiveeClub添加验证任务功能"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

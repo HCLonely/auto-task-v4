@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2022-05-13 11:12:00
+ * @LastEditTime : 2022-06-08 10:12:37
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -294,6 +294,10 @@ const data = {
 
   // GiveawaySu
   gsNotice: '为避免得到"0000-0000-0000"key, 已自动屏蔽"Grab Key"按钮，获取key时请关闭脚本！',
+
+  // GiveeClub
+  giveeClubVerifyNotice: '正在验证任务...',
+  giveeClubVerifyFinished: '请等待验证完成后自行加入赠Key',
 
   // SweepWidget
   SweepWidgetNotice: '正在处理并验证任务，每次验证任务有1~3s间隔防止触发验证过快警告...'

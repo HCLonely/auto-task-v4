@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 11:46:52
- * @LastEditTime : 2022-02-06 11:38:13
+ * @LastEditTime : 2022-06-08 10:23:25
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/GiveeClub.ts
  * @Description  : https://givee.club/
@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
-import { getRedirectLink } from '../tools/tools';
+import { delay, getRedirectLink } from '../tools/tools';
 import { GiveawaySu, defaultTasks } from './GiveawaySu';
 import { globalOptions } from '../globalOptions';
 
@@ -22,7 +22,8 @@ class GiveeClub extends GiveawaySu {
   name = 'GiveeClub';
   buttons: Array<string> = [
     'doTask',
-    'undoTask'
+    'undoTask',
+    'verifyTask'
   ];
 
   static test(): boolean {
@@ -137,6 +138,25 @@ class GiveeClub extends GiveawaySu {
       return true;
     } catch (error) {
       throwError(error as Error, 'GiveeClub.classifyTask');
+      return false;
+    }
+  }
+
+  async verifyTask(): Promise<boolean> {
+    try {
+      const logStatus = echoLog({ text: __('giveeClubVerifyNotice') });
+      const taskButtons = $('.event-actions tr button').has('i.glyphicon-refresh')
+        .not('[data-type="user.adblock"]');
+      for (const button of taskButtons) {
+        button.click();
+        if ($(button).attr('data-type') !== 'steam.game.wishlist') {
+          await delay(1000);
+        }
+      }
+      logStatus.warning(__('giveeClubVerifyFinished'));
+      return true;
+    } catch (error) {
+      throwError(error as Error, 'Givekey.verifyTask');
       return false;
     }
   }

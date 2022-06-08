@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2022-02-11 10:27:32
+ * @LastEditTime : 2022-06-08 09:41:53
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
  * @Description  : https://key-hub.eu/
@@ -115,8 +115,13 @@ class Keyhub extends Website {
         } else if (/^https?:\/\/discord\.com\/invite\//.test(link)) {
           if (action === 'undo') this.socialTasks.discord.serverLinks.push(link);
           if (action === 'do') this.undoneTasks.discord.serverLinks.push(link);
-        } else if (/^https?:\/\/twitter\.com\/.*/.test(link) || /^https?:\/\/www\.twitch\.tv\/.*/.test(link) ||
-          /^https?:\/\/www\.facebook\.com\/.*/.test(link)) {
+        } else if (
+          /^https?:\/\/twitter\.com\/.*/.test(link) ||
+          /^https?:\/\/www\.twitch\.tv\/.*/.test(link) ||
+          /^https?:\/\/www\.facebook\.com\/.*/.test(link) ||
+          /^https?:\/\/www\.youtube\.com\/.*/.test(link) ||
+          /^https?:\/\/store\.steampowered\.com\/developer\//.test(link)
+        ) {
           // skip
         } else {
           echoLog({}).warning(`${__('unKnownTaskType')}: ${taskDes}(${link})`);

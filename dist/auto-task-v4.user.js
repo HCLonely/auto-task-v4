@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.2.11
+// @version            4.2.12
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1419,6 +1419,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       gleamTaskNotice: '如果此页面长时间未关闭，请完成任一任务后自行关闭！',
       verifiedGleamTasks: '已尝试验证所有任务，验证失败的任务请尝试手动验证或完成！',
       gsNotice: '为避免得到"0000-0000-0000"key, 已自动屏蔽"Grab Key"按钮，获取key时请关闭脚本！',
+      giveeClubVerifyNotice: '正在验证任务...',
+      giveeClubVerifyFinished: '请等待验证完成后自行加入赠Key',
       SweepWidgetNotice: '正在处理并验证任务，每次验证任务有1~3s间隔防止触发验证过快警告...'
     };
     const zh_CN = data;
@@ -1685,6 +1687,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       gleamTaskNotice: 'If this page has not been closed for a long time, please close it yourself after completing any task!',
       verifiedGleamTasks: 'Attempted to verify all tasks. If the verification fails, please try to verify manually or complete it!',
       gsNotice: 'In order to avoid getting the "0000-0000-0000" key, the "Grab Key" button has been hidden,' + ' please close the script when obtaining the key!',
+      giveeClubVerifyNotice: 'Verifying task...',
+      giveeClubVerifyFinished: 'Wait for the verification to complete and join it by yourself',
       SweepWidgetNotice: 'The task is being processed and verified. ' + 'There is an interval of 1~3s for each verification task to prevent the triggering of too fast verification warning...'
     };
     const en_US = en_US_data;
@@ -7940,7 +7944,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               if (action === 'do') {
                 this.undoneTasks.discord.serverLinks.push(link);
               }
-            } else if (/^https?:\/\/twitter\.com\/.*/.test(link) || /^https?:\/\/www\.twitch\.tv\/.*/.test(link) || /^https?:\/\/www\.facebook\.com\/.*/.test(link)) {} else {
+            } else if (/^https?:\/\/twitter\.com\/.*/.test(link) || /^https?:\/\/www\.twitch\.tv\/.*/.test(link) || /^https?:\/\/www\.facebook\.com\/.*/.test(link) || /^https?:\/\/www\.youtube\.com\/.*/.test(link) || /^https?:\/\/store\.steampowered\.com\/developer\//.test(link)) {} else {
               scripts_echoLog({}).warning(`${i18n('unKnownTaskType')}: ${taskDes}(${link})`);
             }
           }
@@ -8389,7 +8393,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         GiveeClub_classPrivateMethodInitSpec(this, GiveeClub_getGiveawayId);
         GiveeClub_classPrivateMethodInitSpec(this, GiveeClub_checkLogin);
         GiveeClub_defineProperty(this, 'name', 'GiveeClub');
-        GiveeClub_defineProperty(this, 'buttons', [ 'doTask', 'undoTask' ]);
+        GiveeClub_defineProperty(this, 'buttons', [ 'doTask', 'undoTask', 'verifyTask' ]);
       }
       static test() {
         return /^https?:\/\/givee\.club\/.*?\/event\/[\d]+/.test(window.location.href);
@@ -8508,6 +8512,25 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return true;
         } catch (error) {
           throwError(error, 'GiveeClub.classifyTask');
+          return false;
+        }
+      }
+      async verifyTask() {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('giveeClubVerifyNotice')
+          });
+          const taskButtons = $('.event-actions tr button').has('i.glyphicon-refresh').not('[data-type="user.adblock"]');
+          for (const button of taskButtons) {
+            button.click();
+            if ($(button).attr('data-type') !== 'steam.game.wishlist') {
+              await delay(1e3);
+            }
+          }
+          logStatus.warning(i18n('giveeClubVerifyFinished'));
+          return true;
+        } catch (error) {
+          throwError(error, 'Givekey.verifyTask');
           return false;
         }
       }
