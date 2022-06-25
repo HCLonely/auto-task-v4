@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2022-06-08 09:41:53
+ * @LastEditTime : 2022-06-25 19:56:05
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
  * @Description  : https://key-hub.eu/
@@ -38,8 +38,7 @@ class Keyhub extends Website {
   undoneTasks: khSocialTasks = JSON.parse(defaultTasks);
   buttons: Array<string> = [
     'doTask',
-    'undoTask',
-    'verifyTask'
+    'undoTask'
   ];
 
   static test(): boolean {
@@ -120,7 +119,8 @@ class Keyhub extends Website {
           /^https?:\/\/www\.twitch\.tv\/.*/.test(link) ||
           /^https?:\/\/www\.facebook\.com\/.*/.test(link) ||
           /^https?:\/\/www\.youtube\.com\/.*/.test(link) ||
-          /^https?:\/\/store\.steampowered\.com\/developer\//.test(link)
+          /^https?:\/\/store\.steampowered\.com\/developer\//.test(link) ||
+          /^https?:\/\/.*?\.itch\.io\/.*/.test(link)
         ) {
           // skip
         } else {
@@ -140,6 +140,7 @@ class Keyhub extends Website {
     }
   }
 
+  /*
   verifyTask(): void {
     try {
       echoLog({ html: `<li>${__('verifyingTask')}...<font></font></li>` });
@@ -150,6 +151,7 @@ class Keyhub extends Website {
       throwError(error as Error, 'keyhub.verifyTask');
     }
   }
+  */
 
   #getGiveawayId(): boolean {
     try {

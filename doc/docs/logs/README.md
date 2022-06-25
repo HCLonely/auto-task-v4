@@ -5,6 +5,13 @@ lang: zh-CN
 
 ## V4.2
 
+### V4.2.13
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.13)
+
+- Keyhub可识别任务增加(itch)
+- 移除Keyhub验证任务功能
+
 ### V4.2.12
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.12)
