@@ -20,11 +20,11 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.2.13
-          name: 4.2.13
+          tag_name: v4.2.14
+          name: 4.2.14
           body: |-
-            - Keyhub可识别任务增加(itch)
-            - 移除Keyhub验证任务功能
+            - Keyhub可识别任务增加(Check out our other giveaways)
+            - Keyhub可识别任务增加(Claim this free game on Steam)
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

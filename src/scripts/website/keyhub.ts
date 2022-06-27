@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2022-06-25 19:56:05
+ * @LastEditTime : 2022-06-27 09:38:52
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
  * @Description  : https://key-hub.eu/
@@ -120,7 +120,10 @@ class Keyhub extends Website {
           /^https?:\/\/www\.facebook\.com\/.*/.test(link) ||
           /^https?:\/\/www\.youtube\.com\/.*/.test(link) ||
           /^https?:\/\/store\.steampowered\.com\/developer\//.test(link) ||
-          /^https?:\/\/.*?\.itch\.io\/.*/.test(link)
+          /^https?:\/\/.*?\.itch\.io\/.*/.test(link) ||
+          /^https?:\/\/.*?\.itch\.io\/.*/.test(link) ||
+          /^https?:\/\/key-hub\.eu.*/.test(link) ||
+          /^https?:\/\/store\.steampowered\.com\/app\/.*/.test(link)
         ) {
           // skip
         } else {

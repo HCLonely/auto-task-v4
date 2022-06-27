@@ -1,9 +1,9 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.13",
+  "version": "4.2.14",
   "change": [
-    "Keyhub可识别任务增加(itch)",
-    "移除Keyhub验证任务功能"
+    "Keyhub可识别任务增加(Check out our other giveaways)",
+    "Keyhub可识别任务增加(Claim this free game on Steam)"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

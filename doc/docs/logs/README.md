@@ -5,6 +5,13 @@ lang: zh-CN
 
 ## V4.2
 
+### V4.2.14
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.14)
+
+- Keyhub可识别任务增加(Check out our other giveaways)
+- Keyhub可识别任务增加(Claim this free game on Steam)
+
 ### V4.2.13
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.13)
