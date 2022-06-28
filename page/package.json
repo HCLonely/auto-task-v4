@@ -1,9 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.14",
+  "version": "4.2.15",
   "change": [
-    "Keyhub可识别任务增加(Check out our other giveaways)",
-    "Keyhub可识别任务增加(Claim this free game on Steam)"
+    "Gleam可识别任务增加(Follow *** on TikTok!)"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

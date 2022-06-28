@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.2
 
+### V4.2.15
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.15)
+
+- Gleam可识别任务增加(Follow *** on TikTok!)
+
 ### V4.2.14
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.14)

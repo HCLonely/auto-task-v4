@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2022-02-13 22:19:03
+ * @LastEditTime : 2022-06-28 11:01:02
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  : https://gleam.io
@@ -198,8 +198,10 @@ class Gleam extends Website {
             if (action === 'undo') this.socialTasks.steam.curatorLinks.push(link);
             if (action === 'do') this.undoneTasks.steam.curatorLinks.push(link);
           }
-        } else if (socialIcon.hasClass('fa-shield') && taskText
-          .includes('earn.vloot.io')) {
+        } else if (
+          (socialIcon.hasClass('fa-shield') && taskText.includes('earn.vloot.io')) ||
+          (socialIcon.hasClass('fa-tiktok'))
+        ) {
           const continueBtn = expandInfo.find('span:contains(Continue),button:contains(Continue)');
           for (const button of continueBtn) {
             button.click();
