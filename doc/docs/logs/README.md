@@ -5,6 +5,13 @@ lang: zh-CN
 
 ## V4.2
 
+### V4.2.16
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.16)
+
+- Givee任务识别优化
+- Givee可识别任务增加(关注Steam游戏)
+
 ### V4.2.15
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.15)

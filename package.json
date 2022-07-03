@@ -1,8 +1,9 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.15",
+  "version": "4.2.16",
   "change": [
-    "Gleam可识别任务增加(Follow *** on TikTok!)"
+    "Givee任务识别优化",
+    "Givee可识别任务增加(关注Steam游戏)"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

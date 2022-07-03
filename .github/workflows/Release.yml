@@ -20,9 +20,11 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.2.15
-          name: 4.2.15
-          body: '- Gleam可识别任务增加(Follow *** on TikTok!)'
+          tag_name: v4.2.16
+          name: 4.2.16
+          body: |-
+            - Givee任务识别优化
+            - Givee可识别任务增加(关注Steam游戏)
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 11:46:52
- * @LastEditTime : 2022-06-08 10:23:25
+ * @LastEditTime : 2022-07-03 09:58:51
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/GiveeClub.ts
  * @Description  : https://givee.club/
@@ -73,6 +73,8 @@ class GiveeClub extends GiveawaySu {
           const taskIcon = $(task).find('.event-action-icon i')
             .attr('class') || '';
           const taskName = taskDes.text().trim();
+          const taskType = $(task).find('button[data-type]')
+            ?.attr('data-type');
           if (taskIcon.includes('ban') || /AdBlock/i.test(taskName) || taskIcon.includes('envelope')) {
             return resolve(true);
           }
@@ -81,14 +83,16 @@ class GiveeClub extends GiveawaySu {
             if (!taskLink) {
               return resolve(false);
             }
-            if (/^https?:\/\/steamcommunity\.com\/groups/.test(taskLink)) { // ok
+            if (taskType === 'steam.group.join' && /'^https?:\/\/steamcommunity\.com\/groups'/.test(taskLink)) { // ok
               this.undoneTasks.steam.groupLinks.push(taskLink);
             } else if (/like.*announcement/gi.test(taskName)) { // 未识别
               this.undoneTasks.steam.announcementLinks.push(taskLink);
-            } else if (taskIcon.includes('plus') && /^https?:\/\/store\.steampowered\.com\/app\//.test(taskLink)) { // ok
+            } else if (taskType === 'steam.game.wishlist' && /^https?:\/\/store\.steampowered\.com\/app\//.test(taskLink)) { // ok
               this.undoneTasks.steam.wishlistLinks.push(taskLink);
-            } else if (taskIcon.includes('plus') && taskDes.attr('data-steam-wishlist-appid')) { // ok
+            } else if (taskType === 'steam.game.wishlist' && taskDes.attr('data-steam-wishlist-appid')) { // ok
               this.undoneTasks.steam.wishlistLinks.push(`https://store.steampowered.com/app/${taskDes.attr('data-steam-wishlist-appid')}`);
+            } else if (taskType === 'steam.game.follow' && /^https?:\/\/store\.steampowered\.com\/app\//.test(taskLink)) { // ok
+              this.undoneTasks.steam.followLinks.push(taskLink);
             } else if (/^https?:\/\/store\.steampowered\.com\/curator\//.test(taskLink)) { // ok
               this.undoneTasks.steam.curatorLinks.push(taskLink);
             } else if (taskIcon.includes('steam') && /follow|subscribe/gim.test(taskName)) { // 未识别

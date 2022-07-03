@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.2.15
+// @version            4.2.16
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -8451,9 +8451,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           const tasks = $('.event-actions tr');
           for (const task of tasks) {
             pro.push(new Promise(resolve => {
+              var _$$find;
               const taskDes = $(task).find('.event-action-label a');
               const taskIcon = $(task).find('.event-action-icon i').attr('class') || '';
               const taskName = taskDes.text().trim();
+              const taskType = (_$$find = $(task).find('button[data-type]')) === null || _$$find === void 0 ? void 0 : _$$find.attr('data-type');
               if (taskIcon.includes('ban') || /AdBlock/i.test(taskName) || taskIcon.includes('envelope')) {
                 return resolve(true);
               }
@@ -8461,14 +8463,16 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 if (!taskLink) {
                   return resolve(false);
                 }
-                if (/^https?:\/\/steamcommunity\.com\/groups/.test(taskLink)) {
+                if (taskType === 'steam.group.join' && /'^https?:\/\/steamcommunity\.com\/groups'/.test(taskLink)) {
                   this.undoneTasks.steam.groupLinks.push(taskLink);
                 } else if (/like.*announcement/gi.test(taskName)) {
                   this.undoneTasks.steam.announcementLinks.push(taskLink);
-                } else if (taskIcon.includes('plus') && /^https?:\/\/store\.steampowered\.com\/app\//.test(taskLink)) {
+                } else if (taskType === 'steam.game.wishlist' && /^https?:\/\/store\.steampowered\.com\/app\//.test(taskLink)) {
                   this.undoneTasks.steam.wishlistLinks.push(taskLink);
-                } else if (taskIcon.includes('plus') && taskDes.attr('data-steam-wishlist-appid')) {
+                } else if (taskType === 'steam.game.wishlist' && taskDes.attr('data-steam-wishlist-appid')) {
                   this.undoneTasks.steam.wishlistLinks.push(`https://store.steampowered.com/app/${taskDes.attr('data-steam-wishlist-appid')}`);
+                } else if (taskType === 'steam.game.follow' && /^https?:\/\/store\.steampowered\.com\/app\//.test(taskLink)) {
+                  this.undoneTasks.steam.followLinks.push(taskLink);
                 } else if (/^https?:\/\/store\.steampowered\.com\/curator\//.test(taskLink)) {
                   this.undoneTasks.steam.curatorLinks.push(taskLink);
                 } else if (taskIcon.includes('steam') && /follow|subscribe/gim.test(taskName)) {
