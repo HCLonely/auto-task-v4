@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.2
 
+### V4.2.17
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.17)
+
+- 修复Givee无法识别Steam加组任务的BUG
+
 ### V4.2.16
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.16)

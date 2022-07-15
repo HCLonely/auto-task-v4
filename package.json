@@ -1,9 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.16",
+  "version": "4.2.17",
   "change": [
-    "Givee任务识别优化",
-    "Givee可识别任务增加(关注Steam游戏)"
+    "修复Givee无法识别Steam加组任务的BUG"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",
