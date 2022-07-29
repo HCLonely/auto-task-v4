@@ -20,9 +20,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.2.17
-          name: 4.2.17
-          body: '- 修复Givee无法识别Steam加组任务的BUG'
+          tag_name: v4.2.18
+          name: 4.2.18
+          body: '- Gleam任务识别优化'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

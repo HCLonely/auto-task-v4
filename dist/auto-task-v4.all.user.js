@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.2.17
+// @version            4.2.18
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -9716,7 +9716,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                   this.undoneTasks.steam.curatorLinks.push(link);
                 }
               }
-            } else if (socialIcon.hasClass('fa-shield') && taskText.includes('earn.vloot.io') || socialIcon.hasClass('fa-tiktok')) {
+            } else if (socialIcon.hasClass('fa-shield') && taskText.includes('vloot.io') || socialIcon.hasClass('fa-tiktok')) {
               const continueBtn = expandInfo.find('span:contains(Continue),button:contains(Continue)');
               for (const button of continueBtn) {
                 button.click();
@@ -9730,7 +9730,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 await delay(500);
                 expandInfo.find('input').val(this.options.gameroundUsername);
               }
-            } else if (socialIcon.hasClass('fa-bullhorn') && taskText.includes('Complete')) {
+            } else if (socialIcon.hasClass('fa-bullhorn') && /Complete/gi.test(taskText)) {
               if (action !== 'do') {
                 continue;
               }
@@ -9743,7 +9743,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 continue;
               }
               this.undoneTasks.extra.gleam.push(gleamLink);
-            } else if (socialIcon.hasClass('fa-question') || socialIcon.hasClass('fa-reddit') || socialIcon.hasClass('fa-instagram') || socialIcon.hasClass('fa-facebook-f') || socialIcon.hasClass('fa-telegram-plane') || socialIcon.hasClass('fa-shield') && taskText.includes('Check out')) {} else {
+            } else if (socialIcon.hasClass('fa-question') || socialIcon.hasClass('fa-reddit') || socialIcon.hasClass('fa-instagram') || socialIcon.hasClass('fa-facebook-f') || socialIcon.hasClass('fa-telegram-plane') || socialIcon.hasClass('fa-envelope') || socialIcon.hasClass('fa-shield') && taskText.includes('Check out')) {} else {
               scripts_echoLog({}).warning(`${i18n('unKnownTaskType')}: ${taskText}`);
             }
           }

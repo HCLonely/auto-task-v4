@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2022-06-28 11:01:02
+ * @LastEditTime : 2022-07-29 16:53:59
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  : https://gleam.io
@@ -199,7 +199,7 @@ class Gleam extends Website {
             if (action === 'do') this.undoneTasks.steam.curatorLinks.push(link);
           }
         } else if (
-          (socialIcon.hasClass('fa-shield') && taskText.includes('earn.vloot.io')) ||
+          (socialIcon.hasClass('fa-shield') && taskText.includes('vloot.io')) ||
           (socialIcon.hasClass('fa-tiktok'))
         ) {
           const continueBtn = expandInfo.find('span:contains(Continue),button:contains(Continue)');
@@ -216,8 +216,7 @@ class Gleam extends Website {
             await delay(500);
             expandInfo.find('input').val(this.options.gameroundUsername);
           }
-        } else if (socialIcon.hasClass('fa-bullhorn') && taskText
-          .includes('Complete')) {
+        } else if (socialIcon.hasClass('fa-bullhorn') && /Complete/gi.test(taskText)) {
           if (action !== 'do') continue;
 
           const link = aElements.attr('href');
@@ -233,6 +232,7 @@ class Gleam extends Website {
           socialIcon.hasClass('fa-instagram') ||
           socialIcon.hasClass('fa-facebook-f') ||
           socialIcon.hasClass('fa-telegram-plane') ||
+          socialIcon.hasClass('fa-envelope') ||
           (socialIcon.hasClass('fa-shield') && taskText.includes('Check out'))
         ) {
           // skip
