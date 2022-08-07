@@ -28,7 +28,8 @@ The content of this page is translated through Google translation. If the descri
 5. If you do not log in when you update your social account token, you will be prompted that the update has failed, and you need to log in and update again;
 6. It is not recommended to cancel the Ins tasks, as it may increase the chance of banning;
 7. Please close this script when obtaining the Key from the `Giveawaysu` website, otherwise you will get the `0000-0000-0000`Key;
-8. About the support of gleam.io website: only support '?' tasks, '+number' tasks are not supported:
+8. After doing `Discord` related tasks, you may be forced to log out and trigger human-machine verification. You can use `Discord` normally after completing the verification;
+9. About the support of gleam.io website: only support '?' tasks, '+number' tasks are not supported:
   ![support](/gleam-en.png)
   ![not-support](/not-gleam-en.png)
 
