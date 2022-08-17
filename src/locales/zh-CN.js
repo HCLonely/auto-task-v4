@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2022-06-08 10:12:37
+ * @LastEditTime : 2022-08-17 16:29:48
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -298,6 +298,9 @@ const data = {
   // GiveeClub
   giveeClubVerifyNotice: '正在验证任务...',
   giveeClubVerifyFinished: '请等待验证完成后自行加入赠Key',
+
+  // Keyhub
+  doingKeyhubTask: '正在做Keyhub任务...',
 
   // SweepWidget
   SweepWidgetNotice: '正在处理并验证任务，每次验证任务有1~3s间隔防止触发验证过快警告...'

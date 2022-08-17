@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2022-06-27 09:38:52
+ * @LastEditTime : 2022-08-17 16:28:50
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
  * @Description  : https://key-hub.eu/
@@ -17,6 +17,7 @@ import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import { getRedirectLink } from '../tools/tools';
 import { globalOptions } from '../globalOptions';
+import httpRequest from '../tools/httpRequest';
 
 const defaultTasksTemplate: khSocialTasks = {
   steam: {
@@ -27,6 +28,9 @@ const defaultTasksTemplate: khSocialTasks = {
   },
   discord: {
     serverLinks: []
+  },
+  extra: {
+    videoTasks: []
   },
   links: []
 };
@@ -114,7 +118,13 @@ class Keyhub extends Website {
         } else if (/^https?:\/\/discord\.com\/invite\//.test(link)) {
           if (action === 'undo') this.socialTasks.discord.serverLinks.push(link);
           if (action === 'do') this.undoneTasks.discord.serverLinks.push(link);
+        } else if (/^javascript:videoTask.+/.test(link)) {
+          if (action === 'do') {
+            const taskData = link.match(/javascript:videoTask\('.+?','(.+?)'/)?.[1];
+            if (taskData) this.undoneTasks.extra.videoTasks.push(taskData);
+          }
         } else if (
+          /^https?:\/\/www\.instagram\.com\/.*/.test(link) ||
           /^https?:\/\/twitter\.com\/.*/.test(link) ||
           /^https?:\/\/www\.twitch\.tv\/.*/.test(link) ||
           /^https?:\/\/www\.facebook\.com\/.*/.test(link) ||
@@ -143,6 +153,45 @@ class Keyhub extends Website {
     }
   }
 
+  async #doScriptTask(data: string): Promise<boolean> {
+    try {
+      const logStatus = echoLog({ text: __('doingKeyhubTask') });
+      const { result, statusText, status, data: response } = await httpRequest({
+        url: `/away?data=${data}`,
+        method: 'GET',
+        headers: {
+          origin: 'https://key-hub.eu',
+          referer: 'https://key-hub.eu/'
+        }
+      });
+
+      if (result === 'Success') {
+        if (response?.status === 200) {
+          logStatus.success();
+          return true;
+        }
+        logStatus.error(`Error:${response?.statusText}(${response?.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'Keyhub.doScriptTask');
+      return false;
+    }
+  }
+  async extraDoTask({ videoTasks }: { videoTasks: Array<string> }): Promise<boolean> {
+    try {
+      const pro = [];
+      for (const data of videoTasks) {
+        pro.push(this.#doScriptTask(data));
+      }
+      return Promise.all(pro).then(() => true);
+    } catch (error) {
+      throwError(error as Error, 'Keyhub.extraDoTask');
+      return false;
+    }
+  }
   /*
   verifyTask(): void {
     try {

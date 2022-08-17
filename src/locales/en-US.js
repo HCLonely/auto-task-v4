@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2022-06-08 10:14:11
+ * @LastEditTime : 2022-08-17 16:30:04
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/en-US.js
  * @Description  : i18n英文
@@ -318,6 +318,9 @@ const data = {
   // GiveeClub
   giveeClubVerifyNotice: 'Verifying task...',
   giveeClubVerifyFinished: 'Wait for the verification to complete and join it by yourself',
+
+  // Keyhub
+  doingKeyhubTask: 'Doing Keyhub Task...',
 
   // SweepWidget
   SweepWidgetNotice: 'The task is being processed and verified. ' +

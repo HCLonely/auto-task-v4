@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.2
 
+### V4.2.19
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.19)
+
+- Keyhub可识别任务增加['Follow *** Instagram', 'Watch ...']
+
 ### V4.2.18
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.18)

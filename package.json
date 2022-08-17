@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.18",
+  "version": "4.2.19",
   "change": [
-    "Gleam任务识别优化"
+    "Keyhub可识别任务增加['Follow *** Instagram', 'Watch ...']"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.2.18
+// @version            4.2.19
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1421,6 +1421,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       gsNotice: '为避免得到"0000-0000-0000"key, 已自动屏蔽"Grab Key"按钮，获取key时请关闭脚本！',
       giveeClubVerifyNotice: '正在验证任务...',
       giveeClubVerifyFinished: '请等待验证完成后自行加入赠Key',
+      doingKeyhubTask: '正在做Keyhub任务...',
       SweepWidgetNotice: '正在处理并验证任务，每次验证任务有1~3s间隔防止触发验证过快警告...'
     };
     const zh_CN = data;
@@ -1689,6 +1690,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       gsNotice: 'In order to avoid getting the "0000-0000-0000" key, the "Grab Key" button has been hidden,' + ' please close the script when obtaining the key!',
       giveeClubVerifyNotice: 'Verifying task...',
       giveeClubVerifyFinished: 'Wait for the verification to complete and join it by yourself',
+      doingKeyhubTask: 'Doing Keyhub Task...',
       SweepWidgetNotice: 'The task is being processed and verified. ' + 'There is an interval of 1~3s for each verification task to prevent the triggering of too fast verification warning...'
     };
     const en_US = en_US_data;
@@ -7832,9 +7834,13 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       discord: {
         serverLinks: []
       },
+      extra: {
+        videoTasks: []
+      },
       links: []
     };
     const Keyhub_defaultTasks = JSON.stringify(Keyhub_defaultTasksTemplate);
+    var _doScriptTask = new WeakSet();
     var Keyhub_getGiveawayId = new WeakSet();
     var Keyhub_checkLeftKey = new WeakSet();
     var Keyhub_checkLogin = new WeakSet();
@@ -7844,6 +7850,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         Keyhub_classPrivateMethodInitSpec(this, Keyhub_checkLogin);
         Keyhub_classPrivateMethodInitSpec(this, Keyhub_checkLeftKey);
         Keyhub_classPrivateMethodInitSpec(this, Keyhub_getGiveawayId);
+        Keyhub_classPrivateMethodInitSpec(this, _doScriptTask);
         Keyhub_defineProperty(this, 'name', 'Keyhub');
         Keyhub_defineProperty(this, 'socialTasks', JSON.parse(Keyhub_defaultTasks));
         Keyhub_defineProperty(this, 'undoneTasks', JSON.parse(Keyhub_defaultTasks));
@@ -7944,7 +7951,15 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               if (action === 'do') {
                 this.undoneTasks.discord.serverLinks.push(link);
               }
-            } else if (/^https?:\/\/twitter\.com\/.*/.test(link) || /^https?:\/\/www\.twitch\.tv\/.*/.test(link) || /^https?:\/\/www\.facebook\.com\/.*/.test(link) || /^https?:\/\/www\.youtube\.com\/.*/.test(link) || /^https?:\/\/store\.steampowered\.com\/developer\//.test(link) || /^https?:\/\/.*?\.itch\.io\/.*/.test(link) || /^https?:\/\/.*?\.itch\.io\/.*/.test(link) || /^https?:\/\/key-hub\.eu.*/.test(link) || /^https?:\/\/store\.steampowered\.com\/app\/.*/.test(link)) {} else {
+            } else if (/^javascript:videoTask.+/.test(link)) {
+              if (action === 'do') {
+                var _link$match;
+                const taskData = (_link$match = link.match(/javascript:videoTask\('.+?','(.+?)'/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
+                if (taskData) {
+                  this.undoneTasks.extra.videoTasks.push(taskData);
+                }
+              }
+            } else if (/^https?:\/\/www\.instagram\.com\/.*/.test(link) || /^https?:\/\/twitter\.com\/.*/.test(link) || /^https?:\/\/www\.twitch\.tv\/.*/.test(link) || /^https?:\/\/www\.facebook\.com\/.*/.test(link) || /^https?:\/\/www\.youtube\.com\/.*/.test(link) || /^https?:\/\/store\.steampowered\.com\/developer\//.test(link) || /^https?:\/\/.*?\.itch\.io\/.*/.test(link) || /^https?:\/\/.*?\.itch\.io\/.*/.test(link) || /^https?:\/\/key-hub\.eu.*/.test(link) || /^https?:\/\/store\.steampowered\.com\/app\/.*/.test(link)) {} else {
               scripts_echoLog({}).warning(`${i18n('unKnownTaskType')}: ${taskDes}(${link})`);
             }
           }
@@ -7963,6 +7978,54 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           throwError(error, 'Keyhub.classifyTask');
           return false;
         }
+      }
+      async extraDoTask(_ref) {
+        let {
+          videoTasks
+        } = _ref;
+        try {
+          const pro = [];
+          for (const data of videoTasks) {
+            pro.push(Keyhub_classPrivateMethodGet(this, _doScriptTask, _doScriptTask2).call(this, data));
+          }
+          return Promise.all(pro).then(() => true);
+        } catch (error) {
+          throwError(error, 'Keyhub.extraDoTask');
+          return false;
+        }
+      }
+    }
+    async function _doScriptTask2(data) {
+      try {
+        const logStatus = scripts_echoLog({
+          text: i18n('doingKeyhubTask')
+        });
+        const {
+          result,
+          statusText,
+          status,
+          data: response
+        } = await tools_httpRequest({
+          url: `/away?data=${data}`,
+          method: 'GET',
+          headers: {
+            origin: 'https://key-hub.eu',
+            referer: 'https://key-hub.eu/'
+          }
+        });
+        if (result === 'Success') {
+          if ((response === null || response === void 0 ? void 0 : response.status) === 200) {
+            logStatus.success();
+            return true;
+          }
+          logStatus.error(`Error:${response === null || response === void 0 ? void 0 : response.statusText}(${response === null || response === void 0 ? void 0 : response.status})`);
+          return false;
+        }
+        logStatus.error(`${result}:${statusText}(${status})`);
+        return false;
+      } catch (error) {
+        throwError(error, 'Keyhub.doScriptTask');
+        return false;
       }
     }
     function Keyhub_getGiveawayId2() {
@@ -7994,10 +8057,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             confirmButtonText: i18n('confirm'),
             cancelButtonText: i18n('cancel'),
             showCancelButton: true
-          }).then(_ref => {
+          }).then(_ref2 => {
             let {
               value
-            } = _ref;
+            } = _ref2;
             if (value) {
               window.close();
             }
