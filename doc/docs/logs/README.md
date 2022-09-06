@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.2
 
+### V4.2.20
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.20)
+
+- 修复Steam凭证验证失败的BUG
+
 ### V4.2.19
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.19)

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2022-02-22 09:18:46
+ * @LastEditTime : 2022-09-06 18:33:53
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -108,7 +108,7 @@ class Steam extends Social {
       });
       if (result === 'Success') {
         if (data?.status === 200) {
-          if (data.responseText.includes('href="https://store.steampowered.com/login/')) {
+          if (!data.responseText.includes('data-miniprofile=')) {
             logStatus.error(`Error:${__('needLoginSteamStore')}`, true);
             return false;
           }

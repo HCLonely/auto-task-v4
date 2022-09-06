@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.19",
+  "version": "4.2.20",
   "change": [
-    "Keyhub可识别任务增加['Follow *** Instagram', 'Watch ...']"
+    "修复Steam凭证验证失败的BUG"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",
