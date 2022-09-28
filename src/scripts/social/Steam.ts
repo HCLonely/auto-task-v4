@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2022-09-06 18:33:53
+ * @LastEditTime : 2022-09-26 09:28:05
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -103,8 +103,15 @@ class Steam extends Social {
     try {
       const logStatus = echoLog({ text: __('updatingAuth', __('steamStore')) });
       const { result, statusText, status, data } = await httpRequest({
-        url: 'https://store.steampowered.com/stats/',
-        method: 'GET'
+        url: 'https://store.steampowered.com/',
+        method: 'GET',
+        headers: {
+          Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+          'Cache-Control': 'max-age=0',
+          'Sec-Fetch-Dest': 'document',
+          'Sec-Fetch-Mode': 'navigate',
+          'Upgrade-Insecure-Requests': '1'
+        }
       });
       if (result === 'Success') {
         if (data?.status === 200) {
@@ -142,7 +149,14 @@ class Steam extends Social {
       const logStatus = echoLog({ text: __('updatingAuth', __('steamCommunity')) });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://steamcommunity.com/my',
-        method: 'GET'
+        method: 'GET',
+        headers: {
+          Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+          'Cache-Control': 'max-age=0',
+          'Sec-Fetch-Dest': 'document',
+          'Sec-Fetch-Mode': 'navigate',
+          'Upgrade-Insecure-Requests': '1'
+        }
       });
       if (result === 'Success') {
         if (data?.status === 200) {

@@ -20,8 +20,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.2.20
-          name: 4.2.20
+          tag_name: v4.2.21
+          name: 4.2.21
           body: '- 修复Steam凭证验证失败的BUG'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js

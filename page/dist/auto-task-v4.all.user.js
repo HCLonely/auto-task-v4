@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.2.20
+// @version            4.2.21
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -52,6 +52,7 @@
 // @connect            cdn.jsdelivr.net
 // @connect            store.steampowered.com
 // @connect            steamcommunity.com
+// @connect            login.steampowered.com
 // @connect            twitter.com
 // @connect            api.twitter.com
 // @connect            youtube.com
@@ -5246,8 +5247,15 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           status,
           data
         } = await tools_httpRequest({
-          url: 'https://store.steampowered.com/stats/',
-          method: 'GET'
+          url: 'https://store.steampowered.com/',
+          method: 'GET',
+          headers: {
+            Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+            'Cache-Control': 'max-age=0',
+            'Sec-Fetch-Dest': 'document',
+            'Sec-Fetch-Mode': 'navigate',
+            'Upgrade-Insecure-Requests': '1'
+          }
         });
         if (result === 'Success') {
           if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
@@ -5287,7 +5295,14 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           data
         } = await tools_httpRequest({
           url: 'https://steamcommunity.com/my',
-          method: 'GET'
+          method: 'GET',
+          headers: {
+            Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+            'Cache-Control': 'max-age=0',
+            'Sec-Fetch-Dest': 'document',
+            'Sec-Fetch-Mode': 'navigate',
+            'Upgrade-Insecure-Requests': '1'
+          }
         });
         if (result === 'Success') {
           if ((data === null || data === void 0 ? void 0 : data.status) === 200) {

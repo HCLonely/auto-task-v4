@@ -52,6 +52,7 @@
 // @connect            cdn.jsdelivr.net
 // @connect            store.steampowered.com
 // @connect            steamcommunity.com
+// @connect            login.steampowered.com
 // @connect            twitter.com
 // @connect            api.twitter.com
 // @connect            youtube.com

@@ -1,6 +1,6 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.20",
+  "version": "4.2.21",
   "change": [
     "修复Steam凭证验证失败的BUG"
   ],
