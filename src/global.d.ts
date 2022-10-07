@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 13:18:21
- * @LastEditTime : 2022-02-06 11:27:21
+ * @LastEditTime : 2022-10-07 10:11:21
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/global.d.ts
  */
@@ -139,6 +139,9 @@ declare global {
     auth?: string
     authToken?: string
     clientId?: string
+    deviceId?: string
+    clientVersion?: string
+    clientSessionId?: string
     ct0?: string
     isLogin?: boolean
     PAPISID?: string

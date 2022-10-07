@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2022-08-17 16:29:48
+ * @LastEditTime : 2022-10-07 09:47:54
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -245,6 +245,7 @@ const data = {
   followingTwitchChannel: '正在关注Twitch频道',
   unfollowingTwitchChannel: '正在取关Twitch频道',
   gettingTwitchChannelId: '正在获取Twitch频道Id',
+  checkingTwitchIntegrity: '正在检查Twitch完整性...',
 
   // Twitter
   twitterUser: '推特用户',

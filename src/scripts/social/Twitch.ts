@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:00:41
- * @LastEditTime : 2022-02-06 11:48:36
+ * @LastEditTime : 2022-10-07 10:50:29
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitch.ts
  * @Description  : Twitch 关注/取关频道
@@ -23,6 +23,7 @@ class Twitch extends Social {
   #auth: auth = GM_getValue<auth>('twitchAuth') || {};
   #cache: cache = GM_getValue<cache>('twitchCache') || {};
   #initialized = false;
+  #integrityToken!: string;
 
   async init(): Promise<boolean> {
     /**
@@ -33,7 +34,7 @@ class Twitch extends Social {
       if (this.#initialized) {
         return true;
       }
-      if (!this.#auth.authToken) {
+      if (!this.#auth.authToken || !this.#auth.clientId || !this.#auth.clientVersion || !this.#auth.deviceId || !this.#auth.clientSessionId) {
         if (await this.#updateAuth()) {
           this.#initialized = true;
           return true;
@@ -80,6 +81,7 @@ class Twitch extends Social {
       });
       if (result === 'Success') {
         if (data?.status === 200 && data.response?.[0]?.data?.currentUser) {
+          await this.#integrity();
           logStatus.success();
           return true;
         }
@@ -90,6 +92,50 @@ class Twitch extends Social {
       return false;
     } catch (error) {
       throwError(error as Error, 'Twitch.verifyAuth');
+      return false;
+    }
+  }
+
+  async #integrity(ct = ''): Promise<boolean> {
+    /**
+     * @internal
+     * @description 完整性检查
+     * @return true | false
+     */
+    try {
+      const logStatus = echoLog({ text: __('checkingTwitchIntegrity') });
+      const { result, statusText, status, data } = await httpRequest({
+        url: 'https://gql.twitch.tv/integrity',
+        method: 'POST',
+        dataType: 'json',
+        anonymous: true,
+        headers: {
+          Origin: 'https://www.twitch.tv',
+          Referer: 'https://www.twitch.tv/',
+          Authorization: `OAuth ${this.#auth.authToken}`,
+          'Client-Id': this.#auth.clientId as string,
+          'Client-Version': this.#auth.clientVersion as string,
+          'X-Device-Id': this.#auth.deviceId as string,
+          'Client-Session-Id': this.#auth.clientSessionId as string,
+          'x-kpsdk-ct': ct
+        }
+      });
+      if (result === 'Success') {
+        if (!ct && data?.responseHeaders?.['x-kpsdk-ct']) {
+          return await this.#integrity(data.responseHeaders['x-kpsdk-ct']);
+        }
+        if (data?.status === 200 && data.response?.token) {
+          this.#integrityToken = data.response.token;
+          logStatus.success();
+          return true;
+        }
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'Twitch.integrity');
       return false;
     }
   }
@@ -141,28 +187,38 @@ class Twitch extends Social {
       const logStatus = echoLog({ type: `${doTask ? '' : 'un'}followingTwitchChannel`, text: name });
       const followData: string = (
         `[{"operationName":"FollowButton_FollowUser","variables":{"input":{"disableNotifications":false,"targetID":"${channelId}` +
-        '"}},"extensions":{"persistedQuery":{"version":1,"sha256Hash":"3efee1acda90efdff9fef6e6b4a29213be3ee490781c5b54469717b6131ffdfe"}}}]'
+        '"}},"extensions":{"persistedQuery":{"version":1,"sha256Hash":"800e7346bdf7e5278a3c1d3f21b2b56e2639928f86815677a7126b093b2fdd08"}}}]'
       );
       const unfollowData: string = (
         `[{"operationName":"FollowButton_UnfollowUser","variables":{"input":{"targetID":"${channelId}"}},` +
-        '"extensions":{"persistedQuery":{"version":1,"sha256Hash":"d7fbdb4e9780dcdc0cc1618ec783309471cd05a59584fc3c56ea1c52bb632d41"}}}]'
+        '"extensions":{"persistedQuery":{"version":1,"sha256Hash":"f7dae976ebf41c755ae2d758546bfd176b4eeb856656098bb40e0a672ca0d880"}}}]'
       );
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://gql.twitch.tv/gql',
         method: 'POST',
         dataType: 'json',
-        headers: { Authorization: `OAuth ${this.#auth.authToken}` },
+        anonymous: true,
+        headers: {
+          Origin: 'https://www.twitch.tv',
+          Referer: 'https://www.twitch.tv/',
+          Authorization: `OAuth ${this.#auth.authToken}`,
+          'Client-Id': this.#auth.clientId as string,
+          'Client-Version': this.#auth.clientVersion as string,
+          'X-Device-Id': this.#auth.deviceId as string,
+          'Client-Session-Id': this.#auth.clientSessionId as string,
+          'Client-Integrity': this.#integrityToken
+        },
         data: doTask ? followData : unfollowData
       });
       if (result === 'Success') {
-        if (data?.status === 200) {
+        if (data?.status === 200 && (data.response?.[0] && !data.response[0].errors)) {
           logStatus.success();
           if (doTask) {
             this.tasks.channels = unique([...this.tasks.channels, name]);
           }
           return true;
         }
-        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+        logStatus.error(`Error:${data?.response?.[0].errors?.[0]?.message || `${data?.statusText}(${data?.status})`}`);
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
@@ -199,9 +255,9 @@ class Twitch extends Social {
       });
       if (result === 'Success') {
         if (data?.status === 200) {
-          const channelId = String(data.response?.[0]?.data?.user?.id);
+          const channelId = data.response?.[0]?.data?.user?.id;
           if (channelId) {
-            this.#setCache(name, channelId);
+            this.#setCache(name, String(channelId));
             logStatus.success();
             return channelId;
           }
@@ -273,5 +329,5 @@ class Twitch extends Social {
     }
   }
 }
-
+// unsafeWindow.Twitch = Twitch;
 export default Twitch;

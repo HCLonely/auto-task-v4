@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2022-08-17 16:30:04
+ * @LastEditTime : 2022-10-07 09:47:24
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/en-US.js
  * @Description  : i18n英文
@@ -264,6 +264,7 @@ const data = {
   followingTwitchChannel: 'Following Twitch Channel',
   unfollowingTwitchChannel: 'Unfollowing Twitch Channel',
   gettingTwitchChannelId: 'Getting Twitch Channel Id',
+  checkingTwitchIntegrity: 'Checking Twitch integrity...',
 
   // Twitter
   twitterUser: 'Twitter User',

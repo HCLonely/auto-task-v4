@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2022-02-06 11:37:38
+ * @LastEditTime : 2022-10-07 10:18:58
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  : 入口文件
@@ -27,15 +27,24 @@ window.TRACE = !!globalOptions.other?.debug && typeof console.trace === 'functio
 declare const commonOptions: {
   headers?: {
     'Client-ID': string
+    'Device-ID': string
   }
 };
+// eslint-disable-next-line no-underscore-dangle
+declare const __twilightBuildID: string;
 
 const loadScript = async () => {
   if (window.location.hostname === 'www.twitch.tv' && window.location.hash === '#auth') {
     const authToken = Cookies.get('auth-token');
     const isLogin = !!Cookies.get('login');
     if (isLogin) {
-      GM_setValue('twitchAuth', { authToken, clientId: commonOptions?.headers?.['Client-ID'] });
+      GM_setValue('twitchAuth', {
+        authToken,
+        clientVersion: __twilightBuildID,
+        clientId: commonOptions?.headers?.['Client-ID'],
+        deviceId: commonOptions?.headers?.['Device-ID'],
+        clientSessionId: window.localStorage.local_storage_app_session_id.replace(/"/g, '')
+      });
       window.close();
       Swal.fire('', __('closePageNotice'));
     } else {
