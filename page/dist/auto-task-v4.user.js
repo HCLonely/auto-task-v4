@@ -671,7 +671,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
 
            case 'followingCurator':
            case 'unfollowingCurator':
-           case 'getCuratorId':
+           case 'gettingCuratorId':
             ele = $(`<li>${i18n(type)}[<a href="https://store.steampowered.com/${text !== null && text !== void 0 && text.includes('/') ? text : `curator/${text}`}" target="_blank">${text}</a>]...<font></font></li>`);
             break;
 
@@ -1385,6 +1385,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       followingTwitchChannel: '正在关注Twitch频道',
       unfollowingTwitchChannel: '正在取关Twitch频道',
       gettingTwitchChannelId: '正在获取Twitch频道Id',
+      checkingTwitchIntegrity: '正在检查Twitch完整性...',
       twitterUser: '推特用户',
       retweets: '转推',
       gettingTwitterUserId: '正在获取推特用户Id',
@@ -1654,6 +1655,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       followingTwitchChannel: 'Following Twitch Channel',
       unfollowingTwitchChannel: 'Unfollowing Twitch Channel',
       gettingTwitchChannelId: 'Getting Twitch Channel Id',
+      checkingTwitchIntegrity: 'Checking Twitch integrity...',
       twitterUser: 'Twitter User',
       retweets: 'Retweet',
       gettingTwitterUserId: 'Getting Twitter User Id',
@@ -2869,7 +2871,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
     var Twitch_auth = new WeakMap();
     var Twitch_cache = new WeakMap();
     var Twitch_initialized = new WeakMap();
+    var _integrityToken = new WeakMap();
     var Twitch_verifyAuth = new WeakSet();
+    var _integrity = new WeakSet();
     var Twitch_updateAuth = new WeakSet();
     var _toggleChannel = new WeakSet();
     var _getChannelId = new WeakSet();
@@ -2882,6 +2886,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         Twitch_classPrivateMethodInitSpec(this, _getChannelId);
         Twitch_classPrivateMethodInitSpec(this, _toggleChannel);
         Twitch_classPrivateMethodInitSpec(this, Twitch_updateAuth);
+        Twitch_classPrivateMethodInitSpec(this, _integrity);
         Twitch_classPrivateMethodInitSpec(this, Twitch_verifyAuth);
         Twitch_defineProperty(this, 'tasks', JSON.parse(Twitch_defaultTasks));
         Twitch_defineProperty(this, 'whiteList', {
@@ -2900,13 +2905,17 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           writable: true,
           value: false
         });
+        Twitch_classPrivateFieldInitSpec(this, _integrityToken, {
+          writable: true,
+          value: void 0
+        });
       }
       async init() {
         try {
           if (Twitch_classPrivateFieldGet(this, Twitch_initialized)) {
             return true;
           }
-          if (!Twitch_classPrivateFieldGet(this, Twitch_auth).authToken) {
+          if (!Twitch_classPrivateFieldGet(this, Twitch_auth).authToken || !Twitch_classPrivateFieldGet(this, Twitch_auth).clientId || !Twitch_classPrivateFieldGet(this, Twitch_auth).clientVersion || !Twitch_classPrivateFieldGet(this, Twitch_auth).deviceId || !Twitch_classPrivateFieldGet(this, Twitch_auth).clientSessionId) {
             if (await Twitch_classPrivateMethodGet(this, Twitch_updateAuth, Twitch_updateAuth2).call(this)) {
               Twitch_classPrivateFieldSet(this, Twitch_initialized, true);
               return true;
@@ -2995,6 +3004,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         if (result === 'Success') {
           var _data$response, _data$response$, _data$response$$data;
           if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (_data$response = data.response) !== null && _data$response !== void 0 && (_data$response$ = _data$response[0]) !== null && _data$response$ !== void 0 && (_data$response$$data = _data$response$.data) !== null && _data$response$$data !== void 0 && _data$response$$data.currentUser) {
+            await Twitch_classPrivateMethodGet(this, _integrity, _integrity2).call(this);
             logStatus.success();
             return true;
           }
@@ -3005,6 +3015,53 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         return false;
       } catch (error) {
         throwError(error, 'Twitch.verifyAuth');
+        return false;
+      }
+    }
+    async function _integrity2() {
+      let ct = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+      try {
+        const logStatus = scripts_echoLog({
+          text: i18n('checkingTwitchIntegrity')
+        });
+        const {
+          result,
+          statusText,
+          status,
+          data
+        } = await tools_httpRequest({
+          url: 'https://gql.twitch.tv/integrity',
+          method: 'POST',
+          dataType: 'json',
+          anonymous: true,
+          headers: {
+            Origin: 'https://www.twitch.tv',
+            Referer: 'https://www.twitch.tv/',
+            Authorization: `OAuth ${Twitch_classPrivateFieldGet(this, Twitch_auth).authToken}`,
+            'Client-Id': Twitch_classPrivateFieldGet(this, Twitch_auth).clientId,
+            'Client-Version': Twitch_classPrivateFieldGet(this, Twitch_auth).clientVersion,
+            'X-Device-Id': Twitch_classPrivateFieldGet(this, Twitch_auth).deviceId,
+            'Client-Session-Id': Twitch_classPrivateFieldGet(this, Twitch_auth).clientSessionId,
+            'x-kpsdk-ct': ct
+          }
+        });
+        if (result === 'Success') {
+          var _data$responseHeaders, _data$response2;
+          if (!ct && data !== null && data !== void 0 && (_data$responseHeaders = data.responseHeaders) !== null && _data$responseHeaders !== void 0 && _data$responseHeaders['x-kpsdk-ct']) {
+            return await Twitch_classPrivateMethodGet(this, _integrity, _integrity2).call(this, data.responseHeaders['x-kpsdk-ct']);
+          }
+          if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (_data$response2 = data.response) !== null && _data$response2 !== void 0 && _data$response2.token) {
+            Twitch_classPrivateFieldSet(this, _integrityToken, data.response.token);
+            logStatus.success();
+            return true;
+          }
+          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+          return false;
+        }
+        logStatus.error(`${result}:${statusText}(${status})`);
+        return false;
+      } catch (error) {
+        throwError(error, 'Twitch.integrity');
         return false;
       }
     }
@@ -3058,8 +3115,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           type: `${doTask ? '' : 'un'}followingTwitchChannel`,
           text: name
         });
-        const followData = `[{"operationName":"FollowButton_FollowUser","variables":{"input":{"disableNotifications":false,"targetID":"${channelId}` + '"}},"extensions":{"persistedQuery":{"version":1,"sha256Hash":"3efee1acda90efdff9fef6e6b4a29213be3ee490781c5b54469717b6131ffdfe"}}}]';
-        const unfollowData = `[{"operationName":"FollowButton_UnfollowUser","variables":{"input":{"targetID":"${channelId}"}},` + '"extensions":{"persistedQuery":{"version":1,"sha256Hash":"d7fbdb4e9780dcdc0cc1618ec783309471cd05a59584fc3c56ea1c52bb632d41"}}}]';
+        const followData = `[{"operationName":"FollowButton_FollowUser","variables":{"input":{"disableNotifications":false,"targetID":"${channelId}` + '"}},"extensions":{"persistedQuery":{"version":1,"sha256Hash":"800e7346bdf7e5278a3c1d3f21b2b56e2639928f86815677a7126b093b2fdd08"}}}]';
+        const unfollowData = `[{"operationName":"FollowButton_UnfollowUser","variables":{"input":{"targetID":"${channelId}"}},` + '"extensions":{"persistedQuery":{"version":1,"sha256Hash":"f7dae976ebf41c755ae2d758546bfd176b4eeb856656098bb40e0a672ca0d880"}}}]';
         const {
           result,
           statusText,
@@ -3069,20 +3126,29 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           url: 'https://gql.twitch.tv/gql',
           method: 'POST',
           dataType: 'json',
+          anonymous: true,
           headers: {
-            Authorization: `OAuth ${Twitch_classPrivateFieldGet(this, Twitch_auth).authToken}`
+            Origin: 'https://www.twitch.tv',
+            Referer: 'https://www.twitch.tv/',
+            Authorization: `OAuth ${Twitch_classPrivateFieldGet(this, Twitch_auth).authToken}`,
+            'Client-Id': Twitch_classPrivateFieldGet(this, Twitch_auth).clientId,
+            'Client-Version': Twitch_classPrivateFieldGet(this, Twitch_auth).clientVersion,
+            'X-Device-Id': Twitch_classPrivateFieldGet(this, Twitch_auth).deviceId,
+            'Client-Session-Id': Twitch_classPrivateFieldGet(this, Twitch_auth).clientSessionId,
+            'Client-Integrity': Twitch_classPrivateFieldGet(this, _integrityToken)
           },
           data: doTask ? followData : unfollowData
         });
         if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+          var _data$response3, _data$response4, _data$response4$0$err, _data$response4$0$err2;
+          if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (_data$response3 = data.response) !== null && _data$response3 !== void 0 && _data$response3[0] && !data.response[0].errors) {
             logStatus.success();
             if (doTask) {
               this.tasks.channels = unique([ ...this.tasks.channels, name ]);
             }
             return true;
           }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+          logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response4 = data.response) === null || _data$response4 === void 0 ? void 0 : (_data$response4$0$err = _data$response4[0].errors) === null || _data$response4$0$err === void 0 ? void 0 : (_data$response4$0$err2 = _data$response4$0$err[0]) === null || _data$response4$0$err2 === void 0 ? void 0 : _data$response4$0$err2.message) || `${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`}`);
           return false;
         }
         logStatus.error(`${result}:${statusText}(${status})`);
@@ -3120,10 +3186,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         });
         if (result === 'Success') {
           if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$response2, _data$response2$, _data$response2$$data, _data$response2$$data2;
-            const channelId = String((_data$response2 = data.response) === null || _data$response2 === void 0 ? void 0 : (_data$response2$ = _data$response2[0]) === null || _data$response2$ === void 0 ? void 0 : (_data$response2$$data = _data$response2$.data) === null || _data$response2$$data === void 0 ? void 0 : (_data$response2$$data2 = _data$response2$$data.user) === null || _data$response2$$data2 === void 0 ? void 0 : _data$response2$$data2.id);
+            var _data$response5, _data$response5$, _data$response5$$data, _data$response5$$data2;
+            const channelId = (_data$response5 = data.response) === null || _data$response5 === void 0 ? void 0 : (_data$response5$ = _data$response5[0]) === null || _data$response5$ === void 0 ? void 0 : (_data$response5$$data = _data$response5$.data) === null || _data$response5$$data === void 0 ? void 0 : (_data$response5$$data2 = _data$response5$$data.user) === null || _data$response5$$data2 === void 0 ? void 0 : _data$response5$$data2.id;
             if (channelId) {
-              Twitch_classPrivateMethodGet(this, Twitch_setCache, Twitch_setCache2).call(this, name, channelId);
+              Twitch_classPrivateMethodGet(this, Twitch_setCache, Twitch_setCache2).call(this, name, String(channelId));
               logStatus.success();
               return channelId;
             }
@@ -11155,10 +11221,13 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         const authToken = external_Cookies_namespaceObject.get('auth-token');
         const isLogin = !!external_Cookies_namespaceObject.get('login');
         if (isLogin) {
-          var _commonOptions, _commonOptions$header;
+          var _commonOptions, _commonOptions$header, _commonOptions2, _commonOptions2$heade;
           GM_setValue('twitchAuth', {
             authToken: authToken,
-            clientId: (_commonOptions = commonOptions) === null || _commonOptions === void 0 ? void 0 : (_commonOptions$header = _commonOptions.headers) === null || _commonOptions$header === void 0 ? void 0 : _commonOptions$header['Client-ID']
+            clientVersion: __twilightBuildID,
+            clientId: (_commonOptions = commonOptions) === null || _commonOptions === void 0 ? void 0 : (_commonOptions$header = _commonOptions.headers) === null || _commonOptions$header === void 0 ? void 0 : _commonOptions$header['Client-ID'],
+            deviceId: (_commonOptions2 = commonOptions) === null || _commonOptions2 === void 0 ? void 0 : (_commonOptions2$heade = _commonOptions2.headers) === null || _commonOptions2$heade === void 0 ? void 0 : _commonOptions2$heade['Device-ID'],
+            clientSessionId: window.localStorage.local_storage_app_session_id.replace(/"/g, '')
           });
           window.close();
           external_Swal_default().fire('', i18n('closePageNotice'));

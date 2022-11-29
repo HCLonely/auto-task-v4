@@ -671,7 +671,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
 
            case 'followingCurator':
            case 'unfollowingCurator':
-           case 'getCuratorId':
+           case 'gettingCuratorId':
             ele = $(`<li>${i18n(type)}[<a href="https://store.steampowered.com/${text !== null && text !== void 0 && text.includes('/') ? text : `curator/${text}`}" target="_blank">${text}</a>]...<font></font></li>`);
             break;
 

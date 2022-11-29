@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:03:26
- * @LastEditTime : 2022-01-31 16:10:07
+ * @LastEditTime : 2022-11-29 09:18:54
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/echoLog.ts
  * @Description  :
@@ -38,7 +38,7 @@ const echoLog = ({ type, text, html, id }: { type?: string, text?: string, html?
         break;
       case 'followingCurator':
       case 'unfollowingCurator':
-      case 'getCuratorId':
+      case 'gettingCuratorId':
         ele = $(`<li>${__(type)}[<a href="https://store.steampowered.com/${
           text?.includes('/') ? text : `curator/${text}`
         }" target="_blank">${text}</a>]...<font></font></li>`);
