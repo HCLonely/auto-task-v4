@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.2
 
+### V4.2.22
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.22)
+
+- Freeanywhere新增剩余Key检测功能
+
 ### V4.2.21
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.21)
