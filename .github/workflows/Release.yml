@@ -1,5 +1,12 @@
 name: Release
-'on': workflow_dispatch
+'on':
+  push:
+    branches:
+      - main
+    paths:
+      - src/**
+      - .github/workflows/Release.yml
+  workflow_dispatch: {}
 jobs:
   release:
     runs-on: ubuntu-latest

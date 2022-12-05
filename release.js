@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2022-01-16 19:03:01
- * @LastEditTime : 2022-12-05 11:31:43
+ * @LastEditTime : 2022-12-05 14:41:20
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/release.js
  * @Description  : 自动发布Release
@@ -29,14 +29,14 @@ if (version === releaseStep.with.name) {
   settings.on = 'workflow_dispatch';
   fs.writeFileSync('./.github/workflows/Release.yml', yaml.dump(settings));
   console.log(`Version ${chalk.yellow.bold('not be changed')}!`);
-  return console.log(`Release action changed ${chalk.green.bold('successfully')}!`);
+  // return console.log(`Release action changed ${chalk.green.bold('successfully')}!`);
 }
 settings.on = {
   push: {
     branches: ['main'],
     paths: ['src/**', '.github/workflows/Release.yml']
   },
-  workflow_dispatch: {}
+  workflow_dispatch: ''
 };
 options.prerelease = version.includes('-');
 options.tag_name = `v${version}`;
