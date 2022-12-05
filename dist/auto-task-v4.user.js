@@ -6991,9 +6991,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
     const FreeAnyWhere_defaultTasks = JSON.stringify(FreeAnyWhere_defaultTasksTemplate);
     var _getGiveawayId = new WeakSet();
     var _verify = new WeakSet();
+    var _checkLeftKey = new WeakSet();
     class FreeAnyWhere extends website_Website {
       constructor() {
         super(...arguments);
+        FreeAnyWhere_classPrivateMethodInitSpec(this, _checkLeftKey);
         FreeAnyWhere_classPrivateMethodInitSpec(this, _verify);
         FreeAnyWhere_classPrivateMethodInitSpec(this, _getGiveawayId);
         FreeAnyWhere_defineProperty(this, 'name', 'FreeAnyWhere');
@@ -7005,7 +7007,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       static test() {
         return window.location.host === 'freeanywhere.net';
       }
-      init() {
+      async init() {
         try {
           const logStatus = scripts_echoLog({
             text: i18n('initing')
@@ -7030,6 +7032,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           }
           if (!FreeAnyWhere_classPrivateMethodGet(this, _getGiveawayId, _getGiveawayId2).call(this)) {
             return false;
+          }
+          if (!await FreeAnyWhere_classPrivateMethodGet(this, _checkLeftKey, _checkLeftKey2).call(this)) {
+            scripts_echoLog({}).warning(i18n('checkLeftKeyFailed'));
           }
           this.initialized = true;
           logStatus.success();
@@ -7270,6 +7275,46 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         return false;
       }
     }
+    async function _checkLeftKey2() {
+      try {
+        var _data$response4;
+        if (!globalOptions.other.checkLeftKey) {
+          return true;
+        }
+        const {
+          data
+        } = await tools_httpRequest({
+          url: 'https://freeanywhere.net/api/v1/widget/?format=json',
+          method: 'GET',
+          dataType: 'json',
+          headers: {
+            authorization: `Token ${window.localStorage.getItem('token')}`
+          }
+        });
+        if (data !== null && data !== void 0 && (_data$response4 = data.response) !== null && _data$response4 !== void 0 && _data$response4.giveaways.find(giveaway => `${giveaway === null || giveaway === void 0 ? void 0 : giveaway.id}` === this.giveawayId)) {
+          return true;
+        }
+        await external_Swal_default().fire({
+          icon: 'warning',
+          title: i18n('notice'),
+          text: i18n('noKeysLeft'),
+          confirmButtonText: i18n('confirm'),
+          cancelButtonText: i18n('cancel'),
+          showCancelButton: true
+        }).then(_ref => {
+          let {
+            value
+          } = _ref;
+          if (value) {
+            window.close();
+          }
+        });
+        return true;
+      } catch (error) {
+        throwError(error, 'Giveawaysu.checkLeftKey');
+        return false;
+      }
+    }
     const website_FreeAnyWhere = FreeAnyWhere;
     function GiveawaySu_classPrivateMethodInitSpec(obj, privateSet) {
       GiveawaySu_checkPrivateRedeclaration(obj, privateSet);
@@ -7332,13 +7377,13 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     };
     var _checkLogin = new WeakSet();
-    var _checkLeftKey = new WeakSet();
+    var GiveawaySu_checkLeftKey = new WeakSet();
     var GiveawaySu_getGiveawayId = new WeakSet();
     class GiveawaySu extends website_Website {
       constructor() {
         super(...arguments);
         GiveawaySu_classPrivateMethodInitSpec(this, GiveawaySu_getGiveawayId);
-        GiveawaySu_classPrivateMethodInitSpec(this, _checkLeftKey);
+        GiveawaySu_classPrivateMethodInitSpec(this, GiveawaySu_checkLeftKey);
         GiveawaySu_classPrivateMethodInitSpec(this, _checkLogin);
         GiveawaySu_defineProperty(this, 'name', 'GiveawaySu');
         GiveawaySu_defineProperty(this, 'socialTasks', GiveawaySu_defaultTasks);
@@ -7353,7 +7398,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           if (!GiveawaySu_classPrivateMethodGet(this, _checkLogin, _checkLogin2).call(this)) {
             scripts_echoLog({}).warning(i18n('checkLoginFailed'));
           }
-          if (!await GiveawaySu_classPrivateMethodGet(this, _checkLeftKey, _checkLeftKey2).call(this)) {
+          if (!await GiveawaySu_classPrivateMethodGet(this, GiveawaySu_checkLeftKey, GiveawaySu_checkLeftKey2).call(this)) {
             scripts_echoLog({}).warning(i18n('checkLeftKeyFailed'));
           }
           scripts_echoLog({}).warning(i18n('gsNotice'));
@@ -7494,7 +7539,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         return false;
       }
     }
-    async function _checkLeftKey2() {
+    async function GiveawaySu_checkLeftKey2() {
       try {
         if (!globalOptions.other.checkLeftKey) {
           return true;

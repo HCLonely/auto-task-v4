@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-04 14:02:03
- * @LastEditTime : 2022-02-06 11:37:58
+ * @LastEditTime : 2022-12-05 10:55:51
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Freeanywhere.ts
  * @Description  : https://freeanywhere.net
@@ -10,6 +10,7 @@
 // eslint-disable-next-line
 /// <reference path = "FreeAnyWhere.d.ts" />
 
+import Swal from 'sweetalert2';
 import * as Cookies from 'js-cookie';
 import Website from './Website';
 import throwError from '../tools/throwError';
@@ -17,6 +18,7 @@ import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import httpRequest from '../tools/httpRequest';
 import { delay } from '../tools/tools';
+import { globalOptions } from '../globalOptions';
 
 const defaultTasksTemplate: fawSocialTasks = {
   steam: {
@@ -46,7 +48,7 @@ class FreeAnyWhere extends Website {
   static test(): boolean {
     return window.location.host === 'freeanywhere.net';
   }
-  init(): boolean {
+  async init(): Promise<boolean> {
     try {
       const logStatus = echoLog({ text: __('initing') });
       if ($('a[href="#/login"]').length > 0) {
@@ -67,6 +69,10 @@ class FreeAnyWhere extends Website {
         window.location.href = `https://freeanywhere.net/#/giveaway/${id}`;
       }
       if (!this.#getGiveawayId()) return false;
+
+      if (!await this.#checkLeftKey()) {
+        echoLog({}).warning(__('checkLeftKeyFailed'));
+      }
       this.initialized = true;
       logStatus.success();
       return true;
@@ -249,6 +255,38 @@ class FreeAnyWhere extends Website {
       return false;
     } catch (error) {
       throwError(error as Error, 'Freeanywhere.verify');
+      return false;
+    }
+  }
+  async #checkLeftKey(): Promise<boolean> {
+    try {
+      if (!globalOptions.other.checkLeftKey) return true;
+      const { data } = await httpRequest({
+        url: 'https://freeanywhere.net/api/v1/widget/?format=json',
+        method: 'GET',
+        dataType: 'json',
+        headers: {
+          authorization: `Token ${window.localStorage.getItem('token')}`
+        }
+      });
+      if (data?.response?.giveaways.find((giveaway: any) => `${giveaway?.id}` === this.giveawayId)) {
+        return true;
+      }
+      await Swal.fire({
+        icon: 'warning',
+        title: __('notice'),
+        text: __('noKeysLeft'),
+        confirmButtonText: __('confirm'),
+        cancelButtonText: __('cancel'),
+        showCancelButton: true
+      }).then(({ value }) => {
+        if (value) {
+          window.close();
+        }
+      });
+      return true;
+    } catch (error) {
+      throwError(error as Error, 'Giveawaysu.checkLeftKey');
       return false;
     }
   }

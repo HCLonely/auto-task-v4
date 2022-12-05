@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.21",
+  "version": "4.2.22",
   "change": [
-    "修复Steam凭证验证失败的BUG"
+    "Freeanywhere新增剩余Key检测功能"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",
