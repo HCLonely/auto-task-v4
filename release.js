@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2022-01-16 19:03:01
- * @LastEditTime : 2022-12-05 14:41:20
+ * @LastEditTime : 2022-12-10 10:12:35
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/release.js
  * @Description  : 自动发布Release
@@ -35,8 +35,7 @@ settings.on = {
   push: {
     branches: ['main'],
     paths: ['src/**', '.github/workflows/Release.yml']
-  },
-  workflow_dispatch: ''
+  }
 };
 options.prerelease = version.includes('-');
 options.tag_name = `v${version}`;

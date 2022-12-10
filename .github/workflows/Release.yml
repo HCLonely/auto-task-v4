@@ -6,7 +6,6 @@ name: Release
     paths:
       - src/**
       - .github/workflows/Release.yml
-  workflow_dispatch: ''
 jobs:
   release:
     runs-on: ubuntu-latest
