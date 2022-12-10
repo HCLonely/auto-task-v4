@@ -1,8 +1,9 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.22",
+  "version": "4.2.23",
   "change": [
-    "Freeanywhere新增剩余Key检测功能"
+    "Keyhub反屏蔽ADB",
+    "Keyhub任务识别优化"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

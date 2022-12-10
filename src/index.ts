@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2022-10-07 10:18:58
+ * @LastEditTime : 2022-12-10 09:55:22
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  : 入口文件
@@ -232,5 +232,9 @@ if (window.location.hostname === 'discord.com') {
 } else if (window.location.hostname === 'opquests.com') {
   loadScript();
 } else {
+  if (window.location.hostname === 'key-hub.eu') {
+    unsafeWindow.keyhubtracker = 1;
+    unsafeWindow.gaData = {};
+  }
   $(loadScript);
 }

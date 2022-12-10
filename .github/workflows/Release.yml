@@ -6,7 +6,7 @@ name: Release
     paths:
       - src/**
       - .github/workflows/Release.yml
-  workflow_dispatch: {}
+  workflow_dispatch: ''
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -22,9 +22,11 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.2.22
-          name: 4.2.22
-          body: '- Freeanywhere新增剩余Key检测功能'
+          tag_name: v4.2.23
+          name: 4.2.23
+          body: |-
+            - Keyhub反屏蔽ADB
+            - Keyhub任务识别优化
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

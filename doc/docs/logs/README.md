@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.2
 
+### V4.2.23
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.23)
+
+- key-hub.eu反屏蔽ADB
+
 ### V4.2.22
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.22)
