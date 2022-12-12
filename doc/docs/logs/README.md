@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.2
 
+### V4.2.24
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.24)
+
+- GiveeClub新增Twitter任务识别
+
 ### V4.2.23
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.23)

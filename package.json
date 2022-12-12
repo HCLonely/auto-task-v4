@@ -1,9 +1,9 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.23",
+  "version": "4.2.24",
   "change": [
-    "Keyhub反屏蔽ADB",
-    "Keyhub任务识别优化"
+    "新增:Twitter任务识别[GiveeClub]",
+    "优化"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

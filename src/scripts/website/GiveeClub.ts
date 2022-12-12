@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 11:46:52
- * @LastEditTime : 2022-07-15 10:34:43
+ * @LastEditTime : 2022-12-12 11:01:22
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/GiveeClub.ts
  * @Description  : https://givee.club/
@@ -75,7 +75,8 @@ class GiveeClub extends GiveawaySu {
           const taskName = taskDes.text().trim();
           const taskType = $(task).find('button[data-type]')
             ?.attr('data-type');
-          if (taskIcon.includes('ban') || /AdBlock/i.test(taskName) || taskIcon.includes('envelope')) {
+          const taskFinished = $(task).find('.event-action-buttons .btn-success')?.length;
+          if (taskIcon.includes('ban') || /AdBlock/i.test(taskName) || taskIcon.includes('envelope') || taskFinished) {
             return resolve(true);
           }
 
@@ -116,6 +117,12 @@ class GiveeClub extends GiveawaySu {
               this.undoneTasks.youtube.likeLinks.push(taskLink);
             } else if (taskIcon.includes('vk') || /join.*vk.*group/gim.test(taskName)) {
               this.undoneTasks.vk.nameLinks.push(taskLink);
+            } else if (taskIcon.includes('twitter')) {
+              if (/https?:\/\/twitter\.com\/[^/]+\/?$/gim.test(taskLink)) {
+                this.undoneTasks.twitter.userLinks.push(taskLink);
+              } else if (/https?:\/\/twitter\.com\/[^/]+?\/status\/[\d]+/gim.test(taskLink)) {
+                this.undoneTasks.twitter.retweetLinks.push(taskLink);
+              }
             } else {
               if (/(on twitter)|(Follow.*on.*Facebook)/gim.test(taskName)) {
                 // this.taskInfo.links.push(link)

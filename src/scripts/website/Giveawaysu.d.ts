@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:43:23
- * @LastEditTime : 2022-01-20 10:39:44
+ * @LastEditTime : 2022-12-12 10:45:24
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.d.ts
  */
@@ -17,25 +17,29 @@ declare interface gasSocialTasks {
     announcementLinks: Array<string>
     workshopVoteLinks: Array<string>
     playtestLinks: Array<string>
-  },
+  }
   discord: {
     serverLinks: Array<string>
-  },
+  }
   instagram: {
     userLinks: Array<string>
-  },
+  }
   vk: {
     nameLinks: Array<string>
-  },
+  }
   twitch: {
     channelLinks: Array<string>
-  },
+  }
   reddit: {
     redditLinks: Array<string>
-  },
+  }
   youtube: {
     channelLinks: Array<string>
     likeLinks: Array<string>
+  }
+  twitter: {
+    userLinks: Array<string>
+    retweetLinks: Array<string>
   }
 }
 declare interface gasGMTasks {

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.2.23
+// @version            4.2.24
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -7374,6 +7374,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       youtube: {
         channelLinks: [],
         likeLinks: []
+      },
+      twitter: {
+        userLinks: [],
+        retweetLinks: []
       }
     };
     var _checkLogin = new WeakSet();
@@ -8621,12 +8625,13 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           const tasks = $('.event-actions tr');
           for (const task of tasks) {
             pro.push(new Promise(resolve => {
-              var _$$find;
+              var _$$find, _$$find2;
               const taskDes = $(task).find('.event-action-label a');
               const taskIcon = $(task).find('.event-action-icon i').attr('class') || '';
               const taskName = taskDes.text().trim();
               const taskType = (_$$find = $(task).find('button[data-type]')) === null || _$$find === void 0 ? void 0 : _$$find.attr('data-type');
-              if (taskIcon.includes('ban') || /AdBlock/i.test(taskName) || taskIcon.includes('envelope')) {
+              const taskFinished = (_$$find2 = $(task).find('.event-action-buttons .btn-success')) === null || _$$find2 === void 0 ? void 0 : _$$find2.length;
+              if (taskIcon.includes('ban') || /AdBlock/i.test(taskName) || taskIcon.includes('envelope') || taskFinished) {
                 return resolve(true);
               }
               getRedirectLink(taskDes.attr('href')).then(taskLink => {
@@ -8665,6 +8670,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                   this.undoneTasks.youtube.likeLinks.push(taskLink);
                 } else if (taskIcon.includes('vk') || /join.*vk.*group/gim.test(taskName)) {
                   this.undoneTasks.vk.nameLinks.push(taskLink);
+                } else if (taskIcon.includes('twitter')) {
+                  if (/https?:\/\/twitter\.com\/[^/]+\/?$/gim.test(taskLink)) {
+                    this.undoneTasks.twitter.userLinks.push(taskLink);
+                  } else if (/https?:\/\/twitter\.com\/[^/]+?\/status\/[\d]+/gim.test(taskLink)) {
+                    this.undoneTasks.twitter.retweetLinks.push(taskLink);
+                  }
                 } else {
                   if (/(on twitter)|(Follow.*on.*Facebook)/gim.test(taskName)) {} else {
                     if (/follow.*button/gim.test(taskName)) {

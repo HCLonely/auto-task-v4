@@ -1,14 +1,14 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2022-05-18 10:00:20
+ * @LastEditTime : 2022-12-12 10:54:24
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/for_giveawaysu/Giveawaysu.ts
  * @Description  : https://giveaway.su/
  */
 
 // eslint-disable-next-line
-/// <reference path = "GiveawaySu.d.ts" />
+/// <reference path = "./Giveawaysu.d.ts" />
 
 import Swal from 'sweetalert2';
 import throwError from '../scripts/tools/throwError';
@@ -55,6 +55,10 @@ const defaultTasks: gasSocialTasks = {
   youtube: {
     channelLinks: [],
     likeLinks: []
+  },
+  twitter: {
+    userLinks: [],
+    retweetLinks: []
   }
 };
 

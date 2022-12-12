@@ -48,6 +48,10 @@ const defaultTasks: gasSocialTasks = {
   youtube: {
     channelLinks: [],
     likeLinks: []
+  },
+  twitter: {
+    userLinks: [],
+    retweetLinks: []
   }
 };
 
