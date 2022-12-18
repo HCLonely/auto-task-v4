@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.2.24
+// @version            4.2.25
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -9525,6 +9525,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         curatorLikeLinks: []
       }
     };
+    var Opquests_verify = new WeakSet();
     var Opquests_getGiveawayId = new WeakSet();
     var Opquests_checkLogin = new WeakSet();
     class Opquests extends website_Website {
@@ -9532,11 +9533,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         super(...arguments);
         Opquests_classPrivateMethodInitSpec(this, Opquests_checkLogin);
         Opquests_classPrivateMethodInitSpec(this, Opquests_getGiveawayId);
+        Opquests_classPrivateMethodInitSpec(this, Opquests_verify);
         Opquests_defineProperty(this, 'name', 'Opquests');
         Opquests_defineProperty(this, 'undoneTasks', {
           ...Opquests_defaultTasks
         });
-        Opquests_defineProperty(this, 'buttons', [ 'doTask' ]);
+        Opquests_defineProperty(this, 'buttons', [ 'doTask', 'verifyTask', 'getKey' ]);
       }
       static test() {
         return window.location.host === 'opquests.com';
@@ -9597,7 +9599,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               } else if (/follow/gim.test(taskDes)) {
                 this.undoneTasks.steam.followLinks.push(link);
               }
-            } else if (/store\.steampowered\.com\/(publisher|developer)\//.test(link) && /follow/gim.test(taskDes)) {
+            } else if (/store\.steampowered\.com\/(publisher|developer|curator)\//.test(link) && /follow/gim.test(taskDes)) {
               this.undoneTasks.steam.curatorLikeLinks.push(link);
             } else {
               scripts_echoLog({}).warning(`${i18n('unKnownTaskType')}: ${taskDes}(${link})`);
@@ -9613,6 +9615,113 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           throwError(error, 'Opquests.classifyTask');
           return false;
         }
+      }
+      async verifyTask() {
+        try {
+          const tasks = $.makeArray($('div.w-full').find('.items-center').has('button.submit-loader')).map(ele => ({
+            token: $(ele).find('input[name="_token"]').val(),
+            taskId: $(ele).find('input[name="task_id"]').val(),
+            title: $(ele).find('span.text-sm').text().trim()
+          }));
+          const pro = [];
+          for (const task of tasks) {
+            pro.push(Opquests_classPrivateMethodGet(this, Opquests_verify, Opquests_verify2).call(this, task));
+            await delay(1e3);
+          }
+          await Promise.all(pro);
+          scripts_echoLog({}).success(i18n('allTasksComplete'));
+          if (await this.getKey()) {
+            return true;
+          }
+          window.location.reload();
+          return false;
+        } catch (error) {
+          throwError(error, 'Opquests.verifyTask');
+          return false;
+        }
+      }
+      async getKey(isButton) {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('gettingKey')
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://opquests.com/keys',
+            method: 'GET'
+          });
+          if (result === 'Success') {
+            if (data !== null && data !== void 0 && data.responseText) {
+              const key = $(data === null || data === void 0 ? void 0 : data.responseText).find(`div.items-center:contains("${$('h1.font-bold').text().trim().replace(' Quest', '')}")`).find('div.font-bold').next().text();
+              if (!key) {
+                logStatus.error('Error: Key was not found');
+                if (isButton) {
+                  window.open('https://opquests.com/keys', '_self');
+                }
+                return false;
+              }
+              logStatus.success();
+              scripts_echoLog({}).success(key);
+              return true;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Opquests.getGiveawayId');
+          return false;
+        }
+      }
+    }
+    async function Opquests_verify2(task) {
+      try {
+        const logStatus = scripts_echoLog({
+          html: `<li>${i18n('verifyingTask')}${task.title.trim()}...<font></font></li>`
+        });
+        const {
+          result,
+          statusText,
+          status,
+          data
+        } = await tools_httpRequest({
+          url: 'https://opquests.com/entries',
+          method: 'POST',
+          dataType: 'json',
+          nochche: true,
+          headers: {
+            origin: 'https://opquests.com',
+            pragma: 'no-cache',
+            referer: window.location.href,
+            'content-type': 'application/x-www-form-urlencoded'
+          },
+          data: `_token=${task.token}&task_id=${task.taskId}`
+        });
+        if (result === 'Success') {
+          var _data$responseText, _data$responseText2, _$$find$attr;
+          if (data !== null && data !== void 0 && (_data$responseText = data.responseText) !== null && _data$responseText !== void 0 && _data$responseText.includes('Successfully completed task') || data !== null && data !== void 0 && (_data$responseText2 = data.responseText) !== null && _data$responseText2 !== void 0 && _data$responseText2.includes('unlocked the key')) {
+            logStatus.success();
+            return true;
+          }
+          const key = (_$$find$attr = $((data === null || data === void 0 ? void 0 : data.responseText) || '').find('button[data-clipboard-text]:contains("Copy")').attr('data-clipboard-text')) === null || _$$find$attr === void 0 ? void 0 : _$$find$attr.trim();
+          if (key) {
+            logStatus.success();
+            scripts_echoLog({}).success(key);
+            return true;
+          }
+          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+          return false;
+        }
+        logStatus.error(`${result}:${statusText}(${status})`);
+        return false;
+      } catch (error) {
+        throwError(error, 'Opquests.verify');
+        return false;
       }
     }
     function Opquests_getGiveawayId2() {

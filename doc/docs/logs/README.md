@@ -5,6 +5,13 @@ lang: zh-CN
 
 ## V4.2
 
+### V4.2.25
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.25)
+
+- 新增:OPQuests验证任务及获取Key
+- 优化:OPQuests鉴赏家任务识别
+
 ### V4.2.24
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.24)

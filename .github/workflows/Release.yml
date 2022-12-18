@@ -21,9 +21,11 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.2.24
-          name: 4.2.24
-          body: '- GiveeClub新增Twitter任务识别'
+          tag_name: v4.2.25
+          name: 4.2.25
+          body: |-
+            - 新增:OPQuests验证任务及获取Key
+            - 优化:OPQuests鉴赏家任务识别
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

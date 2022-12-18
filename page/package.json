@@ -1,8 +1,9 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.24",
+  "version": "4.2.25",
   "change": [
-    "GiveeClub新增Twitter任务识别"
+    "新增:OPQuests验证任务及获取Key",
+    "优化:OPQuests鉴赏家任务识别"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",
