@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.2.25
+// @version            4.2.26
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1199,6 +1199,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       needInit: '请先初始化',
       verifyingAuth: '正在验证%0凭证...',
       updatingAuth: '正在更新%0凭证...',
+      refreshingToken: '正在刷新%0凭证...',
+      settingToken: '正在设置%0凭证...',
       initing: '正在初始化...',
       getFailed: '获取%0失败！',
       checkLoginFailed: '检测登录状态失败！',
@@ -1760,23 +1762,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       });
       console.log('%c%s', 'color:white;background:red', `Auto-Task[Error]: ${name}\n${error.stack}`);
     }
-    function _defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
     class Social {
-      constructor() {
-        _defineProperty(this, 'tasks', void 0);
-      }
+      tasks;
       getRealParams(name, links, doTask, link2param) {
         try {
           let realParams = [];
@@ -1794,110 +1781,20 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     }
     const social_Social = Social;
-    function _classPrivateMethodInitSpec(obj, privateSet) {
-      _checkPrivateRedeclaration(obj, privateSet);
-      privateSet.add(obj);
-    }
-    function _classPrivateFieldInitSpec(obj, privateMap, value) {
-      _checkPrivateRedeclaration(obj, privateMap);
-      privateMap.set(obj, value);
-    }
-    function _checkPrivateRedeclaration(obj, privateCollection) {
-      if (privateCollection.has(obj)) {
-        throw new TypeError('Cannot initialize the same private elements twice on an object');
-      }
-    }
-    function Discord_defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
-    function _classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
-    function _classPrivateFieldGet(receiver, privateMap) {
-      var descriptor = _classExtractFieldDescriptor(receiver, privateMap, 'get');
-      return _classApplyDescriptorGet(receiver, descriptor);
-    }
-    function _classApplyDescriptorGet(receiver, descriptor) {
-      if (descriptor.get) {
-        return descriptor.get.call(receiver);
-      }
-      return descriptor.value;
-    }
-    function _classPrivateFieldSet(receiver, privateMap, value) {
-      var descriptor = _classExtractFieldDescriptor(receiver, privateMap, 'set');
-      _classApplyDescriptorSet(receiver, descriptor, value);
-      return value;
-    }
-    function _classExtractFieldDescriptor(receiver, privateMap, action) {
-      if (!privateMap.has(receiver)) {
-        throw new TypeError('attempted to ' + action + ' private field on non-instance');
-      }
-      return privateMap.get(receiver);
-    }
-    function _classApplyDescriptorSet(receiver, descriptor, value) {
-      if (descriptor.set) {
-        descriptor.set.call(receiver, value);
-      } else {
-        if (!descriptor.writable) {
-          throw new TypeError('attempted to set read only private field');
-        }
-        descriptor.value = value;
-      }
-    }
+    var _GM_getValue;
     const defaultTasksTemplate = {
       servers: []
     };
     const defaultTasks = JSON.stringify(defaultTasksTemplate);
-    var _auth = new WeakMap();
-    var _cache = new WeakMap();
-    var _initialized = new WeakMap();
-    var _verifyAuth = new WeakSet();
-    var _updateAuth = new WeakSet();
-    var _joinServer = new WeakSet();
-    var _leaveServer = new WeakSet();
-    var _getGuild = new WeakSet();
-    var _setCache = new WeakSet();
     class Discord extends social_Social {
-      constructor() {
-        var _GM_getValue;
-        super(...arguments);
-        _classPrivateMethodInitSpec(this, _setCache);
-        _classPrivateMethodInitSpec(this, _getGuild);
-        _classPrivateMethodInitSpec(this, _leaveServer);
-        _classPrivateMethodInitSpec(this, _joinServer);
-        _classPrivateMethodInitSpec(this, _updateAuth);
-        _classPrivateMethodInitSpec(this, _verifyAuth);
-        Discord_defineProperty(this, 'tasks', JSON.parse(defaultTasks));
-        Discord_defineProperty(this, 'whiteList', {
-          ...JSON.parse(defaultTasks),
-          ...(_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.discord
-        });
-        _classPrivateFieldInitSpec(this, _auth, {
-          writable: true,
-          value: GM_getValue('discordAuth') || {}
-        });
-        _classPrivateFieldInitSpec(this, _cache, {
-          writable: true,
-          value: GM_getValue('discordCache') || {}
-        });
-        _classPrivateFieldInitSpec(this, _initialized, {
-          writable: true,
-          value: false
-        });
-      }
+      tasks = JSON.parse(defaultTasks);
+      whiteList = {
+        ...JSON.parse(defaultTasks),
+        ...(_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.discord
+      };
+      #auth = GM_getValue('discordAuth') || {};
+      #cache = GM_getValue('discordCache') || {};
+      #initialized = false;
       async init() {
         try {
           if (!GM_getValue('dontRemindDiscordAgain')) {
@@ -1924,32 +1821,32 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               return false;
             });
             if (!result) {
-              _classPrivateFieldSet(this, _initialized, false);
+              this.#initialized = false;
               return 'skip';
             }
           }
-          if (_classPrivateFieldGet(this, _initialized)) {
+          if (this.#initialized) {
             return true;
           }
-          if (!_classPrivateFieldGet(this, _auth).auth) {
-            if (await _classPrivateMethodGet(this, _updateAuth, _updateAuth2).call(this)) {
-              _classPrivateFieldSet(this, _initialized, true);
+          if (!this.#auth.auth) {
+            if (await this.#updateAuth()) {
+              this.#initialized = true;
               return true;
             }
             return false;
           }
-          const isVerified = await _classPrivateMethodGet(this, _verifyAuth, _verifyAuth2).call(this);
+          const isVerified = await this.#verifyAuth();
           if (isVerified) {
             scripts_echoLog({}).success(i18n('initSuccess', 'Discord'));
-            _classPrivateFieldSet(this, _initialized, true);
+            this.#initialized = true;
             return true;
           }
           GM_setValue('discordAuth', {
             auth: null
           });
-          if (await _classPrivateMethodGet(this, _updateAuth, _updateAuth2).call(this)) {
+          if (await this.#updateAuth()) {
             scripts_echoLog({}).success(i18n('initSuccess', 'Discord'));
-            _classPrivateFieldSet(this, _initialized, true);
+            this.#initialized = true;
             return true;
           }
           scripts_echoLog({}).error(i18n('initFailed', 'Discord'));
@@ -1959,13 +1856,194 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
+      async #verifyAuth() {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('verifyingAuth', 'Discord')
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://discord.com/api/v6/users/@me',
+            method: 'HEAD',
+            headers: {
+              authorization: this.#auth.auth
+            }
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Discord.verifyAuth');
+          return false;
+        }
+      }
+      async #updateAuth() {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('updatingAuth', 'Discord')
+          });
+          return await new Promise(resolve => {
+            const newTab = GM_openInTab('https://discord.com/channels/@me#auth', {
+              active: true,
+              insert: true,
+              setParent: true
+            });
+            newTab.onclose = async () => {
+              var _GM_getValue2;
+              const auth = (_GM_getValue2 = GM_getValue('discordAuth')) === null || _GM_getValue2 === void 0 ? void 0 : _GM_getValue2.auth;
+              if (auth) {
+                this.#auth = {
+                  auth: auth
+                };
+                logStatus.success();
+                resolve(await this.#verifyAuth());
+              } else {
+                logStatus.error('Error: Update discord auth failed!');
+                resolve(false);
+              }
+            };
+          });
+        } catch (error) {
+          throwError(error, 'Discord.updateAuth');
+          return false;
+        }
+      }
+      async #joinServer(inviteId) {
+        try {
+          const logStatus = scripts_echoLog({
+            type: 'joiningDiscordServer',
+            text: inviteId
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://discord.com/api/v9/invites/${inviteId}`,
+            method: 'POST',
+            dataType: 'json',
+            headers: {
+              authorization: this.#auth.auth,
+              origin: 'https://discord.com',
+              referer: `https://discord.com/invite/${inviteId}`
+            }
+          });
+          if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200) {
+            var _data$response, _data$response$guild;
+            logStatus.success();
+            const guild = String((_data$response = data.response) === null || _data$response === void 0 ? void 0 : (_data$response$guild = _data$response.guild) === null || _data$response$guild === void 0 ? void 0 : _data$response$guild.id);
+            if (guild) {
+              this.#setCache(inviteId, guild);
+              this.tasks.servers = unique([ ...this.tasks.servers, inviteId ]);
+            }
+            return true;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Discord.joinServer');
+          return false;
+        }
+      }
+      async #leaveServer(inviteId) {
+        try {
+          if (this.whiteList.servers.includes(inviteId)) {
+            scripts_echoLog({
+              type: 'whiteList',
+              text: 'Discord.leaveServer',
+              id: inviteId
+            });
+            return true;
+          }
+          const guild = await this.#getGuild(inviteId);
+          if (!guild) {
+            return false;
+          }
+          const logStatus = scripts_echoLog({
+            type: 'leavingDiscordServer',
+            text: guild
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://discord.com/api/v9/users/@me/guilds/${guild}`,
+            method: 'DELETE',
+            headers: {
+              authorization: this.#auth.auth
+            }
+          });
+          if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 204) {
+            logStatus.success();
+            return true;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Discord.leaveServer');
+          return false;
+        }
+      }
+      async #getGuild(inviteId) {
+        try {
+          const logStatus = scripts_echoLog({
+            type: 'gettingDiscordGuild',
+            text: inviteId
+          });
+          const guild = this.#cache[inviteId];
+          if (guild) {
+            logStatus.success();
+            return guild;
+          }
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://discord.com/api/v9/invites/${inviteId}`,
+            responseType: 'json',
+            method: 'GET'
+          });
+          if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200) {
+            var _data$response2, _data$response2$guild;
+            const guild = (_data$response2 = data.response) === null || _data$response2 === void 0 ? void 0 : (_data$response2$guild = _data$response2.guild) === null || _data$response2$guild === void 0 ? void 0 : _data$response2$guild.id;
+            if (guild) {
+              logStatus.success();
+              this.#setCache(inviteId, guild);
+              return guild;
+            }
+            logStatus.error(`${result}:${statusText}(${status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Discord.getGuild');
+          return false;
+        }
+      }
       async toggle(_ref2) {
         let {
           doTask = true,
           serverLinks = []
         } = _ref2;
         try {
-          if (!_classPrivateFieldGet(this, _initialized)) {
+          if (!this.#initialized) {
             scripts_echoLog({
               text: i18n('needInit')
             });
@@ -1985,9 +2063,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             if (realServers.length > 0) {
               for (const server of realServers) {
                 if (doTask) {
-                  prom.push(_classPrivateMethodGet(this, _joinServer, _joinServer2).call(this, server));
+                  prom.push(this.#joinServer(server));
                 } else {
-                  prom.push(_classPrivateMethodGet(this, _leaveServer, _leaveServer2).call(this, server));
+                  prom.push(this.#leaveServer(server));
                 }
                 await delay(1e3);
               }
@@ -1999,306 +2077,39 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-    }
-    async function _verifyAuth2() {
-      try {
-        const logStatus = scripts_echoLog({
-          text: i18n('verifyingAuth', 'Discord')
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: 'https://discord.com/api/v6/users/@me',
-          method: 'HEAD',
-          headers: {
-            authorization: _classPrivateFieldGet(this, _auth).auth
-          }
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            logStatus.success();
-            return true;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
+      #setCache(inviteId, guild) {
+        try {
+          this.#cache[inviteId] = guild;
+          GM_setValue('discordCache', this.#cache);
+        } catch (error) {
+          throwError(error, 'Discord.setCache');
         }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Discord.verifyAuth');
-        return false;
-      }
-    }
-    async function _updateAuth2() {
-      try {
-        const logStatus = scripts_echoLog({
-          text: i18n('updatingAuth', 'Discord')
-        });
-        return await new Promise(resolve => {
-          const newTab = GM_openInTab('https://discord.com/channels/@me#auth', {
-            active: true,
-            insert: true,
-            setParent: true
-          });
-          newTab.onclose = async () => {
-            var _GM_getValue2;
-            const auth = (_GM_getValue2 = GM_getValue('discordAuth')) === null || _GM_getValue2 === void 0 ? void 0 : _GM_getValue2.auth;
-            if (auth) {
-              _classPrivateFieldSet(this, _auth, {
-                auth: auth
-              });
-              logStatus.success();
-              resolve(await _classPrivateMethodGet(this, _verifyAuth, _verifyAuth2).call(this));
-            } else {
-              logStatus.error('Error: Update discord auth failed!');
-              resolve(false);
-            }
-          };
-        });
-      } catch (error) {
-        throwError(error, 'Discord.updateAuth');
-        return false;
-      }
-    }
-    async function _joinServer2(inviteId) {
-      try {
-        const logStatus = scripts_echoLog({
-          type: 'joiningDiscordServer',
-          text: inviteId
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://discord.com/api/v9/invites/${inviteId}`,
-          method: 'POST',
-          dataType: 'json',
-          headers: {
-            authorization: _classPrivateFieldGet(this, _auth).auth,
-            origin: 'https://discord.com',
-            referer: `https://discord.com/invite/${inviteId}`
-          }
-        });
-        if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200) {
-          var _data$response, _data$response$guild;
-          logStatus.success();
-          const guild = String((_data$response = data.response) === null || _data$response === void 0 ? void 0 : (_data$response$guild = _data$response.guild) === null || _data$response$guild === void 0 ? void 0 : _data$response$guild.id);
-          if (guild) {
-            _classPrivateMethodGet(this, _setCache, _setCache2).call(this, inviteId, guild);
-            this.tasks.servers = unique([ ...this.tasks.servers, inviteId ]);
-          }
-          return true;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Discord.joinServer');
-        return false;
-      }
-    }
-    async function _leaveServer2(inviteId) {
-      try {
-        if (this.whiteList.servers.includes(inviteId)) {
-          scripts_echoLog({
-            type: 'whiteList',
-            text: 'Discord.leaveServer',
-            id: inviteId
-          });
-          return true;
-        }
-        const guild = await _classPrivateMethodGet(this, _getGuild, _getGuild2).call(this, inviteId);
-        if (!guild) {
-          return false;
-        }
-        const logStatus = scripts_echoLog({
-          type: 'leavingDiscordServer',
-          text: guild
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://discord.com/api/v9/users/@me/guilds/${guild}`,
-          method: 'DELETE',
-          headers: {
-            authorization: _classPrivateFieldGet(this, _auth).auth
-          }
-        });
-        if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 204) {
-          logStatus.success();
-          return true;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Discord.leaveServer');
-        return false;
-      }
-    }
-    async function _getGuild2(inviteId) {
-      try {
-        const logStatus = scripts_echoLog({
-          type: 'gettingDiscordGuild',
-          text: inviteId
-        });
-        const guild = _classPrivateFieldGet(this, _cache)[inviteId];
-        if (guild) {
-          logStatus.success();
-          return guild;
-        }
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://discord.com/api/v9/invites/${inviteId}`,
-          responseType: 'json',
-          method: 'GET'
-        });
-        if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200) {
-          var _data$response2, _data$response2$guild;
-          const guild = (_data$response2 = data.response) === null || _data$response2 === void 0 ? void 0 : (_data$response2$guild = _data$response2.guild) === null || _data$response2$guild === void 0 ? void 0 : _data$response2$guild.id;
-          if (guild) {
-            logStatus.success();
-            _classPrivateMethodGet(this, _setCache, _setCache2).call(this, inviteId, guild);
-            return guild;
-          }
-          logStatus.error(`${result}:${statusText}(${status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Discord.getGuild');
-        return false;
-      }
-    }
-    function _setCache2(inviteId, guild) {
-      try {
-        _classPrivateFieldGet(this, _cache)[inviteId] = guild;
-        GM_setValue('discordCache', _classPrivateFieldGet(this, _cache));
-      } catch (error) {
-        throwError(error, 'Discord.setCache');
       }
     }
     const social_Discord = Discord;
-    function Instagram_classPrivateMethodInitSpec(obj, privateSet) {
-      Instagram_checkPrivateRedeclaration(obj, privateSet);
-      privateSet.add(obj);
-    }
-    function Instagram_classPrivateFieldInitSpec(obj, privateMap, value) {
-      Instagram_checkPrivateRedeclaration(obj, privateMap);
-      privateMap.set(obj, value);
-    }
-    function Instagram_checkPrivateRedeclaration(obj, privateCollection) {
-      if (privateCollection.has(obj)) {
-        throw new TypeError('Cannot initialize the same private elements twice on an object');
-      }
-    }
-    function Instagram_defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
-    function Instagram_classPrivateFieldSet(receiver, privateMap, value) {
-      var descriptor = Instagram_classExtractFieldDescriptor(receiver, privateMap, 'set');
-      Instagram_classApplyDescriptorSet(receiver, descriptor, value);
-      return value;
-    }
-    function Instagram_classApplyDescriptorSet(receiver, descriptor, value) {
-      if (descriptor.set) {
-        descriptor.set.call(receiver, value);
-      } else {
-        if (!descriptor.writable) {
-          throw new TypeError('attempted to set read only private field');
-        }
-        descriptor.value = value;
-      }
-    }
-    function Instagram_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
-    function Instagram_classPrivateFieldGet(receiver, privateMap) {
-      var descriptor = Instagram_classExtractFieldDescriptor(receiver, privateMap, 'get');
-      return Instagram_classApplyDescriptorGet(receiver, descriptor);
-    }
-    function Instagram_classExtractFieldDescriptor(receiver, privateMap, action) {
-      if (!privateMap.has(receiver)) {
-        throw new TypeError('attempted to ' + action + ' private field on non-instance');
-      }
-      return privateMap.get(receiver);
-    }
-    function Instagram_classApplyDescriptorGet(receiver, descriptor) {
-      if (descriptor.get) {
-        return descriptor.get.call(receiver);
-      }
-      return descriptor.value;
-    }
+    var Instagram_GM_getValue;
     const Instagram_defaultTasksTemplate = {
       users: []
     };
     const Instagram_defaultTasks = JSON.stringify(Instagram_defaultTasksTemplate);
-    var Instagram_cache = new WeakMap();
-    var Instagram_auth = new WeakMap();
-    var Instagram_initialized = new WeakMap();
-    var _getUserInfo = new WeakSet();
-    var _followUser = new WeakSet();
-    var _unfollowUser = new WeakSet();
-    var Instagram_setCache = new WeakSet();
     class Instagram extends social_Social {
-      constructor() {
-        var _GM_getValue;
-        super(...arguments);
-        Instagram_classPrivateMethodInitSpec(this, Instagram_setCache);
-        Instagram_classPrivateMethodInitSpec(this, _unfollowUser);
-        Instagram_classPrivateMethodInitSpec(this, _followUser);
-        Instagram_classPrivateMethodInitSpec(this, _getUserInfo);
-        Instagram_defineProperty(this, 'tasks', JSON.parse(Instagram_defaultTasks));
-        Instagram_defineProperty(this, 'whiteList', {
-          ...JSON.parse(Instagram_defaultTasks),
-          ...(_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.instagram
-        });
-        Instagram_classPrivateFieldInitSpec(this, Instagram_cache, {
-          writable: true,
-          value: GM_getValue('instagramCache') || {}
-        });
-        Instagram_classPrivateFieldInitSpec(this, Instagram_auth, {
-          writable: true,
-          value: {}
-        });
-        Instagram_classPrivateFieldInitSpec(this, Instagram_initialized, {
-          writable: true,
-          value: false
-        });
-      }
+      tasks = JSON.parse(Instagram_defaultTasks);
+      whiteList = {
+        ...JSON.parse(Instagram_defaultTasks),
+        ...(Instagram_GM_getValue = GM_getValue('whiteList')) === null || Instagram_GM_getValue === void 0 ? void 0 : Instagram_GM_getValue.instagram
+      };
+      #cache = GM_getValue('instagramCache') || {};
+      #auth = {};
+      #initialized = false;
       async init() {
         try {
-          if (Instagram_classPrivateFieldGet(this, Instagram_initialized)) {
+          if (this.#initialized) {
             return true;
           }
-          const isVerified = await Instagram_classPrivateMethodGet(this, _getUserInfo, _getUserInfo2).call(this);
+          const isVerified = await this.#getUserInfo();
           if (isVerified) {
             scripts_echoLog({}).success(i18n('initSuccess', 'Instagram'));
-            Instagram_classPrivateFieldSet(this, Instagram_initialized, true);
+            this.#initialized = true;
             return true;
           }
           scripts_echoLog({}).error(i18n('initFailed', 'Instagram'));
@@ -2308,13 +2119,171 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
+      async #getUserInfo() {
+        let name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'instagram';
+        try {
+          const logStatus = scripts_echoLog({
+            type: name === 'instagram' ? 'verifyingInsAuth' : 'gettingInsUserId',
+            text: name
+          });
+          const userId = this.#cache[name];
+          if (userId && name !== 'instagram') {
+            logStatus.success();
+            return userId;
+          }
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://www.instagram.com/${name}/`,
+            method: 'GET'
+          });
+          if (result === 'Success') {
+            if (data !== null && data !== void 0 && data.finalUrl.includes('accounts/login')) {
+              logStatus.error(`Error:${i18n('loginIns')}`, true);
+              return false;
+            } else if (data !== null && data !== void 0 && data.finalUrl.includes('www.instagram.com/challenge')) {
+              logStatus.error(`Error:${i18n('insBanned')}`);
+              return false;
+            }
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              var _data$responseText$ma, _data$responseText$ma2, _data$responseText$ma3;
+              const csrftoken = (_data$responseText$ma = data.responseText.match(/"csrf_token":"(.+?)"/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
+              const hash = (_data$responseText$ma2 = data.responseText.match(/"rollout_hash":"(.+?)"/)) === null || _data$responseText$ma2 === void 0 ? void 0 : _data$responseText$ma2[1];
+              if (name === 'instagram') {
+                if (csrftoken && hash) {
+                  this.#auth = {
+                    csrftoken: csrftoken,
+                    hash: hash
+                  };
+                  return true;
+                }
+                return false;
+              }
+              const id = (_data$responseText$ma3 = data.responseText.match(/"profilePage_([\d]+?)"/)) === null || _data$responseText$ma3 === void 0 ? void 0 : _data$responseText$ma3[1];
+              if (id) {
+                this.#setCache(name, id);
+                logStatus.success();
+                return id;
+              }
+              logStatus.error('Error: Get ins data error!');
+              return false;
+            }
+            logStatus.error(`${result}:${statusText}(${status})`);
+            return false;
+          }
+          return false;
+        } catch (error) {
+          throwError(error, 'Instagram.getUserInfo');
+          return false;
+        }
+      }
+      async #followUser(name) {
+        try {
+          const id = await this.#getUserInfo(name);
+          if (!id) {
+            return false;
+          }
+          const logStatus = scripts_echoLog({
+            type: 'followingIns',
+            text: name
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://www.instagram.com/web/friendships/${id}/follow/`,
+            method: 'POST',
+            dataType: 'json',
+            headers: {
+              'x-csrftoken': this.#auth.csrftoken,
+              origin: 'https://www.instagram.com',
+              referer: `https://www.instagram.com/${name}/`,
+              'content-type': 'application/x-www-form-urlencoded',
+              'sec-fetch-site': 'same-origin',
+              'x-instagram-ajax': this.#auth.hash
+            }
+          });
+          if (result === 'Success') {
+            var _data$response, _data$response2;
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && ((_data$response = data.response) === null || _data$response === void 0 ? void 0 : _data$response.result) === 'following') {
+              logStatus.success();
+              this.tasks.users = unique([ ...this.tasks.users, name ]);
+              return true;
+            }
+            logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response2 = data.response) === null || _data$response2 === void 0 ? void 0 : _data$response2.feedback_message) || `${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`}`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Instagram.followUser');
+          return false;
+        }
+      }
+      async #unfollowUser(name) {
+        try {
+          if (this.whiteList.users.includes(name)) {
+            scripts_echoLog({
+              type: 'whiteList',
+              text: 'Instagram.unfollowUser',
+              id: name
+            });
+            return true;
+          }
+          const id = await this.#getUserInfo(name);
+          if (!id) {
+            return false;
+          }
+          const logStatus = scripts_echoLog({
+            type: 'unfollowingIns',
+            text: name
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://www.instagram.com/web/friendships/${id}/unfollow/`,
+            method: 'POST',
+            dataType: 'json',
+            headers: {
+              'x-csrftoken': this.#auth.csrftoken,
+              origin: 'https://www.instagram.com',
+              referer: `https://www.instagram.com/${name}/`,
+              'content-type': 'application/x-www-form-urlencoded',
+              'sec-fetch-site': 'same-origin',
+              'x-instagram-ajax': this.#auth.hash
+            }
+          });
+          if (result === 'Success') {
+            var _data$response3;
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && ((_data$response3 = data.response) === null || _data$response3 === void 0 ? void 0 : _data$response3.status) === 'ok') {
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Instagram.unfollowUser');
+          return false;
+        }
+      }
       async toggle(_ref) {
         let {
           doTask = true,
           userLinks = []
         } = _ref;
         try {
-          if (!Instagram_classPrivateFieldGet(this, Instagram_initialized)) {
+          if (!this.#initialized) {
             scripts_echoLog({
               text: i18n('needInit')
             });
@@ -2334,9 +2303,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             if (realUsers.length > 0) {
               for (const username of realUsers) {
                 if (doTask) {
-                  prom.push(Instagram_classPrivateMethodGet(this, _followUser, _followUser2).call(this, username));
+                  prom.push(this.#followUser(username));
                 } else {
-                  prom.push(Instagram_classPrivateMethodGet(this, _unfollowUser, _unfollowUser2).call(this, username));
+                  prom.push(this.#unfollowUser(username));
                 }
                 await delay(1e3);
               }
@@ -2348,280 +2317,116 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-    }
-    async function _getUserInfo2() {
-      let name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'instagram';
-      try {
-        const logStatus = scripts_echoLog({
-          type: name === 'instagram' ? 'verifyingInsAuth' : 'gettingInsUserId',
-          text: name
-        });
-        const userId = Instagram_classPrivateFieldGet(this, Instagram_cache)[name];
-        if (userId && name !== 'instagram') {
-          logStatus.success();
-          return userId;
+      #setCache(name, id) {
+        try {
+          this.#cache[name] = id;
+          GM_setValue('instagramCache', this.#cache);
+        } catch (error) {
+          throwError(error, 'Instagram.setCache');
         }
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://www.instagram.com/${name}/`,
-          method: 'GET'
-        });
-        if (result === 'Success') {
-          if (data !== null && data !== void 0 && data.finalUrl.includes('accounts/login')) {
-            logStatus.error(`Error:${i18n('loginIns')}`, true);
-            return false;
-          } else if (data !== null && data !== void 0 && data.finalUrl.includes('www.instagram.com/challenge')) {
-            logStatus.error(`Error:${i18n('insBanned')}`);
-            return false;
-          }
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText$ma, _data$responseText$ma2, _data$responseText$ma3;
-            const csrftoken = (_data$responseText$ma = data.responseText.match(/"csrf_token":"(.+?)"/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
-            const hash = (_data$responseText$ma2 = data.responseText.match(/"rollout_hash":"(.+?)"/)) === null || _data$responseText$ma2 === void 0 ? void 0 : _data$responseText$ma2[1];
-            if (name === 'instagram') {
-              if (csrftoken && hash) {
-                Instagram_classPrivateFieldSet(this, Instagram_auth, {
-                  csrftoken: csrftoken,
-                  hash: hash
-                });
-                return true;
-              }
-              return false;
-            }
-            const id = (_data$responseText$ma3 = data.responseText.match(/"profilePage_([\d]+?)"/)) === null || _data$responseText$ma3 === void 0 ? void 0 : _data$responseText$ma3[1];
-            if (id) {
-              Instagram_classPrivateMethodGet(this, Instagram_setCache, Instagram_setCache2).call(this, name, id);
-              logStatus.success();
-              return id;
-            }
-            logStatus.error('Error: Get ins data error!');
-            return false;
-          }
-          logStatus.error(`${result}:${statusText}(${status})`);
-          return false;
-        }
-        return false;
-      } catch (error) {
-        throwError(error, 'Instagram.getUserInfo');
-        return false;
-      }
-    }
-    async function _followUser2(name) {
-      try {
-        const id = await Instagram_classPrivateMethodGet(this, _getUserInfo, _getUserInfo2).call(this, name);
-        if (!id) {
-          return false;
-        }
-        const logStatus = scripts_echoLog({
-          type: 'followingIns',
-          text: name
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://www.instagram.com/web/friendships/${id}/follow/`,
-          method: 'POST',
-          dataType: 'json',
-          headers: {
-            'x-csrftoken': Instagram_classPrivateFieldGet(this, Instagram_auth).csrftoken,
-            origin: 'https://www.instagram.com',
-            referer: `https://www.instagram.com/${name}/`,
-            'content-type': 'application/x-www-form-urlencoded',
-            'sec-fetch-site': 'same-origin',
-            'x-instagram-ajax': Instagram_classPrivateFieldGet(this, Instagram_auth).hash
-          }
-        });
-        if (result === 'Success') {
-          var _data$response, _data$response2;
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200 && ((_data$response = data.response) === null || _data$response === void 0 ? void 0 : _data$response.result) === 'following') {
-            logStatus.success();
-            this.tasks.users = unique([ ...this.tasks.users, name ]);
-            return true;
-          }
-          logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response2 = data.response) === null || _data$response2 === void 0 ? void 0 : _data$response2.feedback_message) || `${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`}`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Instagram.followUser');
-        return false;
-      }
-    }
-    async function _unfollowUser2(name) {
-      try {
-        if (this.whiteList.users.includes(name)) {
-          scripts_echoLog({
-            type: 'whiteList',
-            text: 'Instagram.unfollowUser',
-            id: name
-          });
-          return true;
-        }
-        const id = await Instagram_classPrivateMethodGet(this, _getUserInfo, _getUserInfo2).call(this, name);
-        if (!id) {
-          return false;
-        }
-        const logStatus = scripts_echoLog({
-          type: 'unfollowingIns',
-          text: name
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://www.instagram.com/web/friendships/${id}/unfollow/`,
-          method: 'POST',
-          dataType: 'json',
-          headers: {
-            'x-csrftoken': Instagram_classPrivateFieldGet(this, Instagram_auth).csrftoken,
-            origin: 'https://www.instagram.com',
-            referer: `https://www.instagram.com/${name}/`,
-            'content-type': 'application/x-www-form-urlencoded',
-            'sec-fetch-site': 'same-origin',
-            'x-instagram-ajax': Instagram_classPrivateFieldGet(this, Instagram_auth).hash
-          }
-        });
-        if (result === 'Success') {
-          var _data$response3;
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200 && ((_data$response3 = data.response) === null || _data$response3 === void 0 ? void 0 : _data$response3.status) === 'ok') {
-            logStatus.success();
-            return true;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Instagram.unfollowUser');
-        return false;
-      }
-    }
-    function Instagram_setCache2(name, id) {
-      try {
-        Instagram_classPrivateFieldGet(this, Instagram_cache)[name] = id;
-        GM_setValue('instagramCache', Instagram_classPrivateFieldGet(this, Instagram_cache));
-      } catch (error) {
-        throwError(error, 'Instagram.setCache');
       }
     }
     const social_Instagram = Instagram;
-    function Reddit_classPrivateMethodInitSpec(obj, privateSet) {
-      Reddit_checkPrivateRedeclaration(obj, privateSet);
-      privateSet.add(obj);
-    }
-    function Reddit_classPrivateFieldInitSpec(obj, privateMap, value) {
-      Reddit_checkPrivateRedeclaration(obj, privateMap);
-      privateMap.set(obj, value);
-    }
-    function Reddit_checkPrivateRedeclaration(obj, privateCollection) {
-      if (privateCollection.has(obj)) {
-        throw new TypeError('Cannot initialize the same private elements twice on an object');
-      }
-    }
-    function Reddit_defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
-    function Reddit_classPrivateFieldSet(receiver, privateMap, value) {
-      var descriptor = Reddit_classExtractFieldDescriptor(receiver, privateMap, 'set');
-      Reddit_classApplyDescriptorSet(receiver, descriptor, value);
-      return value;
-    }
-    function Reddit_classApplyDescriptorSet(receiver, descriptor, value) {
-      if (descriptor.set) {
-        descriptor.set.call(receiver, value);
-      } else {
-        if (!descriptor.writable) {
-          throw new TypeError('attempted to set read only private field');
-        }
-        descriptor.value = value;
-      }
-    }
-    function Reddit_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
-    function Reddit_classPrivateFieldGet(receiver, privateMap) {
-      var descriptor = Reddit_classExtractFieldDescriptor(receiver, privateMap, 'get');
-      return Reddit_classApplyDescriptorGet(receiver, descriptor);
-    }
-    function Reddit_classExtractFieldDescriptor(receiver, privateMap, action) {
-      if (!privateMap.has(receiver)) {
-        throw new TypeError('attempted to ' + action + ' private field on non-instance');
-      }
-      return privateMap.get(receiver);
-    }
-    function Reddit_classApplyDescriptorGet(receiver, descriptor) {
-      if (descriptor.get) {
-        return descriptor.get.call(receiver);
-      }
-      return descriptor.value;
-    }
+    var Reddit_GM_getValue;
     const Reddit_defaultTasksTemplate = {
       reddits: []
     };
     const Reddit_defaultTasks = JSON.stringify(Reddit_defaultTasksTemplate);
-    var Reddit_auth = new WeakMap();
-    var Reddit_initialized = new WeakMap();
-    var _useBeta = new WeakSet();
-    var Reddit_updateAuth = new WeakSet();
     class Reddit extends social_Social {
-      constructor() {
-        var _GM_getValue;
-        super(...arguments);
-        Reddit_classPrivateMethodInitSpec(this, Reddit_updateAuth);
-        Reddit_classPrivateMethodInitSpec(this, _useBeta);
-        Reddit_defineProperty(this, 'tasks', JSON.parse(Reddit_defaultTasks));
-        Reddit_defineProperty(this, 'whiteList', {
-          ...JSON.parse(Reddit_defaultTasks),
-          ...(_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.reddit
-        });
-        Reddit_classPrivateFieldInitSpec(this, Reddit_auth, {
-          writable: true,
-          value: void 0
-        });
-        Reddit_classPrivateFieldInitSpec(this, Reddit_initialized, {
-          writable: true,
-          value: false
-        });
-      }
+      tasks = JSON.parse(Reddit_defaultTasks);
+      whiteList = {
+        ...JSON.parse(Reddit_defaultTasks),
+        ...(Reddit_GM_getValue = GM_getValue('whiteList')) === null || Reddit_GM_getValue === void 0 ? void 0 : Reddit_GM_getValue.reddit
+      };
+      #auth;
+      #initialized = false;
       async init() {
         try {
-          if (Reddit_classPrivateFieldGet(this, Reddit_initialized)) {
+          if (this.#initialized) {
             return true;
           }
-          const isVerified = await Reddit_classPrivateMethodGet(this, Reddit_updateAuth, Reddit_updateAuth2).call(this);
+          const isVerified = await this.#updateAuth();
           if (isVerified) {
             scripts_echoLog({}).success(i18n('initSuccess', 'Reddit'));
-            Reddit_classPrivateFieldSet(this, Reddit_initialized, true);
+            this.#initialized = true;
             return true;
           }
           scripts_echoLog({}).error(i18n('initFailed', 'Reddit'));
           return false;
         } catch (error) {
           throwError(error, 'Reddit.init');
+          return false;
+        }
+      }
+      async #useBeta() {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('changingRedditVersion')
+          });
+          GM_setValue('redditAuth', null);
+          return await new Promise(resolve => {
+            const newTab = GM_openInTab('https://www.reddit.com/#auth', {
+              active: true,
+              insert: true,
+              setParent: true
+            });
+            newTab.onclose = async () => {
+              logStatus.success();
+              resolve(await this.#updateAuth(true));
+            };
+          });
+        } catch (error) {
+          throwError(error, 'Reddit.useBeta');
+          return false;
+        }
+      }
+      async #updateAuth() {
+        let beta = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('updatingAuth', 'Reddit')
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://www.reddit.com/',
+            method: 'GET',
+            nochche: true,
+            headers: {
+              'Cache-Control': 'no-cache'
+            }
+          });
+          if (result === 'Success') {
+            if (data !== null && data !== void 0 && data.responseText.includes('www.reddit.com/login/')) {
+              logStatus.error(`Error:${i18n('loginReddit')}`, true);
+              return false;
+            }
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              var _data$responseText$ma;
+              if (data.responseText.includes('redesign-beta-optin-btn') && !beta) {
+                return await this.#useBeta();
+              }
+              const accessToken = (_data$responseText$ma = data.responseText.match(/"accessToken":"(.*?)","expires":"(.*?)"/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
+              if (accessToken) {
+                this.#auth = {
+                  token: accessToken
+                };
+                logStatus.success();
+                return true;
+              }
+              logStatus.error('Error: Parameter "accessToken" not found!');
+              return false;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Reddit.updateAuth');
           return false;
         }
       }
@@ -2656,7 +2461,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             url: 'https://oauth.reddit.com/api/subscribe?redditWebClient=desktop2x&app=desktop2x-client-production&raw_json=1&gilding_detail=1',
             method: 'POST',
             headers: {
-              authorization: `Bearer ${Reddit_classPrivateFieldGet(this, Reddit_auth).token}`,
+              authorization: `Bearer ${this.#auth.token}`,
               'content-type': 'application/x-www-form-urlencoded'
             },
             data: $.param({
@@ -2689,7 +2494,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           redditLinks = []
         } = _ref2;
         try {
-          if (!Reddit_classPrivateFieldGet(this, Reddit_initialized)) {
+          if (!this.#initialized) {
             scripts_echoLog({
               text: i18n('needInit')
             });
@@ -2728,210 +2533,44 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         }
       }
     }
-    async function _useBeta2() {
-      try {
-        const logStatus = scripts_echoLog({
-          text: i18n('changingRedditVersion')
-        });
-        GM_setValue('redditAuth', null);
-        return await new Promise(resolve => {
-          const newTab = GM_openInTab('https://www.reddit.com/#auth', {
-            active: true,
-            insert: true,
-            setParent: true
-          });
-          newTab.onclose = async () => {
-            logStatus.success();
-            resolve(await Reddit_classPrivateMethodGet(this, Reddit_updateAuth, Reddit_updateAuth2).call(this, true));
-          };
-        });
-      } catch (error) {
-        throwError(error, 'Reddit.useBeta');
-        return false;
-      }
-    }
-    async function Reddit_updateAuth2() {
-      let beta = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-      try {
-        const logStatus = scripts_echoLog({
-          text: i18n('updatingAuth', 'Reddit')
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: 'https://www.reddit.com/',
-          method: 'GET',
-          nochche: true,
-          headers: {
-            'Cache-Control': 'no-cache'
-          }
-        });
-        if (result === 'Success') {
-          if (data !== null && data !== void 0 && data.responseText.includes('www.reddit.com/login/')) {
-            logStatus.error(`Error:${i18n('loginReddit')}`, true);
-            return false;
-          }
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText$ma;
-            if (data.responseText.includes('redesign-beta-optin-btn') && !beta) {
-              return await Reddit_classPrivateMethodGet(this, _useBeta, _useBeta2).call(this);
-            }
-            const accessToken = (_data$responseText$ma = data.responseText.match(/"accessToken":"(.*?)","expires":"(.*?)"/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
-            if (accessToken) {
-              Reddit_classPrivateFieldSet(this, Reddit_auth, {
-                token: accessToken
-              });
-              logStatus.success();
-              return true;
-            }
-            logStatus.error('Error: Parameter "accessToken" not found!');
-            return false;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Reddit.updateAuth');
-        return false;
-      }
-    }
     const social_Reddit = Reddit;
-    function Twitch_classPrivateMethodInitSpec(obj, privateSet) {
-      Twitch_checkPrivateRedeclaration(obj, privateSet);
-      privateSet.add(obj);
-    }
-    function Twitch_classPrivateFieldInitSpec(obj, privateMap, value) {
-      Twitch_checkPrivateRedeclaration(obj, privateMap);
-      privateMap.set(obj, value);
-    }
-    function Twitch_checkPrivateRedeclaration(obj, privateCollection) {
-      if (privateCollection.has(obj)) {
-        throw new TypeError('Cannot initialize the same private elements twice on an object');
-      }
-    }
-    function Twitch_defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
-    function Twitch_classPrivateFieldSet(receiver, privateMap, value) {
-      var descriptor = Twitch_classExtractFieldDescriptor(receiver, privateMap, 'set');
-      Twitch_classApplyDescriptorSet(receiver, descriptor, value);
-      return value;
-    }
-    function Twitch_classApplyDescriptorSet(receiver, descriptor, value) {
-      if (descriptor.set) {
-        descriptor.set.call(receiver, value);
-      } else {
-        if (!descriptor.writable) {
-          throw new TypeError('attempted to set read only private field');
-        }
-        descriptor.value = value;
-      }
-    }
-    function Twitch_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
-    function Twitch_classPrivateFieldGet(receiver, privateMap) {
-      var descriptor = Twitch_classExtractFieldDescriptor(receiver, privateMap, 'get');
-      return Twitch_classApplyDescriptorGet(receiver, descriptor);
-    }
-    function Twitch_classExtractFieldDescriptor(receiver, privateMap, action) {
-      if (!privateMap.has(receiver)) {
-        throw new TypeError('attempted to ' + action + ' private field on non-instance');
-      }
-      return privateMap.get(receiver);
-    }
-    function Twitch_classApplyDescriptorGet(receiver, descriptor) {
-      if (descriptor.get) {
-        return descriptor.get.call(receiver);
-      }
-      return descriptor.value;
-    }
+    var Twitch_GM_getValue;
     const Twitch_defaultTasksTemplate = {
       channels: []
     };
     const Twitch_defaultTasks = JSON.stringify(Twitch_defaultTasksTemplate);
-    var Twitch_auth = new WeakMap();
-    var Twitch_cache = new WeakMap();
-    var Twitch_initialized = new WeakMap();
-    var _integrityToken = new WeakMap();
-    var Twitch_verifyAuth = new WeakSet();
-    var _integrity = new WeakSet();
-    var Twitch_updateAuth = new WeakSet();
-    var _toggleChannel = new WeakSet();
-    var _getChannelId = new WeakSet();
-    var Twitch_setCache = new WeakSet();
     class Twitch extends social_Social {
-      constructor() {
-        var _GM_getValue;
-        super(...arguments);
-        Twitch_classPrivateMethodInitSpec(this, Twitch_setCache);
-        Twitch_classPrivateMethodInitSpec(this, _getChannelId);
-        Twitch_classPrivateMethodInitSpec(this, _toggleChannel);
-        Twitch_classPrivateMethodInitSpec(this, Twitch_updateAuth);
-        Twitch_classPrivateMethodInitSpec(this, _integrity);
-        Twitch_classPrivateMethodInitSpec(this, Twitch_verifyAuth);
-        Twitch_defineProperty(this, 'tasks', JSON.parse(Twitch_defaultTasks));
-        Twitch_defineProperty(this, 'whiteList', {
-          ...JSON.parse(Twitch_defaultTasks),
-          ...(_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.twitch
-        });
-        Twitch_classPrivateFieldInitSpec(this, Twitch_auth, {
-          writable: true,
-          value: GM_getValue('twitchAuth') || {}
-        });
-        Twitch_classPrivateFieldInitSpec(this, Twitch_cache, {
-          writable: true,
-          value: GM_getValue('twitchCache') || {}
-        });
-        Twitch_classPrivateFieldInitSpec(this, Twitch_initialized, {
-          writable: true,
-          value: false
-        });
-        Twitch_classPrivateFieldInitSpec(this, _integrityToken, {
-          writable: true,
-          value: void 0
-        });
-      }
+      tasks = JSON.parse(Twitch_defaultTasks);
+      whiteList = {
+        ...JSON.parse(Twitch_defaultTasks),
+        ...(Twitch_GM_getValue = GM_getValue('whiteList')) === null || Twitch_GM_getValue === void 0 ? void 0 : Twitch_GM_getValue.twitch
+      };
+      #auth = GM_getValue('twitchAuth') || {};
+      #cache = GM_getValue('twitchCache') || {};
+      #initialized = false;
+      #integrityToken;
       async init() {
         try {
-          if (Twitch_classPrivateFieldGet(this, Twitch_initialized)) {
+          if (this.#initialized) {
             return true;
           }
-          if (!Twitch_classPrivateFieldGet(this, Twitch_auth).authToken || !Twitch_classPrivateFieldGet(this, Twitch_auth).clientId || !Twitch_classPrivateFieldGet(this, Twitch_auth).clientVersion || !Twitch_classPrivateFieldGet(this, Twitch_auth).deviceId || !Twitch_classPrivateFieldGet(this, Twitch_auth).clientSessionId) {
-            if (await Twitch_classPrivateMethodGet(this, Twitch_updateAuth, Twitch_updateAuth2).call(this)) {
-              Twitch_classPrivateFieldSet(this, Twitch_initialized, true);
+          if (!this.#auth.authToken || !this.#auth.clientId || !this.#auth.clientVersion || !this.#auth.deviceId || !this.#auth.clientSessionId) {
+            if (await this.#updateAuth()) {
+              this.#initialized = true;
               return true;
             }
             return false;
           }
-          const isVerified = await Twitch_classPrivateMethodGet(this, Twitch_verifyAuth, Twitch_verifyAuth2).call(this);
+          const isVerified = await this.#verifyAuth();
           if (isVerified) {
             scripts_echoLog({}).success(i18n('initSuccess', 'Twitch'));
-            Twitch_classPrivateFieldSet(this, Twitch_initialized, true);
+            this.#initialized = true;
             return true;
           }
           GM_setValue('twitchAuth', null);
-          if (await Twitch_classPrivateMethodGet(this, Twitch_updateAuth, Twitch_updateAuth2).call(this)) {
+          if (await this.#updateAuth()) {
             scripts_echoLog({}).success(i18n('initSuccess', 'Twitch'));
-            Twitch_classPrivateFieldSet(this, Twitch_initialized, true);
+            this.#initialized = true;
             return true;
           }
           scripts_echoLog({}).error(i18n('initFailed', 'Twitch'));
@@ -2941,13 +2580,238 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async toggle(_ref) {
+      async #verifyAuth() {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('verifyingAuth', 'Twitch')
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://gql.twitch.tv/gql',
+            method: 'POST',
+            dataType: 'json',
+            headers: {
+              Authorization: `OAuth ${this.#auth.authToken}`,
+              'Client-Id': this.#auth.clientId
+            },
+            data: '[{"operationName":"FrontPageNew_User","variables":{"limit":1},"extensions":{"persistedQuery":{"version":1,' + '"sha256Hash":"64bd07a2cbaca80699d62636d966cf6395a5d14a1f0a14282067dcb28b13eb11"}}}]'
+          });
+          if (result === 'Success') {
+            var _data$response, _data$response$, _data$response$$data;
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (_data$response = data.response) !== null && _data$response !== void 0 && (_data$response$ = _data$response[0]) !== null && _data$response$ !== void 0 && (_data$response$$data = _data$response$.data) !== null && _data$response$$data !== void 0 && _data$response$$data.currentUser) {
+              await this.#integrity();
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Twitch.verifyAuth');
+          return false;
+        }
+      }
+      async #integrity() {
+        let ct = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('checkingTwitchIntegrity')
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://gql.twitch.tv/integrity',
+            method: 'POST',
+            dataType: 'json',
+            anonymous: true,
+            headers: {
+              Origin: 'https://www.twitch.tv',
+              Referer: 'https://www.twitch.tv/',
+              Authorization: `OAuth ${this.#auth.authToken}`,
+              'Client-Id': this.#auth.clientId,
+              'Client-Version': this.#auth.clientVersion,
+              'X-Device-Id': this.#auth.deviceId,
+              'Client-Session-Id': this.#auth.clientSessionId,
+              'x-kpsdk-ct': ct
+            }
+          });
+          if (result === 'Success') {
+            var _data$responseHeaders, _data$response2;
+            if (!ct && data !== null && data !== void 0 && (_data$responseHeaders = data.responseHeaders) !== null && _data$responseHeaders !== void 0 && _data$responseHeaders['x-kpsdk-ct']) {
+              return await this.#integrity(data.responseHeaders['x-kpsdk-ct']);
+            }
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (_data$response2 = data.response) !== null && _data$response2 !== void 0 && _data$response2.token) {
+              this.#integrityToken = data.response.token;
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Twitch.integrity');
+          return false;
+        }
+      }
+      async #updateAuth() {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('updatingAuth', 'Twitch')
+          });
+          return await new Promise(resolve => {
+            const newTab = GM_openInTab('https://www.twitch.tv/#auth', {
+              active: true,
+              insert: true,
+              setParent: true
+            });
+            newTab.onclose = async () => {
+              const auth = GM_getValue('twitchAuth');
+              if (auth) {
+                this.#auth = auth;
+                logStatus.success();
+                resolve(await this.#verifyAuth());
+              } else {
+                logStatus.error('Error: Update twitch auth failed!');
+                resolve(false);
+              }
+            };
+          });
+        } catch (error) {
+          throwError(error, 'Twitch.updateAuth');
+          return false;
+        }
+      }
+      async #toggleChannel(_ref) {
+        let {
+          name,
+          doTask = true
+        } = _ref;
+        try {
+          if (!doTask && this.whiteList.channels.includes(name)) {
+            scripts_echoLog({
+              type: 'whiteList',
+              text: 'Twitch.unfollowChannel',
+              id: name
+            });
+            return true;
+          }
+          const channelId = await this.#getChannelId(name);
+          if (!channelId) {
+            return false;
+          }
+          const logStatus = scripts_echoLog({
+            type: `${doTask ? '' : 'un'}followingTwitchChannel`,
+            text: name
+          });
+          const followData = `[{"operationName":"FollowButton_FollowUser","variables":{"input":{"disableNotifications":false,"targetID":"${channelId}` + '"}},"extensions":{"persistedQuery":{"version":1,"sha256Hash":"800e7346bdf7e5278a3c1d3f21b2b56e2639928f86815677a7126b093b2fdd08"}}}]';
+          const unfollowData = `[{"operationName":"FollowButton_UnfollowUser","variables":{"input":{"targetID":"${channelId}"}},` + '"extensions":{"persistedQuery":{"version":1,"sha256Hash":"f7dae976ebf41c755ae2d758546bfd176b4eeb856656098bb40e0a672ca0d880"}}}]';
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://gql.twitch.tv/gql',
+            method: 'POST',
+            dataType: 'json',
+            anonymous: true,
+            headers: {
+              Origin: 'https://www.twitch.tv',
+              Referer: 'https://www.twitch.tv/',
+              Authorization: `OAuth ${this.#auth.authToken}`,
+              'Client-Id': this.#auth.clientId,
+              'Client-Version': this.#auth.clientVersion,
+              'X-Device-Id': this.#auth.deviceId,
+              'Client-Session-Id': this.#auth.clientSessionId,
+              'Client-Integrity': this.#integrityToken
+            },
+            data: doTask ? followData : unfollowData
+          });
+          if (result === 'Success') {
+            var _data$response3, _data$response4, _data$response4$0$err, _data$response4$0$err2;
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (_data$response3 = data.response) !== null && _data$response3 !== void 0 && _data$response3[0] && !data.response[0].errors) {
+              logStatus.success();
+              if (doTask) {
+                this.tasks.channels = unique([ ...this.tasks.channels, name ]);
+              }
+              return true;
+            }
+            logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response4 = data.response) === null || _data$response4 === void 0 ? void 0 : (_data$response4$0$err = _data$response4[0].errors) === null || _data$response4$0$err === void 0 ? void 0 : (_data$response4$0$err2 = _data$response4$0$err[0]) === null || _data$response4$0$err2 === void 0 ? void 0 : _data$response4$0$err2.message) || `${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`}`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Twitch.toggleChannel');
+          return false;
+        }
+      }
+      async #getChannelId(name) {
+        try {
+          const logStatus = scripts_echoLog({
+            type: 'gettingTwitchChannelId',
+            text: name
+          });
+          const channelId = this.#cache[name];
+          if (channelId) {
+            logStatus.success();
+            return channelId;
+          }
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://gql.twitch.tv/gql',
+            method: 'POST',
+            headers: {
+              Authorization: `OAuth ${this.#auth.authToken}`,
+              'Client-Id': this.#auth.clientId
+            },
+            responseType: 'json',
+            data: `[{"operationName":"ActiveWatchParty","variables":{"channelLogin":"${name}"},` + '"extensions":{"persistedQuery":{"version":1,"sha256Hash":"4a8156c97b19e3a36e081cf6d6ddb5dbf9f9b02ae60e4d2ff26ed70aebc80a30"}}}]'
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              var _data$response5, _data$response5$, _data$response5$$data, _data$response5$$data2;
+              const channelId = (_data$response5 = data.response) === null || _data$response5 === void 0 ? void 0 : (_data$response5$ = _data$response5[0]) === null || _data$response5$ === void 0 ? void 0 : (_data$response5$$data = _data$response5$.data) === null || _data$response5$$data === void 0 ? void 0 : (_data$response5$$data2 = _data$response5$$data.user) === null || _data$response5$$data2 === void 0 ? void 0 : _data$response5$$data2.id;
+              if (channelId) {
+                this.#setCache(name, String(channelId));
+                logStatus.success();
+                return channelId;
+              }
+              logStatus.error(`Error:${data.statusText}(${data.status})`);
+              return false;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Twitch.getChannelId');
+          return false;
+        }
+      }
+      async toggle(_ref2) {
         let {
           doTask = true,
           channelLinks = []
-        } = _ref;
+        } = _ref2;
         try {
-          if (!Twitch_classPrivateFieldGet(this, Twitch_initialized)) {
+          if (!this.#initialized) {
             scripts_echoLog({
               text: i18n('needInit')
             });
@@ -2966,7 +2830,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             });
             if (realChannels.length > 0) {
               for (const channel of realChannels) {
-                prom.push(Twitch_classPrivateMethodGet(this, _toggleChannel, _toggleChannel2).call(this, {
+                prom.push(this.#toggleChannel({
                   name: channel,
                   doTask: doTask
                 }));
@@ -2980,372 +2844,55 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-    }
-    async function Twitch_verifyAuth2() {
-      try {
-        const logStatus = scripts_echoLog({
-          text: i18n('verifyingAuth', 'Twitch')
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: 'https://gql.twitch.tv/gql',
-          method: 'POST',
-          dataType: 'json',
-          headers: {
-            Authorization: `OAuth ${Twitch_classPrivateFieldGet(this, Twitch_auth).authToken}`,
-            'Client-Id': Twitch_classPrivateFieldGet(this, Twitch_auth).clientId
-          },
-          data: '[{"operationName":"FrontPageNew_User","variables":{"limit":1},"extensions":{"persistedQuery":{"version":1,' + '"sha256Hash":"64bd07a2cbaca80699d62636d966cf6395a5d14a1f0a14282067dcb28b13eb11"}}}]'
-        });
-        if (result === 'Success') {
-          var _data$response, _data$response$, _data$response$$data;
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (_data$response = data.response) !== null && _data$response !== void 0 && (_data$response$ = _data$response[0]) !== null && _data$response$ !== void 0 && (_data$response$$data = _data$response$.data) !== null && _data$response$$data !== void 0 && _data$response$$data.currentUser) {
-            await Twitch_classPrivateMethodGet(this, _integrity, _integrity2).call(this);
-            logStatus.success();
-            return true;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
+      #setCache(name, id) {
+        try {
+          this.#cache[name] = id;
+          GM_setValue('twitchCache', this.#cache);
+        } catch (error) {
+          throwError(error, 'Twitch.setCache');
         }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Twitch.verifyAuth');
-        return false;
-      }
-    }
-    async function _integrity2() {
-      let ct = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-      try {
-        const logStatus = scripts_echoLog({
-          text: i18n('checkingTwitchIntegrity')
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: 'https://gql.twitch.tv/integrity',
-          method: 'POST',
-          dataType: 'json',
-          anonymous: true,
-          headers: {
-            Origin: 'https://www.twitch.tv',
-            Referer: 'https://www.twitch.tv/',
-            Authorization: `OAuth ${Twitch_classPrivateFieldGet(this, Twitch_auth).authToken}`,
-            'Client-Id': Twitch_classPrivateFieldGet(this, Twitch_auth).clientId,
-            'Client-Version': Twitch_classPrivateFieldGet(this, Twitch_auth).clientVersion,
-            'X-Device-Id': Twitch_classPrivateFieldGet(this, Twitch_auth).deviceId,
-            'Client-Session-Id': Twitch_classPrivateFieldGet(this, Twitch_auth).clientSessionId,
-            'x-kpsdk-ct': ct
-          }
-        });
-        if (result === 'Success') {
-          var _data$responseHeaders, _data$response2;
-          if (!ct && data !== null && data !== void 0 && (_data$responseHeaders = data.responseHeaders) !== null && _data$responseHeaders !== void 0 && _data$responseHeaders['x-kpsdk-ct']) {
-            return await Twitch_classPrivateMethodGet(this, _integrity, _integrity2).call(this, data.responseHeaders['x-kpsdk-ct']);
-          }
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (_data$response2 = data.response) !== null && _data$response2 !== void 0 && _data$response2.token) {
-            Twitch_classPrivateFieldSet(this, _integrityToken, data.response.token);
-            logStatus.success();
-            return true;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Twitch.integrity');
-        return false;
-      }
-    }
-    async function Twitch_updateAuth2() {
-      try {
-        const logStatus = scripts_echoLog({
-          text: i18n('updatingAuth', 'Twitch')
-        });
-        return await new Promise(resolve => {
-          const newTab = GM_openInTab('https://www.twitch.tv/#auth', {
-            active: true,
-            insert: true,
-            setParent: true
-          });
-          newTab.onclose = async () => {
-            const auth = GM_getValue('twitchAuth');
-            if (auth) {
-              Twitch_classPrivateFieldSet(this, Twitch_auth, auth);
-              logStatus.success();
-              resolve(await Twitch_classPrivateMethodGet(this, Twitch_verifyAuth, Twitch_verifyAuth2).call(this));
-            } else {
-              logStatus.error('Error: Update twitch auth failed!');
-              resolve(false);
-            }
-          };
-        });
-      } catch (error) {
-        throwError(error, 'Twitch.updateAuth');
-        return false;
-      }
-    }
-    async function _toggleChannel2(_ref2) {
-      let {
-        name,
-        doTask = true
-      } = _ref2;
-      try {
-        if (!doTask && this.whiteList.channels.includes(name)) {
-          scripts_echoLog({
-            type: 'whiteList',
-            text: 'Twitch.unfollowChannel',
-            id: name
-          });
-          return true;
-        }
-        const channelId = await Twitch_classPrivateMethodGet(this, _getChannelId, _getChannelId2).call(this, name);
-        if (!channelId) {
-          return false;
-        }
-        const logStatus = scripts_echoLog({
-          type: `${doTask ? '' : 'un'}followingTwitchChannel`,
-          text: name
-        });
-        const followData = `[{"operationName":"FollowButton_FollowUser","variables":{"input":{"disableNotifications":false,"targetID":"${channelId}` + '"}},"extensions":{"persistedQuery":{"version":1,"sha256Hash":"800e7346bdf7e5278a3c1d3f21b2b56e2639928f86815677a7126b093b2fdd08"}}}]';
-        const unfollowData = `[{"operationName":"FollowButton_UnfollowUser","variables":{"input":{"targetID":"${channelId}"}},` + '"extensions":{"persistedQuery":{"version":1,"sha256Hash":"f7dae976ebf41c755ae2d758546bfd176b4eeb856656098bb40e0a672ca0d880"}}}]';
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: 'https://gql.twitch.tv/gql',
-          method: 'POST',
-          dataType: 'json',
-          anonymous: true,
-          headers: {
-            Origin: 'https://www.twitch.tv',
-            Referer: 'https://www.twitch.tv/',
-            Authorization: `OAuth ${Twitch_classPrivateFieldGet(this, Twitch_auth).authToken}`,
-            'Client-Id': Twitch_classPrivateFieldGet(this, Twitch_auth).clientId,
-            'Client-Version': Twitch_classPrivateFieldGet(this, Twitch_auth).clientVersion,
-            'X-Device-Id': Twitch_classPrivateFieldGet(this, Twitch_auth).deviceId,
-            'Client-Session-Id': Twitch_classPrivateFieldGet(this, Twitch_auth).clientSessionId,
-            'Client-Integrity': Twitch_classPrivateFieldGet(this, _integrityToken)
-          },
-          data: doTask ? followData : unfollowData
-        });
-        if (result === 'Success') {
-          var _data$response3, _data$response4, _data$response4$0$err, _data$response4$0$err2;
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (_data$response3 = data.response) !== null && _data$response3 !== void 0 && _data$response3[0] && !data.response[0].errors) {
-            logStatus.success();
-            if (doTask) {
-              this.tasks.channels = unique([ ...this.tasks.channels, name ]);
-            }
-            return true;
-          }
-          logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response4 = data.response) === null || _data$response4 === void 0 ? void 0 : (_data$response4$0$err = _data$response4[0].errors) === null || _data$response4$0$err === void 0 ? void 0 : (_data$response4$0$err2 = _data$response4$0$err[0]) === null || _data$response4$0$err2 === void 0 ? void 0 : _data$response4$0$err2.message) || `${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`}`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Twitch.toggleChannel');
-        return false;
-      }
-    }
-    async function _getChannelId2(name) {
-      try {
-        const logStatus = scripts_echoLog({
-          type: 'gettingTwitchChannelId',
-          text: name
-        });
-        const channelId = Twitch_classPrivateFieldGet(this, Twitch_cache)[name];
-        if (channelId) {
-          logStatus.success();
-          return channelId;
-        }
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: 'https://gql.twitch.tv/gql',
-          method: 'POST',
-          headers: {
-            Authorization: `OAuth ${Twitch_classPrivateFieldGet(this, Twitch_auth).authToken}`,
-            'Client-Id': Twitch_classPrivateFieldGet(this, Twitch_auth).clientId
-          },
-          responseType: 'json',
-          data: `[{"operationName":"ActiveWatchParty","variables":{"channelLogin":"${name}"},` + '"extensions":{"persistedQuery":{"version":1,"sha256Hash":"4a8156c97b19e3a36e081cf6d6ddb5dbf9f9b02ae60e4d2ff26ed70aebc80a30"}}}]'
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$response5, _data$response5$, _data$response5$$data, _data$response5$$data2;
-            const channelId = (_data$response5 = data.response) === null || _data$response5 === void 0 ? void 0 : (_data$response5$ = _data$response5[0]) === null || _data$response5$ === void 0 ? void 0 : (_data$response5$$data = _data$response5$.data) === null || _data$response5$$data === void 0 ? void 0 : (_data$response5$$data2 = _data$response5$$data.user) === null || _data$response5$$data2 === void 0 ? void 0 : _data$response5$$data2.id;
-            if (channelId) {
-              Twitch_classPrivateMethodGet(this, Twitch_setCache, Twitch_setCache2).call(this, name, String(channelId));
-              logStatus.success();
-              return channelId;
-            }
-            logStatus.error(`Error:${data.statusText}(${data.status})`);
-            return false;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Twitch.getChannelId');
-        return false;
-      }
-    }
-    function Twitch_setCache2(name, id) {
-      try {
-        Twitch_classPrivateFieldGet(this, Twitch_cache)[name] = id;
-        GM_setValue('twitchCache', Twitch_classPrivateFieldGet(this, Twitch_cache));
-      } catch (error) {
-        throwError(error, 'Twitch.setCache');
       }
     }
     const social_Twitch = Twitch;
-    function Twitter_classPrivateMethodInitSpec(obj, privateSet) {
-      Twitter_checkPrivateRedeclaration(obj, privateSet);
-      privateSet.add(obj);
-    }
-    function Twitter_classPrivateFieldInitSpec(obj, privateMap, value) {
-      Twitter_checkPrivateRedeclaration(obj, privateMap);
-      privateMap.set(obj, value);
-    }
-    function Twitter_checkPrivateRedeclaration(obj, privateCollection) {
-      if (privateCollection.has(obj)) {
-        throw new TypeError('Cannot initialize the same private elements twice on an object');
-      }
-    }
-    function Twitter_defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
-    function Twitter_classPrivateFieldSet(receiver, privateMap, value) {
-      var descriptor = Twitter_classExtractFieldDescriptor(receiver, privateMap, 'set');
-      Twitter_classApplyDescriptorSet(receiver, descriptor, value);
-      return value;
-    }
-    function Twitter_classApplyDescriptorSet(receiver, descriptor, value) {
-      if (descriptor.set) {
-        descriptor.set.call(receiver, value);
-      } else {
-        if (!descriptor.writable) {
-          throw new TypeError('attempted to set read only private field');
-        }
-        descriptor.value = value;
-      }
-    }
-    function Twitter_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
-    function Twitter_classPrivateFieldGet(receiver, privateMap) {
-      var descriptor = Twitter_classExtractFieldDescriptor(receiver, privateMap, 'get');
-      return Twitter_classApplyDescriptorGet(receiver, descriptor);
-    }
-    function Twitter_classExtractFieldDescriptor(receiver, privateMap, action) {
-      if (!privateMap.has(receiver)) {
-        throw new TypeError('attempted to ' + action + ' private field on non-instance');
-      }
-      return privateMap.get(receiver);
-    }
-    function Twitter_classApplyDescriptorGet(receiver, descriptor) {
-      if (descriptor.get) {
-        return descriptor.get.call(receiver);
-      }
-      return descriptor.value;
-    }
+    var Twitter_GM_getValue;
     const Twitter_defaultTasksTemplate = {
       users: [],
       retweets: [],
       likes: []
     };
     const Twitter_defaultTasks = JSON.stringify(Twitter_defaultTasksTemplate);
-    var _verifyId = new WeakMap();
-    var Twitter_auth = new WeakMap();
-    var Twitter_cache = new WeakMap();
-    var Twitter_initialized = new WeakMap();
-    var Twitter_verifyAuth = new WeakSet();
-    var Twitter_updateAuth = new WeakSet();
-    var _toggleUser = new WeakSet();
-    var _toggleRetweet = new WeakSet();
-    var Twitter_setCache = new WeakSet();
     class Twitter extends social_Social {
-      constructor() {
-        var _GM_getValue;
-        super(...arguments);
-        Twitter_classPrivateMethodInitSpec(this, Twitter_setCache);
-        Twitter_classPrivateMethodInitSpec(this, _toggleRetweet);
-        Twitter_classPrivateMethodInitSpec(this, _toggleUser);
-        Twitter_classPrivateMethodInitSpec(this, Twitter_updateAuth);
-        Twitter_classPrivateMethodInitSpec(this, Twitter_verifyAuth);
-        Twitter_defineProperty(this, 'tasks', JSON.parse(Twitter_defaultTasks));
-        Twitter_defineProperty(this, 'whiteList', {
-          ...JSON.parse(Twitter_defaultTasks),
-          ...(_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.twitter
-        });
-        Twitter_classPrivateFieldInitSpec(this, _verifyId, {
-          writable: true,
-          value: globalOptions.other.twitterVerifyId
-        });
-        Twitter_classPrivateFieldInitSpec(this, Twitter_auth, {
-          writable: true,
-          value: GM_getValue('twitterAuth') || {}
-        });
-        Twitter_classPrivateFieldInitSpec(this, Twitter_cache, {
-          writable: true,
-          value: GM_getValue('twitterCache') || {}
-        });
-        Twitter_classPrivateFieldInitSpec(this, Twitter_initialized, {
-          writable: true,
-          value: false
-        });
-      }
+      tasks = JSON.parse(Twitter_defaultTasks);
+      whiteList = {
+        ...JSON.parse(Twitter_defaultTasks),
+        ...(Twitter_GM_getValue = GM_getValue('whiteList')) === null || Twitter_GM_getValue === void 0 ? void 0 : Twitter_GM_getValue.twitter
+      };
+      #verifyId = globalOptions.other.twitterVerifyId;
+      #auth = GM_getValue('twitterAuth') || {};
+      #cache = GM_getValue('twitterCache') || {};
+      #initialized = false;
       async init() {
         try {
-          if (Twitter_classPrivateFieldGet(this, Twitter_initialized)) {
+          if (this.#initialized) {
             return true;
           }
-          if (!Twitter_classPrivateFieldGet(this, Twitter_auth).ct0) {
-            if (await Twitter_classPrivateMethodGet(this, Twitter_updateAuth, Twitter_updateAuth2).call(this)) {
-              Twitter_classPrivateFieldSet(this, Twitter_initialized, true);
+          if (!this.#auth.ct0) {
+            if (await this.#updateAuth()) {
+              this.#initialized = true;
               return true;
             }
             return false;
           }
-          const isVerified = await Twitter_classPrivateMethodGet(this, Twitter_verifyAuth, Twitter_verifyAuth2).call(this);
+          const isVerified = await this.#verifyAuth();
           if (isVerified) {
             scripts_echoLog({}).success(i18n('initSuccess', 'Twitter'));
-            Twitter_classPrivateFieldSet(this, Twitter_initialized, true);
+            this.#initialized = true;
             return true;
           }
           GM_setValue('twitterAuth', null);
-          if (await Twitter_classPrivateMethodGet(this, Twitter_updateAuth, Twitter_updateAuth2).call(this)) {
+          if (await this.#updateAuth()) {
             scripts_echoLog({}).success(i18n('initSuccess', 'Twitter'));
-            Twitter_classPrivateFieldSet(this, Twitter_initialized, true);
+            this.#initialized = true;
             return true;
           }
           scripts_echoLog({}).error(i18n('initFailed', 'Twitter'));
@@ -3355,13 +2902,128 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
+      async #verifyAuth() {
+        try {
+          return await this.#toggleUser({
+            name: 'verify',
+            doTask: true,
+            verify: true
+          });
+        } catch (error) {
+          throwError(error, 'Twitter.verifyAuth');
+          return false;
+        }
+      }
+      async #updateAuth() {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('updatingAuth', 'Twitter')
+          });
+          return await new Promise(resolve => {
+            const newTab = GM_openInTab('https://twitter.com/settings/account?k#auth', {
+              active: true,
+              insert: true,
+              setParent: true
+            });
+            newTab.onclose = async () => {
+              const auth = GM_getValue('twitterAuth');
+              if (auth) {
+                this.#auth = auth;
+                logStatus.success();
+                resolve(await this.#verifyAuth());
+              } else {
+                logStatus.error('Error: Update twitter auth failed!');
+                resolve(false);
+              }
+            };
+          });
+        } catch (error) {
+          throwError(error, 'Twitter.updateToken');
+          return false;
+        }
+      }
+      async #toggleUser(_ref) {
+        let {
+          name,
+          doTask = true,
+          verify = false
+        } = _ref;
+        try {
+          if (!doTask && !verify && this.whiteList.users.includes(name)) {
+            scripts_echoLog({
+              type: 'whiteList',
+              text: 'Twitter.unfollowUser',
+              id: name
+            });
+            return true;
+          }
+          const userId = verify ? this.#verifyId : await this.userName2id(name);
+          if (!userId) {
+            return false;
+          }
+          const logStatus = verify ? scripts_echoLog({
+            text: i18n('verifyingAuth', 'Twitter')
+          }) : scripts_echoLog({
+            type: `${doTask ? '' : 'un'}followingTwitterUser`,
+            text: name
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://api.twitter.com/1.1/friendships/${doTask ? 'create' : 'destroy'}.json`,
+            method: 'POST',
+            headers: {
+              authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'x-csrf-token': this.#auth.ct0
+            },
+            responseType: 'json',
+            data: $.param({
+              include_profile_interstitial_type: 1,
+              include_blocking: 1,
+              include_blocked_by: 1,
+              include_followed_by: 1,
+              include_want_retweets: 1,
+              include_mute_edge: 1,
+              include_can_dm: 1,
+              include_can_media_tag: 1,
+              skip_status: 1,
+              id: userId
+            })
+          });
+          if (result === 'Success') {
+            var _data$response, _data$response$errors, _data$response$errors2;
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              logStatus.success();
+              if (doTask && !verify) {
+                this.tasks.users = unique([ ...this.tasks.users, name ]);
+              }
+              return true;
+            }
+            if (verify && (data === null || data === void 0 ? void 0 : data.status) === 403 && ((_data$response = data.response) === null || _data$response === void 0 ? void 0 : (_data$response$errors = _data$response.errors) === null || _data$response$errors === void 0 ? void 0 : (_data$response$errors2 = _data$response$errors[0]) === null || _data$response$errors2 === void 0 ? void 0 : _data$response$errors2.code) === 158) {
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Twitter.toggleUser');
+          return false;
+        }
+      }
       async userName2id(name) {
         try {
           const logStatus = scripts_echoLog({
             type: 'gettingTwitterUserId',
             text: name
           });
-          const userId = Twitter_classPrivateFieldGet(this, Twitter_cache)[name];
+          const userId = this.#cache[name];
           if (userId) {
             logStatus.success();
             return userId;
@@ -3378,7 +3040,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
               'content-type': 'application/json',
               referer: `https://twitter.com/${name}`,
-              'x-csrf-token': Twitter_classPrivateFieldGet(this, Twitter_auth).ct0
+              'x-csrf-token': this.#auth.ct0
             },
             responseType: 'json'
           });
@@ -3395,7 +3057,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               }
               const userId = String((_response = response) === null || _response === void 0 ? void 0 : (_response$data = _response.data) === null || _response$data === void 0 ? void 0 : (_response$data$user = _response$data.user) === null || _response$data$user === void 0 ? void 0 : (_response$data$user$r = _response$data$user.result) === null || _response$data$user$r === void 0 ? void 0 : _response$data$user$r.rest_id);
               if (userId) {
-                Twitter_classPrivateMethodGet(this, Twitter_setCache, Twitter_setCache2).call(this, name, userId);
+                this.#setCache(name, userId);
                 logStatus.success();
                 return userId;
               }
@@ -3412,14 +3074,70 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async toggle(_ref) {
+      async #toggleRetweet(_ref2) {
+        let {
+          retweetId,
+          doTask = true
+        } = _ref2;
+        try {
+          if (!doTask && this.whiteList.retweets.includes(retweetId)) {
+            scripts_echoLog({
+              type: 'whiteList',
+              text: 'Twitter.unretweet',
+              id: retweetId
+            });
+            return true;
+          }
+          const logStatus = scripts_echoLog({
+            type: `${doTask ? '' : 'un'}retweetting`,
+            text: retweetId
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://api.twitter.com/1.1/statuses/${doTask ? '' : 'un'}retweet.json`,
+            method: 'POST',
+            headers: {
+              authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'x-csrf-token': this.#auth.ct0
+            },
+            data: $.param({
+              tweet_mode: 'extended',
+              id: retweetId
+            }),
+            responseType: 'json'
+          });
+          if (result === 'Success') {
+            var _data$response2, _data$response2$error, _data$response2$error2;
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 || (data === null || data === void 0 ? void 0 : data.status) === 403 && ((_data$response2 = data.response) === null || _data$response2 === void 0 ? void 0 : (_data$response2$error = _data$response2.errors) === null || _data$response2$error === void 0 ? void 0 : (_data$response2$error2 = _data$response2$error[0]) === null || _data$response2$error2 === void 0 ? void 0 : _data$response2$error2.code) === 327) {
+              logStatus.success();
+              if (doTask) {
+                this.tasks.retweets = unique([ ...this.tasks.retweets, retweetId ]);
+              }
+              return true;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Twitter.toggleRetweet');
+          return false;
+        }
+      }
+      async toggle(_ref3) {
         let {
           doTask = true,
           userLinks = [],
           retweetLinks = []
-        } = _ref;
+        } = _ref3;
         try {
-          if (!Twitter_classPrivateFieldGet(this, Twitter_initialized)) {
+          if (!this.#initialized) {
             scripts_echoLog({
               text: i18n('needInit')
             });
@@ -3438,7 +3156,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             });
             if (realUsers.length > 0) {
               for (const user of realUsers) {
-                prom.push(Twitter_classPrivateMethodGet(this, _toggleUser, _toggleUser2).call(this, {
+                prom.push(this.#toggleUser({
                   name: user,
                   doTask: doTask
                 }));
@@ -3458,7 +3176,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             });
             if (realRetweets.length > 0) {
               for (const retweet of realRetweets) {
-                prom.push(Twitter_classPrivateMethodGet(this, _toggleRetweet, _toggleRetweet2).call(this, {
+                prom.push(this.#toggleRetweet({
                   retweetId: retweet,
                   doTask: doTask
                 }));
@@ -3472,304 +3190,39 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-    }
-    async function Twitter_verifyAuth2() {
-      try {
-        return await Twitter_classPrivateMethodGet(this, _toggleUser, _toggleUser2).call(this, {
-          name: 'verify',
-          doTask: true,
-          verify: true
-        });
-      } catch (error) {
-        throwError(error, 'Twitter.verifyAuth');
-        return false;
-      }
-    }
-    async function Twitter_updateAuth2() {
-      try {
-        const logStatus = scripts_echoLog({
-          text: i18n('updatingAuth', 'Twitter')
-        });
-        return await new Promise(resolve => {
-          const newTab = GM_openInTab('https://twitter.com/settings/account?k#auth', {
-            active: true,
-            insert: true,
-            setParent: true
-          });
-          newTab.onclose = async () => {
-            const auth = GM_getValue('twitterAuth');
-            if (auth) {
-              Twitter_classPrivateFieldSet(this, Twitter_auth, auth);
-              logStatus.success();
-              resolve(await Twitter_classPrivateMethodGet(this, Twitter_verifyAuth, Twitter_verifyAuth2).call(this));
-            } else {
-              logStatus.error('Error: Update twitter auth failed!');
-              resolve(false);
-            }
-          };
-        });
-      } catch (error) {
-        throwError(error, 'Twitter.updateToken');
-        return false;
-      }
-    }
-    async function _toggleUser2(_ref2) {
-      let {
-        name,
-        doTask = true,
-        verify = false
-      } = _ref2;
-      try {
-        if (!doTask && !verify && this.whiteList.users.includes(name)) {
-          scripts_echoLog({
-            type: 'whiteList',
-            text: 'Twitter.unfollowUser',
-            id: name
-          });
-          return true;
+      #setCache(name, id) {
+        try {
+          this.#cache[name] = id;
+          GM_setValue('twitterCache', this.#cache);
+        } catch (error) {
+          throwError(error, 'Twitter.setCache');
         }
-        const userId = verify ? Twitter_classPrivateFieldGet(this, _verifyId) : await this.userName2id(name);
-        if (!userId) {
-          return false;
-        }
-        const logStatus = verify ? scripts_echoLog({
-          text: i18n('verifyingAuth', 'Twitter')
-        }) : scripts_echoLog({
-          type: `${doTask ? '' : 'un'}followingTwitterUser`,
-          text: name
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://api.twitter.com/1.1/friendships/${doTask ? 'create' : 'destroy'}.json`,
-          method: 'POST',
-          headers: {
-            authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'x-csrf-token': Twitter_classPrivateFieldGet(this, Twitter_auth).ct0
-          },
-          responseType: 'json',
-          data: $.param({
-            include_profile_interstitial_type: 1,
-            include_blocking: 1,
-            include_blocked_by: 1,
-            include_followed_by: 1,
-            include_want_retweets: 1,
-            include_mute_edge: 1,
-            include_can_dm: 1,
-            include_can_media_tag: 1,
-            skip_status: 1,
-            id: userId
-          })
-        });
-        if (result === 'Success') {
-          var _data$response, _data$response$errors, _data$response$errors2;
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            logStatus.success();
-            if (doTask && !verify) {
-              this.tasks.users = unique([ ...this.tasks.users, name ]);
-            }
-            return true;
-          }
-          if (verify && (data === null || data === void 0 ? void 0 : data.status) === 403 && ((_data$response = data.response) === null || _data$response === void 0 ? void 0 : (_data$response$errors = _data$response.errors) === null || _data$response$errors === void 0 ? void 0 : (_data$response$errors2 = _data$response$errors[0]) === null || _data$response$errors2 === void 0 ? void 0 : _data$response$errors2.code) === 158) {
-            logStatus.success();
-            return true;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Twitter.toggleUser');
-        return false;
-      }
-    }
-    async function _toggleRetweet2(_ref3) {
-      let {
-        retweetId,
-        doTask = true
-      } = _ref3;
-      try {
-        if (!doTask && this.whiteList.retweets.includes(retweetId)) {
-          scripts_echoLog({
-            type: 'whiteList',
-            text: 'Twitter.unretweet',
-            id: retweetId
-          });
-          return true;
-        }
-        const logStatus = scripts_echoLog({
-          type: `${doTask ? '' : 'un'}retweetting`,
-          text: retweetId
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://api.twitter.com/1.1/statuses/${doTask ? '' : 'un'}retweet.json`,
-          method: 'POST',
-          headers: {
-            authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'x-csrf-token': Twitter_classPrivateFieldGet(this, Twitter_auth).ct0
-          },
-          data: $.param({
-            tweet_mode: 'extended',
-            id: retweetId
-          }),
-          responseType: 'json'
-        });
-        if (result === 'Success') {
-          var _data$response2, _data$response2$error, _data$response2$error2;
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200 || (data === null || data === void 0 ? void 0 : data.status) === 403 && ((_data$response2 = data.response) === null || _data$response2 === void 0 ? void 0 : (_data$response2$error = _data$response2.errors) === null || _data$response2$error === void 0 ? void 0 : (_data$response2$error2 = _data$response2$error[0]) === null || _data$response2$error2 === void 0 ? void 0 : _data$response2$error2.code) === 327) {
-            logStatus.success();
-            if (doTask) {
-              this.tasks.retweets = unique([ ...this.tasks.retweets, retweetId ]);
-            }
-            return true;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Twitter.toggleRetweet');
-        return false;
-      }
-    }
-    function Twitter_setCache2(name, id) {
-      try {
-        Twitter_classPrivateFieldGet(this, Twitter_cache)[name] = id;
-        GM_setValue('twitterCache', Twitter_classPrivateFieldGet(this, Twitter_cache));
-      } catch (error) {
-        throwError(error, 'Twitter.setCache');
       }
     }
     const social_Twitter = Twitter;
-    function Vk_classPrivateMethodInitSpec(obj, privateSet) {
-      Vk_checkPrivateRedeclaration(obj, privateSet);
-      privateSet.add(obj);
-    }
-    function Vk_classPrivateFieldInitSpec(obj, privateMap, value) {
-      Vk_checkPrivateRedeclaration(obj, privateMap);
-      privateMap.set(obj, value);
-    }
-    function Vk_checkPrivateRedeclaration(obj, privateCollection) {
-      if (privateCollection.has(obj)) {
-        throw new TypeError('Cannot initialize the same private elements twice on an object');
-      }
-    }
-    function Vk_defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
-    function Vk_classPrivateFieldSet(receiver, privateMap, value) {
-      var descriptor = Vk_classExtractFieldDescriptor(receiver, privateMap, 'set');
-      Vk_classApplyDescriptorSet(receiver, descriptor, value);
-      return value;
-    }
-    function Vk_classApplyDescriptorSet(receiver, descriptor, value) {
-      if (descriptor.set) {
-        descriptor.set.call(receiver, value);
-      } else {
-        if (!descriptor.writable) {
-          throw new TypeError('attempted to set read only private field');
-        }
-        descriptor.value = value;
-      }
-    }
-    function Vk_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
-    function Vk_classPrivateFieldGet(receiver, privateMap) {
-      var descriptor = Vk_classExtractFieldDescriptor(receiver, privateMap, 'get');
-      return Vk_classApplyDescriptorGet(receiver, descriptor);
-    }
-    function Vk_classExtractFieldDescriptor(receiver, privateMap, action) {
-      if (!privateMap.has(receiver)) {
-        throw new TypeError('attempted to ' + action + ' private field on non-instance');
-      }
-      return privateMap.get(receiver);
-    }
-    function Vk_classApplyDescriptorGet(receiver, descriptor) {
-      if (descriptor.get) {
-        return descriptor.get.call(receiver);
-      }
-      return descriptor.value;
-    }
+    var Vk_GM_getValue;
     const Vk_defaultTasksTemplate = {
       names: []
     };
     const Vk_defaultTasks = JSON.stringify(Vk_defaultTasksTemplate);
-    var _username = new WeakMap();
-    var Vk_cache = new WeakMap();
-    var Vk_initialized = new WeakMap();
-    var Vk_verifyAuth = new WeakSet();
-    var _toggleGroup = new WeakSet();
-    var _togglePublic = new WeakSet();
-    var _sendWall = new WeakSet();
-    var _deleteWall = new WeakSet();
-    var _getId = new WeakSet();
-    var _toggleVk = new WeakSet();
-    var Vk_setCache = new WeakSet();
     class Vk extends social_Social {
-      constructor() {
-        var _GM_getValue;
-        super(...arguments);
-        Vk_classPrivateMethodInitSpec(this, Vk_setCache);
-        Vk_classPrivateMethodInitSpec(this, _toggleVk);
-        Vk_classPrivateMethodInitSpec(this, _getId);
-        Vk_classPrivateMethodInitSpec(this, _deleteWall);
-        Vk_classPrivateMethodInitSpec(this, _sendWall);
-        Vk_classPrivateMethodInitSpec(this, _togglePublic);
-        Vk_classPrivateMethodInitSpec(this, _toggleGroup);
-        Vk_classPrivateMethodInitSpec(this, Vk_verifyAuth);
-        Vk_defineProperty(this, 'tasks', JSON.parse(Vk_defaultTasks));
-        Vk_defineProperty(this, 'whiteList', {
-          ...JSON.parse(Vk_defaultTasks),
-          ...(_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.vk
-        });
-        Vk_classPrivateFieldInitSpec(this, _username, {
-          writable: true,
-          value: ''
-        });
-        Vk_classPrivateFieldInitSpec(this, Vk_cache, {
-          writable: true,
-          value: GM_getValue('vkCache') || {}
-        });
-        Vk_classPrivateFieldInitSpec(this, Vk_initialized, {
-          writable: true,
-          value: false
-        });
-      }
+      tasks = JSON.parse(Vk_defaultTasks);
+      whiteList = {
+        ...JSON.parse(Vk_defaultTasks),
+        ...(Vk_GM_getValue = GM_getValue('whiteList')) === null || Vk_GM_getValue === void 0 ? void 0 : Vk_GM_getValue.vk
+      };
+      #username = '';
+      #cache = GM_getValue('vkCache') || {};
+      #initialized = false;
       async init() {
         try {
-          if (Vk_classPrivateFieldGet(this, Vk_initialized)) {
+          if (this.#initialized) {
             return true;
           }
-          const isVerified = await Vk_classPrivateMethodGet(this, Vk_verifyAuth, Vk_verifyAuth2).call(this);
+          const isVerified = await this.#verifyAuth();
           if (isVerified) {
             scripts_echoLog({}).success(i18n('initSuccess', 'Vk'));
-            Vk_classPrivateFieldSet(this, Vk_initialized, true);
+            this.#initialized = true;
             return true;
           }
           scripts_echoLog({}).error(i18n('initFailed', 'Vk'));
@@ -3779,13 +3232,414 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async toggle(_ref) {
+      async #verifyAuth() {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('verifyAuth', 'Vk')
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://vk.com/im',
+            method: 'GET'
+          });
+          if (result === 'Success') {
+            if (data !== null && data !== void 0 && data.finalUrl.includes('vk.com/login')) {
+              logStatus.error(`Error:${i18n('loginVk')}`, true);
+              return false;
+            }
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              var _data$responseText$ma;
+              this.#username = ((_data$responseText$ma = data.responseText.match(/TopNavBtn__profileLink" href="\/(.*?)"/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1]) || '';
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Vk.verifyAuth');
+          return false;
+        }
+      }
+      async #toggleGroup(name, dataParam) {
+        let doTask = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+        try {
+          const logStatus = scripts_echoLog({
+            type: doTask ? 'joiningVkGroup' : 'leavingVkGroup',
+            text: name
+          });
+          if (dataParam.groupAct === 'enter' && !doTask || dataParam.groupAct === 'leave' && doTask) {
+            logStatus.success();
+            return true;
+          }
+          const reqData = {
+            act: doTask ? 'enter' : 'leave',
+            al: 1,
+            gid: dataParam.groupId,
+            hash: dataParam.groupHash
+          };
+          if (doTask) {
+            reqData.context = '_';
+          }
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://vk.com/al_groups.php',
+            method: 'POST',
+            headers: {
+              origin: 'https://vk.com',
+              referer: `https://vk.com/${name}`,
+              'content-type': 'application/x-www-form-urlencoded'
+            },
+            data: $.param(reqData)
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              logStatus.success();
+              if (doTask) {
+                this.tasks.names = unique([ ...this.tasks.names, name ]);
+              }
+              return true;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Vk.toggleGroup');
+          return false;
+        }
+      }
+      async #togglePublic(name, dataParam) {
+        let doTask = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+        try {
+          const logStatus = scripts_echoLog({
+            type: doTask ? 'joiningVkPublic' : 'leavingVkPublic',
+            text: name
+          });
+          if (dataParam.publicJoined && doTask || !dataParam.publicJoined && !doTask) {
+            logStatus.success();
+            return true;
+          }
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://vk.com/al_public.php',
+            method: 'POST',
+            headers: {
+              origin: 'https://vk.com',
+              referer: `https://vk.com/${name}`,
+              'content-type': 'application/x-www-form-urlencoded'
+            },
+            data: $.param({
+              act: doTask ? 'a_enter' : 'a_leave',
+              al: 1,
+              pid: dataParam.publicPid,
+              hash: dataParam.publicHash
+            })
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              logStatus.success();
+              if (doTask) {
+                this.tasks.names = unique([ ...this.tasks.names, name ]);
+              }
+              return true;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Vk.togglePublic');
+          return false;
+        }
+      }
+      async #sendWall(name) {
+        try {
+          const logStatus = scripts_echoLog({
+            type: 'sendingVkWall',
+            text: name
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://vk.com/like.php',
+            method: 'POST',
+            headers: {
+              origin: 'https://vk.com',
+              referer: `https://vk.com/${name}`,
+              'content-type': 'application/x-www-form-urlencoded'
+            },
+            data: $.param({
+              act: 'publish_box',
+              al: 1,
+              object: name
+            })
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              var _data$responseText$ma2;
+              const hash = (_data$responseText$ma2 = data.responseText.match(/shHash:[\s]*'(.*?)'/)) === null || _data$responseText$ma2 === void 0 ? void 0 : _data$responseText$ma2[1];
+              if (hash) {
+                const {
+                  result: resultR,
+                  statusText: statusTextR,
+                  status: statusR,
+                  data: dataR
+                } = await tools_httpRequest({
+                  url: 'https://vk.com/like.php',
+                  method: 'POST',
+                  headers: {
+                    origin: 'https://vk.com',
+                    referer: `https://vk.com/${name}`,
+                    'content-type': 'application/x-www-form-urlencoded'
+                  },
+                  data: $.param({
+                    Message: '',
+                    act: 'a_do_publish',
+                    al: 1,
+                    close_comments: 0,
+                    friends_only: 0,
+                    from: 'box',
+                    hash: hash,
+                    list: '',
+                    mark_as_ads: 0,
+                    mute_notifications: 0,
+                    object: name,
+                    ret_data: 1,
+                    to: 0
+                  })
+                });
+                if (resultR === 'Success') {
+                  if ((dataR === null || dataR === void 0 ? void 0 : dataR.status) === 200) {
+                    var _dataR$responseText, _jsonData$payload, _jsonData$payload$, _jsonData$payload$$;
+                    const jsonData = JSON.parse(((_dataR$responseText = dataR.responseText) === null || _dataR$responseText === void 0 ? void 0 : _dataR$responseText.replace('\x3c!--', '')) || '{}');
+                    if ((jsonData === null || jsonData === void 0 ? void 0 : (_jsonData$payload = jsonData.payload) === null || _jsonData$payload === void 0 ? void 0 : (_jsonData$payload$ = _jsonData$payload[1]) === null || _jsonData$payload$ === void 0 ? void 0 : (_jsonData$payload$$ = _jsonData$payload$[1]) === null || _jsonData$payload$$ === void 0 ? void 0 : _jsonData$payload$$.share_my) === true) {
+                      var _jsonData$payload2, _jsonData$payload2$, _jsonData$payload2$$, _jsonData$payload3, _jsonData$payload3$, _jsonData$payload3$$;
+                      logStatus.success();
+                      const postId = String(jsonData === null || jsonData === void 0 ? void 0 : (_jsonData$payload2 = jsonData.payload) === null || _jsonData$payload2 === void 0 ? void 0 : (_jsonData$payload2$ = _jsonData$payload2[1]) === null || _jsonData$payload2$ === void 0 ? void 0 : (_jsonData$payload2$$ = _jsonData$payload2$[1]) === null || _jsonData$payload2$$ === void 0 ? void 0 : _jsonData$payload2$$.post_id);
+                      const ownerId = String(jsonData === null || jsonData === void 0 ? void 0 : (_jsonData$payload3 = jsonData.payload) === null || _jsonData$payload3 === void 0 ? void 0 : (_jsonData$payload3$ = _jsonData$payload3[1]) === null || _jsonData$payload3$ === void 0 ? void 0 : (_jsonData$payload3$$ = _jsonData$payload3$[1]) === null || _jsonData$payload3$$ === void 0 ? void 0 : _jsonData$payload3$$.owner_id);
+                      if (postId && ownerId) {
+                        this.#setCache(name, `${ownerId}_${postId}`);
+                      }
+                      this.tasks.names = unique([ ...this.tasks.names, name ]);
+                      return true;
+                    }
+                  }
+                  logStatus.error(`Error:${dataR === null || dataR === void 0 ? void 0 : dataR.statusText}(${dataR === null || dataR === void 0 ? void 0 : dataR.status})`);
+                  return false;
+                }
+                logStatus.error(`${resultR}:${statusTextR}(${statusR})`);
+                return false;
+              }
+              logStatus.error('Error: Get "hash" failed');
+              return false;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Vk.sendWall');
+          return false;
+        }
+      }
+      async #deleteWall(name, dataParams) {
+        try {
+          const logStatus = scripts_echoLog({
+            type: 'deletingVkWall',
+            text: name
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://vk.com/al_wall.php?act=delete',
+            method: 'POST',
+            headers: {
+              origin: 'https://vk.com',
+              referer: `https://vk.com/${this.#username}?w=wall${this.#cache[name]}%2Fall`,
+              'content-type': 'application/x-www-form-urlencoded'
+            },
+            data: $.param({
+              act: 'delete',
+              al: 1,
+              confirm: 0,
+              from: 'wkview',
+              hash: dataParams.wallHash,
+              post: this.#cache[name]
+            })
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              var _data$responseText, _jsonData$payload4, _jsonData$payload4$;
+              const jsonData = JSON.parse(((_data$responseText = data.responseText) === null || _data$responseText === void 0 ? void 0 : _data$responseText.replace('\x3c!--', '')) || '{}');
+              if (jsonData !== null && jsonData !== void 0 && (_jsonData$payload4 = jsonData.payload) !== null && _jsonData$payload4 !== void 0 && (_jsonData$payload4$ = _jsonData$payload4[1]) !== null && _jsonData$payload4$ !== void 0 && _jsonData$payload4$[1]) {
+                logStatus.success();
+                return true;
+              }
+              logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+              return false;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Vk.deleteWall');
+          return false;
+        }
+      }
+      async #getId(name, doTask) {
+        try {
+          let url = `https://vk.com/${name}`;
+          if (/^wall-/.test(name)) {
+            if (doTask) {
+              return {
+                type: 'sendWall'
+              };
+            }
+            if (!this.#cache[name]) {
+              return {
+                type: 'unSupport'
+              };
+            }
+            url = `https://vk.com/${this.#username}?w=wall${this.#cache[name]}`;
+          }
+          const logStatus = scripts_echoLog({
+            type: 'gettingVkId',
+            text: name
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: url,
+            method: 'GET'
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              var _data$responseText$ma3, _data$responseText$ma4;
+              const [ , groupAct, groupId, , groupHash ] = data.responseText.match(/Groups.(enter|leave)\(.*?,.*?([\d]+?), (&#39;|')(.*?)(&#39;|')/) || [];
+              const publicHash = (_data$responseText$ma3 = data.responseText.match(/"enterHash":"(.*?)"/)) === null || _data$responseText$ma3 === void 0 ? void 0 : _data$responseText$ma3[1];
+              const publicPid = (_data$responseText$ma4 = data.responseText.match(/"public_id":([\d]+?),/)) === null || _data$responseText$ma4 === void 0 ? void 0 : _data$responseText$ma4[1];
+              const publicJoined = !data.responseText.includes('Public.subscribe');
+              if (groupAct && groupId && groupHash) {
+                logStatus.success();
+                return {
+                  groupAct: groupAct,
+                  groupId: groupId,
+                  groupHash: groupHash,
+                  type: 'group'
+                };
+              } else if (publicHash && publicPid) {
+                logStatus.success();
+                return {
+                  publicHash: publicHash,
+                  publicPid: publicPid,
+                  publicJoined: publicJoined,
+                  type: 'public'
+                };
+              } else if (data.responseText.includes('wall.deletePost') && !doTask) {
+                var _data$responseText$ma5;
+                const wallHash = (_data$responseText$ma5 = data.responseText.match(/wall\.deletePost\(this, '.*?', '(.*?)'\)/)) === null || _data$responseText$ma5 === void 0 ? void 0 : _data$responseText$ma5[1];
+                if (wallHash) {
+                  logStatus.success();
+                  return {
+                    type: 'deleteWall',
+                    wallHash: wallHash
+                  };
+                }
+              } else if (name.includes('wall') && doTask) {
+                logStatus.success();
+                return {
+                  type: 'sendWall'
+                };
+              }
+              logStatus.error('Error: Parameters not found!');
+              return false;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Vk.getId');
+          return false;
+        }
+      }
+      async #toggleVk(_ref) {
+        let {
+          name,
+          doTask = true
+        } = _ref;
+        try {
+          if (!doTask && this.whiteList.names.includes(name)) {
+            scripts_echoLog({
+              type: 'whiteList',
+              text: 'Vk.undoTask',
+              id: name
+            });
+            return true;
+          }
+          const formatName = name.replace(/\/$/, '');
+          const data = await this.#getId(formatName, doTask);
+          if (!data) {
+            return false;
+          }
+          switch (data.type) {
+           case 'group':
+            return await this.#toggleGroup(formatName, data, doTask);
+
+           case 'public':
+            return await this.#togglePublic(formatName, data, doTask);
+
+           case 'sendWall':
+            return doTask ? await this.#sendWall(formatName) : true;
+
+           case 'deleteWall':
+            return doTask ? true : await this.#deleteWall(formatName, data);
+
+           default:
+            return false;
+          }
+        } catch (error) {
+          throwError(error, 'Vk.toggleVk');
+          return false;
+        }
+      }
+      async toggle(_ref2) {
         let {
           doTask = true,
           nameLinks = []
-        } = _ref;
+        } = _ref2;
         try {
-          if (!Vk_classPrivateFieldGet(this, Vk_initialized)) {
+          if (!this.#initialized) {
             scripts_echoLog({
               text: i18n('needInit')
             });
@@ -3804,7 +3658,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             });
             if (realNames.length > 0) {
               for (const name of realNames) {
-                prom.push(Vk_classPrivateMethodGet(this, _toggleVk, _toggleVk2).call(this, {
+                prom.push(this.#toggleVk({
                   name: name,
                   doTask: doTask
                 }));
@@ -3818,480 +3672,17 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-    }
-    async function Vk_verifyAuth2() {
-      try {
-        const logStatus = scripts_echoLog({
-          text: i18n('verifyAuth', 'Vk')
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: 'https://vk.com/im',
-          method: 'GET'
-        });
-        if (result === 'Success') {
-          if (data !== null && data !== void 0 && data.finalUrl.includes('vk.com/login')) {
-            logStatus.error(`Error:${i18n('loginVk')}`, true);
-            return false;
-          }
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText$ma;
-            Vk_classPrivateFieldSet(this, _username, ((_data$responseText$ma = data.responseText.match(/TopNavBtn__profileLink" href="\/(.*?)"/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1]) || '');
-            logStatus.success();
-            return true;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
+      #setCache(name, postId) {
+        try {
+          this.#cache[name] = postId;
+          GM_setValue('vkCache', this.#cache);
+        } catch (error) {
+          throwError(error, 'Vk.setCache');
         }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Vk.verifyAuth');
-        return false;
-      }
-    }
-    async function _toggleGroup2(name, dataParam) {
-      let doTask = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-      try {
-        const logStatus = scripts_echoLog({
-          type: doTask ? 'joiningVkGroup' : 'leavingVkGroup',
-          text: name
-        });
-        if (dataParam.groupAct === 'enter' && !doTask || dataParam.groupAct === 'leave' && doTask) {
-          logStatus.success();
-          return true;
-        }
-        const reqData = {
-          act: doTask ? 'enter' : 'leave',
-          al: 1,
-          gid: dataParam.groupId,
-          hash: dataParam.groupHash
-        };
-        if (doTask) {
-          reqData.context = '_';
-        }
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: 'https://vk.com/al_groups.php',
-          method: 'POST',
-          headers: {
-            origin: 'https://vk.com',
-            referer: `https://vk.com/${name}`,
-            'content-type': 'application/x-www-form-urlencoded'
-          },
-          data: $.param(reqData)
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            logStatus.success();
-            if (doTask) {
-              this.tasks.names = unique([ ...this.tasks.names, name ]);
-            }
-            return true;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Vk.toggleGroup');
-        return false;
-      }
-    }
-    async function _togglePublic2(name, dataParam) {
-      let doTask = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-      try {
-        const logStatus = scripts_echoLog({
-          type: doTask ? 'joiningVkPublic' : 'leavingVkPublic',
-          text: name
-        });
-        if (dataParam.publicJoined && doTask || !dataParam.publicJoined && !doTask) {
-          logStatus.success();
-          return true;
-        }
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: 'https://vk.com/al_public.php',
-          method: 'POST',
-          headers: {
-            origin: 'https://vk.com',
-            referer: `https://vk.com/${name}`,
-            'content-type': 'application/x-www-form-urlencoded'
-          },
-          data: $.param({
-            act: doTask ? 'a_enter' : 'a_leave',
-            al: 1,
-            pid: dataParam.publicPid,
-            hash: dataParam.publicHash
-          })
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            logStatus.success();
-            if (doTask) {
-              this.tasks.names = unique([ ...this.tasks.names, name ]);
-            }
-            return true;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Vk.togglePublic');
-        return false;
-      }
-    }
-    async function _sendWall2(name) {
-      try {
-        const logStatus = scripts_echoLog({
-          type: 'sendingVkWall',
-          text: name
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: 'https://vk.com/like.php',
-          method: 'POST',
-          headers: {
-            origin: 'https://vk.com',
-            referer: `https://vk.com/${name}`,
-            'content-type': 'application/x-www-form-urlencoded'
-          },
-          data: $.param({
-            act: 'publish_box',
-            al: 1,
-            object: name
-          })
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText$ma2;
-            const hash = (_data$responseText$ma2 = data.responseText.match(/shHash:[\s]*'(.*?)'/)) === null || _data$responseText$ma2 === void 0 ? void 0 : _data$responseText$ma2[1];
-            if (hash) {
-              const {
-                result: resultR,
-                statusText: statusTextR,
-                status: statusR,
-                data: dataR
-              } = await tools_httpRequest({
-                url: 'https://vk.com/like.php',
-                method: 'POST',
-                headers: {
-                  origin: 'https://vk.com',
-                  referer: `https://vk.com/${name}`,
-                  'content-type': 'application/x-www-form-urlencoded'
-                },
-                data: $.param({
-                  Message: '',
-                  act: 'a_do_publish',
-                  al: 1,
-                  close_comments: 0,
-                  friends_only: 0,
-                  from: 'box',
-                  hash: hash,
-                  list: '',
-                  mark_as_ads: 0,
-                  mute_notifications: 0,
-                  object: name,
-                  ret_data: 1,
-                  to: 0
-                })
-              });
-              if (resultR === 'Success') {
-                if ((dataR === null || dataR === void 0 ? void 0 : dataR.status) === 200) {
-                  var _dataR$responseText, _jsonData$payload, _jsonData$payload$, _jsonData$payload$$;
-                  const jsonData = JSON.parse(((_dataR$responseText = dataR.responseText) === null || _dataR$responseText === void 0 ? void 0 : _dataR$responseText.replace('\x3c!--', '')) || '{}');
-                  if ((jsonData === null || jsonData === void 0 ? void 0 : (_jsonData$payload = jsonData.payload) === null || _jsonData$payload === void 0 ? void 0 : (_jsonData$payload$ = _jsonData$payload[1]) === null || _jsonData$payload$ === void 0 ? void 0 : (_jsonData$payload$$ = _jsonData$payload$[1]) === null || _jsonData$payload$$ === void 0 ? void 0 : _jsonData$payload$$.share_my) === true) {
-                    var _jsonData$payload2, _jsonData$payload2$, _jsonData$payload2$$, _jsonData$payload3, _jsonData$payload3$, _jsonData$payload3$$;
-                    logStatus.success();
-                    const postId = String(jsonData === null || jsonData === void 0 ? void 0 : (_jsonData$payload2 = jsonData.payload) === null || _jsonData$payload2 === void 0 ? void 0 : (_jsonData$payload2$ = _jsonData$payload2[1]) === null || _jsonData$payload2$ === void 0 ? void 0 : (_jsonData$payload2$$ = _jsonData$payload2$[1]) === null || _jsonData$payload2$$ === void 0 ? void 0 : _jsonData$payload2$$.post_id);
-                    const ownerId = String(jsonData === null || jsonData === void 0 ? void 0 : (_jsonData$payload3 = jsonData.payload) === null || _jsonData$payload3 === void 0 ? void 0 : (_jsonData$payload3$ = _jsonData$payload3[1]) === null || _jsonData$payload3$ === void 0 ? void 0 : (_jsonData$payload3$$ = _jsonData$payload3$[1]) === null || _jsonData$payload3$$ === void 0 ? void 0 : _jsonData$payload3$$.owner_id);
-                    if (postId && ownerId) {
-                      Vk_classPrivateMethodGet(this, Vk_setCache, Vk_setCache2).call(this, name, `${ownerId}_${postId}`);
-                    }
-                    this.tasks.names = unique([ ...this.tasks.names, name ]);
-                    return true;
-                  }
-                }
-                logStatus.error(`Error:${dataR === null || dataR === void 0 ? void 0 : dataR.statusText}(${dataR === null || dataR === void 0 ? void 0 : dataR.status})`);
-                return false;
-              }
-              logStatus.error(`${resultR}:${statusTextR}(${statusR})`);
-              return false;
-            }
-            logStatus.error('Error: Get "hash" failed');
-            return false;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Vk.sendWall');
-        return false;
-      }
-    }
-    async function _deleteWall2(name, dataParams) {
-      try {
-        const logStatus = scripts_echoLog({
-          type: 'deletingVkWall',
-          text: name
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: 'https://vk.com/al_wall.php?act=delete',
-          method: 'POST',
-          headers: {
-            origin: 'https://vk.com',
-            referer: `https://vk.com/${Vk_classPrivateFieldGet(this, _username)}?w=wall${Vk_classPrivateFieldGet(this, Vk_cache)[name]}%2Fall`,
-            'content-type': 'application/x-www-form-urlencoded'
-          },
-          data: $.param({
-            act: 'delete',
-            al: 1,
-            confirm: 0,
-            from: 'wkview',
-            hash: dataParams.wallHash,
-            post: Vk_classPrivateFieldGet(this, Vk_cache)[name]
-          })
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText, _jsonData$payload4, _jsonData$payload4$;
-            const jsonData = JSON.parse(((_data$responseText = data.responseText) === null || _data$responseText === void 0 ? void 0 : _data$responseText.replace('\x3c!--', '')) || '{}');
-            if (jsonData !== null && jsonData !== void 0 && (_jsonData$payload4 = jsonData.payload) !== null && _jsonData$payload4 !== void 0 && (_jsonData$payload4$ = _jsonData$payload4[1]) !== null && _jsonData$payload4$ !== void 0 && _jsonData$payload4$[1]) {
-              logStatus.success();
-              return true;
-            }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-            return false;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Vk.deleteWall');
-        return false;
-      }
-    }
-    async function _getId2(name, doTask) {
-      try {
-        let url = `https://vk.com/${name}`;
-        if (/^wall-/.test(name)) {
-          if (doTask) {
-            return {
-              type: 'sendWall'
-            };
-          }
-          if (!Vk_classPrivateFieldGet(this, Vk_cache)[name]) {
-            return {
-              type: 'unSupport'
-            };
-          }
-          url = `https://vk.com/${Vk_classPrivateFieldGet(this, _username)}?w=wall${Vk_classPrivateFieldGet(this, Vk_cache)[name]}`;
-        }
-        const logStatus = scripts_echoLog({
-          type: 'gettingVkId',
-          text: name
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: url,
-          method: 'GET'
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText$ma3, _data$responseText$ma4;
-            const [ , groupAct, groupId, , groupHash ] = data.responseText.match(/Groups.(enter|leave)\(.*?,.*?([\d]+?), (&#39;|')(.*?)(&#39;|')/) || [];
-            const publicHash = (_data$responseText$ma3 = data.responseText.match(/"enterHash":"(.*?)"/)) === null || _data$responseText$ma3 === void 0 ? void 0 : _data$responseText$ma3[1];
-            const publicPid = (_data$responseText$ma4 = data.responseText.match(/"public_id":([\d]+?),/)) === null || _data$responseText$ma4 === void 0 ? void 0 : _data$responseText$ma4[1];
-            const publicJoined = !data.responseText.includes('Public.subscribe');
-            if (groupAct && groupId && groupHash) {
-              logStatus.success();
-              return {
-                groupAct: groupAct,
-                groupId: groupId,
-                groupHash: groupHash,
-                type: 'group'
-              };
-            } else if (publicHash && publicPid) {
-              logStatus.success();
-              return {
-                publicHash: publicHash,
-                publicPid: publicPid,
-                publicJoined: publicJoined,
-                type: 'public'
-              };
-            } else if (data.responseText.includes('wall.deletePost') && !doTask) {
-              var _data$responseText$ma5;
-              const wallHash = (_data$responseText$ma5 = data.responseText.match(/wall\.deletePost\(this, '.*?', '(.*?)'\)/)) === null || _data$responseText$ma5 === void 0 ? void 0 : _data$responseText$ma5[1];
-              if (wallHash) {
-                logStatus.success();
-                return {
-                  type: 'deleteWall',
-                  wallHash: wallHash
-                };
-              }
-            } else if (name.includes('wall') && doTask) {
-              logStatus.success();
-              return {
-                type: 'sendWall'
-              };
-            }
-            logStatus.error('Error: Parameters not found!');
-            return false;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Vk.getId');
-        return false;
-      }
-    }
-    async function _toggleVk2(_ref2) {
-      let {
-        name,
-        doTask = true
-      } = _ref2;
-      try {
-        if (!doTask && this.whiteList.names.includes(name)) {
-          scripts_echoLog({
-            type: 'whiteList',
-            text: 'Vk.undoTask',
-            id: name
-          });
-          return true;
-        }
-        const formatName = name.replace(/\/$/, '');
-        const data = await Vk_classPrivateMethodGet(this, _getId, _getId2).call(this, formatName, doTask);
-        if (!data) {
-          return false;
-        }
-        switch (data.type) {
-         case 'group':
-          return await Vk_classPrivateMethodGet(this, _toggleGroup, _toggleGroup2).call(this, formatName, data, doTask);
-
-         case 'public':
-          return await Vk_classPrivateMethodGet(this, _togglePublic, _togglePublic2).call(this, formatName, data, doTask);
-
-         case 'sendWall':
-          return doTask ? await Vk_classPrivateMethodGet(this, _sendWall, _sendWall2).call(this, formatName) : true;
-
-         case 'deleteWall':
-          return doTask ? true : await Vk_classPrivateMethodGet(this, _deleteWall, _deleteWall2).call(this, formatName, data);
-
-         default:
-          return false;
-        }
-      } catch (error) {
-        throwError(error, 'Vk.toggleVk');
-        return false;
-      }
-    }
-    function Vk_setCache2(name, postId) {
-      try {
-        Vk_classPrivateFieldGet(this, Vk_cache)[name] = postId;
-        GM_setValue('vkCache', Vk_classPrivateFieldGet(this, Vk_cache));
-      } catch (error) {
-        throwError(error, 'Vk.setCache');
       }
     }
     const social_Vk = Vk;
-    function Youtube_classPrivateMethodInitSpec(obj, privateSet) {
-      Youtube_checkPrivateRedeclaration(obj, privateSet);
-      privateSet.add(obj);
-    }
-    function Youtube_classPrivateFieldInitSpec(obj, privateMap, value) {
-      Youtube_checkPrivateRedeclaration(obj, privateMap);
-      privateMap.set(obj, value);
-    }
-    function Youtube_checkPrivateRedeclaration(obj, privateCollection) {
-      if (privateCollection.has(obj)) {
-        throw new TypeError('Cannot initialize the same private elements twice on an object');
-      }
-    }
-    function Youtube_defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
-    function Youtube_classPrivateFieldSet(receiver, privateMap, value) {
-      var descriptor = Youtube_classExtractFieldDescriptor(receiver, privateMap, 'set');
-      Youtube_classApplyDescriptorSet(receiver, descriptor, value);
-      return value;
-    }
-    function Youtube_classApplyDescriptorSet(receiver, descriptor, value) {
-      if (descriptor.set) {
-        descriptor.set.call(receiver, value);
-      } else {
-        if (!descriptor.writable) {
-          throw new TypeError('attempted to set read only private field');
-        }
-        descriptor.value = value;
-      }
-    }
-    function Youtube_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
-    function Youtube_classPrivateFieldGet(receiver, privateMap) {
-      var descriptor = Youtube_classExtractFieldDescriptor(receiver, privateMap, 'get');
-      return Youtube_classApplyDescriptorGet(receiver, descriptor);
-    }
-    function Youtube_classExtractFieldDescriptor(receiver, privateMap, action) {
-      if (!privateMap.has(receiver)) {
-        throw new TypeError('attempted to ' + action + ' private field on non-instance');
-      }
-      return privateMap.get(receiver);
-    }
-    function Youtube_classApplyDescriptorGet(receiver, descriptor) {
-      if (descriptor.get) {
-        return descriptor.get.call(receiver);
-      }
-      return descriptor.value;
-    }
+    var Youtube_GM_getValue;
     const Youtube_defaultTasksTemplate = {
       channels: [],
       likes: []
@@ -4379,63 +3770,37 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         return {};
       }
     };
-    var Youtube_auth = new WeakMap();
-    var Youtube_initialized = new WeakMap();
-    var _verifyChannel = new WeakMap();
-    var Youtube_verifyAuth = new WeakSet();
-    var Youtube_updateAuth = new WeakSet();
-    var _getInfo = new WeakSet();
-    var Youtube_toggleChannel = new WeakSet();
-    var _toggleLikeVideo = new WeakSet();
     class Youtube extends social_Social {
-      constructor() {
-        var _GM_getValue;
-        super(...arguments);
-        Youtube_classPrivateMethodInitSpec(this, _toggleLikeVideo);
-        Youtube_classPrivateMethodInitSpec(this, Youtube_toggleChannel);
-        Youtube_classPrivateMethodInitSpec(this, _getInfo);
-        Youtube_classPrivateMethodInitSpec(this, Youtube_updateAuth);
-        Youtube_classPrivateMethodInitSpec(this, Youtube_verifyAuth);
-        Youtube_defineProperty(this, 'tasks', JSON.parse(Youtube_defaultTasks));
-        Youtube_defineProperty(this, 'whiteList', {
-          ...JSON.parse(Youtube_defaultTasks),
-          ...(_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.youtube
-        });
-        Youtube_classPrivateFieldInitSpec(this, Youtube_auth, {
-          writable: true,
-          value: GM_getValue('youtubeAuth') || {}
-        });
-        Youtube_classPrivateFieldInitSpec(this, Youtube_initialized, {
-          writable: true,
-          value: false
-        });
-        Youtube_classPrivateFieldInitSpec(this, _verifyChannel, {
-          writable: true,
-          value: `https://www.youtube.com/channel/${globalOptions.other.youtubeVerifyChannel}`
-        });
-      }
+      tasks = JSON.parse(Youtube_defaultTasks);
+      whiteList = {
+        ...JSON.parse(Youtube_defaultTasks),
+        ...(Youtube_GM_getValue = GM_getValue('whiteList')) === null || Youtube_GM_getValue === void 0 ? void 0 : Youtube_GM_getValue.youtube
+      };
+      #auth = GM_getValue('youtubeAuth') || {};
+      #initialized = false;
+      #verifyChannel = `https://www.youtube.com/channel/${globalOptions.other.youtubeVerifyChannel}`;
       async init() {
         try {
-          if (Youtube_classPrivateFieldGet(this, Youtube_initialized)) {
+          if (this.#initialized) {
             return true;
           }
-          if (!Youtube_classPrivateFieldGet(this, Youtube_auth).PAPISID) {
-            if (await Youtube_classPrivateMethodGet(this, Youtube_updateAuth, Youtube_updateAuth2).call(this)) {
-              Youtube_classPrivateFieldSet(this, Youtube_initialized, true);
+          if (!this.#auth.PAPISID) {
+            if (await this.#updateAuth()) {
+              this.#initialized = true;
               return true;
             }
             return false;
           }
-          const isVerified = await Youtube_classPrivateMethodGet(this, Youtube_verifyAuth, Youtube_verifyAuth2).call(this);
+          const isVerified = await this.#verifyAuth();
           if (isVerified) {
             scripts_echoLog({}).success(i18n('initSuccess', 'Youtube'));
-            Youtube_classPrivateFieldSet(this, Youtube_initialized, true);
+            this.#initialized = true;
             return true;
           }
           GM_setValue('youtubeAuth', null);
-          if (await Youtube_classPrivateMethodGet(this, Youtube_updateAuth, Youtube_updateAuth2).call(this)) {
+          if (await this.#updateAuth()) {
             scripts_echoLog({}).success(i18n('initSuccess', 'Youtube'));
-            Youtube_classPrivateFieldSet(this, Youtube_initialized, true);
+            this.#initialized = true;
             return true;
           }
           scripts_echoLog({}).error(i18n('initFailed', 'Youtube'));
@@ -4445,14 +3810,265 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async toggle(_ref2) {
+      async #verifyAuth() {
+        try {
+          return await this.#toggleChannel({
+            link: this.#verifyChannel,
+            doTask: true,
+            verify: true
+          });
+        } catch (error) {
+          throwError(error, 'Youtube.verifyAuth');
+          return false;
+        }
+      }
+      async #updateAuth() {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('updatingAuth', 'Youtube')
+          });
+          return await new Promise(resolve => {
+            const newTab = GM_openInTab('https://www.youtube.com/#auth', {
+              active: true,
+              insert: true,
+              setParent: true
+            });
+            newTab.onclose = async () => {
+              const auth = GM_getValue('youtubeAuth');
+              if (auth) {
+                this.#auth = auth;
+                logStatus.success();
+                this.#verifyAuth().then(result => {
+                  resolve(result);
+                });
+              } else {
+                logStatus.error('Error: Update youtube auth failed!');
+                resolve(false);
+              }
+            };
+          });
+        } catch (error) {
+          throwError(error, 'Discord.updateAuth');
+          return false;
+        }
+      }
+      #getInfo(link, type) {
+        return getInfo(link, type);
+      }
+      async #toggleChannel(_ref2) {
+        let {
+          link,
+          doTask = true,
+          verify = false
+        } = _ref2;
+        try {
+          const {
+            params,
+            needLogin
+          } = await this.#getInfo(link, 'channel');
+          const {
+            apiKey,
+            client,
+            request,
+            channelId
+          } = params || {};
+          if (needLogin) {
+            scripts_echoLog({
+              html: i18n('loginYtb')
+            });
+            return false;
+          }
+          if (!(apiKey && client && request && channelId)) {
+            scripts_echoLog({
+              text: '"getYtbToken" failed'
+            });
+            return false;
+          }
+          if (!doTask && !verify && this.whiteList.channels.includes(channelId)) {
+            scripts_echoLog({
+              type: 'whiteList',
+              text: 'Youtube.unfollowChannel',
+              id: channelId
+            });
+            return true;
+          }
+          const logStatus = verify ? scripts_echoLog({
+            text: i18n('verifyingAuth', 'Youtube')
+          }) : scripts_echoLog({
+            type: doTask ? 'followingYtbChannel' : 'unfollowingYtbChannel',
+            text: channelId
+          });
+          const nowTime = parseInt(String(new Date().getTime() / 1e3), 10);
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://www.youtube.com/youtubei/v1/subscription/${doTask ? '' : 'un'}subscribe?key=${apiKey}`,
+            method: 'POST',
+            headers: {
+              origin: 'https://www.youtube.com',
+              referer: `https://www.youtube.com/channel/${channelId}`,
+              'content-type': 'application/json',
+              'x-goog-authuser': '0',
+              'x-goog-visitor-id': client === null || client === void 0 ? void 0 : client.visitorData,
+              'x-origin': 'https://www.youtube.com',
+              authorization: `SAPISIDHASH ${nowTime}_${sha1(`${nowTime} ${this.#auth.PAPISID} https://www.youtube.com`)}`
+            },
+            data: JSON.stringify({
+              context: {
+                client: client,
+                request: {
+                  sessionId: request === null || request === void 0 ? void 0 : request.sessionId,
+                  internalExperimentFlags: [],
+                  consistencyTokenJars: []
+                },
+                user: {}
+              },
+              channelIds: [ channelId ],
+              params: doTask ? 'EgIIAhgA' : 'CgIIAhgA'
+            })
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              if (doTask && (/"subscribed": true/.test(data.responseText) || data.responseText.includes('The subscription already exists')) || !doTask && /"subscribed": false/.test(data.responseText)) {
+                logStatus.success();
+                if (doTask && !verify) {
+                  this.tasks.channels = unique([ ...this.tasks.channels, link ]);
+                }
+                return true;
+              }
+              if (verify && data.responseText.includes('You may not subscribe to yourself')) {
+                logStatus.success();
+                return true;
+              }
+              logStatus.error(i18n('tryUpdateYtbAuth'), true);
+              return false;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Youtube.toggleChannel');
+          return false;
+        }
+      }
+      async #toggleLikeVideo(_ref3) {
+        let {
+          link,
+          doTask = true
+        } = _ref3;
+        try {
+          const {
+            params,
+            needLogin
+          } = await this.#getInfo(link, 'likeVideo');
+          const {
+            apiKey,
+            client,
+            request,
+            videoId,
+            likeParams
+          } = params || {};
+          if (needLogin) {
+            scripts_echoLog({
+              html: `${i18n('loginYtb')}`
+            });
+            return false;
+          }
+          if (!(apiKey && client && request && videoId && likeParams)) {
+            scripts_echoLog({
+              text: '"getYtbToken" failed'
+            });
+            return false;
+          }
+          if (!doTask && this.whiteList.likes.includes(videoId)) {
+            scripts_echoLog({
+              type: 'whiteList',
+              text: 'Youtube.unlikeVideo',
+              id: videoId
+            });
+            return true;
+          }
+          const logStatus = scripts_echoLog({
+            type: doTask ? 'likingYtbVideo' : 'unlikingYtbVideo',
+            text: videoId
+          });
+          const nowTime = parseInt(String(new Date().getTime() / 1e3), 10);
+          const likeVideoData = {
+            context: {
+              client: client,
+              request: {
+                sessionId: request.sessionId,
+                internalExperimentFlags: [],
+                consistencyTokenJars: []
+              },
+              user: {}
+            },
+            target: {
+              videoId: videoId
+            }
+          };
+          if (doTask) {
+            if (likeParams) {
+              likeVideoData.params = likeParams;
+            } else {
+              logStatus.error('Empty likeParams');
+              return false;
+            }
+          }
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://www.youtube.com/youtubei/v1/like/${doTask ? '' : 'remove'}like?key=${apiKey}`,
+            method: 'POST',
+            headers: {
+              origin: 'https://www.youtube.com',
+              referer: `https://www.youtube.com/watch?v=${videoId}`,
+              'content-type': 'application/json',
+              'x-goog-authuser': '0',
+              'x-goog-visitor-id': client.visitorData,
+              'x-origin': 'https://www.youtube.com',
+              authorization: `SAPISIDHASH ${nowTime}_${sha1(`${nowTime} ${this.#auth.PAPISID} https://www.youtube.com`)}`
+            },
+            data: JSON.stringify(likeVideoData)
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              if (doTask && data.responseText.includes('Added to Liked videos') || !doTask && (data.responseText.includes('Removed from Liked videos') || data.responseText.includes('Dislike removed'))) {
+                logStatus.success();
+                if (doTask) {
+                  this.tasks.likes = unique([ ...this.tasks.likes, link ]);
+                }
+                return true;
+              }
+              logStatus.error(i18n('tryUpdateYtbAuth'), true);
+              return false;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Youtube.toggleLikeVideo');
+          return false;
+        }
+      }
+      async toggle(_ref4) {
         let {
           doTask = true,
           channelLinks = [],
           videoLinks = []
-        } = _ref2;
+        } = _ref4;
         try {
-          if (!Youtube_classPrivateFieldGet(this, Youtube_initialized)) {
+          if (!this.#initialized) {
             scripts_echoLog({
               text: i18n('needInit')
             });
@@ -4474,7 +4090,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             });
             if (realChannels.length > 0) {
               for (const channel of realChannels) {
-                prom.push(Youtube_classPrivateMethodGet(this, Youtube_toggleChannel, Youtube_toggleChannel2).call(this, {
+                prom.push(this.#toggleChannel({
                   link: channel,
                   doTask: doTask
                 }));
@@ -4497,7 +4113,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             });
             if (realLikes.length > 0) {
               for (const video of realLikes) {
-                prom.push(Youtube_classPrivateMethodGet(this, _toggleLikeVideo, _toggleLikeVideo2).call(this, {
+                prom.push(this.#toggleLikeVideo({
                   link: video,
                   doTask: doTask
                 }));
@@ -4512,320 +4128,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         }
       }
     }
-    async function Youtube_verifyAuth2() {
-      try {
-        return await Youtube_classPrivateMethodGet(this, Youtube_toggleChannel, Youtube_toggleChannel2).call(this, {
-          link: Youtube_classPrivateFieldGet(this, _verifyChannel),
-          doTask: true,
-          verify: true
-        });
-      } catch (error) {
-        throwError(error, 'Youtube.verifyAuth');
-        return false;
-      }
-    }
-    async function Youtube_updateAuth2() {
-      try {
-        const logStatus = scripts_echoLog({
-          text: i18n('updatingAuth', 'Youtube')
-        });
-        return await new Promise(resolve => {
-          const newTab = GM_openInTab('https://www.youtube.com/#auth', {
-            active: true,
-            insert: true,
-            setParent: true
-          });
-          newTab.onclose = async () => {
-            const auth = GM_getValue('youtubeAuth');
-            if (auth) {
-              Youtube_classPrivateFieldSet(this, Youtube_auth, auth);
-              logStatus.success();
-              Youtube_classPrivateMethodGet(this, Youtube_verifyAuth, Youtube_verifyAuth2).call(this).then(result => {
-                resolve(result);
-              });
-            } else {
-              logStatus.error('Error: Update youtube auth failed!');
-              resolve(false);
-            }
-          };
-        });
-      } catch (error) {
-        throwError(error, 'Discord.updateAuth');
-        return false;
-      }
-    }
-    function _getInfo2(link, type) {
-      return getInfo(link, type);
-    }
-    async function Youtube_toggleChannel2(_ref3) {
-      let {
-        link,
-        doTask = true,
-        verify = false
-      } = _ref3;
-      try {
-        const {
-          params,
-          needLogin
-        } = await Youtube_classPrivateMethodGet(this, _getInfo, _getInfo2).call(this, link, 'channel');
-        const {
-          apiKey,
-          client,
-          request,
-          channelId
-        } = params || {};
-        if (needLogin) {
-          scripts_echoLog({
-            html: i18n('loginYtb')
-          });
-          return false;
-        }
-        if (!(apiKey && client && request && channelId)) {
-          scripts_echoLog({
-            text: '"getYtbToken" failed'
-          });
-          return false;
-        }
-        if (!doTask && !verify && this.whiteList.channels.includes(channelId)) {
-          scripts_echoLog({
-            type: 'whiteList',
-            text: 'Youtube.unfollowChannel',
-            id: channelId
-          });
-          return true;
-        }
-        const logStatus = verify ? scripts_echoLog({
-          text: i18n('verifyingAuth', 'Youtube')
-        }) : scripts_echoLog({
-          type: doTask ? 'followingYtbChannel' : 'unfollowingYtbChannel',
-          text: channelId
-        });
-        const nowTime = parseInt(String(new Date().getTime() / 1e3), 10);
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://www.youtube.com/youtubei/v1/subscription/${doTask ? '' : 'un'}subscribe?key=${apiKey}`,
-          method: 'POST',
-          headers: {
-            origin: 'https://www.youtube.com',
-            referer: `https://www.youtube.com/channel/${channelId}`,
-            'content-type': 'application/json',
-            'x-goog-authuser': '0',
-            'x-goog-visitor-id': client === null || client === void 0 ? void 0 : client.visitorData,
-            'x-origin': 'https://www.youtube.com',
-            authorization: `SAPISIDHASH ${nowTime}_${sha1(`${nowTime} ${Youtube_classPrivateFieldGet(this, Youtube_auth).PAPISID} https://www.youtube.com`)}`
-          },
-          data: JSON.stringify({
-            context: {
-              client: client,
-              request: {
-                sessionId: request === null || request === void 0 ? void 0 : request.sessionId,
-                internalExperimentFlags: [],
-                consistencyTokenJars: []
-              },
-              user: {}
-            },
-            channelIds: [ channelId ],
-            params: doTask ? 'EgIIAhgA' : 'CgIIAhgA'
-          })
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            if (doTask && (/"subscribed": true/.test(data.responseText) || data.responseText.includes('The subscription already exists')) || !doTask && /"subscribed": false/.test(data.responseText)) {
-              logStatus.success();
-              if (doTask && !verify) {
-                this.tasks.channels = unique([ ...this.tasks.channels, link ]);
-              }
-              return true;
-            }
-            if (verify && data.responseText.includes('You may not subscribe to yourself')) {
-              logStatus.success();
-              return true;
-            }
-            logStatus.error(i18n('tryUpdateYtbAuth'), true);
-            return false;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Youtube.toggleChannel');
-        return false;
-      }
-    }
-    async function _toggleLikeVideo2(_ref4) {
-      let {
-        link,
-        doTask = true
-      } = _ref4;
-      try {
-        const {
-          params,
-          needLogin
-        } = await Youtube_classPrivateMethodGet(this, _getInfo, _getInfo2).call(this, link, 'likeVideo');
-        const {
-          apiKey,
-          client,
-          request,
-          videoId,
-          likeParams
-        } = params || {};
-        if (needLogin) {
-          scripts_echoLog({
-            html: `${i18n('loginYtb')}`
-          });
-          return false;
-        }
-        if (!(apiKey && client && request && videoId && likeParams)) {
-          scripts_echoLog({
-            text: '"getYtbToken" failed'
-          });
-          return false;
-        }
-        if (!doTask && this.whiteList.likes.includes(videoId)) {
-          scripts_echoLog({
-            type: 'whiteList',
-            text: 'Youtube.unlikeVideo',
-            id: videoId
-          });
-          return true;
-        }
-        const logStatus = scripts_echoLog({
-          type: doTask ? 'likingYtbVideo' : 'unlikingYtbVideo',
-          text: videoId
-        });
-        const nowTime = parseInt(String(new Date().getTime() / 1e3), 10);
-        const likeVideoData = {
-          context: {
-            client: client,
-            request: {
-              sessionId: request.sessionId,
-              internalExperimentFlags: [],
-              consistencyTokenJars: []
-            },
-            user: {}
-          },
-          target: {
-            videoId: videoId
-          }
-        };
-        if (doTask) {
-          if (likeParams) {
-            likeVideoData.params = likeParams;
-          } else {
-            logStatus.error('Empty likeParams');
-            return false;
-          }
-        }
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://www.youtube.com/youtubei/v1/like/${doTask ? '' : 'remove'}like?key=${apiKey}`,
-          method: 'POST',
-          headers: {
-            origin: 'https://www.youtube.com',
-            referer: `https://www.youtube.com/watch?v=${videoId}`,
-            'content-type': 'application/json',
-            'x-goog-authuser': '0',
-            'x-goog-visitor-id': client.visitorData,
-            'x-origin': 'https://www.youtube.com',
-            authorization: `SAPISIDHASH ${nowTime}_${sha1(`${nowTime} ${Youtube_classPrivateFieldGet(this, Youtube_auth).PAPISID} https://www.youtube.com`)}`
-          },
-          data: JSON.stringify(likeVideoData)
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            if (doTask && data.responseText.includes('Added to Liked videos') || !doTask && (data.responseText.includes('Removed from Liked videos') || data.responseText.includes('Dislike removed'))) {
-              logStatus.success();
-              if (doTask) {
-                this.tasks.likes = unique([ ...this.tasks.likes, link ]);
-              }
-              return true;
-            }
-            logStatus.error(i18n('tryUpdateYtbAuth'), true);
-            return false;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Youtube.toggleLikeVideo');
-        return false;
-      }
-    }
-    function Steam_classPrivateMethodInitSpec(obj, privateSet) {
-      Steam_checkPrivateRedeclaration(obj, privateSet);
-      privateSet.add(obj);
-    }
-    function Steam_classPrivateFieldInitSpec(obj, privateMap, value) {
-      Steam_checkPrivateRedeclaration(obj, privateMap);
-      privateMap.set(obj, value);
-    }
-    function Steam_checkPrivateRedeclaration(obj, privateCollection) {
-      if (privateCollection.has(obj)) {
-        throw new TypeError('Cannot initialize the same private elements twice on an object');
-      }
-    }
-    function Steam_defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
-    function Steam_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
-    function Steam_classPrivateFieldSet(receiver, privateMap, value) {
-      var descriptor = Steam_classExtractFieldDescriptor(receiver, privateMap, 'set');
-      Steam_classApplyDescriptorSet(receiver, descriptor, value);
-      return value;
-    }
-    function Steam_classApplyDescriptorSet(receiver, descriptor, value) {
-      if (descriptor.set) {
-        descriptor.set.call(receiver, value);
-      } else {
-        if (!descriptor.writable) {
-          throw new TypeError('attempted to set read only private field');
-        }
-        descriptor.value = value;
-      }
-    }
-    function Steam_classPrivateFieldGet(receiver, privateMap) {
-      var descriptor = Steam_classExtractFieldDescriptor(receiver, privateMap, 'get');
-      return Steam_classApplyDescriptorGet(receiver, descriptor);
-    }
-    function Steam_classExtractFieldDescriptor(receiver, privateMap, action) {
-      if (!privateMap.has(receiver)) {
-        throw new TypeError('attempted to ' + action + ' private field on non-instance');
-      }
-      return privateMap.get(receiver);
-    }
-    function Steam_classApplyDescriptorGet(receiver, descriptor) {
-      if (descriptor.get) {
-        return descriptor.get.call(receiver);
-      }
-      return descriptor.value;
-    }
+    var Steam_GM_getValue;
     const Steam_defaultTasksTemplate = {
       groups: [],
       officialGroups: [],
@@ -4841,122 +4144,36 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       playtests: []
     };
     const Steam_defaultTasks = JSON.stringify(Steam_defaultTasksTemplate);
-    var Steam_cache = new WeakMap();
-    var Steam_auth = new WeakMap();
-    var _storeInitialized = new WeakMap();
-    var _communityInitialized = new WeakMap();
-    var _area = new WeakMap();
-    var _areaStatus = new WeakMap();
-    var _updateStoreAuth = new WeakSet();
-    var _updateCommunityAuth = new WeakSet();
-    var _getAreaInfo = new WeakSet();
-    var _changeArea = new WeakSet();
-    var _joinGroup = new WeakSet();
-    var _leaveGroup = new WeakSet();
-    var _getGroupId = new WeakSet();
-    var _joinOfficialGroup = new WeakSet();
-    var _leaveOfficialGroup = new WeakSet();
-    var _getOfficialGroupId = new WeakSet();
-    var _addToWishlist = new WeakSet();
-    var _removeFromWishlist = new WeakSet();
-    var _toggleFollowGame = new WeakSet();
-    var _isFollowedGame = new WeakSet();
-    var _toggleForum = new WeakSet();
-    var _getForumId = new WeakSet();
-    var _toggleFavoriteWorkshop = new WeakSet();
-    var _getWorkshopAppId = new WeakSet();
-    var _voteUpWorkshop = new WeakSet();
-    var _toggleCurator = new WeakSet();
-    var _toggleCuratorLike = new WeakSet();
-    var _getAnnouncementParams = new WeakSet();
-    var _likeAnnouncement = new WeakSet();
-    var _appid2subid = new WeakSet();
-    var _getLicenses = new WeakSet();
-    var _addLicense = new WeakSet();
-    var _addFreeLicense = new WeakSet();
-    var _requestPlayTestAccess = new WeakSet();
-    var Steam_setCache = new WeakSet();
     class Steam extends social_Social {
-      constructor() {
-        var _GM_getValue;
-        super(...arguments);
-        Steam_classPrivateMethodInitSpec(this, Steam_setCache);
-        Steam_classPrivateMethodInitSpec(this, _requestPlayTestAccess);
-        Steam_classPrivateMethodInitSpec(this, _addFreeLicense);
-        Steam_classPrivateMethodInitSpec(this, _addLicense);
-        Steam_classPrivateMethodInitSpec(this, _getLicenses);
-        Steam_classPrivateMethodInitSpec(this, _appid2subid);
-        Steam_classPrivateMethodInitSpec(this, _likeAnnouncement);
-        Steam_classPrivateMethodInitSpec(this, _getAnnouncementParams);
-        Steam_classPrivateMethodInitSpec(this, _toggleCuratorLike);
-        Steam_classPrivateMethodInitSpec(this, _toggleCurator);
-        Steam_classPrivateMethodInitSpec(this, _voteUpWorkshop);
-        Steam_classPrivateMethodInitSpec(this, _getWorkshopAppId);
-        Steam_classPrivateMethodInitSpec(this, _toggleFavoriteWorkshop);
-        Steam_classPrivateMethodInitSpec(this, _getForumId);
-        Steam_classPrivateMethodInitSpec(this, _toggleForum);
-        Steam_classPrivateMethodInitSpec(this, _isFollowedGame);
-        Steam_classPrivateMethodInitSpec(this, _toggleFollowGame);
-        Steam_classPrivateMethodInitSpec(this, _removeFromWishlist);
-        Steam_classPrivateMethodInitSpec(this, _addToWishlist);
-        Steam_classPrivateMethodInitSpec(this, _getOfficialGroupId);
-        Steam_classPrivateMethodInitSpec(this, _leaveOfficialGroup);
-        Steam_classPrivateMethodInitSpec(this, _joinOfficialGroup);
-        Steam_classPrivateMethodInitSpec(this, _getGroupId);
-        Steam_classPrivateMethodInitSpec(this, _leaveGroup);
-        Steam_classPrivateMethodInitSpec(this, _joinGroup);
-        Steam_classPrivateMethodInitSpec(this, _changeArea);
-        Steam_classPrivateMethodInitSpec(this, _getAreaInfo);
-        Steam_classPrivateMethodInitSpec(this, _updateCommunityAuth);
-        Steam_classPrivateMethodInitSpec(this, _updateStoreAuth);
-        Steam_defineProperty(this, 'tasks', JSON.parse(Steam_defaultTasks));
-        Steam_defineProperty(this, 'whiteList', {
-          ...JSON.parse(Steam_defaultTasks),
-          ...(_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.steam
-        });
-        Steam_classPrivateFieldInitSpec(this, Steam_cache, {
-          writable: true,
-          value: {
-            ...{
-              group: {},
-              officialGroup: {},
-              forum: {},
-              workshop: {},
-              curator: {}
-            },
-            ...GM_getValue('steamCache')
-          }
-        });
-        Steam_classPrivateFieldInitSpec(this, Steam_auth, {
-          writable: true,
-          value: {}
-        });
-        Steam_classPrivateFieldInitSpec(this, _storeInitialized, {
-          writable: true,
-          value: false
-        });
-        Steam_classPrivateFieldInitSpec(this, _communityInitialized, {
-          writable: true,
-          value: false
-        });
-        Steam_classPrivateFieldInitSpec(this, _area, {
-          writable: true,
-          value: 'CN'
-        });
-        Steam_classPrivateFieldInitSpec(this, _areaStatus, {
-          writable: true,
-          value: 'end'
-        });
-      }
+      tasks = JSON.parse(Steam_defaultTasks);
+      whiteList = {
+        ...JSON.parse(Steam_defaultTasks),
+        ...(Steam_GM_getValue = GM_getValue('whiteList')) === null || Steam_GM_getValue === void 0 ? void 0 : Steam_GM_getValue.steam
+      };
+      #cache = {
+        ...{
+          group: {},
+          officialGroup: {},
+          forum: {},
+          workshop: {},
+          curator: {}
+        },
+        ...GM_getValue('steamCache')
+      };
+      #auth = {};
+      #storeInitialized = false;
+      #communityInitialized = false;
+      #area = 'CN';
+      #areaStatus = 'end';
       async init() {
         let type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'all';
         try {
           if (type === 'store') {
-            if (Steam_classPrivateFieldGet(this, _storeInitialized)) {
+            if (this.#storeInitialized) {
               return true;
             }
-            Steam_classPrivateFieldSet(this, _storeInitialized, await Steam_classPrivateMethodGet(this, _updateStoreAuth, _updateStoreAuth2).call(this));
-            if (!Steam_classPrivateFieldGet(this, _storeInitialized)) {
+            this.#storeInitialized = await this.#updateStoreAuth();
+            if (!this.#storeInitialized) {
               scripts_echoLog({}).error(i18n('initFailed', 'Steam'));
               return false;
             }
@@ -4964,20 +4181,20 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             return true;
           }
           if (type === 'community') {
-            if (Steam_classPrivateFieldGet(this, _communityInitialized)) {
+            if (this.#communityInitialized) {
               return true;
             }
-            Steam_classPrivateFieldSet(this, _communityInitialized, await Steam_classPrivateMethodGet(this, _updateCommunityAuth, _updateCommunityAuth2).call(this));
-            if (!Steam_classPrivateFieldGet(this, _communityInitialized)) {
+            this.#communityInitialized = await this.#updateCommunityAuth();
+            if (!this.#communityInitialized) {
               scripts_echoLog({}).error(i18n('initFailed', 'Steam'));
               return false;
             }
             scripts_echoLog({}).success(i18n('initSuccess', 'SteamCommunity'));
             return true;
           }
-          Steam_classPrivateFieldSet(this, _storeInitialized, await Steam_classPrivateMethodGet(this, _updateStoreAuth, _updateStoreAuth2).call(this));
-          Steam_classPrivateFieldSet(this, _communityInitialized, await Steam_classPrivateMethodGet(this, _updateCommunityAuth, _updateCommunityAuth2).call(this));
-          if (Steam_classPrivateFieldGet(this, _storeInitialized) && Steam_classPrivateFieldGet(this, _communityInitialized)) {
+          this.#storeInitialized = await this.#updateStoreAuth();
+          this.#communityInitialized = await this.#updateCommunityAuth();
+          if (this.#storeInitialized && this.#communityInitialized) {
             scripts_echoLog({}).success(i18n('initSuccess', 'Steam'));
             return true;
           }
@@ -4988,13 +4205,1119 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
+      async #refreshStoreToken() {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('refreshingToken', i18n('steamStore'))
+          });
+          const formData = new FormData();
+          formData.append('redir', 'https://store.steampowered.com/');
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://login.steampowered.com/jwt/ajaxrefresh',
+            method: 'POST',
+            responseType: 'json',
+            headers: {
+              Host: 'login.steampowered.com',
+              Origin: 'https://store.steampowered.com',
+              Referer: 'https://store.steampowered.com/'
+            },
+            data: formData
+          });
+          if (result === 'Success') {
+            var _data$response;
+            if (data !== null && data !== void 0 && (_data$response = data.response) !== null && _data$response !== void 0 && _data$response.success) {
+              if (await this.#setStoreToken(data.response)) {
+                logStatus.success();
+                return true;
+              }
+              logStatus.error('Error');
+              return false;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.refreshStoreToken');
+          return false;
+        }
+      }
+      async #setStoreToken(param) {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('settingToken', i18n('steamStore'))
+          });
+          const formData = new FormData();
+          formData.append('steamID', param.steamID);
+          formData.append('nonce', param.nonce);
+          formData.append('redir', param.redir);
+          formData.append('auth', param.auth);
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://store.steampowered.com/login/settoken',
+            method: 'POST',
+            headers: {
+              Accept: 'application/json, text/plain, */*',
+              Host: 'store.steampowered.com',
+              Origin: 'https://store.steampowered.com',
+              Referer: 'https://store.steampowered.com/login'
+            },
+            data: formData
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.setStoreToken');
+          return false;
+        }
+      }
+      async #updateStoreAuth() {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('updatingAuth', i18n('steamStore'))
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://store.steampowered.com/',
+            method: 'GET',
+            headers: {
+              Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+              'Cache-Control': 'max-age=0',
+              'Sec-Fetch-Dest': 'document',
+              'Sec-Fetch-Mode': 'navigate',
+              'Upgrade-Insecure-Requests': '1'
+            }
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              var _data$responseText$ma;
+              if (!data.responseText.includes('data-miniprofile=')) {
+                await this.#refreshStoreToken();
+                logStatus.error(`Error:${i18n('needLoginSteamStore')}`, true);
+                return false;
+              }
+              const storeSessionID = (_data$responseText$ma = data.responseText.match(/g_sessionID = "(.+?)";/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
+              if (storeSessionID) {
+                this.#auth.storeSessionID = storeSessionID;
+                logStatus.success();
+                return true;
+              }
+              logStatus.error('Error: Get "sessionID" failed');
+              return false;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.updateStoreAuth');
+          return false;
+        }
+      }
+      async #updateCommunityAuth() {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('updatingAuth', i18n('steamCommunity'))
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://steamcommunity.com/my',
+            method: 'GET',
+            headers: {
+              Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+              'Cache-Control': 'max-age=0',
+              'Sec-Fetch-Dest': 'document',
+              'Sec-Fetch-Mode': 'navigate',
+              'Upgrade-Insecure-Requests': '1'
+            }
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              var _data$responseText$ma2, _data$responseText$ma3, _data$responseText$ma4;
+              if (data.responseText.includes('href="https://steamcommunity.com/login/home/')) {
+                logStatus.error(`Error:${i18n('needLoginSteamCommunity')}`, true);
+                return false;
+              }
+              const steam64Id = (_data$responseText$ma2 = data.responseText.match(/g_steamID = "(.+?)";/)) === null || _data$responseText$ma2 === void 0 ? void 0 : _data$responseText$ma2[1];
+              const communitySessionID = (_data$responseText$ma3 = data.responseText.match(/g_sessionID = "(.+?)";/)) === null || _data$responseText$ma3 === void 0 ? void 0 : _data$responseText$ma3[1];
+              const userName = (_data$responseText$ma4 = data.responseText.match(/steamcommunity.com\/id\/(.+?)\/friends\//)) === null || _data$responseText$ma4 === void 0 ? void 0 : _data$responseText$ma4[1];
+              if (steam64Id) {
+                this.#auth.steam64Id = steam64Id;
+              }
+              if (userName) {
+                this.#auth.userName = userName;
+              }
+              if (communitySessionID) {
+                this.#auth.communitySessionID = communitySessionID;
+                logStatus.success();
+                return true;
+              }
+              logStatus.error('Error: Get "sessionID" failed');
+              return false;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.updateCommunityAuth');
+          return false;
+        }
+      }
+      async #getAreaInfo() {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('gettingAreaInfo')
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://store.steampowered.com/cart/',
+            method: 'GET'
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              var _data$responseText$ma5;
+              const currentArea = (_data$responseText$ma5 = data.responseText.match(/<input id="usercountrycurrency".*?value="(.+?)"/)) === null || _data$responseText$ma5 === void 0 ? void 0 : _data$responseText$ma5[1];
+              const areas = [ ...data.responseText.matchAll(/<div class="currency_change_option .*?" data-country="(.+?)" >/g) ].map(search => search[1]);
+              if (currentArea && areas.length > 0) {
+                this.#area = currentArea;
+                logStatus.success();
+                return {
+                  currentArea: currentArea,
+                  areas: areas
+                };
+              }
+              logStatus.error('Error: get country info filed');
+              return {};
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return {};
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return {};
+        } catch (error) {
+          throwError(error, 'Steam.getAreaInfo');
+          return {};
+        }
+      }
+      async #changeArea(area) {
+        try {
+          if (this.#areaStatus === 'waiting') {
+            await new Promise(resolve => {
+              const checker = setInterval(() => {
+                if (this.#areaStatus !== 'waiting') {
+                  clearInterval(checker);
+                  resolve(true);
+                }
+              });
+            });
+          }
+          if (this.#area === area || !area && this.#area !== 'CN') {
+            return true;
+          }
+          this.#areaStatus = 'waiting';
+          let aimedArea = area;
+          if (!aimedArea) {
+            const {
+              currentArea,
+              areas
+            } = await this.#getAreaInfo();
+            if (!currentArea || !areas) {
+              this.#areaStatus = 'error';
+              return false;
+            }
+            if (currentArea !== 'CN') {
+              this.#areaStatus = 'skip';
+              scripts_echoLog({
+                text: 'notNeededChangeArea'
+              });
+              return 'skip';
+            }
+            const anotherArea = areas.filter(area => area && area !== 'CN');
+            if (!anotherArea || anotherArea.length === 0) {
+              this.#areaStatus = 'noAnotherArea';
+              scripts_echoLog({
+                text: 'noAnotherArea'
+              });
+              return false;
+            }
+            [ aimedArea ] = anotherArea;
+          }
+          const logStatus = scripts_echoLog({
+            text: i18n('changingArea', aimedArea)
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://store.steampowered.com/account/setcountry',
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            data: $.param({
+              cc: aimedArea,
+              sessionid: this.#auth.storeSessionID
+            })
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && data.responseText === 'true') {
+              const {
+                currentArea
+              } = await this.#getAreaInfo();
+              if (currentArea === aimedArea) {
+                this.#areaStatus = 'success';
+                logStatus.success();
+                return currentArea;
+              }
+              this.#areaStatus = 'error';
+              logStatus.error('Error: change country filed');
+              return 'CN';
+            }
+            this.#areaStatus = 'error';
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return 'CN';
+          }
+          this.#areaStatus = 'error';
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return 'CN';
+        } catch (error) {
+          this.#areaStatus = 'error';
+          throwError(error, 'Steam.changeArea');
+          return false;
+        }
+      }
+      async #joinGroup(groupName) {
+        try {
+          const logStatus = scripts_echoLog({
+            type: 'joiningSteamGroup',
+            text: groupName
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://steamcommunity.com/groups/${groupName}`,
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            data: $.param({
+              action: 'join',
+              sessionID: this.#auth.communitySessionID
+            })
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && !data.responseText.includes('grouppage_join_area')) {
+              logStatus.success();
+              this.tasks.groups = unique([ ...this.tasks.groups, groupName ]);
+              return true;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.joinGroup');
+          return false;
+        }
+      }
+      async #leaveGroup(groupName) {
+        try {
+          if (this.whiteList.groups.includes(groupName)) {
+            scripts_echoLog({
+              type: 'whiteList',
+              text: 'Steam.leaveGroup',
+              id: groupName
+            });
+            return true;
+          }
+          const groupId = await this.#getGroupId(groupName);
+          if (!groupId) {
+            return false;
+          }
+          const logStatus = scripts_echoLog({
+            type: 'leavingSteamGroup',
+            text: groupName
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://steamcommunity.com/id/${this.#auth.userName}/home_process`,
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            data: $.param({
+              sessionID: this.#auth.communitySessionID,
+              action: 'leaveGroup',
+              groupId: groupId
+            })
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && data.finalUrl.includes('groups') && $(data.responseText.replace(/<img.*?>/g, '').toLowerCase()).find(`a[href='https://steamcommunity.com/groups/${groupName.toLowerCase()}']`).length === 0) {
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.leaveGroup');
+          return false;
+        }
+      }
+      async #getGroupId(groupName) {
+        try {
+          const logStatus = scripts_echoLog({
+            type: 'gettingSteamGroupId',
+            text: groupName
+          });
+          const groupId = this.#cache.group[groupName];
+          if (groupId) {
+            logStatus.success();
+            return groupId;
+          }
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://steamcommunity.com/groups/${groupName}`,
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              var _data$responseText$ma6;
+              const groupId = (_data$responseText$ma6 = data.responseText.match(/OpenGroupChat\( '([0-9]+)'/)) === null || _data$responseText$ma6 === void 0 ? void 0 : _data$responseText$ma6[1];
+              if (groupId) {
+                this.#setCache('group', groupName, groupId);
+                logStatus.success();
+                return groupId;
+              }
+              logStatus.error(`Error:${data.statusText}(${data.status})`);
+              return false;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.getGroupID');
+          return false;
+        }
+      }
+      async #joinOfficialGroup(gameId) {
+        try {
+          const logStatus = scripts_echoLog({
+            type: 'joiningSteamOfficialGroup',
+            text: gameId
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://steamcommunity.com/games/${gameId}?action=join&sessionID=${this.#auth.communitySessionID}`,
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && !data.responseText.includes('id="publicGroupJoin"')) {
+              var _data$responseText$ma7;
+              logStatus.success();
+              this.tasks.officialGroups = unique([ ...this.tasks.officialGroups, gameId ]);
+              const groupId = (_data$responseText$ma7 = data.responseText.match(/steam:\/\/friends\/joinchat\/([0-9]+)/)) === null || _data$responseText$ma7 === void 0 ? void 0 : _data$responseText$ma7[1];
+              if (groupId) {
+                this.#setCache('officialGroup', gameId, groupId);
+              }
+              return true;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.joinOfficialGroup');
+          return false;
+        }
+      }
+      async #leaveOfficialGroup(gameId) {
+        try {
+          if (this.whiteList.officialGroups.includes(gameId)) {
+            scripts_echoLog({
+              type: 'whiteList',
+              text: 'Steam.leaveOfficialGroup',
+              id: gameId
+            });
+            return true;
+          }
+          const groupId = await this.#getOfficialGroupId(gameId);
+          if (!groupId) {
+            return false;
+          }
+          const logStatus = scripts_echoLog({
+            type: 'leavingSteamOfficialGroup',
+            text: gameId
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://steamcommunity.com/id/${this.#auth.userName}/home_process`,
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            data: $.param({
+              sessionID: this.#auth.communitySessionID,
+              action: 'leaveGroup',
+              groupId: groupId
+            })
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              const {
+                result: resultR,
+                statusText: statusTextR,
+                status: statusR,
+                data: dataR
+              } = await tools_httpRequest({
+                url: `https://steamcommunity.com/games/${gameId}`,
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+              });
+              if (resultR === 'Success') {
+                if ((dataR === null || dataR === void 0 ? void 0 : dataR.status) === 200 && dataR.responseText.includes('id="publicGroupJoin"')) {
+                  logStatus.success();
+                  return true;
+                }
+                logStatus.error(`Error:${dataR === null || dataR === void 0 ? void 0 : dataR.statusText}(${dataR === null || dataR === void 0 ? void 0 : dataR.status})`);
+                return false;
+              }
+              logStatus.error(`${resultR}:${statusTextR}(${statusR})`);
+              return false;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.leaveOfficialGroup');
+          return false;
+        }
+      }
+      async #getOfficialGroupId(gameId) {
+        try {
+          const logStatus = scripts_echoLog({
+            type: 'gettingSteamOfficialGroupId',
+            text: gameId
+          });
+          const groupId = this.#cache.officialGroup[gameId];
+          if (groupId) {
+            logStatus.success();
+            return groupId;
+          }
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://steamcommunity.com/games/${gameId}`,
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              var _data$responseText$ma8;
+              const groupId = (_data$responseText$ma8 = data.responseText.match(/steam:\/\/friends\/joinchat\/([0-9]+)/)) === null || _data$responseText$ma8 === void 0 ? void 0 : _data$responseText$ma8[1];
+              if (groupId) {
+                this.#setCache('officialGroup', gameId, groupId);
+                logStatus.success();
+                return groupId;
+              }
+              logStatus.error(`Error:${data.statusText}(${data.status})`);
+              return false;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.getGroupID');
+          return false;
+        }
+      }
+      async #addToWishlist(gameId) {
+        try {
+          var _data$response2;
+          const logStatus = scripts_echoLog({
+            type: 'addingToWishlist',
+            text: gameId
+          });
+          const {
+            result,
+            data
+          } = await tools_httpRequest({
+            url: 'https://store.steampowered.com/api/addtowishlist',
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            data: $.param({
+              sessionid: this.#auth.storeSessionID,
+              appid: gameId
+            }),
+            dataType: 'json'
+          });
+          if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200 && ((_data$response2 = data.response) === null || _data$response2 === void 0 ? void 0 : _data$response2.success) === true) {
+            logStatus.success();
+            this.tasks.wishlists = unique([ ...this.tasks.wishlists, gameId ]);
+            return true;
+          }
+          const {
+            result: resultR,
+            statusText: statusTextR,
+            status: statusR,
+            data: dataR
+          } = await tools_httpRequest({
+            url: `https://store.steampowered.com/app/${gameId}`,
+            method: 'GET'
+          });
+          if (resultR === 'Success') {
+            if ((dataR === null || dataR === void 0 ? void 0 : dataR.status) === 200) {
+              if (this.#area === 'CN' && dataR.responseText.includes('id="error_box"')) {
+                logStatus.warning(i18n('changeAreaNotice'));
+                if (!await this.#changeArea()) {
+                  return false;
+                }
+                return await this.#addToWishlist(gameId);
+              }
+              if (dataR.responseText.includes('class="queue_actions_ctn"') && dataR.responseText.includes('class="already_in_library"')) {
+                logStatus.success();
+                this.tasks.wishlists = unique([ ...this.tasks.wishlists, gameId ]);
+                return true;
+              } else if (dataR.responseText.includes('class="queue_actions_ctn"') && dataR.responseText.includes('id="add_to_wishlist_area_success" style="display: none;') || !dataR.responseText.includes('class="queue_actions_ctn"')) {
+                logStatus.error(`Error:${dataR.statusText}(${dataR.status})`);
+                return false;
+              }
+              logStatus.success();
+              this.tasks.wishlists = unique([ ...this.tasks.wishlists, gameId ]);
+              return true;
+            }
+            logStatus.error(`Error:${dataR === null || dataR === void 0 ? void 0 : dataR.statusText}(${dataR === null || dataR === void 0 ? void 0 : dataR.status})`);
+            return false;
+          }
+          logStatus.error(`${resultR}:${statusTextR}(${statusR})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.addToWishlist');
+          return false;
+        }
+      }
+      async #removeFromWishlist(gameId) {
+        try {
+          var _data$response3;
+          if (this.whiteList.wishlists.includes(gameId)) {
+            scripts_echoLog({
+              type: 'whiteList',
+              text: 'Steam.removeFromWishlist',
+              id: gameId
+            });
+            return true;
+          }
+          const logStatus = scripts_echoLog({
+            type: 'removingFromWishlist',
+            text: gameId
+          });
+          const {
+            result,
+            data
+          } = await tools_httpRequest({
+            url: 'https://store.steampowered.com/api/removefromwishlist',
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            data: $.param({
+              sessionid: this.#auth.storeSessionID,
+              appid: gameId
+            }),
+            dataType: 'json'
+          });
+          if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200 && ((_data$response3 = data.response) === null || _data$response3 === void 0 ? void 0 : _data$response3.success) === true) {
+            logStatus.success();
+            return true;
+          }
+          const {
+            result: resultR,
+            statusText: statusTextR,
+            status: statusR,
+            data: dataR
+          } = await tools_httpRequest({
+            url: `https://store.steampowered.com/app/${gameId}`,
+            method: 'GET'
+          });
+          if (resultR === 'Success') {
+            if ((dataR === null || dataR === void 0 ? void 0 : dataR.status) === 200) {
+              if (this.#area === 'CN' && dataR.responseText.includes('id="error_box"')) {
+                logStatus.warning(i18n('changeAreaNotice'));
+                const result = await this.#changeArea();
+                if (!result || result === 'CN' || result === 'skip') {
+                  return false;
+                }
+                return await this.#removeFromWishlist(gameId);
+              }
+              if (dataR.responseText.includes('class="queue_actions_ctn"') && (dataR.responseText.includes('ds_owned_flag ds_flag') || dataR.responseText.includes('add_to_wishlist_area'))) {
+                logStatus.success();
+                return true;
+              }
+              logStatus.error(`Error:${dataR.statusText}(${dataR.status})`);
+              return false;
+            }
+            logStatus.error(`Error:${dataR === null || dataR === void 0 ? void 0 : dataR.statusText}(${dataR === null || dataR === void 0 ? void 0 : dataR.status})`);
+            return false;
+          }
+          logStatus.error(`${resultR}:${statusTextR}(${statusR})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.removeFromWishlist');
+          return false;
+        }
+      }
+      async #toggleFollowGame(gameId, doTask) {
+        try {
+          if (!doTask && this.whiteList.follows.includes(gameId)) {
+            scripts_echoLog({
+              type: 'whiteList',
+              text: 'Steam.unfollowGame',
+              id: gameId
+            });
+            return true;
+          }
+          const logStatus = scripts_echoLog({
+            type: `${doTask ? '' : 'un'}followingGame`,
+            text: gameId
+          });
+          const requestData = {
+            sessionid: this.#auth.storeSessionID,
+            appid: gameId
+          };
+          if (!doTask) {
+            requestData.unfollow = '1';
+          }
+          const {
+            result,
+            data
+          } = await tools_httpRequest({
+            url: 'https://store.steampowered.com/explore/followgame/',
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            data: $.param(requestData)
+          });
+          if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200 && data.responseText === 'true') {
+            logStatus.success();
+            return true;
+          }
+          const followed = await this.#isFollowedGame(gameId);
+          if (this.#area === 'CN' && followed === 'areaLocked') {
+            logStatus.warning(i18n('changeAreaNotice'));
+            if (!await this.#changeArea()) {
+              return false;
+            }
+            return await this.#removeFromWishlist(gameId);
+          }
+          if (doTask === followed) {
+            logStatus.success();
+            if (doTask) {
+              this.tasks.follows = unique([ ...this.tasks.follows, gameId ]);
+            }
+            return true;
+          }
+          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.toggleFollowGame');
+          return false;
+        }
+      }
+      async #isFollowedGame(gameId) {
+        try {
+          const {
+            result,
+            data
+          } = await tools_httpRequest({
+            url: `https://store.steampowered.com/app/${gameId}`,
+            method: 'GET'
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              if (this.#area === 'CN' && data.responseText.includes('id="error_box"')) {
+                return 'areaLocked';
+              }
+              if ($(data.responseText.replace(/<img.*?>/g, '')).find('.queue_control_button.queue_btn_follow>.btnv6_blue_hoverfade.btn_medium.queue_btn_active').css('display') !== 'none') {
+                return true;
+              }
+              return false;
+            }
+            return false;
+          }
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.isFollowedGame');
+          return false;
+        }
+      }
+      async #toggleForum(gameId) {
+        let doTask = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+        try {
+          if (!doTask && this.whiteList.forums.includes(gameId)) {
+            scripts_echoLog({
+              type: 'whiteList',
+              text: 'Steam.unsubscribeForum',
+              id: gameId
+            });
+            return true;
+          }
+          const forumId = await this.#getForumId(gameId);
+          if (!forumId) {
+            return false;
+          }
+          const logStatus = scripts_echoLog({
+            type: `${doTask ? '' : 'un'}subscribingForum`,
+            text: gameId
+          });
+          const [ id, feature ] = forumId.split('_');
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://steamcommunity.com/forum/${id}/General/${doTask ? '' : 'un'}subscribe/${feature || '0'}/`,
+            method: 'POST',
+            responseType: 'json',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            data: $.param({
+              sessionid: this.#auth.communitySessionID
+            })
+          });
+          if (result === 'Success') {
+            var _data$response4, _data$response5;
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (((_data$response4 = data.response) === null || _data$response4 === void 0 ? void 0 : _data$response4.success) === 1 || ((_data$response5 = data.response) === null || _data$response5 === void 0 ? void 0 : _data$response5.success) === 29)) {
+              if (doTask) {
+                this.tasks.forums = unique([ ...this.tasks.forums, gameId ]);
+              }
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return true;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return true;
+        } catch (error) {
+          throwError(error, 'Steam.toggleForum');
+          return true;
+        }
+      }
+      async #getForumId(gameId) {
+        try {
+          const logStatus = scripts_echoLog({
+            type: 'gettingForumId',
+            text: gameId
+          });
+          const forumId = this.#cache.forum[gameId];
+          if (forumId) {
+            logStatus.success();
+            return forumId;
+          }
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://steamcommunity.com/app/${gameId}/discussions/`,
+            method: 'GET'
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              var _data$responseText, _data$responseText$ma9;
+              const forumId = (_data$responseText = data.responseText) === null || _data$responseText === void 0 ? void 0 : (_data$responseText$ma9 = _data$responseText.match(/General_([\d]+(_[\d]+)?)/)) === null || _data$responseText$ma9 === void 0 ? void 0 : _data$responseText$ma9[1];
+              if (forumId) {
+                this.#setCache('forum', gameId, forumId);
+                logStatus.success();
+                return forumId;
+              }
+              logStatus.error(`Error:${data.statusText}(${data.status})`);
+              return false;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.getForumId');
+          return false;
+        }
+      }
+      async #toggleFavoriteWorkshop(id) {
+        let doTask = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+        try {
+          if (!doTask && this.whiteList.workshops.includes(id)) {
+            scripts_echoLog({
+              type: 'whiteList',
+              text: 'Steam.unfavoriteWorkshop',
+              id: id
+            });
+            return true;
+          }
+          const appid = await this.#getWorkshopAppId(id);
+          if (!appid) {
+            return false;
+          }
+          const logStatus = scripts_echoLog({
+            type: doTask ? 'favoritingWorkshop' : 'unfavoritingWorkshop',
+            text: id
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://steamcommunity.com/sharedfiles/${doTask ? '' : 'un'}favorite`,
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            data: $.param({
+              id: id,
+              appid: appid,
+              sessionid: this.#auth.communitySessionID
+            })
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && !data.responseText) {
+              if (doTask) {
+                this.tasks.workshops = unique([ ...this.tasks.workshops, id ]);
+              }
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.toggleFavoriteWorkshop');
+          return false;
+        }
+      }
+      async #getWorkshopAppId(id) {
+        try {
+          const logStatus = scripts_echoLog({
+            type: 'gettingWorkshopAppId',
+            text: id
+          });
+          const appId = this.#cache.workshop[id];
+          if (appId) {
+            logStatus.success();
+            return appId;
+          }
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://steamcommunity.com/sharedfiles/filedetails/?id=${id}`,
+            method: 'GET'
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              var _data$responseText$ma10;
+              const appId = (_data$responseText$ma10 = data.responseText.match(/<input type="hidden" name="appid" value="([\d]+?)" \/>/)) === null || _data$responseText$ma10 === void 0 ? void 0 : _data$responseText$ma10[1];
+              if (appId) {
+                this.#setCache('workshop', id, appId);
+                logStatus.success();
+                return appId;
+              }
+              logStatus.error('Error: getWorkshopAppId failed');
+              return false;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.getWorkshopAppId');
+          return false;
+        }
+      }
+      async #voteUpWorkshop(id) {
+        try {
+          const logStatus = scripts_echoLog({
+            type: 'votingUpWorkshop',
+            text: id
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://steamcommunity.com/sharedfiles/voteup',
+            method: 'POST',
+            responseType: 'json',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            data: $.param({
+              id: id,
+              sessionid: this.#auth.communitySessionID
+            })
+          });
+          if (result === 'Success') {
+            var _data$response6;
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && ((_data$response6 = data.response) === null || _data$response6 === void 0 ? void 0 : _data$response6.success) === 1) {
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return true;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return true;
+        } catch (error) {
+          throwError(error, 'Steam.voteupWorkshop');
+          return true;
+        }
+      }
+      async #toggleCurator(curatorId) {
+        let doTask = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+        try {
+          if (!doTask && this.whiteList.curators.includes(curatorId)) {
+            scripts_echoLog({
+              type: 'whiteList',
+              text: 'Steam.unfollowCurator',
+              id: curatorId
+            });
+            return true;
+          }
+          const logStatus = scripts_echoLog({
+            type: doTask ? 'followingCurator' : 'unfollowingCurator',
+            text: curatorId
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://store.steampowered.com/curators/ajaxfollow',
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            data: $.param({
+              clanid: curatorId,
+              sessionid: this.#auth.storeSessionID,
+              follow: doTask
+            }),
+            dataType: 'json'
+          });
+          if (result === 'Success') {
+            var _data$response7, _data$response7$succe, _data$response8;
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && ((_data$response7 = data.response) === null || _data$response7 === void 0 ? void 0 : (_data$response7$succe = _data$response7.success) === null || _data$response7$succe === void 0 ? void 0 : _data$response7$succe.success) === 1) {
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : (_data$response8 = data.response) === null || _data$response8 === void 0 ? void 0 : _data$response8.success}` || `${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.toggleCurator');
+          return false;
+        }
+      }
       async getCuratorId(path, name) {
         try {
           const logStatus = scripts_echoLog({
             type: 'gettingCuratorId',
             text: `${path}/${name}`
           });
-          const curatorId = Steam_classPrivateFieldGet(this, Steam_cache).curator[`${path}/${name}`];
+          const curatorId = this.#cache.curator[`${path}/${name}`];
           if (curatorId) {
             logStatus.success();
             return curatorId;
@@ -5013,10 +5336,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           });
           if (result === 'Success') {
             if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText$ma;
-              const curatorId = (_data$responseText$ma = data.responseText.match(/g_pagingData.*?"clanid":([\d]+)/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
+              var _data$responseText$ma11;
+              const curatorId = (_data$responseText$ma11 = data.responseText.match(/g_pagingData.*?"clanid":([\d]+)/)) === null || _data$responseText$ma11 === void 0 ? void 0 : _data$responseText$ma11[1];
               if (curatorId) {
-                Steam_classPrivateMethodGet(this, Steam_setCache, Steam_setCache2).call(this, 'curator', `${path}/${name}`, curatorId);
+                this.#setCache('curator', `${path}/${name}`, curatorId);
                 logStatus.success();
                 return curatorId;
               }
@@ -5030,6 +5353,374 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         } catch (error) {
           throwError(error, 'Steam.getCuratorID');
+          return false;
+        }
+      }
+      async #toggleCuratorLike(link) {
+        let doTask = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+        try {
+          const [ path, name ] = link.split('/');
+          if (!(path && name)) {
+            scripts_echoLog({
+              text: i18n('errorLink', link)
+            });
+            return false;
+          }
+          const curatorId = await this.getCuratorId(path, name);
+          if (curatorId) {
+            return await this.#toggleCurator(curatorId, doTask);
+          }
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.toggleCuratorLike');
+          return false;
+        }
+      }
+      async #getAnnouncementParams(appId, viewId) {
+        try {
+          const logStatus = scripts_echoLog({
+            type: 'gettingAnnouncementParams',
+            text: appId,
+            id: viewId
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://store.steampowered.com/events/ajaxgetpartnerevent?appid=${appId}&announcement_gid=${viewId}&lang_list=6_0&last_modified_time=0&origin=https:%2F%2Fstore.steampowered.com&for_edit=false`,
+            method: 'GET',
+            responseType: 'json',
+            headers: {
+              Host: 'store.steampowered.com',
+              Referer: `https://store.steampowered.com/news/app/${appId}/view/${viewId}`
+            }
+          });
+          if (result === 'Success') {
+            var _data$response9;
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (data === null || data === void 0 ? void 0 : (_data$response9 = data.response) === null || _data$response9 === void 0 ? void 0 : _data$response9.success) === 1) {
+              var _data$response$event;
+              const {
+                clanid,
+                gid
+              } = ((_data$response$event = data.response.event) === null || _data$response$event === void 0 ? void 0 : _data$response$event.announcement_body) || {};
+              if (clanid) {
+                logStatus.success();
+                return {
+                  clanId: clanid,
+                  gid: gid
+                };
+              }
+              logStatus.error(`Error:${data.statusText}(${data.status})`);
+              return {};
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return {};
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return {};
+        } catch (error) {
+          throwError(error, 'Steam.likeAnnouncement');
+          return {};
+        }
+      }
+      async #likeAnnouncement(id) {
+        try {
+          const [ appId, viewId ] = id.split('/');
+          if (!(appId && viewId)) {
+            scripts_echoLog({}).error(`${i18n('missParams')}(id)`);
+            return false;
+          }
+          const {
+            clanId,
+            gid
+          } = await this.#getAnnouncementParams(appId, viewId);
+          if (!clanId) {
+            return false;
+          }
+          const logStatus = scripts_echoLog({
+            type: 'likingAnnouncement',
+            text: appId,
+            id: viewId
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://store.steampowered.com/updated/ajaxrateupdate/${gid || viewId}`,
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+              Host: 'store.steampowered.com',
+              Origin: 'https://store.steampowered.com',
+              Referer: `https://store.steampowered.com/news/app/${appId}/view/${viewId}`
+            },
+            data: $.param({
+              sessionid: this.#auth.storeSessionID,
+              voteup: 1,
+              clanid: clanId,
+              ajax: 1
+            }),
+            dataType: 'json'
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && data.response.success === 1) {
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.likeAnnouncement');
+          return false;
+        }
+      }
+      async #appid2subid(id) {
+        try {
+          const logStatus = scripts_echoLog({
+            type: 'gettingSubid',
+            text: id
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://store.steampowered.com/app/${id}`,
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              var _data$responseText$ma12;
+              if (this.#area === 'CN' && data.responseText.includes('id="error_box"')) {
+                logStatus.warning(i18n('changeAreaNotice'));
+                const result = await this.#changeArea();
+                if (!result || result === 'CN' || result === 'skip') {
+                  return false;
+                }
+                return await this.#appid2subid(id);
+              }
+              const subid = (_data$responseText$ma12 = data.responseText.match(/name="subid" value="([\d]+?)"/)) === null || _data$responseText$ma12 === void 0 ? void 0 : _data$responseText$ma12[1];
+              if (subid) {
+                logStatus.success();
+                return subid;
+              }
+              logStatus.error(`Error:${data.statusText}(${data.status})`);
+              return false;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.appid2subid');
+          return false;
+        }
+      }
+      async #getLicenses() {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('gettingLicenses')
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://store.steampowered.com/dynamicstore/userdata/?t=${new Date().getTime()}`,
+            method: 'GET',
+            responseType: 'json'
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              var _data$response10;
+              logStatus.success();
+              return (_data$response10 = data.response) === null || _data$response10 === void 0 ? void 0 : _data$response10.rgOwnedPackages;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.getLicenses');
+          return false;
+        }
+      }
+      async #addLicense(id) {
+        try {
+          const [ type, ids ] = id.split('-');
+          if (type === 'appid') {
+            const subid = await this.#appid2subid(ids);
+            if (!subid) {
+              return false;
+            }
+            const logStatus = scripts_echoLog({
+              type: 'addingFreeLicense',
+              text: ids
+            });
+            if (!await this.#addFreeLicense(subid, logStatus)) {
+              return false;
+            }
+            const {
+              result,
+              statusText,
+              status,
+              data
+            } = await tools_httpRequest({
+              url: `https://store.steampowered.com/app/${ids}`,
+              method: 'GET'
+            });
+            if (result === 'Success') {
+              if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+                if (data.responseText.includes('ds_owned_flag ds_flag') || data.responseText.includes('class="already_in_library"')) {
+                  logStatus.success();
+                  return true;
+                }
+                logStatus.error(`Error:${data.statusText}(${data.status})`);
+                return false;
+              }
+              logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+              return false;
+            }
+            logStatus.error(`${result}:${statusText}(${status})`);
+            return false;
+          } else if (type === 'subid') {
+            if (this.#area === 'CN') {
+              scripts_echoLog({}).success(i18n('tryChangeAreaNotice'));
+              await this.#changeArea();
+            }
+            const logStatusArr = {};
+            const idsArr = ids.split(',');
+            for (const subid of idsArr) {
+              const logStatus = scripts_echoLog({
+                type: 'addingFreeLicenseSubid',
+                text: subid
+              });
+              if (!await this.#addFreeLicense(subid, logStatus)) {
+                return false;
+              }
+              logStatusArr[subid] = logStatus;
+            }
+            const licenses = await this.#getLicenses();
+            if (!licenses) {
+              return false;
+            }
+            for (const subid of idsArr) {
+              if (licenses.includes(parseInt(subid, 10))) {
+                logStatusArr[subid].success();
+              } else {
+                logStatusArr[subid].error();
+              }
+            }
+            return true;
+          }
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.addLicense');
+          return false;
+        }
+      }
+      async #addFreeLicense(id, logStatusPre) {
+        try {
+          const logStatus = logStatusPre || scripts_echoLog({
+            type: 'addingFreeLicenseSubid',
+            text: id
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://store.steampowered.com/checkout/addfreelicense',
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+              Host: 'store.steampowered.com',
+              Origin: 'https://store.steampowered.com',
+              Referer: 'https://store.steampowered.com/account/licenses/'
+            },
+            data: $.param({
+              action: 'add_to_cart',
+              sessionid: this.#auth.storeSessionID,
+              subid: id
+            }),
+            dataType: 'json'
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              if (this.#area === 'CN' && data.responseText.includes('id="error_box"')) {
+                logStatus.warning(i18n('changeAreaNotice'));
+                const result = await this.#changeArea();
+                if (!result || result === 'CN') {
+                  return false;
+                }
+                return await this.#addFreeLicense(id);
+              }
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.addFreeLicense');
+          return false;
+        }
+      }
+      async #requestPlayTestAccess(id) {
+        try {
+          const logStatus = scripts_echoLog({
+            type: 'requestingPlayTestAccess',
+            text: id
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://store.steampowered.com/ajaxrequestplaytestaccess/${id}`,
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+              Host: 'store.steampowered.com',
+              Origin: 'https://store.steampowered.com',
+              Referer: `https://store.steampowered.com/app/${id}`
+            },
+            data: $.param({
+              sessionid: this.#auth.storeSessionID
+            }),
+            dataType: 'json'
+          });
+          if (result === 'Success') {
+            var _data$response11;
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (data === null || data === void 0 ? void 0 : (_data$response11 = data.response) === null || _data$response11 === void 0 ? void 0 : _data$response11.success) === 1) {
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.requestPlayTestAccess');
           return false;
         }
       }
@@ -5050,13 +5741,13 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           playtestLinks = []
         } = _ref;
         try {
-          if ([ ...groupLinks, ...officialGroupLinks, ...forumLinks, ...workshopLinks, ...workshopVoteLinks ].length > 0 && !Steam_classPrivateFieldGet(this, _communityInitialized)) {
+          if ([ ...groupLinks, ...officialGroupLinks, ...forumLinks, ...workshopLinks, ...workshopVoteLinks ].length > 0 && !this.#communityInitialized) {
             scripts_echoLog({
               text: i18n('needInit')
             });
             return false;
           }
-          if ([ ...wishlistLinks, ...followLinks, ...curatorLinks, ...curatorLikeLinks, ...announcementLinks, ...licenseLinks, ...playtestLinks ].length > 0 && !Steam_classPrivateFieldGet(this, _storeInitialized)) {
+          if ([ ...wishlistLinks, ...followLinks, ...curatorLinks, ...curatorLikeLinks, ...announcementLinks, ...licenseLinks, ...playtestLinks ].length > 0 && !this.#storeInitialized) {
             scripts_echoLog({
               text: i18n('needInit')
             });
@@ -5076,9 +5767,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             if (realGroups.length > 0) {
               for (const group of realGroups) {
                 if (doTask) {
-                  prom.push(Steam_classPrivateMethodGet(this, _joinGroup, _joinGroup2).call(this, group));
+                  prom.push(this.#joinGroup(group));
                 } else {
-                  prom.push(Steam_classPrivateMethodGet(this, _leaveGroup, _leaveGroup2).call(this, group));
+                  prom.push(this.#leaveGroup(group));
                 }
                 await delay(1e3);
               }
@@ -5097,9 +5788,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             if (realOfficialGroups.length > 0) {
               for (const officialGroup of realOfficialGroups) {
                 if (doTask) {
-                  prom.push(Steam_classPrivateMethodGet(this, _joinOfficialGroup, _joinOfficialGroup2).call(this, officialGroup));
+                  prom.push(this.#joinOfficialGroup(officialGroup));
                 } else {
-                  prom.push(Steam_classPrivateMethodGet(this, _leaveOfficialGroup, _leaveOfficialGroup2).call(this, officialGroup));
+                  prom.push(this.#leaveOfficialGroup(officialGroup));
                 }
                 await delay(1e3);
               }
@@ -5118,9 +5809,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             if (realWishlists.length > 0) {
               for (const game of realWishlists) {
                 if (doTask) {
-                  prom.push(Steam_classPrivateMethodGet(this, _addToWishlist, _addToWishlist2).call(this, game));
+                  prom.push(this.#addToWishlist(game));
                 } else {
-                  prom.push(Steam_classPrivateMethodGet(this, _removeFromWishlist, _removeFromWishlist2).call(this, game));
+                  prom.push(this.#removeFromWishlist(game));
                 }
                 await delay(1e3);
               }
@@ -5138,7 +5829,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             });
             if (realFollows.length > 0) {
               for (const game of realFollows) {
-                prom.push(Steam_classPrivateMethodGet(this, _toggleFollowGame, _toggleFollowGame2).call(this, game, doTask));
+                prom.push(this.#toggleFollowGame(game, doTask));
                 await delay(1e3);
               }
             }
@@ -5155,7 +5846,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             });
             if (realForums.length > 0) {
               for (const forum of realForums) {
-                prom.push(Steam_classPrivateMethodGet(this, _toggleForum, _toggleForum2).call(this, forum, doTask));
+                prom.push(this.#toggleForum(forum, doTask));
                 await delay(1e3);
               }
             }
@@ -5172,7 +5863,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             });
             if (realWorkshops.length > 0) {
               for (const workshop of realWorkshops) {
-                prom.push(Steam_classPrivateMethodGet(this, _toggleFavoriteWorkshop, _toggleFavoriteWorkshop2).call(this, workshop, doTask));
+                prom.push(this.#toggleFavoriteWorkshop(workshop, doTask));
                 await delay(1e3);
               }
             }
@@ -5189,7 +5880,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             });
             if (doTask && realworkshopVotes.length > 0) {
               for (const workshop of realworkshopVotes) {
-                prom.push(Steam_classPrivateMethodGet(this, _voteUpWorkshop, _voteUpWorkshop2).call(this, workshop));
+                prom.push(this.#voteUpWorkshop(workshop));
                 await delay(1e3);
               }
             }
@@ -5210,13 +5901,13 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             });
             if (realCurators.length > 0) {
               for (const curator of realCurators) {
-                prom.push(Steam_classPrivateMethodGet(this, _toggleCurator, _toggleCurator2).call(this, curator, doTask));
+                prom.push(this.#toggleCurator(curator, doTask));
                 await delay(1e3);
               }
             }
             if (realCuratorLikes.length > 0) {
               for (const curatorLike of realCuratorLikes) {
-                prom.push(Steam_classPrivateMethodGet(this, _toggleCuratorLike, _toggleCuratorLike2).call(this, curatorLike, doTask));
+                prom.push(this.#toggleCuratorLike(curatorLike, doTask));
                 await delay(1e3);
               }
             }
@@ -5237,7 +5928,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             });
             if (doTask && realAnnouncements.length > 0) {
               for (const id of realAnnouncements) {
-                prom.push(Steam_classPrivateMethodGet(this, _likeAnnouncement, _likeAnnouncement2).call(this, id));
+                prom.push(this.#likeAnnouncement(id));
                 await delay(1e3);
               }
             }
@@ -5249,7 +5940,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             });
           } else if (doTask && globalOptions.doTask.steam.licenses && licenseLinks.length > 0) {
             for (const id of licenseLinks) {
-              prom.push(Steam_classPrivateMethodGet(this, _addLicense, _addLicense2).call(this, id));
+              prom.push(this.#addLicense(id));
               await delay(1e3);
             }
           }
@@ -5265,15 +5956,15 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             });
             if (doTask && globalOptions.doTask.steam.playtests && realPlaytests.length > 0) {
               for (const id of realPlaytests) {
-                prom.push(Steam_classPrivateMethodGet(this, _requestPlayTestAccess, _requestPlayTestAccess2).call(this, id));
+                prom.push(this.#requestPlayTestAccess(id));
                 await delay(1e3);
               }
             }
           }
           return Promise.all(prom).then(async () => {
-            if (Steam_classPrivateFieldGet(this, _area) !== 'CN') {
+            if (this.#area !== 'CN') {
               scripts_echoLog({}).warning(i18n('steamFinishNotice'));
-              await Steam_classPrivateMethodGet(this, _changeArea, _changeArea2).call(this, 'CN');
+              await this.#changeArea('CN');
             }
             return true;
           });
@@ -5282,1459 +5973,46 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-    }
-    async function _updateStoreAuth2() {
-      try {
-        const logStatus = scripts_echoLog({
-          text: i18n('updatingAuth', i18n('steamStore'))
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: 'https://store.steampowered.com/',
-          method: 'GET',
-          headers: {
-            Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-            'Cache-Control': 'max-age=0',
-            'Sec-Fetch-Dest': 'document',
-            'Sec-Fetch-Mode': 'navigate',
-            'Upgrade-Insecure-Requests': '1'
-          }
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText$ma2;
-            if (!data.responseText.includes('data-miniprofile=')) {
-              logStatus.error(`Error:${i18n('needLoginSteamStore')}`, true);
-              return false;
-            }
-            const storeSessionID = (_data$responseText$ma2 = data.responseText.match(/g_sessionID = "(.+?)";/)) === null || _data$responseText$ma2 === void 0 ? void 0 : _data$responseText$ma2[1];
-            if (storeSessionID) {
-              Steam_classPrivateFieldGet(this, Steam_auth).storeSessionID = storeSessionID;
-              logStatus.success();
-              return true;
-            }
-            logStatus.error('Error: Get "sessionID" failed');
-            return false;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
+      #setCache(type, name, id) {
+        try {
+          this.#cache[type][name] = id;
+          GM_setValue('steamCache', this.#cache);
+        } catch (error) {
+          throwError(error, 'Steam.setCache');
         }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Steam.updateStoreAuth');
-        return false;
-      }
-    }
-    async function _updateCommunityAuth2() {
-      try {
-        const logStatus = scripts_echoLog({
-          text: i18n('updatingAuth', i18n('steamCommunity'))
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: 'https://steamcommunity.com/my',
-          method: 'GET',
-          headers: {
-            Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-            'Cache-Control': 'max-age=0',
-            'Sec-Fetch-Dest': 'document',
-            'Sec-Fetch-Mode': 'navigate',
-            'Upgrade-Insecure-Requests': '1'
-          }
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText$ma3, _data$responseText$ma4, _data$responseText$ma5;
-            if (data.responseText.includes('href="https://steamcommunity.com/login/home/')) {
-              logStatus.error(`Error:${i18n('needLoginSteamCommunity')}`, true);
-              return false;
-            }
-            const steam64Id = (_data$responseText$ma3 = data.responseText.match(/g_steamID = "(.+?)";/)) === null || _data$responseText$ma3 === void 0 ? void 0 : _data$responseText$ma3[1];
-            const communitySessionID = (_data$responseText$ma4 = data.responseText.match(/g_sessionID = "(.+?)";/)) === null || _data$responseText$ma4 === void 0 ? void 0 : _data$responseText$ma4[1];
-            const userName = (_data$responseText$ma5 = data.responseText.match(/steamcommunity.com\/id\/(.+?)\/friends\//)) === null || _data$responseText$ma5 === void 0 ? void 0 : _data$responseText$ma5[1];
-            if (steam64Id) {
-              Steam_classPrivateFieldGet(this, Steam_auth).steam64Id = steam64Id;
-            }
-            if (userName) {
-              Steam_classPrivateFieldGet(this, Steam_auth).userName = userName;
-            }
-            if (communitySessionID) {
-              Steam_classPrivateFieldGet(this, Steam_auth).communitySessionID = communitySessionID;
-              logStatus.success();
-              return true;
-            }
-            logStatus.error('Error: Get "sessionID" failed');
-            return false;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Steam.updateCommunityAuth');
-        return false;
-      }
-    }
-    async function _getAreaInfo2() {
-      try {
-        const logStatus = scripts_echoLog({
-          text: i18n('gettingAreaInfo')
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: 'https://store.steampowered.com/cart/',
-          method: 'GET'
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText$ma6;
-            const currentArea = (_data$responseText$ma6 = data.responseText.match(/<input id="usercountrycurrency".*?value="(.+?)"/)) === null || _data$responseText$ma6 === void 0 ? void 0 : _data$responseText$ma6[1];
-            const areas = [ ...data.responseText.matchAll(/<div class="currency_change_option .*?" data-country="(.+?)" >/g) ].map(search => search[1]);
-            if (currentArea && areas.length > 0) {
-              Steam_classPrivateFieldSet(this, _area, currentArea);
-              logStatus.success();
-              return {
-                currentArea: currentArea,
-                areas: areas
-              };
-            }
-            logStatus.error('Error: get country info filed');
-            return {};
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return {};
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return {};
-      } catch (error) {
-        throwError(error, 'Steam.getAreaInfo');
-        return {};
-      }
-    }
-    async function _changeArea2(area) {
-      try {
-        if (Steam_classPrivateFieldGet(this, _areaStatus) === 'waiting') {
-          await new Promise(resolve => {
-            const checker = setInterval(() => {
-              if (Steam_classPrivateFieldGet(this, _areaStatus) !== 'waiting') {
-                clearInterval(checker);
-                resolve(true);
-              }
-            });
-          });
-        }
-        if (Steam_classPrivateFieldGet(this, _area) === area || !area && Steam_classPrivateFieldGet(this, _area) !== 'CN') {
-          return true;
-        }
-        Steam_classPrivateFieldSet(this, _areaStatus, 'waiting');
-        let aimedArea = area;
-        if (!aimedArea) {
-          const {
-            currentArea,
-            areas
-          } = await Steam_classPrivateMethodGet(this, _getAreaInfo, _getAreaInfo2).call(this);
-          if (!currentArea || !areas) {
-            Steam_classPrivateFieldSet(this, _areaStatus, 'error');
-            return false;
-          }
-          if (currentArea !== 'CN') {
-            Steam_classPrivateFieldSet(this, _areaStatus, 'skip');
-            scripts_echoLog({
-              text: 'notNeededChangeArea'
-            });
-            return 'skip';
-          }
-          const anotherArea = areas.filter(area => area && area !== 'CN');
-          if (!anotherArea || anotherArea.length === 0) {
-            Steam_classPrivateFieldSet(this, _areaStatus, 'noAnotherArea');
-            scripts_echoLog({
-              text: 'noAnotherArea'
-            });
-            return false;
-          }
-          [ aimedArea ] = anotherArea;
-        }
-        const logStatus = scripts_echoLog({
-          text: i18n('changingArea', aimedArea)
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: 'https://store.steampowered.com/account/setcountry',
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-          },
-          data: $.param({
-            cc: aimedArea,
-            sessionid: Steam_classPrivateFieldGet(this, Steam_auth).storeSessionID
-          })
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200 && data.responseText === 'true') {
-            const {
-              currentArea
-            } = await Steam_classPrivateMethodGet(this, _getAreaInfo, _getAreaInfo2).call(this);
-            if (currentArea === aimedArea) {
-              Steam_classPrivateFieldSet(this, _areaStatus, 'success');
-              logStatus.success();
-              return currentArea;
-            }
-            Steam_classPrivateFieldSet(this, _areaStatus, 'error');
-            logStatus.error('Error: change country filed');
-            return 'CN';
-          }
-          Steam_classPrivateFieldSet(this, _areaStatus, 'error');
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return 'CN';
-        }
-        Steam_classPrivateFieldSet(this, _areaStatus, 'error');
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return 'CN';
-      } catch (error) {
-        Steam_classPrivateFieldSet(this, _areaStatus, 'error');
-        throwError(error, 'Steam.changeArea');
-        return false;
-      }
-    }
-    async function _joinGroup2(groupName) {
-      try {
-        const logStatus = scripts_echoLog({
-          type: 'joiningSteamGroup',
-          text: groupName
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://steamcommunity.com/groups/${groupName}`,
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-          },
-          data: $.param({
-            action: 'join',
-            sessionID: Steam_classPrivateFieldGet(this, Steam_auth).communitySessionID
-          })
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200 && !data.responseText.includes('grouppage_join_area')) {
-            logStatus.success();
-            this.tasks.groups = unique([ ...this.tasks.groups, groupName ]);
-            return true;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Steam.joinGroup');
-        return false;
-      }
-    }
-    async function _leaveGroup2(groupName) {
-      try {
-        if (this.whiteList.groups.includes(groupName)) {
-          scripts_echoLog({
-            type: 'whiteList',
-            text: 'Steam.leaveGroup',
-            id: groupName
-          });
-          return true;
-        }
-        const groupId = await Steam_classPrivateMethodGet(this, _getGroupId, _getGroupId2).call(this, groupName);
-        if (!groupId) {
-          return false;
-        }
-        const logStatus = scripts_echoLog({
-          type: 'leavingSteamGroup',
-          text: groupName
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://steamcommunity.com/id/${Steam_classPrivateFieldGet(this, Steam_auth).userName}/home_process`,
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-          },
-          data: $.param({
-            sessionID: Steam_classPrivateFieldGet(this, Steam_auth).communitySessionID,
-            action: 'leaveGroup',
-            groupId: groupId
-          })
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200 && data.finalUrl.includes('groups') && $(data.responseText.replace(/<img.*?>/g, '').toLowerCase()).find(`a[href='https://steamcommunity.com/groups/${groupName.toLowerCase()}']`).length === 0) {
-            logStatus.success();
-            return true;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Steam.leaveGroup');
-        return false;
-      }
-    }
-    async function _getGroupId2(groupName) {
-      try {
-        const logStatus = scripts_echoLog({
-          type: 'gettingSteamGroupId',
-          text: groupName
-        });
-        const groupId = Steam_classPrivateFieldGet(this, Steam_cache).group[groupName];
-        if (groupId) {
-          logStatus.success();
-          return groupId;
-        }
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://steamcommunity.com/groups/${groupName}`,
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-          }
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText$ma7;
-            const groupId = (_data$responseText$ma7 = data.responseText.match(/OpenGroupChat\( '([0-9]+)'/)) === null || _data$responseText$ma7 === void 0 ? void 0 : _data$responseText$ma7[1];
-            if (groupId) {
-              Steam_classPrivateMethodGet(this, Steam_setCache, Steam_setCache2).call(this, 'group', groupName, groupId);
-              logStatus.success();
-              return groupId;
-            }
-            logStatus.error(`Error:${data.statusText}(${data.status})`);
-            return false;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Steam.getGroupID');
-        return false;
-      }
-    }
-    async function _joinOfficialGroup2(gameId) {
-      try {
-        const logStatus = scripts_echoLog({
-          type: 'joiningSteamOfficialGroup',
-          text: gameId
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://steamcommunity.com/games/${gameId}?action=join&sessionID=${Steam_classPrivateFieldGet(this, Steam_auth).communitySessionID}`,
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-          }
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200 && !data.responseText.includes('id="publicGroupJoin"')) {
-            var _data$responseText$ma8;
-            logStatus.success();
-            this.tasks.officialGroups = unique([ ...this.tasks.officialGroups, gameId ]);
-            const groupId = (_data$responseText$ma8 = data.responseText.match(/steam:\/\/friends\/joinchat\/([0-9]+)/)) === null || _data$responseText$ma8 === void 0 ? void 0 : _data$responseText$ma8[1];
-            if (groupId) {
-              Steam_classPrivateMethodGet(this, Steam_setCache, Steam_setCache2).call(this, 'officialGroup', gameId, groupId);
-            }
-            return true;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Steam.joinOfficialGroup');
-        return false;
-      }
-    }
-    async function _leaveOfficialGroup2(gameId) {
-      try {
-        if (this.whiteList.officialGroups.includes(gameId)) {
-          scripts_echoLog({
-            type: 'whiteList',
-            text: 'Steam.leaveOfficialGroup',
-            id: gameId
-          });
-          return true;
-        }
-        const groupId = await Steam_classPrivateMethodGet(this, _getOfficialGroupId, _getOfficialGroupId2).call(this, gameId);
-        if (!groupId) {
-          return false;
-        }
-        const logStatus = scripts_echoLog({
-          type: 'leavingSteamOfficialGroup',
-          text: gameId
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://steamcommunity.com/id/${Steam_classPrivateFieldGet(this, Steam_auth).userName}/home_process`,
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-          },
-          data: $.param({
-            sessionID: Steam_classPrivateFieldGet(this, Steam_auth).communitySessionID,
-            action: 'leaveGroup',
-            groupId: groupId
-          })
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            const {
-              result: resultR,
-              statusText: statusTextR,
-              status: statusR,
-              data: dataR
-            } = await tools_httpRequest({
-              url: `https://steamcommunity.com/games/${gameId}`,
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-              }
-            });
-            if (resultR === 'Success') {
-              if ((dataR === null || dataR === void 0 ? void 0 : dataR.status) === 200 && dataR.responseText.includes('id="publicGroupJoin"')) {
-                logStatus.success();
-                return true;
-              }
-              logStatus.error(`Error:${dataR === null || dataR === void 0 ? void 0 : dataR.statusText}(${dataR === null || dataR === void 0 ? void 0 : dataR.status})`);
-              return false;
-            }
-            logStatus.error(`${resultR}:${statusTextR}(${statusR})`);
-            return false;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Steam.leaveOfficialGroup');
-        return false;
-      }
-    }
-    async function _getOfficialGroupId2(gameId) {
-      try {
-        const logStatus = scripts_echoLog({
-          type: 'gettingSteamOfficialGroupId',
-          text: gameId
-        });
-        const groupId = Steam_classPrivateFieldGet(this, Steam_cache).officialGroup[gameId];
-        if (groupId) {
-          logStatus.success();
-          return groupId;
-        }
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://steamcommunity.com/games/${gameId}`,
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-          }
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText$ma9;
-            const groupId = (_data$responseText$ma9 = data.responseText.match(/steam:\/\/friends\/joinchat\/([0-9]+)/)) === null || _data$responseText$ma9 === void 0 ? void 0 : _data$responseText$ma9[1];
-            if (groupId) {
-              Steam_classPrivateMethodGet(this, Steam_setCache, Steam_setCache2).call(this, 'officialGroup', gameId, groupId);
-              logStatus.success();
-              return groupId;
-            }
-            logStatus.error(`Error:${data.statusText}(${data.status})`);
-            return false;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Steam.getGroupID');
-        return false;
-      }
-    }
-    async function _addToWishlist2(gameId) {
-      try {
-        var _data$response;
-        const logStatus = scripts_echoLog({
-          type: 'addingToWishlist',
-          text: gameId
-        });
-        const {
-          result,
-          data
-        } = await tools_httpRequest({
-          url: 'https://store.steampowered.com/api/addtowishlist',
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-          },
-          data: $.param({
-            sessionid: Steam_classPrivateFieldGet(this, Steam_auth).storeSessionID,
-            appid: gameId
-          }),
-          dataType: 'json'
-        });
-        if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200 && ((_data$response = data.response) === null || _data$response === void 0 ? void 0 : _data$response.success) === true) {
-          logStatus.success();
-          this.tasks.wishlists = unique([ ...this.tasks.wishlists, gameId ]);
-          return true;
-        }
-        const {
-          result: resultR,
-          statusText: statusTextR,
-          status: statusR,
-          data: dataR
-        } = await tools_httpRequest({
-          url: `https://store.steampowered.com/app/${gameId}`,
-          method: 'GET'
-        });
-        if (resultR === 'Success') {
-          if ((dataR === null || dataR === void 0 ? void 0 : dataR.status) === 200) {
-            if (Steam_classPrivateFieldGet(this, _area) === 'CN' && dataR.responseText.includes('id="error_box"')) {
-              logStatus.warning(i18n('changeAreaNotice'));
-              if (!await Steam_classPrivateMethodGet(this, _changeArea, _changeArea2).call(this)) {
-                return false;
-              }
-              return await Steam_classPrivateMethodGet(this, _addToWishlist, _addToWishlist2).call(this, gameId);
-            }
-            if (dataR.responseText.includes('class="queue_actions_ctn"') && dataR.responseText.includes('class="already_in_library"')) {
-              logStatus.success();
-              this.tasks.wishlists = unique([ ...this.tasks.wishlists, gameId ]);
-              return true;
-            } else if (dataR.responseText.includes('class="queue_actions_ctn"') && dataR.responseText.includes('id="add_to_wishlist_area_success" style="display: none;') || !dataR.responseText.includes('class="queue_actions_ctn"')) {
-              logStatus.error(`Error:${dataR.statusText}(${dataR.status})`);
-              return false;
-            }
-            logStatus.success();
-            this.tasks.wishlists = unique([ ...this.tasks.wishlists, gameId ]);
-            return true;
-          }
-          logStatus.error(`Error:${dataR === null || dataR === void 0 ? void 0 : dataR.statusText}(${dataR === null || dataR === void 0 ? void 0 : dataR.status})`);
-          return false;
-        }
-        logStatus.error(`${resultR}:${statusTextR}(${statusR})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Steam.addToWishlist');
-        return false;
-      }
-    }
-    async function _removeFromWishlist2(gameId) {
-      try {
-        var _data$response2;
-        if (this.whiteList.wishlists.includes(gameId)) {
-          scripts_echoLog({
-            type: 'whiteList',
-            text: 'Steam.removeFromWishlist',
-            id: gameId
-          });
-          return true;
-        }
-        const logStatus = scripts_echoLog({
-          type: 'removingFromWishlist',
-          text: gameId
-        });
-        const {
-          result,
-          data
-        } = await tools_httpRequest({
-          url: 'https://store.steampowered.com/api/removefromwishlist',
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-          },
-          data: $.param({
-            sessionid: Steam_classPrivateFieldGet(this, Steam_auth).storeSessionID,
-            appid: gameId
-          }),
-          dataType: 'json'
-        });
-        if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200 && ((_data$response2 = data.response) === null || _data$response2 === void 0 ? void 0 : _data$response2.success) === true) {
-          logStatus.success();
-          return true;
-        }
-        const {
-          result: resultR,
-          statusText: statusTextR,
-          status: statusR,
-          data: dataR
-        } = await tools_httpRequest({
-          url: `https://store.steampowered.com/app/${gameId}`,
-          method: 'GET'
-        });
-        if (resultR === 'Success') {
-          if ((dataR === null || dataR === void 0 ? void 0 : dataR.status) === 200) {
-            if (Steam_classPrivateFieldGet(this, _area) === 'CN' && dataR.responseText.includes('id="error_box"')) {
-              logStatus.warning(i18n('changeAreaNotice'));
-              const result = await Steam_classPrivateMethodGet(this, _changeArea, _changeArea2).call(this);
-              if (!result || result === 'CN' || result === 'skip') {
-                return false;
-              }
-              return await Steam_classPrivateMethodGet(this, _removeFromWishlist, _removeFromWishlist2).call(this, gameId);
-            }
-            if (dataR.responseText.includes('class="queue_actions_ctn"') && (dataR.responseText.includes('ds_owned_flag ds_flag') || dataR.responseText.includes('add_to_wishlist_area'))) {
-              logStatus.success();
-              return true;
-            }
-            logStatus.error(`Error:${dataR.statusText}(${dataR.status})`);
-            return false;
-          }
-          logStatus.error(`Error:${dataR === null || dataR === void 0 ? void 0 : dataR.statusText}(${dataR === null || dataR === void 0 ? void 0 : dataR.status})`);
-          return false;
-        }
-        logStatus.error(`${resultR}:${statusTextR}(${statusR})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Steam.removeFromWishlist');
-        return false;
-      }
-    }
-    async function _toggleFollowGame2(gameId, doTask) {
-      try {
-        if (!doTask && this.whiteList.follows.includes(gameId)) {
-          scripts_echoLog({
-            type: 'whiteList',
-            text: 'Steam.unfollowGame',
-            id: gameId
-          });
-          return true;
-        }
-        const logStatus = scripts_echoLog({
-          type: `${doTask ? '' : 'un'}followingGame`,
-          text: gameId
-        });
-        const requestData = {
-          sessionid: Steam_classPrivateFieldGet(this, Steam_auth).storeSessionID,
-          appid: gameId
-        };
-        if (!doTask) {
-          requestData.unfollow = '1';
-        }
-        const {
-          result,
-          data
-        } = await tools_httpRequest({
-          url: 'https://store.steampowered.com/explore/followgame/',
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-          },
-          data: $.param(requestData)
-        });
-        if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200 && data.responseText === 'true') {
-          logStatus.success();
-          return true;
-        }
-        const followed = await Steam_classPrivateMethodGet(this, _isFollowedGame, _isFollowedGame2).call(this, gameId);
-        if (Steam_classPrivateFieldGet(this, _area) === 'CN' && followed === 'areaLocked') {
-          logStatus.warning(i18n('changeAreaNotice'));
-          if (!await Steam_classPrivateMethodGet(this, _changeArea, _changeArea2).call(this)) {
-            return false;
-          }
-          return await Steam_classPrivateMethodGet(this, _removeFromWishlist, _removeFromWishlist2).call(this, gameId);
-        }
-        if (doTask === followed) {
-          logStatus.success();
-          if (doTask) {
-            this.tasks.follows = unique([ ...this.tasks.follows, gameId ]);
-          }
-          return true;
-        }
-        logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Steam.toggleFollowGame');
-        return false;
-      }
-    }
-    async function _isFollowedGame2(gameId) {
-      try {
-        const {
-          result,
-          data
-        } = await tools_httpRequest({
-          url: `https://store.steampowered.com/app/${gameId}`,
-          method: 'GET'
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            if (Steam_classPrivateFieldGet(this, _area) === 'CN' && data.responseText.includes('id="error_box"')) {
-              return 'areaLocked';
-            }
-            if ($(data.responseText.replace(/<img.*?>/g, '')).find('.queue_control_button.queue_btn_follow>.btnv6_blue_hoverfade.btn_medium.queue_btn_active').css('display') !== 'none') {
-              return true;
-            }
-            return false;
-          }
-          return false;
-        }
-        return false;
-      } catch (error) {
-        throwError(error, 'Steam.isFollowedGame');
-        return false;
-      }
-    }
-    async function _toggleForum2(gameId) {
-      let doTask = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-      try {
-        if (!doTask && this.whiteList.forums.includes(gameId)) {
-          scripts_echoLog({
-            type: 'whiteList',
-            text: 'Steam.unsubscribeForum',
-            id: gameId
-          });
-          return true;
-        }
-        const forumId = await Steam_classPrivateMethodGet(this, _getForumId, _getForumId2).call(this, gameId);
-        if (!forumId) {
-          return false;
-        }
-        const logStatus = scripts_echoLog({
-          type: `${doTask ? '' : 'un'}subscribingForum`,
-          text: gameId
-        });
-        const [ id, feature ] = forumId.split('_');
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://steamcommunity.com/forum/${id}/General/${doTask ? '' : 'un'}subscribe/${feature || '0'}/`,
-          method: 'POST',
-          responseType: 'json',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-          },
-          data: $.param({
-            sessionid: Steam_classPrivateFieldGet(this, Steam_auth).communitySessionID
-          })
-        });
-        if (result === 'Success') {
-          var _data$response3, _data$response4;
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (((_data$response3 = data.response) === null || _data$response3 === void 0 ? void 0 : _data$response3.success) === 1 || ((_data$response4 = data.response) === null || _data$response4 === void 0 ? void 0 : _data$response4.success) === 29)) {
-            if (doTask) {
-              this.tasks.forums = unique([ ...this.tasks.forums, gameId ]);
-            }
-            logStatus.success();
-            return true;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return true;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return true;
-      } catch (error) {
-        throwError(error, 'Steam.toggleForum');
-        return true;
-      }
-    }
-    async function _getForumId2(gameId) {
-      try {
-        const logStatus = scripts_echoLog({
-          type: 'gettingForumId',
-          text: gameId
-        });
-        const forumId = Steam_classPrivateFieldGet(this, Steam_cache).forum[gameId];
-        if (forumId) {
-          logStatus.success();
-          return forumId;
-        }
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://steamcommunity.com/app/${gameId}/discussions/`,
-          method: 'GET'
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText, _data$responseText$ma10;
-            const forumId = (_data$responseText = data.responseText) === null || _data$responseText === void 0 ? void 0 : (_data$responseText$ma10 = _data$responseText.match(/General_([\d]+(_[\d]+)?)/)) === null || _data$responseText$ma10 === void 0 ? void 0 : _data$responseText$ma10[1];
-            if (forumId) {
-              Steam_classPrivateMethodGet(this, Steam_setCache, Steam_setCache2).call(this, 'forum', gameId, forumId);
-              logStatus.success();
-              return forumId;
-            }
-            logStatus.error(`Error:${data.statusText}(${data.status})`);
-            return false;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Steam.getForumId');
-        return false;
-      }
-    }
-    async function _toggleFavoriteWorkshop2(id) {
-      let doTask = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-      try {
-        if (!doTask && this.whiteList.workshops.includes(id)) {
-          scripts_echoLog({
-            type: 'whiteList',
-            text: 'Steam.unfavoriteWorkshop',
-            id: id
-          });
-          return true;
-        }
-        const appid = await Steam_classPrivateMethodGet(this, _getWorkshopAppId, _getWorkshopAppId2).call(this, id);
-        if (!appid) {
-          return false;
-        }
-        const logStatus = scripts_echoLog({
-          type: doTask ? 'favoritingWorkshop' : 'unfavoritingWorkshop',
-          text: id
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://steamcommunity.com/sharedfiles/${doTask ? '' : 'un'}favorite`,
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-          },
-          data: $.param({
-            id: id,
-            appid: appid,
-            sessionid: Steam_classPrivateFieldGet(this, Steam_auth).communitySessionID
-          })
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200 && !data.responseText) {
-            if (doTask) {
-              this.tasks.workshops = unique([ ...this.tasks.workshops, id ]);
-            }
-            logStatus.success();
-            return true;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Steam.toggleFavoriteWorkshop');
-        return false;
-      }
-    }
-    async function _getWorkshopAppId2(id) {
-      try {
-        const logStatus = scripts_echoLog({
-          type: 'gettingWorkshopAppId',
-          text: id
-        });
-        const appId = Steam_classPrivateFieldGet(this, Steam_cache).workshop[id];
-        if (appId) {
-          logStatus.success();
-          return appId;
-        }
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://steamcommunity.com/sharedfiles/filedetails/?id=${id}`,
-          method: 'GET'
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText$ma11;
-            const appId = (_data$responseText$ma11 = data.responseText.match(/<input type="hidden" name="appid" value="([\d]+?)" \/>/)) === null || _data$responseText$ma11 === void 0 ? void 0 : _data$responseText$ma11[1];
-            if (appId) {
-              Steam_classPrivateMethodGet(this, Steam_setCache, Steam_setCache2).call(this, 'workshop', id, appId);
-              logStatus.success();
-              return appId;
-            }
-            logStatus.error('Error: getWorkshopAppId failed');
-            return false;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Steam.getWorkshopAppId');
-        return false;
-      }
-    }
-    async function _voteUpWorkshop2(id) {
-      try {
-        const logStatus = scripts_echoLog({
-          type: 'votingUpWorkshop',
-          text: id
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: 'https://steamcommunity.com/sharedfiles/voteup',
-          method: 'POST',
-          responseType: 'json',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-          },
-          data: $.param({
-            id: id,
-            sessionid: Steam_classPrivateFieldGet(this, Steam_auth).communitySessionID
-          })
-        });
-        if (result === 'Success') {
-          var _data$response5;
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200 && ((_data$response5 = data.response) === null || _data$response5 === void 0 ? void 0 : _data$response5.success) === 1) {
-            logStatus.success();
-            return true;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return true;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return true;
-      } catch (error) {
-        throwError(error, 'Steam.voteupWorkshop');
-        return true;
-      }
-    }
-    async function _toggleCurator2(curatorId) {
-      let doTask = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-      try {
-        if (!doTask && this.whiteList.curators.includes(curatorId)) {
-          scripts_echoLog({
-            type: 'whiteList',
-            text: 'Steam.unfollowCurator',
-            id: curatorId
-          });
-          return true;
-        }
-        const logStatus = scripts_echoLog({
-          type: doTask ? 'followingCurator' : 'unfollowingCurator',
-          text: curatorId
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: 'https://store.steampowered.com/curators/ajaxfollow',
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-          },
-          data: $.param({
-            clanid: curatorId,
-            sessionid: Steam_classPrivateFieldGet(this, Steam_auth).storeSessionID,
-            follow: doTask
-          }),
-          dataType: 'json'
-        });
-        if (result === 'Success') {
-          var _data$response6, _data$response6$succe, _data$response7;
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200 && ((_data$response6 = data.response) === null || _data$response6 === void 0 ? void 0 : (_data$response6$succe = _data$response6.success) === null || _data$response6$succe === void 0 ? void 0 : _data$response6$succe.success) === 1) {
-            logStatus.success();
-            return true;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : (_data$response7 = data.response) === null || _data$response7 === void 0 ? void 0 : _data$response7.success}` || `${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Steam.toggleCurator');
-        return false;
-      }
-    }
-    async function _toggleCuratorLike2(link) {
-      let doTask = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-      try {
-        const [ path, name ] = link.split('/');
-        if (!(path && name)) {
-          scripts_echoLog({
-            text: i18n('errorLink', link)
-          });
-          return false;
-        }
-        const curatorId = await this.getCuratorId(path, name);
-        if (curatorId) {
-          return await Steam_classPrivateMethodGet(this, _toggleCurator, _toggleCurator2).call(this, curatorId, doTask);
-        }
-        return false;
-      } catch (error) {
-        throwError(error, 'Steam.toggleCuratorLike');
-        return false;
-      }
-    }
-    async function _getAnnouncementParams2(appId, viewId) {
-      try {
-        const logStatus = scripts_echoLog({
-          type: 'gettingAnnouncementParams',
-          text: appId,
-          id: viewId
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://store.steampowered.com/news/app/${appId}/view/${viewId}`,
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-          }
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText$ma12, _data$responseText$ma13, _data$responseText$ma14;
-            if (Steam_classPrivateFieldGet(this, _area) === 'CN' && data.responseText.includes('id="error_box"')) {
-              logStatus.warning(i18n('changeAreaNotice'));
-              if (!await Steam_classPrivateMethodGet(this, _changeArea, _changeArea2).call(this)) {
-                return {};
-              }
-              return await Steam_classPrivateMethodGet(this, _getAnnouncementParams, _getAnnouncementParams2).call(this, appId, viewId);
-            }
-            const authWgToken = (_data$responseText$ma12 = data.responseText.match(/authwgtoken&quot;:&quot;(.*?)&quot;/)) === null || _data$responseText$ma12 === void 0 ? void 0 : _data$responseText$ma12[1];
-            const clanId = (_data$responseText$ma13 = data.responseText.match(/clanAccountID&quot;:([\d]+?),/)) === null || _data$responseText$ma13 === void 0 ? void 0 : _data$responseText$ma13[1];
-            const gid = (_data$responseText$ma14 = data.responseText.match(/announcementGID&quot;:&quot;([\d]+?)&quot;/)) === null || _data$responseText$ma14 === void 0 ? void 0 : _data$responseText$ma14[1];
-            if (authWgToken && clanId) {
-              logStatus.success();
-              return {
-                authWgToken: authWgToken,
-                clanId: clanId,
-                gid: gid
-              };
-            }
-            logStatus.error(`Error:${data.statusText}(${data.status})`);
-            return {};
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return {};
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return {};
-      } catch (error) {
-        throwError(error, 'Steam.likeAnnouncement');
-        return {};
-      }
-    }
-    async function _likeAnnouncement2(id) {
-      try {
-        const [ appId, viewId ] = id.split('/');
-        if (!(appId && viewId)) {
-          scripts_echoLog({}).error(`${i18n('missParams')}(id)`);
-          return false;
-        }
-        const {
-          authWgToken,
-          clanId,
-          gid
-        } = await Steam_classPrivateMethodGet(this, _getAnnouncementParams, _getAnnouncementParams2).call(this, appId, viewId);
-        if (!(authWgToken && clanId)) {
-          return false;
-        }
-        const logStatus = scripts_echoLog({
-          type: 'likingAnnouncement',
-          text: appId,
-          id: viewId
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://store.steampowered.com/updated/ajaxrateupdate/${gid || viewId}`,
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            Host: 'store.steampowered.com',
-            Origin: 'https://store.steampowered.com',
-            Referer: `https://store.steampowered.com/news/app/${appId}/view/${viewId}`
-          },
-          data: $.param({
-            sessionid: Steam_classPrivateFieldGet(this, Steam_auth).storeSessionID,
-            wgauthtoken: authWgToken,
-            voteup: 1,
-            clanid: clanId,
-            ajax: 1
-          }),
-          dataType: 'json'
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200 && data.response.success === 1) {
-            logStatus.success();
-            return true;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Steam.likeAnnouncement');
-        return false;
-      }
-    }
-    async function _appid2subid2(id) {
-      try {
-        const logStatus = scripts_echoLog({
-          type: 'gettingSubid',
-          text: id
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://store.steampowered.com/app/${id}`,
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-          }
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText$ma15;
-            if (Steam_classPrivateFieldGet(this, _area) === 'CN' && data.responseText.includes('id="error_box"')) {
-              logStatus.warning(i18n('changeAreaNotice'));
-              const result = await Steam_classPrivateMethodGet(this, _changeArea, _changeArea2).call(this);
-              if (!result || result === 'CN' || result === 'skip') {
-                return false;
-              }
-              return await Steam_classPrivateMethodGet(this, _appid2subid, _appid2subid2).call(this, id);
-            }
-            const subid = (_data$responseText$ma15 = data.responseText.match(/name="subid" value="([\d]+?)"/)) === null || _data$responseText$ma15 === void 0 ? void 0 : _data$responseText$ma15[1];
-            if (subid) {
-              logStatus.success();
-              return subid;
-            }
-            logStatus.error(`Error:${data.statusText}(${data.status})`);
-            return false;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Steam.appid2subid');
-        return false;
-      }
-    }
-    async function _getLicenses2() {
-      try {
-        const logStatus = scripts_echoLog({
-          text: i18n('gettingLicenses')
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://store.steampowered.com/dynamicstore/userdata/?t=${new Date().getTime()}`,
-          method: 'GET',
-          responseType: 'json'
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$response8;
-            logStatus.success();
-            return (_data$response8 = data.response) === null || _data$response8 === void 0 ? void 0 : _data$response8.rgOwnedPackages;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Steam.getLicenses');
-        return false;
-      }
-    }
-    async function _addLicense2(id) {
-      try {
-        const [ type, ids ] = id.split('-');
-        if (type === 'appid') {
-          const subid = await Steam_classPrivateMethodGet(this, _appid2subid, _appid2subid2).call(this, ids);
-          if (!subid) {
-            return false;
-          }
-          const logStatus = scripts_echoLog({
-            type: 'addingFreeLicense',
-            text: ids
-          });
-          if (!await Steam_classPrivateMethodGet(this, _addFreeLicense, _addFreeLicense2).call(this, subid, logStatus)) {
-            return false;
-          }
-          const {
-            result,
-            statusText,
-            status,
-            data
-          } = await tools_httpRequest({
-            url: `https://store.steampowered.com/app/${ids}`,
-            method: 'GET'
-          });
-          if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              if (data.responseText.includes('ds_owned_flag ds_flag') || data.responseText.includes('class="already_in_library"')) {
-                logStatus.success();
-                return true;
-              }
-              logStatus.error(`Error:${data.statusText}(${data.status})`);
-              return false;
-            }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-            return false;
-          }
-          logStatus.error(`${result}:${statusText}(${status})`);
-          return false;
-        } else if (type === 'subid') {
-          if (Steam_classPrivateFieldGet(this, _area) === 'CN') {
-            scripts_echoLog({}).success(i18n('tryChangeAreaNotice'));
-            await Steam_classPrivateMethodGet(this, _changeArea, _changeArea2).call(this);
-          }
-          const logStatusArr = {};
-          const idsArr = ids.split(',');
-          for (const subid of idsArr) {
-            const logStatus = scripts_echoLog({
-              type: 'addingFreeLicenseSubid',
-              text: subid
-            });
-            if (!await Steam_classPrivateMethodGet(this, _addFreeLicense, _addFreeLicense2).call(this, subid, logStatus)) {
-              return false;
-            }
-            logStatusArr[subid] = logStatus;
-          }
-          const licenses = await Steam_classPrivateMethodGet(this, _getLicenses, _getLicenses2).call(this);
-          if (!licenses) {
-            return false;
-          }
-          for (const subid of idsArr) {
-            if (licenses.includes(parseInt(subid, 10))) {
-              logStatusArr[subid].success();
-            } else {
-              logStatusArr[subid].error();
-            }
-          }
-          return true;
-        }
-        return false;
-      } catch (error) {
-        throwError(error, 'Steam.addLicense');
-        return false;
-      }
-    }
-    async function _addFreeLicense2(id, logStatusPre) {
-      try {
-        const logStatus = logStatusPre || scripts_echoLog({
-          type: 'addingFreeLicenseSubid',
-          text: id
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: 'https://store.steampowered.com/checkout/addfreelicense',
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            Host: 'store.steampowered.com',
-            Origin: 'https://store.steampowered.com',
-            Referer: 'https://store.steampowered.com/account/licenses/'
-          },
-          data: $.param({
-            action: 'add_to_cart',
-            sessionid: Steam_classPrivateFieldGet(this, Steam_auth).storeSessionID,
-            subid: id
-          }),
-          dataType: 'json'
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            if (Steam_classPrivateFieldGet(this, _area) === 'CN' && data.responseText.includes('id="error_box"')) {
-              logStatus.warning(i18n('changeAreaNotice'));
-              const result = await Steam_classPrivateMethodGet(this, _changeArea, _changeArea2).call(this);
-              if (!result || result === 'CN') {
-                return false;
-              }
-              return await Steam_classPrivateMethodGet(this, _addFreeLicense, _addFreeLicense2).call(this, id);
-            }
-            logStatus.success();
-            return true;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Steam.addFreeLicense');
-        return false;
-      }
-    }
-    async function _requestPlayTestAccess2(id) {
-      try {
-        const logStatus = scripts_echoLog({
-          type: 'requestingPlayTestAccess',
-          text: id
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://store.steampowered.com/ajaxrequestplaytestaccess/${id}`,
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            Host: 'store.steampowered.com',
-            Origin: 'https://store.steampowered.com',
-            Referer: `https://store.steampowered.com/app/${id}`
-          },
-          data: $.param({
-            sessionid: Steam_classPrivateFieldGet(this, Steam_auth).storeSessionID
-          }),
-          dataType: 'json'
-        });
-        if (result === 'Success') {
-          var _data$response9;
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (data === null || data === void 0 ? void 0 : (_data$response9 = data.response) === null || _data$response9 === void 0 ? void 0 : _data$response9.success) === 1) {
-            logStatus.success();
-            return true;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-          return false;
-        }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Steam.requestPlayTestAccess');
-        return false;
-      }
-    }
-    function Steam_setCache2(type, name, id) {
-      try {
-        Steam_classPrivateFieldGet(this, Steam_cache)[type][name] = id;
-        GM_setValue('steamCache', Steam_classPrivateFieldGet(this, Steam_cache));
-      } catch (error) {
-        throwError(error, 'Steam.setCache');
       }
     }
     const social_Steam = Steam;
-    function Website_classPrivateMethodInitSpec(obj, privateSet) {
-      Website_checkPrivateRedeclaration(obj, privateSet);
-      privateSet.add(obj);
-    }
-    function Website_checkPrivateRedeclaration(obj, privateCollection) {
-      if (privateCollection.has(obj)) {
-        throw new TypeError('Cannot initialize the same private elements twice on an object');
-      }
-    }
-    function Website_defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
-    function Website_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
-    var _bind = new WeakSet();
     class Website {
-      constructor() {
-        Website_classPrivateMethodInitSpec(this, _bind);
-        Website_defineProperty(this, 'undoneTasks', void 0);
-        Website_defineProperty(this, 'socialTasks', void 0);
-        Website_defineProperty(this, 'giveawayId', void 0);
-        Website_defineProperty(this, 'socialInitialized', {
-          discord: false,
-          instagram: false,
-          reddit: false,
-          twitch: false,
-          twitter: false,
-          vk: false,
-          youtube: false,
-          steamStore: false,
-          steamCommunity: false
-        });
-        Website_defineProperty(this, 'initialized', false);
-        Website_defineProperty(this, 'social', {});
+      undoneTasks;
+      socialTasks;
+      giveawayId;
+      socialInitialized = {
+        discord: false,
+        instagram: false,
+        reddit: false,
+        twitch: false,
+        twitter: false,
+        vk: false,
+        youtube: false,
+        steamStore: false,
+        steamCommunity: false
+      };
+      initialized = false;
+      social = {};
+      async #bind(name, init) {
+        try {
+          return {
+            name: name,
+            result: await init
+          };
+        } catch (error) {
+          throwError(error, 'Website.bind');
+          return {
+            name: name,
+            result: false
+          };
+        }
       }
       async initSocial(action) {
         try {
@@ -6744,49 +6022,49 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             const hasDiscord = Object.values(tasks.discord).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
             if (hasDiscord && (!this.socialInitialized.discord || !this.social.discord)) {
               this.social.discord = new social_Discord();
-              pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'discord', this.social.discord.init()));
+              pro.push(this.#bind('discord', this.social.discord.init()));
             }
           }
           if (tasks.instagram) {
             const hasInstagram = Object.values(tasks.instagram).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
             if (hasInstagram && (!this.socialInitialized.instagram || !this.social.instagram)) {
               this.social.instagram = new social_Instagram();
-              pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'instagram', this.social.instagram.init()));
+              pro.push(this.#bind('instagram', this.social.instagram.init()));
             }
           }
           if (tasks.reddit) {
             const hasReddit = Object.values(tasks.reddit).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
             if (hasReddit && (!this.socialInitialized.reddit || !this.social.reddit)) {
               this.social.reddit = new social_Reddit();
-              pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'reddit', this.social.reddit.init()));
+              pro.push(this.#bind('reddit', this.social.reddit.init()));
             }
           }
           if (tasks.twitch) {
             const hasTwitch = Object.values(tasks.twitch).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
             if (hasTwitch && (!this.socialInitialized.twitch || !this.social.twitch)) {
               this.social.twitch = new social_Twitch();
-              pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'twitch', this.social.twitch.init()));
+              pro.push(this.#bind('twitch', this.social.twitch.init()));
             }
           }
           if (tasks.twitter) {
             const hasTwitter = Object.values(tasks.twitter).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
             if (hasTwitter && (!this.socialInitialized.twitter || !this.social.twitter)) {
               this.social.twitter = new social_Twitter();
-              pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'twitter', this.social.twitter.init()));
+              pro.push(this.#bind('twitter', this.social.twitter.init()));
             }
           }
           if (tasks.vk) {
             const hasVk = Object.values(tasks.vk).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
             if (hasVk && (!this.socialInitialized.vk || !this.social.vk)) {
               this.social.vk = new social_Vk();
-              pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'vk', this.social.vk.init()));
+              pro.push(this.#bind('vk', this.social.vk.init()));
             }
           }
           if (tasks.youtube) {
             const hasYoutube = Object.values(tasks.youtube).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
             if (hasYoutube && (!this.socialInitialized.youtube || !this.social.youtube)) {
               this.social.youtube = new Youtube();
-              pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'youtube', this.social.youtube.init()));
+              pro.push(this.#bind('youtube', this.social.youtube.init()));
             }
           }
           if (tasks.steam) {
@@ -6800,10 +6078,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 return [ 'groupLinks', 'officialGroupLinks', 'forumLinks', 'workshopLinks', 'workshopVoteLinks' ].includes(type) ? ((_tasks$steam = tasks.steam) === null || _tasks$steam === void 0 ? void 0 : (_tasks$steam$type = _tasks$steam[type]) === null || _tasks$steam$type === void 0 ? void 0 : _tasks$steam$type.length) || 0 : 0;
               }).reduce((total, number) => total + number, 0);
               if (steamLength - steamCommunityLength > 0 && !this.socialInitialized.steamStore) {
-                pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'steamStore', this.social.steam.init('store')));
+                pro.push(this.#bind('steamStore', this.social.steam.init('store')));
               }
               if (steamCommunityLength > 0 && !this.socialInitialized.steamCommunity) {
-                pro.push(Website_classPrivateMethodGet(this, _bind, _bind2).call(this, 'steamCommunity', this.social.steam.init('community')));
+                pro.push(this.#bind('steamCommunity', this.social.steam.init('community')));
               }
             }
           }
@@ -6934,49 +6212,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         }
       }
     }
-    async function _bind2(name, init) {
-      try {
-        return {
-          name: name,
-          result: await init
-        };
-      } catch (error) {
-        throwError(error, 'Website.bind');
-        return {
-          name: name,
-          result: false
-        };
-      }
-    }
     const website_Website = Website;
-    function FreeAnyWhere_classPrivateMethodInitSpec(obj, privateSet) {
-      FreeAnyWhere_checkPrivateRedeclaration(obj, privateSet);
-      privateSet.add(obj);
-    }
-    function FreeAnyWhere_checkPrivateRedeclaration(obj, privateCollection) {
-      if (privateCollection.has(obj)) {
-        throw new TypeError('Cannot initialize the same private elements twice on an object');
-      }
-    }
-    function FreeAnyWhere_defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
-    function FreeAnyWhere_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
     const FreeAnyWhere_defaultTasksTemplate = {
       steam: {
         groupLinks: [],
@@ -6989,21 +6225,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     };
     const FreeAnyWhere_defaultTasks = JSON.stringify(FreeAnyWhere_defaultTasksTemplate);
-    var _getGiveawayId = new WeakSet();
-    var _verify = new WeakSet();
-    var _checkLeftKey = new WeakSet();
     class FreeAnyWhere extends website_Website {
-      constructor() {
-        super(...arguments);
-        FreeAnyWhere_classPrivateMethodInitSpec(this, _checkLeftKey);
-        FreeAnyWhere_classPrivateMethodInitSpec(this, _verify);
-        FreeAnyWhere_classPrivateMethodInitSpec(this, _getGiveawayId);
-        FreeAnyWhere_defineProperty(this, 'name', 'FreeAnyWhere');
-        FreeAnyWhere_defineProperty(this, 'tasks', []);
-        FreeAnyWhere_defineProperty(this, 'socialTasks', JSON.parse(FreeAnyWhere_defaultTasks));
-        FreeAnyWhere_defineProperty(this, 'undoneTasks', JSON.parse(FreeAnyWhere_defaultTasks));
-        FreeAnyWhere_defineProperty(this, 'buttons', [ 'doTask', 'undoTask', 'verifyTask', 'getKey' ]);
-      }
+      name = 'FreeAnyWhere';
+      tasks = [];
+      socialTasks = JSON.parse(FreeAnyWhere_defaultTasks);
+      undoneTasks = JSON.parse(FreeAnyWhere_defaultTasks);
+      buttons = [ 'doTask', 'undoTask', 'verifyTask', 'getKey' ];
       static test() {
         return window.location.host === 'freeanywhere.net';
       }
@@ -7030,10 +6257,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
             window.location.href = `https://freeanywhere.net/#/giveaway/${id}`;
           }
-          if (!FreeAnyWhere_classPrivateMethodGet(this, _getGiveawayId, _getGiveawayId2).call(this)) {
+          if (!this.#getGiveawayId()) {
             return false;
           }
-          if (!await FreeAnyWhere_classPrivateMethodGet(this, _checkLeftKey, _checkLeftKey2).call(this)) {
+          if (!await this.#checkLeftKey()) {
             scripts_echoLog({}).warning(i18n('checkLeftKeyFailed'));
           }
           this.initialized = true;
@@ -7176,7 +6403,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           }
           const pro = [];
           for (const task of this.tasks) {
-            pro.push(FreeAnyWhere_classPrivateMethodGet(this, _verify, _verify2).call(this, task));
+            pro.push(this.#verify(task));
             await delay(1e3);
           }
           await Promise.all(pro);
@@ -7225,125 +6452,97 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-    }
-    function _getGiveawayId2() {
-      try {
-        var _window$location$href2;
-        const giveawayId = (_window$location$href2 = window.location.href.match(/\/giveaway\/([\d]+)/)) === null || _window$location$href2 === void 0 ? void 0 : _window$location$href2[1];
-        if (giveawayId) {
-          this.giveawayId = giveawayId;
-          return true;
-        }
-        scripts_echoLog({}).error(i18n('getFailed', 'GiveawayId'));
-        return false;
-      } catch (error) {
-        throwError(error, 'FreeAnyWhere.getGiveawayId');
-      }
-    }
-    async function _verify2(task) {
-      try {
-        const logStatus = scripts_echoLog({
-          html: `<li>${i18n('verifyingTask')}${task.title.trim()}...<font></font></li>`
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: `https://freeanywhere.net/api/v1/giveaway/${this.giveawayId}/challenge-status/${task.id}/?format=json`,
-          method: 'GET',
-          dataType: 'json',
-          headers: {
-            authorization: `Token ${window.localStorage.getItem('token')}`,
-            'x-csrftoken': external_Cookies_namespaceObject.get('csrftoken')
-          }
-        });
-        if (result === 'Success') {
-          var _data$response3;
-          if (data !== null && data !== void 0 && (_data$response3 = data.response) !== null && _data$response3 !== void 0 && _data$response3.status) {
-            logStatus.success();
+      #getGiveawayId() {
+        try {
+          var _window$location$href2;
+          const giveawayId = (_window$location$href2 = window.location.href.match(/\/giveaway\/([\d]+)/)) === null || _window$location$href2 === void 0 ? void 0 : _window$location$href2[1];
+          if (giveawayId) {
+            this.giveawayId = giveawayId;
             return true;
           }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+          scripts_echoLog({}).error(i18n('getFailed', 'GiveawayId'));
+          return false;
+        } catch (error) {
+          throwError(error, 'FreeAnyWhere.getGiveawayId');
+        }
+      }
+      async #verify(task) {
+        try {
+          const logStatus = scripts_echoLog({
+            html: `<li>${i18n('verifyingTask')}${task.title.trim()}...<font></font></li>`
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://freeanywhere.net/api/v1/giveaway/${this.giveawayId}/challenge-status/${task.id}/?format=json`,
+            method: 'GET',
+            dataType: 'json',
+            headers: {
+              authorization: `Token ${window.localStorage.getItem('token')}`,
+              'x-csrftoken': external_Cookies_namespaceObject.get('csrftoken')
+            }
+          });
+          if (result === 'Success') {
+            var _data$response3;
+            if (data !== null && data !== void 0 && (_data$response3 = data.response) !== null && _data$response3 !== void 0 && _data$response3.status) {
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Freeanywhere.verify');
           return false;
         }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Freeanywhere.verify');
-        return false;
       }
-    }
-    async function _checkLeftKey2() {
-      try {
-        var _data$response4;
-        if (!globalOptions.other.checkLeftKey) {
-          return true;
-        }
-        const {
-          data
-        } = await tools_httpRequest({
-          url: 'https://freeanywhere.net/api/v1/widget/?format=json',
-          method: 'GET',
-          dataType: 'json',
-          headers: {
-            authorization: `Token ${window.localStorage.getItem('token')}`
+      async #checkLeftKey() {
+        try {
+          var _data$response4;
+          if (!globalOptions.other.checkLeftKey) {
+            return true;
           }
-        });
-        if (data !== null && data !== void 0 && (_data$response4 = data.response) !== null && _data$response4 !== void 0 && _data$response4.giveaways.find(giveaway => `${giveaway === null || giveaway === void 0 ? void 0 : giveaway.id}` === this.giveawayId)) {
-          return true;
-        }
-        await external_Swal_default().fire({
-          icon: 'warning',
-          title: i18n('notice'),
-          text: i18n('noKeysLeft'),
-          confirmButtonText: i18n('confirm'),
-          cancelButtonText: i18n('cancel'),
-          showCancelButton: true
-        }).then(_ref => {
-          let {
-            value
-          } = _ref;
-          if (value) {
-            window.close();
+          const {
+            data
+          } = await tools_httpRequest({
+            url: 'https://freeanywhere.net/api/v1/widget/?format=json',
+            method: 'GET',
+            dataType: 'json',
+            headers: {
+              authorization: `Token ${window.localStorage.getItem('token')}`
+            }
+          });
+          if (data !== null && data !== void 0 && (_data$response4 = data.response) !== null && _data$response4 !== void 0 && _data$response4.giveaways.find(giveaway => `${giveaway === null || giveaway === void 0 ? void 0 : giveaway.id}` === this.giveawayId)) {
+            return true;
           }
-        });
-        return true;
-      } catch (error) {
-        throwError(error, 'Giveawaysu.checkLeftKey');
-        return false;
+          await external_Swal_default().fire({
+            icon: 'warning',
+            title: i18n('notice'),
+            text: i18n('noKeysLeft'),
+            confirmButtonText: i18n('confirm'),
+            cancelButtonText: i18n('cancel'),
+            showCancelButton: true
+          }).then(_ref => {
+            let {
+              value
+            } = _ref;
+            if (value) {
+              window.close();
+            }
+          });
+          return true;
+        } catch (error) {
+          throwError(error, 'Giveawaysu.checkLeftKey');
+          return false;
+        }
       }
     }
     const website_FreeAnyWhere = FreeAnyWhere;
-    function GiveawaySu_classPrivateMethodInitSpec(obj, privateSet) {
-      GiveawaySu_checkPrivateRedeclaration(obj, privateSet);
-      privateSet.add(obj);
-    }
-    function GiveawaySu_checkPrivateRedeclaration(obj, privateCollection) {
-      if (privateCollection.has(obj)) {
-        throw new TypeError('Cannot initialize the same private elements twice on an object');
-      }
-    }
-    function GiveawaySu_defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
-    function GiveawaySu_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
     const GiveawaySu_defaultTasks = {
       steam: {
         groupLinks: [],
@@ -7380,29 +6579,20 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         retweetLinks: []
       }
     };
-    var _checkLogin = new WeakSet();
-    var GiveawaySu_checkLeftKey = new WeakSet();
-    var GiveawaySu_getGiveawayId = new WeakSet();
     class GiveawaySu extends website_Website {
-      constructor() {
-        super(...arguments);
-        GiveawaySu_classPrivateMethodInitSpec(this, GiveawaySu_getGiveawayId);
-        GiveawaySu_classPrivateMethodInitSpec(this, GiveawaySu_checkLeftKey);
-        GiveawaySu_classPrivateMethodInitSpec(this, _checkLogin);
-        GiveawaySu_defineProperty(this, 'name', 'GiveawaySu');
-        GiveawaySu_defineProperty(this, 'socialTasks', GiveawaySu_defaultTasks);
-        GiveawaySu_defineProperty(this, 'undoneTasks', GiveawaySu_defaultTasks);
-        GiveawaySu_defineProperty(this, 'buttons', [ 'doTask', 'undoTask' ]);
-      }
+      name = 'GiveawaySu';
+      socialTasks = GiveawaySu_defaultTasks;
+      undoneTasks = GiveawaySu_defaultTasks;
+      buttons = [ 'doTask', 'undoTask' ];
       static test() {
         return /^https?:\/\/giveaway\.su\/giveaway\/view\/[\d]+/.test(window.location.href);
       }
       async after() {
         try {
-          if (!GiveawaySu_classPrivateMethodGet(this, _checkLogin, _checkLogin2).call(this)) {
+          if (!this.#checkLogin()) {
             scripts_echoLog({}).warning(i18n('checkLoginFailed'));
           }
-          if (!await GiveawaySu_classPrivateMethodGet(this, GiveawaySu_checkLeftKey, GiveawaySu_checkLeftKey2).call(this)) {
+          if (!await this.#checkLeftKey()) {
             scripts_echoLog({}).warning(i18n('checkLeftKeyFailed'));
           }
           scripts_echoLog({}).warning(i18n('gsNotice'));
@@ -7420,7 +6610,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             logStatus.warning(i18n('needLogin'));
             return false;
           }
-          if (!GiveawaySu_classPrivateMethodGet(this, GiveawaySu_getGiveawayId, GiveawaySu_getGiveawayId2).call(this)) {
+          if (!this.#getGiveawayId()) {
             return false;
           }
           this.initialized = true;
@@ -7528,111 +6718,73 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-    }
-    function _checkLogin2() {
-      try {
-        if (!globalOptions.other.checkLogin) {
+      #checkLogin() {
+        try {
+          if (!globalOptions.other.checkLogin) {
+            return true;
+          }
+          if ($('a.steam-login').length > 0) {
+            window.open('/steam/redirect', '_self');
+          }
+          return true;
+        } catch (error) {
+          throwError(error, 'Giveawaysu.checkLogin');
+          return false;
+        }
+      }
+      async #checkLeftKey() {
+        try {
+          if (!globalOptions.other.checkLeftKey) {
+            return true;
+          }
+          if ($('.giveaway-ended').length > 0 && $('.giveaway-key').length === 0) {
+            await external_Swal_default().fire({
+              icon: 'warning',
+              title: i18n('notice'),
+              text: i18n('noKeysLeft'),
+              confirmButtonText: i18n('confirm'),
+              cancelButtonText: i18n('cancel'),
+              showCancelButton: true
+            }).then(_ref => {
+              let {
+                value
+              } = _ref;
+              if (value) {
+                window.close();
+              }
+            });
+          }
+          return true;
+        } catch (error) {
+          throwError(error, 'Giveawaysu.checkLeftKey');
+          return false;
+        }
+      }
+      #getGiveawayId() {
+        var _window$location$href;
+        const giveawayId = (_window$location$href = window.location.href.match(/\/view\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
+        if (giveawayId) {
+          this.giveawayId = giveawayId;
           return true;
         }
-        if ($('a.steam-login').length > 0) {
-          window.open('/steam/redirect', '_self');
-        }
-        return true;
-      } catch (error) {
-        throwError(error, 'Giveawaysu.checkLogin');
-        return false;
-      }
-    }
-    async function GiveawaySu_checkLeftKey2() {
-      try {
-        if (!globalOptions.other.checkLeftKey) {
-          return true;
-        }
-        if ($('.giveaway-ended').length > 0 && $('.giveaway-key').length === 0) {
-          await external_Swal_default().fire({
-            icon: 'warning',
-            title: i18n('notice'),
-            text: i18n('noKeysLeft'),
-            confirmButtonText: i18n('confirm'),
-            cancelButtonText: i18n('cancel'),
-            showCancelButton: true
-          }).then(_ref => {
-            let {
-              value
-            } = _ref;
-            if (value) {
-              window.close();
-            }
-          });
-        }
-        return true;
-      } catch (error) {
-        throwError(error, 'Giveawaysu.checkLeftKey');
-        return false;
-      }
-    }
-    function GiveawaySu_getGiveawayId2() {
-      var _window$location$href;
-      const giveawayId = (_window$location$href = window.location.href.match(/\/view\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
-      if (giveawayId) {
-        this.giveawayId = giveawayId;
-        return true;
-      }
-      scripts_echoLog({
-        text: i18n('getFailed', 'GiveawayId')
-      });
-      return false;
-    }
-    function Indiedb_classPrivateMethodInitSpec(obj, privateSet) {
-      Indiedb_checkPrivateRedeclaration(obj, privateSet);
-      privateSet.add(obj);
-    }
-    function Indiedb_checkPrivateRedeclaration(obj, privateCollection) {
-      if (privateCollection.has(obj)) {
-        throw new TypeError('Cannot initialize the same private elements twice on an object');
-      }
-    }
-    function Indiedb_defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
+        scripts_echoLog({
+          text: i18n('getFailed', 'GiveawayId')
         });
-      } else {
-        obj[key] = value;
+        return false;
       }
-      return obj;
     }
-    function Indiedb_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
-    var _join = new WeakSet();
-    var _do = new WeakSet();
-    var Indiedb_checkLogin = new WeakSet();
-    var Indiedb_checkLeftKey = new WeakSet();
     class Indiedb {
-      constructor() {
-        Indiedb_classPrivateMethodInitSpec(this, Indiedb_checkLeftKey);
-        Indiedb_classPrivateMethodInitSpec(this, Indiedb_checkLogin);
-        Indiedb_classPrivateMethodInitSpec(this, _do);
-        Indiedb_classPrivateMethodInitSpec(this, _join);
-        Indiedb_defineProperty(this, 'name', 'Indiedb');
-        Indiedb_defineProperty(this, 'buttons', [ 'doTask' ]);
-      }
+      name = 'Indiedb';
+      buttons = [ 'doTask' ];
       static test() {
         return window.location.host === 'www.indiedb.com';
       }
       async after() {
         try {
-          if (!Indiedb_classPrivateMethodGet(this, Indiedb_checkLogin, Indiedb_checkLogin2).call(this)) {
+          if (!this.#checkLogin()) {
             scripts_echoLog({}).warning(i18n('checkLoginFailed'));
           }
-          if (!await Indiedb_classPrivateMethodGet(this, Indiedb_checkLeftKey, Indiedb_checkLeftKey2).call(this)) {
+          if (!await this.#checkLeftKey()) {
             scripts_echoLog({}).warning(i18n('checkLeftKeyFailed'));
           }
         } catch (error) {
@@ -7641,319 +6793,291 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
       async doTask() {
         try {
-          if (!await Indiedb_classPrivateMethodGet(this, _join, _join2).call(this)) {
+          if (!await this.#join()) {
             return false;
           }
-          return await Indiedb_classPrivateMethodGet(this, _do, _do2).call(this);
+          return await this.#do();
         } catch (error) {
           throwError(error, 'Indiedb.doTask');
           return false;
         }
       }
-    }
-    async function _join2() {
-      try {
-        if ($('a.buttonenter:contains(Register to join)').length > 0) {
-          scripts_echoLog({}).error(i18n('needLogin'));
-          return false;
-        }
-        const currentoption = $('a.buttonenter.buttongiveaway');
-        if (/join giveaway/gim.test(currentoption.text())) {
-          const logStatus = scripts_echoLog({
-            text: `${i18n('joiningGiveaway')}...`
-          });
-          const {
-            result,
-            statusText,
-            status,
-            data
-          } = await tools_httpRequest({
-            url: currentoption.attr('href'),
-            method: 'POST',
-            data: 'ajax=t',
-            dataType: 'json',
-            headers: {
-              'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-              accept: 'application/json, text/javascript, */*; q=0.01',
-              origin: window.location.origin
-            }
-          });
-          if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$response, _data$response4, _data$response5;
-              if ((_data$response = data.response) !== null && _data$response !== void 0 && _data$response.success) {
-                var _data$response2, _data$response3;
-                currentoption.addClass('buttonentered').text('Success - Giveaway joined');
-                $('#giveawaysjoined').slideDown();
-                $('#giveawaysrecommend').slideDown();
-                logStatus.success(`Success${(_data$response2 = data.response) !== null && _data$response2 !== void 0 && _data$response2.text ? `:${(_data$response3 = data.response) === null || _data$response3 === void 0 ? void 0 : _data$response3.text}` : ''}`);
-                return true;
-              }
-              logStatus.error(`Error${(_data$response4 = data.response) !== null && _data$response4 !== void 0 && _data$response4.text ? `:${(_data$response5 = data.response) === null || _data$response5 === void 0 ? void 0 : _data$response5.text}` : ''}`);
-              return false;
-            }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+      async #join() {
+        try {
+          if ($('a.buttonenter:contains(Register to join)').length > 0) {
+            scripts_echoLog({}).error(i18n('needLogin'));
             return false;
           }
-          logStatus.error(`${result}:${statusText}(${status})`);
-          return false;
-        } else if (/success/gim.test($('a.buttonenter.buttongiveaway').text())) {
-          return true;
-        }
-        scripts_echoLog({}).warning(i18n('needJoinGiveaway'));
-        return false;
-      } catch (error) {
-        throwError(error, 'Indiedb.init');
-        return false;
-      }
-    }
-    async function _do2() {
-      try {
-        const id = $('script').map((index, script) => {
-          if (/\$\(document\)/gim.test(script.innerHTML)) {
-            var _script$innerHTML$mat, _script$innerHTML$mat2, _script$innerHTML$mat3, _script$innerHTML$mat4, _script$innerHTML$mat5, _script$innerHTML$mat6;
-            return [ (_script$innerHTML$mat = script.innerHTML.match(/"\/[\d]+"/gim)) === null || _script$innerHTML$mat === void 0 ? void 0 : (_script$innerHTML$mat2 = _script$innerHTML$mat[0]) === null || _script$innerHTML$mat2 === void 0 ? void 0 : (_script$innerHTML$mat3 = _script$innerHTML$mat2.match(/[\d]+/)) === null || _script$innerHTML$mat3 === void 0 ? void 0 : _script$innerHTML$mat3[0], (_script$innerHTML$mat4 = script.innerHTML.match(/"\/newsletter\/ajax\/subscribeprofile\/optin\/[\d]+"/gim)) === null || _script$innerHTML$mat4 === void 0 ? void 0 : (_script$innerHTML$mat5 = _script$innerHTML$mat4[0]) === null || _script$innerHTML$mat5 === void 0 ? void 0 : (_script$innerHTML$mat6 = _script$innerHTML$mat5.match(/[\d]+/)) === null || _script$innerHTML$mat6 === void 0 ? void 0 : _script$innerHTML$mat6[0] ];
-          }
-          return null;
-        });
-        if (id.length === 2) {
-          const pro = [];
-          const tasks = $('#giveawaysjoined a[class*=promo]');
-          for (const task of tasks) {
-            const promo = $(task);
-            if (!promo.hasClass('buttonentered')) {
-              const status = scripts_echoLog({
-                text: `${i18n('doing')}:${promo.parents('p').text()}...`
-              });
-              if (/facebookpromo|twitterpromo|visitpromo/gim.test(task.className)) {
-                let text = '';
-                if (promo.hasClass('facebookpromo')) {
-                  text = 'facebookpromo';
-                } else if (promo.hasClass('twitterpromo')) {
-                  text = 'twitterpromo';
-                } else {
-                  text = 'visitpromo';
+          const currentoption = $('a.buttonenter.buttongiveaway');
+          if (/join giveaway/gim.test(currentoption.text())) {
+            const logStatus = scripts_echoLog({
+              text: `${i18n('joiningGiveaway')}...`
+            });
+            const {
+              result,
+              statusText,
+              status,
+              data
+            } = await tools_httpRequest({
+              url: currentoption.attr('href'),
+              method: 'POST',
+              data: 'ajax=t',
+              dataType: 'json',
+              headers: {
+                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                accept: 'application/json, text/javascript, */*; q=0.01',
+                origin: window.location.origin
+              }
+            });
+            if (result === 'Success') {
+              if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+                var _data$response, _data$response4, _data$response5;
+                if ((_data$response = data.response) !== null && _data$response !== void 0 && _data$response.success) {
+                  var _data$response2, _data$response3;
+                  currentoption.addClass('buttonentered').text('Success - Giveaway joined');
+                  $('#giveawaysjoined').slideDown();
+                  $('#giveawaysrecommend').slideDown();
+                  logStatus.success(`Success${(_data$response2 = data.response) !== null && _data$response2 !== void 0 && _data$response2.text ? `:${(_data$response3 = data.response) === null || _data$response3 === void 0 ? void 0 : _data$response3.text}` : ''}`);
+                  return true;
                 }
-                pro.push(new Promise(resolve => {
-                  $.ajax({
-                    type: 'POST',
-                    url: urlPath(`/giveaways/ajax/${text}/${id[0]}`),
-                    timeout: 6e4,
-                    dataType: 'json',
-                    data: {
-                      ajax: 't'
-                    },
-                    error(response, error, exception) {
-                      if (window.DEBUG) {
-                        console.log('%cAuto-Task[Debug]:', 'color:red', {
-                          response: response,
-                          error: error,
-                          exception: exception
-                        });
-                      }
-                      status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
-                      resolve(true);
-                    },
-                    success(response) {
-                      if (response.success) {
-                        status.success(`Success:${response.text}`);
-                        promo.addClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
+                logStatus.error(`Error${(_data$response4 = data.response) !== null && _data$response4 !== void 0 && _data$response4.text ? `:${(_data$response5 = data.response) === null || _data$response5 === void 0 ? void 0 : _data$response5.text}` : ''}`);
+                return false;
+              }
+              logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+              return false;
+            }
+            logStatus.error(`${result}:${statusText}(${status})`);
+            return false;
+          } else if (/success/gim.test($('a.buttonenter.buttongiveaway').text())) {
+            return true;
+          }
+          scripts_echoLog({}).warning(i18n('needJoinGiveaway'));
+          return false;
+        } catch (error) {
+          throwError(error, 'Indiedb.init');
+          return false;
+        }
+      }
+      async #do() {
+        try {
+          const id = $('script').map((index, script) => {
+            if (/\$\(document\)/gim.test(script.innerHTML)) {
+              var _script$innerHTML$mat, _script$innerHTML$mat2, _script$innerHTML$mat3, _script$innerHTML$mat4, _script$innerHTML$mat5, _script$innerHTML$mat6;
+              return [ (_script$innerHTML$mat = script.innerHTML.match(/"\/[\d]+"/gim)) === null || _script$innerHTML$mat === void 0 ? void 0 : (_script$innerHTML$mat2 = _script$innerHTML$mat[0]) === null || _script$innerHTML$mat2 === void 0 ? void 0 : (_script$innerHTML$mat3 = _script$innerHTML$mat2.match(/[\d]+/)) === null || _script$innerHTML$mat3 === void 0 ? void 0 : _script$innerHTML$mat3[0], (_script$innerHTML$mat4 = script.innerHTML.match(/"\/newsletter\/ajax\/subscribeprofile\/optin\/[\d]+"/gim)) === null || _script$innerHTML$mat4 === void 0 ? void 0 : (_script$innerHTML$mat5 = _script$innerHTML$mat4[0]) === null || _script$innerHTML$mat5 === void 0 ? void 0 : (_script$innerHTML$mat6 = _script$innerHTML$mat5.match(/[\d]+/)) === null || _script$innerHTML$mat6 === void 0 ? void 0 : _script$innerHTML$mat6[0] ];
+            }
+            return null;
+          });
+          if (id.length === 2) {
+            const pro = [];
+            const tasks = $('#giveawaysjoined a[class*=promo]');
+            for (const task of tasks) {
+              const promo = $(task);
+              if (!promo.hasClass('buttonentered')) {
+                const status = scripts_echoLog({
+                  text: `${i18n('doing')}:${promo.parents('p').text()}...`
+                });
+                if (/facebookpromo|twitterpromo|visitpromo/gim.test(task.className)) {
+                  let text = '';
+                  if (promo.hasClass('facebookpromo')) {
+                    text = 'facebookpromo';
+                  } else if (promo.hasClass('twitterpromo')) {
+                    text = 'twitterpromo';
+                  } else {
+                    text = 'visitpromo';
+                  }
+                  pro.push(new Promise(resolve => {
+                    $.ajax({
+                      type: 'POST',
+                      url: urlPath(`/giveaways/ajax/${text}/${id[0]}`),
+                      timeout: 6e4,
+                      dataType: 'json',
+                      data: {
+                        ajax: 't'
+                      },
+                      error(response, error, exception) {
+                        if (window.DEBUG) {
+                          console.log('%cAuto-Task[Debug]:', 'color:red', {
+                            response: response,
+                            error: error,
+                            exception: exception
+                          });
+                        }
+                        status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
                         resolve(true);
-                      } else {
-                        status.error(`Error:${response.text}`);
-                        resolve(true);
+                      },
+                      success(response) {
+                        if (response.success) {
+                          status.success(`Success:${response.text}`);
+                          promo.addClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
+                          resolve(true);
+                        } else {
+                          status.error(`Error:${response.text}`);
+                          resolve(true);
+                        }
                       }
-                    }
-                  });
-                }));
-              } else if (promo.hasClass('emailoptinpromo')) {
-                pro.push(new Promise(resolve => {
-                  $.ajax({
-                    type: 'POST',
-                    url: urlPath(`/newsletter/ajax/subscribeprofile/optin/${id[1]}`),
-                    timeout: 6e4,
-                    dataType: 'json',
-                    data: {
-                      ajax: 't',
-                      emailsystoggle: 4
-                    },
-                    error(response, error, exception) {
-                      if (window.DEBUG) {
-                        console.log('%cAuto-Task[Debug]:', 'color:red', {
-                          response: response,
-                          error: error,
-                          exception: exception
-                        });
-                      }
-                      status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
-                      resolve(true);
-                    },
-                    success(response) {
-                      if (response.success) {
-                        status.success(`Success:${response.text}`);
-                        promo.toggleClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
+                    });
+                  }));
+                } else if (promo.hasClass('emailoptinpromo')) {
+                  pro.push(new Promise(resolve => {
+                    $.ajax({
+                      type: 'POST',
+                      url: urlPath(`/newsletter/ajax/subscribeprofile/optin/${id[1]}`),
+                      timeout: 6e4,
+                      dataType: 'json',
+                      data: {
+                        ajax: 't',
+                        emailsystoggle: 4
+                      },
+                      error(response, error, exception) {
+                        if (window.DEBUG) {
+                          console.log('%cAuto-Task[Debug]:', 'color:red', {
+                            response: response,
+                            error: error,
+                            exception: exception
+                          });
+                        }
+                        status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
                         resolve(true);
-                      } else {
-                        status.error(`Error:${response.text}`);
-                        resolve(true);
+                      },
+                      success(response) {
+                        if (response.success) {
+                          status.success(`Success:${response.text}`);
+                          promo.toggleClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
+                          resolve(true);
+                        } else {
+                          status.error(`Error:${response.text}`);
+                          resolve(true);
+                        }
                       }
-                    }
-                  });
-                }));
-              } else if (promo.hasClass('watchingpromo')) {
-                pro.push(new Promise(resolve => {
-                  var _promo$attr;
-                  const data = getUrlQuery(promo.attr('href'));
-                  data.ajax = 't';
-                  $.ajax({
-                    type: 'POST',
-                    url: urlPath((_promo$attr = promo.attr('href')) === null || _promo$attr === void 0 ? void 0 : _promo$attr.split(/[?#]/)[0]),
-                    timeout: 6e4,
-                    dataType: 'json',
-                    data: data,
-                    error(response, error, exception) {
-                      if (window.DEBUG) {
-                        console.log('%cAuto-Task[Debug]:', 'color:red', {
-                          response: response,
-                          error: error,
-                          exception: exception
-                        });
-                      }
-                      status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
-                      resolve(true);
-                    },
-                    success(response) {
-                      if (response.success) {
-                        status.success(`Success:${response.text}`);
-                        promo.toggleClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
+                    });
+                  }));
+                } else if (promo.hasClass('watchingpromo')) {
+                  pro.push(new Promise(resolve => {
+                    var _promo$attr;
+                    const data = getUrlQuery(promo.attr('href'));
+                    data.ajax = 't';
+                    $.ajax({
+                      type: 'POST',
+                      url: urlPath((_promo$attr = promo.attr('href')) === null || _promo$attr === void 0 ? void 0 : _promo$attr.split(/[?#]/)[0]),
+                      timeout: 6e4,
+                      dataType: 'json',
+                      data: data,
+                      error(response, error, exception) {
+                        if (window.DEBUG) {
+                          console.log('%cAuto-Task[Debug]:', 'color:red', {
+                            response: response,
+                            error: error,
+                            exception: exception
+                          });
+                        }
+                        status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
                         resolve(true);
-                      } else {
-                        status.error(`Error:${response.text}`);
-                        resolve(true);
+                      },
+                      success(response) {
+                        if (response.success) {
+                          status.success(`Success:${response.text}`);
+                          promo.toggleClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
+                          resolve(true);
+                        } else {
+                          status.error(`Error:${response.text}`);
+                          resolve(true);
+                        }
                       }
-                    }
-                  });
-                }));
-              } else if (!/the-challenge-of-adblock/gim.test(promo.attr('href'))) {
-                pro.push(new Promise(resolve => {
-                  $.ajax({
-                    type: 'POST',
-                    url: urlPath(promo.attr('href')),
-                    timeout: 6e4,
-                    dataType: 'json',
-                    data: {
-                      ajax: 't'
-                    },
-                    error(response, error, exception) {
-                      if (window.DEBUG) {
-                        console.log('%cAuto-Task[Debug]:', 'color:red', {
-                          response: response,
-                          error: error,
-                          exception: exception
-                        });
-                      }
-                      status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
-                      resolve(true);
-                    },
-                    success(response) {
-                      if (response.success) {
-                        status.success(`Success:${response.text}`);
-                        promo.toggleClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
+                    });
+                  }));
+                } else if (!/the-challenge-of-adblock/gim.test(promo.attr('href'))) {
+                  pro.push(new Promise(resolve => {
+                    $.ajax({
+                      type: 'POST',
+                      url: urlPath(promo.attr('href')),
+                      timeout: 6e4,
+                      dataType: 'json',
+                      data: {
+                        ajax: 't'
+                      },
+                      error(response, error, exception) {
+                        if (window.DEBUG) {
+                          console.log('%cAuto-Task[Debug]:', 'color:red', {
+                            response: response,
+                            error: error,
+                            exception: exception
+                          });
+                        }
+                        status.error('Error:An error has occurred performing the action requested. Please try again shortly.');
                         resolve(true);
-                      } else {
-                        status.error(`Error:${response.text}`);
-                        resolve(true);
+                      },
+                      success(response) {
+                        if (response.success) {
+                          status.success(`Success:${response.text}`);
+                          promo.toggleClass('buttonentered').closest('p').html(promo.closest('p').find('span').html());
+                          resolve(true);
+                        } else {
+                          status.error(`Error:${response.text}`);
+                          resolve(true);
+                        }
                       }
-                    }
-                  });
-                }));
-              } else {
-                status.error(`Error:${i18n('unKnownTaskType')}`);
+                    });
+                  }));
+                } else {
+                  status.error(`Error:${i18n('unKnownTaskType')}`);
+                }
               }
             }
+            await Promise.all(pro);
+            scripts_echoLog({}).success(i18n('allTasksComplete'));
+            return true;
           }
-          await Promise.all(pro);
-          scripts_echoLog({}).success(i18n('allTasksComplete'));
-          return true;
+          scripts_echoLog({}).error(i18n('getFailed', 'TaskId'));
+          return false;
+        } catch (error) {
+          throwError(error, 'Indiedb.classifyTask');
+          return false;
         }
-        scripts_echoLog({}).error(i18n('getFailed', 'TaskId'));
-        return false;
-      } catch (error) {
-        throwError(error, 'Indiedb.classifyTask');
-        return false;
       }
-    }
-    function Indiedb_checkLogin2() {
-      try {
-        if (!globalOptions.other.checkLogin) {
+      #checkLogin() {
+        try {
+          if (!globalOptions.other.checkLogin) {
+            return true;
+          }
+          if ($('a.buttonenter:contains(Register to join)').length > 0) {
+            window.open('/members/login', '_self');
+          }
           return true;
+        } catch (error) {
+          throwError(error, 'Indiedb.checkLogin');
+          return false;
         }
-        if ($('a.buttonenter:contains(Register to join)').length > 0) {
-          window.open('/members/login', '_self');
-        }
-        return true;
-      } catch (error) {
-        throwError(error, 'Indiedb.checkLogin');
-        return false;
       }
-    }
-    async function Indiedb_checkLeftKey2() {
-      try {
-        if (!globalOptions.other.checkLeftKey) {
+      async #checkLeftKey() {
+        try {
+          if (!globalOptions.other.checkLeftKey) {
+            return true;
+          }
+          if ($('a.buttonenter:contains("next time")，a.buttonenter:contains("Giveaway is closed")').length > 0) {
+            await external_Swal_default().fire({
+              icon: 'warning',
+              title: i18n('notice'),
+              text: i18n('giveawayEnded'),
+              confirmButtonText: i18n('confirm'),
+              cancelButtonText: i18n('cancel'),
+              showCancelButton: true
+            }).then(_ref => {
+              let {
+                value
+              } = _ref;
+              if (value) {
+                window.close();
+              }
+            });
+          }
           return true;
+        } catch (error) {
+          throwError(error, 'Indiedb.checkLeftKey');
+          return false;
         }
-        if ($('a.buttonenter:contains("next time")，a.buttonenter:contains("Giveaway is closed")').length > 0) {
-          await external_Swal_default().fire({
-            icon: 'warning',
-            title: i18n('notice'),
-            text: i18n('giveawayEnded'),
-            confirmButtonText: i18n('confirm'),
-            cancelButtonText: i18n('cancel'),
-            showCancelButton: true
-          }).then(_ref => {
-            let {
-              value
-            } = _ref;
-            if (value) {
-              window.close();
-            }
-          });
-        }
-        return true;
-      } catch (error) {
-        throwError(error, 'Indiedb.checkLeftKey');
-        return false;
       }
     }
     const website_Indiedb = Indiedb;
-    function Keyhub_classPrivateMethodInitSpec(obj, privateSet) {
-      Keyhub_checkPrivateRedeclaration(obj, privateSet);
-      privateSet.add(obj);
-    }
-    function Keyhub_checkPrivateRedeclaration(obj, privateCollection) {
-      if (privateCollection.has(obj)) {
-        throw new TypeError('Cannot initialize the same private elements twice on an object');
-      }
-    }
-    function Keyhub_defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
-    function Keyhub_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
     const Keyhub_defaultTasksTemplate = {
       steam: {
         groupLinks: [],
@@ -7970,31 +7094,20 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       links: []
     };
     const Keyhub_defaultTasks = JSON.stringify(Keyhub_defaultTasksTemplate);
-    var _doScriptTask = new WeakSet();
-    var Keyhub_getGiveawayId = new WeakSet();
-    var Keyhub_checkLeftKey = new WeakSet();
-    var Keyhub_checkLogin = new WeakSet();
     class Keyhub extends website_Website {
-      constructor() {
-        super(...arguments);
-        Keyhub_classPrivateMethodInitSpec(this, Keyhub_checkLogin);
-        Keyhub_classPrivateMethodInitSpec(this, Keyhub_checkLeftKey);
-        Keyhub_classPrivateMethodInitSpec(this, Keyhub_getGiveawayId);
-        Keyhub_classPrivateMethodInitSpec(this, _doScriptTask);
-        Keyhub_defineProperty(this, 'name', 'Keyhub');
-        Keyhub_defineProperty(this, 'socialTasks', JSON.parse(Keyhub_defaultTasks));
-        Keyhub_defineProperty(this, 'undoneTasks', JSON.parse(Keyhub_defaultTasks));
-        Keyhub_defineProperty(this, 'buttons', [ 'doTask', 'undoTask' ]);
-      }
+      name = 'Keyhub';
+      socialTasks = JSON.parse(Keyhub_defaultTasks);
+      undoneTasks = JSON.parse(Keyhub_defaultTasks);
+      buttons = [ 'doTask', 'undoTask' ];
       static test() {
         return window.location.host === 'key-hub.eu';
       }
       async after() {
         try {
-          if (!Keyhub_classPrivateMethodGet(this, Keyhub_checkLogin, Keyhub_checkLogin2).call(this)) {
+          if (!this.#checkLogin()) {
             scripts_echoLog({}).warning(i18n('checkLoginFailed'));
           }
-          if (!await Keyhub_classPrivateMethodGet(this, Keyhub_checkLeftKey, Keyhub_checkLeftKey2).call(this)) {
+          if (!await this.#checkLeftKey()) {
             scripts_echoLog({}).warning(i18n('checkLeftKeyFailed'));
           }
           $('.NSFW').hide();
@@ -8012,7 +7125,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             logStatus.warning(i18n('needLogin'));
             return false;
           }
-          if (!Keyhub_classPrivateMethodGet(this, Keyhub_getGiveawayId, Keyhub_getGiveawayId2).call(this)) {
+          if (!this.#getGiveawayId()) {
             return false;
           }
           $('#VPNoverlay').hide();
@@ -8109,6 +7222,39 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
+      async #doScriptTask(data) {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('doingKeyhubTask')
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data: response
+          } = await tools_httpRequest({
+            url: `/away?data=${data}`,
+            method: 'GET',
+            headers: {
+              origin: 'https://key-hub.eu',
+              referer: 'https://key-hub.eu/'
+            }
+          });
+          if (result === 'Success') {
+            if ((response === null || response === void 0 ? void 0 : response.status) === 200) {
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${response === null || response === void 0 ? void 0 : response.statusText}(${response === null || response === void 0 ? void 0 : response.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Keyhub.doScriptTask');
+          return false;
+        }
+      }
       async extraDoTask(_ref) {
         let {
           videoTasks
@@ -8116,7 +7262,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         try {
           const pro = [];
           for (const data of videoTasks) {
-            pro.push(Keyhub_classPrivateMethodGet(this, _doScriptTask, _doScriptTask2).call(this, data));
+            pro.push(this.#doScriptTask(data));
           }
           return Promise.all(pro).then(() => true);
         } catch (error) {
@@ -8124,127 +7270,66 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-    }
-    async function _doScriptTask2(data) {
-      try {
-        const logStatus = scripts_echoLog({
-          text: i18n('doingKeyhubTask')
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data: response
-        } = await tools_httpRequest({
-          url: `/away?data=${data}`,
-          method: 'GET',
-          headers: {
-            origin: 'https://key-hub.eu',
-            referer: 'https://key-hub.eu/'
-          }
-        });
-        if (result === 'Success') {
-          if ((response === null || response === void 0 ? void 0 : response.status) === 200) {
-            logStatus.success();
+      #getGiveawayId() {
+        try {
+          var _window$location$href;
+          const giveawayId = (_window$location$href = window.location.href.match(/giveaway\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
+          if (giveawayId) {
+            this.giveawayId = giveawayId;
             return true;
           }
-          logStatus.error(`Error:${response === null || response === void 0 ? void 0 : response.statusText}(${response === null || response === void 0 ? void 0 : response.status})`);
+          scripts_echoLog({}).error(i18n('getFailed', 'GiveawayId'));
+          return false;
+        } catch (error) {
+          throwError(error, 'Keyhub.getGiveawayId');
           return false;
         }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Keyhub.doScriptTask');
-        return false;
       }
-    }
-    function Keyhub_getGiveawayId2() {
-      try {
-        var _window$location$href;
-        const giveawayId = (_window$location$href = window.location.href.match(/giveaway\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
-        if (giveawayId) {
-          this.giveawayId = giveawayId;
+      async #checkLeftKey() {
+        try {
+          if (!globalOptions.other.checkLeftKey) {
+            return true;
+          }
+          const leftKey = $('#keysleft').text().trim();
+          if (leftKey === '0') {
+            await external_Swal_default().fire({
+              icon: 'warning',
+              title: i18n('notice'),
+              text: i18n('noKeysLeft'),
+              confirmButtonText: i18n('confirm'),
+              cancelButtonText: i18n('cancel'),
+              showCancelButton: true
+            }).then(_ref2 => {
+              let {
+                value
+              } = _ref2;
+              if (value) {
+                window.close();
+              }
+            });
+          }
           return true;
+        } catch (error) {
+          throwError(error, 'Keyhub.checkLeftKey');
+          return false;
         }
-        scripts_echoLog({}).error(i18n('getFailed', 'GiveawayId'));
-        return false;
-      } catch (error) {
-        throwError(error, 'Keyhub.getGiveawayId');
-        return false;
       }
-    }
-    async function Keyhub_checkLeftKey2() {
-      try {
-        if (!globalOptions.other.checkLeftKey) {
+      #checkLogin() {
+        try {
+          if (!globalOptions.other.checkLogin) {
+            return true;
+          }
+          if ($('a[href*="/connect/steam"]').length > 0) {
+            window.open('/connect/steam', '_self');
+          }
           return true;
+        } catch (error) {
+          throwError(error, 'Keyhub.checkLogin');
+          return false;
         }
-        const leftKey = $('#keysleft').text().trim();
-        if (leftKey === '0') {
-          await external_Swal_default().fire({
-            icon: 'warning',
-            title: i18n('notice'),
-            text: i18n('noKeysLeft'),
-            confirmButtonText: i18n('confirm'),
-            cancelButtonText: i18n('cancel'),
-            showCancelButton: true
-          }).then(_ref2 => {
-            let {
-              value
-            } = _ref2;
-            if (value) {
-              window.close();
-            }
-          });
-        }
-        return true;
-      } catch (error) {
-        throwError(error, 'Keyhub.checkLeftKey');
-        return false;
-      }
-    }
-    function Keyhub_checkLogin2() {
-      try {
-        if (!globalOptions.other.checkLogin) {
-          return true;
-        }
-        if ($('a[href*="/connect/steam"]').length > 0) {
-          window.open('/connect/steam', '_self');
-        }
-        return true;
-      } catch (error) {
-        throwError(error, 'Keyhub.checkLogin');
-        return false;
       }
     }
     const website_Keyhub = Keyhub;
-    function Givekey_classPrivateMethodInitSpec(obj, privateSet) {
-      Givekey_checkPrivateRedeclaration(obj, privateSet);
-      privateSet.add(obj);
-    }
-    function Givekey_checkPrivateRedeclaration(obj, privateCollection) {
-      if (privateCollection.has(obj)) {
-        throw new TypeError('Cannot initialize the same private elements twice on an object');
-      }
-    }
-    function Givekey_defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
-    function Givekey_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
     const Givekey_defaultTasksTemplate = {
       steam: {
         groupLinks: [],
@@ -8263,22 +7348,13 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     };
     const Givekey_defaultTasks = JSON.stringify(Givekey_defaultTasksTemplate);
-    var Givekey_verify = new WeakSet();
-    var Givekey_getGiveawayId = new WeakSet();
-    var Givekey_checkLeftKey = new WeakSet();
     class Givekey extends website_Website {
-      constructor() {
-        super(...arguments);
-        Givekey_classPrivateMethodInitSpec(this, Givekey_checkLeftKey);
-        Givekey_classPrivateMethodInitSpec(this, Givekey_getGiveawayId);
-        Givekey_classPrivateMethodInitSpec(this, Givekey_verify);
-        Givekey_defineProperty(this, 'name', 'Givekey');
-        Givekey_defineProperty(this, 'tasks', []);
-        Givekey_defineProperty(this, 'socialTasks', JSON.parse(Givekey_defaultTasks));
-        Givekey_defineProperty(this, 'undoneTasks', JSON.parse(Givekey_defaultTasks));
-        Givekey_defineProperty(this, 'userId', void 0);
-        Givekey_defineProperty(this, 'buttons', [ 'doTask', 'undoTask', 'verifyTask' ]);
-      }
+      name = 'Givekey';
+      tasks = [];
+      socialTasks = JSON.parse(Givekey_defaultTasks);
+      undoneTasks = JSON.parse(Givekey_defaultTasks);
+      userId;
+      buttons = [ 'doTask', 'undoTask', 'verifyTask' ];
       static test() {
         return window.location.host === 'givekey.ru';
       }
@@ -8292,7 +7368,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               }
             });
           });
-          if (!await Givekey_classPrivateMethodGet(this, Givekey_checkLeftKey, Givekey_checkLeftKey2).call(this)) {
+          if (!await this.#checkLeftKey()) {
             scripts_echoLog({}).warning(i18n('checkLeftKeyFailed'));
           }
         } catch (error) {
@@ -8310,7 +7386,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             logStatus.warning(i18n('needLogin'));
             return false;
           }
-          if (!Givekey_classPrivateMethodGet(this, Givekey_getGiveawayId, Givekey_getGiveawayId2).call(this)) {
+          if (!this.#getGiveawayId()) {
             return false;
           }
           const userId = $('meta[name="user-id"]').attr('content');
@@ -8432,7 +7508,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           scripts_echoLog({}).warning(i18n('giveKeyNoticeBefore'));
           const taskLength = this.tasks.length;
           for (let i = 0; i < taskLength; i++) {
-            await Givekey_classPrivateMethodGet(this, Givekey_verify, Givekey_verify2).call(this, this.tasks[i]);
+            await this.#verify(this.tasks[i]);
             if (i < taskLength - 1) {
               await delay(15e3);
             }
@@ -8447,144 +7523,107 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-    }
-    async function Givekey_verify2(task) {
-      try {
-        const logStatus = scripts_echoLog({
-          html: `<li>${i18n('verifyingTask')}${task}...<font></font></li>`
-        });
-        return await new Promise(resolve => {
-          $.ajax({
-            url: 'https://givekey.ru/giveaway/task',
-            method: 'POST',
-            data: `id=${task}&user_id=${this.userId}`,
-            dataType: 'json',
-            headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: data => {
-              if (data.btn) {
-                $(`button[data-id=${this.userId}]`).html(data.btn);
-              }
-              if (data.status === 'ok') {
-                $(`.task_check_${data.id}`).html(`<button class="btn btn-success mb-2 btn-block" disabled>${data.btn}</button>`);
-                logStatus.success();
-                resolve(true);
-              } else if (data.status === 'end') {
-                logStatus.success();
-                scripts_echoLog({}).success(data.key);
-                resolve(true);
-              } else {
-                logStatus.error(`Error:${data.msg}`);
+      async #verify(task) {
+        try {
+          const logStatus = scripts_echoLog({
+            html: `<li>${i18n('verifyingTask')}${task}...<font></font></li>`
+          });
+          return await new Promise(resolve => {
+            $.ajax({
+              url: 'https://givekey.ru/giveaway/task',
+              method: 'POST',
+              data: `id=${task}&user_id=${this.userId}`,
+              dataType: 'json',
+              headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              },
+              success: data => {
+                if (data.btn) {
+                  $(`button[data-id=${this.userId}]`).html(data.btn);
+                }
+                if (data.status === 'ok') {
+                  $(`.task_check_${data.id}`).html(`<button class="btn btn-success mb-2 btn-block" disabled>${data.btn}</button>`);
+                  logStatus.success();
+                  resolve(true);
+                } else if (data.status === 'end') {
+                  logStatus.success();
+                  scripts_echoLog({}).success(data.key);
+                  resolve(true);
+                } else {
+                  logStatus.error(`Error:${data.msg}`);
+                  resolve(false);
+                }
+              },
+              error: xhr => {
+                logStatus.error(`Error:${xhr.statusText}(${xhr.status})`);
                 resolve(false);
               }
-            },
-            error: xhr => {
-              logStatus.error(`Error:${xhr.statusText}(${xhr.status})`);
-              resolve(false);
-            }
+            });
           });
-        });
-      } catch (error) {
-        throwError(error, 'Givekey.verify');
-        return false;
-      }
-    }
-    function Givekey_getGiveawayId2() {
-      try {
-        var _window$location$href;
-        const giveawayId = (_window$location$href = window.location.href.match(/giveaway\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
-        if (giveawayId) {
-          this.giveawayId = giveawayId;
-          return true;
+        } catch (error) {
+          throwError(error, 'Givekey.verify');
+          return false;
         }
-        scripts_echoLog({
-          text: i18n('getFailed', 'GiveawayId')
-        });
-        return false;
-      } catch (error) {
-        throwError(error, 'Givekey.getGiveawayId');
-        return false;
       }
-    }
-    async function Givekey_checkLeftKey2() {
-      try {
-        if (!globalOptions.other.checkLeftKey) {
-          return true;
-        }
-        if (!$('#keys_count').text()) {
-          await external_Swal_default().fire({
-            icon: 'warning',
-            title: i18n('notice'),
-            text: i18n('noKeysLeft'),
-            confirmButtonText: i18n('confirm'),
-            cancelButtonText: i18n('cancel'),
-            showCancelButton: true
-          }).then(_ref => {
-            let {
-              value
-            } = _ref;
-            if (value) {
-              window.close();
-            }
+      #getGiveawayId() {
+        try {
+          var _window$location$href;
+          const giveawayId = (_window$location$href = window.location.href.match(/giveaway\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
+          if (giveawayId) {
+            this.giveawayId = giveawayId;
+            return true;
+          }
+          scripts_echoLog({
+            text: i18n('getFailed', 'GiveawayId')
           });
+          return false;
+        } catch (error) {
+          throwError(error, 'Givekey.getGiveawayId');
+          return false;
         }
-        return true;
-      } catch (error) {
-        throwError(error, 'Givekey.checkLeftKey');
-        return false;
+      }
+      async #checkLeftKey() {
+        try {
+          if (!globalOptions.other.checkLeftKey) {
+            return true;
+          }
+          if (!$('#keys_count').text()) {
+            await external_Swal_default().fire({
+              icon: 'warning',
+              title: i18n('notice'),
+              text: i18n('noKeysLeft'),
+              confirmButtonText: i18n('confirm'),
+              cancelButtonText: i18n('cancel'),
+              showCancelButton: true
+            }).then(_ref => {
+              let {
+                value
+              } = _ref;
+              if (value) {
+                window.close();
+              }
+            });
+          }
+          return true;
+        } catch (error) {
+          throwError(error, 'Givekey.checkLeftKey');
+          return false;
+        }
       }
     }
     const website_Givekey = Givekey;
-    function GiveeClub_classPrivateMethodInitSpec(obj, privateSet) {
-      GiveeClub_checkPrivateRedeclaration(obj, privateSet);
-      privateSet.add(obj);
-    }
-    function GiveeClub_checkPrivateRedeclaration(obj, privateCollection) {
-      if (privateCollection.has(obj)) {
-        throw new TypeError('Cannot initialize the same private elements twice on an object');
-      }
-    }
-    function GiveeClub_defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
-    function GiveeClub_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
-    var GiveeClub_checkLogin = new WeakSet();
-    var GiveeClub_getGiveawayId = new WeakSet();
-    var GiveeClub_checkLeftKey = new WeakSet();
     class GiveeClub extends GiveawaySu {
-      constructor() {
-        super(...arguments);
-        GiveeClub_classPrivateMethodInitSpec(this, GiveeClub_checkLeftKey);
-        GiveeClub_classPrivateMethodInitSpec(this, GiveeClub_getGiveawayId);
-        GiveeClub_classPrivateMethodInitSpec(this, GiveeClub_checkLogin);
-        GiveeClub_defineProperty(this, 'name', 'GiveeClub');
-        GiveeClub_defineProperty(this, 'buttons', [ 'doTask', 'undoTask', 'verifyTask' ]);
-      }
+      name = 'GiveeClub';
+      buttons = [ 'doTask', 'undoTask', 'verifyTask' ];
       static test() {
         return /^https?:\/\/givee\.club\/.*?\/event\/[\d]+/.test(window.location.href);
       }
       async after() {
         try {
-          if (!GiveeClub_classPrivateMethodGet(this, GiveeClub_checkLogin, GiveeClub_checkLogin2).call(this)) {
+          if (!this.#checkLogin()) {
             scripts_echoLog({}).warning(i18n('checkLoginFailed'));
           }
-          if (!await GiveeClub_classPrivateMethodGet(this, GiveeClub_checkLeftKey, GiveeClub_checkLeftKey2).call(this)) {
+          if (!await this.#checkLeftKey()) {
             scripts_echoLog({}).warning(i18n('checkLeftKeyFailed'));
           }
         } catch (error) {
@@ -8596,11 +7635,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           const logStatus = scripts_echoLog({
             text: i18n('initing')
           });
-          if (!GiveeClub_classPrivateMethodGet(this, GiveeClub_checkLogin, GiveeClub_checkLogin2).call(this)) {
+          if (!this.#checkLogin()) {
             logStatus.warning(i18n('needLogin'));
             return false;
           }
-          if (!GiveeClub_classPrivateMethodGet(this, GiveeClub_getGiveawayId, GiveeClub_getGiveawayId2).call(this)) {
+          if (!this.#getGiveawayId()) {
             return false;
           }
           this.initialized = true;
@@ -8726,114 +7765,80 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-    }
-    function GiveeClub_checkLogin2() {
-      try {
-        if (!globalOptions.other.checkLogin) {
+      #checkLogin() {
+        try {
+          if (!globalOptions.other.checkLogin) {
+            return true;
+          }
+          if ($('a[href*="/account/auth"]').length > 0) {
+            window.open($('a[href*="/account/auth"]').attr('href'), '_self');
+          }
+          return true;
+        } catch (error) {
+          throwError(error, 'GiveeClub.checkLogin');
+          return false;
+        }
+      }
+      #getGiveawayId() {
+        var _window$location$href;
+        const giveawayId = (_window$location$href = window.location.href.match(/\/event\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
+        if (giveawayId) {
+          this.giveawayId = giveawayId;
           return true;
         }
-        if ($('a[href*="/account/auth"]').length > 0) {
-          window.open($('a[href*="/account/auth"]').attr('href'), '_self');
-        }
-        return true;
-      } catch (error) {
-        throwError(error, 'GiveeClub.checkLogin');
+        scripts_echoLog({
+          text: i18n('getFailed', 'GiveawayId')
+        });
         return false;
       }
-    }
-    function GiveeClub_getGiveawayId2() {
-      var _window$location$href;
-      const giveawayId = (_window$location$href = window.location.href.match(/\/event\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
-      if (giveawayId) {
-        this.giveawayId = giveawayId;
-        return true;
-      }
-      scripts_echoLog({
-        text: i18n('getFailed', 'GiveawayId')
-      });
-      return false;
-    }
-    async function GiveeClub_checkLeftKey2() {
-      try {
-        if (!globalOptions.other.checkLeftKey) {
+      async #checkLeftKey() {
+        try {
+          if (!globalOptions.other.checkLeftKey) {
+            return true;
+          }
+          if ($('.event-ended').length > 0 && $('.event-winner').length === 0) {
+            await external_Swal_default().fire({
+              icon: 'warning',
+              title: i18n('notice'),
+              text: i18n('giveawayEnded'),
+              confirmButtonText: i18n('confirm'),
+              cancelButtonText: i18n('cancel'),
+              showCancelButton: true
+            }).then(_ref => {
+              let {
+                value
+              } = _ref;
+              if (value) {
+                window.close();
+              }
+            });
+          }
           return true;
+        } catch (error) {
+          throwError(error, 'Giveawaysu.checkLeftKey');
+          return false;
         }
-        if ($('.event-ended').length > 0 && $('.event-winner').length === 0) {
-          await external_Swal_default().fire({
-            icon: 'warning',
-            title: i18n('notice'),
-            text: i18n('giveawayEnded'),
-            confirmButtonText: i18n('confirm'),
-            cancelButtonText: i18n('cancel'),
-            showCancelButton: true
-          }).then(_ref => {
-            let {
-              value
-            } = _ref;
-            if (value) {
-              window.close();
-            }
-          });
-        }
-        return true;
-      } catch (error) {
-        throwError(error, 'Giveawaysu.checkLeftKey');
-        return false;
       }
     }
     const website_GiveeClub = GiveeClub;
-    function OpiumPulses_classPrivateMethodInitSpec(obj, privateSet) {
-      OpiumPulses_checkPrivateRedeclaration(obj, privateSet);
-      privateSet.add(obj);
-    }
-    function OpiumPulses_checkPrivateRedeclaration(obj, privateCollection) {
-      if (privateCollection.has(obj)) {
-        throw new TypeError('Cannot initialize the same private elements twice on an object');
-      }
-    }
-    function OpiumPulses_defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
-    function OpiumPulses_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
     const defaultOptions = {
       maxPoint: '99999999'
     };
-    var _toggleTask = new WeakSet();
-    var OpiumPulses_checkLogin = new WeakSet();
     class OpiumPulses {
-      constructor() {
-        OpiumPulses_classPrivateMethodInitSpec(this, OpiumPulses_checkLogin);
-        OpiumPulses_classPrivateMethodInitSpec(this, _toggleTask);
-        OpiumPulses_defineProperty(this, 'name', 'OpiumPulses');
-        OpiumPulses_defineProperty(this, 'options', {
-          ...defaultOptions,
-          ...GM_getValue('OpiumPulsesOptions')
-        });
-        OpiumPulses_defineProperty(this, 'maxPoints', 99999999);
-        OpiumPulses_defineProperty(this, 'myPoints', 0);
-        OpiumPulses_defineProperty(this, 'buttons', [ 'doFreeTask', 'doPointTask' ]);
-      }
+      name = 'OpiumPulses';
+      options = {
+        ...defaultOptions,
+        ...GM_getValue('OpiumPulsesOptions')
+      };
+      maxPoints = 99999999;
+      myPoints = 0;
+      buttons = [ 'doFreeTask', 'doPointTask' ];
       static test() {
         return window.location.host === 'www.opiumpulses.com';
       }
       async after() {
         try {
-          if (!OpiumPulses_classPrivateMethodGet(this, OpiumPulses_checkLogin, OpiumPulses_checkLogin2).call(this)) {
+          if (!this.#checkLogin()) {
             scripts_echoLog({}).warning(i18n('checkLoginFailed'));
           }
           this.maxPoints = parseInt(this.options.maxPoint, 10);
@@ -8843,7 +7848,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
       async doFreeTask() {
         try {
-          OpiumPulses_classPrivateMethodGet(this, _toggleTask, _toggleTask2).call(this, 'FREE');
+          this.#toggleTask('FREE');
         } catch (error) {
           throwError(error, 'OpiumPulses.doFreeTask');
         }
@@ -8852,9 +7857,69 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         try {
           var _$$text$match;
           this.myPoints = parseInt(((_$$text$match = $('.page-header__nav-func-user-nav-items.points-items').text().match(/[\d]+/gim)) === null || _$$text$match === void 0 ? void 0 : _$$text$match[0]) || '0', 10);
-          OpiumPulses_classPrivateMethodGet(this, _toggleTask, _toggleTask2).call(this, 'points');
+          this.#toggleTask('points');
         } catch (error) {
           throwError(error, 'OpiumPulses.doPointTask');
+        }
+      }
+      async #toggleTask(type) {
+        try {
+          const items = $(`.giveaways-page-item:contains('${type}'):not(:contains('ENTERED'))`);
+          for (const item of items) {
+            var _$$find$text$match;
+            const needPoints = parseInt(((_$$find$text$match = $(item).find('.giveaways-page-item-header-points').text().match(/[\d]+/gim)) === null || _$$find$text$match === void 0 ? void 0 : _$$find$text$match[0]) || '999999', 10);
+            const name = $(item).find('.giveaways-page-item-footer-name').text().trim();
+            if (type === 'points' && needPoints > this.myPoints) {
+              scripts_echoLog({}).warning(`${i18n('noPoints')}: ${name}`);
+            } else if (type === 'points' && !needPoints) {
+              scripts_echoLog({}).warning(`${i18n('getNeedPointsFailed')}: ${name}`);
+            } else if (!(type === 'points' && needPoints > this.maxPoints)) {
+              var _aElement$attr;
+              const logStatus = scripts_echoLog({
+                text: `${i18n('joiningLottery')}<a href="${$(item).find('a.giveaways-page-item-img-btn-more').attr('href')}" target="_blank">${name}</a>...`
+              });
+              const aElement = $(item).find('a.giveaways-page-item-img-btn-enter:contains(\'enter\')');
+              if (aElement !== null && aElement !== void 0 && (_aElement$attr = aElement.attr('onclick')) !== null && _aElement$attr !== void 0 && _aElement$attr.includes('checkUser')) {
+                var _aElement$attr2, _aElement$attr2$match;
+                const giveawayId = (_aElement$attr2 = aElement.attr('onclick')) === null || _aElement$attr2 === void 0 ? void 0 : (_aElement$attr2$match = _aElement$attr2.match(/[\d]+/)) === null || _aElement$attr2$match === void 0 ? void 0 : _aElement$attr2$match[0];
+                if (giveawayId) {
+                  checkUser(giveawayId);
+                }
+              }
+              if (!aElement.attr('href')) {
+                logStatus.error('Error: No "href".');
+                continue;
+              }
+              const {
+                result,
+                statusText,
+                status,
+                data
+              } = await tools_httpRequest({
+                url: aElement.attr('href'),
+                method: 'GET'
+              });
+              if (result === 'Success') {
+                if (data !== null && data !== void 0 && data.responseText && /You've entered this giveaway/gim.test(data.responseText)) {
+                  var _data$responseText$ma;
+                  logStatus.success();
+                  const points = (_data$responseText$ma = data.responseText.match(/Points:[\s]*?([\d]+)/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
+                  if (type === 'points' && points) {
+                    this.myPoints = parseInt(points, 10);
+                  }
+                } else {
+                  logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+                }
+              } else {
+                logStatus.error(`${result}:${statusText}(${status})`);
+              }
+            }
+          }
+          scripts_echoLog({
+            text: '-----END-----'
+          });
+        } catch (error) {
+          throwError(error, 'OpiumPulses.toggleTask');
         }
       }
       init() {
@@ -8863,79 +7928,19 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       classifyTask() {
         return true;
       }
-    }
-    async function _toggleTask2(type) {
-      try {
-        const items = $(`.giveaways-page-item:contains('${type}'):not(:contains('ENTERED'))`);
-        for (const item of items) {
-          var _$$find$text$match;
-          const needPoints = parseInt(((_$$find$text$match = $(item).find('.giveaways-page-item-header-points').text().match(/[\d]+/gim)) === null || _$$find$text$match === void 0 ? void 0 : _$$find$text$match[0]) || '999999', 10);
-          const name = $(item).find('.giveaways-page-item-footer-name').text().trim();
-          if (type === 'points' && needPoints > this.myPoints) {
-            scripts_echoLog({}).warning(`${i18n('noPoints')}: ${name}`);
-          } else if (type === 'points' && !needPoints) {
-            scripts_echoLog({}).warning(`${i18n('getNeedPointsFailed')}: ${name}`);
-          } else if (!(type === 'points' && needPoints > this.maxPoints)) {
-            var _aElement$attr;
-            const logStatus = scripts_echoLog({
-              text: `${i18n('joiningLottery')}<a href="${$(item).find('a.giveaways-page-item-img-btn-more').attr('href')}" target="_blank">${name}</a>...`
-            });
-            const aElement = $(item).find('a.giveaways-page-item-img-btn-enter:contains(\'enter\')');
-            if (aElement !== null && aElement !== void 0 && (_aElement$attr = aElement.attr('onclick')) !== null && _aElement$attr !== void 0 && _aElement$attr.includes('checkUser')) {
-              var _aElement$attr2, _aElement$attr2$match;
-              const giveawayId = (_aElement$attr2 = aElement.attr('onclick')) === null || _aElement$attr2 === void 0 ? void 0 : (_aElement$attr2$match = _aElement$attr2.match(/[\d]+/)) === null || _aElement$attr2$match === void 0 ? void 0 : _aElement$attr2$match[0];
-              if (giveawayId) {
-                checkUser(giveawayId);
-              }
-            }
-            if (!aElement.attr('href')) {
-              logStatus.error('Error: No "href".');
-              continue;
-            }
-            const {
-              result,
-              statusText,
-              status,
-              data
-            } = await tools_httpRequest({
-              url: aElement.attr('href'),
-              method: 'GET'
-            });
-            if (result === 'Success') {
-              if (data !== null && data !== void 0 && data.responseText && /You've entered this giveaway/gim.test(data.responseText)) {
-                var _data$responseText$ma;
-                logStatus.success();
-                const points = (_data$responseText$ma = data.responseText.match(/Points:[\s]*?([\d]+)/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
-                if (type === 'points' && points) {
-                  this.myPoints = parseInt(points, 10);
-                }
-              } else {
-                logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
-              }
-            } else {
-              logStatus.error(`${result}:${statusText}(${status})`);
-            }
+      #checkLogin() {
+        try {
+          if (!globalOptions.other.checkLogin) {
+            return true;
           }
-        }
-        scripts_echoLog({
-          text: '-----END-----'
-        });
-      } catch (error) {
-        throwError(error, 'OpiumPulses.toggleTask');
-      }
-    }
-    function OpiumPulses_checkLogin2() {
-      try {
-        if (!globalOptions.other.checkLogin) {
+          if ($('a[href*="/site/login"]').length > 1) {
+            window.open('/site/login', '_self');
+          }
           return true;
+        } catch (error) {
+          throwError(error, 'OpiumPulses.checkLogin');
+          return false;
         }
-        if ($('a[href*="/site/login"]').length > 1) {
-          window.open('/site/login', '_self');
-        }
-        return true;
-      } catch (error) {
-        throwError(error, 'OpiumPulses.checkLogin');
-        return false;
       }
     }
     const website_OpiumPulses = OpiumPulses;
@@ -9170,34 +8175,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     };
     const website_leftKeyChecker = leftKeyChecker;
-    function Keylol_classPrivateMethodInitSpec(obj, privateSet) {
-      Keylol_checkPrivateRedeclaration(obj, privateSet);
-      privateSet.add(obj);
-    }
-    function Keylol_checkPrivateRedeclaration(obj, privateCollection) {
-      if (privateCollection.has(obj)) {
-        throw new TypeError('Cannot initialize the same private elements twice on an object');
-      }
-    }
-    function Keylol_defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
-    function Keylol_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
     const Keylol_defaultTasksTemplate = {
       steam: {
         groupLinks: [],
@@ -9235,16 +8212,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     };
     const Keylol_defaultTasks = JSON.stringify(Keylol_defaultTasksTemplate);
-    var _addBtn = new WeakSet();
     class Keylol extends website_Website {
-      constructor() {
-        super(...arguments);
-        Keylol_classPrivateMethodInitSpec(this, _addBtn);
-        Keylol_defineProperty(this, 'name', 'Keylol');
-        Keylol_defineProperty(this, 'socialTasks', JSON.parse(Keylol_defaultTasks));
-        Keylol_defineProperty(this, 'undoneTasks', JSON.parse(Keylol_defaultTasks));
-        Keylol_defineProperty(this, 'buttons', [ 'doTask', 'undoTask', 'selectAll', 'selectNone', 'invertSelect' ]);
-      }
+      name = 'Keylol';
+      socialTasks = JSON.parse(Keylol_defaultTasks);
+      undoneTasks = JSON.parse(Keylol_defaultTasks);
+      buttons = [ 'doTask', 'undoTask', 'selectAll', 'selectNone', 'invertSelect' ];
       static test() {
         var _$$eq$attr, _$$eq$attr2;
         return window.location.host === 'keylol.com' && (!!((_$$eq$attr = $('.subforum_left_title_left_up a').eq(3).attr('href')) !== null && _$$eq$attr !== void 0 && _$$eq$attr.includes('319')) || !!((_$$eq$attr2 = $('.subforum_left_title_left_up a').eq(3).attr('href')) !== null && _$$eq$attr2 !== void 0 && _$$eq$attr2.includes('234')));
@@ -9271,7 +8243,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               if (!(link && /^https?:\/\/discord\.com\/invite\/.+/.test(link))) {
                 continue;
               }
-              Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, discordLink, 'discord', 'serverLinks', link);
+              this.#addBtn(discordLink, 'discord', 'serverLinks', link);
             }
           }
           if (redditLinks.length > 0) {
@@ -9280,7 +8252,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               if (!(link && /^https?:\/\/www\.reddit\.com\/(r|user)\/.+/.test(link))) {
                 continue;
               }
-              Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, redditLink, 'reddit', 'redditLinks', link);
+              this.#addBtn(redditLink, 'reddit', 'redditLinks', link);
             }
           }
           if (insLinks.length > 0) {
@@ -9289,7 +8261,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               if (!(link && /^https:\/\/www\.instagram\.com\/.+/.test(link))) {
                 continue;
               }
-              Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, insLink, 'instagram', 'userLinks', link);
+              this.#addBtn(insLink, 'instagram', 'userLinks', link);
             }
           }
           if (twitterLinks.length > 0) {
@@ -9299,9 +8271,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 continue;
               }
               if (/https:\/\/twitter\.com\/.*?\/status\/[\d]+/.test(link)) {
-                Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, twitterLink, 'twitter', 'retweetLinks', link);
+                this.#addBtn(twitterLink, 'twitter', 'retweetLinks', link);
               } else {
-                Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, twitterLink, 'twitter', 'userLinks', link);
+                this.#addBtn(twitterLink, 'twitter', 'userLinks', link);
               }
             }
           }
@@ -9311,7 +8283,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               if (!(link && /^https:\/\/(www\.)?twitch\.tv\/.+/.test(link))) {
                 continue;
               }
-              Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, twitchLink, 'twitch', 'channelLinks', link);
+              this.#addBtn(twitchLink, 'twitch', 'channelLinks', link);
             }
           }
           if (vkLinks.length > 0) {
@@ -9320,7 +8292,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               if (!(link && /^https:\/\/vk\.com\/.+/.test(link))) {
                 continue;
               }
-              Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, vkLink, 'vk', 'nameLinks', link);
+              this.#addBtn(vkLink, 'vk', 'nameLinks', link);
             }
           }
           if (steamStoreLinks.length > 0) {
@@ -9330,14 +8302,14 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 continue;
               }
               if (/curator\/[\d]+/.test(link)) {
-                Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, steamStoreLink, 'steam', 'curatorLinks', link);
+                this.#addBtn(steamStoreLink, 'steam', 'curatorLinks', link);
               } else if (/(publisher|developer|franchise)\/.+/.test(link)) {
-                Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, steamStoreLink, 'steam', 'curatorLikeLinks', link);
+                this.#addBtn(steamStoreLink, 'steam', 'curatorLikeLinks', link);
               } else if (/news(hub)?\/app\/[\d]+\/view\/[\d]+/.test(link)) {
-                Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, steamStoreLink, 'steam', 'announcementLinks', link);
+                this.#addBtn(steamStoreLink, 'steam', 'announcementLinks', link);
               } else if (/app\/[\d]+/.test(link)) {
-                Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, steamStoreLink, 'steam', 'followLinks', link);
-                Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, steamStoreLink, 'steam', 'wishlistLinks', link);
+                this.#addBtn(steamStoreLink, 'steam', 'followLinks', link);
+                this.#addBtn(steamStoreLink, 'steam', 'wishlistLinks', link);
               }
             }
           }
@@ -9348,9 +8320,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 continue;
               }
               if (/groups\/.+/.test(link)) {
-                Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, steamCommunityLink, 'steam', 'groupLinks', link);
+                this.#addBtn(steamCommunityLink, 'steam', 'groupLinks', link);
               } else if (/announcements\/detail\/[\d]+/.test(link)) {
-                Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, steamCommunityLink, 'steam', 'announcementLinks', link);
+                this.#addBtn(steamCommunityLink, 'steam', 'announcementLinks', link);
               }
             }
           }
@@ -9360,8 +8332,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               if (!link) {
                 continue;
               }
-              Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, ytbLink, 'youtube', 'channelLinks', link);
-              Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, ytbLink, 'youtube', 'likeLinks', link);
+              this.#addBtn(ytbLink, 'youtube', 'channelLinks', link);
+              this.#addBtn(ytbLink, 'youtube', 'likeLinks', link);
             }
           }
           const giveawayLinks = mainPost.find('a[href*="giveaway.su/giveaway/view/"]:visible,a[href*="givee.club/"]:visible,a[href*="gleam.io/"]:visible,a[href*="www.indiedb.com/giveaways/"]:visible,a[href*="key-hub.eu/giveaway/"]:visible,a[href*="opquests.com/quests/"]:visible,a[href*="itch.io/s/"]:visible');
@@ -9393,7 +8365,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 if (!link) {
                   continue;
                 }
-                Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, $(`a[href="${link}"]`).after('<span style="color: #ccc; margin: 0 -5px 0 5px"> | </span>').next()[0], 'steam', 'licenseLinks', `appid-${link.replace('#asf', '')}`);
+                this.#addBtn($(`a[href="${link}"]`).after('<span style="color: #ccc; margin: 0 -5px 0 5px"> | </span>').next()[0], 'steam', 'licenseLinks', `appid-${link.replace('#asf', '')}`);
               }
             }
             const subLinks = mainPost.find('a[href*="steamdb.info/sub/"]:visible');
@@ -9408,7 +8380,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 if (!subid) {
                   continue;
                 }
-                Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, subLink, 'steam', 'licenseLinks', `subid-${subid}`);
+                this.#addBtn(subLink, 'steam', 'licenseLinks', `subid-${subid}`);
               }
             }
             const asfLinks2 = mainPost.find('.blockcode:contains("addlicense"):visible');
@@ -9418,7 +8390,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 if (!subid || subid.length === 0) {
                   continue;
                 }
-                Keylol_classPrivateMethodGet(this, _addBtn, _addBtn2).call(this, $(asfLink).children('em')[0], 'steam', 'licenseLinks', `subid-${subid.join(',')}`);
+                this.#addBtn($(asfLink).children('em')[0], 'steam', 'licenseLinks', `subid-${subid.join(',')}`);
               }
             }
           }
@@ -9480,43 +8452,15 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           throwError(error, 'Keylol.invertSelect');
         }
       }
-    }
-    function _addBtn2(before, social, linkType, link) {
-      try {
-        $(before).after('<a href="javascript:void(0);" class="auto-task-keylol" target="_self"' + ' onclick="this.getAttribute(\'selected\') ? this.removeAttribute(\'selected\') : this.setAttribute(\'selected\', \'selected\')"' + ` data-social="${social}" data-type="${linkType}" data-link="${link}">${linkType.replace('Links', '')}</a>`);
-      } catch (error) {
-        throwError(error, 'keylol.addBtn');
+      #addBtn(before, social, linkType, link) {
+        try {
+          $(before).after('<a href="javascript:void(0);" class="auto-task-keylol" target="_self"' + ' onclick="this.getAttribute(\'selected\') ? this.removeAttribute(\'selected\') : this.setAttribute(\'selected\', \'selected\')"' + ` data-social="${social}" data-type="${linkType}" data-link="${link}">${linkType.replace('Links', '')}</a>`);
+        } catch (error) {
+          throwError(error, 'keylol.addBtn');
+        }
       }
     }
     const website_Keylol = Keylol;
-    function Opquests_classPrivateMethodInitSpec(obj, privateSet) {
-      Opquests_checkPrivateRedeclaration(obj, privateSet);
-      privateSet.add(obj);
-    }
-    function Opquests_checkPrivateRedeclaration(obj, privateCollection) {
-      if (privateCollection.has(obj)) {
-        throw new TypeError('Cannot initialize the same private elements twice on an object');
-      }
-    }
-    function Opquests_defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
-    function Opquests_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
     const Opquests_defaultTasks = {
       steam: {
         groupLinks: [],
@@ -9525,27 +8469,18 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         curatorLikeLinks: []
       }
     };
-    var Opquests_verify = new WeakSet();
-    var Opquests_getGiveawayId = new WeakSet();
-    var Opquests_checkLogin = new WeakSet();
     class Opquests extends website_Website {
-      constructor() {
-        super(...arguments);
-        Opquests_classPrivateMethodInitSpec(this, Opquests_checkLogin);
-        Opquests_classPrivateMethodInitSpec(this, Opquests_getGiveawayId);
-        Opquests_classPrivateMethodInitSpec(this, Opquests_verify);
-        Opquests_defineProperty(this, 'name', 'Opquests');
-        Opquests_defineProperty(this, 'undoneTasks', {
-          ...Opquests_defaultTasks
-        });
-        Opquests_defineProperty(this, 'buttons', [ 'doTask', 'verifyTask', 'getKey' ]);
-      }
+      name = 'Opquests';
+      undoneTasks = {
+        ...Opquests_defaultTasks
+      };
+      buttons = [ 'doTask', 'verifyTask', 'getKey' ];
       static test() {
         return window.location.host === 'opquests.com';
       }
       async after() {
         try {
-          if (!Opquests_classPrivateMethodGet(this, Opquests_checkLogin, Opquests_checkLogin2).call(this)) {
+          if (!this.#checkLogin()) {
             scripts_echoLog({}).warning(i18n('checkLoginFailed'));
           }
         } catch (error) {
@@ -9562,7 +8497,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             logStatus.warning(i18n('needLogin'));
             return false;
           }
-          if (!Opquests_classPrivateMethodGet(this, Opquests_getGiveawayId, Opquests_getGiveawayId2).call(this)) {
+          if (!this.#getGiveawayId()) {
             return false;
           }
           this.initialized = true;
@@ -9625,7 +8560,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           }));
           const pro = [];
           for (const task of tasks) {
-            pro.push(Opquests_classPrivateMethodGet(this, Opquests_verify, Opquests_verify2).call(this, task));
+            pro.push(this.#verify(task));
             await delay(1e3);
           }
           await Promise.all(pro);
@@ -9637,6 +8572,51 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         } catch (error) {
           throwError(error, 'Opquests.verifyTask');
+          return false;
+        }
+      }
+      async #verify(task) {
+        try {
+          const logStatus = scripts_echoLog({
+            html: `<li>${i18n('verifyingTask')}${task.title.trim()}...<font></font></li>`
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://opquests.com/entries',
+            method: 'POST',
+            dataType: 'json',
+            nochche: true,
+            headers: {
+              origin: 'https://opquests.com',
+              pragma: 'no-cache',
+              referer: window.location.href,
+              'content-type': 'application/x-www-form-urlencoded'
+            },
+            data: `_token=${task.token}&task_id=${task.taskId}`
+          });
+          if (result === 'Success') {
+            var _data$responseText, _data$responseText2, _$$find$attr;
+            if (data !== null && data !== void 0 && (_data$responseText = data.responseText) !== null && _data$responseText !== void 0 && _data$responseText.includes('Successfully completed task') || data !== null && data !== void 0 && (_data$responseText2 = data.responseText) !== null && _data$responseText2 !== void 0 && _data$responseText2.includes('unlocked the key')) {
+              logStatus.success();
+              return true;
+            }
+            const key = (_$$find$attr = $((data === null || data === void 0 ? void 0 : data.responseText) || '').find('button[data-clipboard-text]:contains("Copy")').attr('data-clipboard-text')) === null || _$$find$attr === void 0 ? void 0 : _$$find$attr.trim();
+            if (key) {
+              logStatus.success();
+              scripts_echoLog({}).success(key);
+              return true;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Opquests.verify');
           return false;
         }
       }
@@ -9678,110 +8658,37 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-    }
-    async function Opquests_verify2(task) {
-      try {
-        const logStatus = scripts_echoLog({
-          html: `<li>${i18n('verifyingTask')}${task.title.trim()}...<font></font></li>`
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: 'https://opquests.com/entries',
-          method: 'POST',
-          dataType: 'json',
-          nochche: true,
-          headers: {
-            origin: 'https://opquests.com',
-            pragma: 'no-cache',
-            referer: window.location.href,
-            'content-type': 'application/x-www-form-urlencoded'
-          },
-          data: `_token=${task.token}&task_id=${task.taskId}`
-        });
-        if (result === 'Success') {
-          var _data$responseText, _data$responseText2, _$$find$attr;
-          if (data !== null && data !== void 0 && (_data$responseText = data.responseText) !== null && _data$responseText !== void 0 && _data$responseText.includes('Successfully completed task') || data !== null && data !== void 0 && (_data$responseText2 = data.responseText) !== null && _data$responseText2 !== void 0 && _data$responseText2.includes('unlocked the key')) {
-            logStatus.success();
+      #getGiveawayId() {
+        try {
+          var _window$location$href;
+          const giveawayId = (_window$location$href = window.location.href.match(/quests\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
+          if (giveawayId) {
+            this.giveawayId = giveawayId;
             return true;
           }
-          const key = (_$$find$attr = $((data === null || data === void 0 ? void 0 : data.responseText) || '').find('button[data-clipboard-text]:contains("Copy")').attr('data-clipboard-text')) === null || _$$find$attr === void 0 ? void 0 : _$$find$attr.trim();
-          if (key) {
-            logStatus.success();
-            scripts_echoLog({}).success(key);
-            return true;
-          }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+          scripts_echoLog({}).error(i18n('getFailed', 'GiveawayId'));
+          return false;
+        } catch (error) {
+          throwError(error, 'Opquests.getGiveawayId');
           return false;
         }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Opquests.verify');
-        return false;
       }
-    }
-    function Opquests_getGiveawayId2() {
-      try {
-        var _window$location$href;
-        const giveawayId = (_window$location$href = window.location.href.match(/quests\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
-        if (giveawayId) {
-          this.giveawayId = giveawayId;
+      #checkLogin() {
+        try {
+          if (!globalOptions.other.checkLogin) {
+            return true;
+          }
+          if ($('a[href*="/auth/redirect"]').length > 0) {
+            window.open('/auth/redirect', '_self');
+          }
           return true;
+        } catch (error) {
+          throwError(error, 'Opquests.checkLogin');
+          return false;
         }
-        scripts_echoLog({}).error(i18n('getFailed', 'GiveawayId'));
-        return false;
-      } catch (error) {
-        throwError(error, 'Opquests.getGiveawayId');
-        return false;
-      }
-    }
-    function Opquests_checkLogin2() {
-      try {
-        if (!globalOptions.other.checkLogin) {
-          return true;
-        }
-        if ($('a[href*="/auth/redirect"]').length > 0) {
-          window.open('/auth/redirect', '_self');
-        }
-        return true;
-      } catch (error) {
-        throwError(error, 'Opquests.checkLogin');
-        return false;
       }
     }
     const website_Opquests = Opquests;
-    function Gleam_classPrivateMethodInitSpec(obj, privateSet) {
-      Gleam_checkPrivateRedeclaration(obj, privateSet);
-      privateSet.add(obj);
-    }
-    function Gleam_checkPrivateRedeclaration(obj, privateCollection) {
-      if (privateCollection.has(obj)) {
-        throw new TypeError('Cannot initialize the same private elements twice on an object');
-      }
-    }
-    function Gleam_defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
-    function Gleam_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
     const Gleam_defaultTasksTemplate = {
       steam: {
         groupLinks: [],
@@ -9812,28 +8719,15 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       vlootUsername: '',
       gameroundUsername: ''
     };
-    var _checkSync = new WeakSet();
-    var _doGleamTask = new WeakSet();
-    var Gleam_getGiveawayId = new WeakSet();
-    var _getGleamLink = new WeakSet();
-    var Gleam_checkLeftKey = new WeakSet();
     class Gleam extends website_Website {
-      constructor() {
-        super(...arguments);
-        Gleam_classPrivateMethodInitSpec(this, Gleam_checkLeftKey);
-        Gleam_classPrivateMethodInitSpec(this, _getGleamLink);
-        Gleam_classPrivateMethodInitSpec(this, Gleam_getGiveawayId);
-        Gleam_classPrivateMethodInitSpec(this, _doGleamTask);
-        Gleam_classPrivateMethodInitSpec(this, _checkSync);
-        Gleam_defineProperty(this, 'name', 'Gleam');
-        Gleam_defineProperty(this, 'undoneTasks', JSON.parse(Gleam_defaultTasks));
-        Gleam_defineProperty(this, 'socialTasks', JSON.parse(Gleam_defaultTasks));
-        Gleam_defineProperty(this, 'options', {
-          ...Gleam_defaultOptions,
-          ...GM_getValue('GleamOptions')
-        });
-        Gleam_defineProperty(this, 'buttons', [ 'doTask', 'undoTask', 'verifyTask' ]);
-      }
+      name = 'Gleam';
+      undoneTasks = JSON.parse(Gleam_defaultTasks);
+      socialTasks = JSON.parse(Gleam_defaultTasks);
+      options = {
+        ...Gleam_defaultOptions,
+        ...GM_getValue('GleamOptions')
+      };
+      buttons = [ 'doTask', 'undoTask', 'verifyTask' ];
       static test() {
         return window.location.host === 'gleam.io';
       }
@@ -9863,7 +8757,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               await delay(1e3);
             }
             scripts_echoLog({}).warning(i18n('gleamTaskNotice'));
-          } else if (!await Gleam_classPrivateMethodGet(this, Gleam_checkLeftKey, Gleam_checkLeftKey2).call(this)) {
+          } else if (!await this.#checkLeftKey()) {
             scripts_echoLog({}).warning(i18n('checkLeftKeyFailed'));
           }
         } catch (error) {
@@ -9876,7 +8770,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           const logStatus = scripts_echoLog({
             text: i18n('initing')
           });
-          if (!Gleam_classPrivateMethodGet(this, Gleam_getGiveawayId, Gleam_getGiveawayId2).call(this)) {
+          if (!this.#getGiveawayId()) {
             return false;
           }
           this.initialized = true;
@@ -10028,7 +8922,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               if (!link) {
                 continue;
               }
-              const gleamLink = await Gleam_classPrivateMethodGet(this, _getGleamLink, _getGleamLink2).call(this, link);
+              const gleamLink = await this.#getGleamLink(link);
               if (!gleamLink) {
                 continue;
               }
@@ -10060,7 +8954,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         try {
           const pro = [];
           for (const link of gleam) {
-            pro.push(Gleam_classPrivateMethodGet(this, _doGleamTask, _doGleamTask2).call(this, link));
+            pro.push(this.#doGleamTask(link));
           }
           return Promise.all(pro).then(() => true);
         } catch (error) {
@@ -10082,12 +8976,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             const taskInfo = $task.find('.user-links');
             taskInfo[0].click();
             await delay(500);
-            await Gleam_classPrivateMethodGet(this, _checkSync, _checkSync2).call(this);
+            await this.#checkSync();
             const continueBtn = $task.find('.expandable').find('span:contains(Continue),button:contains(Continue)');
             for (const button of continueBtn) {
               button.click();
               await delay(500);
-              await Gleam_classPrivateMethodGet(this, _checkSync, _checkSync2).call(this);
+              await this.#checkSync();
             }
           }
           scripts_echoLog({
@@ -10098,195 +8992,156 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-    }
-    async function _checkSync2() {
-      try {
-        return await new Promise(resolve => {
-          const checker = setInterval(() => {
-            if ($('.entry-content .entry-method i.fa-sync').length === 0) {
-              clearInterval(checker);
-              resolve(true);
-            }
-          }, 500);
-        });
-      } catch (error) {
-        throwError(error, 'Gleam.checkSync');
-        return false;
-      }
-    }
-    async function _doGleamTask2(link) {
-      try {
-        const logStatus = scripts_echoLog({
-          text: i18n('doingGleamTask')
-        });
-        return await new Promise(resolve => {
-          GM_openInTab(`${link}?8b07d23f4bfa65f9`, {
-            active: true,
-            insert: true,
-            setParent: true
-          }).onclose = () => {
-            logStatus.success();
-            resolve(true);
-          };
-        });
-      } catch (error) {
-        throwError(error, 'Gleam.doGleamTask');
-        return false;
-      }
-    }
-    function Gleam_getGiveawayId2() {
-      try {
-        const giveawayId = window.location.pathname;
-        if (giveawayId) {
-          this.giveawayId = giveawayId;
-          return true;
+      async #checkSync() {
+        try {
+          return await new Promise(resolve => {
+            const checker = setInterval(() => {
+              if ($('.entry-content .entry-method i.fa-sync').length === 0) {
+                clearInterval(checker);
+                resolve(true);
+              }
+            }, 500);
+          });
+        } catch (error) {
+          throwError(error, 'Gleam.checkSync');
+          return false;
         }
-        scripts_echoLog({
-          text: i18n('getFailed', 'GiveawayId')
-        });
-        return false;
-      } catch (error) {
-        throwError(error, 'Gleam.getGiveawayId');
-        return false;
       }
-    }
-    async function _getGleamLink2(link) {
-      try {
-        const logStatus = scripts_echoLog({
-          text: i18n('gettingGleamLink')
-        });
-        const {
-          result,
-          statusText,
-          status,
-          data
-        } = await tools_httpRequest({
-          url: link,
-          method: 'GET'
-        });
-        if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText$ma;
-            const gleamLink = (_data$responseText$ma = data.responseText.match(/href="(https:\/\/gleam\.io\/.*?\/.+?)"/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
-            if (gleamLink) {
+      async #doGleamTask(link) {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('doingGleamTask')
+          });
+          return await new Promise(resolve => {
+            GM_openInTab(`${link}?8b07d23f4bfa65f9`, {
+              active: true,
+              insert: true,
+              setParent: true
+            }).onclose = () => {
               logStatus.success();
-              return gleamLink;
+              resolve(true);
+            };
+          });
+        } catch (error) {
+          throwError(error, 'Gleam.doGleamTask');
+          return false;
+        }
+      }
+      #getGiveawayId() {
+        try {
+          const giveawayId = window.location.pathname;
+          if (giveawayId) {
+            this.giveawayId = giveawayId;
+            return true;
+          }
+          scripts_echoLog({
+            text: i18n('getFailed', 'GiveawayId')
+          });
+          return false;
+        } catch (error) {
+          throwError(error, 'Gleam.getGiveawayId');
+          return false;
+        }
+      }
+      async #getGleamLink(link) {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('gettingGleamLink')
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: link,
+            method: 'GET'
+          });
+          if (result === 'Success') {
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              var _data$responseText$ma;
+              const gleamLink = (_data$responseText$ma = data.responseText.match(/href="(https:\/\/gleam\.io\/.*?\/.+?)"/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
+              if (gleamLink) {
+                logStatus.success();
+                return gleamLink;
+              }
+              logStatus.error(`Error:${i18n('getLinkFailed')}`);
+              return false;
             }
-            logStatus.error(`Error:${i18n('getLinkFailed')}`);
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
             return false;
           }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Gleam.getGleamLink');
           return false;
         }
-        logStatus.error(`${result}:${statusText}(${status})`);
-        return false;
-      } catch (error) {
-        throwError(error, 'Gleam.getGleamLink');
-        return false;
       }
-    }
-    async function Gleam_checkLeftKey2() {
-      try {
-        var _$$attr, _$$attr$match, _$$attr2, _$$attr2$match;
-        if (!globalOptions.other.checkLeftKey) {
+      async #checkLeftKey() {
+        try {
+          var _$$attr, _$$attr$match, _$$attr2, _$$attr2$match;
+          if (!globalOptions.other.checkLeftKey) {
+            return true;
+          }
+          const campaignString = (_$$attr = $('div.popup-blocks-container').attr('ng-init')) === null || _$$attr === void 0 ? void 0 : (_$$attr$match = _$$attr.match(/initCampaign\(([\w\W]+?)\)$/)) === null || _$$attr$match === void 0 ? void 0 : _$$attr$match[1];
+          if (!campaignString) {
+            return false;
+          }
+          const {
+            campaign,
+            incentive
+          } = JSON.parse(campaignString);
+          const controllerString = (_$$attr2 = $('div.campaign.reward').attr('ng-init')) === null || _$$attr2 === void 0 ? void 0 : (_$$attr2$match = _$$attr2.match(/initContestant\(([\w\W]+?)\);/)) === null || _$$attr2$match === void 0 ? void 0 : _$$attr2$match[1];
+          let ownedKey = false;
+          if (controllerString) {
+            var _JSON$parse$contestan, _JSON$parse$contestan2, _JSON$parse$contestan3, _JSON$parse$contestan4;
+            if ((_JSON$parse$contestan = JSON.parse(controllerString).contestant) !== null && _JSON$parse$contestan !== void 0 && (_JSON$parse$contestan2 = _JSON$parse$contestan.claims) !== null && _JSON$parse$contestan2 !== void 0 && (_JSON$parse$contestan3 = _JSON$parse$contestan2.incentives) !== null && _JSON$parse$contestan3 !== void 0 && (_JSON$parse$contestan4 = _JSON$parse$contestan3[incentive.id]) !== null && _JSON$parse$contestan4 !== void 0 && _JSON$parse$contestan4.length) {
+              ownedKey = true;
+            }
+          }
+          if (campaign.banned || campaign.finished && !ownedKey || campaign.paused || new Date().getTime() < campaign.starts_at * 1e3) {
+            await external_Swal_default().fire({
+              icon: 'warning',
+              title: i18n('notice'),
+              text: i18n('giveawayNotWork'),
+              confirmButtonText: i18n('confirm'),
+              cancelButtonText: i18n('cancel'),
+              showCancelButton: true
+            }).then(_ref2 => {
+              let {
+                value
+              } = _ref2;
+              if (value) {
+                window.close();
+              }
+            });
+          }
           return true;
-        }
-        const campaignString = (_$$attr = $('div.popup-blocks-container').attr('ng-init')) === null || _$$attr === void 0 ? void 0 : (_$$attr$match = _$$attr.match(/initCampaign\(([\w\W]+?)\)$/)) === null || _$$attr$match === void 0 ? void 0 : _$$attr$match[1];
-        if (!campaignString) {
+        } catch (error) {
+          throwError(error, 'Gleam.checkLeftKey');
           return false;
         }
-        const {
-          campaign,
-          incentive
-        } = JSON.parse(campaignString);
-        const controllerString = (_$$attr2 = $('div.campaign.reward').attr('ng-init')) === null || _$$attr2 === void 0 ? void 0 : (_$$attr2$match = _$$attr2.match(/initContestant\(([\w\W]+?)\);/)) === null || _$$attr2$match === void 0 ? void 0 : _$$attr2$match[1];
-        let ownedKey = false;
-        if (controllerString) {
-          var _JSON$parse$contestan, _JSON$parse$contestan2, _JSON$parse$contestan3, _JSON$parse$contestan4;
-          if ((_JSON$parse$contestan = JSON.parse(controllerString).contestant) !== null && _JSON$parse$contestan !== void 0 && (_JSON$parse$contestan2 = _JSON$parse$contestan.claims) !== null && _JSON$parse$contestan2 !== void 0 && (_JSON$parse$contestan3 = _JSON$parse$contestan2.incentives) !== null && _JSON$parse$contestan3 !== void 0 && (_JSON$parse$contestan4 = _JSON$parse$contestan3[incentive.id]) !== null && _JSON$parse$contestan4 !== void 0 && _JSON$parse$contestan4.length) {
-            ownedKey = true;
-          }
-        }
-        if (campaign.banned || campaign.finished && !ownedKey || campaign.paused || new Date().getTime() < campaign.starts_at * 1e3) {
-          await external_Swal_default().fire({
-            icon: 'warning',
-            title: i18n('notice'),
-            text: i18n('giveawayNotWork'),
-            confirmButtonText: i18n('confirm'),
-            cancelButtonText: i18n('cancel'),
-            showCancelButton: true
-          }).then(_ref2 => {
-            let {
-              value
-            } = _ref2;
-            if (value) {
-              window.close();
-            }
-          });
-        }
-        return true;
-      } catch (error) {
-        throwError(error, 'Gleam.checkLeftKey');
-        return false;
       }
     }
     const website_Gleam = Gleam;
-    function SweepWidget_classPrivateMethodInitSpec(obj, privateSet) {
-      SweepWidget_checkPrivateRedeclaration(obj, privateSet);
-      privateSet.add(obj);
-    }
-    function SweepWidget_checkPrivateRedeclaration(obj, privateCollection) {
-      if (privateCollection.has(obj)) {
-        throw new TypeError('Cannot initialize the same private elements twice on an object');
-      }
-    }
-    function SweepWidget_defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
-    function SweepWidget_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
     const SweepWidget_defaultOptions = {
       username: '',
       email: ''
     };
-    var SweepWidget_checkLogin = new WeakSet();
-    var SweepWidget_getGiveawayId = new WeakSet();
-    var _checkEnter = new WeakSet();
-    var _checkFinish = new WeakSet();
     class SweepWidget extends website_Website {
-      constructor() {
-        super(...arguments);
-        SweepWidget_classPrivateMethodInitSpec(this, _checkFinish);
-        SweepWidget_classPrivateMethodInitSpec(this, _checkEnter);
-        SweepWidget_classPrivateMethodInitSpec(this, SweepWidget_getGiveawayId);
-        SweepWidget_classPrivateMethodInitSpec(this, SweepWidget_checkLogin);
-        SweepWidget_defineProperty(this, 'name', 'SweepWidget');
-        SweepWidget_defineProperty(this, 'options', {
-          ...SweepWidget_defaultOptions,
-          ...GM_getValue('SweepWidgetOptions')
-        });
-        SweepWidget_defineProperty(this, 'buttons', [ 'doTask' ]);
-      }
+      name = 'SweepWidget';
+      options = {
+        ...SweepWidget_defaultOptions,
+        ...GM_getValue('SweepWidgetOptions')
+      };
+      buttons = [ 'doTask' ];
       static test() {
         return /^https?:\/\/sweepwidget\.com\/view\/[\d]+/.test(window.location.href);
       }
       async after() {
         try {
-          if (!SweepWidget_classPrivateMethodGet(this, SweepWidget_checkLogin, SweepWidget_checkLogin2).call(this)) {
+          if (!this.#checkLogin()) {
             scripts_echoLog({}).warning(i18n('checkLoginFailed'));
           }
         } catch (error) {
@@ -10298,11 +9153,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           const logStatus = scripts_echoLog({
             text: i18n('initing')
           });
-          if (!SweepWidget_classPrivateMethodGet(this, SweepWidget_checkLogin, SweepWidget_checkLogin2).call(this)) {
+          if (!this.#checkLogin()) {
             logStatus.warning(i18n('needLogin'));
             return false;
           }
-          if (!SweepWidget_classPrivateMethodGet(this, SweepWidget_getGiveawayId, SweepWidget_getGiveawayId2).call(this)) {
+          if (!this.#getGiveawayId()) {
             return false;
           }
           this.initialized = true;
@@ -10328,7 +9183,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             if ($('#sw_login_button:visible').length > 0) {
               $('#sw_login_button')[0].click();
             }
-            if (!await SweepWidget_classPrivateMethodGet(this, _checkEnter, _checkEnter2).call(this)) {
+            if (!await this.#checkEnter()) {
               return false;
             }
           }
@@ -10359,7 +9214,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               await delay(300);
             }
             (_$task$find$removeAtt = $task.find('input.sw_verify').removeAttr('disabled')[0]) === null || _$task$find$removeAtt === void 0 ? void 0 : _$task$find$removeAtt.click();
-            await SweepWidget_classPrivateMethodGet(this, _checkFinish, _checkFinish2).call(this, $task);
+            await this.#checkFinish($task);
             await delay(parseInt(`${Math.random() * (3e3 - 1e3 + 1) + 1e3}`, 10));
           }
           logStatus.success();
@@ -10369,63 +9224,63 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-    }
-    function SweepWidget_checkLogin2() {
-      try {
-        if ($('#twitter_login_button').length > 0) {
-          $('#twitter_login_button')[0].click();
-        }
-        return true;
-      } catch (error) {
-        throwError(error, 'SweepWidget.checkLogin');
-        return false;
-      }
-    }
-    function SweepWidget_getGiveawayId2() {
-      try {
-        var _window$location$href;
-        const giveawayId = (_window$location$href = window.location.href.match(/\/view\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
-        if (giveawayId) {
-          this.giveawayId = giveawayId;
+      #checkLogin() {
+        try {
+          if ($('#twitter_login_button').length > 0) {
+            $('#twitter_login_button')[0].click();
+          }
           return true;
+        } catch (error) {
+          throwError(error, 'SweepWidget.checkLogin');
+          return false;
         }
-        scripts_echoLog({
-          text: i18n('getFailed', 'GiveawayId')
-        });
-        return false;
-      } catch (error) {
-        throwError(error, 'SweepWidget.getGiveawayId');
-        return false;
       }
-    }
-    async function _checkEnter2() {
-      try {
-        return new Promise(resolve => {
-          const checker = setInterval(() => {
-            if ($('#unlock_rewards_main_wrapper').length > 0) {
-              clearInterval(checker);
-              resolve(true);
-            }
+      #getGiveawayId() {
+        try {
+          var _window$location$href;
+          const giveawayId = (_window$location$href = window.location.href.match(/\/view\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
+          if (giveawayId) {
+            this.giveawayId = giveawayId;
+            return true;
+          }
+          scripts_echoLog({
+            text: i18n('getFailed', 'GiveawayId')
           });
-        });
-      } catch (error) {
-        throwError(error, 'SweepWidget.checkEnter');
-        return false;
+          return false;
+        } catch (error) {
+          throwError(error, 'SweepWidget.getGiveawayId');
+          return false;
+        }
       }
-    }
-    async function _checkFinish2($task) {
-      try {
-        return new Promise(resolve => {
-          const checker = setInterval(() => {
-            if ($task.find('i.fa-check:visible').length > 0 || $task.find('.sw_entry_input:visible').length === 0) {
-              clearInterval(checker);
-              resolve(true);
-            }
+      async #checkEnter() {
+        try {
+          return new Promise(resolve => {
+            const checker = setInterval(() => {
+              if ($('#unlock_rewards_main_wrapper').length > 0) {
+                clearInterval(checker);
+                resolve(true);
+              }
+            });
           });
-        });
-      } catch (error) {
-        throwError(error, 'SweepWidget.checkFinish');
-        return false;
+        } catch (error) {
+          throwError(error, 'SweepWidget.checkEnter');
+          return false;
+        }
+      }
+      async #checkFinish($task) {
+        try {
+          return new Promise(resolve => {
+            const checker = setInterval(() => {
+              if ($task.find('i.fa-check:visible').length > 0 || $task.find('.sw_entry_input:visible').length === 0) {
+                clearInterval(checker);
+                resolve(true);
+              }
+            });
+          });
+        } catch (error) {
+          throwError(error, 'SweepWidget.checkFinish');
+          return false;
+        }
       }
     }
     const website_SweepWidget = SweepWidget;
@@ -10884,44 +9739,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     };
     const dataSync = syncOptions;
-    function Setting_classPrivateMethodInitSpec(obj, privateSet) {
-      Setting_checkPrivateRedeclaration(obj, privateSet);
-      privateSet.add(obj);
-    }
-    function Setting_checkPrivateRedeclaration(obj, privateCollection) {
-      if (privateCollection.has(obj)) {
-        throw new TypeError('Cannot initialize the same private elements twice on an object');
-      }
-    }
-    function Setting_defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
-    function Setting_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
-    var Setting_getId = new WeakSet();
-    var _environment = new WeakSet();
     class Setting {
-      constructor() {
-        Setting_classPrivateMethodInitSpec(this, _environment);
-        Setting_classPrivateMethodInitSpec(this, Setting_getId);
-        Setting_defineProperty(this, 'name', 'Setting');
-        Setting_defineProperty(this, 'buttons', [ 'saveGlobalOptions', 'syncData', 'tasksHistory' ]);
-        Setting_defineProperty(this, 'syncData', dataSync);
-      }
+      name = 'Setting';
+      buttons = [ 'saveGlobalOptions', 'syncData', 'tasksHistory' ];
+      syncData = dataSync;
       tasksHistory() {
         window.open('https://auto-task-v4.hclonely.com/history.html', '_blank');
       }
@@ -10933,16 +9754,16 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
       after() {
         try {
-          Setting_classPrivateMethodGet(this, _environment, _environment2).call(this);
+          this.#environment();
           changeGlobalOptions('page');
           whiteList('page');
           $('input[name="other.twitterVerifyId"]').after(`<button id="getTwitterUserId" type="button">${i18n('getTwitterUserId')}</button>`);
           $('#getTwitterUserId').on('click', () => {
-            Setting_classPrivateMethodGet(this, Setting_getId, Setting_getId2).call(this, 'twitterUser');
+            this.#getId('twitterUser');
           });
           $('input[name="other.youtubeVerifyChannel"]').after(`<button id="getYoutubeChannelId" type="button">${i18n('getYoutubeChannelId')}</button>`);
           $('#getYoutubeChannelId').on('click', () => {
-            Setting_classPrivateMethodGet(this, Setting_getId, Setting_getId2).call(this, 'youtubeChannel');
+            this.#getId('youtubeChannel');
           });
           $('input[name^="position"]').on('input', function() {
             const type = $(this).attr('name').replace('position.', '');
@@ -11034,89 +9855,56 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       saveGlobalOptions() {
         saveData();
       }
-    }
-    function Setting_getId2(social) {
-      try {
-        external_Swal_default().fire({
-          title: i18n('getId', i18n(social)),
-          html: `<input id="socialLink" class="swal2-input" placeholder="在此处输入链接获取id">
+      #getId(social) {
+        try {
+          external_Swal_default().fire({
+            title: i18n('getId', i18n(social)),
+            html: `<input id="socialLink" class="swal2-input" placeholder="在此处输入链接获取id">
         <button id="link2id" data-type="${social}" class="swal2-confirm swal2-styled">获取id</button>`,
-          showCancelButton: true,
-          cancelButtonText: i18n('close'),
-          showConfirmButton: false
-        });
-        $('#link2id').on('click', async function() {
-          const link = $('#socialLink').val();
-          if (!link) {
-            return;
-          }
-          const type = $(this).attr('data-type');
-          if (type === 'twitterUser') {
-            var _link$match;
-            const name = ((_link$match = link.match(/https:\/\/twitter\.com\/(.+)/)) === null || _link$match === void 0 ? void 0 : _link$match[1]) || link;
-            $('#socialLink').val(await new social_Twitter().userName2id(name) || '');
-          } else if (type === 'youtubeChannel') {
-            var _link$match2, _await$getInfo, _await$getInfo$params;
-            const name = /^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link) ? (_link$match2 = link.match(/url=(https:\/\/www\.youtube\.com\/.*)/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1] : link;
-            $('#socialLink').val(((_await$getInfo = await getInfo(name, 'channel')) === null || _await$getInfo === void 0 ? void 0 : (_await$getInfo$params = _await$getInfo.params) === null || _await$getInfo$params === void 0 ? void 0 : _await$getInfo$params.channelId) || '');
-          }
-        });
-      } catch (error) {
-        throwError(error, 'Setting.getId');
+            showCancelButton: true,
+            cancelButtonText: i18n('close'),
+            showConfirmButton: false
+          });
+          $('#link2id').on('click', async function() {
+            const link = $('#socialLink').val();
+            if (!link) {
+              return;
+            }
+            const type = $(this).attr('data-type');
+            if (type === 'twitterUser') {
+              var _link$match;
+              const name = ((_link$match = link.match(/https:\/\/twitter\.com\/(.+)/)) === null || _link$match === void 0 ? void 0 : _link$match[1]) || link;
+              $('#socialLink').val(await new social_Twitter().userName2id(name) || '');
+            } else if (type === 'youtubeChannel') {
+              var _link$match2, _await$getInfo, _await$getInfo$params;
+              const name = /^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link) ? (_link$match2 = link.match(/url=(https:\/\/www\.youtube\.com\/.*)/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1] : link;
+              $('#socialLink').val(((_await$getInfo = await getInfo(name, 'channel')) === null || _await$getInfo === void 0 ? void 0 : (_await$getInfo$params = _await$getInfo.params) === null || _await$getInfo$params === void 0 ? void 0 : _await$getInfo$params.channelId) || '');
+            }
+          });
+        } catch (error) {
+          throwError(error, 'Setting.getId');
+        }
       }
-    }
-    function _environment2() {
-      try {
-        const userAgent = (0, javascript_utils_umd_min.ua)();
-        const environmentForm = `<form id="environmentForm" class="auto-task-form">
+      #environment() {
+        try {
+          const userAgent = (0, javascript_utils_umd_min.ua)();
+          const environmentForm = `<form id="environmentForm" class="auto-task-form">
         <table class="auto-task-table"><thead><tr><td>${i18n('type')}</td><td>${i18n('name')}</td><td>${i18n('version')}</td></tr></thead><tbody>
         <tr><td>${i18n('os')}</td><td>${userAgent.os}</td><td>${userAgent.osVersion}</td></tr>
         <tr><td>${i18n('browser')}</td><td>${userAgent.browserZH}</td><td>${userAgent.browserVersion}</td></tr>
         <tr><td>${i18n('scriptManager')}</td><td>${GM_info.scriptHandler}</td><td>${GM_info.version}</td></tr>
         <tr><td>${i18n('script')}</td><td>${GM_info.script.name}</td><td>${GM_info.script.version}</td></tr>
         </tbody></table></form>`;
-        $('body').append(`<h2>${i18n('environment')}</h2>${environmentForm}`);
-      } catch (error) {
-        throwError(error, 'Setting.environment');
+          $('body').append(`<h2>${i18n('environment')}</h2>${environmentForm}`);
+        } catch (error) {
+          throwError(error, 'Setting.environment');
+        }
       }
     }
     const website_Setting = Setting;
-    function History_classPrivateMethodInitSpec(obj, privateSet) {
-      History_checkPrivateRedeclaration(obj, privateSet);
-      privateSet.add(obj);
-    }
-    function History_checkPrivateRedeclaration(obj, privateCollection) {
-      if (privateCollection.has(obj)) {
-        throw new TypeError('Cannot initialize the same private elements twice on an object');
-      }
-    }
-    function History_defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
-    function History_classPrivateMethodGet(receiver, privateSet, fn) {
-      if (!privateSet.has(receiver)) {
-        throw new TypeError('attempted to get private field on non-instance');
-      }
-      return fn;
-    }
-    var _addItem = new WeakSet();
     class History extends website_Keylol {
-      constructor() {
-        super(...arguments);
-        History_classPrivateMethodInitSpec(this, _addItem);
-        History_defineProperty(this, 'name', 'History');
-        History_defineProperty(this, 'buttons', [ 'doTask', 'undoTask', 'selectAll', 'selectNone', 'invertSelect', 'clearHistory' ]);
-      }
+      name = 'History';
+      buttons = [ 'doTask', 'undoTask', 'selectAll', 'selectNone', 'invertSelect', 'clearHistory' ];
       static test() {
         return window.location.host === 'auto-task-v4.hclonely.com' && window.location.pathname === '/history.html';
       }
@@ -11126,7 +9914,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           const data = GM_listValues() || [];
           const tasksHistory = data.map(value => /^[\w]+?Tasks-/.test(value) ? value : null).filter(value => value);
           for (const item of tasksHistory) {
-            History_classPrivateMethodGet(this, _addItem, _addItem2).call(this, item);
+            this.#addItem(item);
           }
         } catch (error) {
           throwError(error, 'History.before');
@@ -11147,83 +9935,83 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           throwError(error, 'History.after');
         }
       }
-    }
-    function _addItem2(item) {
-      try {
-        const tasksData = GM_getValue(item);
-        if (!(tasksData !== null && tasksData !== void 0 && tasksData.tasks)) {
-          return;
-        }
-        let html = '';
-        let title = '';
-        let link = '';
-        const [ website, id ] = item.split('-');
-        switch (website) {
-         case 'fawTasks':
-          title = `Freeanywhere[${id}]`;
-          link = `https://freeanywhere.net/#/giveaway/${id}`;
-          break;
+      #addItem(item) {
+        try {
+          const tasksData = GM_getValue(item);
+          if (!(tasksData !== null && tasksData !== void 0 && tasksData.tasks)) {
+            return;
+          }
+          let html = '';
+          let title = '';
+          let link = '';
+          const [ website, id ] = item.split('-');
+          switch (website) {
+           case 'fawTasks':
+            title = `Freeanywhere[${id}]`;
+            link = `https://freeanywhere.net/#/giveaway/${id}`;
+            break;
 
-         case 'gasTasks':
-          title = `Giveawaysu[${id}]`;
-          link = `https://giveaway.su/giveaway/view/${id}`;
-          break;
+           case 'gasTasks':
+            title = `Giveawaysu[${id}]`;
+            link = `https://giveaway.su/giveaway/view/${id}`;
+            break;
 
-         case 'gcTasks':
-          title = `GiveeClub[${id}]`;
-          link = `https://givee.club/event/${id}`;
-          break;
+           case 'gcTasks':
+            title = `GiveeClub[${id}]`;
+            link = `https://givee.club/event/${id}`;
+            break;
 
-         case 'gkTasks':
-          title = `Givekey[${id}]`;
-          link = `https://givekey.ru/giveaway/${id}`;
-          break;
+           case 'gkTasks':
+            title = `Givekey[${id}]`;
+            link = `https://givekey.ru/giveaway/${id}`;
+            break;
 
-         case 'gleamTasks':
-          title = `Gleam[${id}]`;
-          link = `https://gleam.io${id}`;
-          break;
+           case 'gleamTasks':
+            title = `Gleam[${id}]`;
+            link = `https://gleam.io${id}`;
+            break;
 
-         case 'khTasks':
-          title = `keyhub[${id}]`;
-          link = `https://key-hub.eu/giveaway/${id}`;
-          break;
+           case 'khTasks':
+            title = `keyhub[${id}]`;
+            link = `https://key-hub.eu/giveaway/${id}`;
+            break;
 
-         case 'prysTasks':
-          title = `Prys[${id}]`;
-          link = `https://prys.revadike.com/giveaway/?id=${id}`;
-          break;
+           case 'prysTasks':
+            title = `Prys[${id}]`;
+            link = `https://prys.revadike.com/giveaway/?id=${id}`;
+            break;
 
-         default:
-          return;
-        }
-        for (const [ social, types ] of Object.entries(tasksData.tasks)) {
-          for (const [ type, tasks ] of Object.entries(types)) {
-            for (const task of tasks) {
-              html += `<li><font class="auto-task-capitalize">${social}.${i18n(type.replace('Link', ''))}: </font><a href="${task}" target="_blank">${task.length > 55 ? `${task.slice(0, 55)}...` : task}</a></li>`;
+           default:
+            return;
+          }
+          for (const [ social, types ] of Object.entries(tasksData.tasks)) {
+            for (const [ type, tasks ] of Object.entries(types)) {
+              for (const task of tasks) {
+                html += `<li><font class="auto-task-capitalize">${social}.${i18n(type.replace('Link', ''))}: </font><a href="${task}" target="_blank">${task.length > 55 ? `${task.slice(0, 55)}...` : task}</a></li>`;
+              }
             }
           }
+          $('.container').append(`<div class="card" data-name="${item}"><div class="title"><a href="${link}" target="_blank">${title}</a><span class="delete-task" data-name="${item}" title="${i18n('deleteTask')}"><svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2734" width="32" height="32"><path d="M607.897867 768.043004c-17.717453 0-31.994625-14.277171-31.994625-31.994625L575.903242 383.935495c0-17.717453 14.277171-31.994625 31.994625-31.994625s31.994625 14.277171 31.994625 31.994625l0 351.94087C639.892491 753.593818 625.61532 768.043004 607.897867 768.043004z" p-id="2735" fill="#d81e06"></path><path d="M415.930119 768.043004c-17.717453 0-31.994625-14.277171-31.994625-31.994625L383.935495 383.935495c0-17.717453 14.277171-31.994625 31.994625-31.994625 17.717453 0 31.994625 14.277171 31.994625 31.994625l0 351.94087C447.924744 753.593818 433.647573 768.043004 415.930119 768.043004z" p-id="2736" fill="#d81e06"></path><path d="M928.016126 223.962372l-159.973123 0L768.043004 159.973123c0-52.980346-42.659499-95.983874-95.295817-95.983874L351.94087 63.989249c-52.980346 0-95.983874 43.003528-95.983874 95.983874l0 63.989249-159.973123 0c-17.717453 0-31.994625 14.277171-31.994625 31.994625s14.277171 31.994625 31.994625 31.994625l832.032253 0c17.717453 0 31.994625-14.277171 31.994625-31.994625S945.73358 223.962372 928.016126 223.962372zM319.946246 159.973123c0-17.545439 14.449185-31.994625 31.994625-31.994625l320.806316 0c17.545439 0 31.306568 14.105157 31.306568 31.994625l0 63.989249L319.946246 223.962372 319.946246 159.973123 319.946246 159.973123z" p-id="2737" fill="#d81e06"></path><path d="M736.048379 960.010751 288.123635 960.010751c-52.980346 0-95.983874-43.003528-95.983874-95.983874L192.139761 383.591466c0-17.717453 14.277171-31.994625 31.994625-31.994625s31.994625 14.277171 31.994625 31.994625l0 480.435411c0 17.717453 14.449185 31.994625 31.994625 31.994625l448.096758 0c17.717453 0 31.994625-14.277171 31.994625-31.994625L768.215018 384.795565c0-17.717453 14.277171-31.994625 31.994625-31.994625s31.994625 14.277171 31.994625 31.994625l0 479.231312C832.032253 916.835209 789.028725 960.010751 736.048379 960.010751z" p-id="2738" fill="#d81e06"></path></svg></span></div><ul>${html}</ul><span class="time">${i18n('lastChangeTime')}: ${external_dayjs_namespaceObject(tasksData.time).format('YYYY-MM-DD HH:mm:ss')}</span></div>`);
+          $('span.delete-task').on('click', function() {
+            const itemName = $(this).attr('data-name');
+            if (itemName) {
+              GM_deleteValue(itemName);
+              $(`div.card[data-name="${itemName}"]`).remove();
+              external_Swal_default().fire({
+                title: i18n('clearTaskFinished'),
+                text: itemName,
+                icon: 'success'
+              });
+            } else {
+              external_Swal_default().fire({
+                title: i18n('clearTaskFailed'),
+                icon: 'error'
+              });
+            }
+          });
+        } catch (error) {
+          throwError(error, 'History.addItem');
         }
-        $('.container').append(`<div class="card" data-name="${item}"><div class="title"><a href="${link}" target="_blank">${title}</a><span class="delete-task" data-name="${item}" title="${i18n('deleteTask')}"><svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2734" width="32" height="32"><path d="M607.897867 768.043004c-17.717453 0-31.994625-14.277171-31.994625-31.994625L575.903242 383.935495c0-17.717453 14.277171-31.994625 31.994625-31.994625s31.994625 14.277171 31.994625 31.994625l0 351.94087C639.892491 753.593818 625.61532 768.043004 607.897867 768.043004z" p-id="2735" fill="#d81e06"></path><path d="M415.930119 768.043004c-17.717453 0-31.994625-14.277171-31.994625-31.994625L383.935495 383.935495c0-17.717453 14.277171-31.994625 31.994625-31.994625 17.717453 0 31.994625 14.277171 31.994625 31.994625l0 351.94087C447.924744 753.593818 433.647573 768.043004 415.930119 768.043004z" p-id="2736" fill="#d81e06"></path><path d="M928.016126 223.962372l-159.973123 0L768.043004 159.973123c0-52.980346-42.659499-95.983874-95.295817-95.983874L351.94087 63.989249c-52.980346 0-95.983874 43.003528-95.983874 95.983874l0 63.989249-159.973123 0c-17.717453 0-31.994625 14.277171-31.994625 31.994625s14.277171 31.994625 31.994625 31.994625l832.032253 0c17.717453 0 31.994625-14.277171 31.994625-31.994625S945.73358 223.962372 928.016126 223.962372zM319.946246 159.973123c0-17.545439 14.449185-31.994625 31.994625-31.994625l320.806316 0c17.545439 0 31.306568 14.105157 31.306568 31.994625l0 63.989249L319.946246 223.962372 319.946246 159.973123 319.946246 159.973123z" p-id="2737" fill="#d81e06"></path><path d="M736.048379 960.010751 288.123635 960.010751c-52.980346 0-95.983874-43.003528-95.983874-95.983874L192.139761 383.591466c0-17.717453 14.277171-31.994625 31.994625-31.994625s31.994625 14.277171 31.994625 31.994625l0 480.435411c0 17.717453 14.449185 31.994625 31.994625 31.994625l448.096758 0c17.717453 0 31.994625-14.277171 31.994625-31.994625L768.215018 384.795565c0-17.717453 14.277171-31.994625 31.994625-31.994625s31.994625 14.277171 31.994625 31.994625l0 479.231312C832.032253 916.835209 789.028725 960.010751 736.048379 960.010751z" p-id="2738" fill="#d81e06"></path></svg></span></div><ul>${html}</ul><span class="time">${i18n('lastChangeTime')}: ${external_dayjs_namespaceObject(tasksData.time).format('YYYY-MM-DD HH:mm:ss')}</span></div>`);
-        $('span.delete-task').on('click', function() {
-          const itemName = $(this).attr('data-name');
-          if (itemName) {
-            GM_deleteValue(itemName);
-            $(`div.card[data-name="${itemName}"]`).remove();
-            external_Swal_default().fire({
-              title: i18n('clearTaskFinished'),
-              text: itemName,
-              icon: 'success'
-            });
-          } else {
-            external_Swal_default().fire({
-              title: i18n('clearTaskFailed'),
-              icon: 'error'
-            });
-          }
-        });
-      } catch (error) {
-        throwError(error, 'History.addItem');
       }
     }
     const website_History = History;

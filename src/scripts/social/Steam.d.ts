@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-05 10:43:43
- * @LastEditTime : 2022-01-30 11:23:53
+ * @LastEditTime : 2022-12-19 10:00:09
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.d.ts
  */
@@ -36,4 +36,10 @@ declare interface steamTasksParam {
   announcements?: Array<string>
   licenseLinks?: Array<string>
   playtestLinks?: Array<string>
+}
+declare interface storeTokenParam {
+  steamID: string
+  nonce: string
+  redir: string
+  auth: string
 }

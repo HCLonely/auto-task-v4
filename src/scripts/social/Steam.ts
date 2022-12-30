@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2022-09-26 09:28:05
+ * @LastEditTime : 2022-12-30 11:12:00
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -94,6 +94,85 @@ class Steam extends Social {
     }
   }
 
+  async #refreshStoreToken(): Promise<boolean> {
+    /**
+     * @internal
+     * @description 刷新Steam商店Token.
+     * @return true: 刷新Token成功 | false: 刷新Token失败
+    */
+    try {
+      const logStatus = echoLog({ text: __('refreshingToken', __('steamStore')) });
+      const formData = new FormData();
+      formData.append('redir', 'https://store.steampowered.com/');
+      const { result, statusText, status, data } = await httpRequest({
+        url: 'https://login.steampowered.com/jwt/ajaxrefresh',
+        method: 'POST',
+        responseType: 'json',
+        headers: {
+          Host: 'login.steampowered.com',
+          Origin: 'https://store.steampowered.com',
+          Referer: 'https://store.steampowered.com/'
+        },
+        data: formData
+      });
+      if (result === 'Success') {
+        if (data?.response?.success) {
+          if (await this.#setStoreToken(data.response as storeTokenParam)) {
+            logStatus.success();
+            return true;
+          }
+          logStatus.error('Error');
+          return false;
+        }
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'Steam.refreshStoreToken');
+      return false;
+    }
+  }
+  async #setStoreToken(param: storeTokenParam): Promise<boolean> {
+    /**
+     * @internal
+     * @description 设置Steam商店Token.
+     * @return true: 设置Token成功 | false: 设置Token失败
+    */
+    try {
+      const logStatus = echoLog({ text: __('settingToken', __('steamStore')) });
+      const formData = new FormData();
+      formData.append('steamID', param.steamID);
+      formData.append('nonce', param.nonce);
+      formData.append('redir', param.redir);
+      formData.append('auth', param.auth);
+      const { result, statusText, status, data } = await httpRequest({
+        url: 'https://store.steampowered.com/login/settoken',
+        method: 'POST',
+        headers: {
+          Accept: 'application/json, text/plain, */*',
+          Host: 'store.steampowered.com',
+          Origin: 'https://store.steampowered.com',
+          Referer: 'https://store.steampowered.com/login'
+        },
+        data: formData
+      });
+      if (result === 'Success') {
+        if (data?.status === 200) {
+          logStatus.success();
+          return true;
+        }
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'Steam.setStoreToken');
+      return false;
+    }
+  }
   async #updateStoreAuth(): Promise<boolean> {
     /**
      * @internal
@@ -116,6 +195,7 @@ class Steam extends Social {
       if (result === 'Success') {
         if (data?.status === 200) {
           if (!data.responseText.includes('data-miniprofile=')) {
+            await this.#refreshStoreToken();
             logStatus.error(`Error:${__('needLoginSteamStore')}`, true);
             return false;
           }
@@ -1032,23 +1112,28 @@ class Steam extends Social {
     try {
       const logStatus = echoLog({ type: 'gettingAnnouncementParams', text: appId, id: viewId });
       const { result, statusText, status, data } = await httpRequest({
-        url: `https://store.steampowered.com/news/app/${appId}/view/${viewId}`,
+        // eslint-disable-next-line max-len
+        url: `https://store.steampowered.com/events/ajaxgetpartnerevent?appid=${appId}&announcement_gid=${viewId}&lang_list=6_0&last_modified_time=0&origin=https:%2F%2Fstore.steampowered.com&for_edit=false`,
         method: 'GET',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        responseType: 'json',
+        headers: {
+          Host: 'store.steampowered.com',
+          Referer: `https://store.steampowered.com/news/app/${appId}/view/${viewId}`
+        }
       });
       if (result === 'Success') {
-        if (data?.status === 200) {
+        if (data?.status === 200 && data?.response?.success === 1) {
+          /*
           if (this.#area === 'CN' && data.responseText.includes('id="error_box"')) {
             logStatus.warning(__('changeAreaNotice'));
             if (!(await this.#changeArea())) return {};
             return await this.#getAnnouncementParams(appId, viewId);
           }
-          const authWgToken = data.responseText.match(/authwgtoken&quot;:&quot;(.*?)&quot;/)?.[1];
-          const clanId = data.responseText.match(/clanAccountID&quot;:([\d]+?),/)?.[1];
-          const gid = data.responseText.match(/announcementGID&quot;:&quot;([\d]+?)&quot;/)?.[1];
-          if (authWgToken && clanId) {
+          */
+          const { clanid, gid } = data.response.event?.announcement_body || {};
+          if (clanid) {
             logStatus.success();
-            return { authWgToken, clanId, gid };
+            return { clanId: clanid, gid };
           }
           logStatus.error(`Error:${data.statusText}(${data.status})`);
           return {};
@@ -1077,8 +1162,8 @@ class Steam extends Social {
         echoLog({}).error(`${__('missParams')}(id)`);
         return false;
       }
-      const { authWgToken, clanId, gid } = await this.#getAnnouncementParams(appId, viewId);
-      if (!(authWgToken && clanId)) {
+      const { clanId, gid } = await this.#getAnnouncementParams(appId, viewId);
+      if (!clanId) {
         return false;
       }
       const logStatus = echoLog({ type: 'likingAnnouncement', text: appId, id: viewId });
@@ -1093,7 +1178,6 @@ class Steam extends Social {
         },
         data: $.param({
           sessionid: this.#auth.storeSessionID,
-          wgauthtoken: authWgToken,
           voteup: 1,
           clanid: clanId,
           ajax: 1
@@ -1574,5 +1658,4 @@ class Steam extends Social {
     }
   }
 }
-
 export default Steam;

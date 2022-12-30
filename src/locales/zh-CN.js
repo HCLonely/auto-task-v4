@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2022-10-07 09:47:54
+ * @LastEditTime : 2022-12-19 10:12:11
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -49,6 +49,8 @@ const data = {
   needInit: '请先初始化',
   verifyingAuth: '正在验证%0凭证...',
   updatingAuth: '正在更新%0凭证...',
+  refreshingToken: '正在刷新%0凭证...',
+  settingToken: '正在设置%0凭证...',
   initing: '正在初始化...',
   getFailed: '获取%0失败！',
   checkLoginFailed: '检测登录状态失败！',

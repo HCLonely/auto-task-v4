@@ -21,11 +21,11 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.2.25
-          name: 4.2.25
+          tag_name: v4.2.26
+          name: 4.2.26
           body: |-
-            - 新增:OPQuests验证任务及获取Key
-            - 优化:OPQuests鉴赏家任务识别
+            - 优化:Steam凭证更新方式
+            - 修复:Steam通知相关问题
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

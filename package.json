@@ -1,9 +1,9 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.25",
+  "version": "4.2.26",
   "change": [
-    "新增:OPQuests验证任务及获取Key",
-    "优化:OPQuests鉴赏家任务识别"
+    "优化:Steam凭证更新方式",
+    "修复:Steam通知相关问题"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 13:18:21
- * @LastEditTime : 2022-10-07 10:11:21
+ * @LastEditTime : 2022-12-19 09:55:41
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/global.d.ts
  */
@@ -25,7 +25,7 @@ declare global {
     method: 'GET' | 'POST' | 'HEAD' | 'DELETE'
     url: string
     headers?: { [name: string]: string },
-    data?: string
+    data?: string | FormData
     binary?: boolean
     timeout?: number
     nochche?: boolean
