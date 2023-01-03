@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-24 15:49:55
- * @LastEditTime : 2021-12-28 19:04:10
+ * @LastEditTime : 2023-01-03 17:37:31
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.d.ts
  */
@@ -38,4 +38,12 @@ declare interface gleamGMTasks {
 interface options {
   vlootUsername: string
   gameroundUsername: string
+}
+
+interface vlootData {
+  Data: Array<{
+    title: string
+    link: string
+  }>
+  Success: boolean
 }

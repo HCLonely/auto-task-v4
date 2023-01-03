@@ -21,11 +21,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.2.26
-          name: 4.2.26
-          body: |-
-            - 优化:Steam凭证更新方式
-            - 修复:Steam通知相关问题
+          tag_name: v4.2.27
+          name: 4.2.27
+          body: '- 优化:Gleam任务识别优化'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

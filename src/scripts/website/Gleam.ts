@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2022-07-29 16:53:59
+ * @LastEditTime : 2023-01-03 17:41:54
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  : https://gleam.io
@@ -219,10 +219,14 @@ class Gleam extends Website {
         } else if (socialIcon.hasClass('fa-bullhorn') && /Complete/gi.test(taskText)) {
           if (action !== 'do') continue;
 
+          /*
           const link = aElements.attr('href');
           if (!link) continue;
 
           const gleamLink = await this.#getGleamLink(link);
+          if (!gleamLink) continue;
+          */
+          const gleamLink = await this.#getGleamLink(taskText);
           if (!gleamLink) continue;
 
           this.undoneTasks.extra.gleam.push(gleamLink);
@@ -233,6 +237,7 @@ class Gleam extends Website {
           socialIcon.hasClass('fa-facebook-f') ||
           socialIcon.hasClass('fa-telegram-plane') ||
           socialIcon.hasClass('fa-envelope') ||
+          socialIcon.hasClass('fa-gift') ||
           (socialIcon.hasClass('fa-shield') && taskText.includes('Check out'))
         ) {
           // skip
@@ -340,6 +345,7 @@ class Gleam extends Website {
       return false;
     }
   }
+  /* old
   async #getGleamLink(link: string): Promise<string | false> {
     try {
       const logStatus = echoLog({ text: __('gettingGleamLink') });
@@ -353,6 +359,36 @@ class Gleam extends Website {
           if (gleamLink) {
             logStatus.success();
             return gleamLink;
+          }
+          logStatus.error(`Error:${__('getLinkFailed')}`);
+          return false;
+        }
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'Gleam.getGleamLink');
+      return false;
+    }
+  }
+  */
+  async #getGleamLink(title: string): Promise<string | false> {
+    try {
+      const logStatus = echoLog({ text: __('gettingGleamLink') });
+      const { result, statusText, status, data } = await httpRequest({
+        url: 'https://www.vloot.io/api/v1/giveaways',
+        method: 'GET',
+        responseType: 'json'
+      });
+      if (result === 'Success') {
+        if (data?.status === 200 && data?.response?.Success === true && data?.response?.Data) {
+          const { link } = (data.response as vlootData).Data.find((giveaway) => title.replace(/[\s]/g, '').toLowerCase()
+            .includes(giveaway.title.replace(/[\s]/g, '').toLowerCase())) || {};
+          if (link) {
+            logStatus.success();
+            return link;
           }
           logStatus.error(`Error:${__('getLinkFailed')}`);
           return false;

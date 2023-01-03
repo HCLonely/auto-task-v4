@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.2.26
+// @version            4.2.27
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -8937,16 +8937,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               if (action !== 'do') {
                 continue;
               }
-              const link = aElements.attr('href');
-              if (!link) {
-                continue;
-              }
-              const gleamLink = await this.#getGleamLink(link);
+              const gleamLink = await this.#getGleamLink(taskText);
               if (!gleamLink) {
                 continue;
               }
               this.undoneTasks.extra.gleam.push(gleamLink);
-            } else if (socialIcon.hasClass('fa-question') || socialIcon.hasClass('fa-reddit') || socialIcon.hasClass('fa-instagram') || socialIcon.hasClass('fa-facebook-f') || socialIcon.hasClass('fa-telegram-plane') || socialIcon.hasClass('fa-envelope') || socialIcon.hasClass('fa-shield') && taskText.includes('Check out')) {} else {
+            } else if (socialIcon.hasClass('fa-question') || socialIcon.hasClass('fa-reddit') || socialIcon.hasClass('fa-instagram') || socialIcon.hasClass('fa-facebook-f') || socialIcon.hasClass('fa-telegram-plane') || socialIcon.hasClass('fa-envelope') || socialIcon.hasClass('fa-gift') || socialIcon.hasClass('fa-shield') && taskText.includes('Check out')) {} else {
               scripts_echoLog({}).warning(`${i18n('unKnownTaskType')}: ${taskText}`);
             }
           }
@@ -9062,7 +9058,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async #getGleamLink(link) {
+      async #getGleamLink(title) {
         try {
           const logStatus = scripts_echoLog({
             text: i18n('gettingGleamLink')
@@ -9073,16 +9069,19 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             status,
             data
           } = await tools_httpRequest({
-            url: link,
-            method: 'GET'
+            url: 'https://www.vloot.io/api/v1/giveaways',
+            method: 'GET',
+            responseType: 'json'
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText$ma;
-              const gleamLink = (_data$responseText$ma = data.responseText.match(/href="(https:\/\/gleam\.io\/.*?\/.+?)"/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
-              if (gleamLink) {
+            var _data$response, _data$response2;
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (data === null || data === void 0 ? void 0 : (_data$response = data.response) === null || _data$response === void 0 ? void 0 : _data$response.Success) === true && data !== null && data !== void 0 && (_data$response2 = data.response) !== null && _data$response2 !== void 0 && _data$response2.Data) {
+              const {
+                link
+              } = data.response.Data.find(giveaway => title.replace(/[\s]/g, '').toLowerCase().includes(giveaway.title.replace(/[\s]/g, '').toLowerCase())) || {};
+              if (link) {
                 logStatus.success();
-                return gleamLink;
+                return link;
               }
               logStatus.error(`Error:${i18n('getLinkFailed')}`);
               return false;

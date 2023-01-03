@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4-for-giveawaysu
 // @namespace          auto-task-v4-for-giveawaysu
-// @version            4.2.26
+// @version            4.2.27
 // @description        赠Key站自动任务
 // @author             HCLonely
 // @license            MIT
