@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.28",
+  "version": "4.2.29",
   "change": [
-    "修复:兼容版BUG"
+    "优化:Gleam任务识别优化"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",
@@ -12,7 +12,7 @@
     "gs": "webpack --config webpack.giveawaysu.config.js",
     "dev": "webpack --config webpack.dev.config.js",
     "analyze": "webpack-bundle-analyzer ./dist/stats.json",
-    "build": "webpack --config webpack.config.js && webpack --config webpack.compatibility.config.js && webpack --config webpack.giveawaysu.config.js && node build-all-static.js && node copy.js && node doc-sync.js && node release.js"
+    "build": "set NODE_OPTIONS=--openssl-legacy-provider && webpack --config webpack.config.js && webpack --config webpack.compatibility.config.js && webpack --config webpack.giveawaysu.config.js && node build-all-static.js && node copy.js && node doc-sync.js && node release.js"
   },
   "author": "HCLonely <h1606051253@gmail.com>",
   "license": "MIT",

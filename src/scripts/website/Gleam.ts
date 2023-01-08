@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2023-01-03 17:41:54
+ * @LastEditTime : 2023-01-08 15:54:22
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  : https://gleam.io
@@ -238,6 +238,7 @@ class Gleam extends Website {
           socialIcon.hasClass('fa-telegram-plane') ||
           socialIcon.hasClass('fa-envelope') ||
           socialIcon.hasClass('fa-gift') ||
+          (socialIcon.hasClass('fa-shield') && taskText.includes('one of our giveaways')) ||
           (socialIcon.hasClass('fa-shield') && taskText.includes('Check out'))
         ) {
           // skip

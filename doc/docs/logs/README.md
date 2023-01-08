@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.2
 
+### V4.2.29
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.29)
+
+- 优化:Gleam任务识别优化
+
 ### V4.2.28
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.28)
