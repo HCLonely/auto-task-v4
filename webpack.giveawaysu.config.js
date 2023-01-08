@@ -2,7 +2,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 16:22:46
- * @LastEditTime : 2022-01-16 19:53:59
+ * @LastEditTime : 2023-01-08 11:09:03
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/webpack.giveawaysu.config.js
  */
@@ -91,6 +91,7 @@ module.exports = {
       minify: TerserPlugin.uglifyJsMinify,
       terserOptions: {
         sourceMap: false,
+        mangle: false,
         output: {
           preamble: fs.readFileSync('./src/for_giveawaysu/header.js').toString()
             .replace(/__VERSION__/g, VERSION)

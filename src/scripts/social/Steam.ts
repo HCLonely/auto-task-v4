@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2022-12-30 11:12:00
+ * @LastEditTime : 2023-01-08 10:39:07
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -32,7 +32,7 @@ const defaultTasksTemplate: steamTasks = {
   playtests: []
 };
 const defaultTasks = JSON.stringify(defaultTasksTemplate);
-
+console.log(defaultTasks);
 class Steam extends Social {
   tasks: steamTasks = JSON.parse(defaultTasks);
   whiteList: steamTasks = { ...JSON.parse(defaultTasks), ...GM_getValue<whiteList>('whiteList')?.steam };

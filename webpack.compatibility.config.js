@@ -1,8 +1,9 @@
+/* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-12 17:39:48
- * @LastEditTime : 2022-01-16 19:54:04
+ * @LastEditTime : 2023-01-08 11:07:30
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/webpack.compatibility.config.js
  */
@@ -92,6 +93,7 @@ module.exports = {
       minify: TerserPlugin.uglifyJsMinify,
       terserOptions: {
         sourceMap: false,
+        mangle: false,
         output: {
           preamble: fs.readFileSync('./src/header.js').toString()
             .replace(/__VERSION__/g, VERSION)
