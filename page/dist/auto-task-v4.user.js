@@ -4144,7 +4144,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       playtests: []
     };
     const Steam_defaultTasks = JSON.stringify(Steam_defaultTasksTemplate);
-    console.log(Steam_defaultTasks);
     class Steam extends social_Social {
       tasks = JSON.parse(Steam_defaultTasks);
       whiteList = {
