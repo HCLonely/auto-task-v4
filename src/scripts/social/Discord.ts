@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-09-28 15:03:10
- * @LastEditTime : 2022-05-18 10:04:03
+ * @LastEditTime : 2023-01-13 10:00:55
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Discord.ts
  * @Description  : Discord 加入&移除服务器
@@ -55,6 +55,10 @@ class Discord extends Social {
           this.#initialized = false;
           return 'skip';
         }
+      }
+      if (!globalOptions.doTask.discord.servers && !globalOptions.undoTask.discord.servers) {
+        this.#initialized = false;
+        return 'skip';
       }
       if (this.#initialized) {
         return true;
