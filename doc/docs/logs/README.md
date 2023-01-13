@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.2
 
+### V4.2.30
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.30)
+
+- 优化:当 Discord 服务器任务全部设置为'false'时不再弹出相关提醒
+
 ### V4.2.29
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.29)
