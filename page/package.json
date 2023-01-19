@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.30",
+  "version": "4.2.31",
   "change": [
-    "优化:当 Discord 服务器任务全部设置为'false'时不再弹出相关提醒"
+    "优化:twitch完整性检查"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

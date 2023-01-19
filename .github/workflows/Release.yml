@@ -21,9 +21,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.2.30
-          name: 4.2.30
-          body: '- 优化:当 Discord 服务器任务全部设置为''false''时不再弹出相关提醒'
+          tag_name: v4.2.31
+          name: 4.2.31
+          body: '- 优化:twitch完整性检查'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

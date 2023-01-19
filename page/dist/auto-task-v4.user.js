@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.2.30
+// @version            4.2.31
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -2565,7 +2565,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
             return false;
           }
-          const isVerified = await this.#verifyAuth();
+          const isVerified = await this.#verifyAuth(true);
           if (isVerified) {
             scripts_echoLog({}).success(i18n('initSuccess', 'Twitch'));
             this.#initialized = true;
@@ -2584,7 +2584,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async #verifyAuth() {
+      async #verifyAuth(isFirst) {
         try {
           const logStatus = scripts_echoLog({
             text: i18n('verifyingAuth', 'Twitch')
@@ -2607,7 +2607,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           if (result === 'Success') {
             var _data$response, _data$response$, _data$response$$data;
             if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (_data$response = data.response) !== null && _data$response !== void 0 && (_data$response$ = _data$response[0]) !== null && _data$response$ !== void 0 && (_data$response$$data = _data$response$.data) !== null && _data$response$$data !== void 0 && _data$response$$data.currentUser) {
-              await this.#integrity();
+              await this.#integrity(isFirst);
               logStatus.success();
               return true;
             }
@@ -2622,11 +2622,15 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         }
       }
       async #integrity() {
-        let ct = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+        let isFirst = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+        let ct = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
         try {
           const logStatus = scripts_echoLog({
             text: i18n('checkingTwitchIntegrity')
           });
+          if (isFirst && (!this.#auth.authToken || !this.#auth.clientId || !this.#auth.clientVersion || !this.#auth.deviceId || !this.#auth.clientSessionId)) {
+            return await this.#updateAuth(false);
+          }
           const {
             result,
             statusText,
@@ -2651,7 +2655,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           if (result === 'Success') {
             var _data$responseHeaders, _data$response2;
             if (!ct && data !== null && data !== void 0 && (_data$responseHeaders = data.responseHeaders) !== null && _data$responseHeaders !== void 0 && _data$responseHeaders['x-kpsdk-ct']) {
-              return await this.#integrity(data.responseHeaders['x-kpsdk-ct']);
+              return await this.#integrity(isFirst, data.responseHeaders['x-kpsdk-ct']);
             }
             if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (_data$response2 = data.response) !== null && _data$response2 !== void 0 && _data$response2.token) {
               this.#integrityToken = data.response.token;
@@ -2669,6 +2673,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         }
       }
       async #updateAuth() {
+        let isFirst = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
         try {
           const logStatus = scripts_echoLog({
             text: i18n('updatingAuth', 'Twitch')
@@ -2684,7 +2689,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               if (auth) {
                 this.#auth = auth;
                 logStatus.success();
-                resolve(await this.#verifyAuth());
+                resolve(await this.#verifyAuth(isFirst));
               } else {
                 logStatus.error('Error: Update twitch auth failed!');
                 resolve(false);

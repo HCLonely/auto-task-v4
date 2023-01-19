@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.2
 
+### V4.2.31
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.31)
+
+- 优化:twitch完整性检查
+
 ### V4.2.30
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.30)

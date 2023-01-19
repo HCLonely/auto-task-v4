@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:00:41
- * @LastEditTime : 2022-10-07 10:50:29
+ * @LastEditTime : 2023-01-19 17:08:17
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitch.ts
  * @Description  : Twitch 关注/取关频道
@@ -41,7 +41,7 @@ class Twitch extends Social {
         }
         return false;
       }
-      const isVerified: boolean = await this.#verifyAuth();
+      const isVerified: boolean = await this.#verifyAuth(true);
       if (isVerified) {
         echoLog({}).success(__('initSuccess', 'Twitch'));
         this.#initialized = true;
@@ -61,7 +61,7 @@ class Twitch extends Social {
     }
   }
 
-  async #verifyAuth(): Promise<boolean> {
+  async #verifyAuth(isFirst: boolean): Promise<boolean> {
     /**
      * @internal
      * @description 检测Twitch Token是否失效
@@ -81,7 +81,7 @@ class Twitch extends Social {
       });
       if (result === 'Success') {
         if (data?.status === 200 && data.response?.[0]?.data?.currentUser) {
-          await this.#integrity();
+          await this.#integrity(isFirst);
           logStatus.success();
           return true;
         }
@@ -96,7 +96,7 @@ class Twitch extends Social {
     }
   }
 
-  async #integrity(ct = ''): Promise<boolean> {
+  async #integrity(isFirst = true, ct = ''): Promise<boolean> {
     /**
      * @internal
      * @description 完整性检查
@@ -104,6 +104,10 @@ class Twitch extends Social {
      */
     try {
       const logStatus = echoLog({ text: __('checkingTwitchIntegrity') });
+      if (isFirst &&
+        (!this.#auth.authToken || !this.#auth.clientId || !this.#auth.clientVersion || !this.#auth.deviceId || !this.#auth.clientSessionId)) {
+        return await this.#updateAuth(false);
+      }
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://gql.twitch.tv/integrity',
         method: 'POST',
@@ -122,7 +126,7 @@ class Twitch extends Social {
       });
       if (result === 'Success') {
         if (!ct && data?.responseHeaders?.['x-kpsdk-ct']) {
-          return await this.#integrity(data.responseHeaders['x-kpsdk-ct']);
+          return await this.#integrity(isFirst, data.responseHeaders['x-kpsdk-ct']);
         }
         if (data?.status === 200 && data.response?.token) {
           this.#integrityToken = data.response.token;
@@ -140,7 +144,7 @@ class Twitch extends Social {
     }
   }
 
-  async #updateAuth(): Promise<boolean> {
+  async #updateAuth(isFirst = true): Promise<boolean> {
     /**
      * @internal
      * @description 通过打开Twitch网站更新Token.
@@ -156,7 +160,7 @@ class Twitch extends Social {
           if (auth) {
             this.#auth = auth;
             logStatus.success();
-            resolve(await this.#verifyAuth());
+            resolve(await this.#verifyAuth(isFirst));
           } else {
             logStatus.error('Error: Update twitch auth failed!');
             resolve(false);
