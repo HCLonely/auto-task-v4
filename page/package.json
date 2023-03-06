@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.31",
+  "version": "4.2.32",
   "change": [
-    "优化:twitch完整性检查"
+    "优化:Opquests验证任务流程"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

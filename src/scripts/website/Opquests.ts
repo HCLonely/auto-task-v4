@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-18 13:31:23
- * @LastEditTime : 2022-12-18 22:20:54
+ * @LastEditTime : 2023-03-06 09:51:17
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Opquests.ts
  * @Description  : https://opquests.com/
@@ -122,6 +122,7 @@ class Opquests extends Website {
           .text()
           .trim() as string
       }));
+      await this.#confirm();
       const pro = [];
       for (const task of tasks) {
         pro.push(this.#verify(task));
@@ -136,6 +137,34 @@ class Opquests extends Website {
       return false;
     } catch (error) {
       throwError(error as Error, 'Opquests.verifyTask');
+      return false;
+    }
+  }
+  async #confirm(): Promise<boolean> {
+    try {
+      const logStatus = echoLog({ html: `<li>${__('confirmingTask')}...<font></font></li>` });
+
+      const { result, statusText, status, data } = await httpRequest({
+        url: `https://opquests.com/quests/${this.giveawayId}?confirm=1`,
+        method: 'POST',
+        nochche: true,
+        headers: {
+          origin: 'https://opquests.com',
+          referer: `https://opquests.com/warning?id=${this.giveawayId}`
+        }
+      });
+      if (result === 'Success') {
+        if (data?.status === 200) {
+          logStatus.success();
+          return true;
+        }
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'Opquests.confirm');
       return false;
     }
   }
