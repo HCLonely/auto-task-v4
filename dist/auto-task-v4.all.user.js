@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.2.32
+// @version            4.2.33
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1445,7 +1445,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       giveeClubVerifyNotice: '正在验证任务...',
       giveeClubVerifyFinished: '请等待验证完成后自行加入赠Key',
       doingKeyhubTask: '正在做Keyhub任务...',
-      SweepWidgetNotice: '正在处理并验证任务，每次验证任务有1~3s间隔防止触发验证过快警告...'
+      SweepWidgetNotice: '正在处理并验证任务，每次验证任务有1~3s间隔防止触发验证过快警告...',
+      confirmingTask: '正在跳过警告页面...'
     };
     const zh_CN = data;
     const en_US_data = {
@@ -1715,7 +1716,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       giveeClubVerifyNotice: 'Verifying task...',
       giveeClubVerifyFinished: 'Wait for the verification to complete and join it by yourself',
       doingKeyhubTask: 'Doing Keyhub Task...',
-      SweepWidgetNotice: 'The task is being processed and verified. ' + 'There is an interval of 1~3s for each verification task to prevent the triggering of too fast verification warning...'
+      SweepWidgetNotice: 'The task is being processed and verified. ' + 'There is an interval of 1~3s for each verification task to prevent the triggering of too fast verification warning...',
+      confirmingTask: 'Confirming task...'
     };
     const en_US = en_US_data;
     const languages = {
@@ -9733,6 +9735,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
       async verifyTask() {
         try {
+          if (!this.initialized) {
+            this.init();
+          }
           const tasks = $.makeArray($('div.w-full').find('.items-center').has('button.submit-loader')).map(ele => ({
             token: $(ele).find('input[name="_token"]').val(),
             taskId: $(ele).find('input[name="task_id"]').val(),
@@ -9807,7 +9812,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           data
         } = await tools_httpRequest({
           url: `https://opquests.com/quests/${this.giveawayId}?confirm=1`,
-          method: 'POST',
+          method: 'GET',
           nochche: true,
           headers: {
             origin: 'https://opquests.com',

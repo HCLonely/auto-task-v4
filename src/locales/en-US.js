@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2022-10-07 09:47:24
+ * @LastEditTime : 2023-03-12 10:28:32
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/en-US.js
  * @Description  : i18n英文
@@ -325,6 +325,9 @@ const data = {
 
   // SweepWidget
   SweepWidgetNotice: 'The task is being processed and verified. ' +
-    'There is an interval of 1~3s for each verification task to prevent the triggering of too fast verification warning...'
+    'There is an interval of 1~3s for each verification task to prevent the triggering of too fast verification warning...',
+
+  // opquests
+  confirmingTask: 'Confirming task...'
 };
 export default data;

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-18 13:31:23
- * @LastEditTime : 2023-03-06 09:51:17
+ * @LastEditTime : 2023-03-12 10:22:27
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Opquests.ts
  * @Description  : https://opquests.com/
@@ -72,6 +72,7 @@ class Opquests extends Website {
         echoLog({ text: __('cannotUndo') });
         return false;
       }
+
       const logStatus = echoLog({ text: __('getTasksInfo') });
 
       const tasks = $('.w-full:contains("Validate") .items-center');
@@ -112,6 +113,9 @@ class Opquests extends Website {
   }
   async verifyTask(): Promise<boolean> {
     try {
+      if (!this.initialized) {
+        this.init();
+      }
       const tasks: Array<qpqTaskInfo> = $.makeArray($('div.w-full').find('.items-center')
         .has('button.submit-loader')).map((ele) => ({
         token: $(ele).find('input[name="_token"]')
@@ -146,7 +150,7 @@ class Opquests extends Website {
 
       const { result, statusText, status, data } = await httpRequest({
         url: `https://opquests.com/quests/${this.giveawayId}?confirm=1`,
-        method: 'POST',
+        method: 'GET',
         nochche: true,
         headers: {
           origin: 'https://opquests.com',

@@ -21,9 +21,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.2.32
-          name: 4.2.32
-          body: '- 优化:Opquests验证任务流程'
+          tag_name: v4.2.33
+          name: 4.2.33
+          body: '- 修复:Opquests验证任务报错'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

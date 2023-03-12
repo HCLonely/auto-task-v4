@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2022-12-19 10:12:11
+ * @LastEditTime : 2023-03-12 10:28:06
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/locales/zh-CN.js
  * @Description  : i18n中文
@@ -306,6 +306,9 @@ const data = {
   doingKeyhubTask: '正在做Keyhub任务...',
 
   // SweepWidget
-  SweepWidgetNotice: '正在处理并验证任务，每次验证任务有1~3s间隔防止触发验证过快警告...'
+  SweepWidgetNotice: '正在处理并验证任务，每次验证任务有1~3s间隔防止触发验证过快警告...',
+
+  // opquests
+  confirmingTask: '正在跳过警告页面...'
 };
 export default data;
