@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2022-12-10 09:55:22
+ * @LastEditTime : 2023-03-20 15:35:08
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/index.ts
  * @Description  : 入口文件
@@ -52,6 +52,7 @@ const loadScript = async () => {
     }
     return;
   }
+  /*
   if (window.location.hostname === 'twitter.com' && window.location.hash === '#auth') {
     const ct0 = Cookies.get('ct0');
     const isLogin = !!Cookies.get('twid');
@@ -64,6 +65,7 @@ const loadScript = async () => {
     }
     return;
   }
+  *
   if (window.location.hostname === 'www.youtube.com' && window.location.hash === '#auth') {
     const PAPISID = Cookies.get('__Secure-3PAPISID');
     if (PAPISID) {
@@ -75,6 +77,7 @@ const loadScript = async () => {
     }
     return;
   }
+  */
   if (window.location.hostname === 'www.reddit.com' &&
     (window.location.hash === '#auth' || GM_getValue('redditAuth') === '#auth')) {
     const betaButton = $('#redesign-beta-optin-btn');

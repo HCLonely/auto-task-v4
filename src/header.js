@@ -30,7 +30,7 @@
 // @include            *://www.twitch.tv/*
 // @include            *://www.youtube.com/*
 // @include            *://*.reddit.com/*
-// @include            *://twitter.com/settings/account?k*
+// @include            *://twitter.com/settings/account*
 // @include            https://auto-task-v4.hclonely.com/setting.html
 // @include            https://auto-task-v4.hclonely.com/history.html
 
@@ -40,6 +40,7 @@
 // @grant              GM_deleteValue
 // @grant              GM_addStyle
 // @grant              GM_xmlhttpRequest
+// @grant              GM_cookie
 // @grant              GM_registerMenuCommand
 // @grant              GM_info
 // @grant              GM_openInTab

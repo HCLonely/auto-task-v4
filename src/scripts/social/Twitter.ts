@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:36:57
- * @LastEditTime : 2022-06-06 09:42:50
+ * @LastEditTime : 2023-03-20 11:07:17
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Twitter.ts
  * @Description  : Twitter 关注/取关用户,转推/取消转推推文
@@ -75,12 +75,13 @@ class Twitter extends Social {
     }
   }
 
+  /*
   async #updateAuth(): Promise<boolean> {
     /**
      * @internal
      * @description 通过打开Twitter网站更新Token.
      * @return true: 更新Token成功 | false: 更新Token失败
-    */
+    /
     try {
       const logStatus = echoLog({ text: __('updatingAuth', 'Twitter') });
       return await new Promise((resolve) => {
@@ -98,6 +99,58 @@ class Twitter extends Social {
           }
         };
       });
+    } catch (error) {
+      throwError(error as Error, 'Twitter.updateToken');
+      return false;
+    }
+  }
+  */
+  async #updateAuth(): Promise<boolean> {
+    /**
+     * @internal
+     * @description 通过打开Twitter网站更新Token. Beta
+     * @return true: 更新Token成功 | false: 更新Token失败
+    */
+    try {
+      const logStatus = echoLog({ text: __('updatingAuth', 'Twitter') });
+      await new Promise((resolve, reject) => {
+        // eslint-disable-next-line camelcase
+        GM_cookie.delete({ url: 'https://twitter.com/settings/account', name: 'ct0' }, (error) => {
+          if (error) {
+            reject(error);
+          }
+          resolve(true);
+        });
+      });
+
+      const { result, statusText, status, data } = await httpRequest({
+        url: 'https://twitter.com/settings/account?k',
+        method: 'GET'
+      });
+      if (result === 'Success') {
+        if (data?.status === 200) {
+          if (typeof data.responseHeaders === 'string') {
+            if (data.responseHeaders.includes('twid=')) {
+              this.#auth.ct0 = data.responseHeaders.match(/ct0=([\w]+)/)?.[1];
+              if (this.#auth.ct0) {
+                GM_setValue('twitterAuth', { ct0: this.#auth.ct0 });
+                logStatus.success();
+                return true;
+              }
+              logStatus.error('Error: Update twitter auth failed!');
+              return false;
+            }
+            logStatus.error(__('needLogin'));
+            return false;
+          }
+          logStatus.info(__('Compatibility problem'));
+          return false;
+        }
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
     } catch (error) {
       throwError(error as Error, 'Twitter.updateToken');
       return false;
@@ -345,4 +398,8 @@ class Twitter extends Social {
     }
   }
 }
+
+// Debug
+// unsafeWindow.Twitter = Twitter;
+
 export default Twitter;

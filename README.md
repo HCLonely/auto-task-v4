@@ -25,8 +25,13 @@
 
 ## 使用说明
 
+### 注意！！！
+
+此测试版本需要[Tampermonkey Beta版（红猴）](https://www.tampermonkey.net/index.php)!!!
+
 ### 安装
 
+- [测试版](https://github.com/HCLonely/auto-task-new/raw/Beta/dist/auto-task-v4.user.js)
 - [正式版](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4.user.js)
 - [兼容版](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4.compatibility.user.js)：正式版不能正常使用时可尝试使用此版本
 - [GiveawaySu特供版](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4-for-giveawaysu.user.js)

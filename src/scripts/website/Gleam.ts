@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2023-01-08 15:54:22
+ * @LastEditTime : 2023-04-07 15:55:53
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
  * @Description  : https://gleam.io
@@ -385,7 +385,8 @@ class Gleam extends Website {
       });
       if (result === 'Success') {
         if (data?.status === 200 && data?.response?.Success === true && data?.response?.Data) {
-          const { link } = (data.response as vlootData).Data.find((giveaway) => title.replace(/[\s]/g, '').toLowerCase()
+          const vlootData = (data.response as vlootData).Data;
+          const { link } = (Array.isArray(vlootData) ? vlootData : [vlootData]).find((giveaway) => title.replace(/[\s]/g, '').toLowerCase()
             .includes(giveaway.title.replace(/[\s]/g, '').toLowerCase())) || {};
           if (link) {
             logStatus.success();

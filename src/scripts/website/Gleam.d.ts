@@ -44,6 +44,9 @@ interface vlootData {
   Data: Array<{
     title: string
     link: string
-  }>
+  }> | {
+    title: string
+    link: string
+  }
   Success: boolean
 }

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 12:18:06
- * @LastEditTime : 2022-02-06 11:50:05
+ * @LastEditTime : 2023-03-20 15:33:15
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Youtube.ts
  * @Description  : Youtube 订阅/取消订阅频道，点赞/取消点赞视频
@@ -142,12 +142,13 @@ class Youtube extends Social {
       return false;
     }
   }
+  /*
   async #updateAuth(): Promise<boolean> {
     /**
      * @internal
      * @description 通过打开Youtube网站更新Token.
      * @return true: 更新Token成功 | false: 更新Token失败
-    */
+    /
     try {
       const logStatus = echoLog({ text: __('updatingAuth', 'Youtube') });
       return await new Promise((resolve) => {
@@ -165,6 +166,38 @@ class Youtube extends Social {
           }
         };
       });
+    } catch (error) {
+      throwError(error as Error, 'Discord.updateAuth');
+      return false;
+    }
+  }
+  */
+  async #updateAuth(): Promise<boolean> {
+    /**
+     * @internal
+     * @description 通过打开Youtube网站更新Token.
+     * @return true: 更新Token成功 | false: 更新Token失败
+    */
+    try {
+      const logStatus = echoLog({ text: __('updatingAuth', 'Youtube') });
+
+      const PAPISID: string | undefined = await new Promise((resolve, reject) => {
+        // eslint-disable-next-line camelcase
+        GM_cookie.list({ url: 'https://www.youtube.com/', name: '__Secure-3PAPISID' }, (cookies, error) => {
+          if (error) {
+            reject(error);
+          }
+          resolve(cookies[0]?.value);
+        });
+      });
+      if (PAPISID) {
+        GM_setValue('youtubeAuth', { PAPISID });
+        this.#auth = { PAPISID };
+        logStatus.success();
+        return this.#verifyAuth();
+      }
+      logStatus.error('Error: Update youtube auth failed!');
+      return false;
     } catch (error) {
       throwError(error as Error, 'Discord.updateAuth');
       return false;
@@ -423,4 +456,8 @@ class Youtube extends Social {
     }
   }
 }
+
+// Debug
+// unsafeWindow.Youtube = Youtube;
+
 export { Youtube, getInfo };

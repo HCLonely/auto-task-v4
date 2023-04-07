@@ -1,8 +1,9 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.33",
+  "version": "5.0.0-beta",
   "change": [
-    "修复:Opquests验证任务报错"
+    "更新:使用beta版api",
+    "修复:Gleam任务识别报错"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

@@ -1,7 +1,8 @@
+/* eslint-disable camelcase */
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 13:18:21
- * @LastEditTime : 2022-12-19 09:55:41
+ * @LastEditTime : 2023-03-20 10:12:09
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/global.d.ts
  */
@@ -57,6 +58,26 @@ declare global {
     data?: MonkeyXhrResponse
     error?: Error
   }
+
+  interface GMCookieDetail {
+    url?: string
+    domain?: string
+    name?: string
+    path?: string
+  }
+  interface GMCookieCookies {
+    domain: string
+    firstPartyDomain?: string
+    hostOnly: boolean
+    httpOnly: boolean
+    name: string
+    path: string
+    sameSite: string
+    secure: boolean
+    session: boolean
+    value: string
+  }
+
   interface socialTasks {
     servers?: Array<string>
     users?: Array<string>
@@ -183,6 +204,10 @@ declare global {
   }
   /* eslint-disable camelcase */
   const GM_info: gmInfo;
+  const GM_cookie: {
+    list: (detail: GMCookieDetail, callback: (cookies: Array<GMCookieCookies>, error?: Error) => void) => void,
+    delete: (detail: GMCookieDetail, callback: (error?: Error) => void) => void,
+  };
   function GM_xmlhttpRequest(details: MonkeyXhrDetails): { abort: () => void }
   function GM_addStyle(style: string): HTMLElement
   function GM_setValue(name: string, value: any): void
