@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2023-01-08 11:13:03
+ * @LastEditTime : 2023-04-18 09:32:12
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -1016,7 +1016,7 @@ class Steam extends Social {
         url: 'https://store.steampowered.com/curators/ajaxfollow',
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
-        data: $.param({ clanid: curatorId, sessionid: this.#auth.storeSessionID, follow: doTask }),
+        data: $.param({ clanid: curatorId, sessionid: this.#auth.storeSessionID, follow: doTask ? 1 : 0 }),
         dataType: 'json'
       });
       if (result === 'Success') {

@@ -20,10 +20,12 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          prerelease: false
-          tag_name: v4.2.33
-          name: 4.2.33
-          body: '- 修复:Opquests验证任务报错'
+          prerelease: true
+          tag_name: v5.0.0-beta
+          name: 5.0.0-beta
+          body: |-
+            - 更新:使用beta版api
+            - 修复:Gleam任务识别报错
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

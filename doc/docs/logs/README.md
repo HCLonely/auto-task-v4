@@ -3,6 +3,15 @@ title: 更新日志
 lang: zh-CN
 ---
 
+## V5.0
+
+### V5.0.0-beta
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v5.0.0-beta)
+
+- 更新:使用beta版api
+- 修复:Gleam任务识别报错
+
 ## V4.2
 
 ### V4.2.33
