@@ -60,5 +60,6 @@
     "vloot",
     "vuepress",
     "xuanmo"
-  ]
+  ],
+  "vue.codeActions.enabled": false
 }

@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V5.0
 
+### V5.0.2-beta
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v5.0.2-beta)
+
+- 修复:Steam鉴赏家任务处理失败
+
 ### V5.0.0-beta
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v5.0.0-beta)

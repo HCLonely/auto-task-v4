@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            5.0.0-beta
+// @version            5.0.2-beta
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -3762,7 +3762,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               client.hl = 'en';
               if (type === 'channel') {
                 var _data$responseText$ma2;
-                const channelId = (_data$responseText$ma2 = data.responseText.match(/<meta itemprop="channelId" content="(.+?)">/)) === null || _data$responseText$ma2 === void 0 ? void 0 : _data$responseText$ma2[1];
+                const channelId = (_data$responseText$ma2 = data.responseText.match(/"channelId":"(.+?)"/)) === null || _data$responseText$ma2 === void 0 ? void 0 : _data$responseText$ma2[1];
                 if (channelId) {
                   logStatus.success();
                   return {
@@ -3950,7 +3950,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             status,
             data
           } = await tools_httpRequest({
-            url: `https://www.youtube.com/youtubei/v1/subscription/${doTask ? '' : 'un'}subscribe?key=${apiKey}`,
+            url: `https://www.youtube.com/youtubei/v1/subscription/${doTask ? '' : 'un'}subscribe?key=${apiKey}&prettyPrint=false`,
             method: 'POST',
             headers: {
               origin: 'https://www.youtube.com',
@@ -3977,7 +3977,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           });
           if (result === 'Success') {
             if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              if (doTask && (/"subscribed": true/.test(data.responseText) || data.responseText.includes('The subscription already exists')) || !doTask && /"subscribed": false/.test(data.responseText)) {
+              if (doTask && (/"subscribed":true/.test(data.responseText) || data.responseText.includes('The subscription already exists')) || !doTask && /"subscribed":false/.test(data.responseText)) {
                 logStatus.success();
                 if (doTask && !verify) {
                   this.tasks.channels = unique([ ...this.tasks.channels, link ]);
@@ -7158,6 +7158,14 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           $('.NSFW').hide();
         } catch (error) {
           throwError(error, 'Keyhub.after');
+        }
+      }
+      before() {
+        try {
+          unsafeWindow.gaData = {};
+          unsafeWindow.zaraz = {};
+        } catch (error) {
+          throwError(error, 'Keyhub.before');
         }
       }
       init() {

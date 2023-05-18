@@ -1,9 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "5.0.0-beta",
+  "version": "5.0.2-beta",
   "change": [
-    "更新:使用beta版api",
-    "修复:Gleam任务识别报错"
+    "修复:Youtube获取Token失败"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

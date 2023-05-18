@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-11 14:02:46
- * @LastEditTime : 2022-12-10 10:07:31
+ * @LastEditTime : 2023-04-21 15:30:16
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/scripts/website/keyhub.ts
  * @Description  : https://key-hub.eu/
@@ -59,6 +59,14 @@ class Keyhub extends Website {
       $('.NSFW').hide();
     } catch (error) {
       throwError(error as Error, 'Keyhub.after');
+    }
+  }
+  before(): void {
+    try {
+      unsafeWindow.gaData = {};
+      unsafeWindow.zaraz = {};
+    } catch (error) {
+      throwError(error as Error, 'Keyhub.before');
     }
   }
   init(): boolean {
