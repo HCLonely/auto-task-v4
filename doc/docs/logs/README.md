@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.2
 
+### V4.2.34
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.34)
+
+- 修复:Youtube获取Token失败
+
 ### V4.2.33
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.33)

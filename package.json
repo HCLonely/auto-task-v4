@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.33",
+  "version": "4.2.34",
   "change": [
-    "修复:Opquests验证任务报错"
+    "修复:Youtube获取Token失败"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

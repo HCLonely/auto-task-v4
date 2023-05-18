@@ -45,14 +45,14 @@ const getInfo = async function (link: string, type: string): Promise <youtubeInf
         const context: string = (
           (
             data.responseText.match(/\(\{"INNERTUBE_CONTEXT":([\w\W]*?)\}\)/) ||
-        data.responseText.match(/"INNERTUBE_CONTEXT":([\w\W]*?\}),"INNERTUBE/)
+            data.responseText.match(/"INNERTUBE_CONTEXT":([\w\W]*?\}),"INNERTUBE/)
           )?.[1] || '{}'
         );
         const { client, request } = JSON.parse(context);
         if (apiKey && client && request) {
           client.hl = 'en';
           if (type === 'channel') {
-            const channelId = data.responseText.match(/<meta itemprop="channelId" content="(.+?)">/)?.[1];
+            const channelId = data.responseText.match(/"channelId":"(.+?)"/)?.[1];
             if (channelId) {
               logStatus.success();
               return { params: { apiKey, client, request, channelId } };
@@ -207,7 +207,7 @@ class Youtube extends Social {
         echoLog({ type: doTask ? 'followingYtbChannel' : 'unfollowingYtbChannel', text: channelId });
       const nowTime = parseInt(String(new Date().getTime() / 1000), 10);
       const { result, statusText, status, data } = await httpRequest({
-        url: `https://www.youtube.com/youtubei/v1/subscription/${doTask ? '' : 'un'}subscribe?key=${apiKey}`,
+        url: `https://www.youtube.com/youtubei/v1/subscription/${doTask ? '' : 'un'}subscribe?key=${apiKey}&prettyPrint=false`,
         method: 'POST',
         headers: {
           origin: 'https://www.youtube.com',
@@ -237,8 +237,8 @@ class Youtube extends Social {
           if (
             (
               doTask &&
-              (/"subscribed": true/.test(data.responseText) || data.responseText.includes('The subscription already exists'))
-            ) || (!doTask && /"subscribed": false/.test(data.responseText))
+              (/"subscribed":true/.test(data.responseText) || data.responseText.includes('The subscription already exists'))
+            ) || (!doTask && /"subscribed":false/.test(data.responseText))
           ) {
             logStatus.success();
             if (doTask && !verify) {
