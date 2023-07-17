@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.34",
+  "version": "4.2.35",
   "change": [
-    "修复:Youtube获取Token失败"
+    "修复:Steam换区失败"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

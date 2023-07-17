@@ -347,7 +347,7 @@ class Steam extends Social {
       }
       const logStatus = echoLog({ text: __('changingArea', aimedArea) });
       const { result, statusText, status, data } = await httpRequest({
-        url: 'https://store.steampowered.com/account/setcountry',
+        url: 'https://store.steampowered.com/country/setcountry',
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
         data: $.param({ cc: aimedArea, sessionid: this.#auth.storeSessionID })
