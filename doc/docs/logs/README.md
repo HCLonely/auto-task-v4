@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.2
 
+### V4.2.36
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.36)
+
+- 修复:Steam换区失败
+
 ### V4.2.35
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.2.35)

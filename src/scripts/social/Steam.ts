@@ -282,9 +282,32 @@ class Steam extends Social {
       });
       if (result === 'Success') {
         if (data?.status === 200) {
-          const currentArea = data.responseText.match(/<input id="usercountrycurrency".*?value="(.+?)"/)?.[1];
-          const areas = [...data.responseText.matchAll(/<div class="currency_change_option .*?" data-country="(.+?)" >/g)]
-            .map((search) => search[1]);
+          const cartConfigRaw = data.responseText.match(/data-cart_config="(.*?)"/)?.[1];
+          const temp = document.createElement('div');
+          temp.innerHTML = cartConfigRaw || '{}';
+          const cartConfigStr = temp.textContent || temp.innerText;
+          let cartConfig;
+          try {
+            cartConfig = JSON.parse(cartConfigStr);
+          } catch (error) {
+            logStatus.error('Error: get country info filed');
+            console.error(error);
+          }
+
+          const userInfoRaw = data.responseText.match(/data-userinfo="(.*?)"/)?.[1];
+          const temp1 = document.createElement('div');
+          temp1.innerHTML = userInfoRaw || '{}';
+          const userInfoStr = temp1.textContent || temp1.innerText;
+          let userInfo;
+          try {
+            userInfo = JSON.parse(userInfoStr);
+          } catch (error) {
+            logStatus.error('Error: get country info filed');
+            console.error(error);
+          }
+
+          const currentArea = userInfo.country_code;
+          const areas = Object.keys(cartConfig.rgUserCountryOptions).filter((area) => area !== 'help');
           if (currentArea && areas.length > 0) {
             this.#area = currentArea;
             logStatus.success();

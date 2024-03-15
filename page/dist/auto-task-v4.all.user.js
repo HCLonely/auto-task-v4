@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.2.35
+// @version            4.2.36
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -4438,9 +4438,31 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           });
           if (result === 'Success') {
             if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText$ma5;
-              const currentArea = (_data$responseText$ma5 = data.responseText.match(/<input id="usercountrycurrency".*?value="(.+?)"/)) === null || _data$responseText$ma5 === void 0 ? void 0 : _data$responseText$ma5[1];
-              const areas = [ ...data.responseText.matchAll(/<div class="currency_change_option .*?" data-country="(.+?)" >/g) ].map(search => search[1]);
+              var _data$responseText$ma5, _data$responseText$ma6;
+              const cartConfigRaw = (_data$responseText$ma5 = data.responseText.match(/data-cart_config="(.*?)"/)) === null || _data$responseText$ma5 === void 0 ? void 0 : _data$responseText$ma5[1];
+              const temp = document.createElement('div');
+              temp.innerHTML = cartConfigRaw || '{}';
+              const cartConfigStr = temp.textContent || temp.innerText;
+              let cartConfig;
+              try {
+                cartConfig = JSON.parse(cartConfigStr);
+              } catch (error) {
+                logStatus.error('Error: get country info filed');
+                console.error(error);
+              }
+              const userInfoRaw = (_data$responseText$ma6 = data.responseText.match(/data-userinfo="(.*?)"/)) === null || _data$responseText$ma6 === void 0 ? void 0 : _data$responseText$ma6[1];
+              const temp1 = document.createElement('div');
+              temp1.innerHTML = userInfoRaw || '{}';
+              const userInfoStr = temp1.textContent || temp1.innerText;
+              let userInfo;
+              try {
+                userInfo = JSON.parse(userInfoStr);
+              } catch (error) {
+                logStatus.error('Error: get country info filed');
+                console.error(error);
+              }
+              const currentArea = userInfo.country_code;
+              const areas = Object.keys(cartConfig.rgUserCountryOptions).filter(area => area !== 'help');
               if (currentArea && areas.length > 0) {
                 this.#area = currentArea;
                 logStatus.success();
@@ -4664,8 +4686,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           });
           if (result === 'Success') {
             if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText$ma6;
-              const groupId = (_data$responseText$ma6 = data.responseText.match(/OpenGroupChat\( '([0-9]+)'/)) === null || _data$responseText$ma6 === void 0 ? void 0 : _data$responseText$ma6[1];
+              var _data$responseText$ma7;
+              const groupId = (_data$responseText$ma7 = data.responseText.match(/OpenGroupChat\( '([0-9]+)'/)) === null || _data$responseText$ma7 === void 0 ? void 0 : _data$responseText$ma7[1];
               if (groupId) {
                 this.#setCache('group', groupName, groupId);
                 logStatus.success();
@@ -4704,10 +4726,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           });
           if (result === 'Success') {
             if ((data === null || data === void 0 ? void 0 : data.status) === 200 && !data.responseText.includes('id="publicGroupJoin"')) {
-              var _data$responseText$ma7;
+              var _data$responseText$ma8;
               logStatus.success();
               this.tasks.officialGroups = unique([ ...this.tasks.officialGroups, gameId ]);
-              const groupId = (_data$responseText$ma7 = data.responseText.match(/steam:\/\/friends\/joinchat\/([0-9]+)/)) === null || _data$responseText$ma7 === void 0 ? void 0 : _data$responseText$ma7[1];
+              const groupId = (_data$responseText$ma8 = data.responseText.match(/steam:\/\/friends\/joinchat\/([0-9]+)/)) === null || _data$responseText$ma8 === void 0 ? void 0 : _data$responseText$ma8[1];
               if (groupId) {
                 this.#setCache('officialGroup', gameId, groupId);
               }
@@ -4818,8 +4840,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           });
           if (result === 'Success') {
             if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText$ma8;
-              const groupId = (_data$responseText$ma8 = data.responseText.match(/steam:\/\/friends\/joinchat\/([0-9]+)/)) === null || _data$responseText$ma8 === void 0 ? void 0 : _data$responseText$ma8[1];
+              var _data$responseText$ma9;
+              const groupId = (_data$responseText$ma9 = data.responseText.match(/steam:\/\/friends\/joinchat\/([0-9]+)/)) === null || _data$responseText$ma9 === void 0 ? void 0 : _data$responseText$ma9[1];
               if (groupId) {
                 this.#setCache('officialGroup', gameId, groupId);
                 logStatus.success();
@@ -5137,8 +5159,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           });
           if (result === 'Success') {
             if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText, _data$responseText$ma9;
-              const forumId = (_data$responseText = data.responseText) === null || _data$responseText === void 0 ? void 0 : (_data$responseText$ma9 = _data$responseText.match(/General_([\d]+(_[\d]+)?)/)) === null || _data$responseText$ma9 === void 0 ? void 0 : _data$responseText$ma9[1];
+              var _data$responseText, _data$responseText$ma10;
+              const forumId = (_data$responseText = data.responseText) === null || _data$responseText === void 0 ? void 0 : (_data$responseText$ma10 = _data$responseText.match(/General_([\d]+(_[\d]+)?)/)) === null || _data$responseText$ma10 === void 0 ? void 0 : _data$responseText$ma10[1];
               if (forumId) {
                 this.#setCache('forum', gameId, forumId);
                 logStatus.success();
@@ -5233,8 +5255,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           });
           if (result === 'Success') {
             if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText$ma10;
-              const appId = (_data$responseText$ma10 = data.responseText.match(/<input type="hidden" name="appid" value="([\d]+?)" \/>/)) === null || _data$responseText$ma10 === void 0 ? void 0 : _data$responseText$ma10[1];
+              var _data$responseText$ma11;
+              const appId = (_data$responseText$ma11 = data.responseText.match(/<input type="hidden" name="appid" value="([\d]+?)" \/>/)) === null || _data$responseText$ma11 === void 0 ? void 0 : _data$responseText$ma11[1];
               if (appId) {
                 this.#setCache('workshop', id, appId);
                 logStatus.success();
@@ -5366,8 +5388,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           });
           if (result === 'Success') {
             if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText$ma11;
-              const curatorId = (_data$responseText$ma11 = data.responseText.match(/g_pagingData.*?"clanid":([\d]+)/)) === null || _data$responseText$ma11 === void 0 ? void 0 : _data$responseText$ma11[1];
+              var _data$responseText$ma12;
+              const curatorId = (_data$responseText$ma12 = data.responseText.match(/g_pagingData.*?"clanid":([\d]+)/)) === null || _data$responseText$ma12 === void 0 ? void 0 : _data$responseText$ma12[1];
               if (curatorId) {
                 this.#setCache('curator', `${path}/${name}`, curatorId);
                 logStatus.success();
@@ -5531,7 +5553,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           });
           if (result === 'Success') {
             if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText$ma12;
+              var _data$responseText$ma13;
               if (this.#area === 'CN' && data.responseText.includes('id="error_box"')) {
                 logStatus.warning(i18n('changeAreaNotice'));
                 const result = await this.#changeArea();
@@ -5540,7 +5562,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 }
                 return await this.#appid2subid(id);
               }
-              const subid = (_data$responseText$ma12 = data.responseText.match(/name="subid" value="([\d]+?)"/)) === null || _data$responseText$ma12 === void 0 ? void 0 : _data$responseText$ma12[1];
+              const subid = (_data$responseText$ma13 = data.responseText.match(/name="subid" value="([\d]+?)"/)) === null || _data$responseText$ma13 === void 0 ? void 0 : _data$responseText$ma13[1];
               if (subid) {
                 logStatus.success();
                 return subid;
