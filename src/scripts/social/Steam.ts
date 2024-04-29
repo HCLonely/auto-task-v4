@@ -16,26 +16,11 @@ import httpRequest from '../tools/httpRequest';
 import __ from '../tools/i18n';
 import { unique, delay } from '../tools/tools';
 import { globalOptions } from '../globalOptions';
-
-const defaultTasksTemplate: steamTasks = {
-  groups: [],
-  officialGroups: [],
-  wishlists: [],
-  follows: [],
-  forums: [],
-  workshops: [],
-  workshopVotes: [],
-  curators: [],
-  curatorLikes: [],
-  announcements: [],
-  licenses: [],
-  playtests: []
-};
-const defaultTasks = JSON.stringify(defaultTasksTemplate);
+import SteamASF from './SteamASF';
 
 class Steam extends Social {
-  tasks: steamTasks = JSON.parse(defaultTasks);
-  whiteList: steamTasks = { ...JSON.parse(defaultTasks), ...GM_getValue<whiteList>('whiteList')?.steam };
+  tasks: steamTasks;
+  whiteList: steamTasks;
   #cache: steamCache = { ...{
     group: {},
     officialGroup: {},
@@ -48,13 +33,42 @@ class Steam extends Social {
   #communityInitialized = false;
   #area = 'CN';
   #areaStatus = 'end';
+  #ASF!: SteamASF;
 
+  constructor() {
+    super();
+    const defaultTasksTemplate: steamTasks = {
+      groups: [],
+      officialGroups: [],
+      wishlists: [],
+      follows: [],
+      forums: [],
+      workshops: [],
+      workshopVotes: [],
+      curators: [],
+      curatorLikes: [],
+      announcements: [],
+      licenses: [],
+      playtests: []
+    };
+    this.tasks = defaultTasksTemplate;
+    this.whiteList = { ...defaultTasksTemplate, ...(GM_getValue<whiteList>('whiteList')?.steam || {}) };
+  }
   async init(type = 'all'): Promise<boolean> {
     /**
      * @description: 验证及获取Auth
      * @return true: 初始化完成 | false: 初始化失败，toggle方法不可用
     */
     try {
+      if (globalOptions.ASF.AsfEnabled && globalOptions.ASF.AsfIpcUrl && globalOptions.ASF.AsfIpcPassword) {
+        this.#ASF = new SteamASF();
+        if (await this.#ASF.init()) {
+          this.#storeInitialized = true;
+          this.#communityInitialized = true;
+          return true;
+        }
+        return false;
+      }
       if (type === 'store') {
         if (this.#storeInitialized) {
           return true;
@@ -292,8 +306,13 @@ class Steam extends Social {
           } catch (error) {
             logStatus.error('Error: get country info filed');
             console.error(error);
+            return {};
           }
 
+          if (!cartConfig.rgUserCountryOptions) {
+            logStatus.warning('Warning: Area cannot be changed');
+            return {};
+          }
           const userInfoRaw = data.responseText.match(/data-userinfo="(.*?)"/)?.[1];
           const temp1 = document.createElement('div');
           temp1.innerHTML = userInfoRaw || '{}';
@@ -304,6 +323,7 @@ class Steam extends Social {
           } catch (error) {
             logStatus.error('Error: get country info filed');
             console.error(error);
+            return {};
           }
 
           const currentArea = userInfo.country_code;
@@ -409,6 +429,13 @@ class Steam extends Social {
      * @return true: 成功 | false: 失败
     */
     try {
+      if (this.#ASF) {
+        if (await this.#ASF.joinGroup(groupName)) {
+          this.tasks.groups = unique([...this.tasks.groups, groupName]);
+          return true;
+        }
+        return false;
+      }
       const logStatus = echoLog({ type: 'joiningSteamGroup', text: groupName });
       const { result, statusText, status, data } = await httpRequest({
         url: `https://steamcommunity.com/groups/${groupName}`,
@@ -443,6 +470,9 @@ class Steam extends Social {
       if (this.whiteList.groups.includes(groupName)) {
         echoLog({ type: 'whiteList', text: 'Steam.leaveGroup', id: groupName });
         return true;
+      }
+      if (this.#ASF) {
+        return await this.#ASF.leaveGroup(groupName);
       }
       const groupId = await this.#getGroupId(groupName);
       if (!groupId) return false;
@@ -519,6 +549,13 @@ class Steam extends Social {
      * @return true: 成功 | false: 失败
     */
     try {
+      if (this.#ASF) {
+        if (await this.#ASF.joinGroup(gameId)) {
+          this.tasks.officialGroups = unique([...this.tasks.officialGroups, gameId]);
+          return true;
+        }
+        return false;
+      }
       const logStatus = echoLog({ type: 'joiningSteamOfficialGroup', text: gameId });
       const { result, statusText, status, data } = await httpRequest({
         url: `https://steamcommunity.com/games/${gameId}?action=join&sessionID=${this.#auth.communitySessionID}`,
@@ -556,6 +593,9 @@ class Steam extends Social {
       if (this.whiteList.officialGroups.includes(gameId)) {
         echoLog({ type: 'whiteList', text: 'Steam.leaveOfficialGroup', id: gameId });
         return true;
+      }
+      if (this.#ASF) {
+        return await this.#ASF.leaveGroup(gameId);
       }
       const groupId = await this.#getOfficialGroupId(gameId);
       if (!groupId) return false;
@@ -643,6 +683,13 @@ class Steam extends Social {
      * @return true: 成功 | false: 失败
     */
     try {
+      if (this.#ASF) {
+        if (await this.#ASF.addToWishlist(gameId)) {
+          this.tasks.wishlists = unique([...this.tasks.wishlists, gameId]);
+          return true;
+        }
+        return false;
+      }
       const logStatus = echoLog({ type: 'addingToWishlist', text: gameId });
       const { result, data } = await httpRequest({
         url: 'https://store.steampowered.com/api/addtowishlist',
@@ -705,6 +752,9 @@ class Steam extends Social {
         echoLog({ type: 'whiteList', text: 'Steam.removeFromWishlist', id: gameId });
         return true;
       }
+      if (this.#ASF) {
+        return await this.#ASF.removeFromWishlist(gameId);
+      }
       const logStatus = echoLog({ type: 'removingFromWishlist', text: gameId });
       const { result, data } = await httpRequest({
         url: 'https://store.steampowered.com/api/removefromwishlist',
@@ -761,6 +811,13 @@ class Steam extends Social {
       if (!doTask && this.whiteList.follows.includes(gameId)) {
         echoLog({ type: 'whiteList', text: 'Steam.unfollowGame', id: gameId });
         return true;
+      }
+      if (this.#ASF) {
+        if (await this.#ASF.toggleFollowGame(gameId, doTask)) {
+          if (doTask) this.tasks.follows = unique([...this.tasks.follows, gameId]);
+          return true;
+        }
+        return false;
       }
       const logStatus = echoLog({ type: `${doTask ? '' : 'un'}followingGame`, text: gameId });
       const requestData: followGameRequestData = { sessionid: this.#auth.storeSessionID as string, appid: gameId };
@@ -1034,6 +1091,9 @@ class Steam extends Social {
         echoLog({ type: 'whiteList', text: 'Steam.unfollowCurator', id: curatorId });
         return true;
       }
+      if (this.#ASF) {
+        return await this.#ASF.toggleCurator(curatorId, doTask);
+      }
       const logStatus = echoLog({ type: doTask ? 'followingCurator' : 'unfollowingCurator', text: curatorId });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://store.steampowered.com/curators/ajaxfollow',
@@ -1289,6 +1349,9 @@ class Steam extends Social {
   }
   async #addLicense(id: string): Promise<boolean> {
     try {
+      if (this.#ASF) {
+        return await this.#ASF.addLicense(id);
+      }
       const [type, ids] = id.split('-');
       if (type === 'appid') {
         const subid = await this.#appid2subid(ids);
@@ -1397,6 +1460,9 @@ class Steam extends Social {
       * @return true: 成功 | false: 失败
     */
     try {
+      if (this.#ASF) {
+        return await this.#ASF.requestPlayTestAccess(id);
+      }
       const logStatus = echoLog({ type: 'requestingPlayTestAccess', text: id });
       const { result, statusText, status, data } = await httpRequest({
         url: `https://store.steampowered.com/ajaxrequestplaytestaccess/${id}`,

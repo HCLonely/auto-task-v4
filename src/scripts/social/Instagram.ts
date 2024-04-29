@@ -15,15 +15,21 @@ import { unique, delay } from '../tools/tools';
 import __ from '../tools/i18n';
 import { globalOptions } from '../globalOptions';
 
-const defaultTasksTemplate: instagramTasks = { users: [] };
-const defaultTasks = JSON.stringify(defaultTasksTemplate);
 class Instagram extends Social {
-  tasks: instagramTasks = JSON.parse(defaultTasks);
-  whiteList: instagramTasks = { ...JSON.parse(defaultTasks), ...GM_getValue<whiteList>('whiteList')?.instagram };
+  tasks: instagramTasks;
+  whiteList: instagramTasks;
   #cache: cache = GM_getValue<cache>('instagramCache') || {};
   #auth: auth = {};
   #initialized = false;
 
+  constructor() {
+    super();
+    const defaultTasksTemplate: instagramTasks = {
+      users: []
+    };
+    this.tasks = defaultTasksTemplate;
+    this.whiteList = { ...defaultTasksTemplate, ...(GM_getValue<whiteList>('whiteList')?.instagram || {}) };
+  }
   async init(): Promise<boolean> {
     /**
      * @description: 验证及获取Auth

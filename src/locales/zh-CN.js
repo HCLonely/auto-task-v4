@@ -160,6 +160,9 @@ const data = {
   noRemoteData: '检测到远程无数据',
   errorRemoteDataFormat: '远程数据格式错误',
   updateHistory: '历史更新记录<a class="high-light" href="https://auto-task-doc.js.org/logs/" target="_blank">点此查看</a>',
+  AsfEnabled: '使用ASF做Steam相关任务(需<a href="https://github.com/chr233/ASFEnhance" target="_blank">ASFEnhance</a>插件)',
+  AsfIpcUrl: 'ASF IPC 地址',
+  AsfIpcPassword: 'ASF IPC 密码',
 
   // Steam
   groups: '组',
@@ -211,6 +214,9 @@ const data = {
   gettingLicenses: '正在获取Licenses...',
   requestingPlayTestAccess: '正在请求访问权限',
   tryChangeAreaNotice: '此功能无法检测游戏是否限区，因此会尝试换区后再入库，换区失败也不影响后续入库',
+
+  // Steam ASF
+  initingASF: '正在初始化ASF...',
 
   // Discord
   servers: '服务器',

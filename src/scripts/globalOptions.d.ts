@@ -41,8 +41,8 @@ interface globalOptions {
       curators: boolean
       workshopVotes: boolean
       announcements: boolean
-      licenses: true
-      playtests: true
+      licenses: boolean
+      playtests: boolean
     }
   },
   undoTask: {
@@ -79,6 +79,12 @@ interface globalOptions {
       curators: boolean
     }
   },
+  ASF: {
+    AsfEnabled: boolean
+    AsfIpcUrl: string
+    AsfIpcPassword: string
+    AsfBotname: string
+  }
   position: {
     buttonSideX: 'right' | 'left'
     buttonSideY: 'top' | 'bottom'

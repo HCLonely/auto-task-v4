@@ -16,16 +16,21 @@ import __ from '../tools/i18n';
 import { globalOptions } from '../globalOptions';
 import Swal from 'sweetalert2';
 
-const defaultTasksTemplate: discordTasks = { servers: [] };
-const defaultTasks = JSON.stringify(defaultTasksTemplate);
-
 class Discord extends Social {
-  tasks: discordTasks = JSON.parse(defaultTasks);
-  whiteList: discordTasks = { ...JSON.parse(defaultTasks), ...GM_getValue<whiteList>('whiteList')?.discord };
+  tasks: discordTasks;
+  whiteList: discordTasks;
   #auth: auth = GM_getValue<auth>('discordAuth') || {};
   #cache: cache = GM_getValue<cache>('discordCache') || {};
   #initialized = false;
 
+  constructor() {
+    super();
+    const defaultTasksTemplate: discordTasks = {
+      servers: []
+    };
+    this.tasks = defaultTasksTemplate;
+    this.whiteList = { ...defaultTasksTemplate, ...(GM_getValue<whiteList>('whiteList')?.discord || {}) };
+  }
   async init(): Promise<boolean | 'skip'> {
     /**
      * @description: 验证及获取Auth

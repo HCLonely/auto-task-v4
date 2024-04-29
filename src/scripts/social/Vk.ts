@@ -25,15 +25,21 @@ interface dataParams {
   publicJoined?: boolean
   wallHash?: string
 }
-const defaultTasksTemplate: vkTasks = { names: [] };
-const defaultTasks = JSON.stringify(defaultTasksTemplate);
 class Vk extends Social {
-  tasks: vkTasks = JSON.parse(defaultTasks);
-  whiteList: vkTasks = { ...JSON.parse(defaultTasks), ...GM_getValue<whiteList>('whiteList')?.vk };
+  tasks: vkTasks;
+  whiteList: vkTasks;
   #username = '';
   #cache: cache = GM_getValue<cache>('vkCache') || {};
   #initialized = false;
 
+  constructor() {
+    super();
+    const defaultTasksTemplate: vkTasks = {
+      names: []
+    };
+    this.tasks = defaultTasksTemplate;
+    this.whiteList = { ...defaultTasksTemplate, ...(GM_getValue<whiteList>('whiteList')?.vk || {}) };
+  }
   async init(): Promise<boolean> {
     /**
      * @description: 验证及获取Auth

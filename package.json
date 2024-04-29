@@ -1,8 +1,11 @@
 {
   "name": "auto-task-v4",
-  "version": "4.2.36",
+  "version": "4.3.0",
   "change": [
-    "修复:Steam换区失败"
+    "新增:Steam任务ASF(ASFEnhance)支持",
+    "新增:Gleam.io站支持调用TimerHooker脚本快速验证任务",
+    "修复:未挂梯子时换区失败报错(#13)",
+    "修复:首次安装时初始化报错(#12)"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

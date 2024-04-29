@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.2.36
+// @version            4.3.0
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -99,7 +99,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
 
 (function() {
   var __webpack_modules__ = {
-    588: function(__unused_webpack_module, exports) {
+    126: function(__unused_webpack_module, exports) {
       !function(e, n) {
         true ? n(exports) : 0;
       }(this, function(e) {
@@ -404,7 +404,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         });
       });
     },
-    301: function(module, __webpack_exports__, __webpack_require__) {
+    501: function(module, __webpack_exports__, __webpack_require__) {
       'use strict';
       __webpack_require__.d(__webpack_exports__, {
         Z: function() {
@@ -553,8 +553,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
     const external_Swal_namespaceObject = Swal;
     var external_Swal_default = __webpack_require__.n(external_Swal_namespaceObject);
     const external_Cookies_namespaceObject = Cookies;
-    var auto_task = __webpack_require__(301);
-    var javascript_utils_umd_min = __webpack_require__(588);
+    var auto_task = __webpack_require__(501);
+    var javascript_utils_umd_min = __webpack_require__(126);
     const httpRequest = async function(options) {
       let times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
       if (window.TRACE) {
@@ -1041,6 +1041,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           curators: true
         }
       },
+      ASF: {
+        AsfEnabled: false,
+        AsfIpcUrl: '',
+        AsfIpcPassword: '',
+        AsfBotname: 'asf'
+      },
       position: {
         buttonSideX: 'right',
         buttonSideY: 'top',
@@ -1120,7 +1126,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       <table class="auto-task-table"><thead><tr><td>${i18n('type')}</td><td>${i18n('option')}</td><td>${i18n('value')}</td></tr></thead><tbody>`;
         for (const [ type, data1 ] of Object.entries(globalOptions)) {
           for (const [ option, data2 ] of Object.entries(data1)) {
-            if ([ 'other', 'position', 'hotKey' ].includes(type)) {
+            if ([ 'other', 'position', 'hotKey', 'ASF' ].includes(type)) {
               if (typeof data2 === 'boolean') {
                 globalOptionsForm += `<tr style="background-color: ${stringToColour(type)}44">${Object.keys(data1).indexOf(option) === 0 ? `<th rowspan="${Object.keys(data1).length}">${i18n(type)}</th>` : ''}<td>${i18n(option)}</td><td><label><input type="checkbox" name="${type}.${option}"${data2 ? ' checked="checked"' : ''}/><span><i></i></span></label></td></tr>`;
               } else {
@@ -1310,6 +1316,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       noRemoteData: '检测到远程无数据',
       errorRemoteDataFormat: '远程数据格式错误',
       updateHistory: '历史更新记录<a class="high-light" href="https://auto-task-doc.js.org/logs/" target="_blank">点此查看</a>',
+      AsfEnabled: '使用ASF做Steam相关任务(需<a href="https://github.com/chr233/ASFEnhance" target="_blank">ASFEnhance</a>插件)',
+      AsfIpcUrl: 'ASF IPC 地址',
+      AsfIpcPassword: 'ASF IPC 密码',
       groups: '组',
       officialGroups: '官方组',
       wishlists: '愿望单',
@@ -1359,6 +1368,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       gettingLicenses: '正在获取Licenses...',
       requestingPlayTestAccess: '正在请求访问权限',
       tryChangeAreaNotice: '此功能无法检测游戏是否限区，因此会尝试换区后再入库，换区失败也不影响后续入库',
+      initingASF: '正在初始化ASF...',
       servers: '服务器',
       joiningDiscordServer: '正在加入Discord服务器',
       leavingDiscordServer: '正在退出Discord服务器',
@@ -1581,6 +1591,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       noRemoteData: 'No data remotely',
       errorRemoteDataFormat: 'Remote data has wrong format',
       updateHistory: '<a class="high-light" href="https://auto-task-doc.js.org/logs/" target="_blank">Click here</a>' + ' to view the historical update record.',
+      AsfEnabled: 'Use ASF to do Steam related tasks (requires <a href="https://github.com/chr233/ASFEnhance" target="_blank">ASFEnhance</a> plugin)',
+      AsfIpcUrl: 'ASF IPC URL',
+      AsfIpcPassword: 'ASF IPC Password',
       groups: 'Group',
       officialGroups: 'Official Group',
       wishlists: 'Wishlist',
@@ -1630,6 +1643,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       gettingLicenses: 'Getting licenses...',
       requestingPlayTestAccess: 'Requesting play test access',
       tryChangeAreaNotice: 'This function cannot detect whether the game is limited, so it will try to change the area before entering the library' + '. Failure to change the area will not affect the subsequent storage.',
+      initingASF: 'Initing ASF...',
       servers: 'Server',
       joiningDiscordServer: 'Joining Discord Server',
       leavingDiscordServer: 'Leaving Discord Server',
@@ -1783,20 +1797,24 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     }
     const social_Social = Social;
-    var _GM_getValue;
-    const defaultTasksTemplate = {
-      servers: []
-    };
-    const defaultTasks = JSON.stringify(defaultTasksTemplate);
     class Discord extends social_Social {
-      tasks = JSON.parse(defaultTasks);
-      whiteList = {
-        ...JSON.parse(defaultTasks),
-        ...(_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.discord
-      };
+      tasks;
+      whiteList;
       #auth = GM_getValue('discordAuth') || {};
       #cache = GM_getValue('discordCache') || {};
       #initialized = false;
+      constructor() {
+        var _GM_getValue;
+        super();
+        const defaultTasksTemplate = {
+          servers: []
+        };
+        this.tasks = defaultTasksTemplate;
+        this.whiteList = {
+          ...defaultTasksTemplate,
+          ...((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.discord) || {}
+        };
+      }
       async init() {
         try {
           if (!GM_getValue('dontRemindDiscordAgain')) {
@@ -2093,20 +2111,24 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     }
     const social_Discord = Discord;
-    var Instagram_GM_getValue;
-    const Instagram_defaultTasksTemplate = {
-      users: []
-    };
-    const Instagram_defaultTasks = JSON.stringify(Instagram_defaultTasksTemplate);
     class Instagram extends social_Social {
-      tasks = JSON.parse(Instagram_defaultTasks);
-      whiteList = {
-        ...JSON.parse(Instagram_defaultTasks),
-        ...(Instagram_GM_getValue = GM_getValue('whiteList')) === null || Instagram_GM_getValue === void 0 ? void 0 : Instagram_GM_getValue.instagram
-      };
+      tasks;
+      whiteList;
       #cache = GM_getValue('instagramCache') || {};
       #auth = {};
       #initialized = false;
+      constructor() {
+        var _GM_getValue;
+        super();
+        const defaultTasksTemplate = {
+          users: []
+        };
+        this.tasks = defaultTasksTemplate;
+        this.whiteList = {
+          ...defaultTasksTemplate,
+          ...((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.instagram) || {}
+        };
+      }
       async init() {
         try {
           if (this.#initialized) {
@@ -2333,19 +2355,23 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     }
     const social_Instagram = Instagram;
-    var Reddit_GM_getValue;
-    const Reddit_defaultTasksTemplate = {
-      reddits: []
-    };
-    const Reddit_defaultTasks = JSON.stringify(Reddit_defaultTasksTemplate);
     class Reddit extends social_Social {
-      tasks = JSON.parse(Reddit_defaultTasks);
-      whiteList = {
-        ...JSON.parse(Reddit_defaultTasks),
-        ...(Reddit_GM_getValue = GM_getValue('whiteList')) === null || Reddit_GM_getValue === void 0 ? void 0 : Reddit_GM_getValue.reddit
-      };
+      tasks;
+      whiteList;
       #auth;
       #initialized = false;
+      constructor() {
+        var _GM_getValue;
+        super();
+        const defaultTasksTemplate = {
+          reddits: []
+        };
+        this.tasks = defaultTasksTemplate;
+        this.whiteList = {
+          ...defaultTasksTemplate,
+          ...((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.reddit) || {}
+        };
+      }
       async init() {
         try {
           if (this.#initialized) {
@@ -2540,21 +2566,25 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     }
     const social_Reddit = Reddit;
-    var Twitch_GM_getValue;
-    const Twitch_defaultTasksTemplate = {
-      channels: []
-    };
-    const Twitch_defaultTasks = JSON.stringify(Twitch_defaultTasksTemplate);
     class Twitch extends social_Social {
-      tasks = JSON.parse(Twitch_defaultTasks);
-      whiteList = {
-        ...JSON.parse(Twitch_defaultTasks),
-        ...(Twitch_GM_getValue = GM_getValue('whiteList')) === null || Twitch_GM_getValue === void 0 ? void 0 : Twitch_GM_getValue.twitch
-      };
+      tasks;
+      whiteList;
       #auth = GM_getValue('twitchAuth') || {};
       #cache = GM_getValue('twitchCache') || {};
       #initialized = false;
       #integrityToken;
+      constructor() {
+        var _GM_getValue;
+        super();
+        const defaultTasksTemplate = {
+          channels: []
+        };
+        this.tasks = defaultTasksTemplate;
+        this.whiteList = {
+          ...defaultTasksTemplate,
+          ...((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.twitch) || {}
+        };
+      }
       async init() {
         try {
           if (this.#initialized) {
@@ -2865,23 +2895,27 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     }
     const social_Twitch = Twitch;
-    var Twitter_GM_getValue;
-    const Twitter_defaultTasksTemplate = {
-      users: [],
-      retweets: [],
-      likes: []
-    };
-    const Twitter_defaultTasks = JSON.stringify(Twitter_defaultTasksTemplate);
     class Twitter extends social_Social {
-      tasks = JSON.parse(Twitter_defaultTasks);
-      whiteList = {
-        ...JSON.parse(Twitter_defaultTasks),
-        ...(Twitter_GM_getValue = GM_getValue('whiteList')) === null || Twitter_GM_getValue === void 0 ? void 0 : Twitter_GM_getValue.twitter
-      };
+      tasks;
+      whiteList;
       #verifyId = globalOptions.other.twitterVerifyId;
       #auth = GM_getValue('twitterAuth') || {};
       #cache = GM_getValue('twitterCache') || {};
       #initialized = false;
+      constructor() {
+        var _GM_getValue;
+        super();
+        const defaultTasksTemplate = {
+          users: [],
+          retweets: [],
+          likes: []
+        };
+        this.tasks = defaultTasksTemplate;
+        this.whiteList = {
+          ...defaultTasksTemplate,
+          ...((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.twitter) || {}
+        };
+      }
       async init() {
         try {
           if (this.#initialized) {
@@ -3211,20 +3245,24 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     }
     const social_Twitter = Twitter;
-    var Vk_GM_getValue;
-    const Vk_defaultTasksTemplate = {
-      names: []
-    };
-    const Vk_defaultTasks = JSON.stringify(Vk_defaultTasksTemplate);
     class Vk extends social_Social {
-      tasks = JSON.parse(Vk_defaultTasks);
-      whiteList = {
-        ...JSON.parse(Vk_defaultTasks),
-        ...(Vk_GM_getValue = GM_getValue('whiteList')) === null || Vk_GM_getValue === void 0 ? void 0 : Vk_GM_getValue.vk
-      };
+      tasks;
+      whiteList;
       #username = '';
       #cache = GM_getValue('vkCache') || {};
       #initialized = false;
+      constructor() {
+        var _GM_getValue;
+        super();
+        const defaultTasksTemplate = {
+          names: []
+        };
+        this.tasks = defaultTasksTemplate;
+        this.whiteList = {
+          ...defaultTasksTemplate,
+          ...((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.vk) || {}
+        };
+      }
       async init() {
         try {
           if (this.#initialized) {
@@ -3693,12 +3731,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     }
     const social_Vk = Vk;
-    var Youtube_GM_getValue;
-    const Youtube_defaultTasksTemplate = {
-      channels: [],
-      likes: []
-    };
-    const Youtube_defaultTasks = JSON.stringify(Youtube_defaultTasksTemplate);
     const getInfo = async function(link, type) {
       try {
         const logStatus = scripts_echoLog({
@@ -3782,14 +3814,24 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     };
     class Youtube extends social_Social {
-      tasks = JSON.parse(Youtube_defaultTasks);
-      whiteList = {
-        ...JSON.parse(Youtube_defaultTasks),
-        ...(Youtube_GM_getValue = GM_getValue('whiteList')) === null || Youtube_GM_getValue === void 0 ? void 0 : Youtube_GM_getValue.youtube
-      };
+      tasks;
+      whiteList;
       #auth = GM_getValue('youtubeAuth') || {};
       #initialized = false;
       #verifyChannel = `https://www.youtube.com/channel/${globalOptions.other.youtubeVerifyChannel}`;
+      constructor() {
+        var _GM_getValue;
+        super();
+        const defaultTasksTemplate = {
+          channels: [],
+          likes: []
+        };
+        this.tasks = defaultTasksTemplate;
+        this.whiteList = {
+          ...defaultTasksTemplate,
+          ...((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.youtube) || {}
+        };
+      }
       async init() {
         try {
           if (this.#initialized) {
@@ -4139,28 +4181,445 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         }
       }
     }
-    var Steam_GM_getValue;
-    const Steam_defaultTasksTemplate = {
-      groups: [],
-      officialGroups: [],
-      wishlists: [],
-      follows: [],
-      forums: [],
-      workshops: [],
-      workshopVotes: [],
-      curators: [],
-      curatorLikes: [],
-      announcements: [],
-      licenses: [],
-      playtests: []
-    };
-    const Steam_defaultTasks = JSON.stringify(Steam_defaultTasksTemplate);
+    class SteamASF {
+      #asfOptions;
+      #botName = 'asf';
+      #groupInfo;
+      async init() {
+        try {
+          const asfCommandsUrl = new URL('/Api/Command/', globalOptions.ASF.AsfIpcUrl);
+          this.#asfOptions = {
+            url: asfCommandsUrl.href,
+            method: 'POST',
+            responseType: 'json',
+            headers: {
+              accept: 'application/json',
+              'Content-Type': 'application/json',
+              Host: asfCommandsUrl.host,
+              Origin: asfCommandsUrl.origin,
+              Referer: asfCommandsUrl.href,
+              Authentication: globalOptions.ASF.AsfIpcPassword
+            }
+          };
+          if (globalOptions.ASF.AsfBotname) {
+            this.#botName = globalOptions.ASF.AsfBotname;
+          }
+          const logStatus = scripts_echoLog({
+            text: i18n('initingASF')
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            ...this.#asfOptions,
+            data: '{"Command":"!stats"}'
+          });
+          if (result === 'Success') {
+            var _data$response, _data$response2, _data$response3;
+            if ((data === null || data === void 0 ? void 0 : (_data$response = data.response) === null || _data$response === void 0 ? void 0 : _data$response.Success) === true && data.response.Message === 'OK' && data.response.Result) {
+              logStatus.success();
+              return true;
+            }
+            if (data !== null && data !== void 0 && (_data$response2 = data.response) !== null && _data$response2 !== void 0 && _data$response2.Result || data !== null && data !== void 0 && (_data$response3 = data.response) !== null && _data$response3 !== void 0 && _data$response3.Message) {
+              var _data$response4;
+              logStatus.error((data === null || data === void 0 ? void 0 : (_data$response4 = data.response) === null || _data$response4 === void 0 ? void 0 : _data$response4.Result) || data.response.Message);
+              return false;
+            }
+            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'SteamASF.init');
+          return false;
+        }
+      }
+      async joinGroup(groupName) {
+        try {
+          const logStatus = scripts_echoLog({
+            type: 'joiningSteamGroup',
+            text: groupName
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            ...this.#asfOptions,
+            data: JSON.stringify({
+              Command: `!JOINGROUP ${this.#botName} ${groupName}`
+            })
+          });
+          if (result === 'Success') {
+            var _data$response6, _data$response7;
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && [ '已加入', '已申请', 'Joined', 'Applied', 'Присоединился', 'costs' ].find(text => {
+              var _data$response5, _data$response5$Resul;
+              return (_data$response5 = data.response) === null || _data$response5 === void 0 ? void 0 : (_data$response5$Resul = _data$response5.Result) === null || _data$response5$Resul === void 0 ? void 0 : _data$response5$Resul.includes(text);
+            })) {
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response6 = data.response) === null || _data$response6 === void 0 ? void 0 : _data$response6.Result) || (data === null || data === void 0 ? void 0 : (_data$response7 = data.response) === null || _data$response7 === void 0 ? void 0 : _data$response7.Message) || (data === null || data === void 0 ? void 0 : data.statusText)}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'SteamASF.joinGroup');
+          return false;
+        }
+      }
+      async leaveGroup(groupName) {
+        try {
+          if (!this.#groupInfo) {
+            if (!await this.#getGroupId()) {
+              return false;
+            }
+          }
+          const groupId = await this.#groupInfo[groupName];
+          if (!groupId) {
+            return false;
+          }
+          const logStatus = scripts_echoLog({
+            type: 'leavingSteamGroup',
+            text: groupName
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            ...this.#asfOptions,
+            data: JSON.stringify({
+              Command: `!LEAVEGROUP ${this.#botName} ${groupId}`
+            })
+          });
+          if (result === 'Success') {
+            var _data$response9, _data$response10;
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && [ '成功', 'Success', 'Успех' ].find(text => {
+              var _data$response8, _data$response8$Resul;
+              return (_data$response8 = data.response) === null || _data$response8 === void 0 ? void 0 : (_data$response8$Resul = _data$response8.Result) === null || _data$response8$Resul === void 0 ? void 0 : _data$response8$Resul.includes(text);
+            })) {
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response9 = data.response) === null || _data$response9 === void 0 ? void 0 : _data$response9.Result) || (data === null || data === void 0 ? void 0 : (_data$response10 = data.response) === null || _data$response10 === void 0 ? void 0 : _data$response10.Message) || (data === null || data === void 0 ? void 0 : data.statusText)}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'SteamASF.leaveGroup');
+          return false;
+        }
+      }
+      async #getGroupId() {
+        try {
+          const logStatus = scripts_echoLog({
+            type: 'gettingSteamGroupId',
+            text: 'All'
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            ...this.#asfOptions,
+            data: JSON.stringify({
+              Command: `!GROUPLIST ${this.#botName}`
+            })
+          });
+          if (result === 'Success') {
+            var _data$response11, _data$response11$Resu, _data$response12, _data$response13;
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (_data$response11 = data.response) !== null && _data$response11 !== void 0 && (_data$response11$Resu = _data$response11.Result) !== null && _data$response11$Resu !== void 0 && _data$response11$Resu.includes('|')) {
+              this.#groupInfo = Object.fromEntries(data.response.Result.split('\n').map(line => {
+                const [ , name, id ] = line.trim().split('|');
+                if (name && id) {
+                  return [ name, id ];
+                }
+                return null;
+              }).filter(ele => ele));
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response12 = data.response) === null || _data$response12 === void 0 ? void 0 : _data$response12.Result) || (data === null || data === void 0 ? void 0 : (_data$response13 = data.response) === null || _data$response13 === void 0 ? void 0 : _data$response13.Message) || (data === null || data === void 0 ? void 0 : data.statusText)}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'SteamASF.getGroupID');
+          return false;
+        }
+      }
+      async addToWishlist(gameId) {
+        try {
+          const logStatus = scripts_echoLog({
+            type: 'addingToWishlist',
+            text: gameId
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            ...this.#asfOptions,
+            data: JSON.stringify({
+              Command: `!ADDWISHLIST ${this.#botName} ${gameId}`
+            })
+          });
+          if (result === 'Success') {
+            var _data$response15, _data$response16;
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && [ '成功', 'Success', 'Успех' ].find(text => {
+              var _data$response14, _data$response14$Resu;
+              return (_data$response14 = data.response) === null || _data$response14 === void 0 ? void 0 : (_data$response14$Resu = _data$response14.Result) === null || _data$response14$Resu === void 0 ? void 0 : _data$response14$Resu.includes(text);
+            })) {
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response15 = data.response) === null || _data$response15 === void 0 ? void 0 : _data$response15.Result) || (data === null || data === void 0 ? void 0 : (_data$response16 = data.response) === null || _data$response16 === void 0 ? void 0 : _data$response16.Message) || (data === null || data === void 0 ? void 0 : data.statusText)}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'SteamASF.addToWishlist');
+          return false;
+        }
+      }
+      async removeFromWishlist(gameId) {
+        try {
+          const logStatus = scripts_echoLog({
+            type: 'removingFromWishlist',
+            text: gameId
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            ...this.#asfOptions,
+            data: JSON.stringify({
+              Command: `!REMOVEWISHLIST ${this.#botName} ${gameId}`
+            })
+          });
+          if (result === 'Success') {
+            var _data$response18, _data$response19;
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && [ '成功', 'Success', 'Успех' ].find(text => {
+              var _data$response17, _data$response17$Resu;
+              return (_data$response17 = data.response) === null || _data$response17 === void 0 ? void 0 : (_data$response17$Resu = _data$response17.Result) === null || _data$response17$Resu === void 0 ? void 0 : _data$response17$Resu.includes(text);
+            })) {
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response18 = data.response) === null || _data$response18 === void 0 ? void 0 : _data$response18.Result) || (data === null || data === void 0 ? void 0 : (_data$response19 = data.response) === null || _data$response19 === void 0 ? void 0 : _data$response19.Message) || (data === null || data === void 0 ? void 0 : data.statusText)}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'SteamASF.removeFromWishlist');
+          return false;
+        }
+      }
+      async toggleFollowGame(gameId, doTask) {
+        try {
+          const logStatus = scripts_echoLog({
+            type: `${doTask ? '' : 'un'}followingGame`,
+            text: gameId
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            ...this.#asfOptions,
+            data: JSON.stringify({
+              Command: `!${doTask ? '' : 'UN'}FOLLOWGAME ${this.#botName} ${gameId}`
+            })
+          });
+          if (result === 'Success') {
+            var _data$response21, _data$response22;
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && [ '成功', 'Success', 'Успех' ].find(text => {
+              var _data$response20, _data$response20$Resu;
+              return (_data$response20 = data.response) === null || _data$response20 === void 0 ? void 0 : (_data$response20$Resu = _data$response20.Result) === null || _data$response20$Resu === void 0 ? void 0 : _data$response20$Resu.includes(text);
+            })) {
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response21 = data.response) === null || _data$response21 === void 0 ? void 0 : _data$response21.Result) || (data === null || data === void 0 ? void 0 : (_data$response22 = data.response) === null || _data$response22 === void 0 ? void 0 : _data$response22.Message) || (data === null || data === void 0 ? void 0 : data.statusText)}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'SteamASF.toggleFollowGame');
+          return false;
+        }
+      }
+      async toggleCurator(curatorId) {
+        let doTask = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+        try {
+          const logStatus = scripts_echoLog({
+            type: doTask ? 'followingCurator' : 'unfollowingCurator',
+            text: curatorId
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            ...this.#asfOptions,
+            data: JSON.stringify({
+              Command: `!${doTask ? '' : 'UN'}FOLLOWCURATOR ${this.#botName} ${curatorId}`
+            })
+          });
+          if (result === 'Success') {
+            var _data$response24, _data$response25;
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && [ '成功', 'Success', 'Успех' ].find(text => {
+              var _data$response23, _data$response23$Resu;
+              return (_data$response23 = data.response) === null || _data$response23 === void 0 ? void 0 : (_data$response23$Resu = _data$response23.Result) === null || _data$response23$Resu === void 0 ? void 0 : _data$response23$Resu.includes(text);
+            })) {
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response24 = data.response) === null || _data$response24 === void 0 ? void 0 : _data$response24.Result) || (data === null || data === void 0 ? void 0 : (_data$response25 = data.response) === null || _data$response25 === void 0 ? void 0 : _data$response25.Message) || (data === null || data === void 0 ? void 0 : data.statusText)}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.toggleCurator');
+          return false;
+        }
+      }
+      async addLicense(id) {
+        try {
+          const [ type, ids ] = id.split('-');
+          if (type === 'appid') {
+            const logStatus = scripts_echoLog({
+              type: 'addingFreeLicense',
+              text: ids
+            });
+            const {
+              result,
+              statusText,
+              status,
+              data
+            } = await tools_httpRequest({
+              ...this.#asfOptions,
+              data: JSON.stringify({
+                Command: `!addlicense ${this.#botName} app/${ids}`
+              })
+            });
+            if (result === 'Success') {
+              var _data$response27, _data$response28;
+              if ((data === null || data === void 0 ? void 0 : data.status) === 200 && [ 'AlreadyPurchased', 'OK' ].find(text => {
+                var _data$response26, _data$response26$Resu;
+                return (_data$response26 = data.response) === null || _data$response26 === void 0 ? void 0 : (_data$response26$Resu = _data$response26.Result) === null || _data$response26$Resu === void 0 ? void 0 : _data$response26$Resu.includes(text);
+              })) {
+                logStatus.success();
+                return true;
+              }
+              logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response27 = data.response) === null || _data$response27 === void 0 ? void 0 : _data$response27.Result) || (data === null || data === void 0 ? void 0 : (_data$response28 = data.response) === null || _data$response28 === void 0 ? void 0 : _data$response28.Message) || (data === null || data === void 0 ? void 0 : data.statusText)}(${data === null || data === void 0 ? void 0 : data.status})`);
+              return false;
+            }
+            logStatus.error(`${result}:${statusText}(${status})`);
+            return false;
+          } else if (type === 'subid') {
+            const idsArr = ids.split(',');
+            const logStatus = scripts_echoLog({
+              type: 'addingFreeLicenseSubid',
+              text: ids
+            });
+            const {
+              result,
+              statusText,
+              status,
+              data
+            } = await tools_httpRequest({
+              ...this.#asfOptions,
+              data: JSON.stringify({
+                Command: `!addlicense ${this.#botName} ${idsArr.map(id => `sub/${id}`).join(',')}`
+              })
+            });
+            if (result === 'Success') {
+              var _data$response29, _data$response30, _data$response31;
+              if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (_data$response29 = data.response) !== null && _data$response29 !== void 0 && _data$response29.Result) {
+                const resultLines = data.response.Result.split('\n');
+                idsArr.forEach(subid => {
+                  const targetLine = resultLines.find(text => text.includes(subid));
+                  if (targetLine && [ '成功', 'Success', 'Успех' ].find(text => targetLine.includes(text))) {
+                    scripts_echoLog({}).success(targetLine);
+                  } else {
+                    scripts_echoLog({}).error(targetLine);
+                  }
+                });
+                return true;
+              }
+              logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response30 = data.response) === null || _data$response30 === void 0 ? void 0 : _data$response30.Result) || (data === null || data === void 0 ? void 0 : (_data$response31 = data.response) === null || _data$response31 === void 0 ? void 0 : _data$response31.Message) || (data === null || data === void 0 ? void 0 : data.statusText)}(${data === null || data === void 0 ? void 0 : data.status})`);
+              return false;
+            }
+            logStatus.error(`${result}:${statusText}(${status})`);
+            return false;
+          }
+          return false;
+        } catch (error) {
+          throwError(error, 'SteamASF.addLicense');
+          return false;
+        }
+      }
+      async requestPlayTestAccess(id) {
+        try {
+          const logStatus = scripts_echoLog({
+            type: 'requestingPlayTestAccess',
+            text: id
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            ...this.#asfOptions,
+            data: JSON.stringify({
+              Command: `!REQUESTACCESS ${this.#botName} ${id}`
+            })
+          });
+          if (result === 'Success') {
+            var _data$response33, _data$response34;
+            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && [ '成功', 'Success', 'Успех' ].find(text => {
+              var _data$response32, _data$response32$Resu;
+              return (_data$response32 = data.response) === null || _data$response32 === void 0 ? void 0 : (_data$response32$Resu = _data$response32.Result) === null || _data$response32$Resu === void 0 ? void 0 : _data$response32$Resu.includes(text);
+            })) {
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response33 = data.response) === null || _data$response33 === void 0 ? void 0 : _data$response33.Result) || (data === null || data === void 0 ? void 0 : (_data$response34 = data.response) === null || _data$response34 === void 0 ? void 0 : _data$response34.Message) || (data === null || data === void 0 ? void 0 : data.statusText)}(${data === null || data === void 0 ? void 0 : data.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Steam.requestPlayTestAccess');
+          return false;
+        }
+      }
+    }
+    const social_SteamASF = SteamASF;
     class Steam extends social_Social {
-      tasks = JSON.parse(Steam_defaultTasks);
-      whiteList = {
-        ...JSON.parse(Steam_defaultTasks),
-        ...(Steam_GM_getValue = GM_getValue('whiteList')) === null || Steam_GM_getValue === void 0 ? void 0 : Steam_GM_getValue.steam
-      };
+      tasks;
+      whiteList;
       #cache = {
         ...{
           group: {},
@@ -4176,9 +4635,42 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       #communityInitialized = false;
       #area = 'CN';
       #areaStatus = 'end';
+      #ASF;
+      constructor() {
+        var _GM_getValue;
+        super();
+        const defaultTasksTemplate = {
+          groups: [],
+          officialGroups: [],
+          wishlists: [],
+          follows: [],
+          forums: [],
+          workshops: [],
+          workshopVotes: [],
+          curators: [],
+          curatorLikes: [],
+          announcements: [],
+          licenses: [],
+          playtests: []
+        };
+        this.tasks = defaultTasksTemplate;
+        this.whiteList = {
+          ...defaultTasksTemplate,
+          ...((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.steam) || {}
+        };
+      }
       async init() {
         let type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'all';
         try {
+          if (globalOptions.ASF.AsfEnabled && globalOptions.ASF.AsfIpcUrl && globalOptions.ASF.AsfIpcPassword) {
+            this.#ASF = new social_SteamASF();
+            if (await this.#ASF.init()) {
+              this.#storeInitialized = true;
+              this.#communityInitialized = true;
+              return true;
+            }
+            return false;
+          }
           if (type === 'store') {
             if (this.#storeInitialized) {
               return true;
@@ -4430,6 +4922,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               } catch (error) {
                 logStatus.error('Error: get country info filed');
                 console.error(error);
+                return {};
+              }
+              if (!cartConfig.rgUserCountryOptions) {
+                logStatus.warning('Warning: Area cannot be changed');
+                return {};
               }
               const userInfoRaw = (_data$responseText$ma6 = data.responseText.match(/data-userinfo="(.*?)"/)) === null || _data$responseText$ma6 === void 0 ? void 0 : _data$responseText$ma6[1];
               const temp1 = document.createElement('div');
@@ -4441,6 +4938,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               } catch (error) {
                 logStatus.error('Error: get country info filed');
                 console.error(error);
+                return {};
               }
               const currentArea = userInfo.country_code;
               const areas = Object.keys(cartConfig.rgUserCountryOptions).filter(area => area !== 'help');
@@ -4556,6 +5054,13 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
       async #joinGroup(groupName) {
         try {
+          if (this.#ASF) {
+            if (await this.#ASF.joinGroup(groupName)) {
+              this.tasks.groups = unique([ ...this.tasks.groups, groupName ]);
+              return true;
+            }
+            return false;
+          }
           const logStatus = scripts_echoLog({
             type: 'joiningSteamGroup',
             text: groupName
@@ -4601,6 +5106,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               id: groupName
             });
             return true;
+          }
+          if (this.#ASF) {
+            return await this.#ASF.leaveGroup(groupName);
           }
           const groupId = await this.#getGroupId(groupName);
           if (!groupId) {
@@ -4689,6 +5197,13 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
       async #joinOfficialGroup(gameId) {
         try {
+          if (this.#ASF) {
+            if (await this.#ASF.joinGroup(gameId)) {
+              this.tasks.officialGroups = unique([ ...this.tasks.officialGroups, gameId ]);
+              return true;
+            }
+            return false;
+          }
           const logStatus = scripts_echoLog({
             type: 'joiningSteamOfficialGroup',
             text: gameId
@@ -4735,6 +5250,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               id: gameId
             });
             return true;
+          }
+          if (this.#ASF) {
+            return await this.#ASF.leaveGroup(gameId);
           }
           const groupId = await this.#getOfficialGroupId(gameId);
           if (!groupId) {
@@ -4844,6 +5362,13 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       async #addToWishlist(gameId) {
         try {
           var _data$response2;
+          if (this.#ASF) {
+            if (await this.#ASF.addToWishlist(gameId)) {
+              this.tasks.wishlists = unique([ ...this.tasks.wishlists, gameId ]);
+              return true;
+            }
+            return false;
+          }
           const logStatus = scripts_echoLog({
             type: 'addingToWishlist',
             text: gameId
@@ -4919,6 +5444,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             });
             return true;
           }
+          if (this.#ASF) {
+            return await this.#ASF.removeFromWishlist(gameId);
+          }
           const logStatus = scripts_echoLog({
             type: 'removingFromWishlist',
             text: gameId
@@ -4987,6 +5515,15 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               id: gameId
             });
             return true;
+          }
+          if (this.#ASF) {
+            if (await this.#ASF.toggleFollowGame(gameId, doTask)) {
+              if (doTask) {
+                this.tasks.follows = unique([ ...this.tasks.follows, gameId ]);
+              }
+              return true;
+            }
+            return false;
           }
           const logStatus = scripts_echoLog({
             type: `${doTask ? '' : 'un'}followingGame`,
@@ -5306,6 +5843,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             });
             return true;
           }
+          if (this.#ASF) {
+            return await this.#ASF.toggleCurator(curatorId, doTask);
+          }
           const logStatus = scripts_echoLog({
             type: doTask ? 'followingCurator' : 'unfollowingCurator',
             text: curatorId
@@ -5594,6 +6134,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
       async #addLicense(id) {
         try {
+          if (this.#ASF) {
+            return await this.#ASF.addLicense(id);
+          }
           const [ type, ids ] = id.split('-');
           if (type === 'appid') {
             const subid = await this.#appid2subid(ids);
@@ -5718,6 +6261,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
       async #requestPlayTestAccess(id) {
         try {
+          if (this.#ASF) {
+            return await this.#ASF.requestPlayTestAccess(id);
+          }
           const logStatus = scripts_echoLog({
             type: 'requestingPlayTestAccess',
             text: id
@@ -6246,7 +6792,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     }
     const website_Website = Website;
-    const FreeAnyWhere_defaultTasksTemplate = {
+    const defaultTasksTemplate = {
       steam: {
         groupLinks: [],
         wishlistLinks: [],
@@ -6257,12 +6803,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         nameLinks: []
       }
     };
-    const FreeAnyWhere_defaultTasks = JSON.stringify(FreeAnyWhere_defaultTasksTemplate);
+    const defaultTasks = JSON.stringify(defaultTasksTemplate);
     class FreeAnyWhere extends website_Website {
       name = 'FreeAnyWhere';
       tasks = [];
-      socialTasks = JSON.parse(FreeAnyWhere_defaultTasks);
-      undoneTasks = JSON.parse(FreeAnyWhere_defaultTasks);
+      socialTasks = JSON.parse(defaultTasks);
+      undoneTasks = JSON.parse(defaultTasks);
       buttons = [ 'doTask', 'undoTask', 'verifyTask', 'getKey' ];
       static test() {
         return window.location.host === 'freeanywhere.net';
@@ -6311,7 +6857,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           });
           if (action === 'undo') {
             var _GM_getValue;
-            this.socialTasks = ((_GM_getValue = GM_getValue(`fawTasks-${this.giveawayId}`)) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.tasks) || JSON.parse(FreeAnyWhere_defaultTasks);
+            this.socialTasks = ((_GM_getValue = GM_getValue(`fawTasks-${this.giveawayId}`)) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.tasks) || JSON.parse(defaultTasks);
           }
           const {
             result,
@@ -8994,7 +9540,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 continue;
               }
               this.undoneTasks.extra.gleam.push(gleamLink);
-            } else if (socialIcon.hasClass('fa-question') || socialIcon.hasClass('fa-reddit') || socialIcon.hasClass('fa-instagram') || socialIcon.hasClass('fa-facebook-f') || socialIcon.hasClass('fa-telegram-plane') || socialIcon.hasClass('fa-envelope') || socialIcon.hasClass('fa-gift') || socialIcon.hasClass('fa-shield') && taskText.includes('one of our giveaways') || socialIcon.hasClass('fa-shield') && taskText.includes('Check out')) {} else {
+            } else if (socialIcon.hasClass('fa-question') || socialIcon.hasClass('fa-reddit') || socialIcon.hasClass('fa-instagram') || socialIcon.hasClass('fa-facebook-f') || socialIcon.hasClass('fa-telegram-plane') || socialIcon.hasClass('fa-telegram') || socialIcon.hasClass('fa-vk') || socialIcon.hasClass('fa-envelope') || socialIcon.hasClass('fa-gift') || socialIcon.hasClass('fa-square-up-right') || socialIcon.hasClass('fa-shield') && taskText.includes('one of our giveaways') || socialIcon.hasClass('fa-shield') && taskText.includes('Check out')) {} else {
               scripts_echoLog({}).warning(`${i18n('unKnownTaskType')}: ${taskText}`);
             }
           }
@@ -9035,14 +9581,18 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             text: `${i18n('verifyingTask')}...`
           });
           const tasks = $('.entry-content .entry-method');
+          unsafeWindow._OxA = '_OxA';
           for (const task of tasks) {
+            var _unsafeWindow$$hookTi, _unsafeWindow$$hookTi2;
             const $task = $(task);
             if ($task.find('i.fa-question').length === 0) {
               continue;
             }
             const taskInfo = $task.find('.user-links');
             taskInfo[0].click();
-            await delay(500);
+            (_unsafeWindow$$hookTi = unsafeWindow.$hookTimer) === null || _unsafeWindow$$hookTi === void 0 ? void 0 : _unsafeWindow$$hookTi.setSpeed(1e3);
+            await delay(3e3);
+            (_unsafeWindow$$hookTi2 = unsafeWindow.$hookTimer) === null || _unsafeWindow$$hookTi2 === void 0 ? void 0 : _unsafeWindow$$hookTi2.setSpeed(1);
             await this.#checkSync();
             const continueBtn = $task.find('.expandable').find('span:contains(Continue),button:contains(Continue)');
             for (const button of continueBtn) {

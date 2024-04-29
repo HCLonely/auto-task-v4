@@ -175,6 +175,9 @@ const data = {
   errorRemoteDataFormat: 'Remote data has wrong format',
   updateHistory: '<a class="high-light" href="https://auto-task-doc.js.org/logs/" target="_blank">Click here</a>' +
     ' to view the historical update record.',
+  AsfEnabled: 'Use ASF to do Steam related tasks (requires <a href="https://github.com/chr233/ASFEnhance" target="_blank">ASFEnhance</a> plugin)',
+  AsfIpcUrl: 'ASF IPC URL',
+  AsfIpcPassword: 'ASF IPC Password',
 
   // Steam
   groups: 'Group',
@@ -227,6 +230,9 @@ const data = {
   requestingPlayTestAccess: 'Requesting play test access',
   tryChangeAreaNotice: 'This function cannot detect whether the game is limited, so it will try to change the area before entering the library' +
     '. Failure to change the area will not affect the subsequent storage.',
+
+  // Steam ASF
+  initingASF: 'Initing ASF...',
 
   // Discord
   servers: 'Server',

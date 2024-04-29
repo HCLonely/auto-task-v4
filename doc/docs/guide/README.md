@@ -25,6 +25,7 @@ lang: zh-CN
 9. 关于Gleam.io网站的支持性：仅支持`?`任务，不支持`+数字`任务：
   ![支持](/gleam-zh.png)
   ![不支持](/not-gleam-zh.png)
+10. Gleam.io网站支持调用[TimerHooker](https://timer.palerock.cn/)脚本快速验证任务。
 
 ## 使用
 

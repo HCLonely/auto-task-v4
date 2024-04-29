@@ -32,6 +32,7 @@ The content of this page is translated through Google translation. If the descri
 9. About the support of gleam.io website: only support '?' tasks, '+number' tasks are not supported:
   ![support](/gleam-en.png)
   ![not-support](/not-gleam-en.png)
+10. The Gleam.io website supports calling [TimerHooker](https://timer.palerock.cn/) script to quickly verify tasks.
 
 ## Usage
 

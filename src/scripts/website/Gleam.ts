@@ -236,8 +236,11 @@ class Gleam extends Website {
           socialIcon.hasClass('fa-instagram') ||
           socialIcon.hasClass('fa-facebook-f') ||
           socialIcon.hasClass('fa-telegram-plane') ||
+          socialIcon.hasClass('fa-telegram') ||
+          socialIcon.hasClass('fa-vk') ||
           socialIcon.hasClass('fa-envelope') ||
           socialIcon.hasClass('fa-gift') ||
+          socialIcon.hasClass('fa-square-up-right') ||
           (socialIcon.hasClass('fa-shield') && taskText.includes('one of our giveaways')) ||
           (socialIcon.hasClass('fa-shield') && taskText.includes('Check out'))
         ) {
@@ -277,6 +280,8 @@ class Gleam extends Website {
       echoLog({ text: `${__('verifyingTask')}...` });
 
       const tasks = $('.entry-content .entry-method');
+      // eslint-disable-next-line no-underscore-dangle
+      unsafeWindow._OxA = '_OxA';
       for (const task of tasks) {
         const $task = $(task);
 
@@ -285,7 +290,9 @@ class Gleam extends Website {
 
         const taskInfo = $task.find('.user-links');
         taskInfo[0].click();
-        await delay(500);
+        unsafeWindow.$hookTimer?.setSpeed(1000);
+        await delay(3000);
+        unsafeWindow.$hookTimer?.setSpeed(1);
         await this.#checkSync();
         const continueBtn = $task.find('.expandable').find('span:contains(Continue),button:contains(Continue)');
         for (const button of continueBtn) {

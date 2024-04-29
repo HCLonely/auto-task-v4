@@ -15,14 +15,20 @@ import __ from '../tools/i18n';
 import { unique, delay } from '../tools/tools';
 import { globalOptions } from '../globalOptions';
 
-const defaultTasksTemplate: redditTasks = { reddits: [] };
-const defaultTasks = JSON.stringify(defaultTasksTemplate);
 class Reddit extends Social {
-  tasks: redditTasks = JSON.parse(defaultTasks);
-  whiteList: redditTasks = { ...JSON.parse(defaultTasks), ...GM_getValue<whiteList>('whiteList')?.reddit };
+  tasks: redditTasks;
+  whiteList: redditTasks;
   #auth!: auth;
   #initialized = false;
 
+  constructor() {
+    super();
+    const defaultTasksTemplate: redditTasks = {
+      reddits: []
+    };
+    this.tasks = defaultTasksTemplate;
+    this.whiteList = { ...defaultTasksTemplate, ...(GM_getValue<whiteList>('whiteList')?.reddit || {}) };
+  }
   async init(): Promise<boolean> {
     /**
      * @description: 验证及获取Auth

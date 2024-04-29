@@ -15,16 +15,22 @@ import { unique, delay } from '../tools/tools';
 import __ from '../tools/i18n';
 import { globalOptions } from '../globalOptions';
 
-const defaultTasksTemplate: twitterTasks = { users: [], retweets: [], likes: [] };
-const defaultTasks = JSON.stringify(defaultTasksTemplate);
 class Twitter extends Social {
-  tasks: twitterTasks = JSON.parse(defaultTasks);
-  whiteList: twitterTasks = { ...JSON.parse(defaultTasks), ...GM_getValue<whiteList>('whiteList')?.twitter };
+  tasks: twitterTasks;
+  whiteList: twitterTasks;
   #verifyId = globalOptions.other.twitterVerifyId;
   #auth: auth = GM_getValue<auth>('twitterAuth') || {};
   #cache: cache = GM_getValue<cache>('twitterCache') || {};
   #initialized = false;
 
+  constructor() {
+    super();
+    const defaultTasksTemplate: twitterTasks = {
+      users: [], retweets: [], likes: []
+    };
+    this.tasks = defaultTasksTemplate;
+    this.whiteList = { ...defaultTasksTemplate, ...(GM_getValue<whiteList>('whiteList')?.twitter || {}) };
+  }
   async init(): Promise<boolean> {
     /**
      * @description: 验证及获取Auth

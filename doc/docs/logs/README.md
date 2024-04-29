@@ -3,6 +3,14 @@ title: 更新日志
 lang: zh-CN
 ---
 
+## V4.3
+
+### V4.3.0
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.3.0)
+
+- 新增:Steam任务ASF(ASFEnhance)支持
+
 ## V4.2
 
 ### V4.2.36

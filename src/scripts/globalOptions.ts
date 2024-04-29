@@ -88,6 +88,12 @@ const defaultGlobalOptions: globalOptions = {
       curators: true
     }
   },
+  ASF: {
+    AsfEnabled: false,
+    AsfIpcUrl: '',
+    AsfIpcPassword: '',
+    AsfBotname: 'asf'
+  },
   position: {
     buttonSideX: 'right',
     buttonSideY: 'top',
@@ -177,7 +183,7 @@ const changeGlobalOptions = (showType: 'page' | 'swal') => {
       <table class="auto-task-table"><thead><tr><td>${__('type')}</td><td>${__('option')}</td><td>${__('value')}</td></tr></thead><tbody>`;
     for (const [type, data1] of Object.entries(globalOptions)) {
       for (const [option, data2] of Object.entries(data1)) {
-        if (['other', 'position', 'hotKey'].includes(type)) {
+        if (['other', 'position', 'hotKey', 'ASF'].includes(type)) {
           if (typeof data2 === 'boolean') {
             globalOptionsForm +=
             `<tr style="background-color: ${stringToColour(type)}44">${

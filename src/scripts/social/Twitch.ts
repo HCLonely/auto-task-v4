@@ -15,16 +15,22 @@ import { unique, delay } from '../tools/tools';
 import __ from '../tools/i18n';
 import { globalOptions } from '../globalOptions';
 
-const defaultTasksTemplate: twitchTasks = { channels: [] };
-const defaultTasks = JSON.stringify(defaultTasksTemplate);
 class Twitch extends Social {
-  tasks: twitchTasks = JSON.parse(defaultTasks);
-  whiteList: twitchTasks = { ...JSON.parse(defaultTasks), ...GM_getValue<whiteList>('whiteList')?.twitch };
+  tasks: twitchTasks;
+  whiteList: twitchTasks;
   #auth: auth = GM_getValue<auth>('twitchAuth') || {};
   #cache: cache = GM_getValue<cache>('twitchCache') || {};
   #initialized = false;
   #integrityToken!: string;
 
+  constructor() {
+    super();
+    const defaultTasksTemplate: twitchTasks = {
+      channels: []
+    };
+    this.tasks = defaultTasksTemplate;
+    this.whiteList = { ...defaultTasksTemplate, ...(GM_getValue<whiteList>('whiteList')?.twitch || {}) };
+  }
   async init(): Promise<boolean> {
     /**
      * @description: 验证及获取Auth

@@ -18,9 +18,6 @@ import __ from '../tools/i18n';
 import { unique, delay } from '../tools/tools';
 import { globalOptions } from '../globalOptions';
 
-const defaultTasksTemplate: youtubeTasks = { channels: [], likes: [] };
-const defaultTasks = JSON.stringify(defaultTasksTemplate);
-
 const getInfo = async function (link: string, type: string): Promise <youtubeInfo> {
   /**
    * @internal
@@ -87,12 +84,20 @@ const getInfo = async function (link: string, type: string): Promise <youtubeInf
 };
 
 class Youtube extends Social {
-  tasks: youtubeTasks = JSON.parse(defaultTasks);
-  whiteList: youtubeTasks = { ...JSON.parse(defaultTasks), ...GM_getValue<whiteList>('whiteList')?.youtube };
+  tasks: youtubeTasks;
+  whiteList: youtubeTasks;
   #auth: auth = GM_getValue<auth>('youtubeAuth') || {};
   #initialized = false;
   #verifyChannel = `https://www.youtube.com/channel/${globalOptions.other.youtubeVerifyChannel}`;
 
+  constructor() {
+    super();
+    const defaultTasksTemplate: youtubeTasks = {
+      channels: [], likes: []
+    };
+    this.tasks = defaultTasksTemplate;
+    this.whiteList = { ...defaultTasksTemplate, ...(GM_getValue<whiteList>('whiteList')?.youtube || {}) };
+  }
   async init(): Promise<boolean> {
     /**
      * @description: 验证及获取Auth
