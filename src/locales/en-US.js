@@ -317,6 +317,7 @@ const data = {
   gettingGleamLink: 'Getting Gleam task link...',
   gleamTaskNotice: 'If this page has not been closed for a long time, please close it yourself after completing any task!',
   verifiedGleamTasks: 'Attempted to verify all tasks. If the verification fails, please try to verify manually or complete it!',
+  campaign: 'ReCAPTCHA detected, please complete it and re-verify the tasks!',
 
   // GiveawaySu
   gsNotice: 'In order to avoid getting the "0000-0000-0000" key, the "Grab Key" button has been hidden,' +

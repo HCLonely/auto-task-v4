@@ -283,6 +283,10 @@ class Gleam extends Website {
       // eslint-disable-next-line no-underscore-dangle
       unsafeWindow._OxA = '_OxA';
       for (const task of tasks) {
+        if ($('[campaign-key="campaign.key"]').length > 0) { // 检测人机验证
+          return echoLog({ text: __('campaign') });;
+        }
+
         const $task = $(task);
 
         // 任务完成则跳过

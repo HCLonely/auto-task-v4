@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.3.0
+// @version            4.3.1
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -118,7 +118,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
 
 (function() {
   var __webpack_modules__ = {
-    126: function(__unused_webpack_module, exports) {
+    108: function(__unused_webpack_module, exports) {
       !function(e, n) {
         true ? n(exports) : 0;
       }(this, function(e) {
@@ -423,22 +423,22 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         });
       });
     },
-    501: function(module, __webpack_exports__, __webpack_require__) {
+    221: function(module, __webpack_exports__, __webpack_require__) {
       'use strict';
       __webpack_require__.d(__webpack_exports__, {
         Z: function() {
           return __WEBPACK_DEFAULT_EXPORT__;
         }
       });
-      var _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(220);
-      var _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-      var _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(400);
-      var _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(_node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-      var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(_node_modules_pnpm_registry_npmmirror_com_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default());
-      ___CSS_LOADER_EXPORT___.push([ module.id, '.colorful-button,#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn,body.auto-task-options .auto-task-form table button{position:relative;padding:5px 10px;text-align:center;color:#fff;text-decoration:none;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:30px;background-size:400%;text-transform:capitalize}.colorful-button:hover,#auto-task-buttons a.auto-task-website-btn:hover,.show-button-div a.auto-task-website-btn:hover,body.auto-task-options .auto-task-form table button:hover{animation:animate 8s linear infinite;cursor:pointer}.colorful-button:hover::before,#auto-task-buttons a.auto-task-website-btn:hover::before,.show-button-div a.auto-task-website-btn:hover::before,body.auto-task-options .auto-task-form table button:hover::before{filter:blur(10px);opacity:1}.colorful-button::before,#auto-task-buttons a.auto-task-website-btn::before,.show-button-div a.auto-task-website-btn::before,body.auto-task-options .auto-task-form table button::before{content:"";position:absolute;top:-5px;left:-5px;right:-5px;bottom:-5px;z-index:-1;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:40px;background-size:400%;opacity:-1;transition:.5s}@keyframes animate{0%{background-position:0%}100%{background-position:100%}}#auto-task-info{position:fixed;bottom:10px;right:10px;width:60%;max-width:500px;max-height:60%;overflow-y:auto;color:#000;background-color:#fff;padding-left:5px;z-index:999999999 !important;border:solid 2px #add8e6;border-radius:10px}#auto-task-info li{text-align:left}#auto-task-info li a.high-light{color:#00aeff;font-weight:bold}#auto-task-info .success{color:green}#auto-task-info .error{color:red}#auto-task-info .warning{color:blue}#auto-task-info .info{color:#ff0}#auto-task-info .update-text{color:green;border:solid 2px #8dcb69;margin:5px 10px 5px 20px;border-radius:10px;padding:5px 20px}.auto-task-keylol{display:inline-block;text-transform:capitalize;margin-left:10px;text-decoration:none !important;border:solid 1px;border-radius:5px;padding:0 2px}.auto-task-keylol[selected=selected]{background-color:blue !important;color:#fff !important}.auto-task-form table{font-family:verdana,arial,sans-serif;font-size:11px;color:#333;border-width:1px;border-color:#999;border-collapse:collapse;width:100%}.auto-task-form table thead td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;font-weight:bold;background-color:#fff}.auto-task-form table tbody tr{background-color:#d4e3e5}.auto-task-form table tbody tr:hover{background-color:#ff6 !important}.auto-task-form table tbody tr th{background-color:#c3dde0;border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;text-transform:capitalize}.auto-task-form table tbody tr td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}.swal2-modal{width:70% !important;max-width:1000px !important}body.auto-task-options{padding-top:10px;text-align:center}body.auto-task-options .auto-task-form{width:80%;max-width:1000px;margin:0 auto;padding-bottom:20px}body.auto-task-options .auto-task-form table input.editOption{width:80%}body.auto-task-options .auto-task-form table #getTwitterUserId,body.auto-task-options .auto-task-form table #getYoutubeChannelId{margin-top:5px}body.auto-task-options .auto-task-form table button{z-index:1}body.auto-task-options .auto-task-form table input[type=text]{outline-style:none;border:1px solid #ccc;border-radius:3px;padding:5px 10px;font-size:14px}body.auto-task-options .auto-task-form table input[type=text]:focus{border-color:#66afe9;outline:0;box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)}body.auto-task-options .auto-task-form table label{position:relative;width:160px;height:80px;cursor:pointer;transform:scale(0.25);margin:-25% 0;top:-30px;display:inline-block}body.auto-task-options .auto-task-form table label input{position:relative;z-index:1;-webkit-appearance:none;appearance:none}body.auto-task-options .auto-task-form table label input:checked~span{background:#05be05;box-shadow:0 15px 25px #05be0566}body.auto-task-options .auto-task-form table label input:checked~span i{left:84px}body.auto-task-options .auto-task-form table label input:checked~span i::before{background:#05be05;box-shadow:35px 0 0 #05be05}body.auto-task-options .auto-task-form table label input:checked~span i::after{bottom:12px;height:15px;border-bottom-left-radius:15px;border-bottom-right-radius:15px;background:#05be05}body.auto-task-options .auto-task-form table label span{position:absolute;top:0;left:0;width:100%;height:100%;background:#fe0000;border-radius:80px;transition:.5s;box-shadow:0 15px 25px #fe000066}body.auto-task-options .auto-task-form table label span i{position:absolute;top:4px;left:4px;width:72px;height:72px;background:#fff;border-radius:50%}body.auto-task-options .auto-task-form table label span i::before{content:"";position:absolute;top:22px;left:12px;width:12px;height:12px;border-radius:50%;background:#fe0000;box-shadow:35px 0 0 #fe0000;transition:.5s}body.auto-task-options .auto-task-form table label span i::after{content:"";position:absolute;bottom:15px;left:calc(50% - 15px);width:30px;height:6px;border-radius:6px;background:#fe0000;transition:.5s}body.auto-task-history{font-size:15px;font-weight:400;line-height:1.5}body.auto-task-history .container a{color:#007bff;text-decoration:none;background-color:transparent}body.auto-task-history .container .card{width:80%;max-width:800px;border-radius:10px;background:#7676761a;border-top:1px solid #ffffff80;-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 15px 25px #0000001a;margin:20px auto;position:relative;display:flex;flex-direction:column;word-wrap:break-word;-webkit-background-clip:border-box;background-clip:border-box;border:1px solid rgba(0,0,0,.125);border-radius:.25rem}body.auto-task-history .container .card .title{text-align:center;font-size:30px;font-weight:bold;margin:5px 0}body.auto-task-history .container .card .title a:hover{text-decoration:none;background:#93e1ff;border-radius:10px;padding:3px}body.auto-task-history .container .card ul{margin-bottom:25px}body.auto-task-history .container .card ul li{margin-bottom:5px;line-height:20px}body.auto-task-history .container .card ul a:hover{text-decoration:underline}body.auto-task-history .container .card .delete-task{right:10px;width:38px;height:35px;position:absolute;font-size:24px;cursor:pointer;border-radius:10px}body.auto-task-history .container .card .delete-task:hover{background:#fff}body.auto-task-history .container .card .time{right:5px;position:absolute;bottom:0;color:#e83e8c;font-family:\'SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace\';font-size:15px}#auto-task-buttons,.show-button-div{position:fixed;top:30px;right:15px;width:170px;z-index:999999999 !important;transform:scale(0.9)}#auto-task-buttons p,.show-button-div p{line-height:30px;height:40px;text-align:center;margin:5px !important}#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn{width:150px;height:40px;line-height:30px;font-size:20px}.show-button-div{width:20px}.auto-task-capitalize{text-transform:capitalize !important}.swal2-file:focus,.swal2-input:focus,.swal2-textarea:focus{box-shadow:inset 0px 0px 4px 1px rgba(100,150,200,.5) !important}.swal2-checkbox-custom{align-items:center;justify-content:center;background:#fff;color:inherit;margin:1em auto}.swal2-checkbox-custom input{flex-shrink:0;margin:0 .4em}.giveaway-actions #getKey{display:none !important}.auto-task-giveaway-status{color:#fff;border-radius:10px;padding:0 5px;margin-left:5px}.auto-task-giveaway-status.active{background-color:#5cb85c}.auto-task-giveaway-status.not-active{background-color:#d9534f}', '' ]);
+      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(398);
+      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(_node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+      var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(_node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default());
+      ___CSS_LOADER_EXPORT___.push([ module.id, '.colorful-button,#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn,body.auto-task-options .auto-task-form table button{position:relative;padding:5px 10px;text-align:center;color:#fff;text-decoration:none;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:30px;background-size:400%;text-transform:capitalize}.colorful-button:hover,#auto-task-buttons a.auto-task-website-btn:hover,.show-button-div a.auto-task-website-btn:hover,body.auto-task-options .auto-task-form table button:hover{animation:animate 8s linear infinite;cursor:pointer}.colorful-button:hover::before,#auto-task-buttons a.auto-task-website-btn:hover::before,.show-button-div a.auto-task-website-btn:hover::before,body.auto-task-options .auto-task-form table button:hover::before{filter:blur(10px);opacity:1}.colorful-button::before,#auto-task-buttons a.auto-task-website-btn::before,.show-button-div a.auto-task-website-btn::before,body.auto-task-options .auto-task-form table button::before{content:"";position:absolute;top:-5px;left:-5px;right:-5px;bottom:-5px;z-index:-1;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:40px;background-size:400%;opacity:-1;transition:.5s}@keyframes animate{0%{background-position:0%}100%{background-position:100%}}#auto-task-info{position:fixed;bottom:10px;right:10px;width:60%;max-width:500px;max-height:60%;overflow-y:auto;color:#000;background-color:#fff;padding-left:5px;z-index:999999999 !important;border:solid 2px #add8e6;border-radius:10px}#auto-task-info li{text-align:left}#auto-task-info li a.high-light{color:#00aeff;font-weight:bold}#auto-task-info .success{color:green}#auto-task-info .error{color:red}#auto-task-info .warning{color:blue}#auto-task-info .info{color:#ff0}#auto-task-info .update-text{color:green;border:solid 2px #8dcb69;margin:5px 10px 5px 20px;border-radius:10px;padding:5px 20px}.auto-task-keylol{display:inline-block;text-transform:capitalize;margin-left:10px;text-decoration:none !important;border:solid 1px;border-radius:5px;padding:0 2px}.auto-task-keylol[selected=selected]{background-color:blue !important;color:#fff !important}.auto-task-form table{font-family:verdana,arial,sans-serif;font-size:11px;color:#333;border-width:1px;border-color:#999;border-collapse:collapse;width:100%}.auto-task-form table thead td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;font-weight:bold;background-color:#fff}.auto-task-form table tbody tr{background-color:#d4e3e5}.auto-task-form table tbody tr:hover{background-color:#ff6 !important}.auto-task-form table tbody tr th{background-color:#c3dde0;border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;text-transform:capitalize}.auto-task-form table tbody tr td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}.swal2-modal{width:70% !important;max-width:1000px !important}body.auto-task-options{padding-top:10px;text-align:center}body.auto-task-options .auto-task-form{width:80%;max-width:1000px;margin:0 auto;padding-bottom:20px}body.auto-task-options .auto-task-form table input.editOption{width:80%}body.auto-task-options .auto-task-form table #getTwitterUserId,body.auto-task-options .auto-task-form table #getYoutubeChannelId{margin-top:5px}body.auto-task-options .auto-task-form table button{z-index:1}body.auto-task-options .auto-task-form table input[type=text]{outline-style:none;border:1px solid #ccc;border-radius:3px;padding:5px 10px;font-size:14px}body.auto-task-options .auto-task-form table input[type=text]:focus{border-color:#66afe9;outline:0;box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)}body.auto-task-options .auto-task-form table label{position:relative;width:160px;height:80px;cursor:pointer;transform:scale(0.25);margin:-25% 0;top:-30px;display:inline-block}body.auto-task-options .auto-task-form table label input{position:relative;z-index:1;appearance:none}body.auto-task-options .auto-task-form table label input:checked~span{background:#05be05;box-shadow:0 15px 25px #05be0566}body.auto-task-options .auto-task-form table label input:checked~span i{left:84px}body.auto-task-options .auto-task-form table label input:checked~span i::before{background:#05be05;box-shadow:35px 0 0 #05be05}body.auto-task-options .auto-task-form table label input:checked~span i::after{bottom:12px;height:15px;border-bottom-left-radius:15px;border-bottom-right-radius:15px;background:#05be05}body.auto-task-options .auto-task-form table label span{position:absolute;top:0;left:0;width:100%;height:100%;background:#fe0000;border-radius:80px;transition:.5s;box-shadow:0 15px 25px #fe000066}body.auto-task-options .auto-task-form table label span i{position:absolute;top:4px;left:4px;width:72px;height:72px;background:#fff;border-radius:50%}body.auto-task-options .auto-task-form table label span i::before{content:"";position:absolute;top:22px;left:12px;width:12px;height:12px;border-radius:50%;background:#fe0000;box-shadow:35px 0 0 #fe0000;transition:.5s}body.auto-task-options .auto-task-form table label span i::after{content:"";position:absolute;bottom:15px;left:calc(50% - 15px);width:30px;height:6px;border-radius:6px;background:#fe0000;transition:.5s}body.auto-task-history{font-size:15px;font-weight:400;line-height:1.5}body.auto-task-history .container a{color:#007bff;text-decoration:none;background-color:transparent}body.auto-task-history .container .card{width:80%;max-width:800px;border-radius:10px;background:#7676761a;border-top:1px solid #ffffff80;-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 15px 25px #0000001a;margin:20px auto;position:relative;display:flex;flex-direction:column;word-wrap:break-word;-webkit-background-clip:border-box;background-clip:border-box;border:1px solid rgba(0,0,0,.125);border-radius:.25rem}body.auto-task-history .container .card .title{text-align:center;font-size:30px;font-weight:bold;margin:5px 0}body.auto-task-history .container .card .title a:hover{text-decoration:none;background:#93e1ff;border-radius:10px;padding:3px}body.auto-task-history .container .card ul{margin-bottom:25px}body.auto-task-history .container .card ul li{margin-bottom:5px;line-height:20px}body.auto-task-history .container .card ul a:hover{text-decoration:underline}body.auto-task-history .container .card .delete-task{right:10px;width:38px;height:35px;position:absolute;font-size:24px;cursor:pointer;border-radius:10px}body.auto-task-history .container .card .delete-task:hover{background:#fff}body.auto-task-history .container .card .time{right:5px;position:absolute;bottom:0;color:#e83e8c;font-family:\'SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace\';font-size:15px}#auto-task-buttons,.show-button-div{position:fixed;top:30px;right:15px;width:170px;z-index:999999999 !important;transform:scale(0.9)}#auto-task-buttons p,.show-button-div p{line-height:30px;height:40px;text-align:center;margin:5px !important}#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn{width:150px;height:40px;line-height:30px;font-size:20px}.show-button-div{width:20px}.auto-task-capitalize{text-transform:capitalize !important}.swal2-file:focus,.swal2-input:focus,.swal2-textarea:focus{box-shadow:inset 0px 0px 4px 1px rgba(100,150,200,.5) !important}.swal2-checkbox-custom{align-items:center;justify-content:center;background:#fff;color:inherit;margin:1em auto}.swal2-checkbox-custom input{flex-shrink:0;margin:0 .4em}.giveaway-actions #getKey{display:none !important}.auto-task-giveaway-status{color:#fff;border-radius:10px;padding:0 5px;margin-left:5px}.auto-task-giveaway-status.active{background-color:#5cb85c}.auto-task-giveaway-status.not-active{background-color:#d9534f}', '' ]);
       const __WEBPACK_DEFAULT_EXPORT__ = ___CSS_LOADER_EXPORT___.toString();
     },
-    400: function(module) {
+    1: function(module) {
       'use strict';
       module.exports = function(cssWithMappingToString) {
         var list = [];
@@ -516,7 +516,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         return list;
       };
     },
-    220: function(module) {
+    398: function(module) {
       'use strict';
       module.exports = function(i) {
         return i[1];
@@ -572,10 +572,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
     const external_Swal_namespaceObject = Swal;
     var external_Swal_default = __webpack_require__.n(external_Swal_namespaceObject);
     const external_Cookies_namespaceObject = Cookies;
-    var auto_task = __webpack_require__(501);
-    var javascript_utils_umd_min = __webpack_require__(126);
-    const httpRequest = async function(options) {
-      let times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    var auto_task = __webpack_require__(221);
+    var javascript_utils_umd_min = __webpack_require__(108);
+    const httpRequest = async (options, times = 0) => {
       if (window.TRACE) {
         console.trace('%cAuto-Task[Debug]:', 'color:blue');
       }
@@ -651,13 +650,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     };
     const tools_httpRequest = httpRequest;
-    const echoLog = _ref => {
-      let {
-        type,
-        text,
-        html,
-        id
-      } = _ref;
+    const echoLog = ({
+      type,
+      text,
+      html,
+      id
+    }) => {
       const emptyStatus = {
         success: () => emptyStatus,
         error: () => emptyStatus,
@@ -666,7 +664,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         view: () => emptyStatus
       };
       try {
-        var _ele$;
         let ele;
         if (type) {
           switch (type) {
@@ -691,7 +688,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
            case 'followingCurator':
            case 'unfollowingCurator':
            case 'gettingCuratorId':
-            ele = $(`<li>${i18n(type)}[<a href="https://store.steampowered.com/${text !== null && text !== void 0 && text.includes('/') ? text : `curator/${text}`}" target="_blank">${text}</a>]...<font></font></li>`);
+            ele = $(`<li>${i18n(type)}[<a href="https://store.steampowered.com/${text?.includes('/') ? text : `curator/${text}`}" target="_blank">${text}</a>]...<font></font></li>`);
             break;
 
            case 'addingToWishlist':
@@ -765,8 +762,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
 
            case 'followingRedditUser':
            case 'unfollowingRedditUser':
-            ele = $(`<li>${i18n(type)}[<a href="https://www.reddit.com/user/${text === null || text === void 0 ? void 0 : text.replace('u_', '')}" target="_blank">
-      ${text === null || text === void 0 ? void 0 : text.replace('u_', '')}</a>]...<font></font></li>`);
+            ele = $(`<li>${i18n(type)}[<a href="https://www.reddit.com/user/${text?.replace('u_', '')}" target="_blank">
+      ${text?.replace('u_', '')}</a>]...<font></font></li>`);
             break;
 
            case 'followingYtbChannel':
@@ -823,45 +820,32 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         }
         ele.addClass('card-text');
         $('#auto-task-info').append(ele);
-        (_ele$ = ele[0]) === null || _ele$ === void 0 ? void 0 : _ele$.scrollIntoView();
+        ele[0]?.scrollIntoView();
         const font = ele.find('font');
         const status = {
           font: font,
-          success() {
-            var _this$font, _this$font2, _this$font3;
-            let text = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'Success';
-            let html = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-            (_this$font = this.font) === null || _this$font === void 0 ? void 0 : _this$font.attr('class', '').addClass('success');
-            html ? (_this$font2 = this.font) === null || _this$font2 === void 0 ? void 0 : _this$font2.html(text) : (_this$font3 = this.font) === null || _this$font3 === void 0 ? void 0 : _this$font3.text(text);
+          success(text = 'Success', html = false) {
+            this.font?.attr('class', '').addClass('success');
+            html ? this.font?.html(text) : this.font?.text(text);
             return this;
           },
-          error() {
-            var _this$font4, _this$font5, _this$font6;
-            let text = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'Error';
-            let html = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-            (_this$font4 = this.font) === null || _this$font4 === void 0 ? void 0 : _this$font4.attr('class', '').addClass('error');
-            html ? (_this$font5 = this.font) === null || _this$font5 === void 0 ? void 0 : _this$font5.html(text) : (_this$font6 = this.font) === null || _this$font6 === void 0 ? void 0 : _this$font6.text(text);
+          error(text = 'Error', html = false) {
+            this.font?.attr('class', '').addClass('error');
+            html ? this.font?.html(text) : this.font?.text(text);
             return this;
           },
-          warning() {
-            var _this$font7, _this$font8, _this$font9;
-            let text = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'Warning';
-            let html = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-            (_this$font7 = this.font) === null || _this$font7 === void 0 ? void 0 : _this$font7.attr('class', '').addClass('warning');
-            html ? (_this$font8 = this.font) === null || _this$font8 === void 0 ? void 0 : _this$font8.html(text) : (_this$font9 = this.font) === null || _this$font9 === void 0 ? void 0 : _this$font9.text(text);
+          warning(text = 'Warning', html = false) {
+            this.font?.attr('class', '').addClass('warning');
+            html ? this.font?.html(text) : this.font?.text(text);
             return this;
           },
-          info() {
-            var _this$font10, _this$font11, _this$font12;
-            let text = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'Info';
-            let html = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-            (_this$font10 = this.font) === null || _this$font10 === void 0 ? void 0 : _this$font10.attr('class', '').addClass('info');
-            html ? (_this$font11 = this.font) === null || _this$font11 === void 0 ? void 0 : _this$font11.html(text) : (_this$font12 = this.font) === null || _this$font12 === void 0 ? void 0 : _this$font12.text(text);
+          info(text = 'Info', html = false) {
+            this.font?.attr('class', '').addClass('info');
+            html ? this.font?.html(text) : this.font?.text(text);
             return this;
           },
           view() {
-            var _this$font13;
-            (_this$font13 = this.font) === null || _this$font13 === void 0 ? void 0 : _this$font13[0].scrollIntoView();
+            this.font?.[0].scrollIntoView();
             return this;
           }
         };
@@ -880,14 +864,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         return [];
       }
     };
-    const delay = function() {
-      let time = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1e3;
-      return new Promise(resolve => {
-        setTimeout(() => {
-          resolve(true);
-        }, time);
-      });
-    };
+    const delay = (time = 1e3) => new Promise(resolve => {
+      setTimeout(() => {
+        resolve(true);
+      }, time);
+    });
     const getRedirectLink = async link => {
       try {
         if (!link) {
@@ -900,11 +881,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         return await tools_httpRequest({
           url: link,
           method: 'GET'
-        }).then(_ref => {
-          let {
-            data
-          } = _ref;
-          if (data !== null && data !== void 0 && data.finalUrl) {
+        }).then(({
+          data
+        }) => {
+          if (data?.finalUrl) {
             redirectLinksCache[link] = data.finalUrl;
             GM_setValue('redirectLinks', redirectLinksCache);
             return data.finalUrl;
@@ -926,12 +906,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           url: link,
           method: 'GET',
           ...options
-        }).then(_ref2 => {
-          let {
-            result,
-            statusText,
-            status
-          } = _ref2;
+        }).then(({
+          result,
+          statusText,
+          status
+        }) => {
           if (result === 'Success') {
             logStatus.success();
             return true;
@@ -1167,10 +1146,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             confirmButtonText: i18n('save'),
             showCancelButton: true,
             cancelButtonText: i18n('close')
-          }).then(_ref => {
-            let {
-              isConfirmed
-            } = _ref;
+          }).then(({
+            isConfirmed
+          }) => {
             if (isConfirmed) {
               saveData();
             }
@@ -1451,6 +1429,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       gettingGleamLink: '正在获取Gleam任务链接...',
       gleamTaskNotice: '如果此页面长时间未关闭，请完成任一任务后自行关闭！',
       verifiedGleamTasks: '已尝试验证所有任务，验证失败的任务请尝试手动验证或完成！',
+      campaign: '检测到人机验证，请完成验证后重新验证任务！',
       gsNotice: '为避免得到"0000-0000-0000"key, 已自动屏蔽"Grab Key"按钮，获取key时请关闭脚本！',
       giveeClubVerifyNotice: '正在验证任务...',
       giveeClubVerifyFinished: '请等待验证完成后自行加入赠Key',
@@ -1726,6 +1705,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       gettingGleamLink: 'Getting Gleam task link...',
       gleamTaskNotice: 'If this page has not been closed for a long time, please close it yourself after completing any task!',
       verifiedGleamTasks: 'Attempted to verify all tasks. If the verification fails, please try to verify manually or complete it!',
+      campaign: 'ReCAPTCHA detected, please complete it and re-verify the tasks!',
       gsNotice: 'In order to avoid getting the "0000-0000-0000" key, the "Grab Key" button has been hidden,' + ' please close the script when obtaining the key!',
       giveeClubVerifyNotice: 'Verifying task...',
       giveeClubVerifyFinished: 'Wait for the verification to complete and join it by yourself',
@@ -1739,12 +1719,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       en: en_US
     };
     const language = [ 'zh', 'en' ].includes(globalOptions.other.language) ? globalOptions.other.language : 'en';
-    const I18n = function(key) {
-      var _languages$language;
-      for (var _len = arguments.length, argvs = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        argvs[_key - 1] = arguments[_key];
-      }
-      if (!((_languages$language = languages[language]) !== null && _languages$language !== void 0 && _languages$language[key])) {
+    const I18n = (key, ...argvs) => {
+      if (!languages[language]?.[key]) {
         return key;
       }
       return languages[language][key].replace(/%([\d]+)/g, (match, index) => argvs[parseInt(index, 10)]);
@@ -1762,11 +1738,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         showDenyButton: true,
         denyButtonText: i18n('toKeylol'),
         cancelButtonText: i18n('close')
-      }).then(_ref => {
-        let {
-          isDenied,
-          isConfirmed
-        } = _ref;
+      }).then(({
+        isDenied,
+        isConfirmed
+      }) => {
         if (isConfirmed) {
           window.open(`https://github.com/HCLonely/auto-task-v4/issues/new?title=${encodeURIComponent(`[BUG] 脚本报错: ${name}`)}&labels=bug&template=bug_report.yml&website=${encodeURIComponent(window.location.href)}&browser=${encodeURIComponent(JSON.stringify((0, 
           javascript_utils_umd_min.ua)(), null, 4))}&manager=${encodeURIComponent(`${GM_info.scriptHandler} ${GM_info.version}`)}&user-script=${encodeURIComponent(GM_info.script.version)}&logs=${encodeURIComponent(error.stack || 'null')}&run-logs=${encodeURIComponent($.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\n'))}`, '_blank');
@@ -1823,7 +1798,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       #cache = GM_getValue('discordCache') || {};
       #initialized = false;
       constructor() {
-        var _GM_getValue;
         super();
         const defaultTasksTemplate = {
           servers: []
@@ -1831,7 +1805,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         this.tasks = defaultTasksTemplate;
         this.whiteList = {
           ...defaultTasksTemplate,
-          ...((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.discord) || {}
+          ...GM_getValue('whiteList')?.discord || {}
         };
       }
       async init() {
@@ -1845,11 +1819,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               confirmButtonText: i18n('continue'),
               cancelButtonText: i18n('skipDiscordTask'),
               denyButtonText: i18n('continueAndDontRemindAgain')
-            }).then(_ref => {
-              let {
-                isConfirmed,
-                isDenied
-              } = _ref;
+            }).then(({
+              isConfirmed,
+              isDenied
+            }) => {
               if (isConfirmed) {
                 return true;
               }
@@ -1917,11 +1890,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+            if (data?.status === 200) {
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -1943,8 +1916,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               setParent: true
             });
             newTab.onclose = async () => {
-              var _GM_getValue2;
-              const auth = (_GM_getValue2 = GM_getValue('discordAuth')) === null || _GM_getValue2 === void 0 ? void 0 : _GM_getValue2.auth;
+              const auth = GM_getValue('discordAuth')?.auth;
               if (auth) {
                 this.#auth = {
                   auth: auth
@@ -1983,10 +1955,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               referer: `https://discord.com/invite/${inviteId}`
             }
           });
-          if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$response, _data$response$guild;
+          if (result === 'Success' && data?.status === 200) {
             logStatus.success();
-            const guild = String((_data$response = data.response) === null || _data$response === void 0 ? void 0 : (_data$response$guild = _data$response.guild) === null || _data$response$guild === void 0 ? void 0 : _data$response$guild.id);
+            const guild = String(data.response?.guild?.id);
             if (guild) {
               this.#setCache(inviteId, guild);
               this.tasks.servers = unique([ ...this.tasks.servers, inviteId ]);
@@ -2030,7 +2001,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               authorization: this.#auth.auth
             }
           });
-          if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 204) {
+          if (result === 'Success' && data?.status === 204) {
             logStatus.success();
             return true;
           }
@@ -2062,9 +2033,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             responseType: 'json',
             method: 'GET'
           });
-          if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$response2, _data$response2$guild;
-            const guild = (_data$response2 = data.response) === null || _data$response2 === void 0 ? void 0 : (_data$response2$guild = _data$response2.guild) === null || _data$response2$guild === void 0 ? void 0 : _data$response2$guild.id;
+          if (result === 'Success' && data?.status === 200) {
+            const guild = data.response?.guild?.id;
             if (guild) {
               logStatus.success();
               this.#setCache(inviteId, guild);
@@ -2080,11 +2050,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async toggle(_ref2) {
-        let {
-          doTask = true,
-          serverLinks = []
-        } = _ref2;
+      async toggle({
+        doTask = true,
+        serverLinks = []
+      }) {
         try {
           if (!this.#initialized) {
             scripts_echoLog({
@@ -2099,10 +2068,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               text: 'discord.servers'
             });
           } else {
-            const realServers = this.getRealParams('servers', serverLinks, doTask, link => {
-              var _link$match;
-              return (_link$match = link.match(/invite\/(.+)/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
-            });
+            const realServers = this.getRealParams('servers', serverLinks, doTask, link => link.match(/invite\/(.+)/)?.[1]);
             if (realServers.length > 0) {
               for (const server of realServers) {
                 if (doTask) {
@@ -2137,7 +2103,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       #auth = {};
       #initialized = false;
       constructor() {
-        var _GM_getValue;
         super();
         const defaultTasksTemplate = {
           users: []
@@ -2145,7 +2110,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         this.tasks = defaultTasksTemplate;
         this.whiteList = {
           ...defaultTasksTemplate,
-          ...((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.instagram) || {}
+          ...GM_getValue('whiteList')?.instagram || {}
         };
       }
       async init() {
@@ -2166,8 +2131,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async #getUserInfo() {
-        let name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'instagram';
+      async #getUserInfo(name = 'instagram') {
         try {
           const logStatus = scripts_echoLog({
             type: name === 'instagram' ? 'verifyingInsAuth' : 'gettingInsUserId',
@@ -2188,17 +2152,16 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             method: 'GET'
           });
           if (result === 'Success') {
-            if (data !== null && data !== void 0 && data.finalUrl.includes('accounts/login')) {
+            if (data?.finalUrl.includes('accounts/login')) {
               logStatus.error(`Error:${i18n('loginIns')}`, true);
               return false;
-            } else if (data !== null && data !== void 0 && data.finalUrl.includes('www.instagram.com/challenge')) {
+            } else if (data?.finalUrl.includes('www.instagram.com/challenge')) {
               logStatus.error(`Error:${i18n('insBanned')}`);
               return false;
             }
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText$ma, _data$responseText$ma2, _data$responseText$ma3;
-              const csrftoken = (_data$responseText$ma = data.responseText.match(/"csrf_token":"(.+?)"/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
-              const hash = (_data$responseText$ma2 = data.responseText.match(/"rollout_hash":"(.+?)"/)) === null || _data$responseText$ma2 === void 0 ? void 0 : _data$responseText$ma2[1];
+            if (data?.status === 200) {
+              const csrftoken = data.responseText.match(/"csrf_token":"(.+?)"/)?.[1];
+              const hash = data.responseText.match(/"rollout_hash":"(.+?)"/)?.[1];
               if (name === 'instagram') {
                 if (csrftoken && hash) {
                   this.#auth = {
@@ -2209,7 +2172,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 }
                 return false;
               }
-              const id = (_data$responseText$ma3 = data.responseText.match(/"profilePage_([\d]+?)"/)) === null || _data$responseText$ma3 === void 0 ? void 0 : _data$responseText$ma3[1];
+              const id = data.responseText.match(/"profilePage_([\d]+?)"/)?.[1];
               if (id) {
                 this.#setCache(name, id);
                 logStatus.success();
@@ -2256,13 +2219,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
           });
           if (result === 'Success') {
-            var _data$response, _data$response2;
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && ((_data$response = data.response) === null || _data$response === void 0 ? void 0 : _data$response.result) === 'following') {
+            if (data?.status === 200 && data.response?.result === 'following') {
               logStatus.success();
               this.tasks.users = unique([ ...this.tasks.users, name ]);
               return true;
             }
-            logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response2 = data.response) === null || _data$response2 === void 0 ? void 0 : _data$response2.feedback_message) || `${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`}`);
+            logStatus.error(`Error:${data?.response?.feedback_message || `${data?.statusText}(${data?.status})`}`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -2309,12 +2271,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
           });
           if (result === 'Success') {
-            var _data$response3;
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && ((_data$response3 = data.response) === null || _data$response3 === void 0 ? void 0 : _data$response3.status) === 'ok') {
+            if (data?.status === 200 && data.response?.status === 'ok') {
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -2324,11 +2285,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async toggle(_ref) {
-        let {
-          doTask = true,
-          userLinks = []
-        } = _ref;
+      async toggle({
+        doTask = true,
+        userLinks = []
+      }) {
         try {
           if (!this.#initialized) {
             scripts_echoLog({
@@ -2343,10 +2303,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               text: 'instagram.users'
             });
           } else {
-            const realUsers = this.getRealParams('users', userLinks, doTask, link => {
-              var _link$match;
-              return (_link$match = link.match(/https:\/\/www\.instagram\.com\/(.+)?\//)) === null || _link$match === void 0 ? void 0 : _link$match[1];
-            });
+            const realUsers = this.getRealParams('users', userLinks, doTask, link => link.match(/https:\/\/www\.instagram\.com\/(.+)?\//)?.[1]);
             if (realUsers.length > 0) {
               for (const username of realUsers) {
                 if (doTask) {
@@ -2380,7 +2337,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       #auth;
       #initialized = false;
       constructor() {
-        var _GM_getValue;
         super();
         const defaultTasksTemplate = {
           reddits: []
@@ -2388,7 +2344,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         this.tasks = defaultTasksTemplate;
         this.whiteList = {
           ...defaultTasksTemplate,
-          ...((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.reddit) || {}
+          ...GM_getValue('whiteList')?.reddit || {}
         };
       }
       async init() {
@@ -2431,8 +2387,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async #updateAuth() {
-        let beta = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+      async #updateAuth(beta = false) {
         try {
           const logStatus = scripts_echoLog({
             text: i18n('updatingAuth', 'Reddit')
@@ -2451,16 +2406,15 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
           });
           if (result === 'Success') {
-            if (data !== null && data !== void 0 && data.responseText.includes('www.reddit.com/login/')) {
+            if (data?.responseText.includes('www.reddit.com/login/')) {
               logStatus.error(`Error:${i18n('loginReddit')}`, true);
               return false;
             }
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText$ma;
+            if (data?.status === 200) {
               if (data.responseText.includes('redesign-beta-optin-btn') && !beta) {
                 return await this.#useBeta();
               }
-              const accessToken = (_data$responseText$ma = data.responseText.match(/"accessToken":"(.*?)","expires":"(.*?)"/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
+              const accessToken = data.responseText.match(/"accessToken":"(.*?)","expires":"(.*?)"/)?.[1];
               if (accessToken) {
                 this.#auth = {
                   token: accessToken
@@ -2471,7 +2425,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.error('Error: Parameter "accessToken" not found!');
               return false;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -2481,11 +2435,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async toggleTask(_ref) {
-        let {
-          name,
-          doTask = true
-        } = _ref;
+      async toggleTask({
+        name,
+        doTask = true
+      }) {
         try {
           if (!doTask && this.whiteList.reddits.includes(name)) {
             scripts_echoLog({
@@ -2522,14 +2475,14 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             })
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+            if (data?.status === 200) {
               logStatus.success();
               if (doTask) {
                 this.tasks.reddits = unique([ ...this.tasks.reddits, name ]);
               }
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -2539,11 +2492,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async toggle(_ref2) {
-        let {
-          doTask = true,
-          redditLinks = []
-        } = _ref2;
+      async toggle({
+        doTask = true,
+        redditLinks = []
+      }) {
         try {
           if (!this.#initialized) {
             scripts_echoLog({
@@ -2559,9 +2511,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             });
           } else {
             const realReddits = this.getRealParams('reddits', redditLinks, doTask, link => {
-              var _link$match, _link$match2;
-              const name = (_link$match = link.match(/https?:\/\/www\.reddit\.com\/r\/([^/]*)/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
-              const userName = (_link$match2 = link.match(/https?:\/\/www\.reddit\.com\/user\/([^/]*)/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1];
+              const name = link.match(/https?:\/\/www\.reddit\.com\/r\/([^/]*)/)?.[1];
+              const userName = link.match(/https?:\/\/www\.reddit\.com\/user\/([^/]*)/)?.[1];
               if (userName) {
                 return name || userName;
               }
@@ -2593,7 +2544,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       #initialized = false;
       #integrityToken;
       constructor() {
-        var _GM_getValue;
         super();
         const defaultTasksTemplate = {
           channels: []
@@ -2601,7 +2551,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         this.tasks = defaultTasksTemplate;
         this.whiteList = {
           ...defaultTasksTemplate,
-          ...((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.twitch) || {}
+          ...GM_getValue('whiteList')?.twitch || {}
         };
       }
       async init() {
@@ -2656,13 +2606,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             data: '[{"operationName":"FrontPageNew_User","variables":{"limit":1},"extensions":{"persistedQuery":{"version":1,' + '"sha256Hash":"64bd07a2cbaca80699d62636d966cf6395a5d14a1f0a14282067dcb28b13eb11"}}}]'
           });
           if (result === 'Success') {
-            var _data$response, _data$response$, _data$response$$data;
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (_data$response = data.response) !== null && _data$response !== void 0 && (_data$response$ = _data$response[0]) !== null && _data$response$ !== void 0 && (_data$response$$data = _data$response$.data) !== null && _data$response$$data !== void 0 && _data$response$$data.currentUser) {
+            if (data?.status === 200 && data.response?.[0]?.data?.currentUser) {
               await this.#integrity(isFirst);
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -2672,9 +2621,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async #integrity() {
-        let isFirst = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-        let ct = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+      async #integrity(isFirst = true, ct = '') {
         try {
           const logStatus = scripts_echoLog({
             text: i18n('checkingTwitchIntegrity')
@@ -2704,16 +2651,15 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
           });
           if (result === 'Success') {
-            var _data$responseHeaders, _data$response2;
-            if (!ct && data !== null && data !== void 0 && (_data$responseHeaders = data.responseHeaders) !== null && _data$responseHeaders !== void 0 && _data$responseHeaders['x-kpsdk-ct']) {
+            if (!ct && data?.responseHeaders?.['x-kpsdk-ct']) {
               return await this.#integrity(isFirst, data.responseHeaders['x-kpsdk-ct']);
             }
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (_data$response2 = data.response) !== null && _data$response2 !== void 0 && _data$response2.token) {
+            if (data?.status === 200 && data.response?.token) {
               this.#integrityToken = data.response.token;
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -2723,8 +2669,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async #updateAuth() {
-        let isFirst = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+      async #updateAuth(isFirst = true) {
         try {
           const logStatus = scripts_echoLog({
             text: i18n('updatingAuth', 'Twitch')
@@ -2752,11 +2697,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async #toggleChannel(_ref) {
-        let {
-          name,
-          doTask = true
-        } = _ref;
+      async #toggleChannel({
+        name,
+        doTask = true
+      }) {
         try {
           if (!doTask && this.whiteList.channels.includes(name)) {
             scripts_echoLog({
@@ -2799,15 +2743,14 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             data: doTask ? followData : unfollowData
           });
           if (result === 'Success') {
-            var _data$response3, _data$response4, _data$response4$0$err, _data$response4$0$err2;
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (_data$response3 = data.response) !== null && _data$response3 !== void 0 && _data$response3[0] && !data.response[0].errors) {
+            if (data?.status === 200 && data.response?.[0] && !data.response[0].errors) {
               logStatus.success();
               if (doTask) {
                 this.tasks.channels = unique([ ...this.tasks.channels, name ]);
               }
               return true;
             }
-            logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response4 = data.response) === null || _data$response4 === void 0 ? void 0 : (_data$response4$0$err = _data$response4[0].errors) === null || _data$response4$0$err === void 0 ? void 0 : (_data$response4$0$err2 = _data$response4$0$err[0]) === null || _data$response4$0$err2 === void 0 ? void 0 : _data$response4$0$err2.message) || `${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`}`);
+            logStatus.error(`Error:${data?.response?.[0].errors?.[0]?.message || `${data?.statusText}(${data?.status})`}`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -2844,9 +2787,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             data: `[{"operationName":"ActiveWatchParty","variables":{"channelLogin":"${name}"},` + '"extensions":{"persistedQuery":{"version":1,"sha256Hash":"4a8156c97b19e3a36e081cf6d6ddb5dbf9f9b02ae60e4d2ff26ed70aebc80a30"}}}]'
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$response5, _data$response5$, _data$response5$$data, _data$response5$$data2;
-              const channelId = (_data$response5 = data.response) === null || _data$response5 === void 0 ? void 0 : (_data$response5$ = _data$response5[0]) === null || _data$response5$ === void 0 ? void 0 : (_data$response5$$data = _data$response5$.data) === null || _data$response5$$data === void 0 ? void 0 : (_data$response5$$data2 = _data$response5$$data.user) === null || _data$response5$$data2 === void 0 ? void 0 : _data$response5$$data2.id;
+            if (data?.status === 200) {
+              const channelId = data.response?.[0]?.data?.user?.id;
               if (channelId) {
                 this.#setCache(name, String(channelId));
                 logStatus.success();
@@ -2855,7 +2797,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.error(`Error:${data.statusText}(${data.status})`);
               return false;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -2865,11 +2807,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async toggle(_ref2) {
-        let {
-          doTask = true,
-          channelLinks = []
-        } = _ref2;
+      async toggle({
+        doTask = true,
+        channelLinks = []
+      }) {
         try {
           if (!this.#initialized) {
             scripts_echoLog({
@@ -2884,10 +2825,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               text: 'twitch.channels'
             });
           } else {
-            const realChannels = this.getRealParams('channels', channelLinks, doTask, link => {
-              var _link$match;
-              return (_link$match = link.match(/https:\/\/(www\.)?twitch\.tv\/(.+)/)) === null || _link$match === void 0 ? void 0 : _link$match[2];
-            });
+            const realChannels = this.getRealParams('channels', channelLinks, doTask, link => link.match(/https:\/\/(www\.)?twitch\.tv\/(.+)/)?.[2]);
             if (realChannels.length > 0) {
               for (const channel of realChannels) {
                 prom.push(this.#toggleChannel({
@@ -2922,7 +2860,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       #cache = GM_getValue('twitterCache') || {};
       #initialized = false;
       constructor() {
-        var _GM_getValue;
         super();
         const defaultTasksTemplate = {
           users: [],
@@ -2932,7 +2869,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         this.tasks = defaultTasksTemplate;
         this.whiteList = {
           ...defaultTasksTemplate,
-          ...((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.twitter) || {}
+          ...GM_getValue('whiteList')?.twitter || {}
         };
       }
       async init() {
@@ -3006,12 +2943,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async #toggleUser(_ref) {
-        let {
-          name,
-          doTask = true,
-          verify = false
-        } = _ref;
+      async #toggleUser({
+        name,
+        doTask = true,
+        verify = false
+      }) {
         try {
           if (!doTask && !verify && this.whiteList.users.includes(name)) {
             scripts_echoLog({
@@ -3059,19 +2995,18 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             })
           });
           if (result === 'Success') {
-            var _data$response, _data$response$errors, _data$response$errors2;
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+            if (data?.status === 200) {
               logStatus.success();
               if (doTask && !verify) {
                 this.tasks.users = unique([ ...this.tasks.users, name ]);
               }
               return true;
             }
-            if (verify && (data === null || data === void 0 ? void 0 : data.status) === 403 && ((_data$response = data.response) === null || _data$response === void 0 ? void 0 : (_data$response$errors = _data$response.errors) === null || _data$response$errors === void 0 ? void 0 : (_data$response$errors2 = _data$response$errors[0]) === null || _data$response$errors2 === void 0 ? void 0 : _data$response$errors2.code) === 158) {
+            if (verify && data?.status === 403 && data.response?.errors?.[0]?.code === 158) {
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -3109,8 +3044,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             responseType: 'json'
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _response, _response$data, _response$data$user, _response$data$user$r;
+            if (data?.status === 200) {
               let response = data.response || (typeof data.responseText === 'object' ? data.responseText : null);
               if (!response) {
                 try {
@@ -3119,7 +3053,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                   response = null;
                 }
               }
-              const userId = String((_response = response) === null || _response === void 0 ? void 0 : (_response$data = _response.data) === null || _response$data === void 0 ? void 0 : (_response$data$user = _response$data.user) === null || _response$data$user === void 0 ? void 0 : (_response$data$user$r = _response$data$user.result) === null || _response$data$user$r === void 0 ? void 0 : _response$data$user$r.rest_id);
+              const userId = String(response?.data?.user?.result?.rest_id);
               if (userId) {
                 this.#setCache(name, userId);
                 logStatus.success();
@@ -3128,7 +3062,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.error(`Error:${data.statusText}(${data.status})`);
               return false;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -3138,11 +3072,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async #toggleRetweet(_ref2) {
-        let {
-          retweetId,
-          doTask = true
-        } = _ref2;
+      async #toggleRetweet({
+        retweetId,
+        doTask = true
+      }) {
         try {
           if (!doTask && this.whiteList.retweets.includes(retweetId)) {
             scripts_echoLog({
@@ -3176,15 +3109,14 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             responseType: 'json'
           });
           if (result === 'Success') {
-            var _data$response2, _data$response2$error, _data$response2$error2;
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 || (data === null || data === void 0 ? void 0 : data.status) === 403 && ((_data$response2 = data.response) === null || _data$response2 === void 0 ? void 0 : (_data$response2$error = _data$response2.errors) === null || _data$response2$error === void 0 ? void 0 : (_data$response2$error2 = _data$response2$error[0]) === null || _data$response2$error2 === void 0 ? void 0 : _data$response2$error2.code) === 327) {
+            if (data?.status === 200 || data?.status === 403 && data.response?.errors?.[0]?.code === 327) {
               logStatus.success();
               if (doTask) {
                 this.tasks.retweets = unique([ ...this.tasks.retweets, retweetId ]);
               }
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -3194,12 +3126,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async toggle(_ref3) {
-        let {
-          doTask = true,
-          userLinks = [],
-          retweetLinks = []
-        } = _ref3;
+      async toggle({
+        doTask = true,
+        userLinks = [],
+        retweetLinks = []
+      }) {
         try {
           if (!this.#initialized) {
             scripts_echoLog({
@@ -3214,10 +3145,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               text: 'twitter.users'
             });
           } else {
-            const realUsers = this.getRealParams('users', userLinks, doTask, link => {
-              var _link$match;
-              return (_link$match = link.match(/https:\/\/twitter\.com\/(.+)/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
-            });
+            const realUsers = this.getRealParams('users', userLinks, doTask, link => link.match(/https:\/\/twitter\.com\/(.+)/)?.[1]);
             if (realUsers.length > 0) {
               for (const user of realUsers) {
                 prom.push(this.#toggleUser({
@@ -3234,10 +3162,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               text: 'twitter.retweets'
             });
           } else {
-            const realRetweets = this.getRealParams('retweets', retweetLinks, doTask, link => {
-              var _link$match2;
-              return (_link$match2 = link.match(/https:\/\/twitter\.com\/.*?\/status\/([\d]+)/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1];
-            });
+            const realRetweets = this.getRealParams('retweets', retweetLinks, doTask, link => link.match(/https:\/\/twitter\.com\/.*?\/status\/([\d]+)/)?.[1]);
             if (realRetweets.length > 0) {
               for (const retweet of realRetweets) {
                 prom.push(this.#toggleRetweet({
@@ -3271,7 +3196,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       #cache = GM_getValue('vkCache') || {};
       #initialized = false;
       constructor() {
-        var _GM_getValue;
         super();
         const defaultTasksTemplate = {
           names: []
@@ -3279,7 +3203,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         this.tasks = defaultTasksTemplate;
         this.whiteList = {
           ...defaultTasksTemplate,
-          ...((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.vk) || {}
+          ...GM_getValue('whiteList')?.vk || {}
         };
       }
       async init() {
@@ -3315,17 +3239,16 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             method: 'GET'
           });
           if (result === 'Success') {
-            if (data !== null && data !== void 0 && data.finalUrl.includes('vk.com/login')) {
+            if (data?.finalUrl.includes('vk.com/login')) {
               logStatus.error(`Error:${i18n('loginVk')}`, true);
               return false;
             }
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText$ma;
-              this.#username = ((_data$responseText$ma = data.responseText.match(/TopNavBtn__profileLink" href="\/(.*?)"/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1]) || '';
+            if (data?.status === 200) {
+              this.#username = data.responseText.match(/TopNavBtn__profileLink" href="\/(.*?)"/)?.[1] || '';
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -3335,8 +3258,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async #toggleGroup(name, dataParam) {
-        let doTask = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      async #toggleGroup(name, dataParam, doTask = true) {
         try {
           const logStatus = scripts_echoLog({
             type: doTask ? 'joiningVkGroup' : 'leavingVkGroup',
@@ -3371,14 +3293,14 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             data: $.param(reqData)
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+            if (data?.status === 200) {
               logStatus.success();
               if (doTask) {
                 this.tasks.names = unique([ ...this.tasks.names, name ]);
               }
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -3388,8 +3310,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async #togglePublic(name, dataParam) {
-        let doTask = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      async #togglePublic(name, dataParam, doTask = true) {
         try {
           const logStatus = scripts_echoLog({
             type: doTask ? 'joiningVkPublic' : 'leavingVkPublic',
@@ -3420,14 +3341,14 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             })
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+            if (data?.status === 200) {
               logStatus.success();
               if (doTask) {
                 this.tasks.names = unique([ ...this.tasks.names, name ]);
               }
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -3463,9 +3384,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             })
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText$ma2;
-              const hash = (_data$responseText$ma2 = data.responseText.match(/shHash:[\s]*'(.*?)'/)) === null || _data$responseText$ma2 === void 0 ? void 0 : _data$responseText$ma2[1];
+            if (data?.status === 200) {
+              const hash = data.responseText.match(/shHash:[\s]*'(.*?)'/)?.[1];
               if (hash) {
                 const {
                   result: resultR,
@@ -3497,14 +3417,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                   })
                 });
                 if (resultR === 'Success') {
-                  if ((dataR === null || dataR === void 0 ? void 0 : dataR.status) === 200) {
-                    var _dataR$responseText, _jsonData$payload, _jsonData$payload$, _jsonData$payload$$;
-                    const jsonData = JSON.parse(((_dataR$responseText = dataR.responseText) === null || _dataR$responseText === void 0 ? void 0 : _dataR$responseText.replace('\x3c!--', '')) || '{}');
-                    if ((jsonData === null || jsonData === void 0 ? void 0 : (_jsonData$payload = jsonData.payload) === null || _jsonData$payload === void 0 ? void 0 : (_jsonData$payload$ = _jsonData$payload[1]) === null || _jsonData$payload$ === void 0 ? void 0 : (_jsonData$payload$$ = _jsonData$payload$[1]) === null || _jsonData$payload$$ === void 0 ? void 0 : _jsonData$payload$$.share_my) === true) {
-                      var _jsonData$payload2, _jsonData$payload2$, _jsonData$payload2$$, _jsonData$payload3, _jsonData$payload3$, _jsonData$payload3$$;
+                  if (dataR?.status === 200) {
+                    const jsonData = JSON.parse(dataR.responseText?.replace('\x3c!--', '') || '{}');
+                    if (jsonData?.payload?.[1]?.[1]?.share_my === true) {
                       logStatus.success();
-                      const postId = String(jsonData === null || jsonData === void 0 ? void 0 : (_jsonData$payload2 = jsonData.payload) === null || _jsonData$payload2 === void 0 ? void 0 : (_jsonData$payload2$ = _jsonData$payload2[1]) === null || _jsonData$payload2$ === void 0 ? void 0 : (_jsonData$payload2$$ = _jsonData$payload2$[1]) === null || _jsonData$payload2$$ === void 0 ? void 0 : _jsonData$payload2$$.post_id);
-                      const ownerId = String(jsonData === null || jsonData === void 0 ? void 0 : (_jsonData$payload3 = jsonData.payload) === null || _jsonData$payload3 === void 0 ? void 0 : (_jsonData$payload3$ = _jsonData$payload3[1]) === null || _jsonData$payload3$ === void 0 ? void 0 : (_jsonData$payload3$$ = _jsonData$payload3$[1]) === null || _jsonData$payload3$$ === void 0 ? void 0 : _jsonData$payload3$$.owner_id);
+                      const postId = String(jsonData?.payload?.[1]?.[1]?.post_id);
+                      const ownerId = String(jsonData?.payload?.[1]?.[1]?.owner_id);
                       if (postId && ownerId) {
                         this.#setCache(name, `${ownerId}_${postId}`);
                       }
@@ -3512,7 +3430,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                       return true;
                     }
                   }
-                  logStatus.error(`Error:${dataR === null || dataR === void 0 ? void 0 : dataR.statusText}(${dataR === null || dataR === void 0 ? void 0 : dataR.status})`);
+                  logStatus.error(`Error:${dataR?.statusText}(${dataR?.status})`);
                   return false;
                 }
                 logStatus.error(`${resultR}:${statusTextR}(${statusR})`);
@@ -3521,7 +3439,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.error('Error: Get "hash" failed');
               return false;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -3560,17 +3478,16 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             })
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText, _jsonData$payload4, _jsonData$payload4$;
-              const jsonData = JSON.parse(((_data$responseText = data.responseText) === null || _data$responseText === void 0 ? void 0 : _data$responseText.replace('\x3c!--', '')) || '{}');
-              if (jsonData !== null && jsonData !== void 0 && (_jsonData$payload4 = jsonData.payload) !== null && _jsonData$payload4 !== void 0 && (_jsonData$payload4$ = _jsonData$payload4[1]) !== null && _jsonData$payload4$ !== void 0 && _jsonData$payload4$[1]) {
+            if (data?.status === 200) {
+              const jsonData = JSON.parse(data.responseText?.replace('\x3c!--', '') || '{}');
+              if (jsonData?.payload?.[1]?.[1]) {
                 logStatus.success();
                 return true;
               }
-              logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+              logStatus.error(`Error:${data?.statusText}(${data?.status})`);
               return false;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -3610,11 +3527,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             method: 'GET'
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText$ma3, _data$responseText$ma4;
+            if (data?.status === 200) {
               const [ , groupAct, groupId, , groupHash ] = data.responseText.match(/Groups.(enter|leave)\(.*?,.*?([\d]+?), (&#39;|')(.*?)(&#39;|')/) || [];
-              const publicHash = (_data$responseText$ma3 = data.responseText.match(/"enterHash":"(.*?)"/)) === null || _data$responseText$ma3 === void 0 ? void 0 : _data$responseText$ma3[1];
-              const publicPid = (_data$responseText$ma4 = data.responseText.match(/"public_id":([\d]+?),/)) === null || _data$responseText$ma4 === void 0 ? void 0 : _data$responseText$ma4[1];
+              const publicHash = data.responseText.match(/"enterHash":"(.*?)"/)?.[1];
+              const publicPid = data.responseText.match(/"public_id":([\d]+?),/)?.[1];
               const publicJoined = !data.responseText.includes('Public.subscribe');
               if (groupAct && groupId && groupHash) {
                 logStatus.success();
@@ -3633,8 +3549,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                   type: 'public'
                 };
               } else if (data.responseText.includes('wall.deletePost') && !doTask) {
-                var _data$responseText$ma5;
-                const wallHash = (_data$responseText$ma5 = data.responseText.match(/wall\.deletePost\(this, '.*?', '(.*?)'\)/)) === null || _data$responseText$ma5 === void 0 ? void 0 : _data$responseText$ma5[1];
+                const wallHash = data.responseText.match(/wall\.deletePost\(this, '.*?', '(.*?)'\)/)?.[1];
                 if (wallHash) {
                   logStatus.success();
                   return {
@@ -3651,7 +3566,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.error('Error: Parameters not found!');
               return false;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -3661,11 +3576,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async #toggleVk(_ref) {
-        let {
-          name,
-          doTask = true
-        } = _ref;
+      async #toggleVk({
+        name,
+        doTask = true
+      }) {
         try {
           if (!doTask && this.whiteList.names.includes(name)) {
             scripts_echoLog({
@@ -3701,11 +3615,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async toggle(_ref2) {
-        let {
-          doTask = true,
-          nameLinks = []
-        } = _ref2;
+      async toggle({
+        doTask = true,
+        nameLinks = []
+      }) {
         try {
           if (!this.#initialized) {
             scripts_echoLog({
@@ -3720,10 +3633,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               text: 'vk.names'
             });
           } else {
-            const realNames = this.getRealParams('names', nameLinks, doTask, link => {
-              var _link$match;
-              return (_link$match = link.match(/https:\/\/vk\.com\/([^/]+)/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
-            });
+            const realNames = this.getRealParams('names', nameLinks, doTask, link => link.match(/https:\/\/vk\.com\/([^/]+)/)?.[1]);
             if (realNames.length > 0) {
               for (const name of realNames) {
                 prom.push(this.#toggleVk({
@@ -3765,16 +3675,15 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           method: 'GET'
         });
         if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText$ma, _ref;
+          if (data?.status === 200) {
             if (data.responseText.includes('accounts.google.com/ServiceLogin?service=youtube')) {
               logStatus.error(`Error:${i18n('loginYtb')}`, true);
               return {
                 needLogin: true
               };
             }
-            const apiKey = (_data$responseText$ma = data.responseText.match(/"INNERTUBE_API_KEY":"(.*?)"/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
-            const context = ((_ref = data.responseText.match(/\(\{"INNERTUBE_CONTEXT":([\w\W]*?)\}\)/) || data.responseText.match(/"INNERTUBE_CONTEXT":([\w\W]*?\}),"INNERTUBE/)) === null || _ref === void 0 ? void 0 : _ref[1]) || '{}';
+            const apiKey = data.responseText.match(/"INNERTUBE_API_KEY":"(.*?)"/)?.[1];
+            const context = (data.responseText.match(/\(\{"INNERTUBE_CONTEXT":([\w\W]*?)\}\)/) || data.responseText.match(/"INNERTUBE_CONTEXT":([\w\W]*?\}),"INNERTUBE/))?.[1] || '{}';
             const {
               client,
               request
@@ -3782,8 +3691,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             if (apiKey && client && request) {
               client.hl = 'en';
               if (type === 'channel') {
-                var _data$responseText$ma2;
-                const channelId = (_data$responseText$ma2 = data.responseText.match(/"channelId":"(.+?)"/)) === null || _data$responseText$ma2 === void 0 ? void 0 : _data$responseText$ma2[1];
+                const channelId = data.responseText.match(/"channelId":"(.+?)"/)?.[1];
                 if (channelId) {
                   logStatus.success();
                   return {
@@ -3798,9 +3706,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 logStatus.error('Error: Get "channelId" failed!');
                 return {};
               } else if (type === 'likeVideo') {
-                var _data$responseText$ma3, _data$responseText$ma4;
-                const videoId = (_data$responseText$ma3 = data.responseText.match(/<link rel="shortlinkUrl" href="https:\/\/youtu\.be\/(.*?)">/)) === null || _data$responseText$ma3 === void 0 ? void 0 : _data$responseText$ma3[1];
-                const likeParams = (_data$responseText$ma4 = data.responseText.match(/"likeParams":"(.*?)"/)) === null || _data$responseText$ma4 === void 0 ? void 0 : _data$responseText$ma4[1];
+                const videoId = data.responseText.match(/<link rel="shortlinkUrl" href="https:\/\/youtu\.be\/(.*?)">/)?.[1];
+                const likeParams = data.responseText.match(/"likeParams":"(.*?)"/)?.[1];
                 if (videoId) {
                   logStatus.success();
                   return {
@@ -3822,7 +3729,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             logStatus.error('Error: Parameter "apiKey" not found!');
             return {};
           }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+          logStatus.error(`Error:${data?.statusText}(${data?.status})`);
           return {};
         }
         logStatus.error(`${result}:${statusText}(${status})`);
@@ -3839,7 +3746,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       #initialized = false;
       #verifyChannel = `https://www.youtube.com/channel/${globalOptions.other.youtubeVerifyChannel}`;
       constructor() {
-        var _GM_getValue;
         super();
         const defaultTasksTemplate = {
           channels: [],
@@ -3848,7 +3754,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         this.tasks = defaultTasksTemplate;
         this.whiteList = {
           ...defaultTasksTemplate,
-          ...((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.youtube) || {}
+          ...GM_getValue('whiteList')?.youtube || {}
         };
       }
       async init() {
@@ -3927,12 +3833,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       #getInfo(link, type) {
         return getInfo(link, type);
       }
-      async #toggleChannel(_ref2) {
-        let {
-          link,
-          doTask = true,
-          verify = false
-        } = _ref2;
+      async #toggleChannel({
+        link,
+        doTask = true,
+        verify = false
+      }) {
         try {
           const {
             params,
@@ -3984,7 +3889,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               referer: `https://www.youtube.com/channel/${channelId}`,
               'content-type': 'application/json',
               'x-goog-authuser': '0',
-              'x-goog-visitor-id': client === null || client === void 0 ? void 0 : client.visitorData,
+              'x-goog-visitor-id': client?.visitorData,
               'x-origin': 'https://www.youtube.com',
               authorization: `SAPISIDHASH ${nowTime}_${sha1(`${nowTime} ${this.#auth.PAPISID} https://www.youtube.com`)}`
             },
@@ -3992,7 +3897,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               context: {
                 client: client,
                 request: {
-                  sessionId: request === null || request === void 0 ? void 0 : request.sessionId,
+                  sessionId: request?.sessionId,
                   internalExperimentFlags: [],
                   consistencyTokenJars: []
                 },
@@ -4003,7 +3908,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             })
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+            if (data?.status === 200) {
               if (doTask && (/"subscribed":true/.test(data.responseText) || data.responseText.includes('The subscription already exists')) || !doTask && /"subscribed":false/.test(data.responseText)) {
                 logStatus.success();
                 if (doTask && !verify) {
@@ -4018,7 +3923,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.error(i18n('tryUpdateYtbAuth'), true);
               return false;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -4028,11 +3933,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async #toggleLikeVideo(_ref3) {
-        let {
-          link,
-          doTask = true
-        } = _ref3;
+      async #toggleLikeVideo({
+        link,
+        doTask = true
+      }) {
         try {
           const {
             params,
@@ -4112,7 +4016,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             data: JSON.stringify(likeVideoData)
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+            if (data?.status === 200) {
               if (doTask && data.responseText.includes('Added to Liked videos') || !doTask && (data.responseText.includes('Removed from Liked videos') || data.responseText.includes('Dislike removed'))) {
                 logStatus.success();
                 if (doTask) {
@@ -4123,7 +4027,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.error(i18n('tryUpdateYtbAuth'), true);
               return false;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -4133,12 +4037,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async toggle(_ref4) {
-        let {
-          doTask = true,
-          channelLinks = [],
-          videoLinks = []
-        } = _ref4;
+      async toggle({
+        doTask = true,
+        channelLinks = [],
+        videoLinks = []
+      }) {
         try {
           if (!this.#initialized) {
             scripts_echoLog({
@@ -4155,8 +4058,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           } else {
             const realChannels = this.getRealParams('channels', channelLinks, doTask, link => {
               if (/^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www\.youtube\.com\/.*/.test(link)) {
-                var _link$match;
-                return (_link$match = link.match(/url=(https:\/\/www\.youtube\.com\/.*)/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
+                return link.match(/url=(https:\/\/www\.youtube\.com\/.*)/)?.[1];
               }
               return link;
             });
@@ -4178,8 +4080,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           } else {
             const realLikes = this.getRealParams('likes', videoLinks, doTask, link => {
               if (/^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www\.youtube\.com\/.*/.test(link)) {
-                var _link$match2;
-                return (_link$match2 = link.match(/url=(https:\/\/www\.youtube\.com\/.*)/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1];
+                return link.match(/url=(https:\/\/www\.youtube\.com\/.*)/)?.[1];
               }
               return link;
             });
@@ -4236,17 +4137,15 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             data: '{"Command":"!stats"}'
           });
           if (result === 'Success') {
-            var _data$response, _data$response2, _data$response3;
-            if ((data === null || data === void 0 ? void 0 : (_data$response = data.response) === null || _data$response === void 0 ? void 0 : _data$response.Success) === true && data.response.Message === 'OK' && data.response.Result) {
+            if (data?.response?.Success === true && data.response.Message === 'OK' && data.response.Result) {
               logStatus.success();
               return true;
             }
-            if (data !== null && data !== void 0 && (_data$response2 = data.response) !== null && _data$response2 !== void 0 && _data$response2.Result || data !== null && data !== void 0 && (_data$response3 = data.response) !== null && _data$response3 !== void 0 && _data$response3.Message) {
-              var _data$response4;
-              logStatus.error((data === null || data === void 0 ? void 0 : (_data$response4 = data.response) === null || _data$response4 === void 0 ? void 0 : _data$response4.Result) || data.response.Message);
+            if (data?.response?.Result || data?.response?.Message) {
+              logStatus.error(data?.response?.Result || data.response.Message);
               return false;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -4274,15 +4173,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             })
           });
           if (result === 'Success') {
-            var _data$response6, _data$response7;
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && [ '已加入', '已申请', 'Joined', 'Applied', 'Присоединился', 'costs' ].find(text => {
-              var _data$response5, _data$response5$Resul;
-              return (_data$response5 = data.response) === null || _data$response5 === void 0 ? void 0 : (_data$response5$Resul = _data$response5.Result) === null || _data$response5$Resul === void 0 ? void 0 : _data$response5$Resul.includes(text);
-            })) {
+            if (data?.status === 200 && [ '已加入', '已申请', 'Joined', 'Applied', 'Присоединился', 'costs' ].find(text => data.response?.Result?.includes(text))) {
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response6 = data.response) === null || _data$response6 === void 0 ? void 0 : _data$response6.Result) || (data === null || data === void 0 ? void 0 : (_data$response7 = data.response) === null || _data$response7 === void 0 ? void 0 : _data$response7.Message) || (data === null || data === void 0 ? void 0 : data.statusText)}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.response?.Result || data?.response?.Message || data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -4319,15 +4214,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             })
           });
           if (result === 'Success') {
-            var _data$response9, _data$response10;
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && [ '成功', 'Success', 'Успех' ].find(text => {
-              var _data$response8, _data$response8$Resul;
-              return (_data$response8 = data.response) === null || _data$response8 === void 0 ? void 0 : (_data$response8$Resul = _data$response8.Result) === null || _data$response8$Resul === void 0 ? void 0 : _data$response8$Resul.includes(text);
-            })) {
+            if (data?.status === 200 && [ '成功', 'Success', 'Успех' ].find(text => data.response?.Result?.includes(text))) {
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response9 = data.response) === null || _data$response9 === void 0 ? void 0 : _data$response9.Result) || (data === null || data === void 0 ? void 0 : (_data$response10 = data.response) === null || _data$response10 === void 0 ? void 0 : _data$response10.Message) || (data === null || data === void 0 ? void 0 : data.statusText)}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.response?.Result || data?.response?.Message || data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -4355,8 +4246,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             })
           });
           if (result === 'Success') {
-            var _data$response11, _data$response11$Resu, _data$response12, _data$response13;
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (_data$response11 = data.response) !== null && _data$response11 !== void 0 && (_data$response11$Resu = _data$response11.Result) !== null && _data$response11$Resu !== void 0 && _data$response11$Resu.includes('|')) {
+            if (data?.status === 200 && data.response?.Result?.includes('|')) {
               this.#groupInfo = Object.fromEntries(data.response.Result.split('\n').map(line => {
                 const [ , name, id ] = line.trim().split('|');
                 if (name && id) {
@@ -4367,7 +4257,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response12 = data.response) === null || _data$response12 === void 0 ? void 0 : _data$response12.Result) || (data === null || data === void 0 ? void 0 : (_data$response13 = data.response) === null || _data$response13 === void 0 ? void 0 : _data$response13.Message) || (data === null || data === void 0 ? void 0 : data.statusText)}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.response?.Result || data?.response?.Message || data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -4395,15 +4285,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             })
           });
           if (result === 'Success') {
-            var _data$response15, _data$response16;
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && [ '成功', 'Success', 'Успех' ].find(text => {
-              var _data$response14, _data$response14$Resu;
-              return (_data$response14 = data.response) === null || _data$response14 === void 0 ? void 0 : (_data$response14$Resu = _data$response14.Result) === null || _data$response14$Resu === void 0 ? void 0 : _data$response14$Resu.includes(text);
-            })) {
+            if (data?.status === 200 && [ '成功', 'Success', 'Успех' ].find(text => data.response?.Result?.includes(text))) {
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response15 = data.response) === null || _data$response15 === void 0 ? void 0 : _data$response15.Result) || (data === null || data === void 0 ? void 0 : (_data$response16 = data.response) === null || _data$response16 === void 0 ? void 0 : _data$response16.Message) || (data === null || data === void 0 ? void 0 : data.statusText)}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.response?.Result || data?.response?.Message || data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -4431,15 +4317,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             })
           });
           if (result === 'Success') {
-            var _data$response18, _data$response19;
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && [ '成功', 'Success', 'Успех' ].find(text => {
-              var _data$response17, _data$response17$Resu;
-              return (_data$response17 = data.response) === null || _data$response17 === void 0 ? void 0 : (_data$response17$Resu = _data$response17.Result) === null || _data$response17$Resu === void 0 ? void 0 : _data$response17$Resu.includes(text);
-            })) {
+            if (data?.status === 200 && [ '成功', 'Success', 'Успех' ].find(text => data.response?.Result?.includes(text))) {
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response18 = data.response) === null || _data$response18 === void 0 ? void 0 : _data$response18.Result) || (data === null || data === void 0 ? void 0 : (_data$response19 = data.response) === null || _data$response19 === void 0 ? void 0 : _data$response19.Message) || (data === null || data === void 0 ? void 0 : data.statusText)}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.response?.Result || data?.response?.Message || data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -4467,15 +4349,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             })
           });
           if (result === 'Success') {
-            var _data$response21, _data$response22;
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && [ '成功', 'Success', 'Успех' ].find(text => {
-              var _data$response20, _data$response20$Resu;
-              return (_data$response20 = data.response) === null || _data$response20 === void 0 ? void 0 : (_data$response20$Resu = _data$response20.Result) === null || _data$response20$Resu === void 0 ? void 0 : _data$response20$Resu.includes(text);
-            })) {
+            if (data?.status === 200 && [ '成功', 'Success', 'Успех' ].find(text => data.response?.Result?.includes(text))) {
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response21 = data.response) === null || _data$response21 === void 0 ? void 0 : _data$response21.Result) || (data === null || data === void 0 ? void 0 : (_data$response22 = data.response) === null || _data$response22 === void 0 ? void 0 : _data$response22.Message) || (data === null || data === void 0 ? void 0 : data.statusText)}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.response?.Result || data?.response?.Message || data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -4485,8 +4363,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async toggleCurator(curatorId) {
-        let doTask = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      async toggleCurator(curatorId, doTask = true) {
         try {
           const logStatus = scripts_echoLog({
             type: doTask ? 'followingCurator' : 'unfollowingCurator',
@@ -4504,15 +4381,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             })
           });
           if (result === 'Success') {
-            var _data$response24, _data$response25;
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && [ '成功', 'Success', 'Успех' ].find(text => {
-              var _data$response23, _data$response23$Resu;
-              return (_data$response23 = data.response) === null || _data$response23 === void 0 ? void 0 : (_data$response23$Resu = _data$response23.Result) === null || _data$response23$Resu === void 0 ? void 0 : _data$response23$Resu.includes(text);
-            })) {
+            if (data?.status === 200 && [ '成功', 'Success', 'Успех' ].find(text => data.response?.Result?.includes(text))) {
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response24 = data.response) === null || _data$response24 === void 0 ? void 0 : _data$response24.Result) || (data === null || data === void 0 ? void 0 : (_data$response25 = data.response) === null || _data$response25 === void 0 ? void 0 : _data$response25.Message) || (data === null || data === void 0 ? void 0 : data.statusText)}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.response?.Result || data?.response?.Message || data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -4542,15 +4415,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               })
             });
             if (result === 'Success') {
-              var _data$response27, _data$response28;
-              if ((data === null || data === void 0 ? void 0 : data.status) === 200 && [ 'AlreadyPurchased', 'OK' ].find(text => {
-                var _data$response26, _data$response26$Resu;
-                return (_data$response26 = data.response) === null || _data$response26 === void 0 ? void 0 : (_data$response26$Resu = _data$response26.Result) === null || _data$response26$Resu === void 0 ? void 0 : _data$response26$Resu.includes(text);
-              })) {
+              if (data?.status === 200 && [ 'AlreadyPurchased', 'OK' ].find(text => data.response?.Result?.includes(text))) {
                 logStatus.success();
                 return true;
               }
-              logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response27 = data.response) === null || _data$response27 === void 0 ? void 0 : _data$response27.Result) || (data === null || data === void 0 ? void 0 : (_data$response28 = data.response) === null || _data$response28 === void 0 ? void 0 : _data$response28.Message) || (data === null || data === void 0 ? void 0 : data.statusText)}(${data === null || data === void 0 ? void 0 : data.status})`);
+              logStatus.error(`Error:${data?.response?.Result || data?.response?.Message || data?.statusText}(${data?.status})`);
               return false;
             }
             logStatus.error(`${result}:${statusText}(${status})`);
@@ -4573,8 +4442,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               })
             });
             if (result === 'Success') {
-              var _data$response29, _data$response30, _data$response31;
-              if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (_data$response29 = data.response) !== null && _data$response29 !== void 0 && _data$response29.Result) {
+              if (data?.status === 200 && data.response?.Result) {
                 const resultLines = data.response.Result.split('\n');
                 idsArr.forEach(subid => {
                   const targetLine = resultLines.find(text => text.includes(subid));
@@ -4586,7 +4454,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 });
                 return true;
               }
-              logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response30 = data.response) === null || _data$response30 === void 0 ? void 0 : _data$response30.Result) || (data === null || data === void 0 ? void 0 : (_data$response31 = data.response) === null || _data$response31 === void 0 ? void 0 : _data$response31.Message) || (data === null || data === void 0 ? void 0 : data.statusText)}(${data === null || data === void 0 ? void 0 : data.status})`);
+              logStatus.error(`Error:${data?.response?.Result || data?.response?.Message || data?.statusText}(${data?.status})`);
               return false;
             }
             logStatus.error(`${result}:${statusText}(${status})`);
@@ -4616,15 +4484,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             })
           });
           if (result === 'Success') {
-            var _data$response33, _data$response34;
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && [ '成功', 'Success', 'Успех' ].find(text => {
-              var _data$response32, _data$response32$Resu;
-              return (_data$response32 = data.response) === null || _data$response32 === void 0 ? void 0 : (_data$response32$Resu = _data$response32.Result) === null || _data$response32$Resu === void 0 ? void 0 : _data$response32$Resu.includes(text);
-            })) {
+            if (data?.status === 200 && [ '成功', 'Success', 'Успех' ].find(text => data.response?.Result?.includes(text))) {
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${(data === null || data === void 0 ? void 0 : (_data$response33 = data.response) === null || _data$response33 === void 0 ? void 0 : _data$response33.Result) || (data === null || data === void 0 ? void 0 : (_data$response34 = data.response) === null || _data$response34 === void 0 ? void 0 : _data$response34.Message) || (data === null || data === void 0 ? void 0 : data.statusText)}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.response?.Result || data?.response?.Message || data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -4656,7 +4520,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       #areaStatus = 'end';
       #ASF;
       constructor() {
-        var _GM_getValue;
         super();
         const defaultTasksTemplate = {
           groups: [],
@@ -4675,11 +4538,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         this.tasks = defaultTasksTemplate;
         this.whiteList = {
           ...defaultTasksTemplate,
-          ...((_GM_getValue = GM_getValue('whiteList')) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.steam) || {}
+          ...GM_getValue('whiteList')?.steam || {}
         };
       }
-      async init() {
-        let type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'all';
+      async init(type = 'all') {
         try {
           if (globalOptions.ASF.AsfEnabled && globalOptions.ASF.AsfIpcUrl && globalOptions.ASF.AsfIpcPassword) {
             this.#ASF = new social_SteamASF();
@@ -4751,8 +4613,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             data: formData
           });
           if (result === 'Success') {
-            var _data$response;
-            if (data !== null && data !== void 0 && (_data$response = data.response) !== null && _data$response !== void 0 && _data$response.success) {
+            if (data?.response?.success) {
               if (await this.#setStoreToken(data.response)) {
                 logStatus.success();
                 return true;
@@ -4760,7 +4621,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.error('Error');
               return false;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -4797,11 +4658,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             data: formData
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+            if (data?.status === 200) {
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -4833,14 +4694,13 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText$ma;
+            if (data?.status === 200) {
               if (!data.responseText.includes('data-miniprofile=')) {
                 await this.#refreshStoreToken();
                 logStatus.error(`Error:${i18n('needLoginSteamStore')}`, true);
                 return false;
               }
-              const storeSessionID = (_data$responseText$ma = data.responseText.match(/g_sessionID = "(.+?)";/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
+              const storeSessionID = data.responseText.match(/g_sessionID = "(.+?)";/)?.[1];
               if (storeSessionID) {
                 this.#auth.storeSessionID = storeSessionID;
                 logStatus.success();
@@ -4849,7 +4709,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.error('Error: Get "sessionID" failed');
               return false;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -4881,15 +4741,14 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText$ma2, _data$responseText$ma3, _data$responseText$ma4;
+            if (data?.status === 200) {
               if (data.responseText.includes('href="https://steamcommunity.com/login/home/')) {
                 logStatus.error(`Error:${i18n('needLoginSteamCommunity')}`, true);
                 return false;
               }
-              const steam64Id = (_data$responseText$ma2 = data.responseText.match(/g_steamID = "(.+?)";/)) === null || _data$responseText$ma2 === void 0 ? void 0 : _data$responseText$ma2[1];
-              const communitySessionID = (_data$responseText$ma3 = data.responseText.match(/g_sessionID = "(.+?)";/)) === null || _data$responseText$ma3 === void 0 ? void 0 : _data$responseText$ma3[1];
-              const userName = (_data$responseText$ma4 = data.responseText.match(/steamcommunity.com\/id\/(.+?)\/friends\//)) === null || _data$responseText$ma4 === void 0 ? void 0 : _data$responseText$ma4[1];
+              const steam64Id = data.responseText.match(/g_steamID = "(.+?)";/)?.[1];
+              const communitySessionID = data.responseText.match(/g_sessionID = "(.+?)";/)?.[1];
+              const userName = data.responseText.match(/steamcommunity.com\/id\/(.+?)\/friends\//)?.[1];
               if (steam64Id) {
                 this.#auth.steam64Id = steam64Id;
               }
@@ -4904,7 +4763,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.error('Error: Get "sessionID" failed');
               return false;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -4929,9 +4788,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             method: 'GET'
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText$ma5, _data$responseText$ma6;
-              const cartConfigRaw = (_data$responseText$ma5 = data.responseText.match(/data-cart_config="(.*?)"/)) === null || _data$responseText$ma5 === void 0 ? void 0 : _data$responseText$ma5[1];
+            if (data?.status === 200) {
+              const cartConfigRaw = data.responseText.match(/data-cart_config="(.*?)"/)?.[1];
               const temp = document.createElement('div');
               temp.innerHTML = cartConfigRaw || '{}';
               const cartConfigStr = temp.textContent || temp.innerText;
@@ -4947,7 +4805,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 logStatus.warning('Warning: Area cannot be changed');
                 return {};
               }
-              const userInfoRaw = (_data$responseText$ma6 = data.responseText.match(/data-userinfo="(.*?)"/)) === null || _data$responseText$ma6 === void 0 ? void 0 : _data$responseText$ma6[1];
+              const userInfoRaw = data.responseText.match(/data-userinfo="(.*?)"/)?.[1];
               const temp1 = document.createElement('div');
               temp1.innerHTML = userInfoRaw || '{}';
               const userInfoStr = temp1.textContent || temp1.innerText;
@@ -4972,7 +4830,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.error('Error: get country info filed');
               return {};
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return {};
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -5045,7 +4903,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             })
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && data.responseText === 'true') {
+            if (data?.status === 200 && data.responseText === 'true') {
               const {
                 currentArea
               } = await this.#getAreaInfo();
@@ -5059,7 +4917,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               return 'CN';
             }
             this.#areaStatus = 'error';
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return 'CN';
           }
           this.#areaStatus = 'error';
@@ -5101,12 +4959,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             })
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && !data.responseText.includes('grouppage_join_area')) {
+            if (data?.status === 200 && !data.responseText.includes('grouppage_join_area')) {
               logStatus.success();
               this.tasks.groups = unique([ ...this.tasks.groups, groupName ]);
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -5155,11 +5013,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             })
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && data.finalUrl.includes('groups') && $(data.responseText.replace(/<img.*?>/g, '').toLowerCase()).find(`a[href='https://steamcommunity.com/groups/${groupName.toLowerCase()}']`).length === 0) {
+            if (data?.status === 200 && data.finalUrl.includes('groups') && $(data.responseText.replace(/<img.*?>/g, '').toLowerCase()).find(`a[href='https://steamcommunity.com/groups/${groupName.toLowerCase()}']`).length === 0) {
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -5193,9 +5051,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText$ma7;
-              const groupId = (_data$responseText$ma7 = data.responseText.match(/OpenGroupChat\( '([0-9]+)'/)) === null || _data$responseText$ma7 === void 0 ? void 0 : _data$responseText$ma7[1];
+            if (data?.status === 200) {
+              const groupId = data.responseText.match(/OpenGroupChat\( '([0-9]+)'/)?.[1];
               if (groupId) {
                 this.#setCache('group', groupName, groupId);
                 logStatus.success();
@@ -5204,7 +5061,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.error(`Error:${data.statusText}(${data.status})`);
               return false;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -5240,17 +5097,16 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && !data.responseText.includes('id="publicGroupJoin"')) {
-              var _data$responseText$ma8;
+            if (data?.status === 200 && !data.responseText.includes('id="publicGroupJoin"')) {
               logStatus.success();
               this.tasks.officialGroups = unique([ ...this.tasks.officialGroups, gameId ]);
-              const groupId = (_data$responseText$ma8 = data.responseText.match(/steam:\/\/friends\/joinchat\/([0-9]+)/)) === null || _data$responseText$ma8 === void 0 ? void 0 : _data$responseText$ma8[1];
+              const groupId = data.responseText.match(/steam:\/\/friends\/joinchat\/([0-9]+)/)?.[1];
               if (groupId) {
                 this.#setCache('officialGroup', gameId, groupId);
               }
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -5299,7 +5155,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             })
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+            if (data?.status === 200) {
               const {
                 result: resultR,
                 statusText: statusTextR,
@@ -5313,17 +5169,17 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 }
               });
               if (resultR === 'Success') {
-                if ((dataR === null || dataR === void 0 ? void 0 : dataR.status) === 200 && dataR.responseText.includes('id="publicGroupJoin"')) {
+                if (dataR?.status === 200 && dataR.responseText.includes('id="publicGroupJoin"')) {
                   logStatus.success();
                   return true;
                 }
-                logStatus.error(`Error:${dataR === null || dataR === void 0 ? void 0 : dataR.statusText}(${dataR === null || dataR === void 0 ? void 0 : dataR.status})`);
+                logStatus.error(`Error:${dataR?.statusText}(${dataR?.status})`);
                 return false;
               }
               logStatus.error(`${resultR}:${statusTextR}(${statusR})`);
               return false;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -5357,9 +5213,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText$ma9;
-              const groupId = (_data$responseText$ma9 = data.responseText.match(/steam:\/\/friends\/joinchat\/([0-9]+)/)) === null || _data$responseText$ma9 === void 0 ? void 0 : _data$responseText$ma9[1];
+            if (data?.status === 200) {
+              const groupId = data.responseText.match(/steam:\/\/friends\/joinchat\/([0-9]+)/)?.[1];
               if (groupId) {
                 this.#setCache('officialGroup', gameId, groupId);
                 logStatus.success();
@@ -5368,7 +5223,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.error(`Error:${data.statusText}(${data.status})`);
               return false;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -5380,7 +5235,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
       async #addToWishlist(gameId) {
         try {
-          var _data$response2;
           if (this.#ASF) {
             if (await this.#ASF.addToWishlist(gameId)) {
               this.tasks.wishlists = unique([ ...this.tasks.wishlists, gameId ]);
@@ -5407,7 +5261,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }),
             dataType: 'json'
           });
-          if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200 && ((_data$response2 = data.response) === null || _data$response2 === void 0 ? void 0 : _data$response2.success) === true) {
+          if (result === 'Success' && data?.status === 200 && data.response?.success === true) {
             logStatus.success();
             this.tasks.wishlists = unique([ ...this.tasks.wishlists, gameId ]);
             return true;
@@ -5422,7 +5276,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             method: 'GET'
           });
           if (resultR === 'Success') {
-            if ((dataR === null || dataR === void 0 ? void 0 : dataR.status) === 200) {
+            if (dataR?.status === 200) {
               if (this.#area === 'CN' && dataR.responseText.includes('id="error_box"')) {
                 logStatus.warning(i18n('changeAreaNotice'));
                 if (!await this.#changeArea()) {
@@ -5442,7 +5296,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               this.tasks.wishlists = unique([ ...this.tasks.wishlists, gameId ]);
               return true;
             }
-            logStatus.error(`Error:${dataR === null || dataR === void 0 ? void 0 : dataR.statusText}(${dataR === null || dataR === void 0 ? void 0 : dataR.status})`);
+            logStatus.error(`Error:${dataR?.statusText}(${dataR?.status})`);
             return false;
           }
           logStatus.error(`${resultR}:${statusTextR}(${statusR})`);
@@ -5454,7 +5308,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
       async #removeFromWishlist(gameId) {
         try {
-          var _data$response3;
           if (this.whiteList.wishlists.includes(gameId)) {
             scripts_echoLog({
               type: 'whiteList',
@@ -5485,7 +5338,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }),
             dataType: 'json'
           });
-          if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200 && ((_data$response3 = data.response) === null || _data$response3 === void 0 ? void 0 : _data$response3.success) === true) {
+          if (result === 'Success' && data?.status === 200 && data.response?.success === true) {
             logStatus.success();
             return true;
           }
@@ -5499,7 +5352,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             method: 'GET'
           });
           if (resultR === 'Success') {
-            if ((dataR === null || dataR === void 0 ? void 0 : dataR.status) === 200) {
+            if (dataR?.status === 200) {
               if (this.#area === 'CN' && dataR.responseText.includes('id="error_box"')) {
                 logStatus.warning(i18n('changeAreaNotice'));
                 const result = await this.#changeArea();
@@ -5515,7 +5368,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.error(`Error:${dataR.statusText}(${dataR.status})`);
               return false;
             }
-            logStatus.error(`Error:${dataR === null || dataR === void 0 ? void 0 : dataR.statusText}(${dataR === null || dataR === void 0 ? void 0 : dataR.status})`);
+            logStatus.error(`Error:${dataR?.statusText}(${dataR?.status})`);
             return false;
           }
           logStatus.error(`${resultR}:${statusTextR}(${statusR})`);
@@ -5566,7 +5419,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             },
             data: $.param(requestData)
           });
-          if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200 && data.responseText === 'true') {
+          if (result === 'Success' && data?.status === 200 && data.responseText === 'true') {
             logStatus.success();
             return true;
           }
@@ -5585,7 +5438,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
             return true;
           }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+          logStatus.error(`Error:${data?.statusText}(${data?.status})`);
           return false;
         } catch (error) {
           throwError(error, 'Steam.toggleFollowGame');
@@ -5602,7 +5455,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             method: 'GET'
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+            if (data?.status === 200) {
               if (this.#area === 'CN' && data.responseText.includes('id="error_box"')) {
                 return 'areaLocked';
               }
@@ -5619,8 +5472,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async #toggleForum(gameId) {
-        let doTask = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      async #toggleForum(gameId, doTask = true) {
         try {
           if (!doTask && this.whiteList.forums.includes(gameId)) {
             scripts_echoLog({
@@ -5656,15 +5508,14 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             })
           });
           if (result === 'Success') {
-            var _data$response4, _data$response5;
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (((_data$response4 = data.response) === null || _data$response4 === void 0 ? void 0 : _data$response4.success) === 1 || ((_data$response5 = data.response) === null || _data$response5 === void 0 ? void 0 : _data$response5.success) === 29)) {
+            if (data?.status === 200 && (data.response?.success === 1 || data.response?.success === 29)) {
               if (doTask) {
                 this.tasks.forums = unique([ ...this.tasks.forums, gameId ]);
               }
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return true;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -5695,9 +5546,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             method: 'GET'
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText, _data$responseText$ma10;
-              const forumId = (_data$responseText = data.responseText) === null || _data$responseText === void 0 ? void 0 : (_data$responseText$ma10 = _data$responseText.match(/General_([\d]+(_[\d]+)?)/)) === null || _data$responseText$ma10 === void 0 ? void 0 : _data$responseText$ma10[1];
+            if (data?.status === 200) {
+              const forumId = data.responseText?.match(/General_([\d]+(_[\d]+)?)/)?.[1];
               if (forumId) {
                 this.#setCache('forum', gameId, forumId);
                 logStatus.success();
@@ -5706,7 +5556,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.error(`Error:${data.statusText}(${data.status})`);
               return false;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -5716,8 +5566,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async #toggleFavoriteWorkshop(id) {
-        let doTask = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      async #toggleFavoriteWorkshop(id, doTask = true) {
         try {
           if (!doTask && this.whiteList.workshops.includes(id)) {
             scripts_echoLog({
@@ -5753,14 +5602,14 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             })
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && !data.responseText) {
+            if (data?.status === 200 && !data.responseText) {
               if (doTask) {
                 this.tasks.workshops = unique([ ...this.tasks.workshops, id ]);
               }
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -5791,9 +5640,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             method: 'GET'
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText$ma11;
-              const appId = (_data$responseText$ma11 = data.responseText.match(/<input type="hidden" name="appid" value="([\d]+?)" \/>/)) === null || _data$responseText$ma11 === void 0 ? void 0 : _data$responseText$ma11[1];
+            if (data?.status === 200) {
+              const appId = data.responseText.match(/<input type="hidden" name="appid" value="([\d]+?)" \/>/)?.[1];
               if (appId) {
                 this.#setCache('workshop', id, appId);
                 logStatus.success();
@@ -5802,7 +5650,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.error('Error: getWorkshopAppId failed');
               return false;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -5836,12 +5684,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             })
           });
           if (result === 'Success') {
-            var _data$response6;
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && ((_data$response6 = data.response) === null || _data$response6 === void 0 ? void 0 : _data$response6.success) === 1) {
+            if (data?.status === 200 && data.response?.success === 1) {
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return true;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -5851,8 +5698,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return true;
         }
       }
-      async #toggleCurator(curatorId) {
-        let doTask = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      async #toggleCurator(curatorId, doTask = true) {
         try {
           if (!doTask && this.whiteList.curators.includes(curatorId)) {
             scripts_echoLog({
@@ -5888,12 +5734,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             dataType: 'json'
           });
           if (result === 'Success') {
-            var _data$response7, _data$response7$succe, _data$response8;
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && ((_data$response7 = data.response) === null || _data$response7 === void 0 ? void 0 : (_data$response7$succe = _data$response7.success) === null || _data$response7$succe === void 0 ? void 0 : _data$response7$succe.success) === 1) {
+            if (data?.status === 200 && data.response?.success?.success === 1) {
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : (_data$response8 = data.response) === null || _data$response8 === void 0 ? void 0 : _data$response8.success}` || `${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.response?.success}` || `${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -5927,9 +5772,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText$ma12;
-              const curatorId = (_data$responseText$ma12 = data.responseText.match(/g_pagingData.*?"clanid":([\d]+)/)) === null || _data$responseText$ma12 === void 0 ? void 0 : _data$responseText$ma12[1];
+            if (data?.status === 200) {
+              const curatorId = data.responseText.match(/g_pagingData.*?"clanid":([\d]+)/)?.[1];
               if (curatorId) {
                 this.#setCache('curator', `${path}/${name}`, curatorId);
                 logStatus.success();
@@ -5938,7 +5782,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.error(`Error:${data.statusText}(${data.status})`);
               return false;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -5948,8 +5792,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async #toggleCuratorLike(link) {
-        let doTask = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      async #toggleCuratorLike(link, doTask = true) {
         try {
           const [ path, name ] = link.split('/');
           if (!(path && name)) {
@@ -5990,13 +5833,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
           });
           if (result === 'Success') {
-            var _data$response9;
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (data === null || data === void 0 ? void 0 : (_data$response9 = data.response) === null || _data$response9 === void 0 ? void 0 : _data$response9.success) === 1) {
-              var _data$response$event;
+            if (data?.status === 200 && data?.response?.success === 1) {
               const {
                 clanid,
                 gid
-              } = ((_data$response$event = data.response.event) === null || _data$response$event === void 0 ? void 0 : _data$response$event.announcement_body) || {};
+              } = data.response.event?.announcement_body || {};
               if (clanid) {
                 logStatus.success();
                 return {
@@ -6007,7 +5848,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.error(`Error:${data.statusText}(${data.status})`);
               return {};
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return {};
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -6059,11 +5900,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             dataType: 'json'
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && data.response.success === 1) {
+            if (data?.status === 200 && data.response.success === 1) {
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -6092,8 +5933,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$responseText$ma13;
+            if (data?.status === 200) {
               if (this.#area === 'CN' && data.responseText.includes('id="error_box"')) {
                 logStatus.warning(i18n('changeAreaNotice'));
                 const result = await this.#changeArea();
@@ -6102,7 +5942,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 }
                 return await this.#appid2subid(id);
               }
-              const subid = (_data$responseText$ma13 = data.responseText.match(/name="subid" value="([\d]+?)"/)) === null || _data$responseText$ma13 === void 0 ? void 0 : _data$responseText$ma13[1];
+              const subid = data.responseText.match(/name="subid" value="([\d]+?)"/)?.[1];
               if (subid) {
                 logStatus.success();
                 return subid;
@@ -6110,7 +5950,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.error(`Error:${data.statusText}(${data.status})`);
               return false;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -6136,12 +5976,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             responseType: 'json'
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-              var _data$response10;
+            if (data?.status === 200) {
               logStatus.success();
-              return (_data$response10 = data.response) === null || _data$response10 === void 0 ? void 0 : _data$response10.rgOwnedPackages;
+              return data.response?.rgOwnedPackages;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -6179,7 +6018,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               method: 'GET'
             });
             if (result === 'Success') {
-              if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+              if (data?.status === 200) {
                 if (data.responseText.includes('ds_owned_flag ds_flag') || data.responseText.includes('class="already_in_library"')) {
                   logStatus.success();
                   return true;
@@ -6187,7 +6026,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 logStatus.error(`Error:${data.statusText}(${data.status})`);
                 return false;
               }
-              logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+              logStatus.error(`Error:${data?.statusText}(${data?.status})`);
               return false;
             }
             logStatus.error(`${result}:${statusText}(${status})`);
@@ -6256,7 +6095,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             dataType: 'json'
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+            if (data?.status === 200) {
               if (this.#area === 'CN' && data.responseText.includes('id="error_box"')) {
                 logStatus.warning(i18n('changeAreaNotice'));
                 const result = await this.#changeArea();
@@ -6268,7 +6107,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -6307,12 +6146,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             dataType: 'json'
           });
           if (result === 'Success') {
-            var _data$response11;
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (data === null || data === void 0 ? void 0 : (_data$response11 = data.response) === null || _data$response11 === void 0 ? void 0 : _data$response11.success) === 1) {
+            if (data?.status === 200 && data?.response?.success === 1) {
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -6322,22 +6160,21 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async toggle(_ref) {
-        let {
-          doTask = true,
-          groupLinks = [],
-          officialGroupLinks = [],
-          wishlistLinks = [],
-          followLinks = [],
-          forumLinks = [],
-          workshopLinks = [],
-          workshopVoteLinks = [],
-          curatorLinks = [],
-          curatorLikeLinks = [],
-          announcementLinks = [],
-          licenseLinks = [],
-          playtestLinks = []
-        } = _ref;
+      async toggle({
+        doTask = true,
+        groupLinks = [],
+        officialGroupLinks = [],
+        wishlistLinks = [],
+        followLinks = [],
+        forumLinks = [],
+        workshopLinks = [],
+        workshopVoteLinks = [],
+        curatorLinks = [],
+        curatorLikeLinks = [],
+        announcementLinks = [],
+        licenseLinks = [],
+        playtestLinks = []
+      }) {
         try {
           if ([ ...groupLinks, ...officialGroupLinks, ...forumLinks, ...workshopLinks, ...workshopVoteLinks ].length > 0 && !this.#communityInitialized) {
             scripts_echoLog({
@@ -6358,10 +6195,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               text: 'steam.groups'
             });
           } else {
-            const realGroups = this.getRealParams('groups', groupLinks, doTask, link => {
-              var _link$match;
-              return (_link$match = link.match(/groups\/(.+)\/?/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
-            });
+            const realGroups = this.getRealParams('groups', groupLinks, doTask, link => link.match(/groups\/(.+)\/?/)?.[1]);
             if (realGroups.length > 0) {
               for (const group of realGroups) {
                 if (doTask) {
@@ -6379,10 +6213,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               text: 'steam.officialGroups'
             });
           } else {
-            const realOfficialGroups = this.getRealParams('officialGroups', officialGroupLinks, doTask, link => {
-              var _link$match2;
-              return (_link$match2 = link.match(/games\/(.+)\/?/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1];
-            });
+            const realOfficialGroups = this.getRealParams('officialGroups', officialGroupLinks, doTask, link => link.match(/games\/(.+)\/?/)?.[1]);
             if (realOfficialGroups.length > 0) {
               for (const officialGroup of realOfficialGroups) {
                 if (doTask) {
@@ -6400,10 +6231,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               text: 'steam.wishlists'
             });
           } else {
-            const realWishlists = this.getRealParams('wishlists', wishlistLinks, doTask, link => {
-              var _link$match3;
-              return (_link$match3 = link.match(/app\/([\d]+)/)) === null || _link$match3 === void 0 ? void 0 : _link$match3[1];
-            });
+            const realWishlists = this.getRealParams('wishlists', wishlistLinks, doTask, link => link.match(/app\/([\d]+)/)?.[1]);
             if (realWishlists.length > 0) {
               for (const game of realWishlists) {
                 if (doTask) {
@@ -6421,10 +6249,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               text: 'steam.follows'
             });
           } else {
-            const realFollows = this.getRealParams('follows', followLinks, doTask, link => {
-              var _link$match4;
-              return (_link$match4 = link.match(/app\/([\d]+)/)) === null || _link$match4 === void 0 ? void 0 : _link$match4[1];
-            });
+            const realFollows = this.getRealParams('follows', followLinks, doTask, link => link.match(/app\/([\d]+)/)?.[1]);
             if (realFollows.length > 0) {
               for (const game of realFollows) {
                 prom.push(this.#toggleFollowGame(game, doTask));
@@ -6438,10 +6263,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               text: 'steam.forums'
             });
           } else {
-            const realForums = this.getRealParams('forums', forumLinks, doTask, link => {
-              var _link$match5;
-              return (_link$match5 = link.match(/app\/([\d]+)/)) === null || _link$match5 === void 0 ? void 0 : _link$match5[1];
-            });
+            const realForums = this.getRealParams('forums', forumLinks, doTask, link => link.match(/app\/([\d]+)/)?.[1]);
             if (realForums.length > 0) {
               for (const forum of realForums) {
                 prom.push(this.#toggleForum(forum, doTask));
@@ -6455,10 +6277,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               text: 'steam.workshops'
             });
           } else {
-            const realWorkshops = this.getRealParams('workshops', workshopLinks, doTask, link => {
-              var _link$match6;
-              return (_link$match6 = link.match(/\?id=([\d]+)/)) === null || _link$match6 === void 0 ? void 0 : _link$match6[1];
-            });
+            const realWorkshops = this.getRealParams('workshops', workshopLinks, doTask, link => link.match(/\?id=([\d]+)/)?.[1]);
             if (realWorkshops.length > 0) {
               for (const workshop of realWorkshops) {
                 prom.push(this.#toggleFavoriteWorkshop(workshop, doTask));
@@ -6472,10 +6291,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               text: 'steam.workshopVotes'
             });
           } else {
-            const realworkshopVotes = this.getRealParams('workshopVotes', workshopVoteLinks, doTask, link => {
-              var _link$match7;
-              return (_link$match7 = link.match(/\?id=([\d]+)/)) === null || _link$match7 === void 0 ? void 0 : _link$match7[1];
-            });
+            const realworkshopVotes = this.getRealParams('workshopVotes', workshopVoteLinks, doTask, link => link.match(/\?id=([\d]+)/)?.[1]);
             if (doTask && realworkshopVotes.length > 0) {
               for (const workshop of realworkshopVotes) {
                 prom.push(this.#voteUpWorkshop(workshop));
@@ -6489,14 +6305,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               text: 'steam.curators'
             });
           } else {
-            const realCurators = this.getRealParams('curators', curatorLinks, doTask, link => {
-              var _link$match8;
-              return (_link$match8 = link.match(/curator\/([\d]+)/)) === null || _link$match8 === void 0 ? void 0 : _link$match8[1];
-            });
-            const realCuratorLikes = this.getRealParams('curatorLikes', curatorLikeLinks, doTask, link => {
-              var _link$match9;
-              return (_link$match9 = link.match(/https?:\/\/store\.steampowered\.com\/(.*?)\/([^/?]+)/)) === null || _link$match9 === void 0 ? void 0 : _link$match9.slice(1, 3).join('/');
-            });
+            const realCurators = this.getRealParams('curators', curatorLinks, doTask, link => link.match(/curator\/([\d]+)/)?.[1]);
+            const realCuratorLikes = this.getRealParams('curatorLikes', curatorLikeLinks, doTask, link => link.match(/https?:\/\/store\.steampowered\.com\/(.*?)\/([^/?]+)/)?.slice(1, 3).join('/'));
             if (realCurators.length > 0) {
               for (const curator of realCurators) {
                 prom.push(this.#toggleCurator(curator, doTask));
@@ -6517,12 +6327,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             });
           } else {
             const realAnnouncements = this.getRealParams('announcements', announcementLinks, doTask, link => {
-              var _link$match11;
               if (link.includes('store.steampowered.com')) {
-                var _link$match10;
-                return (_link$match10 = link.match(/store\.steampowered\.com\/news\/app\/([\d]+)\/view\/([\d]+)/)) === null || _link$match10 === void 0 ? void 0 : _link$match10.slice(1, 3).join('/');
+                return link.match(/store\.steampowered\.com\/news\/app\/([\d]+)\/view\/([\d]+)/)?.slice(1, 3).join('/');
               }
-              return (_link$match11 = link.match(/steamcommunity\.com\/games\/([\d]+)\/announcements\/detail\/([\d]+)/)) === null || _link$match11 === void 0 ? void 0 : _link$match11.slice(1, 3).join('/');
+              return link.match(/steamcommunity\.com\/games\/([\d]+)\/announcements\/detail\/([\d]+)/)?.slice(1, 3).join('/');
             });
             if (doTask && realAnnouncements.length > 0) {
               for (const id of realAnnouncements) {
@@ -6548,10 +6356,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               text: 'steam.playtests'
             });
           } else {
-            const realPlaytests = this.getRealParams('playtests', playtestLinks, doTask, link => {
-              var _link$match12;
-              return (_link$match12 = link.match(/app\/([\d]+)/)) === null || _link$match12 === void 0 ? void 0 : _link$match12[1];
-            });
+            const realPlaytests = this.getRealParams('playtests', playtestLinks, doTask, link => link.match(/app\/([\d]+)/)?.[1]);
             if (doTask && globalOptions.doTask.steam.playtests && realPlaytests.length > 0) {
               for (const id of realPlaytests) {
                 prom.push(this.#requestPlayTestAccess(id));
@@ -6671,10 +6476,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               if (!this.social.steam) {
                 this.social.steam = new social_Steam();
               }
-              const steamCommunityLength = Object.keys(tasks.steam).map(type => {
-                var _tasks$steam, _tasks$steam$type;
-                return [ 'groupLinks', 'officialGroupLinks', 'forumLinks', 'workshopLinks', 'workshopVoteLinks' ].includes(type) ? ((_tasks$steam = tasks.steam) === null || _tasks$steam === void 0 ? void 0 : (_tasks$steam$type = _tasks$steam[type]) === null || _tasks$steam$type === void 0 ? void 0 : _tasks$steam$type.length) || 0 : 0;
-              }).reduce((total, number) => total + number, 0);
+              const steamCommunityLength = Object.keys(tasks.steam).map(type => [ 'groupLinks', 'officialGroupLinks', 'forumLinks', 'workshopLinks', 'workshopVoteLinks' ].includes(type) ? tasks.steam?.[type]?.length || 0 : 0).reduce((total, number) => total + number, 0);
               if (steamLength - steamCommunityLength > 0 && !this.socialInitialized.steamStore) {
                 pro.push(this.#bind('steamStore', this.social.steam.init('store')));
               }
@@ -6847,8 +6649,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             return false;
           }
           if (!/^https?:\/\/freeanywhere\.net\/#\/giveaway\/[\d]+/.test(window.location.href)) {
-            var _window$location$href;
-            const id = (_window$location$href = window.location.href.match(/https?:\/\/freeanywhere\.net\/.*?#\/giveaway\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
+            const id = window.location.href.match(/https?:\/\/freeanywhere\.net\/.*?#\/giveaway\/([\d]+)/)?.[1];
             if (!id) {
               logStatus.error(i18n('getFailed', 'Id'));
               return false;
@@ -6875,8 +6676,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             text: i18n('getTasksInfo')
           });
           if (action === 'undo') {
-            var _GM_getValue;
-            this.socialTasks = ((_GM_getValue = GM_getValue(`fawTasks-${this.giveawayId}`)) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.tasks) || JSON.parse(defaultTasks);
+            this.socialTasks = GM_getValue(`fawTasks-${this.giveawayId}`)?.tasks || JSON.parse(defaultTasks);
           }
           const {
             result,
@@ -6893,8 +6693,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             responseType: 'json'
           });
           if (result === 'Success') {
-            var _data$response;
-            const tasks = data === null || data === void 0 ? void 0 : (_data$response = data.response) === null || _data$response === void 0 ? void 0 : _data$response.challenges;
+            const tasks = data?.response?.challenges;
             if (tasks) {
               if (action === 'verify') {
                 this.tasks = [];
@@ -6981,7 +6780,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               });
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -7034,13 +6833,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
           });
           if (result === 'Success') {
-            var _data$response2;
-            if (data !== null && data !== void 0 && (_data$response2 = data.response) !== null && _data$response2 !== void 0 && _data$response2.reward) {
+            if (data?.response?.reward) {
               logStatus.success();
               scripts_echoLog({}).success(data.response.reward);
               return data.response.reward;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -7052,8 +6850,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
       #getGiveawayId() {
         try {
-          var _window$location$href2;
-          const giveawayId = (_window$location$href2 = window.location.href.match(/\/giveaway\/([\d]+)/)) === null || _window$location$href2 === void 0 ? void 0 : _window$location$href2[1];
+          const giveawayId = window.location.href.match(/\/giveaway\/([\d]+)/)?.[1];
           if (giveawayId) {
             this.giveawayId = giveawayId;
             return true;
@@ -7084,12 +6881,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
           });
           if (result === 'Success') {
-            var _data$response3;
-            if (data !== null && data !== void 0 && (_data$response3 = data.response) !== null && _data$response3 !== void 0 && _data$response3.status) {
+            if (data?.response?.status) {
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -7101,7 +6897,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
       async #checkLeftKey() {
         try {
-          var _data$response4;
           if (!globalOptions.other.checkLeftKey) {
             return true;
           }
@@ -7115,7 +6910,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               authorization: `Token ${window.localStorage.getItem('token')}`
             }
           });
-          if (data !== null && data !== void 0 && (_data$response4 = data.response) !== null && _data$response4 !== void 0 && _data$response4.giveaways.find(giveaway => `${giveaway === null || giveaway === void 0 ? void 0 : giveaway.id}` === this.giveawayId)) {
+          if (data?.response?.giveaways.find(giveaway => `${giveaway?.id}` === this.giveawayId)) {
             return true;
           }
           await external_Swal_default().fire({
@@ -7125,10 +6920,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             confirmButtonText: i18n('confirm'),
             cancelButtonText: i18n('cancel'),
             showCancelButton: true
-          }).then(_ref => {
-            let {
-              value
-            } = _ref;
+          }).then(({
+            value
+          }) => {
             if (value) {
               window.close();
             }
@@ -7225,8 +7019,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             text: i18n('getTasksInfo')
           });
           if (action === 'undo') {
-            var _GM_getValue;
-            this.socialTasks = ((_GM_getValue = GM_getValue(`gasTasks-${this.giveawayId}`)) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.tasks) || GiveawaySu_defaultTasks;
+            this.socialTasks = GM_getValue(`gasTasks-${this.giveawayId}`)?.tasks || GiveawaySu_defaultTasks;
             return true;
           }
           const pro = [];
@@ -7343,10 +7136,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               confirmButtonText: i18n('confirm'),
               cancelButtonText: i18n('cancel'),
               showCancelButton: true
-            }).then(_ref => {
-              let {
-                value
-              } = _ref;
+            }).then(({
+              value
+            }) => {
               if (value) {
                 window.close();
               }
@@ -7359,8 +7151,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         }
       }
       #getGiveawayId() {
-        var _window$location$href;
-        const giveawayId = (_window$location$href = window.location.href.match(/\/view\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
+        const giveawayId = window.location.href.match(/\/view\/([\d]+)/)?.[1];
         if (giveawayId) {
           this.giveawayId = giveawayId;
           return true;
@@ -7428,20 +7219,18 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               }
             });
             if (result === 'Success') {
-              if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-                var _data$response, _data$response4, _data$response5;
-                if ((_data$response = data.response) !== null && _data$response !== void 0 && _data$response.success) {
-                  var _data$response2, _data$response3;
+              if (data?.status === 200) {
+                if (data.response?.success) {
                   currentoption.addClass('buttonentered').text('Success - Giveaway joined');
                   $('#giveawaysjoined').slideDown();
                   $('#giveawaysrecommend').slideDown();
-                  logStatus.success(`Success${(_data$response2 = data.response) !== null && _data$response2 !== void 0 && _data$response2.text ? `:${(_data$response3 = data.response) === null || _data$response3 === void 0 ? void 0 : _data$response3.text}` : ''}`);
+                  logStatus.success(`Success${data.response?.text ? `:${data.response?.text}` : ''}`);
                   return true;
                 }
-                logStatus.error(`Error${(_data$response4 = data.response) !== null && _data$response4 !== void 0 && _data$response4.text ? `:${(_data$response5 = data.response) === null || _data$response5 === void 0 ? void 0 : _data$response5.text}` : ''}`);
+                logStatus.error(`Error${data.response?.text ? `:${data.response?.text}` : ''}`);
                 return false;
               }
-              logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+              logStatus.error(`Error:${data?.statusText}(${data?.status})`);
               return false;
             }
             logStatus.error(`${result}:${statusText}(${status})`);
@@ -7460,8 +7249,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         try {
           const id = $('script').map((index, script) => {
             if (/\$\(document\)/gim.test(script.innerHTML)) {
-              var _script$innerHTML$mat, _script$innerHTML$mat2, _script$innerHTML$mat3, _script$innerHTML$mat4, _script$innerHTML$mat5, _script$innerHTML$mat6;
-              return [ (_script$innerHTML$mat = script.innerHTML.match(/"\/[\d]+"/gim)) === null || _script$innerHTML$mat === void 0 ? void 0 : (_script$innerHTML$mat2 = _script$innerHTML$mat[0]) === null || _script$innerHTML$mat2 === void 0 ? void 0 : (_script$innerHTML$mat3 = _script$innerHTML$mat2.match(/[\d]+/)) === null || _script$innerHTML$mat3 === void 0 ? void 0 : _script$innerHTML$mat3[0], (_script$innerHTML$mat4 = script.innerHTML.match(/"\/newsletter\/ajax\/subscribeprofile\/optin\/[\d]+"/gim)) === null || _script$innerHTML$mat4 === void 0 ? void 0 : (_script$innerHTML$mat5 = _script$innerHTML$mat4[0]) === null || _script$innerHTML$mat5 === void 0 ? void 0 : (_script$innerHTML$mat6 = _script$innerHTML$mat5.match(/[\d]+/)) === null || _script$innerHTML$mat6 === void 0 ? void 0 : _script$innerHTML$mat6[0] ];
+              return [ script.innerHTML.match(/"\/[\d]+"/gim)?.[0]?.match(/[\d]+/)?.[0], script.innerHTML.match(/"\/newsletter\/ajax\/subscribeprofile\/optin\/[\d]+"/gim)?.[0]?.match(/[\d]+/)?.[0] ];
             }
             return null;
           });
@@ -7551,12 +7339,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                   }));
                 } else if (promo.hasClass('watchingpromo')) {
                   pro.push(new Promise(resolve => {
-                    var _promo$attr;
                     const data = getUrlQuery(promo.attr('href'));
                     data.ajax = 't';
                     $.ajax({
                       type: 'POST',
-                      url: urlPath((_promo$attr = promo.attr('href')) === null || _promo$attr === void 0 ? void 0 : _promo$attr.split(/[?#]/)[0]),
+                      url: urlPath(promo.attr('href')?.split(/[?#]/)[0]),
                       timeout: 6e4,
                       dataType: 'json',
                       data: data,
@@ -7659,10 +7446,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               confirmButtonText: i18n('confirm'),
               cancelButtonText: i18n('cancel'),
               showCancelButton: true
-            }).then(_ref => {
-              let {
-                value
-              } = _ref;
+            }).then(({
+              value
+            }) => {
               if (value) {
                 window.close();
               }
@@ -7742,8 +7528,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             text: i18n('getTasksInfo')
           });
           if (action === 'undo') {
-            var _GM_getValue;
-            this.socialTasks = ((_GM_getValue = GM_getValue(`khTasks-${this.giveawayId}`)) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.tasks) || JSON.parse(Keyhub_defaultTasks);
+            this.socialTasks = GM_getValue(`khTasks-${this.giveawayId}`)?.tasks || JSON.parse(Keyhub_defaultTasks);
           }
           const tasks = $('.task:not(".googleads")').filter((index, element) => action === 'do' ? $(element).find('i.fa-check-circle:visible').length === 0 : true).find('a');
           for (const task of tasks) {
@@ -7794,8 +7579,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               }
             } else if (/^javascript:videoTask.+/.test(link)) {
               if (action === 'do') {
-                var _link$match;
-                const taskData = (_link$match = link.match(/javascript:videoTask\('.+?','(.+?)'/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
+                const taskData = link.match(/javascript:videoTask\('.+?','(.+?)'/)?.[1];
                 if (taskData) {
                   this.undoneTasks.extra.videoTasks.push(taskData);
                 }
@@ -7839,11 +7623,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
           });
           if (result === 'Success') {
-            if ((response === null || response === void 0 ? void 0 : response.status) === 200) {
+            if (response?.status === 200) {
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${response === null || response === void 0 ? void 0 : response.statusText}(${response === null || response === void 0 ? void 0 : response.status})`);
+            logStatus.error(`Error:${response?.statusText}(${response?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -7853,10 +7637,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async extraDoTask(_ref) {
-        let {
-          videoTasks
-        } = _ref;
+      async extraDoTask({
+        videoTasks
+      }) {
         try {
           const pro = [];
           for (const data of videoTasks) {
@@ -7870,8 +7653,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
       #getGiveawayId() {
         try {
-          var _window$location$href;
-          const giveawayId = (_window$location$href = window.location.href.match(/giveaway\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
+          const giveawayId = window.location.href.match(/giveaway\/([\d]+)/)?.[1];
           if (giveawayId) {
             this.giveawayId = giveawayId;
             return true;
@@ -7897,10 +7679,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               confirmButtonText: i18n('confirm'),
               cancelButtonText: i18n('cancel'),
               showCancelButton: true
-            }).then(_ref2 => {
-              let {
-                value
-              } = _ref2;
+            }).then(({
+              value
+            }) => {
               if (value) {
                 window.close();
               }
@@ -8007,8 +7788,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             text: i18n('getTasksInfo')
           });
           if (action === 'undo') {
-            var _GM_getValue;
-            this.socialTasks = ((_GM_getValue = GM_getValue(`gkTasks-${this.giveawayId}`)) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.tasks) || JSON.parse(Givekey_defaultTasks);
+            this.socialTasks = GM_getValue(`gkTasks-${this.giveawayId}`)?.tasks || JSON.parse(Givekey_defaultTasks);
           }
           const tasks = $('.card-body:has("button") .row');
           for (const task of tasks) {
@@ -8165,8 +7945,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
       #getGiveawayId() {
         try {
-          var _window$location$href;
-          const giveawayId = (_window$location$href = window.location.href.match(/giveaway\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
+          const giveawayId = window.location.href.match(/giveaway\/([\d]+)/)?.[1];
           if (giveawayId) {
             this.giveawayId = giveawayId;
             return true;
@@ -8193,10 +7972,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               confirmButtonText: i18n('confirm'),
               cancelButtonText: i18n('cancel'),
               showCancelButton: true
-            }).then(_ref => {
-              let {
-                value
-              } = _ref;
+            }).then(({
+              value
+            }) => {
               if (value) {
                 window.close();
               }
@@ -8254,20 +8032,18 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             text: i18n('getTasksInfo')
           });
           if (action === 'undo') {
-            var _GM_getValue;
-            this.socialTasks = ((_GM_getValue = GM_getValue(`gcTasks-${this.giveawayId}`)) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.tasks) || GiveawaySu_defaultTasks;
+            this.socialTasks = GM_getValue(`gcTasks-${this.giveawayId}`)?.tasks || GiveawaySu_defaultTasks;
             return true;
           }
           const pro = [];
           const tasks = $('.event-actions tr');
           for (const task of tasks) {
             pro.push(new Promise(resolve => {
-              var _$$find, _$$find2;
               const taskDes = $(task).find('.event-action-label a');
               const taskIcon = $(task).find('.event-action-icon i').attr('class') || '';
               const taskName = taskDes.text().trim();
-              const taskType = (_$$find = $(task).find('button[data-type]')) === null || _$$find === void 0 ? void 0 : _$$find.attr('data-type');
-              const taskFinished = (_$$find2 = $(task).find('.event-action-buttons .btn-success')) === null || _$$find2 === void 0 ? void 0 : _$$find2.length;
+              const taskType = $(task).find('button[data-type]')?.attr('data-type');
+              const taskFinished = $(task).find('.event-action-buttons .btn-success')?.length;
               if (taskIcon.includes('ban') || /AdBlock/i.test(taskName) || taskIcon.includes('envelope') || taskFinished) {
                 return resolve(true);
               }
@@ -8378,8 +8154,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         }
       }
       #getGiveawayId() {
-        var _window$location$href;
-        const giveawayId = (_window$location$href = window.location.href.match(/\/event\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
+        const giveawayId = window.location.href.match(/\/event\/([\d]+)/)?.[1];
         if (giveawayId) {
           this.giveawayId = giveawayId;
           return true;
@@ -8402,10 +8177,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               confirmButtonText: i18n('confirm'),
               cancelButtonText: i18n('cancel'),
               showCancelButton: true
-            }).then(_ref => {
-              let {
-                value
-              } = _ref;
+            }).then(({
+              value
+            }) => {
               if (value) {
                 window.close();
               }
@@ -8453,8 +8227,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
       async doPointTask() {
         try {
-          var _$$text$match;
-          this.myPoints = parseInt(((_$$text$match = $('.page-header__nav-func-user-nav-items.points-items').text().match(/[\d]+/gim)) === null || _$$text$match === void 0 ? void 0 : _$$text$match[0]) || '0', 10);
+          this.myPoints = parseInt($('.page-header__nav-func-user-nav-items.points-items').text().match(/[\d]+/gim)?.[0] || '0', 10);
           this.#toggleTask('points');
         } catch (error) {
           throwError(error, 'OpiumPulses.doPointTask');
@@ -8464,22 +8237,19 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         try {
           const items = $(`.giveaways-page-item:contains('${type}'):not(:contains('ENTERED'))`);
           for (const item of items) {
-            var _$$find$text$match;
-            const needPoints = parseInt(((_$$find$text$match = $(item).find('.giveaways-page-item-header-points').text().match(/[\d]+/gim)) === null || _$$find$text$match === void 0 ? void 0 : _$$find$text$match[0]) || '999999', 10);
+            const needPoints = parseInt($(item).find('.giveaways-page-item-header-points').text().match(/[\d]+/gim)?.[0] || '999999', 10);
             const name = $(item).find('.giveaways-page-item-footer-name').text().trim();
             if (type === 'points' && needPoints > this.myPoints) {
               scripts_echoLog({}).warning(`${i18n('noPoints')}: ${name}`);
             } else if (type === 'points' && !needPoints) {
               scripts_echoLog({}).warning(`${i18n('getNeedPointsFailed')}: ${name}`);
             } else if (!(type === 'points' && needPoints > this.maxPoints)) {
-              var _aElement$attr;
               const logStatus = scripts_echoLog({
                 text: `${i18n('joiningLottery')}<a href="${$(item).find('a.giveaways-page-item-img-btn-more').attr('href')}" target="_blank">${name}</a>...`
               });
               const aElement = $(item).find('a.giveaways-page-item-img-btn-enter:contains(\'enter\')');
-              if (aElement !== null && aElement !== void 0 && (_aElement$attr = aElement.attr('onclick')) !== null && _aElement$attr !== void 0 && _aElement$attr.includes('checkUser')) {
-                var _aElement$attr2, _aElement$attr2$match;
-                const giveawayId = (_aElement$attr2 = aElement.attr('onclick')) === null || _aElement$attr2 === void 0 ? void 0 : (_aElement$attr2$match = _aElement$attr2.match(/[\d]+/)) === null || _aElement$attr2$match === void 0 ? void 0 : _aElement$attr2$match[0];
+              if (aElement?.attr('onclick')?.includes('checkUser')) {
+                const giveawayId = aElement.attr('onclick')?.match(/[\d]+/)?.[0];
                 if (giveawayId) {
                   checkUser(giveawayId);
                 }
@@ -8498,15 +8268,14 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 method: 'GET'
               });
               if (result === 'Success') {
-                if (data !== null && data !== void 0 && data.responseText && /You've entered this giveaway/gim.test(data.responseText)) {
-                  var _data$responseText$ma;
+                if (data?.responseText && /You've entered this giveaway/gim.test(data.responseText)) {
                   logStatus.success();
-                  const points = (_data$responseText$ma = data.responseText.match(/Points:[\s]*?([\d]+)/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[1];
+                  const points = data.responseText.match(/Points:[\s]*?([\d]+)/)?.[1];
                   if (type === 'points' && points) {
                     this.myPoints = parseInt(points, 10);
                   }
                 } else {
-                  logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+                  logStatus.error(`Error:${data?.statusText}(${data?.status})`);
                 }
               } else {
                 logStatus.error(`${result}:${statusText}(${status})`);
@@ -8583,7 +8352,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             url: link,
             method: 'GET'
           });
-          if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200) {
+          if (result === 'Success' && data?.status === 200) {
             if (data.responseText.includes('class="steam-login"')) {
               return false;
             }
@@ -8607,7 +8376,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             url: link,
             method: 'GET'
           });
-          if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200) {
+          if (result === 'Success' && data?.status === 200) {
             if (data.responseText.includes('class="event-winner"')) {
               return 'Won';
             }
@@ -8631,16 +8400,15 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             url: link,
             method: 'GET'
           });
-          if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText$ma, _$$attr, _$$attr$match;
+          if (result === 'Success' && data?.status === 200) {
             if (/incentives&quot;:{&quot;[\d]+?&quot;:\[&quot;.+?&quot;\]/.test(data.responseText)) {
               return 'Won';
             }
-            const campaignDiv = (_data$responseText$ma = data.responseText.match(/<div class='popup-blocks-container'[\w\W]+?'>/)) === null || _data$responseText$ma === void 0 ? void 0 : _data$responseText$ma[0];
+            const campaignDiv = data.responseText.match(/<div class='popup-blocks-container'[\w\W]+?'>/)?.[0];
             if (!campaignDiv) {
               return false;
             }
-            const campaignString = (_$$attr = $(campaignDiv).attr('ng-init')) === null || _$$attr === void 0 ? void 0 : (_$$attr$match = _$$attr.match(/initCampaign\(([\w\W]+?)\)$/)) === null || _$$attr$match === void 0 ? void 0 : _$$attr$match[1];
+            const campaignString = $(campaignDiv).attr('ng-init')?.match(/initCampaign\(([\w\W]+?)\)$/)?.[1];
             if (!campaignString) {
               return false;
             }
@@ -8676,7 +8444,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             url: link,
             method: 'GET'
           });
-          if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200) {
+          if (result === 'Success' && data?.status === 200) {
             if (data.responseText.includes('Congrats you WON')) {
               return 'Won';
             }
@@ -8700,9 +8468,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             url: link,
             method: 'GET'
           });
-          if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText$ma2;
-            const keysleft = (_data$responseText$ma2 = data.responseText.match(/<span id="keysleft">([\d]+?)<\/span>/)) === null || _data$responseText$ma2 === void 0 ? void 0 : _data$responseText$ma2[1];
+          if (result === 'Success' && data?.status === 200) {
+            const keysleft = data.responseText.match(/<span id="keysleft">([\d]+?)<\/span>/)?.[1];
             if (!keysleft) {
               return false;
             }
@@ -8726,9 +8493,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             url: link,
             method: 'GET'
           });
-          if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText$ma3;
-            const keysleft = (_data$responseText$ma3 = data.responseText.match(/<div class="">[\s]*?([\d]+?)[\s]*?of/)) === null || _data$responseText$ma3 === void 0 ? void 0 : _data$responseText$ma3[1];
+          if (result === 'Success' && data?.status === 200) {
+            const keysleft = data.responseText.match(/<div class="">[\s]*?([\d]+?)[\s]*?of/)?.[1];
             if (!keysleft) {
               return false;
             }
@@ -8736,7 +8502,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               return 'Ended';
             }
             return `Active(${keysleft})`;
-          } else if ((data === null || data === void 0 ? void 0 : data.status) === 404) {
+          } else if (data?.status === 404) {
             return 'Ended';
           }
           return false;
@@ -8754,9 +8520,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             url: link,
             method: 'GET'
           });
-          if (result === 'Success' && (data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$responseText$ma4;
-            const endDate = (_data$responseText$ma4 = data.responseText.match(/{"start_date":"[0-9A-Z-:]+?".*?"end_date":"([0-9A-Z-:]+?)".*?}/)) === null || _data$responseText$ma4 === void 0 ? void 0 : _data$responseText$ma4[1];
+          if (result === 'Success' && data?.status === 200) {
+            const endDate = data.responseText.match(/{"start_date":"[0-9A-Z-:]+?".*?"end_date":"([0-9A-Z-:]+?)".*?}/)?.[1];
             if (!endDate) {
               return false;
             }
@@ -8816,8 +8581,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       undoneTasks = JSON.parse(Keylol_defaultTasks);
       buttons = [ 'doTask', 'undoTask', 'selectAll', 'selectNone', 'invertSelect' ];
       static test() {
-        var _$$eq$attr, _$$eq$attr2;
-        return window.location.host === 'keylol.com' && (!!((_$$eq$attr = $('.subforum_left_title_left_up a').eq(3).attr('href')) !== null && _$$eq$attr !== void 0 && _$$eq$attr.includes('319')) || !!((_$$eq$attr2 = $('.subforum_left_title_left_up a').eq(3).attr('href')) !== null && _$$eq$attr2 !== void 0 && _$$eq$attr2.includes('234')));
+        return window.location.host === 'keylol.com' && (!!$('.subforum_left_title_left_up a').eq(3).attr('href')?.includes('319') || !!$('.subforum_left_title_left_up a').eq(3).attr('href')?.includes('234'));
       }
       init() {
         return true;
@@ -8969,12 +8733,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             const subLinks = mainPost.find('a[href*="steamdb.info/sub/"]:visible');
             if (subLinks.length > 0) {
               for (const subLink of subLinks) {
-                var _link$match;
                 const link = $(subLink).attr('href');
                 if (!link) {
                   continue;
                 }
-                const subid = (_link$match = link.match(/^https:\/\/steamdb\.info\/sub\/([\d]+)/)) === null || _link$match === void 0 ? void 0 : _link$match[1];
+                const subid = link.match(/^https:\/\/steamdb\.info\/sub\/([\d]+)/)?.[1];
                 if (!subid) {
                   continue;
                 }
@@ -9197,11 +8960,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
           });
           if (result === 'Success') {
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
+            if (data?.status === 200) {
               logStatus.success();
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -9235,18 +8998,17 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             data: `_token=${task.token}&task_id=${task.taskId}`
           });
           if (result === 'Success') {
-            var _data$responseText, _data$responseText2, _$$find$attr;
-            if (data !== null && data !== void 0 && (_data$responseText = data.responseText) !== null && _data$responseText !== void 0 && _data$responseText.includes('Successfully completed task') || data !== null && data !== void 0 && (_data$responseText2 = data.responseText) !== null && _data$responseText2 !== void 0 && _data$responseText2.includes('unlocked the key')) {
+            if (data?.responseText?.includes('Successfully completed task') || data?.responseText?.includes('unlocked the key')) {
               logStatus.success();
               return true;
             }
-            const key = (_$$find$attr = $((data === null || data === void 0 ? void 0 : data.responseText) || '').find('button[data-clipboard-text]:contains("Copy")').attr('data-clipboard-text')) === null || _$$find$attr === void 0 ? void 0 : _$$find$attr.trim();
+            const key = $(data?.responseText || '').find('button[data-clipboard-text]:contains("Copy")').attr('data-clipboard-text')?.trim();
             if (key) {
               logStatus.success();
               scripts_echoLog({}).success(key);
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -9271,8 +9033,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             method: 'GET'
           });
           if (result === 'Success') {
-            if (data !== null && data !== void 0 && data.responseText) {
-              const key = $(data === null || data === void 0 ? void 0 : data.responseText).find(`div.items-center:contains("${$('h1.font-bold').text().trim().replace(' Quest', '')}")`).find('div.font-bold').next().text();
+            if (data?.responseText) {
+              const key = $(data?.responseText).find(`div.items-center:contains("${$('h1.font-bold').text().trim().replace(' Quest', '')}")`).find('div.font-bold').next().text();
               if (!key) {
                 logStatus.error('Error: Key was not found');
                 if (isButton) {
@@ -9284,7 +9046,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               scripts_echoLog({}).success(key);
               return true;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -9296,8 +9058,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
       #getGiveawayId() {
         try {
-          var _window$location$href;
-          const giveawayId = (_window$location$href = window.location.href.match(/quests\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
+          const giveawayId = window.location.href.match(/quests\/([\d]+)/)?.[1];
           if (giveawayId) {
             this.giveawayId = giveawayId;
             return true;
@@ -9423,12 +9184,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             text: i18n('getTasksInfo')
           });
           if (action === 'undo') {
-            var _GM_getValue;
-            this.socialTasks = ((_GM_getValue = GM_getValue(`gleamTasks-${this.giveawayId}`)) === null || _GM_getValue === void 0 ? void 0 : _GM_getValue.tasks) || JSON.parse(Gleam_defaultTasks);
+            this.socialTasks = GM_getValue(`gleamTasks-${this.giveawayId}`)?.tasks || JSON.parse(Gleam_defaultTasks);
           }
           const tasks = $('.entry-content .entry-method');
           for (const task of tasks) {
-            var _socialIcon$attr;
             const $task = $(task);
             if (action === 'do' && $task.find('i.fa-question').length === 0) {
               continue;
@@ -9483,8 +9242,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               if (/join/gim.test(taskText)) {
                 let link = $task.find('a[href^="https://discord.com/invite/"]').attr('href');
                 if (!link) {
-                  var _$task$find$attr, _$task$find$attr$matc;
-                  const ggLink = (_$task$find$attr = $task.find('a[href^="https://discord.gg/"]').attr('href')) === null || _$task$find$attr === void 0 ? void 0 : (_$task$find$attr$matc = _$task$find$attr.match(/discord\.gg\/([^/]+)/)) === null || _$task$find$attr$matc === void 0 ? void 0 : _$task$find$attr$matc[1];
+                  const ggLink = $task.find('a[href^="https://discord.gg/"]').attr('href')?.match(/discord\.gg\/([^/]+)/)?.[1];
                   if (!ggLink) {
                     continue;
                   }
@@ -9512,7 +9270,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                   this.undoneTasks.youtube.channelLinks.push(link);
                 }
               }
-            } else if ((_socialIcon$attr = socialIcon.attr('class')) !== null && _socialIcon$attr !== void 0 && _socialIcon$attr.includes('steam')) {
+            } else if (socialIcon.attr('class')?.includes('steam')) {
               if (/join.*group/gi.test(taskText)) {
                 const link = $task.find('a[href^="https://steamcommunity.com/groups/"]').attr('href');
                 if (!link) {
@@ -9579,10 +9337,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async extraDoTask(_ref) {
-        let {
-          gleam
-        } = _ref;
+      async extraDoTask({
+        gleam
+      }) {
         try {
           const pro = [];
           for (const link of gleam) {
@@ -9602,16 +9359,20 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           const tasks = $('.entry-content .entry-method');
           unsafeWindow._OxA = '_OxA';
           for (const task of tasks) {
-            var _unsafeWindow$$hookTi, _unsafeWindow$$hookTi2;
+            if ($('[campaign-key="campaign.key"]').length > 0) {
+              return scripts_echoLog({
+                text: i18n('campaign')
+              });
+            }
             const $task = $(task);
             if ($task.find('i.fa-question').length === 0) {
               continue;
             }
             const taskInfo = $task.find('.user-links');
             taskInfo[0].click();
-            (_unsafeWindow$$hookTi = unsafeWindow.$hookTimer) === null || _unsafeWindow$$hookTi === void 0 ? void 0 : _unsafeWindow$$hookTi.setSpeed(1e3);
+            unsafeWindow.$hookTimer?.setSpeed(1e3);
             await delay(3e3);
-            (_unsafeWindow$$hookTi2 = unsafeWindow.$hookTimer) === null || _unsafeWindow$$hookTi2 === void 0 ? void 0 : _unsafeWindow$$hookTi2.setSpeed(1);
+            unsafeWindow.$hookTimer?.setSpeed(1);
             await this.#checkSync();
             const continueBtn = $task.find('.expandable').find('span:contains(Continue),button:contains(Continue)');
             for (const button of continueBtn) {
@@ -9695,8 +9456,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             responseType: 'json'
           });
           if (result === 'Success') {
-            var _data$response, _data$response2;
-            if ((data === null || data === void 0 ? void 0 : data.status) === 200 && (data === null || data === void 0 ? void 0 : (_data$response = data.response) === null || _data$response === void 0 ? void 0 : _data$response.Success) === true && data !== null && data !== void 0 && (_data$response2 = data.response) !== null && _data$response2 !== void 0 && _data$response2.Data) {
+            if (data?.status === 200 && data?.response?.Success === true && data?.response?.Data) {
               const {
                 link
               } = data.response.Data.find(giveaway => title.replace(/[\s]/g, '').toLowerCase().includes(giveaway.title.replace(/[\s]/g, '').toLowerCase())) || {};
@@ -9707,7 +9467,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.error(`Error:${i18n('getLinkFailed')}`);
               return false;
             }
-            logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -9719,11 +9479,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
       async #checkLeftKey() {
         try {
-          var _$$attr, _$$attr$match, _$$attr2, _$$attr2$match;
           if (!globalOptions.other.checkLeftKey) {
             return true;
           }
-          const campaignString = (_$$attr = $('div.popup-blocks-container').attr('ng-init')) === null || _$$attr === void 0 ? void 0 : (_$$attr$match = _$$attr.match(/initCampaign\(([\w\W]+?)\)$/)) === null || _$$attr$match === void 0 ? void 0 : _$$attr$match[1];
+          const campaignString = $('div.popup-blocks-container').attr('ng-init')?.match(/initCampaign\(([\w\W]+?)\)$/)?.[1];
           if (!campaignString) {
             return false;
           }
@@ -9731,11 +9490,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             campaign,
             incentive
           } = JSON.parse(campaignString);
-          const controllerString = (_$$attr2 = $('div.campaign.reward').attr('ng-init')) === null || _$$attr2 === void 0 ? void 0 : (_$$attr2$match = _$$attr2.match(/initContestant\(([\w\W]+?)\);/)) === null || _$$attr2$match === void 0 ? void 0 : _$$attr2$match[1];
+          const controllerString = $('div.campaign.reward').attr('ng-init')?.match(/initContestant\(([\w\W]+?)\);/)?.[1];
           let ownedKey = false;
           if (controllerString) {
-            var _JSON$parse$contestan, _JSON$parse$contestan2, _JSON$parse$contestan3, _JSON$parse$contestan4;
-            if ((_JSON$parse$contestan = JSON.parse(controllerString).contestant) !== null && _JSON$parse$contestan !== void 0 && (_JSON$parse$contestan2 = _JSON$parse$contestan.claims) !== null && _JSON$parse$contestan2 !== void 0 && (_JSON$parse$contestan3 = _JSON$parse$contestan2.incentives) !== null && _JSON$parse$contestan3 !== void 0 && (_JSON$parse$contestan4 = _JSON$parse$contestan3[incentive.id]) !== null && _JSON$parse$contestan4 !== void 0 && _JSON$parse$contestan4.length) {
+            if (JSON.parse(controllerString).contestant?.claims?.incentives?.[incentive.id]?.length) {
               ownedKey = true;
             }
           }
@@ -9747,10 +9505,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               confirmButtonText: i18n('confirm'),
               cancelButtonText: i18n('cancel'),
               showCancelButton: true
-            }).then(_ref2 => {
-              let {
-                value
-              } = _ref2;
+            }).then(({
+              value
+            }) => {
               if (value) {
                 window.close();
               }
@@ -9831,7 +9588,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           });
           const tasks = $('#sw_inner_entry_methods_l2_wrapper>div.sw_entry');
           for (const task of tasks) {
-            var _aElement$, _$task$find$removeAtt;
             const $task = $(task);
             if ($task.find('i.fa-check:visible').length > 0) {
               continue;
@@ -9841,7 +9597,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             const aElement = $task.find('a.sw_link');
             const link = aElement.attr('href');
             aElement.attr('href', '#a').attr('target', '_self');
-            (_aElement$ = aElement[0]) === null || _aElement$ === void 0 ? void 0 : _aElement$.click();
+            aElement[0]?.click();
             await delay(300);
             aElement.attr('href', link).attr('target', '_blank');
             $task.find('input[type="text"]').val('test');
@@ -9852,7 +9608,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               title[0].click();
               await delay(300);
             }
-            (_$task$find$removeAtt = $task.find('input.sw_verify').removeAttr('disabled')[0]) === null || _$task$find$removeAtt === void 0 ? void 0 : _$task$find$removeAtt.click();
+            $task.find('input.sw_verify').removeAttr('disabled')[0]?.click();
             await this.#checkFinish($task);
             await delay(parseInt(`${Math.random() * (3e3 - 1e3 + 1) + 1e3}`, 10));
           }
@@ -9876,8 +9632,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
       #getGiveawayId() {
         try {
-          var _window$location$href;
-          const giveawayId = (_window$location$href = window.location.href.match(/\/view\/([\d]+)/)) === null || _window$location$href === void 0 ? void 0 : _window$location$href[1];
+          const giveawayId = window.location.href.match(/\/view\/([\d]+)/)?.[1];
           if (giveawayId) {
             this.giveawayId = giveawayId;
             return true;
@@ -9964,69 +9719,66 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     };
     const link2id = async function(type) {
-      var _link$match, _link$match2, _link$match3, _link$match4, _link$match5, _link$match6, _await$getInfo, _await$getInfo$params, _await$getInfo2, _await$getInfo2$param, _link$match7, _link$match8, _link$match9, _link$match10, _link$match11;
       try {
         const link = $('#socialLink').val();
         let id = '';
         switch (type) {
          case 'discord.servers':
-          id = ((_link$match = link.match(/invite\/(.+)/)) === null || _link$match === void 0 ? void 0 : _link$match[1]) || '';
+          id = link.match(/invite\/(.+)/)?.[1] || '';
           break;
 
          case 'instagram.users':
-          id = ((_link$match2 = link.match(/https:\/\/www\.instagram\.com\/(.+)?\//)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1]) || '';
+          id = link.match(/https:\/\/www\.instagram\.com\/(.+)?\//)?.[1] || '';
           break;
 
          case 'twitch.channels':
-          id = ((_link$match3 = link.match(/https:\/\/(www\.)?twitch\.tv\/(.+)/)) === null || _link$match3 === void 0 ? void 0 : _link$match3[2]) || '';
+          id = link.match(/https:\/\/(www\.)?twitch\.tv\/(.+)/)?.[2] || '';
           break;
 
          case 'twitter.users':
-          id = ((_link$match4 = link.match(/https:\/\/twitter\.com\/(.+)/)) === null || _link$match4 === void 0 ? void 0 : _link$match4[1]) || '';
+          id = link.match(/https:\/\/twitter\.com\/(.+)/)?.[1] || '';
           break;
 
          case 'twitter.retweets':
-          id = ((_link$match5 = link.match(/https:\/\/twitter\.com\/.*?\/status\/([\d]+)/)) === null || _link$match5 === void 0 ? void 0 : _link$match5[1]) || '';
+          id = link.match(/https:\/\/twitter\.com\/.*?\/status\/([\d]+)/)?.[1] || '';
           break;
 
          case 'vk.names':
-          id = ((_link$match6 = link.match(/https:\/\/vk\.com\/([^/]+)/)) === null || _link$match6 === void 0 ? void 0 : _link$match6[1]) || '';
+          id = link.match(/https:\/\/vk\.com\/([^/]+)/)?.[1] || '';
           break;
 
          case 'youtube.channels':
-          id = ((_await$getInfo = await getInfo(link, 'channel')) === null || _await$getInfo === void 0 ? void 0 : (_await$getInfo$params = _await$getInfo.params) === null || _await$getInfo$params === void 0 ? void 0 : _await$getInfo$params.channelId) || '';
+          id = (await getInfo(link, 'channel'))?.params?.channelId || '';
           break;
 
          case 'youtube.likes':
-          id = ((_await$getInfo2 = await getInfo(link, 'likeVideo')) === null || _await$getInfo2 === void 0 ? void 0 : (_await$getInfo2$param = _await$getInfo2.params) === null || _await$getInfo2$param === void 0 ? void 0 : _await$getInfo2$param.videoId) || '';
+          id = (await getInfo(link, 'likeVideo'))?.params?.videoId || '';
           break;
 
          case 'reddit.reddits':
-          id = ((_link$match7 = link.match(/https?:\/\/www\.reddit\.com\/user\/([^/]*)/)) === null || _link$match7 === void 0 ? void 0 : _link$match7[1]) || ((_link$match8 = link.match(/https?:\/\/www\.reddit\.com\/r\/([^/]*)/)) === null || _link$match8 === void 0 ? void 0 : _link$match8[1]) || '';
+          id = link.match(/https?:\/\/www\.reddit\.com\/user\/([^/]*)/)?.[1] || link.match(/https?:\/\/www\.reddit\.com\/r\/([^/]*)/)?.[1] || '';
           break;
 
          case 'steam.groups':
-          id = ((_link$match9 = link.match(/groups\/(.+)\/?/)) === null || _link$match9 === void 0 ? void 0 : _link$match9[1]) || '';
+          id = link.match(/groups\/(.+)\/?/)?.[1] || '';
           break;
 
          case 'steam.wishlists':
          case 'steam.follows':
          case 'steam.forums':
-          id = ((_link$match10 = link.match(/app\/([\d]+)/)) === null || _link$match10 === void 0 ? void 0 : _link$match10[1]) || '';
+          id = link.match(/app\/([\d]+)/)?.[1] || '';
           break;
 
          case 'steam.workshops':
-          id = ((_link$match11 = link.match(/\?id=([\d]+)/)) === null || _link$match11 === void 0 ? void 0 : _link$match11[1]) || '';
+          id = link.match(/\?id=([\d]+)/)?.[1] || '';
           break;
 
          case 'steam.curators':
           {
             if (link.includes('curator')) {
-              var _link$match12;
-              id = ((_link$match12 = link.match(/curator\/([\d]+)/)) === null || _link$match12 === void 0 ? void 0 : _link$match12[1]) || '';
+              id = link.match(/curator\/([\d]+)/)?.[1] || '';
             } else {
-              var _link$match13;
-              const param = (_link$match13 = link.match(/https?:\/\/store\.steampowered\.com\/(.*?)\/([^/?]+)/)) === null || _link$match13 === void 0 ? void 0 : _link$match13.slice(1, 3);
+              const param = link.match(/https?:\/\/store\.steampowered\.com\/(.*?)\/([^/?]+)/)?.slice(1, 3);
               if (!param || param.length !== 2) {
                 break;
               }
@@ -10069,10 +9821,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         let whiteListOptionsForm = `<form id="whiteListForm" class="auto-task-form">
   <table class="auto-task-table"><thead><tr><td>${i18n('website')}</td><td>${i18n('type')}</td><td>${i18n('edit')}</td></tr></thead><tbody>`;
         for (const [ social, types ] of Object.entries(whiteList)) {
-          whiteListOptionsForm += Object.keys(types).map((type, index) => {
-            var _disabledType$social;
-            return (_disabledType$social = disabledType[social]) !== null && _disabledType$social !== void 0 && _disabledType$social.includes(type) ? '' : `<tr style="background-color: ${stringToColour(social)}66">${index === 0 ? `<th rowspan="${Object.keys(types).length - (disabledType[social] || []).length}" style="background-color: ${stringToColour(social)}66">${social}</th>` : ''}<td>${i18n(type)}</td><td><button type="button" class="editWhiteList" data-value="${social}.${type}">${i18n('edit')}</button></td></tr>`;
-          }).join('');
+          whiteListOptionsForm += Object.keys(types).map((type, index) => disabledType[social]?.includes(type) ? '' : `<tr style="background-color: ${stringToColour(social)}66">${index === 0 ? `<th rowspan="${Object.keys(types).length - (disabledType[social] || []).length}" style="background-color: ${stringToColour(social)}66">${social}</th>` : ''}<td>${i18n(type)}</td><td><button type="button" class="editWhiteList" data-value="${social}.${type}">${i18n('edit')}</button></td></tr>`).join('');
         }
         whiteListOptionsForm += '</tbody></table></form>';
         if (showType === 'swal') {
@@ -10086,13 +9835,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           $('body').append(`<h2>${i18n('whiteList')}</h2>${whiteListOptionsForm}`);
         }
         $('.editWhiteList').on('click', function() {
-          var _whiteList$social;
           const value = $(this).attr('data-value');
           if (!value) {
             return;
           }
           const [ social, type ] = value.split('.');
-          if (!(whiteList !== null && whiteList !== void 0 && (_whiteList$social = whiteList[social]) !== null && _whiteList$social !== void 0 && _whiteList$social[type])) {
+          if (!whiteList?.[social]?.[type]) {
             scripts_echoLog({}).warning(i18n('whiteListNotFound', value));
             return;
           }
@@ -10109,12 +9857,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             cancelButtonText: i18n('close'),
             showDenyButton: true,
             denyButtonText: i18n('return')
-          }).then(_ref => {
-            let {
-              isDenied,
-              isConfirmed,
-              value
-            } = _ref;
+          }).then(({
+            isDenied,
+            isConfirmed,
+            value
+          }) => {
             if (isDenied) {
               if (showType === 'swal') {
                 whiteListOptions(showType);
@@ -10168,12 +9915,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           timeout: 3e4
         });
         if (result === 'Success') {
-          var _data$response$files, _data$response$files$;
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200 && ((_data$response$files = data.response.files) === null || _data$response$files === void 0 ? void 0 : (_data$response$files$ = _data$response$files[fileName]) === null || _data$response$files$ === void 0 ? void 0 : _data$response$files$.content) === JSON.stringify(content)) {
+          if (data?.status === 200 && data.response.files?.[fileName]?.content === JSON.stringify(content)) {
             logStatus.success();
             return true;
           }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+          logStatus.error(`Error:${data?.statusText}(${data?.status})`);
           return false;
         }
         logStatus.error(`${result}:${statusText}(${status})`);
@@ -10183,8 +9929,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         return false;
       }
     };
-    const getGistData = async function(token, gistId, fileName) {
-      let test = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+    const getGistData = async (token, gistId, fileName, test = false) => {
       try {
         const logStatus = scripts_echoLog({
           text: i18n('gettingData')
@@ -10205,9 +9950,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           timeout: 3e4
         });
         if (result === 'Success') {
-          if ((data === null || data === void 0 ? void 0 : data.status) === 200) {
-            var _data$response, _data$response$files2, _data$response$files3;
-            const content = (_data$response = data.response) === null || _data$response === void 0 ? void 0 : (_data$response$files2 = _data$response.files) === null || _data$response$files2 === void 0 ? void 0 : (_data$response$files3 = _data$response$files2[fileName]) === null || _data$response$files3 === void 0 ? void 0 : _data$response$files3.content;
+          if (data?.status === 200) {
+            const content = data.response?.files?.[fileName]?.content;
             let formatedContent;
             if (!content) {
               logStatus.error(`Error:${i18n('noRemoteData')}`);
@@ -10226,7 +9970,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             logStatus.success();
             return formatedContent;
           }
-          logStatus.error(`Error:${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})`);
+          logStatus.error(`Error:${data?.statusText}(${data?.status})`);
           return false;
         }
         logStatus.error(`${result}:${statusText}(${status})`);
@@ -10274,10 +10018,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           confirmButtonText: i18n('saveAndTest'),
           showCancelButton: true,
           cancelButtonText: i18n('close')
-        }).then(_ref => {
-          let {
-            value
-          } = _ref;
+        }).then(({
+          value
+        }) => {
           if (value) {
             external_Swal_default().fire({
               icon: 'success',
@@ -10511,13 +10254,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
             const type = $(this).attr('data-type');
             if (type === 'twitterUser') {
-              var _link$match;
-              const name = ((_link$match = link.match(/https:\/\/twitter\.com\/(.+)/)) === null || _link$match === void 0 ? void 0 : _link$match[1]) || link;
+              const name = link.match(/https:\/\/twitter\.com\/(.+)/)?.[1] || link;
               $('#socialLink').val(await new social_Twitter().userName2id(name) || '');
             } else if (type === 'youtubeChannel') {
-              var _link$match2, _await$getInfo, _await$getInfo$params;
-              const name = /^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link) ? (_link$match2 = link.match(/url=(https:\/\/www\.youtube\.com\/.*)/)) === null || _link$match2 === void 0 ? void 0 : _link$match2[1] : link;
-              $('#socialLink').val(((_await$getInfo = await getInfo(name, 'channel')) === null || _await$getInfo === void 0 ? void 0 : (_await$getInfo$params = _await$getInfo.params) === null || _await$getInfo$params === void 0 ? void 0 : _await$getInfo$params.channelId) || '');
+              const name = /^https:\/\/(www\.)?google\.com.*?\/url\?.*?url=https:\/\/www.youtube.com\/.*/.test(link) ? link.match(/url=(https:\/\/www\.youtube\.com\/.*)/)?.[1] : link;
+              $('#socialLink').val((await getInfo(name, 'channel'))?.params?.channelId || '');
             }
           });
         } catch (error) {
@@ -10577,7 +10318,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       #addItem(item) {
         try {
           const tasksData = GM_getValue(item);
-          if (!(tasksData !== null && tasksData !== void 0 && tasksData.tasks)) {
+          if (!tasksData?.tasks) {
             return;
           }
           let html = '';
@@ -10670,10 +10411,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           confirmButtonText: i18n('save'),
           showCancelButton: true,
           cancelButtonText: i18n('close')
-        }).then(_ref => {
-          let {
-            isConfirmed
-          } = _ref;
+        }).then(({
+          isConfirmed
+        }) => {
           if (isConfirmed) {
             $('#websiteOptionsForm').serializeArray().map(value => {
               options[value.name] = value.value;
@@ -10708,12 +10448,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           timeout: 3e4
         });
         if (result === 'Success') {
-          var _data$response;
-          if (data !== null && data !== void 0 && (_data$response = data.response) !== null && _data$response !== void 0 && _data$response.version) {
+          if (data?.response?.version) {
             return data.response;
           }
           if (!auto) {
-            scripts_echoLog({}).error(`${i18n('checkUpdateFailed')}[${data === null || data === void 0 ? void 0 : data.statusText}(${data === null || data === void 0 ? void 0 : data.status})]`);
+            scripts_echoLog({}).error(`${i18n('checkUpdateFailed')}[${data?.statusText}(${data?.status})]`);
           }
           return false;
         }
@@ -10790,12 +10529,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           scripts_echoLog({}).error(i18n('checkUpdateFailed'));
         }
         if (packageData && hasNewVersion(currentVersion, version)) {
-          var _packageData$change;
           scripts_echoLog({
             html: `<li><font>${i18n('newVersionNotice', version, `${updateLink}dist/${GM_info.script.name}.user.js`)}</font></li>`
           });
           scripts_echoLog({
-            html: `<li>${i18n('updateText', version)}</li><ol class="update-text">${(_packageData$change = packageData.change) === null || _packageData$change === void 0 ? void 0 : _packageData$change.map(change => `<li>${change}</li>`).join('')}<li>${i18n('updateHistory')}</li></ol>`
+            html: `<li>${i18n('updateText', version)}</li><ol class="update-text">${packageData.change?.map(change => `<li>${change}</li>`).join('')}<li>${i18n('updateHistory')}</li></ol>`
           });
         }
       } catch (error) {
@@ -10803,22 +10541,19 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     };
     const scripts_updateChecker = updateChecker;
-    var _globalOptions$other, _globalOptions$other2;
     window.STYLE = GM_addStyle(auto_task.Z + `.swal2-popup.swal2-toast{box-sizing:border-box;grid-column:1/4!important;grid-row:1/4!important;grid-template-columns:1fr 99fr 1fr;padding:1em;overflow-y:hidden;background:#fff;box-shadow:0 0 1px rgba(0,0,0,.075),0 1px 2px rgba(0,0,0,.075),1px 2px 4px rgba(0,0,0,.075),1px 3px 8px rgba(0,0,0,.075),2px 4px 16px rgba(0,0,0,.075);pointer-events:all}.swal2-popup.swal2-toast>*{grid-column:2}.swal2-popup.swal2-toast .swal2-title{margin:.5em 1em;padding:0;font-size:1em;text-align:initial}.swal2-popup.swal2-toast .swal2-loading{justify-content:center}.swal2-popup.swal2-toast .swal2-input{height:2em;margin:.5em;font-size:1em}.swal2-popup.swal2-toast .swal2-validation-message{font-size:1em}.swal2-popup.swal2-toast .swal2-footer{margin:.5em 0 0;padding:.5em 0 0;font-size:.8em}.swal2-popup.swal2-toast .swal2-close{grid-column:3/3;grid-row:1/99;align-self:center;width:.8em;height:.8em;margin:0;font-size:2em}.swal2-popup.swal2-toast .swal2-html-container{margin:.5em 1em;padding:0;font-size:1em;text-align:initial}.swal2-popup.swal2-toast .swal2-html-container:empty{padding:0}.swal2-popup.swal2-toast .swal2-loader{grid-column:1;grid-row:1/99;align-self:center;width:2em;height:2em;margin:.25em}.swal2-popup.swal2-toast .swal2-icon{grid-column:1;grid-row:1/99;align-self:center;width:2em;min-width:2em;height:2em;margin:0 .5em 0 0}.swal2-popup.swal2-toast .swal2-icon .swal2-icon-content{display:flex;align-items:center;font-size:1.8em;font-weight:700}.swal2-popup.swal2-toast .swal2-icon.swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line]{top:.875em;width:1.375em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:.3125em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:.3125em}.swal2-popup.swal2-toast .swal2-actions{justify-content:flex-start;height:auto;margin:0;margin-top:.5em;padding:0 .5em}.swal2-popup.swal2-toast .swal2-styled{margin:.25em .5em;padding:.4em .6em;font-size:1em}.swal2-popup.swal2-toast .swal2-success{border-color:#a5dc86}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line]{position:absolute;width:1.6em;height:3em;transform:rotate(45deg);border-radius:50%}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=left]{top:-.8em;left:-.5em;transform:rotate(-45deg);transform-origin:2em 2em;border-radius:4em 0 0 4em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=right]{top:-.25em;left:.9375em;transform-origin:0 1.5em;border-radius:0 4em 4em 0}.swal2-popup.swal2-toast .swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-popup.swal2-toast .swal2-success .swal2-success-fix{top:0;left:.4375em;width:.4375em;height:2.6875em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line]{height:.3125em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=tip]{top:1.125em;left:.1875em;width:.75em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=long]{top:.9375em;right:.1875em;width:1.375em}.swal2-popup.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-tip{-webkit-animation:swal2-toast-animate-success-line-tip .75s;animation:swal2-toast-animate-success-line-tip .75s}.swal2-popup.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-long{-webkit-animation:swal2-toast-animate-success-line-long .75s;animation:swal2-toast-animate-success-line-long .75s}.swal2-popup.swal2-toast.swal2-show{-webkit-animation:swal2-toast-show .5s;animation:swal2-toast-show .5s}.swal2-popup.swal2-toast.swal2-hide{-webkit-animation:swal2-toast-hide .1s forwards;animation:swal2-toast-hide .1s forwards}.swal2-container{display:grid;position:fixed;z-index:1060;top:0;right:0;bottom:0;left:0;box-sizing:border-box;grid-template-areas:"top-start     top            top-end" "center-start  center         center-end" "bottom-start  bottom-center  bottom-end";grid-template-rows:minmax(-webkit-min-content,auto) minmax(-webkit-min-content,auto) minmax(-webkit-min-content,auto);grid-template-rows:minmax(min-content,auto) minmax(min-content,auto) minmax(min-content,auto);height:100%;padding:.625em;overflow-x:hidden;transition:background-color .1s;-webkit-overflow-scrolling:touch}.swal2-container.swal2-backdrop-show,.swal2-container.swal2-noanimation{background:rgba(0,0,0,.4)}.swal2-container.swal2-backdrop-hide{background:0 0!important}.swal2-container.swal2-bottom-start,.swal2-container.swal2-center-start,.swal2-container.swal2-top-start{grid-template-columns:minmax(0,1fr) auto auto}.swal2-container.swal2-bottom,.swal2-container.swal2-center,.swal2-container.swal2-top{grid-template-columns:auto minmax(0,1fr) auto}.swal2-container.swal2-bottom-end,.swal2-container.swal2-center-end,.swal2-container.swal2-top-end{grid-template-columns:auto auto minmax(0,1fr)}.swal2-container.swal2-top-start>.swal2-popup{align-self:start}.swal2-container.swal2-top>.swal2-popup{grid-column:2;align-self:start;justify-self:center}.swal2-container.swal2-top-end>.swal2-popup,.swal2-container.swal2-top-right>.swal2-popup{grid-column:3;align-self:start;justify-self:end}.swal2-container.swal2-center-left>.swal2-popup,.swal2-container.swal2-center-start>.swal2-popup{grid-row:2;align-self:center}.swal2-container.swal2-center>.swal2-popup{grid-column:2;grid-row:2;align-self:center;justify-self:center}.swal2-container.swal2-center-end>.swal2-popup,.swal2-container.swal2-center-right>.swal2-popup{grid-column:3;grid-row:2;align-self:center;justify-self:end}.swal2-container.swal2-bottom-left>.swal2-popup,.swal2-container.swal2-bottom-start>.swal2-popup{grid-column:1;grid-row:3;align-self:end}.swal2-container.swal2-bottom>.swal2-popup{grid-column:2;grid-row:3;justify-self:center;align-self:end}.swal2-container.swal2-bottom-end>.swal2-popup,.swal2-container.swal2-bottom-right>.swal2-popup{grid-column:3;grid-row:3;align-self:end;justify-self:end}.swal2-container.swal2-grow-fullscreen>.swal2-popup,.swal2-container.swal2-grow-row>.swal2-popup{grid-column:1/4;width:100%}.swal2-container.swal2-grow-column>.swal2-popup,.swal2-container.swal2-grow-fullscreen>.swal2-popup{grid-row:1/4;align-self:stretch}.swal2-container.swal2-no-transition{transition:none!important}.swal2-popup{display:none;position:relative;box-sizing:border-box;grid-template-columns:minmax(0,100%);width:32em;max-width:100%;padding:0 0 1.25em;border:none;border-radius:5px;background:#fff;color:#545454;font-family:inherit;font-size:1rem}.swal2-popup:focus{outline:0}.swal2-popup.swal2-loading{overflow-y:hidden}.swal2-title{position:relative;max-width:100%;margin:0;padding:.8em 1em 0;color:inherit;font-size:1.875em;font-weight:600;text-align:center;text-transform:none;word-wrap:break-word}.swal2-actions{display:flex;z-index:1;box-sizing:border-box;flex-wrap:wrap;align-items:center;justify-content:center;width:auto;margin:1.25em auto 0;padding:0}.swal2-actions:not(.swal2-loading) .swal2-styled[disabled]{opacity:.4}.swal2-actions:not(.swal2-loading) .swal2-styled:hover{background-image:linear-gradient(rgba(0,0,0,.1),rgba(0,0,0,.1))}.swal2-actions:not(.swal2-loading) .swal2-styled:active{background-image:linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.2))}.swal2-loader{display:none;align-items:center;justify-content:center;width:2.2em;height:2.2em;margin:0 1.875em;-webkit-animation:swal2-rotate-loading 1.5s linear 0s infinite normal;animation:swal2-rotate-loading 1.5s linear 0s infinite normal;border-width:.25em;border-style:solid;border-radius:100%;border-color:#2778c4 transparent #2778c4 transparent}.swal2-styled{margin:.3125em;padding:.625em 1.1em;transition:box-shadow .1s;box-shadow:0 0 0 3px transparent;font-weight:500}.swal2-styled:not([disabled]){cursor:pointer}.swal2-styled.swal2-confirm{border:0;border-radius:.25em;background:initial;background-color:#7066e0;color:#fff;font-size:1em}.swal2-styled.swal2-confirm:focus{box-shadow:0 0 0 3px rgba(112,102,224,.5)}.swal2-styled.swal2-deny{border:0;border-radius:.25em;background:initial;background-color:#dc3741;color:#fff;font-size:1em}.swal2-styled.swal2-deny:focus{box-shadow:0 0 0 3px rgba(220,55,65,.5)}.swal2-styled.swal2-cancel{border:0;border-radius:.25em;background:initial;background-color:#6e7881;color:#fff;font-size:1em}.swal2-styled.swal2-cancel:focus{box-shadow:0 0 0 3px rgba(110,120,129,.5)}.swal2-styled.swal2-default-outline:focus{box-shadow:0 0 0 3px rgba(100,150,200,.5)}.swal2-styled:focus{outline:0}.swal2-styled::-moz-focus-inner{border:0}.swal2-footer{justify-content:center;margin:1em 0 0;padding:1em 1em 0;border-top:1px solid #eee;color:inherit;font-size:1em}.swal2-timer-progress-bar-container{position:absolute;right:0;bottom:0;left:0;grid-column:auto!important;height:.25em;overflow:hidden;border-bottom-right-radius:5px;border-bottom-left-radius:5px}.swal2-timer-progress-bar{width:100%;height:.25em;background:rgba(0,0,0,.2)}.swal2-image{max-width:100%;margin:2em auto 1em}.swal2-close{z-index:2;align-items:center;justify-content:center;width:1.2em;height:1.2em;margin-top:0;margin-right:0;margin-bottom:-1.2em;padding:0;overflow:hidden;transition:color .1s,box-shadow .1s;border:none;border-radius:5px;background:0 0;color:#ccc;font-family:serif;font-family:monospace;font-size:2.5em;cursor:pointer;justify-self:end}.swal2-close:hover{transform:none;background:0 0;color:#f27474}.swal2-close:focus{outline:0;box-shadow:inset 0 0 0 3px rgba(100,150,200,.5)}.swal2-close::-moz-focus-inner{border:0}.swal2-html-container{z-index:1;justify-content:center;margin:1em 1.6em .3em;padding:0;overflow:auto;color:inherit;font-size:1.125em;font-weight:400;line-height:normal;text-align:center;word-wrap:break-word;word-break:break-word}.swal2-checkbox,.swal2-file,.swal2-input,.swal2-radio,.swal2-select,.swal2-textarea{margin:1em 2em 3px}.swal2-file,.swal2-input,.swal2-textarea{box-sizing:border-box;width:auto;transition:border-color .1s,box-shadow .1s;border:1px solid #d9d9d9;border-radius:.1875em;background:inherit;box-shadow:inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px transparent;color:inherit;font-size:1.125em}.swal2-file.swal2-inputerror,.swal2-input.swal2-inputerror,.swal2-textarea.swal2-inputerror{border-color:#f27474!important;box-shadow:0 0 2px #f27474!important}.swal2-file:focus,.swal2-input:focus,.swal2-textarea:focus{border:1px solid #b4dbed;outline:0;box-shadow:inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px rgba(100,150,200,.5)}.swal2-file::-moz-placeholder,.swal2-input::-moz-placeholder,.swal2-textarea::-moz-placeholder{color:#ccc}.swal2-file:-ms-input-placeholder,.swal2-input:-ms-input-placeholder,.swal2-textarea:-ms-input-placeholder{color:#ccc}.swal2-file::placeholder,.swal2-input::placeholder,.swal2-textarea::placeholder{color:#ccc}.swal2-range{margin:1em 2em 3px;background:#fff}.swal2-range input{width:80%}.swal2-range output{width:20%;color:inherit;font-weight:600;text-align:center}.swal2-range input,.swal2-range output{height:2.625em;padding:0;font-size:1.125em;line-height:2.625em}.swal2-input{height:2.625em;padding:0 .75em}.swal2-file{width:75%;margin-right:auto;margin-left:auto;background:inherit;font-size:1.125em}.swal2-textarea{height:6.75em;padding:.75em}.swal2-select{min-width:50%;max-width:100%;padding:.375em .625em;background:inherit;color:inherit;font-size:1.125em}.swal2-checkbox,.swal2-radio{align-items:center;justify-content:center;background:#fff;color:inherit}.swal2-checkbox label,.swal2-radio label{margin:0 .6em;font-size:1.125em}.swal2-checkbox input,.swal2-radio input{flex-shrink:0;margin:0 .4em}.swal2-input-label{display:flex;justify-content:center;margin:1em auto 0}.swal2-validation-message{align-items:center;justify-content:center;margin:1em 0 0;padding:.625em;overflow:hidden;background:#f0f0f0;color:#666;font-size:1em;font-weight:300}.swal2-validation-message::before{content:"!";display:inline-block;width:1.5em;min-width:1.5em;height:1.5em;margin:0 .625em;border-radius:50%;background-color:#f27474;color:#fff;font-weight:600;line-height:1.5em;text-align:center}.swal2-icon{position:relative;box-sizing:content-box;justify-content:center;width:5em;height:5em;margin:2.5em auto .6em;border:.25em solid transparent;border-radius:50%;border-color:#000;font-family:inherit;line-height:5em;cursor:default;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.swal2-icon .swal2-icon-content{display:flex;align-items:center;font-size:3.75em}.swal2-icon.swal2-error{border-color:#f27474;color:#f27474}.swal2-icon.swal2-error .swal2-x-mark{position:relative;flex-grow:1}.swal2-icon.swal2-error [class^=swal2-x-mark-line]{display:block;position:absolute;top:2.3125em;width:2.9375em;height:.3125em;border-radius:.125em;background-color:#f27474}.swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:1.0625em;transform:rotate(45deg)}.swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:1em;transform:rotate(-45deg)}.swal2-icon.swal2-error.swal2-icon-show{-webkit-animation:swal2-animate-error-icon .5s;animation:swal2-animate-error-icon .5s}.swal2-icon.swal2-error.swal2-icon-show .swal2-x-mark{-webkit-animation:swal2-animate-error-x-mark .5s;animation:swal2-animate-error-x-mark .5s}.swal2-icon.swal2-warning{border-color:#facea8;color:#f8bb86}.swal2-icon.swal2-warning.swal2-icon-show{-webkit-animation:swal2-animate-error-icon .5s;animation:swal2-animate-error-icon .5s}.swal2-icon.swal2-warning.swal2-icon-show .swal2-icon-content{-webkit-animation:swal2-animate-i-mark .5s;animation:swal2-animate-i-mark .5s}.swal2-icon.swal2-info{border-color:#9de0f6;color:#3fc3ee}.swal2-icon.swal2-info.swal2-icon-show{-webkit-animation:swal2-animate-error-icon .5s;animation:swal2-animate-error-icon .5s}.swal2-icon.swal2-info.swal2-icon-show .swal2-icon-content{-webkit-animation:swal2-animate-i-mark .8s;animation:swal2-animate-i-mark .8s}.swal2-icon.swal2-question{border-color:#c9dae1;color:#87adbd}.swal2-icon.swal2-question.swal2-icon-show{-webkit-animation:swal2-animate-error-icon .5s;animation:swal2-animate-error-icon .5s}.swal2-icon.swal2-question.swal2-icon-show .swal2-icon-content{-webkit-animation:swal2-animate-question-mark .8s;animation:swal2-animate-question-mark .8s}.swal2-icon.swal2-success{border-color:#a5dc86;color:#a5dc86}.swal2-icon.swal2-success [class^=swal2-success-circular-line]{position:absolute;width:3.75em;height:7.5em;transform:rotate(45deg);border-radius:50%}.swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=left]{top:-.4375em;left:-2.0635em;transform:rotate(-45deg);transform-origin:3.75em 3.75em;border-radius:7.5em 0 0 7.5em}.swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=right]{top:-.6875em;left:1.875em;transform:rotate(-45deg);transform-origin:0 3.75em;border-radius:0 7.5em 7.5em 0}.swal2-icon.swal2-success .swal2-success-ring{position:absolute;z-index:2;top:-.25em;left:-.25em;box-sizing:content-box;width:100%;height:100%;border:.25em solid rgba(165,220,134,.3);border-radius:50%}.swal2-icon.swal2-success .swal2-success-fix{position:absolute;z-index:1;top:.5em;left:1.625em;width:.4375em;height:5.625em;transform:rotate(-45deg)}.swal2-icon.swal2-success [class^=swal2-success-line]{display:block;position:absolute;z-index:2;height:.3125em;border-radius:.125em;background-color:#a5dc86}.swal2-icon.swal2-success [class^=swal2-success-line][class$=tip]{top:2.875em;left:.8125em;width:1.5625em;transform:rotate(45deg)}.swal2-icon.swal2-success [class^=swal2-success-line][class$=long]{top:2.375em;right:.5em;width:2.9375em;transform:rotate(-45deg)}.swal2-icon.swal2-success.swal2-icon-show .swal2-success-line-tip{-webkit-animation:swal2-animate-success-line-tip .75s;animation:swal2-animate-success-line-tip .75s}.swal2-icon.swal2-success.swal2-icon-show .swal2-success-line-long{-webkit-animation:swal2-animate-success-line-long .75s;animation:swal2-animate-success-line-long .75s}.swal2-icon.swal2-success.swal2-icon-show .swal2-success-circular-line-right{-webkit-animation:swal2-rotate-success-circular-line 4.25s ease-in;animation:swal2-rotate-success-circular-line 4.25s ease-in}.swal2-progress-steps{flex-wrap:wrap;align-items:center;max-width:100%;margin:1.25em auto;padding:0;background:inherit;font-weight:600}.swal2-progress-steps li{display:inline-block;position:relative}.swal2-progress-steps .swal2-progress-step{z-index:20;flex-shrink:0;width:2em;height:2em;border-radius:2em;background:#2778c4;color:#fff;line-height:2em;text-align:center}.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step{background:#2778c4}.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step{background:#add8e6;color:#fff}.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step-line{background:#add8e6}.swal2-progress-steps .swal2-progress-step-line{z-index:10;flex-shrink:0;width:2.5em;height:.4em;margin:0 -1px;background:#2778c4}[class^=swal2]{-webkit-tap-highlight-color:transparent}.swal2-show{-webkit-animation:swal2-show .3s;animation:swal2-show .3s}.swal2-hide{-webkit-animation:swal2-hide .15s forwards;animation:swal2-hide .15s forwards}.swal2-noanimation{transition:none}.swal2-scrollbar-measure{position:absolute;top:-9999px;width:50px;height:50px;overflow:scroll}.swal2-rtl .swal2-close{margin-right:initial;margin-left:0}.swal2-rtl .swal2-timer-progress-bar{right:0;left:auto}@-webkit-keyframes swal2-toast-show{0%{transform:translateY(-.625em) rotateZ(2deg)}33%{transform:translateY(0) rotateZ(-2deg)}66%{transform:translateY(.3125em) rotateZ(2deg)}100%{transform:translateY(0) rotateZ(0)}}@keyframes swal2-toast-show{0%{transform:translateY(-.625em) rotateZ(2deg)}33%{transform:translateY(0) rotateZ(-2deg)}66%{transform:translateY(.3125em) rotateZ(2deg)}100%{transform:translateY(0) rotateZ(0)}}@-webkit-keyframes swal2-toast-hide{100%{transform:rotateZ(1deg);opacity:0}}@keyframes swal2-toast-hide{100%{transform:rotateZ(1deg);opacity:0}}@-webkit-keyframes swal2-toast-animate-success-line-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@keyframes swal2-toast-animate-success-line-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@-webkit-keyframes swal2-toast-animate-success-line-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}@keyframes swal2-toast-animate-success-line-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}@-webkit-keyframes swal2-show{0%{transform:scale(.7)}45%{transform:scale(1.05)}80%{transform:scale(.95)}100%{transform:scale(1)}}@keyframes swal2-show{0%{transform:scale(.7)}45%{transform:scale(1.05)}80%{transform:scale(.95)}100%{transform:scale(1)}}@-webkit-keyframes swal2-hide{0%{transform:scale(1);opacity:1}100%{transform:scale(.5);opacity:0}}@keyframes swal2-hide{0%{transform:scale(1);opacity:1}100%{transform:scale(.5);opacity:0}}@-webkit-keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.8125em;width:1.5625em}}@keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.8125em;width:1.5625em}}@-webkit-keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@-webkit-keyframes swal2-rotate-success-circular-line{0%{transform:rotate(-45deg)}5%{transform:rotate(-45deg)}12%{transform:rotate(-405deg)}100%{transform:rotate(-405deg)}}@keyframes swal2-rotate-success-circular-line{0%{transform:rotate(-45deg)}5%{transform:rotate(-45deg)}12%{transform:rotate(-405deg)}100%{transform:rotate(-405deg)}}@-webkit-keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;transform:scale(.4);opacity:0}50%{margin-top:1.625em;transform:scale(.4);opacity:0}80%{margin-top:-.375em;transform:scale(1.15)}100%{margin-top:0;transform:scale(1);opacity:1}}@keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;transform:scale(.4);opacity:0}50%{margin-top:1.625em;transform:scale(.4);opacity:0}80%{margin-top:-.375em;transform:scale(1.15)}100%{margin-top:0;transform:scale(1);opacity:1}}@-webkit-keyframes swal2-animate-error-icon{0%{transform:rotateX(100deg);opacity:0}100%{transform:rotateX(0);opacity:1}}@keyframes swal2-animate-error-icon{0%{transform:rotateX(100deg);opacity:0}100%{transform:rotateX(0);opacity:1}}@-webkit-keyframes swal2-rotate-loading{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}@keyframes swal2-rotate-loading{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}@-webkit-keyframes swal2-animate-question-mark{0%{transform:rotateY(-360deg)}100%{transform:rotateY(0)}}@keyframes swal2-animate-question-mark{0%{transform:rotateY(-360deg)}100%{transform:rotateY(0)}}@-webkit-keyframes swal2-animate-i-mark{0%{transform:rotateZ(45deg);opacity:0}25%{transform:rotateZ(-25deg);opacity:.4}50%{transform:rotateZ(15deg);opacity:.8}75%{transform:rotateZ(-5deg);opacity:1}100%{transform:rotateX(0);opacity:1}}@keyframes swal2-animate-i-mark{0%{transform:rotateZ(45deg);opacity:0}25%{transform:rotateZ(-25deg);opacity:.4}50%{transform:rotateZ(15deg);opacity:.8}75%{transform:rotateZ(-5deg);opacity:1}100%{transform:rotateX(0);opacity:1}}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown){overflow:hidden}body.swal2-height-auto{height:auto!important}body.swal2-no-backdrop .swal2-container{background-color:transparent!important;pointer-events:none}body.swal2-no-backdrop .swal2-container .swal2-popup{pointer-events:all}body.swal2-no-backdrop .swal2-container .swal2-modal{box-shadow:0 0 10px rgba(0,0,0,.4)}@media print{body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown){overflow-y:scroll!important}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown)>[aria-hidden=true]{display:none}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) .swal2-container{position:static!important}}body.swal2-toast-shown .swal2-container{box-sizing:border-box;width:360px;max-width:100%;background-color:transparent;pointer-events:none}body.swal2-toast-shown .swal2-container.swal2-top{top:0;right:auto;bottom:auto;left:50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-top-end,body.swal2-toast-shown .swal2-container.swal2-top-right{top:0;right:0;bottom:auto;left:auto}body.swal2-toast-shown .swal2-container.swal2-top-left,body.swal2-toast-shown .swal2-container.swal2-top-start{top:0;right:auto;bottom:auto;left:0}body.swal2-toast-shown .swal2-container.swal2-center-left,body.swal2-toast-shown .swal2-container.swal2-center-start{top:50%;right:auto;bottom:auto;left:0;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-center{top:50%;right:auto;bottom:auto;left:50%;transform:translate(-50%,-50%)}body.swal2-toast-shown .swal2-container.swal2-center-end,body.swal2-toast-shown .swal2-container.swal2-center-right{top:50%;right:0;bottom:auto;left:auto;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-left,body.swal2-toast-shown .swal2-container.swal2-bottom-start{top:auto;right:auto;bottom:0;left:0}body.swal2-toast-shown .swal2-container.swal2-bottom{top:auto;right:auto;bottom:0;left:50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-end,body.swal2-toast-shown .swal2-container.swal2-bottom-right{top:auto;right:0;bottom:0;left:auto}`);
-    window.DEBUG = !!((_globalOptions$other = globalOptions.other) !== null && _globalOptions$other !== void 0 && _globalOptions$other.debug);
-    window.TRACE = !!((_globalOptions$other2 = globalOptions.other) !== null && _globalOptions$other2 !== void 0 && _globalOptions$other2.debug) && typeof console.trace === 'function';
+    window.DEBUG = !!globalOptions.other.debug;
+    window.TRACE = !!globalOptions.other.debug && typeof console.trace === 'function';
     const loadScript = async () => {
-      var _website, _website2, _website3, _website4, _website5, _website6;
       if (window.location.hostname === 'www.twitch.tv' && window.location.hash === '#auth') {
         const authToken = external_Cookies_namespaceObject.get('auth-token');
         const isLogin = !!external_Cookies_namespaceObject.get('login');
         if (isLogin) {
-          var _commonOptions, _commonOptions$header, _commonOptions2, _commonOptions2$heade;
           GM_setValue('twitchAuth', {
             authToken: authToken,
             clientVersion: __twilightBuildID,
-            clientId: (_commonOptions = commonOptions) === null || _commonOptions === void 0 ? void 0 : (_commonOptions$header = _commonOptions.headers) === null || _commonOptions$header === void 0 ? void 0 : _commonOptions$header['Client-ID'],
-            deviceId: (_commonOptions2 = commonOptions) === null || _commonOptions2 === void 0 ? void 0 : (_commonOptions2$heade = _commonOptions2.headers) === null || _commonOptions2$heade === void 0 ? void 0 : _commonOptions2$heade['Device-ID'],
+            clientId: commonOptions?.headers?.['Client-ID'],
+            deviceId: commonOptions?.headers?.['Device-ID'],
             clientSessionId: window.localStorage.local_storage_app_session_id.replace(/"/g, '')
           });
           window.close();
@@ -10877,8 +10612,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         console.log('%c%s', 'color:#ff0000', 'Auto-Task[Warning]: 脚本停止加载，当前网站不支持！');
         return;
       }
-      if ((_website = website) !== null && _website !== void 0 && _website.before) {
-        await ((_website2 = website) === null || _website2 === void 0 ? void 0 : _website2.before());
+      if (website?.before) {
+        await website?.before();
       }
       $('body').append(`<div id="auto-task-info" style="display:${globalOptions.other.defaultShowLog ? 'block' : 'none'};${globalOptions.position.logSideX}:${globalOptions.position.logDistance.split(',')[0]}px;${globalOptions.position.logSideY}:${globalOptions.position.logDistance.split(',')[1]}px;"></div><div id="auto-task-buttons" style="display:${globalOptions.other.defaultShowButton ? 'block' : 'none'};${globalOptions.position.buttonSideX}:${globalOptions.position.buttonDistance.split(',')[0]}px;${globalOptions.position.buttonSideY}:${globalOptions.position.buttonDistance.split(',')[1]}px;"></div><div class="show-button-div" style="display:${globalOptions.other.defaultShowButton ? 'none' : 'block'};${globalOptions.position.showButtonSideX}:${globalOptions.position.showButtonDistance.split(',')[0]}px;${globalOptions.position.showButtonSideY}:${globalOptions.position.showButtonDistance.split(',')[1]}px;"><a class="auto-task-website-btn" href="javascript:void(0);" target="_self" title="${i18n('showButton')}"></a></div>`);
       $('div.show-button-div').on('click', () => {
@@ -10907,10 +10642,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         }
       });
       external_keyboardJS_default().bind(globalOptions.hotKey.toggleLogKey, toggleLog);
-      if ((_website3 = website) !== null && _website3 !== void 0 && _website3.after) {
-        await ((_website4 = website) === null || _website4 === void 0 ? void 0 : _website4.after());
+      if (website?.after) {
+        await website?.after();
       }
-      if ((_website5 = website) !== null && _website5 !== void 0 && _website5.buttons && $('#auto-task-buttons').children().length === 0) {
+      if (website?.buttons && $('#auto-task-buttons').children().length === 0) {
         $('#auto-task-buttons').addClass(`${website.name}-buttons`);
         for (const button of website.buttons) {
           if (website[button]) {
@@ -10932,7 +10667,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       ${globalOptions.other.defaultShowLog ? i18n('hideLog') : i18n('showLog')}</a></p>`);
       toggleLogElement.find('a.auto-task-website-btn').on('click', toggleLog);
       $('#auto-task-buttons').append(hideButtonElement).append(toggleLogElement);
-      if ((_website6 = website) !== null && _website6 !== void 0 && _website6.options) {
+      if (website?.options) {
         GM_registerMenuCommand(i18n('changeWebsiteOptions'), () => {
           options(website.name, website.options);
         });
@@ -10947,7 +10682,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
       console.log('%c%s', 'color:#1bbe1a', 'Auto-Task[Load]: 脚本加载完成');
       if (!GM_getValue('notice')) {
-        var _echoLog$font;
         external_Swal_default().fire({
           title: i18n('swalNotice'),
           icon: 'warning'
@@ -10955,9 +10689,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           window.open(i18n('noticeLink'), '_blank');
           GM_setValue('notice', new Date().getTime());
         });
-        (_echoLog$font = scripts_echoLog({
+        scripts_echoLog({
           html: `<li><font class="warning">${i18n('echoNotice', i18n('noticeLink'))}</font></li>`
-        }).font) === null || _echoLog$font === void 0 ? void 0 : _echoLog$font.find('a').on('click', () => {
+        }).font?.find('a').on('click', () => {
           GM_setValue('notice', new Date().getTime());
         });
       }
@@ -10966,9 +10700,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
     if (window.location.hostname === 'discord.com') {
       const LocalStorage = window.localStorage;
       if (window.location.hash === '#auth') {
-        var _LocalStorage$getItem;
         window.localStorage.removeItem = () => true;
-        const discordAuth = LocalStorage === null || LocalStorage === void 0 ? void 0 : (_LocalStorage$getItem = LocalStorage.getItem('token')) === null || _LocalStorage$getItem === void 0 ? void 0 : _LocalStorage$getItem.replace(/^"|"$/g, '');
+        const discordAuth = LocalStorage?.getItem('token')?.replace(/^"|"$/g, '');
         if (discordAuth && discordAuth.length > 0) {
           GM_setValue('discordAuth', {
             auth: discordAuth
@@ -10982,8 +10715,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           });
         }
       } else {
-        var _LocalStorage$getItem2;
-        const discordAuth = LocalStorage === null || LocalStorage === void 0 ? void 0 : (_LocalStorage$getItem2 = LocalStorage.getItem('token')) === null || _LocalStorage$getItem2 === void 0 ? void 0 : _LocalStorage$getItem2.replace(/^"|"$/g, '');
+        const discordAuth = LocalStorage?.getItem('token')?.replace(/^"|"$/g, '');
         if (discordAuth && discordAuth.length > 0) {
           GM_setValue('discordAuth', {
             auth: discordAuth

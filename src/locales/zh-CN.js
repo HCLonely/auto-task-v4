@@ -300,6 +300,7 @@ const data = {
   gettingGleamLink: '正在获取Gleam任务链接...',
   gleamTaskNotice: '如果此页面长时间未关闭，请完成任一任务后自行关闭！',
   verifiedGleamTasks: '已尝试验证所有任务，验证失败的任务请尝试手动验证或完成！',
+  campaign: '检测到人机验证，请完成验证后重新验证任务！',
 
   // GiveawaySu
   gsNotice: '为避免得到"0000-0000-0000"key, 已自动屏蔽"Grab Key"按钮，获取key时请关闭脚本！',
