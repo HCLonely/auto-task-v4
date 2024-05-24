@@ -21,9 +21,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.3.1
-          name: 4.3.1
-          body: '- 优化:Gleam.io站出现人机验证是停止验证任务'
+          tag_name: v4.3.2
+          name: 4.3.2
+          body: '- 修复:Steam社区凭证更新失败(#16)'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.3
 
+### V4.3.2
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.3.2)
+
+- 优化:Gleam.io站出现人机验证是停止验证任务
+
 ### V4.3.1
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.3.1)

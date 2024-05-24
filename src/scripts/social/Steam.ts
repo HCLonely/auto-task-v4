@@ -254,7 +254,7 @@ class Steam extends Social {
       });
       if (result === 'Success') {
         if (data?.status === 200) {
-          if (data.responseText.includes('href="https://steamcommunity.com/login/home/')) {
+          if (data.finalUrl.includes('https://steamcommunity.com/login/home')) {
             logStatus.error(`Error:${__('needLoginSteamCommunity')}`, true);
             return false;
           }

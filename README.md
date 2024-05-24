@@ -9,7 +9,6 @@
 
 [![License](https://img.shields.io/github/license/HCLonely/auto-task-v4?label=License)](https://github.com/HCLonely/auto-task-v4/blob/main/LICENSE)
 [![Release](https://img.shields.io/github/v/release/HCLonely/auto-task-v4?include_prereleases)](https://github.com/HCLonely/auto-task-v4/releases)
-[![Status](https://badgen.net/github/status/HCLonely/auto-task-v4)](https://github.com/HCLonely/auto-task-v4/actions)
 
 [![GitHub file size in bytes](https://img.shields.io/github/size/HCLonely/auto-task-v4/dist/auto-task-v4.user.js?label=auto-task-v4.user.js)](https://github.com/HCLonely/auto-task-v4/raw/main/dist/auto-task-v4.user.js)
 [![GitHub file size in bytes](https://img.shields.io/github/size/HCLonely/auto-task-v4/dist/auto-task-v4.compatibility.user.js?label=auto-task-v4.compatibility.user.js)](https://github.com/HCLonely/auto-task-v4/raw/main/dist/auto-task-v4.compatibility.user.js)
@@ -29,20 +28,20 @@
 
 - [正式版](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4.user.js)
 - [兼容版](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4.compatibility.user.js)：正式版不能正常使用时可尝试使用此版本
-- [GiveawaySu特供版](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4-for-giveawaysu.user.js)
+- [GiveawaySu 特供版](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4-for-giveawaysu.user.js)
 
 ### 使用
 
 - [使用说明](https://auto-task-doc.js.org/guide/)
 - [Document](https://auto-task-doc.js.org/en/guide/)
-- [GS特供版使用说明](https://auto-task-doc.js.org/guide/#GS特供版使用说明)
+- [GS 特供版使用说明](https://auto-task-doc.js.org/guide/#GS特供版使用说明)
 - [Document For GS Special Edition](https://auto-task-doc.js.org/en/guide/#for-giveawaysu)
 
 ## Todo
 
 - [x] 添加更新源
 - [x] 添加更新日志
-- [x] 添加giveaway.su专版
+- [x] 添加 giveaway.su 专版
 
 ## 感谢以下开源项目
 

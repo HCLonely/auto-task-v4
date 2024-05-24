@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.3.1",
+  "version": "4.3.2",
   "change": [
-    "优化:Gleam.io站出现人机验证是停止验证任务"
+    "修复:Steam社区凭证更新失败(#16)"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",
@@ -33,9 +33,10 @@
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.24.2",
     "fs-extra": "^10.0.0",
+    "javascript-obfuscator": "^4.1.0",
     "js-cookie": "^3.0.1",
     "js-yaml": "^4.1.0",
-    "postcss": "^8.4.5",
+    "postcss": "^8.4.31",
     "postcss-loader": "^6.2.1",
     "postcss-preset-env": "^7.1.0",
     "sass": "^1.45.1",
@@ -45,9 +46,10 @@
     "ts-loader": "^9.2.6",
     "typescript": "^4.4.4",
     "uglify-js": "^3.14.5",
-    "webpack": "^5.60.0",
+    "webpack": "^5.76.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.1",
+    "webpack-obfuscator": "^3.5.1",
     "webpackbar": "^5.0.2"
   }
 }
