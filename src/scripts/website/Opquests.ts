@@ -32,7 +32,6 @@ class Opquests extends Website {
   undoneTasks: oqSocialTasks = { ...defaultTasks };
   buttons: Array<string> = [
     'doTask',
-    'verifyTask',
     'getKey'
   ];
 
@@ -127,12 +126,10 @@ class Opquests extends Website {
           .trim() as string
       }));
       await this.#confirm();
-      const pro = [];
       for (const task of tasks) {
-        pro.push(this.#verify(task));
+        await this.#verify(task);
         await delay(1000);
       }
-      await Promise.all(pro);
       echoLog({}).success(__('allTasksComplete'));
       if (await this.getKey()) {
         return true;
@@ -184,7 +181,7 @@ class Opquests extends Website {
         headers: {
           origin: 'https://opquests.com',
           pragma: 'no-cache',
-          referer: window.location.href,
+          referer: `${window.location.href.split('?')[0]}?confirm=1`,
           'content-type': 'application/x-www-form-urlencoded'
         },
         data: `_token=${task.token}&task_id=${task.taskId}`

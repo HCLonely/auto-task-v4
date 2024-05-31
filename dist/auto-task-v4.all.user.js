@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.3.2
+// @version            4.3.3
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -8835,7 +8835,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       undoneTasks = {
         ...Opquests_defaultTasks
       };
-      buttons = [ 'doTask', 'verifyTask', 'getKey' ];
+      buttons = [ 'doTask', 'getKey' ];
       static test() {
         return window.location.host === 'opquests.com';
       }
@@ -8923,12 +8923,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             title: $(ele).find('span.text-sm').text().trim()
           }));
           await this.#confirm();
-          const pro = [];
           for (const task of tasks) {
-            pro.push(this.#verify(task));
+            await this.#verify(task);
             await delay(1e3);
           }
-          await Promise.all(pro);
           scripts_echoLog({}).success(i18n('allTasksComplete'));
           if (await this.getKey()) {
             return true;
@@ -8992,7 +8990,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             headers: {
               origin: 'https://opquests.com',
               pragma: 'no-cache',
-              referer: window.location.href,
+              referer: `${window.location.href.split('?')[0]}?confirm=1`,
               'content-type': 'application/x-www-form-urlencoded'
             },
             data: `_token=${task.token}&task_id=${task.taskId}`
@@ -9317,7 +9315,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 continue;
               }
               this.undoneTasks.extra.gleam.push(gleamLink);
-            } else if (socialIcon.hasClass('fa-question') || socialIcon.hasClass('fa-reddit') || socialIcon.hasClass('fa-instagram') || socialIcon.hasClass('fa-facebook-f') || socialIcon.hasClass('fa-telegram-plane') || socialIcon.hasClass('fa-telegram') || socialIcon.hasClass('fa-vk') || socialIcon.hasClass('fa-envelope') || socialIcon.hasClass('fa-gift') || socialIcon.hasClass('fa-square-up-right') || socialIcon.hasClass('fa-shield') && taskText.includes('one of our giveaways') || socialIcon.hasClass('fa-shield') && taskText.includes('Check out')) {} else {
+            } else if (socialIcon.hasClass('fa-question') || socialIcon.hasClass('fa-reddit') || socialIcon.hasClass('fa-instagram') || socialIcon.hasClass('fa-facebook-f') || socialIcon.hasClass('fa-telegram-plane') || socialIcon.hasClass('fa-telegram') || socialIcon.hasClass('fa-vk') || socialIcon.hasClass('fa-envelope') || socialIcon.hasClass('fa-gift') || socialIcon.hasClass('fa-square-up-right') || socialIcon.hasClass('fa-gamepad-modern') || socialIcon.hasClass('fa-shield') && taskText.includes('one of our giveaways') || socialIcon.hasClass('fa-shield') && taskText.includes('Check out')) {} else {
               scripts_echoLog({}).warning(`${i18n('unKnownTaskType')}: ${taskText}`);
             }
           }

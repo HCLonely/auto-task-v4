@@ -241,6 +241,7 @@ class Gleam extends Website {
           socialIcon.hasClass('fa-envelope') ||
           socialIcon.hasClass('fa-gift') ||
           socialIcon.hasClass('fa-square-up-right') ||
+          socialIcon.hasClass('fa-gamepad-modern') ||
           (socialIcon.hasClass('fa-shield') && taskText.includes('one of our giveaways')) ||
           (socialIcon.hasClass('fa-shield') && taskText.includes('Check out'))
         ) {
@@ -284,7 +285,7 @@ class Gleam extends Website {
       unsafeWindow._OxA = '_OxA';
       for (const task of tasks) {
         if ($('[campaign-key="campaign.key"]').length > 0) { // 检测人机验证
-          return echoLog({ text: __('campaign') });;
+          return echoLog({ text: __('campaign') });
         }
 
         const $task = $(task);

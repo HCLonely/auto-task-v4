@@ -21,9 +21,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.3.2
-          name: 4.3.2
-          body: '- 修复:Steam社区凭证更新失败(#16)'
+          tag_name: v4.3.3
+          name: 4.3.3
+          body: '- 移除:Opquests验证任务功能(#17)'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js
