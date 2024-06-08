@@ -163,6 +163,7 @@ const data = {
   AsfEnabled: '使用ASF做Steam相关任务(需<a href="https://github.com/chr233/ASFEnhance" target="_blank">ASFEnhance</a>插件)',
   AsfIpcUrl: 'ASF IPC 地址',
   AsfIpcPassword: 'ASF IPC 密码',
+  versionNotMatched: '脚本管理器版本过低，需TamperMonkey >= 5.2.0或TamperMonkey Beta >= 5.2.6196',
 
   // Steam
   groups: '组',

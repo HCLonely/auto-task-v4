@@ -52,7 +52,8 @@ const loadScript = async () => {
     }
     return;
   }
-  if (window.location.hostname === 'twitter.com' && window.location.hash === '#auth') {
+  /*
+  if (window.location.hostname === 'x.com' && window.location.hash === '#auth') {
     const ct0 = Cookies.get('ct0');
     const isLogin = !!Cookies.get('twid');
     if (isLogin && ct0) {
@@ -75,6 +76,7 @@ const loadScript = async () => {
     }
     return;
   }
+  */
   if (window.location.hostname === 'www.reddit.com' &&
     (window.location.hash === '#auth' || GM_getValue('redditAuth') === '#auth')) {
     const betaButton = $('#redesign-beta-optin-btn');
@@ -192,6 +194,11 @@ const loadScript = async () => {
 
   console.log('%c%s', 'color:#1bbe1a', 'Auto-Task[Load]: 脚本加载完成');
 
+  // INFO: 版本检测
+  const [v1, v2] = GM_info.version.split('.');
+  if (!(parseInt(v1, 10) >= 5 && parseInt(v2, 10) >= 2)) {
+    echoLog({}).error(__('versionNotMatched'));
+  }
   if (!GM_getValue<number>('notice')) {
     Swal.fire({
       title: __('swalNotice'),

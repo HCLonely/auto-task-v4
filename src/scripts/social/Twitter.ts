@@ -90,19 +90,25 @@ class Twitter extends Social {
     try {
       const logStatus = echoLog({ text: __('updatingAuth', 'Twitter') });
       return await new Promise((resolve) => {
-        const newTab = GM_openInTab('https://twitter.com/settings/account?k#auth',
-          { active: true, insert: true, setParent: true });
-        newTab.onclose = async () => {
-          const auth = GM_getValue<auth>('twitterAuth');
-          if (auth) {
-            this.#auth = auth;
-            logStatus.success();
-            resolve(await this.#verifyAuth());
+        // eslint-disable-next-line camelcase
+        GM_cookie.list({ url: 'https://x.com/settings/account' }, async (cookies, error) => {
+          if (!error) {
+            const [ct0, isLogin] = cookies.map((cookie) => (['ct0', 'twid'].includes(cookie.name) ? cookie.value : null)).filter((cookie) => cookie);
+
+            if (isLogin && ct0) {
+              GM_setValue('twitterAuth', { ct0 });
+              this.#auth = { ct0 };
+              logStatus.success();
+              resolve(await this.#verifyAuth());
+            } else {
+              logStatus.error(__('needLogin'));
+              resolve(false);
+            }
           } else {
             logStatus.error('Error: Update twitter auth failed!');
             resolve(false);
           }
-        };
+        });
       });
     } catch (error) {
       throwError(error as Error, 'Twitter.updateToken');
@@ -130,7 +136,7 @@ class Twitter extends Social {
         echoLog({ text: __('verifyingAuth', 'Twitter') }) :
         echoLog({ type: `${doTask ? '' : 'un'}followingTwitterUser`, text: name });
       const { result, statusText, status, data } = await httpRequest({
-        url: `https://api.twitter.com/1.1/friendships/${doTask ? 'create' : 'destroy'}.json`,
+        url: `https://x.com/i/api/1.1/friendships/${doTask ? 'create' : 'destroy'}.json`,
         method: 'POST',
         headers: {
           authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
@@ -191,14 +197,14 @@ class Twitter extends Social {
       }
       const { result, statusText, status, data } = await httpRequest({
         url: (
-          'https://api.twitter.com/graphql/mCbpQvZAw6zu_4PvuAUVVQ/UserByScreenName' +
+          'https://x.com/i/api/graphql/mCbpQvZAw6zu_4PvuAUVVQ/UserByScreenName' +
           `?variables=%7B%22screen_name%22%3A%22${name}%22%2C%22withSafetyModeUserFields%22%3Atrue%2C%22withSuperFollowsUserFields%22%3Atrue%7D`
         ),
         method: 'GET',
         headers: {
           authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
           'content-type': 'application/json',
-          referer: `https://twitter.com/${name}`,
+          referer: `https://x.com/${name}`,
           'x-csrf-token': this.#auth.ct0 as string
         },
         responseType: 'json'
@@ -248,7 +254,7 @@ class Twitter extends Social {
       }
       const logStatus = echoLog({ type: `${doTask ? '' : 'un'}retweetting`, text: retweetId });
       const { result, statusText, status, data } = await httpRequest({
-        url: `https://api.twitter.com/1.1/statuses/${doTask ? '' : 'un'}retweet.json`,
+        url: `https://x.com/i/api/1.1/statuses/${doTask ? '' : 'un'}retweet.json`,
         method: 'POST',
         headers: {
           authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
@@ -307,7 +313,7 @@ class Twitter extends Social {
       ) {
         echoLog({ type: 'globalOptionsSkip', text: 'twitter.users' });
       } else {
-        const realUsers = this.getRealParams('users', userLinks, doTask, (link) => link.match(/https:\/\/twitter\.com\/(.+)/)?.[1]);
+        const realUsers = this.getRealParams('users', userLinks, doTask, (link) => link.match(/https:\/\/x\.com\/(.+)/)?.[1]);
         if (realUsers.length > 0) {
           for (const user of realUsers) {
             prom.push(this.#toggleUser({ name: user, doTask }));
@@ -322,7 +328,7 @@ class Twitter extends Social {
         echoLog({ type: 'globalOptionsSkip', text: 'twitter.retweets' });
       } else {
         const realRetweets = this.getRealParams('retweets', retweetLinks, doTask,
-          (link) => link.match(/https:\/\/twitter\.com\/.*?\/status\/([\d]+)/)?.[1]);
+          (link) => link.match(/https:\/\/x\.com\/.*?\/status\/([\d]+)/)?.[1]);
         if (realRetweets.length > 0) {
           for (const retweet of realRetweets) {
             prom.push(this.#toggleRetweet({ retweetId: retweet, doTask }));

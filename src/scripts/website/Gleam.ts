@@ -143,7 +143,7 @@ class Gleam extends Website {
           }
         }
         if (socialIcon.hasClass('fa-twitter')) {
-          const link = $task.find('a[href^="https://twitter.com/"]').attr('href');
+          const link = $task.find('a[href^="https://twitter.com/"],a[href^="https://x.com/"]').attr('href');
           if (!link) continue;
           if (/follow/gi.test(taskText)) {
             if (action === 'undo') this.socialTasks.twitter.userLinks.push(link);

@@ -16,7 +16,7 @@ interface toggleParams {
 abstract class Social {
   tasks!: socialTasks;
 
-  abstract init(): Promise<boolean | 'skip'>
+  abstract init(options?: any): Promise<boolean | 'skip'>
   abstract toggle(toggleParams: toggleParams): Promise<boolean>
 
   protected getRealParams(

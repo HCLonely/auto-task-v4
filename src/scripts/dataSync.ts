@@ -103,7 +103,8 @@ const syncOptions = (): void => {
       GIST_ID,
       FILE_NAME,
       SYNC_HISTORY
-    } = GM_getValue('gistOptions') || { TOKEN: '', GIST_ID: '', FILE_NAME: '', SYNC_HISTORY: true };
+    } = GM_getValue<{ TOKEN: string; GIST_ID: string; FILE_NAME: string; SYNC_HISTORY: boolean; }>('gistOptions') ||
+      { TOKEN: '', GIST_ID: '', FILE_NAME: '', SYNC_HISTORY: true };
 
     Swal.fire({
       title: __('gistOptions'),
@@ -147,7 +148,7 @@ const syncOptions = (): void => {
       }
     });
     $('#upload-data').on('click', async () => {
-      const { TOKEN, GIST_ID, FILE_NAME } = GM_getValue('gistOptions') || {};
+      const { TOKEN, GIST_ID, FILE_NAME } = GM_getValue<{ TOKEN: string, GIST_ID: string, FILE_NAME: string }>('gistOptions') || {};
       if (!(TOKEN && GIST_ID && FILE_NAME)) {
         return Swal.fire({
           icon: 'error',
@@ -183,7 +184,7 @@ const syncOptions = (): void => {
       }
     });
     $('#download-data').on('click', async () => {
-      const { TOKEN, GIST_ID, FILE_NAME } = GM_getValue('gistOptions') || {};
+      const { TOKEN, GIST_ID, FILE_NAME } = GM_getValue<{ TOKEN: string, GIST_ID: string, FILE_NAME: string }>('gistOptions') || {};
       if (!(TOKEN && GIST_ID && FILE_NAME)) {
         return Swal.fire({
           icon: 'error',

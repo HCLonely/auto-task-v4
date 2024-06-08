@@ -7,8 +7,8 @@
  * @Description  : 整合website相关
  */
 
-import FreeAnyWhere from './FreeAnyWhere';
-import { GiveawaySu } from './GiveawaySu';
+import FreeAnyWhere from './Freeanywhere';
+import { GiveawaySu } from './Giveawaysu';
 import Indiedb from './Indiedb';
 import Keyhub from './Keyhub';
 import Givekey from './Givekey';

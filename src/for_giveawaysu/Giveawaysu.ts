@@ -267,7 +267,7 @@ class GiveawaySu {
         const hasDiscord = Object.values(tasks.discord).reduce((total, arr) => [...total, ...arr]).length > 0;
         if (hasDiscord && !this.socialInitialized.discord) {
           this.social.discord = new Discord();
-          pro.push(this.#bind('discord', this.social.discord.init()));
+          pro.push(this.#bind('discord', this.social.discord.init('do')));
         }
       }
       if (tasks.instagram) {
