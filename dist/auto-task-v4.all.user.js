@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.3.3
+// @version            4.4.0
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -31,6 +31,7 @@
 // @include            *://www.youtube.com/*
 // @include            *://*.reddit.com/*
 // @include            *://twitter.com/settings/account?k*
+// @include            *://x.com/settings/account*
 // @include            https://auto-task-v4.hclonely.com/setting.html
 // @include            https://auto-task-v4.hclonely.com/history.html
 
@@ -45,6 +46,7 @@
 // @grant              GM_openInTab
 // @grant              GM_setClipboard
 // @grant              GM_getResourceText
+// @grant              GM_cookie
 // @grant              unsafeWindow
 // @grant              window.close
 // @grant              window.localStorage
@@ -54,6 +56,7 @@
 // @connect            steamcommunity.com
 // @connect            login.steampowered.com
 // @connect            twitter.com
+// @connect            x.com
 // @connect            api.twitter.com
 // @connect            youtube.com
 // @connect            www.youtube.com
@@ -423,22 +426,22 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         });
       });
     },
-    568: function(module, __webpack_exports__, __webpack_require__) {
+    221: function(module, __webpack_exports__, __webpack_require__) {
       'use strict';
       __webpack_require__.d(__webpack_exports__, {
         Z: function() {
           return __WEBPACK_DEFAULT_EXPORT__;
         }
       });
-      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(494);
-      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(999);
-      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(_node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-      var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(_node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default());
+      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(398);
+      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(_node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+      var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(_node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default());
       ___CSS_LOADER_EXPORT___.push([ module.id, '.colorful-button,#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn,body.auto-task-options .auto-task-form table button{position:relative;padding:5px 10px;text-align:center;color:#fff;text-decoration:none;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:30px;background-size:400%;text-transform:capitalize}.colorful-button:hover,#auto-task-buttons a.auto-task-website-btn:hover,.show-button-div a.auto-task-website-btn:hover,body.auto-task-options .auto-task-form table button:hover{animation:animate 8s linear infinite;cursor:pointer}.colorful-button:hover::before,#auto-task-buttons a.auto-task-website-btn:hover::before,.show-button-div a.auto-task-website-btn:hover::before,body.auto-task-options .auto-task-form table button:hover::before{filter:blur(10px);opacity:1}.colorful-button::before,#auto-task-buttons a.auto-task-website-btn::before,.show-button-div a.auto-task-website-btn::before,body.auto-task-options .auto-task-form table button::before{content:"";position:absolute;top:-5px;left:-5px;right:-5px;bottom:-5px;z-index:-1;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:40px;background-size:400%;opacity:-1;transition:.5s}@keyframes animate{0%{background-position:0%}100%{background-position:100%}}#auto-task-info{position:fixed;bottom:10px;right:10px;width:60%;max-width:500px;max-height:60%;overflow-y:auto;color:#000;background-color:#fff;padding-left:5px;z-index:999999999 !important;border:solid 2px #add8e6;border-radius:10px}#auto-task-info li{text-align:left}#auto-task-info li a.high-light{color:#00aeff;font-weight:bold}#auto-task-info .success{color:green}#auto-task-info .error{color:red}#auto-task-info .warning{color:blue}#auto-task-info .info{color:#ff0}#auto-task-info .update-text{color:green;border:solid 2px #8dcb69;margin:5px 10px 5px 20px;border-radius:10px;padding:5px 20px}.auto-task-keylol{display:inline-block;text-transform:capitalize;margin-left:10px;text-decoration:none !important;border:solid 1px;border-radius:5px;padding:0 2px}.auto-task-keylol[selected=selected]{background-color:blue !important;color:#fff !important}.auto-task-form table{font-family:verdana,arial,sans-serif;font-size:11px;color:#333;border-width:1px;border-color:#999;border-collapse:collapse;width:100%}.auto-task-form table thead td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;font-weight:bold;background-color:#fff}.auto-task-form table tbody tr{background-color:#d4e3e5}.auto-task-form table tbody tr:hover{background-color:#ff6 !important}.auto-task-form table tbody tr th{background-color:#c3dde0;border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;text-transform:capitalize}.auto-task-form table tbody tr td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}.swal2-modal{width:70% !important;max-width:1000px !important}body.auto-task-options{padding-top:10px;text-align:center}body.auto-task-options .auto-task-form{width:80%;max-width:1000px;margin:0 auto;padding-bottom:20px}body.auto-task-options .auto-task-form table input.editOption{width:80%}body.auto-task-options .auto-task-form table #getTwitterUserId,body.auto-task-options .auto-task-form table #getYoutubeChannelId{margin-top:5px}body.auto-task-options .auto-task-form table button{z-index:1}body.auto-task-options .auto-task-form table input[type=text]{outline-style:none;border:1px solid #ccc;border-radius:3px;padding:5px 10px;font-size:14px}body.auto-task-options .auto-task-form table input[type=text]:focus{border-color:#66afe9;outline:0;box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)}body.auto-task-options .auto-task-form table label{position:relative;width:160px;height:80px;cursor:pointer;transform:scale(0.25);margin:-25% 0;top:-30px;display:inline-block}body.auto-task-options .auto-task-form table label input{position:relative;z-index:1;appearance:none}body.auto-task-options .auto-task-form table label input:checked~span{background:#05be05;box-shadow:0 15px 25px #05be0566}body.auto-task-options .auto-task-form table label input:checked~span i{left:84px}body.auto-task-options .auto-task-form table label input:checked~span i::before{background:#05be05;box-shadow:35px 0 0 #05be05}body.auto-task-options .auto-task-form table label input:checked~span i::after{bottom:12px;height:15px;border-bottom-left-radius:15px;border-bottom-right-radius:15px;background:#05be05}body.auto-task-options .auto-task-form table label span{position:absolute;top:0;left:0;width:100%;height:100%;background:#fe0000;border-radius:80px;transition:.5s;box-shadow:0 15px 25px #fe000066}body.auto-task-options .auto-task-form table label span i{position:absolute;top:4px;left:4px;width:72px;height:72px;background:#fff;border-radius:50%}body.auto-task-options .auto-task-form table label span i::before{content:"";position:absolute;top:22px;left:12px;width:12px;height:12px;border-radius:50%;background:#fe0000;box-shadow:35px 0 0 #fe0000;transition:.5s}body.auto-task-options .auto-task-form table label span i::after{content:"";position:absolute;bottom:15px;left:calc(50% - 15px);width:30px;height:6px;border-radius:6px;background:#fe0000;transition:.5s}body.auto-task-history{font-size:15px;font-weight:400;line-height:1.5}body.auto-task-history .container a{color:#007bff;text-decoration:none;background-color:transparent}body.auto-task-history .container .card{width:80%;max-width:800px;border-radius:10px;background:#7676761a;border-top:1px solid #ffffff80;-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 15px 25px #0000001a;margin:20px auto;position:relative;display:flex;flex-direction:column;word-wrap:break-word;-webkit-background-clip:border-box;background-clip:border-box;border:1px solid rgba(0,0,0,.125);border-radius:.25rem}body.auto-task-history .container .card .title{text-align:center;font-size:30px;font-weight:bold;margin:5px 0}body.auto-task-history .container .card .title a:hover{text-decoration:none;background:#93e1ff;border-radius:10px;padding:3px}body.auto-task-history .container .card ul{margin-bottom:25px}body.auto-task-history .container .card ul li{margin-bottom:5px;line-height:20px}body.auto-task-history .container .card ul a:hover{text-decoration:underline}body.auto-task-history .container .card .delete-task{right:10px;width:38px;height:35px;position:absolute;font-size:24px;cursor:pointer;border-radius:10px}body.auto-task-history .container .card .delete-task:hover{background:#fff}body.auto-task-history .container .card .time{right:5px;position:absolute;bottom:0;color:#e83e8c;font-family:\'SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace\';font-size:15px}#auto-task-buttons,.show-button-div{position:fixed;top:30px;right:15px;width:170px;z-index:999999999 !important;transform:scale(0.9)}#auto-task-buttons p,.show-button-div p{line-height:30px;height:40px;text-align:center;margin:5px !important}#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn{width:150px;height:40px;line-height:30px;font-size:20px}.show-button-div{width:20px}.auto-task-capitalize{text-transform:capitalize !important}.swal2-file:focus,.swal2-input:focus,.swal2-textarea:focus{box-shadow:inset 0px 0px 4px 1px rgba(100,150,200,.5) !important}.swal2-checkbox-custom{align-items:center;justify-content:center;background:#fff;color:inherit;margin:1em auto}.swal2-checkbox-custom input{flex-shrink:0;margin:0 .4em}.giveaway-actions #getKey{display:none !important}.auto-task-giveaway-status{color:#fff;border-radius:10px;padding:0 5px;margin-left:5px}.auto-task-giveaway-status.active{background-color:#5cb85c}.auto-task-giveaway-status.not-active{background-color:#d9534f}', '' ]);
       const __WEBPACK_DEFAULT_EXPORT__ = ___CSS_LOADER_EXPORT___.toString();
     },
-    999: function(module) {
+    1: function(module) {
       'use strict';
       module.exports = function(cssWithMappingToString) {
         var list = [];
@@ -516,7 +519,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         return list;
       };
     },
-    494: function(module) {
+    398: function(module) {
       'use strict';
       module.exports = function(i) {
         return i[1];
@@ -572,7 +575,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
     const external_Swal_namespaceObject = Swal;
     var external_Swal_default = __webpack_require__.n(external_Swal_namespaceObject);
     const external_Cookies_namespaceObject = Cookies;
-    var auto_task = __webpack_require__(568);
+    var auto_task = __webpack_require__(221);
     var javascript_utils_umd_min = __webpack_require__(108);
     const httpRequest = async (options, times = 0) => {
       if (window.TRACE) {
@@ -614,6 +617,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 });
               },
               onload(data) {
+                if (options.responseType === 'json' && data?.response && typeof data.response !== 'object') {
+                  try {
+                    data.response = JSON.parse(data.responseText);
+                  } catch (error) {}
+                }
                 resolve({
                   result: 'Success',
                   statusText: 'Load',
@@ -747,7 +755,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
            case 'gettingTwitterUserId':
            case 'followingTwitterUser':
            case 'unfollowingTwitterUser':
-            ele = $(`<li>${i18n(type)}[<a href="https://twitter.com/${text}" target="_blank">${text}</a>]...<font></font></li>`);
+            ele = $(`<li>${i18n(type)}[<a href="https://x.com/${text}" target="_blank">${text}</a>]...<font></font></li>`);
             break;
 
            case 'retweetting':
@@ -1316,6 +1324,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       AsfEnabled: '使用ASF做Steam相关任务(需<a href="https://github.com/chr233/ASFEnhance" target="_blank">ASFEnhance</a>插件)',
       AsfIpcUrl: 'ASF IPC 地址',
       AsfIpcPassword: 'ASF IPC 密码',
+      versionNotMatched: '脚本管理器版本过低，需TamperMonkey >= 5.2.0或TamperMonkey Beta >= 5.2.6196',
       groups: '组',
       officialGroups: '官方组',
       wishlists: '愿望单',
@@ -1641,6 +1650,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       gettingLicenses: 'Getting licenses...',
       requestingPlayTestAccess: 'Requesting play test access',
       tryChangeAreaNotice: 'This function cannot detect whether the game is limited, so it will try to change the area before entering the library' + '. Failure to change the area will not affect the subsequent storage.',
+      versionNotMatched: 'The script manager version is too low, requiring TamperMonkey >= 5.2.0 or TamperMonkey Beta >= 5.2.6196',
       initingASF: 'Initing ASF...',
       servers: 'Server',
       joiningDiscordServer: 'Joining Discord Server',
@@ -1808,7 +1818,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           ...GM_getValue('whiteList')?.discord || {}
         };
       }
-      async init() {
+      async init(action) {
         try {
           if (!GM_getValue('dontRemindDiscordAgain')) {
             const result = await external_Swal_default().fire({
@@ -1837,7 +1847,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               return 'skip';
             }
           }
-          if (!globalOptions.doTask.discord.servers && !globalOptions.undoTask.discord.servers) {
+          if (GM_getValue('dontRemindDiscordAgain') || action === 'do' && !globalOptions.doTask.discord.servers || action === 'undo' && !globalOptions.undoTask.discord.servers) {
             this.#initialized = false;
             return 'skip';
           }
@@ -2921,22 +2931,29 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             text: i18n('updatingAuth', 'Twitter')
           });
           return await new Promise(resolve => {
-            const newTab = GM_openInTab('https://twitter.com/settings/account?k#auth', {
-              active: true,
-              insert: true,
-              setParent: true
-            });
-            newTab.onclose = async () => {
-              const auth = GM_getValue('twitterAuth');
-              if (auth) {
-                this.#auth = auth;
-                logStatus.success();
-                resolve(await this.#verifyAuth());
+            GM_cookie.list({
+              url: 'https://x.com/settings/account'
+            }, async (cookies, error) => {
+              if (!error) {
+                const [ ct0, isLogin ] = cookies.map(cookie => [ 'ct0', 'twid' ].includes(cookie.name) ? cookie.value : null).filter(cookie => cookie);
+                if (isLogin && ct0) {
+                  GM_setValue('twitterAuth', {
+                    ct0: ct0
+                  });
+                  this.#auth = {
+                    ct0: ct0
+                  };
+                  logStatus.success();
+                  resolve(await this.#verifyAuth());
+                } else {
+                  logStatus.error(i18n('needLogin'));
+                  resolve(false);
+                }
               } else {
                 logStatus.error('Error: Update twitter auth failed!');
                 resolve(false);
               }
-            };
+            });
           });
         } catch (error) {
           throwError(error, 'Twitter.updateToken');
@@ -2973,7 +2990,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             status,
             data
           } = await tools_httpRequest({
-            url: `https://api.twitter.com/1.1/friendships/${doTask ? 'create' : 'destroy'}.json`,
+            url: `https://x.com/i/api/1.1/friendships/${doTask ? 'create' : 'destroy'}.json`,
             method: 'POST',
             headers: {
               authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
@@ -3033,12 +3050,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             status,
             data
           } = await tools_httpRequest({
-            url: 'https://api.twitter.com/graphql/mCbpQvZAw6zu_4PvuAUVVQ/UserByScreenName' + `?variables=%7B%22screen_name%22%3A%22${name}%22%2C%22withSafetyModeUserFields%22%3Atrue%2C%22withSuperFollowsUserFields%22%3Atrue%7D`,
+            url: 'https://x.com/i/api/graphql/mCbpQvZAw6zu_4PvuAUVVQ/UserByScreenName' + `?variables=%7B%22screen_name%22%3A%22${name}%22%2C%22withSafetyModeUserFields%22%3Atrue%2C%22withSuperFollowsUserFields%22%3Atrue%7D`,
             method: 'GET',
             headers: {
               authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
               'content-type': 'application/json',
-              referer: `https://twitter.com/${name}`,
+              referer: `https://x.com/${name}`,
               'x-csrf-token': this.#auth.ct0
             },
             responseType: 'json'
@@ -3095,7 +3112,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             status,
             data
           } = await tools_httpRequest({
-            url: `https://api.twitter.com/1.1/statuses/${doTask ? '' : 'un'}retweet.json`,
+            url: `https://x.com/i/api/1.1/statuses/${doTask ? '' : 'un'}retweet.json`,
             method: 'POST',
             headers: {
               authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
@@ -3145,7 +3162,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               text: 'twitter.users'
             });
           } else {
-            const realUsers = this.getRealParams('users', userLinks, doTask, link => link.match(/https:\/\/twitter\.com\/(.+)/)?.[1]);
+            const realUsers = this.getRealParams('users', userLinks, doTask, link => link.match(/https:\/\/x\.com\/(.+)/)?.[1]);
             if (realUsers.length > 0) {
               for (const user of realUsers) {
                 prom.push(this.#toggleUser({
@@ -3162,7 +3179,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               text: 'twitter.retweets'
             });
           } else {
-            const realRetweets = this.getRealParams('retweets', retweetLinks, doTask, link => link.match(/https:\/\/twitter\.com\/.*?\/status\/([\d]+)/)?.[1]);
+            const realRetweets = this.getRealParams('retweets', retweetLinks, doTask, link => link.match(/https:\/\/x\.com\/.*?\/status\/([\d]+)/)?.[1]);
             if (realRetweets.length > 0) {
               for (const retweet of realRetweets) {
                 prom.push(this.#toggleRetweet({
@@ -3806,27 +3823,32 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             text: i18n('updatingAuth', 'Youtube')
           });
           return await new Promise(resolve => {
-            const newTab = GM_openInTab('https://www.youtube.com/#auth', {
-              active: true,
-              insert: true,
-              setParent: true
-            });
-            newTab.onclose = async () => {
-              const auth = GM_getValue('youtubeAuth');
-              if (auth) {
-                this.#auth = auth;
-                logStatus.success();
-                this.#verifyAuth().then(result => {
-                  resolve(result);
-                });
+            GM_cookie.list({
+              url: 'https://www.youtube.com/@YouTube'
+            }, async (cookies, error) => {
+              if (!error) {
+                const PAPISID = cookies.find(cookie => cookie.name === '__Secure-3PAPISID')?.value;
+                if (PAPISID) {
+                  GM_setValue('youtubeAuth', {
+                    PAPISID: PAPISID
+                  });
+                  this.#auth = {
+                    PAPISID: PAPISID
+                  };
+                  logStatus.success();
+                  resolve(await this.#verifyAuth());
+                } else {
+                  logStatus.error(i18n('needLogin'));
+                  resolve(false);
+                }
               } else {
                 logStatus.error('Error: Update youtube auth failed!');
                 resolve(false);
               }
-            };
+            });
           });
         } catch (error) {
-          throwError(error, 'Discord.updateAuth');
+          throwError(error, 'Youtube.updateAuth');
           return false;
         }
       }
@@ -6425,7 +6447,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             const hasDiscord = Object.values(tasks.discord).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
             if (hasDiscord && (!this.socialInitialized.discord || !this.social.discord)) {
               this.social.discord = new social_Discord();
-              pro.push(this.#bind('discord', this.social.discord.init()));
+              pro.push(this.#bind('discord', this.social.discord.init(action)));
             }
           }
           if (tasks.instagram) {
@@ -6934,8 +6956,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         }
       }
     }
-    const website_FreeAnyWhere = FreeAnyWhere;
-    const GiveawaySu_defaultTasks = {
+    const Freeanywhere = FreeAnyWhere;
+    const Giveawaysu_defaultTasks = {
       steam: {
         groupLinks: [],
         wishlistLinks: [],
@@ -6973,8 +6995,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
     };
     class GiveawaySu extends website_Website {
       name = 'GiveawaySu';
-      socialTasks = GiveawaySu_defaultTasks;
-      undoneTasks = GiveawaySu_defaultTasks;
+      socialTasks = Giveawaysu_defaultTasks;
+      undoneTasks = Giveawaysu_defaultTasks;
       buttons = [ 'doTask', 'undoTask' ];
       static test() {
         return /^https?:\/\/giveaway\.su\/giveaway\/view\/[\d]+/.test(window.location.href);
@@ -7019,7 +7041,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             text: i18n('getTasksInfo')
           });
           if (action === 'undo') {
-            this.socialTasks = GM_getValue(`gasTasks-${this.giveawayId}`)?.tasks || GiveawaySu_defaultTasks;
+            this.socialTasks = GM_getValue(`gasTasks-${this.giveawayId}`)?.tasks || Giveawaysu_defaultTasks;
             return true;
           }
           const pro = [];
@@ -7988,7 +8010,234 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     }
     const website_Givekey = Givekey;
-    class GiveeClub extends GiveawaySu {
+    const GiveawaySu_defaultTasks = {
+      steam: {
+        groupLinks: [],
+        wishlistLinks: [],
+        curatorLinks: [],
+        curatorLikeLinks: [],
+        followLinks: [],
+        forumLinks: [],
+        announcementLinks: [],
+        workshopVoteLinks: [],
+        playtestLinks: []
+      },
+      discord: {
+        serverLinks: []
+      },
+      instagram: {
+        userLinks: []
+      },
+      vk: {
+        nameLinks: []
+      },
+      twitch: {
+        channelLinks: []
+      },
+      reddit: {
+        redditLinks: []
+      },
+      youtube: {
+        channelLinks: [],
+        likeLinks: []
+      },
+      twitter: {
+        userLinks: [],
+        retweetLinks: []
+      }
+    };
+    class GiveawaySu_GiveawaySu extends website_Website {
+      name = 'GiveawaySu';
+      socialTasks = GiveawaySu_defaultTasks;
+      undoneTasks = GiveawaySu_defaultTasks;
+      buttons = [ 'doTask', 'undoTask' ];
+      static test() {
+        return /^https?:\/\/giveaway\.su\/giveaway\/view\/[\d]+/.test(window.location.href);
+      }
+      async after() {
+        try {
+          if (!this.#checkLogin()) {
+            scripts_echoLog({}).warning(i18n('checkLoginFailed'));
+          }
+          if (!await this.#checkLeftKey()) {
+            scripts_echoLog({}).warning(i18n('checkLeftKeyFailed'));
+          }
+          scripts_echoLog({}).warning(i18n('gsNotice'));
+        } catch (error) {
+          throwError(error, 'Giveawaysu.after');
+        }
+      }
+      init() {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('initing')
+          });
+          if ($('a.steam-login').length > 0) {
+            window.open('/steam/redirect', '_self');
+            logStatus.warning(i18n('needLogin'));
+            return false;
+          }
+          if (!this.#getGiveawayId()) {
+            return false;
+          }
+          this.initialized = true;
+          logStatus.success();
+          return true;
+        } catch (error) {
+          throwError(error, 'Giveawaysu.init');
+          return false;
+        }
+      }
+      async classifyTask(action) {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('getTasksInfo')
+          });
+          if (action === 'undo') {
+            this.socialTasks = GM_getValue(`gasTasks-${this.giveawayId}`)?.tasks || GiveawaySu_defaultTasks;
+            return true;
+          }
+          const pro = [];
+          const tasks = $('#actions tr');
+          if ($('div.bind-discord').is(':visible')) {
+            $('div.bind-discord a')[0].click();
+          }
+          if ($('div.bind-twitch').is(':visible')) {
+            $('div.bind-twitch a')[0].click();
+          }
+          for (const task of tasks) {
+            pro.push(new Promise(resolve => {
+              const td = $(task).find('td:not(".hidden")');
+              const colorfulTask = td.eq(1).find('a:not([data-trigger="link"])');
+              const colorlessTask = td.eq(2).find('a:not([data-trigger="link"])');
+              const taskDes = colorfulTask.length > 0 ? colorfulTask : colorlessTask;
+              const taskIcon = td.eq(0).find('i').attr('class') || '';
+              const taskName = taskDes.text().trim();
+              if (taskIcon.includes('ban') || /disable adblock/gi.test(taskName)) {
+                return resolve(true);
+              }
+              getRedirectLink(taskDes.attr('href')).then(taskLink => {
+                if (!taskLink) {
+                  return resolve(false);
+                }
+                if (taskIcon.includes('steam') && /join/gi.test(taskName)) {
+                  this.undoneTasks.steam.groupLinks.push(taskLink);
+                } else if (/like.*announcement/gi.test(taskName)) {
+                  this.undoneTasks.steam.announcementLinks.push(taskLink);
+                } else if (/(follow|subscribe).*curator/gim.test(taskName) && /^https?:\/\/store\.steampowered\.com\/curator\//.test(taskLink)) {
+                  this.undoneTasks.steam.curatorLinks.push(taskLink);
+                } else if (taskIcon.includes('steam') && /follow|subscribe/gim.test(taskName)) {
+                  this.undoneTasks.steam.curatorLikeLinks.push(taskLink);
+                } else if (/subscribe.*steam.*forum/gim.test(taskName)) {
+                  this.undoneTasks.steam.forumLinks.push(taskLink);
+                } else if (taskIcon.includes('thumbs-up') && /^https?:\/\/steamcommunity\.com\/sharedfiles\/filedetails\/\?id=[\d]+/.test(taskLink)) {
+                  this.undoneTasks.steam.workshopVoteLinks.push(taskLink);
+                } else if (taskIcon.includes('plus') && /request.*playtest/gim.test(taskName)) {
+                  this.undoneTasks.steam.playtestLinks.push(taskLink);
+                } else if (taskIcon.includes('discord') || /join.*discord/gim.test(taskName)) {
+                  this.undoneTasks.discord.serverLinks.push(taskLink);
+                } else if (taskIcon.includes('instagram') || /follow.*instagram/gim.test(taskName)) {
+                  this.undoneTasks.instagram.userLinks.push(taskLink);
+                } else if (taskIcon.includes('twitch') || /follow.*twitch.*channel/gim.test(taskName)) {
+                  this.undoneTasks.twitch.channelLinks.push(taskLink);
+                } else if (taskIcon.includes('reddit') || /subscribe.*subreddit/gim.test(taskName) || /follow.*reddit/gim.test(taskName)) {
+                  this.undoneTasks.reddit.redditLinks.push(taskLink);
+                } else if (/watch.*art/gim.test(taskName)) {
+                  this.undoneTasks.steam.workshopVoteLinks.push(taskLink);
+                } else if (/subscribe.*youtube.*channel/gim.test(taskName)) {
+                  this.undoneTasks.youtube.channelLinks.push(taskLink);
+                } else if (/(watch|like).*youtube.*video/gim.test(taskName) || (taskIcon.includes('youtube') || taskIcon.includes('thumbs-up')) && /(watch|like).*video/gim.test(taskName)) {
+                  this.undoneTasks.youtube.likeLinks.push(taskLink);
+                } else if (taskIcon.includes('vk') || /join.*vk.*group/gim.test(taskName)) {
+                  this.undoneTasks.vk.nameLinks.push(taskLink);
+                } else {
+                  if (/(on twitter)|(Follow.*on.*Facebook)/gim.test(taskName)) {} else {
+                    if (/wishlist.*game|add.*wishlist/gim.test(taskName)) {
+                      this.undoneTasks.steam.wishlistLinks.push(taskLink);
+                    }
+                    if (/follow.*button/gim.test(taskName)) {
+                      this.undoneTasks.steam.followLinks.push(taskLink);
+                    }
+                  }
+                }
+                resolve(true);
+              }).catch(error => {
+                throwError(error, 'Giveawaysu.classifyTask->getRedirectLink');
+                return false;
+              });
+            }));
+          }
+          await Promise.all(pro);
+          logStatus.success();
+          this.undoneTasks = this.uniqueTasks(this.undoneTasks);
+          this.socialTasks = this.undoneTasks;
+          if (window.DEBUG) {
+            console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
+          }
+          GM_setValue(`gasTasks-${this.giveawayId}`, {
+            tasks: this.socialTasks,
+            time: new Date().getTime()
+          });
+          return true;
+        } catch (error) {
+          throwError(error, 'Giveawaysu.classifyTask');
+          return false;
+        }
+      }
+      #checkLogin() {
+        try {
+          if (!globalOptions.other.checkLogin) {
+            return true;
+          }
+          if ($('a.steam-login').length > 0) {
+            window.open('/steam/redirect', '_self');
+          }
+          return true;
+        } catch (error) {
+          throwError(error, 'Giveawaysu.checkLogin');
+          return false;
+        }
+      }
+      async #checkLeftKey() {
+        try {
+          if (!globalOptions.other.checkLeftKey) {
+            return true;
+          }
+          if ($('.giveaway-ended').length > 0 && $('.giveaway-key').length === 0) {
+            await external_Swal_default().fire({
+              icon: 'warning',
+              title: i18n('notice'),
+              text: i18n('noKeysLeft'),
+              confirmButtonText: i18n('confirm'),
+              cancelButtonText: i18n('cancel'),
+              showCancelButton: true
+            }).then(({
+              value
+            }) => {
+              if (value) {
+                window.close();
+              }
+            });
+          }
+          return true;
+        } catch (error) {
+          throwError(error, 'Giveawaysu.checkLeftKey');
+          return false;
+        }
+      }
+      #getGiveawayId() {
+        const giveawayId = window.location.href.match(/\/view\/([\d]+)/)?.[1];
+        if (giveawayId) {
+          this.giveawayId = giveawayId;
+          return true;
+        }
+        scripts_echoLog({
+          text: i18n('getFailed', 'GiveawayId')
+        });
+        return false;
+      }
+    }
+    class GiveeClub extends GiveawaySu_GiveawaySu {
       name = 'GiveeClub';
       buttons = [ 'doTask', 'undoTask', 'verifyTask' ];
       static test() {
@@ -8593,7 +8842,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           const discordLinks = mainPost.find('a[href*="discord.com"]:visible');
           const redditLinks = mainPost.find('a[href*="reddit.com"]:visible');
           const insLinks = mainPost.find('a[href*="instagram.com"]:visible');
-          const twitterLinks = mainPost.find('a[href*="twitter.com"]:visible');
+          const twitterLinks = mainPost.find('a[href*="twitter.com"]:visible,a[href*="x.com"]:visible');
           const twitchLinks = mainPost.find('a[href*="twitch.tv"]:visible');
           const vkLinks = mainPost.find('a[href*="vk.com"]:visible');
           const steamStoreLinks = mainPost.find('a[href*="store.steampowered.com"]:visible');
@@ -9204,7 +9453,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               }
             }
             if (socialIcon.hasClass('fa-twitter')) {
-              const link = $task.find('a[href^="https://twitter.com/"]').attr('href');
+              const link = $task.find('a[href^="https://twitter.com/"],a[href^="https://x.com/"]').attr('href');
               if (!link) {
                 continue;
               }
@@ -10393,7 +10642,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     }
     const website_History = History;
-    const Websites = [ website_FreeAnyWhere, GiveawaySu, website_Indiedb, website_Keyhub, website_Givekey, website_GiveeClub, website_OpiumPulses, website_Keylol, website_Opquests, website_Gleam, website_SweepWidget, website_Setting, website_History ];
+    const Websites = [ Freeanywhere, GiveawaySu, website_Indiedb, website_Keyhub, website_Givekey, website_GiveeClub, website_OpiumPulses, website_Keylol, website_Opquests, website_Gleam, website_SweepWidget, website_Setting, website_History ];
     const websiteOptions = function(website, options) {
       try {
         let websiteOptionsForm = `<form id="websiteOptionsForm" class="auto-task-form">
@@ -10540,8 +10789,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
     };
     const scripts_updateChecker = updateChecker;
     window.STYLE = GM_addStyle(auto_task.Z + `.swal2-popup.swal2-toast{box-sizing:border-box;grid-column:1/4!important;grid-row:1/4!important;grid-template-columns:1fr 99fr 1fr;padding:1em;overflow-y:hidden;background:#fff;box-shadow:0 0 1px rgba(0,0,0,.075),0 1px 2px rgba(0,0,0,.075),1px 2px 4px rgba(0,0,0,.075),1px 3px 8px rgba(0,0,0,.075),2px 4px 16px rgba(0,0,0,.075);pointer-events:all}.swal2-popup.swal2-toast>*{grid-column:2}.swal2-popup.swal2-toast .swal2-title{margin:.5em 1em;padding:0;font-size:1em;text-align:initial}.swal2-popup.swal2-toast .swal2-loading{justify-content:center}.swal2-popup.swal2-toast .swal2-input{height:2em;margin:.5em;font-size:1em}.swal2-popup.swal2-toast .swal2-validation-message{font-size:1em}.swal2-popup.swal2-toast .swal2-footer{margin:.5em 0 0;padding:.5em 0 0;font-size:.8em}.swal2-popup.swal2-toast .swal2-close{grid-column:3/3;grid-row:1/99;align-self:center;width:.8em;height:.8em;margin:0;font-size:2em}.swal2-popup.swal2-toast .swal2-html-container{margin:.5em 1em;padding:0;font-size:1em;text-align:initial}.swal2-popup.swal2-toast .swal2-html-container:empty{padding:0}.swal2-popup.swal2-toast .swal2-loader{grid-column:1;grid-row:1/99;align-self:center;width:2em;height:2em;margin:.25em}.swal2-popup.swal2-toast .swal2-icon{grid-column:1;grid-row:1/99;align-self:center;width:2em;min-width:2em;height:2em;margin:0 .5em 0 0}.swal2-popup.swal2-toast .swal2-icon .swal2-icon-content{display:flex;align-items:center;font-size:1.8em;font-weight:700}.swal2-popup.swal2-toast .swal2-icon.swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line]{top:.875em;width:1.375em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:.3125em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:.3125em}.swal2-popup.swal2-toast .swal2-actions{justify-content:flex-start;height:auto;margin:0;margin-top:.5em;padding:0 .5em}.swal2-popup.swal2-toast .swal2-styled{margin:.25em .5em;padding:.4em .6em;font-size:1em}.swal2-popup.swal2-toast .swal2-success{border-color:#a5dc86}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line]{position:absolute;width:1.6em;height:3em;transform:rotate(45deg);border-radius:50%}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=left]{top:-.8em;left:-.5em;transform:rotate(-45deg);transform-origin:2em 2em;border-radius:4em 0 0 4em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=right]{top:-.25em;left:.9375em;transform-origin:0 1.5em;border-radius:0 4em 4em 0}.swal2-popup.swal2-toast .swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-popup.swal2-toast .swal2-success .swal2-success-fix{top:0;left:.4375em;width:.4375em;height:2.6875em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line]{height:.3125em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=tip]{top:1.125em;left:.1875em;width:.75em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=long]{top:.9375em;right:.1875em;width:1.375em}.swal2-popup.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-tip{-webkit-animation:swal2-toast-animate-success-line-tip .75s;animation:swal2-toast-animate-success-line-tip .75s}.swal2-popup.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-long{-webkit-animation:swal2-toast-animate-success-line-long .75s;animation:swal2-toast-animate-success-line-long .75s}.swal2-popup.swal2-toast.swal2-show{-webkit-animation:swal2-toast-show .5s;animation:swal2-toast-show .5s}.swal2-popup.swal2-toast.swal2-hide{-webkit-animation:swal2-toast-hide .1s forwards;animation:swal2-toast-hide .1s forwards}.swal2-container{display:grid;position:fixed;z-index:1060;top:0;right:0;bottom:0;left:0;box-sizing:border-box;grid-template-areas:"top-start     top            top-end" "center-start  center         center-end" "bottom-start  bottom-center  bottom-end";grid-template-rows:minmax(-webkit-min-content,auto) minmax(-webkit-min-content,auto) minmax(-webkit-min-content,auto);grid-template-rows:minmax(min-content,auto) minmax(min-content,auto) minmax(min-content,auto);height:100%;padding:.625em;overflow-x:hidden;transition:background-color .1s;-webkit-overflow-scrolling:touch}.swal2-container.swal2-backdrop-show,.swal2-container.swal2-noanimation{background:rgba(0,0,0,.4)}.swal2-container.swal2-backdrop-hide{background:0 0!important}.swal2-container.swal2-bottom-start,.swal2-container.swal2-center-start,.swal2-container.swal2-top-start{grid-template-columns:minmax(0,1fr) auto auto}.swal2-container.swal2-bottom,.swal2-container.swal2-center,.swal2-container.swal2-top{grid-template-columns:auto minmax(0,1fr) auto}.swal2-container.swal2-bottom-end,.swal2-container.swal2-center-end,.swal2-container.swal2-top-end{grid-template-columns:auto auto minmax(0,1fr)}.swal2-container.swal2-top-start>.swal2-popup{align-self:start}.swal2-container.swal2-top>.swal2-popup{grid-column:2;align-self:start;justify-self:center}.swal2-container.swal2-top-end>.swal2-popup,.swal2-container.swal2-top-right>.swal2-popup{grid-column:3;align-self:start;justify-self:end}.swal2-container.swal2-center-left>.swal2-popup,.swal2-container.swal2-center-start>.swal2-popup{grid-row:2;align-self:center}.swal2-container.swal2-center>.swal2-popup{grid-column:2;grid-row:2;align-self:center;justify-self:center}.swal2-container.swal2-center-end>.swal2-popup,.swal2-container.swal2-center-right>.swal2-popup{grid-column:3;grid-row:2;align-self:center;justify-self:end}.swal2-container.swal2-bottom-left>.swal2-popup,.swal2-container.swal2-bottom-start>.swal2-popup{grid-column:1;grid-row:3;align-self:end}.swal2-container.swal2-bottom>.swal2-popup{grid-column:2;grid-row:3;justify-self:center;align-self:end}.swal2-container.swal2-bottom-end>.swal2-popup,.swal2-container.swal2-bottom-right>.swal2-popup{grid-column:3;grid-row:3;align-self:end;justify-self:end}.swal2-container.swal2-grow-fullscreen>.swal2-popup,.swal2-container.swal2-grow-row>.swal2-popup{grid-column:1/4;width:100%}.swal2-container.swal2-grow-column>.swal2-popup,.swal2-container.swal2-grow-fullscreen>.swal2-popup{grid-row:1/4;align-self:stretch}.swal2-container.swal2-no-transition{transition:none!important}.swal2-popup{display:none;position:relative;box-sizing:border-box;grid-template-columns:minmax(0,100%);width:32em;max-width:100%;padding:0 0 1.25em;border:none;border-radius:5px;background:#fff;color:#545454;font-family:inherit;font-size:1rem}.swal2-popup:focus{outline:0}.swal2-popup.swal2-loading{overflow-y:hidden}.swal2-title{position:relative;max-width:100%;margin:0;padding:.8em 1em 0;color:inherit;font-size:1.875em;font-weight:600;text-align:center;text-transform:none;word-wrap:break-word}.swal2-actions{display:flex;z-index:1;box-sizing:border-box;flex-wrap:wrap;align-items:center;justify-content:center;width:auto;margin:1.25em auto 0;padding:0}.swal2-actions:not(.swal2-loading) .swal2-styled[disabled]{opacity:.4}.swal2-actions:not(.swal2-loading) .swal2-styled:hover{background-image:linear-gradient(rgba(0,0,0,.1),rgba(0,0,0,.1))}.swal2-actions:not(.swal2-loading) .swal2-styled:active{background-image:linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.2))}.swal2-loader{display:none;align-items:center;justify-content:center;width:2.2em;height:2.2em;margin:0 1.875em;-webkit-animation:swal2-rotate-loading 1.5s linear 0s infinite normal;animation:swal2-rotate-loading 1.5s linear 0s infinite normal;border-width:.25em;border-style:solid;border-radius:100%;border-color:#2778c4 transparent #2778c4 transparent}.swal2-styled{margin:.3125em;padding:.625em 1.1em;transition:box-shadow .1s;box-shadow:0 0 0 3px transparent;font-weight:500}.swal2-styled:not([disabled]){cursor:pointer}.swal2-styled.swal2-confirm{border:0;border-radius:.25em;background:initial;background-color:#7066e0;color:#fff;font-size:1em}.swal2-styled.swal2-confirm:focus{box-shadow:0 0 0 3px rgba(112,102,224,.5)}.swal2-styled.swal2-deny{border:0;border-radius:.25em;background:initial;background-color:#dc3741;color:#fff;font-size:1em}.swal2-styled.swal2-deny:focus{box-shadow:0 0 0 3px rgba(220,55,65,.5)}.swal2-styled.swal2-cancel{border:0;border-radius:.25em;background:initial;background-color:#6e7881;color:#fff;font-size:1em}.swal2-styled.swal2-cancel:focus{box-shadow:0 0 0 3px rgba(110,120,129,.5)}.swal2-styled.swal2-default-outline:focus{box-shadow:0 0 0 3px rgba(100,150,200,.5)}.swal2-styled:focus{outline:0}.swal2-styled::-moz-focus-inner{border:0}.swal2-footer{justify-content:center;margin:1em 0 0;padding:1em 1em 0;border-top:1px solid #eee;color:inherit;font-size:1em}.swal2-timer-progress-bar-container{position:absolute;right:0;bottom:0;left:0;grid-column:auto!important;height:.25em;overflow:hidden;border-bottom-right-radius:5px;border-bottom-left-radius:5px}.swal2-timer-progress-bar{width:100%;height:.25em;background:rgba(0,0,0,.2)}.swal2-image{max-width:100%;margin:2em auto 1em}.swal2-close{z-index:2;align-items:center;justify-content:center;width:1.2em;height:1.2em;margin-top:0;margin-right:0;margin-bottom:-1.2em;padding:0;overflow:hidden;transition:color .1s,box-shadow .1s;border:none;border-radius:5px;background:0 0;color:#ccc;font-family:serif;font-family:monospace;font-size:2.5em;cursor:pointer;justify-self:end}.swal2-close:hover{transform:none;background:0 0;color:#f27474}.swal2-close:focus{outline:0;box-shadow:inset 0 0 0 3px rgba(100,150,200,.5)}.swal2-close::-moz-focus-inner{border:0}.swal2-html-container{z-index:1;justify-content:center;margin:1em 1.6em .3em;padding:0;overflow:auto;color:inherit;font-size:1.125em;font-weight:400;line-height:normal;text-align:center;word-wrap:break-word;word-break:break-word}.swal2-checkbox,.swal2-file,.swal2-input,.swal2-radio,.swal2-select,.swal2-textarea{margin:1em 2em 3px}.swal2-file,.swal2-input,.swal2-textarea{box-sizing:border-box;width:auto;transition:border-color .1s,box-shadow .1s;border:1px solid #d9d9d9;border-radius:.1875em;background:inherit;box-shadow:inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px transparent;color:inherit;font-size:1.125em}.swal2-file.swal2-inputerror,.swal2-input.swal2-inputerror,.swal2-textarea.swal2-inputerror{border-color:#f27474!important;box-shadow:0 0 2px #f27474!important}.swal2-file:focus,.swal2-input:focus,.swal2-textarea:focus{border:1px solid #b4dbed;outline:0;box-shadow:inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px rgba(100,150,200,.5)}.swal2-file::-moz-placeholder,.swal2-input::-moz-placeholder,.swal2-textarea::-moz-placeholder{color:#ccc}.swal2-file:-ms-input-placeholder,.swal2-input:-ms-input-placeholder,.swal2-textarea:-ms-input-placeholder{color:#ccc}.swal2-file::placeholder,.swal2-input::placeholder,.swal2-textarea::placeholder{color:#ccc}.swal2-range{margin:1em 2em 3px;background:#fff}.swal2-range input{width:80%}.swal2-range output{width:20%;color:inherit;font-weight:600;text-align:center}.swal2-range input,.swal2-range output{height:2.625em;padding:0;font-size:1.125em;line-height:2.625em}.swal2-input{height:2.625em;padding:0 .75em}.swal2-file{width:75%;margin-right:auto;margin-left:auto;background:inherit;font-size:1.125em}.swal2-textarea{height:6.75em;padding:.75em}.swal2-select{min-width:50%;max-width:100%;padding:.375em .625em;background:inherit;color:inherit;font-size:1.125em}.swal2-checkbox,.swal2-radio{align-items:center;justify-content:center;background:#fff;color:inherit}.swal2-checkbox label,.swal2-radio label{margin:0 .6em;font-size:1.125em}.swal2-checkbox input,.swal2-radio input{flex-shrink:0;margin:0 .4em}.swal2-input-label{display:flex;justify-content:center;margin:1em auto 0}.swal2-validation-message{align-items:center;justify-content:center;margin:1em 0 0;padding:.625em;overflow:hidden;background:#f0f0f0;color:#666;font-size:1em;font-weight:300}.swal2-validation-message::before{content:"!";display:inline-block;width:1.5em;min-width:1.5em;height:1.5em;margin:0 .625em;border-radius:50%;background-color:#f27474;color:#fff;font-weight:600;line-height:1.5em;text-align:center}.swal2-icon{position:relative;box-sizing:content-box;justify-content:center;width:5em;height:5em;margin:2.5em auto .6em;border:.25em solid transparent;border-radius:50%;border-color:#000;font-family:inherit;line-height:5em;cursor:default;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.swal2-icon .swal2-icon-content{display:flex;align-items:center;font-size:3.75em}.swal2-icon.swal2-error{border-color:#f27474;color:#f27474}.swal2-icon.swal2-error .swal2-x-mark{position:relative;flex-grow:1}.swal2-icon.swal2-error [class^=swal2-x-mark-line]{display:block;position:absolute;top:2.3125em;width:2.9375em;height:.3125em;border-radius:.125em;background-color:#f27474}.swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:1.0625em;transform:rotate(45deg)}.swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:1em;transform:rotate(-45deg)}.swal2-icon.swal2-error.swal2-icon-show{-webkit-animation:swal2-animate-error-icon .5s;animation:swal2-animate-error-icon .5s}.swal2-icon.swal2-error.swal2-icon-show .swal2-x-mark{-webkit-animation:swal2-animate-error-x-mark .5s;animation:swal2-animate-error-x-mark .5s}.swal2-icon.swal2-warning{border-color:#facea8;color:#f8bb86}.swal2-icon.swal2-warning.swal2-icon-show{-webkit-animation:swal2-animate-error-icon .5s;animation:swal2-animate-error-icon .5s}.swal2-icon.swal2-warning.swal2-icon-show .swal2-icon-content{-webkit-animation:swal2-animate-i-mark .5s;animation:swal2-animate-i-mark .5s}.swal2-icon.swal2-info{border-color:#9de0f6;color:#3fc3ee}.swal2-icon.swal2-info.swal2-icon-show{-webkit-animation:swal2-animate-error-icon .5s;animation:swal2-animate-error-icon .5s}.swal2-icon.swal2-info.swal2-icon-show .swal2-icon-content{-webkit-animation:swal2-animate-i-mark .8s;animation:swal2-animate-i-mark .8s}.swal2-icon.swal2-question{border-color:#c9dae1;color:#87adbd}.swal2-icon.swal2-question.swal2-icon-show{-webkit-animation:swal2-animate-error-icon .5s;animation:swal2-animate-error-icon .5s}.swal2-icon.swal2-question.swal2-icon-show .swal2-icon-content{-webkit-animation:swal2-animate-question-mark .8s;animation:swal2-animate-question-mark .8s}.swal2-icon.swal2-success{border-color:#a5dc86;color:#a5dc86}.swal2-icon.swal2-success [class^=swal2-success-circular-line]{position:absolute;width:3.75em;height:7.5em;transform:rotate(45deg);border-radius:50%}.swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=left]{top:-.4375em;left:-2.0635em;transform:rotate(-45deg);transform-origin:3.75em 3.75em;border-radius:7.5em 0 0 7.5em}.swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=right]{top:-.6875em;left:1.875em;transform:rotate(-45deg);transform-origin:0 3.75em;border-radius:0 7.5em 7.5em 0}.swal2-icon.swal2-success .swal2-success-ring{position:absolute;z-index:2;top:-.25em;left:-.25em;box-sizing:content-box;width:100%;height:100%;border:.25em solid rgba(165,220,134,.3);border-radius:50%}.swal2-icon.swal2-success .swal2-success-fix{position:absolute;z-index:1;top:.5em;left:1.625em;width:.4375em;height:5.625em;transform:rotate(-45deg)}.swal2-icon.swal2-success [class^=swal2-success-line]{display:block;position:absolute;z-index:2;height:.3125em;border-radius:.125em;background-color:#a5dc86}.swal2-icon.swal2-success [class^=swal2-success-line][class$=tip]{top:2.875em;left:.8125em;width:1.5625em;transform:rotate(45deg)}.swal2-icon.swal2-success [class^=swal2-success-line][class$=long]{top:2.375em;right:.5em;width:2.9375em;transform:rotate(-45deg)}.swal2-icon.swal2-success.swal2-icon-show .swal2-success-line-tip{-webkit-animation:swal2-animate-success-line-tip .75s;animation:swal2-animate-success-line-tip .75s}.swal2-icon.swal2-success.swal2-icon-show .swal2-success-line-long{-webkit-animation:swal2-animate-success-line-long .75s;animation:swal2-animate-success-line-long .75s}.swal2-icon.swal2-success.swal2-icon-show .swal2-success-circular-line-right{-webkit-animation:swal2-rotate-success-circular-line 4.25s ease-in;animation:swal2-rotate-success-circular-line 4.25s ease-in}.swal2-progress-steps{flex-wrap:wrap;align-items:center;max-width:100%;margin:1.25em auto;padding:0;background:inherit;font-weight:600}.swal2-progress-steps li{display:inline-block;position:relative}.swal2-progress-steps .swal2-progress-step{z-index:20;flex-shrink:0;width:2em;height:2em;border-radius:2em;background:#2778c4;color:#fff;line-height:2em;text-align:center}.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step{background:#2778c4}.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step{background:#add8e6;color:#fff}.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step-line{background:#add8e6}.swal2-progress-steps .swal2-progress-step-line{z-index:10;flex-shrink:0;width:2.5em;height:.4em;margin:0 -1px;background:#2778c4}[class^=swal2]{-webkit-tap-highlight-color:transparent}.swal2-show{-webkit-animation:swal2-show .3s;animation:swal2-show .3s}.swal2-hide{-webkit-animation:swal2-hide .15s forwards;animation:swal2-hide .15s forwards}.swal2-noanimation{transition:none}.swal2-scrollbar-measure{position:absolute;top:-9999px;width:50px;height:50px;overflow:scroll}.swal2-rtl .swal2-close{margin-right:initial;margin-left:0}.swal2-rtl .swal2-timer-progress-bar{right:0;left:auto}@-webkit-keyframes swal2-toast-show{0%{transform:translateY(-.625em) rotateZ(2deg)}33%{transform:translateY(0) rotateZ(-2deg)}66%{transform:translateY(.3125em) rotateZ(2deg)}100%{transform:translateY(0) rotateZ(0)}}@keyframes swal2-toast-show{0%{transform:translateY(-.625em) rotateZ(2deg)}33%{transform:translateY(0) rotateZ(-2deg)}66%{transform:translateY(.3125em) rotateZ(2deg)}100%{transform:translateY(0) rotateZ(0)}}@-webkit-keyframes swal2-toast-hide{100%{transform:rotateZ(1deg);opacity:0}}@keyframes swal2-toast-hide{100%{transform:rotateZ(1deg);opacity:0}}@-webkit-keyframes swal2-toast-animate-success-line-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@keyframes swal2-toast-animate-success-line-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@-webkit-keyframes swal2-toast-animate-success-line-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}@keyframes swal2-toast-animate-success-line-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}@-webkit-keyframes swal2-show{0%{transform:scale(.7)}45%{transform:scale(1.05)}80%{transform:scale(.95)}100%{transform:scale(1)}}@keyframes swal2-show{0%{transform:scale(.7)}45%{transform:scale(1.05)}80%{transform:scale(.95)}100%{transform:scale(1)}}@-webkit-keyframes swal2-hide{0%{transform:scale(1);opacity:1}100%{transform:scale(.5);opacity:0}}@keyframes swal2-hide{0%{transform:scale(1);opacity:1}100%{transform:scale(.5);opacity:0}}@-webkit-keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.8125em;width:1.5625em}}@keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.8125em;width:1.5625em}}@-webkit-keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@-webkit-keyframes swal2-rotate-success-circular-line{0%{transform:rotate(-45deg)}5%{transform:rotate(-45deg)}12%{transform:rotate(-405deg)}100%{transform:rotate(-405deg)}}@keyframes swal2-rotate-success-circular-line{0%{transform:rotate(-45deg)}5%{transform:rotate(-45deg)}12%{transform:rotate(-405deg)}100%{transform:rotate(-405deg)}}@-webkit-keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;transform:scale(.4);opacity:0}50%{margin-top:1.625em;transform:scale(.4);opacity:0}80%{margin-top:-.375em;transform:scale(1.15)}100%{margin-top:0;transform:scale(1);opacity:1}}@keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;transform:scale(.4);opacity:0}50%{margin-top:1.625em;transform:scale(.4);opacity:0}80%{margin-top:-.375em;transform:scale(1.15)}100%{margin-top:0;transform:scale(1);opacity:1}}@-webkit-keyframes swal2-animate-error-icon{0%{transform:rotateX(100deg);opacity:0}100%{transform:rotateX(0);opacity:1}}@keyframes swal2-animate-error-icon{0%{transform:rotateX(100deg);opacity:0}100%{transform:rotateX(0);opacity:1}}@-webkit-keyframes swal2-rotate-loading{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}@keyframes swal2-rotate-loading{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}@-webkit-keyframes swal2-animate-question-mark{0%{transform:rotateY(-360deg)}100%{transform:rotateY(0)}}@keyframes swal2-animate-question-mark{0%{transform:rotateY(-360deg)}100%{transform:rotateY(0)}}@-webkit-keyframes swal2-animate-i-mark{0%{transform:rotateZ(45deg);opacity:0}25%{transform:rotateZ(-25deg);opacity:.4}50%{transform:rotateZ(15deg);opacity:.8}75%{transform:rotateZ(-5deg);opacity:1}100%{transform:rotateX(0);opacity:1}}@keyframes swal2-animate-i-mark{0%{transform:rotateZ(45deg);opacity:0}25%{transform:rotateZ(-25deg);opacity:.4}50%{transform:rotateZ(15deg);opacity:.8}75%{transform:rotateZ(-5deg);opacity:1}100%{transform:rotateX(0);opacity:1}}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown){overflow:hidden}body.swal2-height-auto{height:auto!important}body.swal2-no-backdrop .swal2-container{background-color:transparent!important;pointer-events:none}body.swal2-no-backdrop .swal2-container .swal2-popup{pointer-events:all}body.swal2-no-backdrop .swal2-container .swal2-modal{box-shadow:0 0 10px rgba(0,0,0,.4)}@media print{body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown){overflow-y:scroll!important}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown)>[aria-hidden=true]{display:none}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) .swal2-container{position:static!important}}body.swal2-toast-shown .swal2-container{box-sizing:border-box;width:360px;max-width:100%;background-color:transparent;pointer-events:none}body.swal2-toast-shown .swal2-container.swal2-top{top:0;right:auto;bottom:auto;left:50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-top-end,body.swal2-toast-shown .swal2-container.swal2-top-right{top:0;right:0;bottom:auto;left:auto}body.swal2-toast-shown .swal2-container.swal2-top-left,body.swal2-toast-shown .swal2-container.swal2-top-start{top:0;right:auto;bottom:auto;left:0}body.swal2-toast-shown .swal2-container.swal2-center-left,body.swal2-toast-shown .swal2-container.swal2-center-start{top:50%;right:auto;bottom:auto;left:0;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-center{top:50%;right:auto;bottom:auto;left:50%;transform:translate(-50%,-50%)}body.swal2-toast-shown .swal2-container.swal2-center-end,body.swal2-toast-shown .swal2-container.swal2-center-right{top:50%;right:0;bottom:auto;left:auto;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-left,body.swal2-toast-shown .swal2-container.swal2-bottom-start{top:auto;right:auto;bottom:0;left:0}body.swal2-toast-shown .swal2-container.swal2-bottom{top:auto;right:auto;bottom:0;left:50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-end,body.swal2-toast-shown .swal2-container.swal2-bottom-right{top:auto;right:0;bottom:0;left:auto}`);
-    window.DEBUG = !!globalOptions.other?.debug;
-    window.TRACE = !!globalOptions.other?.debug && typeof console.trace === 'function';
+    window.DEBUG = !!globalOptions.other.debug;
+    window.TRACE = !!globalOptions.other.debug && typeof console.trace === 'function';
     const loadScript = async () => {
       if (window.location.hostname === 'www.twitch.tv' && window.location.hash === '#auth') {
         const authToken = external_Cookies_namespaceObject.get('auth-token');
@@ -10553,33 +10802,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             clientId: commonOptions?.headers?.['Client-ID'],
             deviceId: commonOptions?.headers?.['Device-ID'],
             clientSessionId: window.localStorage.local_storage_app_session_id.replace(/"/g, '')
-          });
-          window.close();
-          external_Swal_default().fire('', i18n('closePageNotice'));
-        } else {
-          external_Swal_default().fire('', i18n('needLogin'));
-        }
-        return;
-      }
-      if (window.location.hostname === 'twitter.com' && window.location.hash === '#auth') {
-        const ct0 = external_Cookies_namespaceObject.get('ct0');
-        const isLogin = !!external_Cookies_namespaceObject.get('twid');
-        if (isLogin && ct0) {
-          GM_setValue('twitterAuth', {
-            ct0: ct0
-          });
-          window.close();
-          external_Swal_default().fire('', i18n('closePageNotice'));
-        } else {
-          external_Swal_default().fire('', i18n('needLogin'));
-        }
-        return;
-      }
-      if (window.location.hostname === 'www.youtube.com' && window.location.hash === '#auth') {
-        const PAPISID = external_Cookies_namespaceObject.get('__Secure-3PAPISID');
-        if (PAPISID) {
-          GM_setValue('youtubeAuth', {
-            PAPISID: PAPISID
           });
           window.close();
           external_Swal_default().fire('', i18n('closePageNotice'));
@@ -10679,6 +10901,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         });
       }
       console.log('%c%s', 'color:#1bbe1a', 'Auto-Task[Load]: 脚本加载完成');
+      const [ v1, v2 ] = GM_info.version.split('.');
+      if (!(parseInt(v1, 10) >= 5 && parseInt(v2, 10) >= 2)) {
+        scripts_echoLog({}).error(i18n('versionNotMatched'));
+      }
       if (!GM_getValue('notice')) {
         external_Swal_default().fire({
           title: i18n('swalNotice'),

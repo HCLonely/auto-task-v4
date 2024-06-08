@@ -3,6 +3,15 @@ title: 更新日志
 lang: zh-CN
 ---
 
+## V4.4
+
+### V4.4.0
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.0)
+
+- 修复:Twitter/X域名更改导致部分功能不可用([#18](https://github.com/HCLonely/auto-task-v4/issues/18))
+- 优化:Twitter/X凭证获取方式(需TamperMonkey >= 5.2.0或TamperMonkey >= 5.2.6196)
+
 ## V4.3
 
 ### V4.3.3

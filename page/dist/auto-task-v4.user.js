@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.3.3
+// @version            4.4.0
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -31,6 +31,7 @@
 // @include            *://www.youtube.com/*
 // @include            *://*.reddit.com/*
 // @include            *://twitter.com/settings/account?k*
+// @include            *://x.com/settings/account*
 // @include            https://auto-task-v4.hclonely.com/setting.html
 // @include            https://auto-task-v4.hclonely.com/history.html
 
@@ -45,6 +46,7 @@
 // @grant              GM_openInTab
 // @grant              GM_setClipboard
 // @grant              GM_getResourceText
+// @grant              GM_cookie
 // @grant              unsafeWindow
 // @grant              window.close
 // @grant              window.localStorage
@@ -54,6 +56,7 @@
 // @connect            steamcommunity.com
 // @connect            login.steampowered.com
 // @connect            twitter.com
+// @connect            x.com
 // @connect            api.twitter.com
 // @connect            youtube.com
 // @connect            www.youtube.com
@@ -404,22 +407,22 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         });
       });
     },
-    568: function(module, __webpack_exports__, __webpack_require__) {
+    221: function(module, __webpack_exports__, __webpack_require__) {
       'use strict';
       __webpack_require__.d(__webpack_exports__, {
         Z: function() {
           return __WEBPACK_DEFAULT_EXPORT__;
         }
       });
-      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(494);
-      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(999);
-      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(_node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-      var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(_node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default());
+      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(398);
+      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(_node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+      var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(_node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default());
       ___CSS_LOADER_EXPORT___.push([ module.id, '.colorful-button,#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn,body.auto-task-options .auto-task-form table button{position:relative;padding:5px 10px;text-align:center;color:#fff;text-decoration:none;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:30px;background-size:400%;text-transform:capitalize}.colorful-button:hover,#auto-task-buttons a.auto-task-website-btn:hover,.show-button-div a.auto-task-website-btn:hover,body.auto-task-options .auto-task-form table button:hover{animation:animate 8s linear infinite;cursor:pointer}.colorful-button:hover::before,#auto-task-buttons a.auto-task-website-btn:hover::before,.show-button-div a.auto-task-website-btn:hover::before,body.auto-task-options .auto-task-form table button:hover::before{filter:blur(10px);opacity:1}.colorful-button::before,#auto-task-buttons a.auto-task-website-btn::before,.show-button-div a.auto-task-website-btn::before,body.auto-task-options .auto-task-form table button::before{content:"";position:absolute;top:-5px;left:-5px;right:-5px;bottom:-5px;z-index:-1;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:40px;background-size:400%;opacity:-1;transition:.5s}@keyframes animate{0%{background-position:0%}100%{background-position:100%}}#auto-task-info{position:fixed;bottom:10px;right:10px;width:60%;max-width:500px;max-height:60%;overflow-y:auto;color:#000;background-color:#fff;padding-left:5px;z-index:999999999 !important;border:solid 2px #add8e6;border-radius:10px}#auto-task-info li{text-align:left}#auto-task-info li a.high-light{color:#00aeff;font-weight:bold}#auto-task-info .success{color:green}#auto-task-info .error{color:red}#auto-task-info .warning{color:blue}#auto-task-info .info{color:#ff0}#auto-task-info .update-text{color:green;border:solid 2px #8dcb69;margin:5px 10px 5px 20px;border-radius:10px;padding:5px 20px}.auto-task-keylol{display:inline-block;text-transform:capitalize;margin-left:10px;text-decoration:none !important;border:solid 1px;border-radius:5px;padding:0 2px}.auto-task-keylol[selected=selected]{background-color:blue !important;color:#fff !important}.auto-task-form table{font-family:verdana,arial,sans-serif;font-size:11px;color:#333;border-width:1px;border-color:#999;border-collapse:collapse;width:100%}.auto-task-form table thead td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;font-weight:bold;background-color:#fff}.auto-task-form table tbody tr{background-color:#d4e3e5}.auto-task-form table tbody tr:hover{background-color:#ff6 !important}.auto-task-form table tbody tr th{background-color:#c3dde0;border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;text-transform:capitalize}.auto-task-form table tbody tr td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}.swal2-modal{width:70% !important;max-width:1000px !important}body.auto-task-options{padding-top:10px;text-align:center}body.auto-task-options .auto-task-form{width:80%;max-width:1000px;margin:0 auto;padding-bottom:20px}body.auto-task-options .auto-task-form table input.editOption{width:80%}body.auto-task-options .auto-task-form table #getTwitterUserId,body.auto-task-options .auto-task-form table #getYoutubeChannelId{margin-top:5px}body.auto-task-options .auto-task-form table button{z-index:1}body.auto-task-options .auto-task-form table input[type=text]{outline-style:none;border:1px solid #ccc;border-radius:3px;padding:5px 10px;font-size:14px}body.auto-task-options .auto-task-form table input[type=text]:focus{border-color:#66afe9;outline:0;box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)}body.auto-task-options .auto-task-form table label{position:relative;width:160px;height:80px;cursor:pointer;transform:scale(0.25);margin:-25% 0;top:-30px;display:inline-block}body.auto-task-options .auto-task-form table label input{position:relative;z-index:1;appearance:none}body.auto-task-options .auto-task-form table label input:checked~span{background:#05be05;box-shadow:0 15px 25px #05be0566}body.auto-task-options .auto-task-form table label input:checked~span i{left:84px}body.auto-task-options .auto-task-form table label input:checked~span i::before{background:#05be05;box-shadow:35px 0 0 #05be05}body.auto-task-options .auto-task-form table label input:checked~span i::after{bottom:12px;height:15px;border-bottom-left-radius:15px;border-bottom-right-radius:15px;background:#05be05}body.auto-task-options .auto-task-form table label span{position:absolute;top:0;left:0;width:100%;height:100%;background:#fe0000;border-radius:80px;transition:.5s;box-shadow:0 15px 25px #fe000066}body.auto-task-options .auto-task-form table label span i{position:absolute;top:4px;left:4px;width:72px;height:72px;background:#fff;border-radius:50%}body.auto-task-options .auto-task-form table label span i::before{content:"";position:absolute;top:22px;left:12px;width:12px;height:12px;border-radius:50%;background:#fe0000;box-shadow:35px 0 0 #fe0000;transition:.5s}body.auto-task-options .auto-task-form table label span i::after{content:"";position:absolute;bottom:15px;left:calc(50% - 15px);width:30px;height:6px;border-radius:6px;background:#fe0000;transition:.5s}body.auto-task-history{font-size:15px;font-weight:400;line-height:1.5}body.auto-task-history .container a{color:#007bff;text-decoration:none;background-color:transparent}body.auto-task-history .container .card{width:80%;max-width:800px;border-radius:10px;background:#7676761a;border-top:1px solid #ffffff80;-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 15px 25px #0000001a;margin:20px auto;position:relative;display:flex;flex-direction:column;word-wrap:break-word;-webkit-background-clip:border-box;background-clip:border-box;border:1px solid rgba(0,0,0,.125);border-radius:.25rem}body.auto-task-history .container .card .title{text-align:center;font-size:30px;font-weight:bold;margin:5px 0}body.auto-task-history .container .card .title a:hover{text-decoration:none;background:#93e1ff;border-radius:10px;padding:3px}body.auto-task-history .container .card ul{margin-bottom:25px}body.auto-task-history .container .card ul li{margin-bottom:5px;line-height:20px}body.auto-task-history .container .card ul a:hover{text-decoration:underline}body.auto-task-history .container .card .delete-task{right:10px;width:38px;height:35px;position:absolute;font-size:24px;cursor:pointer;border-radius:10px}body.auto-task-history .container .card .delete-task:hover{background:#fff}body.auto-task-history .container .card .time{right:5px;position:absolute;bottom:0;color:#e83e8c;font-family:\'SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace\';font-size:15px}#auto-task-buttons,.show-button-div{position:fixed;top:30px;right:15px;width:170px;z-index:999999999 !important;transform:scale(0.9)}#auto-task-buttons p,.show-button-div p{line-height:30px;height:40px;text-align:center;margin:5px !important}#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn{width:150px;height:40px;line-height:30px;font-size:20px}.show-button-div{width:20px}.auto-task-capitalize{text-transform:capitalize !important}.swal2-file:focus,.swal2-input:focus,.swal2-textarea:focus{box-shadow:inset 0px 0px 4px 1px rgba(100,150,200,.5) !important}.swal2-checkbox-custom{align-items:center;justify-content:center;background:#fff;color:inherit;margin:1em auto}.swal2-checkbox-custom input{flex-shrink:0;margin:0 .4em}.giveaway-actions #getKey{display:none !important}.auto-task-giveaway-status{color:#fff;border-radius:10px;padding:0 5px;margin-left:5px}.auto-task-giveaway-status.active{background-color:#5cb85c}.auto-task-giveaway-status.not-active{background-color:#d9534f}', '' ]);
       const __WEBPACK_DEFAULT_EXPORT__ = ___CSS_LOADER_EXPORT___.toString();
     },
-    999: function(module) {
+    1: function(module) {
       'use strict';
       module.exports = function(cssWithMappingToString) {
         var list = [];
@@ -497,7 +500,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         return list;
       };
     },
-    494: function(module) {
+    398: function(module) {
       'use strict';
       module.exports = function(i) {
         return i[1];
@@ -553,7 +556,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
     const external_Swal_namespaceObject = Swal;
     var external_Swal_default = __webpack_require__.n(external_Swal_namespaceObject);
     const external_Cookies_namespaceObject = Cookies;
-    var auto_task = __webpack_require__(568);
+    var auto_task = __webpack_require__(221);
     var javascript_utils_umd_min = __webpack_require__(108);
     const httpRequest = async (options, times = 0) => {
       if (window.TRACE) {
@@ -595,6 +598,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 });
               },
               onload(data) {
+                if (options.responseType === 'json' && data?.response && typeof data.response !== 'object') {
+                  try {
+                    data.response = JSON.parse(data.responseText);
+                  } catch (error) {}
+                }
                 resolve({
                   result: 'Success',
                   statusText: 'Load',
@@ -728,7 +736,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
            case 'gettingTwitterUserId':
            case 'followingTwitterUser':
            case 'unfollowingTwitterUser':
-            ele = $(`<li>${i18n(type)}[<a href="https://twitter.com/${text}" target="_blank">${text}</a>]...<font></font></li>`);
+            ele = $(`<li>${i18n(type)}[<a href="https://x.com/${text}" target="_blank">${text}</a>]...<font></font></li>`);
             break;
 
            case 'retweetting':
@@ -1297,6 +1305,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       AsfEnabled: '使用ASF做Steam相关任务(需<a href="https://github.com/chr233/ASFEnhance" target="_blank">ASFEnhance</a>插件)',
       AsfIpcUrl: 'ASF IPC 地址',
       AsfIpcPassword: 'ASF IPC 密码',
+      versionNotMatched: '脚本管理器版本过低，需TamperMonkey >= 5.2.0或TamperMonkey Beta >= 5.2.6196',
       groups: '组',
       officialGroups: '官方组',
       wishlists: '愿望单',
@@ -1622,6 +1631,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       gettingLicenses: 'Getting licenses...',
       requestingPlayTestAccess: 'Requesting play test access',
       tryChangeAreaNotice: 'This function cannot detect whether the game is limited, so it will try to change the area before entering the library' + '. Failure to change the area will not affect the subsequent storage.',
+      versionNotMatched: 'The script manager version is too low, requiring TamperMonkey >= 5.2.0 or TamperMonkey Beta >= 5.2.6196',
       initingASF: 'Initing ASF...',
       servers: 'Server',
       joiningDiscordServer: 'Joining Discord Server',
@@ -1789,7 +1799,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           ...GM_getValue('whiteList')?.discord || {}
         };
       }
-      async init() {
+      async init(action) {
         try {
           if (!GM_getValue('dontRemindDiscordAgain')) {
             const result = await external_Swal_default().fire({
@@ -1818,7 +1828,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               return 'skip';
             }
           }
-          if (!globalOptions.doTask.discord.servers && !globalOptions.undoTask.discord.servers) {
+          if (GM_getValue('dontRemindDiscordAgain') || action === 'do' && !globalOptions.doTask.discord.servers || action === 'undo' && !globalOptions.undoTask.discord.servers) {
             this.#initialized = false;
             return 'skip';
           }
@@ -2902,22 +2912,29 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             text: i18n('updatingAuth', 'Twitter')
           });
           return await new Promise(resolve => {
-            const newTab = GM_openInTab('https://twitter.com/settings/account?k#auth', {
-              active: true,
-              insert: true,
-              setParent: true
-            });
-            newTab.onclose = async () => {
-              const auth = GM_getValue('twitterAuth');
-              if (auth) {
-                this.#auth = auth;
-                logStatus.success();
-                resolve(await this.#verifyAuth());
+            GM_cookie.list({
+              url: 'https://x.com/settings/account'
+            }, async (cookies, error) => {
+              if (!error) {
+                const [ ct0, isLogin ] = cookies.map(cookie => [ 'ct0', 'twid' ].includes(cookie.name) ? cookie.value : null).filter(cookie => cookie);
+                if (isLogin && ct0) {
+                  GM_setValue('twitterAuth', {
+                    ct0: ct0
+                  });
+                  this.#auth = {
+                    ct0: ct0
+                  };
+                  logStatus.success();
+                  resolve(await this.#verifyAuth());
+                } else {
+                  logStatus.error(i18n('needLogin'));
+                  resolve(false);
+                }
               } else {
                 logStatus.error('Error: Update twitter auth failed!');
                 resolve(false);
               }
-            };
+            });
           });
         } catch (error) {
           throwError(error, 'Twitter.updateToken');
@@ -2954,7 +2971,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             status,
             data
           } = await tools_httpRequest({
-            url: `https://api.twitter.com/1.1/friendships/${doTask ? 'create' : 'destroy'}.json`,
+            url: `https://x.com/i/api/1.1/friendships/${doTask ? 'create' : 'destroy'}.json`,
             method: 'POST',
             headers: {
               authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
@@ -3014,12 +3031,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             status,
             data
           } = await tools_httpRequest({
-            url: 'https://api.twitter.com/graphql/mCbpQvZAw6zu_4PvuAUVVQ/UserByScreenName' + `?variables=%7B%22screen_name%22%3A%22${name}%22%2C%22withSafetyModeUserFields%22%3Atrue%2C%22withSuperFollowsUserFields%22%3Atrue%7D`,
+            url: 'https://x.com/i/api/graphql/mCbpQvZAw6zu_4PvuAUVVQ/UserByScreenName' + `?variables=%7B%22screen_name%22%3A%22${name}%22%2C%22withSafetyModeUserFields%22%3Atrue%2C%22withSuperFollowsUserFields%22%3Atrue%7D`,
             method: 'GET',
             headers: {
               authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
               'content-type': 'application/json',
-              referer: `https://twitter.com/${name}`,
+              referer: `https://x.com/${name}`,
               'x-csrf-token': this.#auth.ct0
             },
             responseType: 'json'
@@ -3076,7 +3093,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             status,
             data
           } = await tools_httpRequest({
-            url: `https://api.twitter.com/1.1/statuses/${doTask ? '' : 'un'}retweet.json`,
+            url: `https://x.com/i/api/1.1/statuses/${doTask ? '' : 'un'}retweet.json`,
             method: 'POST',
             headers: {
               authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
@@ -3126,7 +3143,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               text: 'twitter.users'
             });
           } else {
-            const realUsers = this.getRealParams('users', userLinks, doTask, link => link.match(/https:\/\/twitter\.com\/(.+)/)?.[1]);
+            const realUsers = this.getRealParams('users', userLinks, doTask, link => link.match(/https:\/\/x\.com\/(.+)/)?.[1]);
             if (realUsers.length > 0) {
               for (const user of realUsers) {
                 prom.push(this.#toggleUser({
@@ -3143,7 +3160,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               text: 'twitter.retweets'
             });
           } else {
-            const realRetweets = this.getRealParams('retweets', retweetLinks, doTask, link => link.match(/https:\/\/twitter\.com\/.*?\/status\/([\d]+)/)?.[1]);
+            const realRetweets = this.getRealParams('retweets', retweetLinks, doTask, link => link.match(/https:\/\/x\.com\/.*?\/status\/([\d]+)/)?.[1]);
             if (realRetweets.length > 0) {
               for (const retweet of realRetweets) {
                 prom.push(this.#toggleRetweet({
@@ -3787,27 +3804,32 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             text: i18n('updatingAuth', 'Youtube')
           });
           return await new Promise(resolve => {
-            const newTab = GM_openInTab('https://www.youtube.com/#auth', {
-              active: true,
-              insert: true,
-              setParent: true
-            });
-            newTab.onclose = async () => {
-              const auth = GM_getValue('youtubeAuth');
-              if (auth) {
-                this.#auth = auth;
-                logStatus.success();
-                this.#verifyAuth().then(result => {
-                  resolve(result);
-                });
+            GM_cookie.list({
+              url: 'https://www.youtube.com/@YouTube'
+            }, async (cookies, error) => {
+              if (!error) {
+                const PAPISID = cookies.find(cookie => cookie.name === '__Secure-3PAPISID')?.value;
+                if (PAPISID) {
+                  GM_setValue('youtubeAuth', {
+                    PAPISID: PAPISID
+                  });
+                  this.#auth = {
+                    PAPISID: PAPISID
+                  };
+                  logStatus.success();
+                  resolve(await this.#verifyAuth());
+                } else {
+                  logStatus.error(i18n('needLogin'));
+                  resolve(false);
+                }
               } else {
                 logStatus.error('Error: Update youtube auth failed!');
                 resolve(false);
               }
-            };
+            });
           });
         } catch (error) {
-          throwError(error, 'Discord.updateAuth');
+          throwError(error, 'Youtube.updateAuth');
           return false;
         }
       }
@@ -6406,7 +6428,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             const hasDiscord = Object.values(tasks.discord).reduce((total, arr) => [ ...total, ...arr ]).length > 0;
             if (hasDiscord && (!this.socialInitialized.discord || !this.social.discord)) {
               this.social.discord = new social_Discord();
-              pro.push(this.#bind('discord', this.social.discord.init()));
+              pro.push(this.#bind('discord', this.social.discord.init(action)));
             }
           }
           if (tasks.instagram) {
@@ -6915,8 +6937,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         }
       }
     }
-    const website_FreeAnyWhere = FreeAnyWhere;
-    const GiveawaySu_defaultTasks = {
+    const Freeanywhere = FreeAnyWhere;
+    const Giveawaysu_defaultTasks = {
       steam: {
         groupLinks: [],
         wishlistLinks: [],
@@ -6954,8 +6976,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
     };
     class GiveawaySu extends website_Website {
       name = 'GiveawaySu';
-      socialTasks = GiveawaySu_defaultTasks;
-      undoneTasks = GiveawaySu_defaultTasks;
+      socialTasks = Giveawaysu_defaultTasks;
+      undoneTasks = Giveawaysu_defaultTasks;
       buttons = [ 'doTask', 'undoTask' ];
       static test() {
         return /^https?:\/\/giveaway\.su\/giveaway\/view\/[\d]+/.test(window.location.href);
@@ -7000,7 +7022,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             text: i18n('getTasksInfo')
           });
           if (action === 'undo') {
-            this.socialTasks = GM_getValue(`gasTasks-${this.giveawayId}`)?.tasks || GiveawaySu_defaultTasks;
+            this.socialTasks = GM_getValue(`gasTasks-${this.giveawayId}`)?.tasks || Giveawaysu_defaultTasks;
             return true;
           }
           const pro = [];
@@ -7969,7 +7991,234 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     }
     const website_Givekey = Givekey;
-    class GiveeClub extends GiveawaySu {
+    const GiveawaySu_defaultTasks = {
+      steam: {
+        groupLinks: [],
+        wishlistLinks: [],
+        curatorLinks: [],
+        curatorLikeLinks: [],
+        followLinks: [],
+        forumLinks: [],
+        announcementLinks: [],
+        workshopVoteLinks: [],
+        playtestLinks: []
+      },
+      discord: {
+        serverLinks: []
+      },
+      instagram: {
+        userLinks: []
+      },
+      vk: {
+        nameLinks: []
+      },
+      twitch: {
+        channelLinks: []
+      },
+      reddit: {
+        redditLinks: []
+      },
+      youtube: {
+        channelLinks: [],
+        likeLinks: []
+      },
+      twitter: {
+        userLinks: [],
+        retweetLinks: []
+      }
+    };
+    class GiveawaySu_GiveawaySu extends website_Website {
+      name = 'GiveawaySu';
+      socialTasks = GiveawaySu_defaultTasks;
+      undoneTasks = GiveawaySu_defaultTasks;
+      buttons = [ 'doTask', 'undoTask' ];
+      static test() {
+        return /^https?:\/\/giveaway\.su\/giveaway\/view\/[\d]+/.test(window.location.href);
+      }
+      async after() {
+        try {
+          if (!this.#checkLogin()) {
+            scripts_echoLog({}).warning(i18n('checkLoginFailed'));
+          }
+          if (!await this.#checkLeftKey()) {
+            scripts_echoLog({}).warning(i18n('checkLeftKeyFailed'));
+          }
+          scripts_echoLog({}).warning(i18n('gsNotice'));
+        } catch (error) {
+          throwError(error, 'Giveawaysu.after');
+        }
+      }
+      init() {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('initing')
+          });
+          if ($('a.steam-login').length > 0) {
+            window.open('/steam/redirect', '_self');
+            logStatus.warning(i18n('needLogin'));
+            return false;
+          }
+          if (!this.#getGiveawayId()) {
+            return false;
+          }
+          this.initialized = true;
+          logStatus.success();
+          return true;
+        } catch (error) {
+          throwError(error, 'Giveawaysu.init');
+          return false;
+        }
+      }
+      async classifyTask(action) {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('getTasksInfo')
+          });
+          if (action === 'undo') {
+            this.socialTasks = GM_getValue(`gasTasks-${this.giveawayId}`)?.tasks || GiveawaySu_defaultTasks;
+            return true;
+          }
+          const pro = [];
+          const tasks = $('#actions tr');
+          if ($('div.bind-discord').is(':visible')) {
+            $('div.bind-discord a')[0].click();
+          }
+          if ($('div.bind-twitch').is(':visible')) {
+            $('div.bind-twitch a')[0].click();
+          }
+          for (const task of tasks) {
+            pro.push(new Promise(resolve => {
+              const td = $(task).find('td:not(".hidden")');
+              const colorfulTask = td.eq(1).find('a:not([data-trigger="link"])');
+              const colorlessTask = td.eq(2).find('a:not([data-trigger="link"])');
+              const taskDes = colorfulTask.length > 0 ? colorfulTask : colorlessTask;
+              const taskIcon = td.eq(0).find('i').attr('class') || '';
+              const taskName = taskDes.text().trim();
+              if (taskIcon.includes('ban') || /disable adblock/gi.test(taskName)) {
+                return resolve(true);
+              }
+              getRedirectLink(taskDes.attr('href')).then(taskLink => {
+                if (!taskLink) {
+                  return resolve(false);
+                }
+                if (taskIcon.includes('steam') && /join/gi.test(taskName)) {
+                  this.undoneTasks.steam.groupLinks.push(taskLink);
+                } else if (/like.*announcement/gi.test(taskName)) {
+                  this.undoneTasks.steam.announcementLinks.push(taskLink);
+                } else if (/(follow|subscribe).*curator/gim.test(taskName) && /^https?:\/\/store\.steampowered\.com\/curator\//.test(taskLink)) {
+                  this.undoneTasks.steam.curatorLinks.push(taskLink);
+                } else if (taskIcon.includes('steam') && /follow|subscribe/gim.test(taskName)) {
+                  this.undoneTasks.steam.curatorLikeLinks.push(taskLink);
+                } else if (/subscribe.*steam.*forum/gim.test(taskName)) {
+                  this.undoneTasks.steam.forumLinks.push(taskLink);
+                } else if (taskIcon.includes('thumbs-up') && /^https?:\/\/steamcommunity\.com\/sharedfiles\/filedetails\/\?id=[\d]+/.test(taskLink)) {
+                  this.undoneTasks.steam.workshopVoteLinks.push(taskLink);
+                } else if (taskIcon.includes('plus') && /request.*playtest/gim.test(taskName)) {
+                  this.undoneTasks.steam.playtestLinks.push(taskLink);
+                } else if (taskIcon.includes('discord') || /join.*discord/gim.test(taskName)) {
+                  this.undoneTasks.discord.serverLinks.push(taskLink);
+                } else if (taskIcon.includes('instagram') || /follow.*instagram/gim.test(taskName)) {
+                  this.undoneTasks.instagram.userLinks.push(taskLink);
+                } else if (taskIcon.includes('twitch') || /follow.*twitch.*channel/gim.test(taskName)) {
+                  this.undoneTasks.twitch.channelLinks.push(taskLink);
+                } else if (taskIcon.includes('reddit') || /subscribe.*subreddit/gim.test(taskName) || /follow.*reddit/gim.test(taskName)) {
+                  this.undoneTasks.reddit.redditLinks.push(taskLink);
+                } else if (/watch.*art/gim.test(taskName)) {
+                  this.undoneTasks.steam.workshopVoteLinks.push(taskLink);
+                } else if (/subscribe.*youtube.*channel/gim.test(taskName)) {
+                  this.undoneTasks.youtube.channelLinks.push(taskLink);
+                } else if (/(watch|like).*youtube.*video/gim.test(taskName) || (taskIcon.includes('youtube') || taskIcon.includes('thumbs-up')) && /(watch|like).*video/gim.test(taskName)) {
+                  this.undoneTasks.youtube.likeLinks.push(taskLink);
+                } else if (taskIcon.includes('vk') || /join.*vk.*group/gim.test(taskName)) {
+                  this.undoneTasks.vk.nameLinks.push(taskLink);
+                } else {
+                  if (/(on twitter)|(Follow.*on.*Facebook)/gim.test(taskName)) {} else {
+                    if (/wishlist.*game|add.*wishlist/gim.test(taskName)) {
+                      this.undoneTasks.steam.wishlistLinks.push(taskLink);
+                    }
+                    if (/follow.*button/gim.test(taskName)) {
+                      this.undoneTasks.steam.followLinks.push(taskLink);
+                    }
+                  }
+                }
+                resolve(true);
+              }).catch(error => {
+                throwError(error, 'Giveawaysu.classifyTask->getRedirectLink');
+                return false;
+              });
+            }));
+          }
+          await Promise.all(pro);
+          logStatus.success();
+          this.undoneTasks = this.uniqueTasks(this.undoneTasks);
+          this.socialTasks = this.undoneTasks;
+          if (window.DEBUG) {
+            console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
+          }
+          GM_setValue(`gasTasks-${this.giveawayId}`, {
+            tasks: this.socialTasks,
+            time: new Date().getTime()
+          });
+          return true;
+        } catch (error) {
+          throwError(error, 'Giveawaysu.classifyTask');
+          return false;
+        }
+      }
+      #checkLogin() {
+        try {
+          if (!globalOptions.other.checkLogin) {
+            return true;
+          }
+          if ($('a.steam-login').length > 0) {
+            window.open('/steam/redirect', '_self');
+          }
+          return true;
+        } catch (error) {
+          throwError(error, 'Giveawaysu.checkLogin');
+          return false;
+        }
+      }
+      async #checkLeftKey() {
+        try {
+          if (!globalOptions.other.checkLeftKey) {
+            return true;
+          }
+          if ($('.giveaway-ended').length > 0 && $('.giveaway-key').length === 0) {
+            await external_Swal_default().fire({
+              icon: 'warning',
+              title: i18n('notice'),
+              text: i18n('noKeysLeft'),
+              confirmButtonText: i18n('confirm'),
+              cancelButtonText: i18n('cancel'),
+              showCancelButton: true
+            }).then(({
+              value
+            }) => {
+              if (value) {
+                window.close();
+              }
+            });
+          }
+          return true;
+        } catch (error) {
+          throwError(error, 'Giveawaysu.checkLeftKey');
+          return false;
+        }
+      }
+      #getGiveawayId() {
+        const giveawayId = window.location.href.match(/\/view\/([\d]+)/)?.[1];
+        if (giveawayId) {
+          this.giveawayId = giveawayId;
+          return true;
+        }
+        scripts_echoLog({
+          text: i18n('getFailed', 'GiveawayId')
+        });
+        return false;
+      }
+    }
+    class GiveeClub extends GiveawaySu_GiveawaySu {
       name = 'GiveeClub';
       buttons = [ 'doTask', 'undoTask', 'verifyTask' ];
       static test() {
@@ -8574,7 +8823,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           const discordLinks = mainPost.find('a[href*="discord.com"]:visible');
           const redditLinks = mainPost.find('a[href*="reddit.com"]:visible');
           const insLinks = mainPost.find('a[href*="instagram.com"]:visible');
-          const twitterLinks = mainPost.find('a[href*="twitter.com"]:visible');
+          const twitterLinks = mainPost.find('a[href*="twitter.com"]:visible,a[href*="x.com"]:visible');
           const twitchLinks = mainPost.find('a[href*="twitch.tv"]:visible');
           const vkLinks = mainPost.find('a[href*="vk.com"]:visible');
           const steamStoreLinks = mainPost.find('a[href*="store.steampowered.com"]:visible');
@@ -9185,7 +9434,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               }
             }
             if (socialIcon.hasClass('fa-twitter')) {
-              const link = $task.find('a[href^="https://twitter.com/"]').attr('href');
+              const link = $task.find('a[href^="https://twitter.com/"],a[href^="https://x.com/"]').attr('href');
               if (!link) {
                 continue;
               }
@@ -10374,7 +10623,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     }
     const website_History = History;
-    const Websites = [ website_FreeAnyWhere, GiveawaySu, website_Indiedb, website_Keyhub, website_Givekey, website_GiveeClub, website_OpiumPulses, website_Keylol, website_Opquests, website_Gleam, website_SweepWidget, website_Setting, website_History ];
+    const Websites = [ Freeanywhere, GiveawaySu, website_Indiedb, website_Keyhub, website_Givekey, website_GiveeClub, website_OpiumPulses, website_Keylol, website_Opquests, website_Gleam, website_SweepWidget, website_Setting, website_History ];
     const websiteOptions = function(website, options) {
       try {
         let websiteOptionsForm = `<form id="websiteOptionsForm" class="auto-task-form">
@@ -10521,8 +10770,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
     };
     const scripts_updateChecker = updateChecker;
     window.STYLE = GM_addStyle(auto_task.Z + GM_getResourceText('style'));
-    window.DEBUG = !!globalOptions.other?.debug;
-    window.TRACE = !!globalOptions.other?.debug && typeof console.trace === 'function';
+    window.DEBUG = !!globalOptions.other.debug;
+    window.TRACE = !!globalOptions.other.debug && typeof console.trace === 'function';
     const loadScript = async () => {
       if (window.location.hostname === 'www.twitch.tv' && window.location.hash === '#auth') {
         const authToken = external_Cookies_namespaceObject.get('auth-token');
@@ -10534,33 +10783,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             clientId: commonOptions?.headers?.['Client-ID'],
             deviceId: commonOptions?.headers?.['Device-ID'],
             clientSessionId: window.localStorage.local_storage_app_session_id.replace(/"/g, '')
-          });
-          window.close();
-          external_Swal_default().fire('', i18n('closePageNotice'));
-        } else {
-          external_Swal_default().fire('', i18n('needLogin'));
-        }
-        return;
-      }
-      if (window.location.hostname === 'twitter.com' && window.location.hash === '#auth') {
-        const ct0 = external_Cookies_namespaceObject.get('ct0');
-        const isLogin = !!external_Cookies_namespaceObject.get('twid');
-        if (isLogin && ct0) {
-          GM_setValue('twitterAuth', {
-            ct0: ct0
-          });
-          window.close();
-          external_Swal_default().fire('', i18n('closePageNotice'));
-        } else {
-          external_Swal_default().fire('', i18n('needLogin'));
-        }
-        return;
-      }
-      if (window.location.hostname === 'www.youtube.com' && window.location.hash === '#auth') {
-        const PAPISID = external_Cookies_namespaceObject.get('__Secure-3PAPISID');
-        if (PAPISID) {
-          GM_setValue('youtubeAuth', {
-            PAPISID: PAPISID
           });
           window.close();
           external_Swal_default().fire('', i18n('closePageNotice'));
@@ -10660,6 +10882,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         });
       }
       console.log('%c%s', 'color:#1bbe1a', 'Auto-Task[Load]: 脚本加载完成');
+      const [ v1, v2 ] = GM_info.version.split('.');
+      if (!(parseInt(v1, 10) >= 5 && parseInt(v2, 10) >= 2)) {
+        scripts_echoLog({}).error(i18n('versionNotMatched'));
+      }
       if (!GM_getValue('notice')) {
         external_Swal_default().fire({
           title: i18n('swalNotice'),
