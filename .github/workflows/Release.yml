@@ -21,17 +21,13 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.4.0
-          name: 4.4.0
-          body: >-
-            - 修复:Twitter/X域名更改导致部分功能不可用(#18)
-
-            - 修复:配置跳过Discord任务时无效(#19)
-
-            - 优化:Twitter/X凭证获取方式(*需TamperMonkey >= 5.2.0或TamperMonkey >=
-            5.2.6196)
-
-            - 优化:Youtube凭证获取方式(*需TamperMonkey >= 5.2.0或TamperMonkey >= 5.2.6196)
+          tag_name: v4.4.1
+          name: 4.4.1
+          body: |-
+            - 重要:4.4.0以后版本*需TamperMonkey >= 5.2.0或TamperMonkey >= 5.2.6196)
+            - 重要:暂时取消对Violentmonkey的支持(#20)
+            - 修复:OpiumPulses网站加入抽奖状态获取错误(#21)
+            - 文档:更新部分说明文档
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

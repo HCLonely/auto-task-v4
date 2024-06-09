@@ -14,7 +14,7 @@ lang: zh-CN
 
 ## 用前必读
 
-1. 此脚本支持[Tampermonkey](https://www.tampermonkey.net/)和[Violentmonkey](https://violentmonkey.github.io/)扩展，不会专门去兼容其他扩展；
+1. 此脚本支持[Tampermonkey](https://www.tampermonkey.net/) >= 5.2.0 ~~和[Violentmonkey](https://violentmonkey.github.io/)~~ 扩展，不会专门去兼容其他扩展；
 2. reddit功能需要使用reddit的beta版网站才能使用，如果脚本自动切换失败，请自行切换；
 3. 验证 Twitter 和 Youtube 凭证时会自动关注官方账号，如果不想关注官方账号，可在[设置页面](https://auto-task-v4.hclonely.com/setting.html)->`全局设置`->`其他`中更换；
 4. `点赞社区公告`和`点赞创意工坊物品`功能不支持撤销，`Opquests`网站不支持撤销任务；

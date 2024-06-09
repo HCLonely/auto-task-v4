@@ -5,6 +5,13 @@ lang: zh-CN
 
 ## V4.4
 
+### V4.4.1
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.1)
+
+- 重要:4.4.0以后版本*需TamperMonkey >= 5.2.0或TamperMonkey >= 5.2.6196)
+- 重要:暂时取消对Violentmonkey的支持
+
 ### V4.4.0
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.0)

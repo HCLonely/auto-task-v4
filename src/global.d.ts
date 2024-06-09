@@ -36,6 +36,7 @@ declare global {
     fetch?: boolean
     username?: string
     password?: string
+    redirect?: 'follow'|'error'|'manual'
   }
   interface MonkeyXhrDetails extends MonkeyXhrBasicDetails {
     onabort?: (response: MonkeyXhrResponse) => void

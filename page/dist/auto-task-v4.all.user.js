@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.4.0
+// @version            4.4.1
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -8517,14 +8517,25 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 method: 'GET'
               });
               if (result === 'Success') {
-                if (data?.responseText && /You've entered this giveaway/gim.test(data.responseText)) {
+                const {
+                  result: result0,
+                  statusText: statusText0,
+                  status: status0,
+                  data: data0
+                } = await tools_httpRequest({
+                  url: data?.finalUrl,
+                  method: 'GET'
+                });
+                if (data0?.responseText && /You've entered this giveaway/gim.test(data0.responseText)) {
                   logStatus.success();
-                  const points = data.responseText.match(/Points:[\s]*?([\d]+)/)?.[1];
+                  const points = data0.responseText.match(/Points:[\s]*?([\d]+)/)?.[1];
                   if (type === 'points' && points) {
                     this.myPoints = parseInt(points, 10);
                   }
+                } else if (data0?.responseText && /You're not eligible to enter/gim.test(data0.responseText)) {
+                  logStatus.error('You\'re not eligible to enter');
                 } else {
-                  logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+                  logStatus.error(`${result0}:${statusText0}(${status0})`);
                 }
               } else {
                 logStatus.error(`${result}:${statusText}(${status})`);
