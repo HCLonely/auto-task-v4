@@ -35,7 +35,8 @@ declare global {
     anonymous?: boolean
     fetch?: boolean
     username?: string
-    password?: string
+    password?: string,
+    redirect?: 'follow' | 'error' | 'manual'
   }
   interface MonkeyXhrDetails extends MonkeyXhrBasicDetails {
     onabort?: (response: MonkeyXhrResponse) => void

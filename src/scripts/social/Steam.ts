@@ -108,30 +108,34 @@ class Steam extends Social {
     }
   }
 
-  async #refreshStoreToken(): Promise<boolean> {
+  async #refreshToken(type: 'steamStore' | 'steamCommunity' = 'steamStore'): Promise<boolean> {
     /**
      * @internal
      * @description 刷新Steam商店Token.
      * @return true: 刷新Token成功 | false: 刷新Token失败
     */
     try {
-      const logStatus = echoLog({ text: __('refreshingToken', __('steamStore')) });
+      const host = {
+        steamStore: 'store.steampowered.com',
+        steamCommunity: 'steamcommunity.com'
+      };
+      const logStatus = echoLog({ text: __('refreshingToken', __(type)) });
       const formData = new FormData();
-      formData.append('redir', 'https://store.steampowered.com/');
+      formData.append('redir', `https://${host[type]}/`);
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://login.steampowered.com/jwt/ajaxrefresh',
         method: 'POST',
         responseType: 'json',
         headers: {
           Host: 'login.steampowered.com',
-          Origin: 'https://store.steampowered.com',
-          Referer: 'https://store.steampowered.com/'
+          Origin: `https://${host[type]}`,
+          Referer: `https://${host[type]}/`
         },
         data: formData
       });
       if (result === 'Success') {
         if (data?.response?.success) {
-          if (await this.#setStoreToken(data.response as storeTokenParam)) {
+          if (await this.#setStoreToken(data.response as storeTokenParam, type)) {
             logStatus.success();
             return true;
           }
@@ -144,31 +148,35 @@ class Steam extends Social {
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error as Error, 'Steam.refreshStoreToken');
+      throwError(error as Error, 'Steam.refreshToken');
       return false;
     }
   }
-  async #setStoreToken(param: storeTokenParam): Promise<boolean> {
+  async #setStoreToken(param: storeTokenParam, type: 'steamStore' | 'steamCommunity'): Promise<boolean> {
     /**
      * @internal
      * @description 设置Steam商店Token.
      * @return true: 设置Token成功 | false: 设置Token失败
     */
     try {
-      const logStatus = echoLog({ text: __('settingToken', __('steamStore')) });
+      const host = {
+        steamStore: 'store.steampowered.com',
+        steamCommunity: 'steamcommunity.com'
+      };
+      const logStatus = echoLog({ text: __('settingToken', __(type)) });
       const formData = new FormData();
       formData.append('steamID', param.steamID);
       formData.append('nonce', param.nonce);
       formData.append('redir', param.redir);
       formData.append('auth', param.auth);
       const { result, statusText, status, data } = await httpRequest({
-        url: 'https://store.steampowered.com/login/settoken',
+        url: `https://${host[type]}/login/settoken`,
         method: 'POST',
         headers: {
           Accept: 'application/json, text/plain, */*',
-          Host: 'store.steampowered.com',
-          Origin: 'https://store.steampowered.com',
-          Referer: 'https://store.steampowered.com/login'
+          Host: host[type],
+          Origin: `https://${host[type]}`
+          // Referer: `https://${host[type]}/login`
         },
         data: formData
       });
@@ -187,7 +195,7 @@ class Steam extends Social {
       return false;
     }
   }
-  async #updateStoreAuth(): Promise<boolean> {
+  async #updateStoreAuth(retry = false): Promise<boolean> {
     /**
      * @internal
      * @description 更新Steam商店Token.
@@ -204,12 +212,21 @@ class Steam extends Social {
           'Sec-Fetch-Dest': 'document',
           'Sec-Fetch-Mode': 'navigate',
           'Upgrade-Insecure-Requests': '1'
-        }
+        },
+        fetch: false,
+        redirect: 'manual'
       });
       if (result === 'Success') {
         if (data?.status === 200) {
           if (!data.responseText.includes('data-miniprofile=')) {
-            await this.#refreshStoreToken();
+            if (await this.#refreshToken('steamStore')) {
+              logStatus.warning(__('retry'));
+              if (retry) {
+                logStatus.error(`Error:${__('needLoginSteamStore')}`, true);
+                return false;
+              }
+              return this.#updateStoreAuth(true);
+            }
             logStatus.error(`Error:${__('needLoginSteamStore')}`, true);
             return false;
           }
@@ -225,6 +242,18 @@ class Steam extends Social {
         logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }
+      if (data?.status === 302) {
+        if (await this.#refreshToken('steamStore')) {
+          logStatus.warning(__('retry'));
+          if (retry) {
+            logStatus.error(`Error:${__('needLoginSteamStore')}`, true);
+            return false;
+          }
+          return this.#updateStoreAuth(true);
+        }
+        logStatus.error(`Error:${__('needLoginSteamStore')}`, true);
+        return false;
+      }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
@@ -233,7 +262,7 @@ class Steam extends Social {
     }
   }
 
-  async #updateCommunityAuth(): Promise<boolean> {
+  async #updateCommunityAuth(retry = false): Promise<boolean> {
     /**
      * @internal
      * @description 更新Steam社区Token.
@@ -250,7 +279,9 @@ class Steam extends Social {
           'Sec-Fetch-Dest': 'document',
           'Sec-Fetch-Mode': 'navigate',
           'Upgrade-Insecure-Requests': '1'
-        }
+        },
+        fetch: false,
+        redirect: 'manual'
       });
       if (result === 'Success') {
         if (data?.status === 200) {
@@ -272,6 +303,18 @@ class Steam extends Social {
           return false;
         }
         logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+        return false;
+      }
+      if (data?.status === 302) {
+        if (await this.#refreshToken('steamCommunity')) {
+          logStatus.warning(__('retry'));
+          if (retry) {
+            logStatus.error(`Error:${__('needLoginSteamCommunity')}`, true);
+            return false;
+          }
+          return this.#updateCommunityAuth(true);
+        }
+        logStatus.error(`Error:${__('needLoginSteamCommunity')}`, true);
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);

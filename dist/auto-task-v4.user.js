@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.3.3
+// @version            4.4.2
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -4570,13 +4570,17 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async #refreshStoreToken() {
+      async #refreshToken(type = 'steamStore') {
         try {
+          const host = {
+            steamStore: 'store.steampowered.com',
+            steamCommunity: 'steamcommunity.com'
+          };
           const logStatus = scripts_echoLog({
-            text: i18n('refreshingToken', i18n('steamStore'))
+            text: i18n('refreshingToken', i18n(type))
           });
           const formData = new FormData();
-          formData.append('redir', 'https://store.steampowered.com/');
+          formData.append('redir', `https://${host[type]}/`);
           const {
             result,
             statusText,
@@ -4588,14 +4592,14 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             responseType: 'json',
             headers: {
               Host: 'login.steampowered.com',
-              Origin: 'https://store.steampowered.com',
-              Referer: 'https://store.steampowered.com/'
+              Origin: `https://${host[type]}`,
+              Referer: `https://${host[type]}/`
             },
             data: formData
           });
           if (result === 'Success') {
             if (data?.response?.success) {
-              if (await this.#setStoreToken(data.response)) {
+              if (await this.#setStoreToken(data.response, type)) {
                 logStatus.success();
                 return true;
               }
@@ -4608,14 +4612,18 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           logStatus.error(`${result}:${statusText}(${status})`);
           return false;
         } catch (error) {
-          throwError(error, 'Steam.refreshStoreToken');
+          throwError(error, 'Steam.refreshToken');
           return false;
         }
       }
-      async #setStoreToken(param) {
+      async #setStoreToken(param, type) {
         try {
+          const host = {
+            steamStore: 'store.steampowered.com',
+            steamCommunity: 'steamcommunity.com'
+          };
           const logStatus = scripts_echoLog({
-            text: i18n('settingToken', i18n('steamStore'))
+            text: i18n('settingToken', i18n(type))
           });
           const formData = new FormData();
           formData.append('steamID', param.steamID);
@@ -4628,13 +4636,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             status,
             data
           } = await tools_httpRequest({
-            url: 'https://store.steampowered.com/login/settoken',
+            url: `https://${host[type]}/login/settoken`,
             method: 'POST',
             headers: {
               Accept: 'application/json, text/plain, */*',
-              Host: 'store.steampowered.com',
-              Origin: 'https://store.steampowered.com',
-              Referer: 'https://store.steampowered.com/login'
+              Host: host[type],
+              Origin: `https://${host[type]}`
             },
             data: formData
           });
@@ -4653,7 +4660,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async #updateStoreAuth() {
+      async #updateStoreAuth(retry = false) {
         try {
           const logStatus = scripts_echoLog({
             text: i18n('updatingAuth', i18n('steamStore'))
@@ -4672,12 +4679,21 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               'Sec-Fetch-Dest': 'document',
               'Sec-Fetch-Mode': 'navigate',
               'Upgrade-Insecure-Requests': '1'
-            }
+            },
+            fetch: false,
+            redirect: 'manual'
           });
           if (result === 'Success') {
             if (data?.status === 200) {
               if (!data.responseText.includes('data-miniprofile=')) {
-                await this.#refreshStoreToken();
+                if (await this.#refreshToken('steamStore')) {
+                  logStatus.warning(i18n('retry'));
+                  if (retry) {
+                    logStatus.error(`Error:${i18n('needLoginSteamStore')}`, true);
+                    return false;
+                  }
+                  return this.#updateStoreAuth(true);
+                }
                 logStatus.error(`Error:${i18n('needLoginSteamStore')}`, true);
                 return false;
               }
@@ -4693,6 +4709,18 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
+          if (data?.status === 302) {
+            if (await this.#refreshToken('steamStore')) {
+              logStatus.warning(i18n('retry'));
+              if (retry) {
+                logStatus.error(`Error:${i18n('needLoginSteamStore')}`, true);
+                return false;
+              }
+              return this.#updateStoreAuth(true);
+            }
+            logStatus.error(`Error:${i18n('needLoginSteamStore')}`, true);
+            return false;
+          }
           logStatus.error(`${result}:${statusText}(${status})`);
           return false;
         } catch (error) {
@@ -4700,7 +4728,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async #updateCommunityAuth() {
+      async #updateCommunityAuth(retry = false) {
         try {
           const logStatus = scripts_echoLog({
             text: i18n('updatingAuth', i18n('steamCommunity'))
@@ -4719,7 +4747,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               'Sec-Fetch-Dest': 'document',
               'Sec-Fetch-Mode': 'navigate',
               'Upgrade-Insecure-Requests': '1'
-            }
+            },
+            fetch: false,
+            redirect: 'manual'
           });
           if (result === 'Success') {
             if (data?.status === 200) {
@@ -4745,6 +4775,18 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               return false;
             }
             logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+            return false;
+          }
+          if (data?.status === 302) {
+            if (await this.#refreshToken('steamCommunity')) {
+              logStatus.warning(i18n('retry'));
+              if (retry) {
+                logStatus.error(`Error:${i18n('needLoginSteamCommunity')}`, true);
+                return false;
+              }
+              return this.#updateCommunityAuth(true);
+            }
+            logStatus.error(`Error:${i18n('needLoginSteamCommunity')}`, true);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);

@@ -3,6 +3,14 @@ title: 更新日志
 lang: zh-CN
 ---
 
+## V4.4
+
+### V4.4.2
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.2)
+
+- 修复:Steam凭证刷新失败([#16](https://github.com/HCLonely/auto-task-v4/issues/16))
+
 ## V4.3
 
 ### V4.3.3
