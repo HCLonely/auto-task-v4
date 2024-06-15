@@ -49,12 +49,14 @@ class Opquests extends Website {
     } else {
       if (GM_getValue<Array<string>>('opquestsVerifyTasks')) {
         GM_deleteValue('opquestsVerifyTasks');
+        /*
         echoLog({}).success(__('allTasksComplete'));
         if (await this.getKey()) {
           return;
         }
         window.location.reload();
         return;
+        */
       }
     }
   }
