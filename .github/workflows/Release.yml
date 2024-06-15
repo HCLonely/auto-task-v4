@@ -23,7 +23,9 @@ jobs:
           prerelease: false
           tag_name: v4.4.2
           name: 4.4.2
-          body: '- 修复:Tampermonkey更新导致Steam凭证刷新失败(#16)'
+          body: |-
+            - 修复:Tampermonkey更新导致Steam凭证刷新失败(#16)
+            - 修复:推特转推功能失效
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

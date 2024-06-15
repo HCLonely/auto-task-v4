@@ -156,6 +156,26 @@ class Youtube extends Social {
     try {
       const logStatus = echoLog({ text: __('updatingAuth', 'Youtube') });
       return await new Promise((resolve) => {
+        // eslint-disable-next-line camelcase
+        GM_cookie.list({ url: 'https://www.youtube.com/@YouTube' }, async (cookies, error) => {
+          if (!error) {
+            const PAPISID = cookies.find((cookie) => cookie.name === '__Secure-3PAPISID')?.value;
+
+            if (PAPISID) {
+              GM_setValue('youtubeAuth', { PAPISID });
+              this.#auth = { PAPISID };
+              logStatus.success();
+              resolve(await this.#verifyAuth());
+            } else {
+              logStatus.error(__('needLogin'));
+              resolve(false);
+            }
+          } else {
+            logStatus.error('Error: Update youtube auth failed!');
+            resolve(false);
+          }
+        });
+        /*
         const newTab = GM_openInTab('https://www.youtube.com/#auth',
           { active: true, insert: true, setParent: true });
         newTab.onclose = async () => {
@@ -169,9 +189,10 @@ class Youtube extends Social {
             resolve(false);
           }
         };
+        */
       });
     } catch (error) {
-      throwError(error as Error, 'Discord.updateAuth');
+      throwError(error as Error, 'Youtube.updateAuth');
       return false;
     }
   }

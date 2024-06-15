@@ -230,6 +230,9 @@ const data = {
   requestingPlayTestAccess: 'Requesting play test access',
   tryChangeAreaNotice: 'This function cannot detect whether the game is limited, so it will try to change the area before entering the library' +
     '. Failure to change the area will not affect the subsequent storage.',
+  versionNotMatched: 'The script manager version is too low, requiring TamperMonkey >= 5.2.0 or TamperMonkey Beta >= 5.2.6196',
+  gettingUserLink: 'Getting steam user community link...',
+  retry: 'Retry',
 
   // Steam ASF
   initingASF: 'Initing ASF...',

@@ -90,7 +90,7 @@ const echoLog = ({ type, text, html, id }: { type?: string, text?: string, html?
       case 'gettingTwitterUserId':
       case 'followingTwitterUser':
       case 'unfollowingTwitterUser':
-        ele = $(`<li>${__(type)}[<a href="https://twitter.com/${text}" target="_blank">${text}</a>]...<font></font></li>`);
+        ele = $(`<li>${__(type)}[<a href="https://x.com/${text}" target="_blank">${text}</a>]...<font></font></li>`);
         break;
       case 'retweetting':
       case 'unretweetting':

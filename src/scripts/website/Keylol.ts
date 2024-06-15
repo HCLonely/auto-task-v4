@@ -83,7 +83,7 @@ class Keylol extends Website {
       const discordLinks = mainPost.find('a[href*="discord.com"]:visible');
       const redditLinks = mainPost.find('a[href*="reddit.com"]:visible');
       const insLinks = mainPost.find('a[href*="instagram.com"]:visible');
-      const twitterLinks = mainPost.find('a[href*="twitter.com"]:visible');
+      const twitterLinks = mainPost.find('a[href*="twitter.com"]:visible,a[href*="x.com"]:visible');
       const twitchLinks = mainPost.find('a[href*="twitch.tv"]:visible');
       const vkLinks = mainPost.find('a[href*="vk.com"]:visible');
       const steamStoreLinks = mainPost.find('a[href*="store.steampowered.com"]:visible');

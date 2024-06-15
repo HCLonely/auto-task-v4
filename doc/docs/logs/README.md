@@ -11,6 +11,20 @@ lang: zh-CN
 
 - 修复:Steam凭证刷新失败([#16](https://github.com/HCLonely/auto-task-v4/issues/16))
 
+### V4.4.1
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.1)
+
+- 重要:4.4.0以后版本*需TamperMonkey >= 5.2.0或TamperMonkey >= 5.2.6196)
+- 重要:暂时取消对Violentmonkey的支持
+
+### V4.4.0
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.0)
+
+- 修复:Twitter/X域名更改导致部分功能不可用([#18](https://github.com/HCLonely/auto-task-v4/issues/18))
+- 优化:Twitter/X凭证获取方式(需TamperMonkey >= 5.2.0或TamperMonkey >= 5.2.6196)
+
 ## V4.3
 
 ### V4.3.3

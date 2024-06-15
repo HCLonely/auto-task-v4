@@ -2,7 +2,8 @@
   "name": "auto-task-v4",
   "version": "4.4.2",
   "change": [
-    "修复:Tampermonkey更新导致Steam凭证刷新失败(#16)"
+    "修复:Tampermonkey更新导致Steam凭证刷新失败(#16)",
+    "修复:推特转推功能失效"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

@@ -203,6 +203,32 @@ declare global {
     onclose: () => void
     closed: boolean
     }
+  const GM_cookie: {
+    list(details: {
+      url?: string
+      domain?: string
+      name?: string
+      path?: string
+      partitionKey?: {
+        topLevelSite?: string
+      }
+    }, callback?: (cookies: Array<{
+      domain: string
+      firstPartyDomain?: string
+      partitionKey?: {
+        topLevelSite?: string
+      }
+      hostOnly: boolean
+      httpOnly: boolean
+      name: string
+      path: string
+      sameSite: string
+      secure: boolean
+      session: boolean
+      value: string
+    }>, error: string | null) => void): void
+  };
+
   /* eslint-enable camelcase */
   function sha1(value: string): string
 

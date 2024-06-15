@@ -163,6 +163,7 @@ const data = {
   AsfEnabled: '使用ASF做Steam相关任务(需<a href="https://github.com/chr233/ASFEnhance" target="_blank">ASFEnhance</a>插件)',
   AsfIpcUrl: 'ASF IPC 地址',
   AsfIpcPassword: 'ASF IPC 密码',
+  versionNotMatched: '脚本管理器版本过低，需TamperMonkey >= 5.2.0或TamperMonkey Beta >= 5.2.6196',
 
   // Steam
   groups: '组',
@@ -214,6 +215,8 @@ const data = {
   gettingLicenses: '正在获取Licenses...',
   requestingPlayTestAccess: '正在请求访问权限',
   tryChangeAreaNotice: '此功能无法检测游戏是否限区，因此会尝试换区后再入库，换区失败也不影响后续入库',
+  gettingUserLink: '正在获取Steam用户社区链接...',
+  retry: '重试',
 
   // Steam ASF
   initingASF: '正在初始化ASF...',

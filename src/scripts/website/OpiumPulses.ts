@@ -94,14 +94,20 @@ class OpiumPulses {
             method: 'GET'
           });
           if (result === 'Success') {
-            if (data?.responseText && /You've entered this giveaway/gim.test(data.responseText)) {
+            const { result: result0, statusText: statusText0, status: status0, data: data0 } = await httpRequest({
+              url: data?.finalUrl as string,
+              method: 'GET'
+            });
+            if (data0?.responseText && /You've entered this giveaway/gim.test(data0.responseText)) {
               logStatus.success();
-              const points = data.responseText.match(/Points:[\s]*?([\d]+)/)?.[1];
+              const points = data0.responseText.match(/Points:[\s]*?([\d]+)/)?.[1];
               if (type === 'points' && points) {
                 this.myPoints = parseInt(points, 10);
               }
+            } else if (data0?.responseText && /You're not eligible to enter/gim.test(data0.responseText)) {
+              logStatus.error('You\'re not eligible to enter');
             } else {
-              logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+              logStatus.error(`${result0}:${statusText0}(${status0})`);
             }
           } else {
             logStatus.error(`${result}:${statusText}(${status})`);

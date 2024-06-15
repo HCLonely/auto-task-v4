@@ -31,6 +31,7 @@
 // @include            *://www.youtube.com/*
 // @include            *://*.reddit.com/*
 // @include            *://twitter.com/settings/account?k*
+// @include            *://x.com/settings/account*
 // @include            https://auto-task-v4.hclonely.com/setting.html
 // @include            https://auto-task-v4.hclonely.com/history.html
 
@@ -45,6 +46,7 @@
 // @grant              GM_openInTab
 // @grant              GM_setClipboard
 // @grant              GM_getResourceText
+// @grant              GM_cookie
 // @grant              unsafeWindow
 // @grant              window.close
 // @grant              window.localStorage
@@ -54,6 +56,7 @@
 // @connect            steamcommunity.com
 // @connect            login.steampowered.com
 // @connect            twitter.com
+// @connect            x.com
 // @connect            api.twitter.com
 // @connect            youtube.com
 // @connect            www.youtube.com

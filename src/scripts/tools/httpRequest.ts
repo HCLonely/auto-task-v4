@@ -27,6 +27,13 @@ const httpRequest = async (options: httpRequestOptions, times = 0): Promise<http
             resolve({ result: 'Error', statusText: 'Error', status: 603, data, options });
           },
           onload(data) {
+            if (options.responseType === 'json' && data?.response && typeof data.response !== 'object') {
+              try {
+                data.response = JSON.parse(data.responseText);
+              } catch (error) {
+                //
+              }
+            }
             resolve({ result: 'Success', statusText: 'Load', status: 600, data, options });
           }
         }, ...options

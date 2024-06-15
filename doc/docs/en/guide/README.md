@@ -21,7 +21,7 @@ The content of this page is translated through Google translation. If the descri
 
 ## READ ME FIRST
 
-1. This script supports [Tampermonkey](https://www.tampermonkey.net/) and [Violentmonkey](https://violentmonkey.github.io/) extensions, not other extensions specifically;
+1. This script supports [Tampermonkey](https://www.tampermonkey.net/) >= 5.2.0 ~~and [Violentmonkey](https://violentmonkey.github.io/)~~ extensions, not other extensions specifically;
 2. Reddit related functions need to use the beta version of reddit website to use, if the script fails to switch automatically, please switch by yourself;
 3. When verifying Twitter and Youtube token, it will automatically follow the official account. If you don’t want to follow the official account, you can go to [Settings Page](https://auto-task-v4.hclonely.com/setting.html)->`Global Settings`->`Others` to change;
 4. The functions of `Like community announcement` and `Like workshop item` do not support cancellation, and the `Opquests` website does not support cancellation tasks;

@@ -56,7 +56,7 @@ const loadScript = async () => {
       Swal.fire('', __('needLogin'));
     }
   }
-  if (window.location.hostname === 'twitter.com' && window.location.hash === '#auth') {
+  if (window.location.hostname === 'x.com' && window.location.hash === '#auth') {
     const ct0 = Cookies.get('ct0');
     const isLogin = !!Cookies.get('twid');
     if (isLogin && ct0) {

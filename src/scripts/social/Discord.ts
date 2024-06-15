@@ -31,7 +31,7 @@ class Discord extends Social {
     this.tasks = defaultTasksTemplate;
     this.whiteList = { ...defaultTasksTemplate, ...(GM_getValue<whiteList>('whiteList')?.discord || {}) };
   }
-  async init(): Promise<boolean | 'skip'> {
+  async init(action: string): Promise<boolean | 'skip'> {
     /**
      * @description: 验证及获取Auth
      * @return true: 初始化完成 | false: 初始化失败，toggle方法不可用
@@ -61,7 +61,9 @@ class Discord extends Social {
           return 'skip';
         }
       }
-      if (!globalOptions.doTask.discord.servers && !globalOptions.undoTask.discord.servers) {
+      if (GM_getValue('dontRemindDiscordAgain') ||
+        (action === 'do' && !globalOptions.doTask.discord.servers) ||
+        (action === 'undo' && !globalOptions.undoTask.discord.servers)) {
         this.#initialized = false;
         return 'skip';
       }
