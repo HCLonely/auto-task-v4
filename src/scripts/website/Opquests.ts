@@ -14,7 +14,7 @@ import Website from './Website';
 import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
-import { delay } from '../tools/tools';
+// import { delay } from '../tools/tools';
 import { globalOptions } from '../globalOptions';
 import httpRequest from '../tools/httpRequest';
 
@@ -32,11 +32,31 @@ class Opquests extends Website {
   undoneTasks: oqSocialTasks = { ...defaultTasks };
   buttons: Array<string> = [
     'doTask',
+    'verifyTask',
     'getKey'
   ];
 
   static test(): boolean {
     return window.location.host === 'opquests.com';
+  }
+  async before(): Promise<void> {
+    const opquestsVerifyTasks = GM_getValue<Array<string>>('opquestsVerifyTasks') || [];
+    if (opquestsVerifyTasks.length > 0) {
+      const taskId = opquestsVerifyTasks.pop();
+      GM_setValue('opquestsVerifyTasks', opquestsVerifyTasks);
+      $(`#task_id[value="${taskId}"]`).parent()
+        .children('button[type="submit"]')[0].click();
+    } else {
+      if (GM_getValue<Array<string>>('opquestsVerifyTasks')) {
+        GM_deleteValue('opquestsVerifyTasks');
+        echoLog({}).success(__('allTasksComplete'));
+        if (await this.getKey()) {
+          return;
+        }
+        window.location.reload();
+        return;
+      }
+    }
   }
   async after(): Promise<void> {
     try {
@@ -115,27 +135,15 @@ class Opquests extends Website {
       if (!this.initialized) {
         this.init();
       }
-      const tasks: Array<qpqTaskInfo> = $.makeArray($('div.w-full').find('.items-center')
-        .has('button.submit-loader')).map((ele) => ({
-        token: $(ele).find('input[name="_token"]')
-          .val() as string,
-        taskId: $(ele).find('input[name="task_id"]')
-          .val() as string,
-        title: $(ele).find('span.text-sm')
-          .text()
-          .trim() as string
-      }));
+      const tasks: Array<string> = $.makeArray($('div.w-full').find('.items-center')
+        .has('button.submit-loader')).map((ele) => $(ele).find('input[name="task_id"]')
+          .val() as string);
       await this.#confirm();
-      for (const task of tasks) {
-        await this.#verify(task);
-        await delay(1000);
-      }
-      echoLog({}).success(__('allTasksComplete'));
-      if (await this.getKey()) {
-        return true;
-      }
-      window.location.reload();
-      return false;
+      const taskId = tasks.pop();
+      GM_setValue('opquestsVerifyTasks', tasks);
+      $(`#task_id[value="${taskId}"]`).parent()
+        .children('button[type="submit"]')[0].click();
+      return true;
     } catch (error) {
       throwError(error as Error, 'Opquests.verifyTask');
       return false;
@@ -169,6 +177,7 @@ class Opquests extends Website {
       return false;
     }
   }
+  /*
   async #verify(task: qpqTaskInfo): Promise<boolean> {
     try {
       const logStatus = echoLog({ html: `<li>${__('verifyingTask')}${task.title.trim()}...<font></font></li>` });
@@ -209,6 +218,7 @@ class Opquests extends Website {
       return false;
     }
   }
+  */
   async getKey(isButton?: boolean): Promise<boolean> {
     try {
       const logStatus = echoLog({ text: __('gettingKey') });

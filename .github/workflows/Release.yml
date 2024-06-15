@@ -21,11 +21,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.4.2
-          name: 4.4.2
-          body: |-
-            - 修复:Tampermonkey更新导致Steam凭证刷新失败(#16)
-            - 修复:推特转推功能失效
+          tag_name: v4.4.3
+          name: 4.4.3
+          body: '- 修复:opquests任务无法验证(#17)'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

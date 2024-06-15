@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.4.2
+// @version            4.4.3
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -407,22 +407,22 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         });
       });
     },
-    568: function(module, __webpack_exports__, __webpack_require__) {
+    221: function(module, __webpack_exports__, __webpack_require__) {
       'use strict';
       __webpack_require__.d(__webpack_exports__, {
         Z: function() {
           return __WEBPACK_DEFAULT_EXPORT__;
         }
       });
-      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(494);
-      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(999);
-      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(_node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-      var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(_node_modules_pnpm_css_loader_6_5_1_webpack_5_76_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default());
+      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(398);
+      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+      var _node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(_node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+      var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(_node_modules_pnpm_css_loader_6_5_1_webpack_5_60_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default());
       ___CSS_LOADER_EXPORT___.push([ module.id, '.colorful-button,#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn,body.auto-task-options .auto-task-form table button{position:relative;padding:5px 10px;text-align:center;color:#fff;text-decoration:none;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:30px;background-size:400%;text-transform:capitalize}.colorful-button:hover,#auto-task-buttons a.auto-task-website-btn:hover,.show-button-div a.auto-task-website-btn:hover,body.auto-task-options .auto-task-form table button:hover{animation:animate 8s linear infinite;cursor:pointer}.colorful-button:hover::before,#auto-task-buttons a.auto-task-website-btn:hover::before,.show-button-div a.auto-task-website-btn:hover::before,body.auto-task-options .auto-task-form table button:hover::before{filter:blur(10px);opacity:1}.colorful-button::before,#auto-task-buttons a.auto-task-website-btn::before,.show-button-div a.auto-task-website-btn::before,body.auto-task-options .auto-task-form table button::before{content:"";position:absolute;top:-5px;left:-5px;right:-5px;bottom:-5px;z-index:-1;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:40px;background-size:400%;opacity:-1;transition:.5s}@keyframes animate{0%{background-position:0%}100%{background-position:100%}}#auto-task-info{position:fixed;bottom:10px;right:10px;width:60%;max-width:500px;max-height:60%;overflow-y:auto;color:#000;background-color:#fff;padding-left:5px;z-index:999999999 !important;border:solid 2px #add8e6;border-radius:10px}#auto-task-info li{text-align:left}#auto-task-info li a.high-light{color:#00aeff;font-weight:bold}#auto-task-info .success{color:green}#auto-task-info .error{color:red}#auto-task-info .warning{color:blue}#auto-task-info .info{color:#ff0}#auto-task-info .update-text{color:green;border:solid 2px #8dcb69;margin:5px 10px 5px 20px;border-radius:10px;padding:5px 20px}.auto-task-keylol{display:inline-block;text-transform:capitalize;margin-left:10px;text-decoration:none !important;border:solid 1px;border-radius:5px;padding:0 2px}.auto-task-keylol[selected=selected]{background-color:blue !important;color:#fff !important}.auto-task-form table{font-family:verdana,arial,sans-serif;font-size:11px;color:#333;border-width:1px;border-color:#999;border-collapse:collapse;width:100%}.auto-task-form table thead td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;font-weight:bold;background-color:#fff}.auto-task-form table tbody tr{background-color:#d4e3e5}.auto-task-form table tbody tr:hover{background-color:#ff6 !important}.auto-task-form table tbody tr th{background-color:#c3dde0;border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;text-transform:capitalize}.auto-task-form table tbody tr td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}.swal2-modal{width:70% !important;max-width:1000px !important}body.auto-task-options{padding-top:10px;text-align:center}body.auto-task-options .auto-task-form{width:80%;max-width:1000px;margin:0 auto;padding-bottom:20px}body.auto-task-options .auto-task-form table input.editOption{width:80%}body.auto-task-options .auto-task-form table #getTwitterUserId,body.auto-task-options .auto-task-form table #getYoutubeChannelId{margin-top:5px}body.auto-task-options .auto-task-form table button{z-index:1}body.auto-task-options .auto-task-form table input[type=text]{outline-style:none;border:1px solid #ccc;border-radius:3px;padding:5px 10px;font-size:14px}body.auto-task-options .auto-task-form table input[type=text]:focus{border-color:#66afe9;outline:0;box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)}body.auto-task-options .auto-task-form table label{position:relative;width:160px;height:80px;cursor:pointer;transform:scale(0.25);margin:-25% 0;top:-30px;display:inline-block}body.auto-task-options .auto-task-form table label input{position:relative;z-index:1;appearance:none}body.auto-task-options .auto-task-form table label input:checked~span{background:#05be05;box-shadow:0 15px 25px #05be0566}body.auto-task-options .auto-task-form table label input:checked~span i{left:84px}body.auto-task-options .auto-task-form table label input:checked~span i::before{background:#05be05;box-shadow:35px 0 0 #05be05}body.auto-task-options .auto-task-form table label input:checked~span i::after{bottom:12px;height:15px;border-bottom-left-radius:15px;border-bottom-right-radius:15px;background:#05be05}body.auto-task-options .auto-task-form table label span{position:absolute;top:0;left:0;width:100%;height:100%;background:#fe0000;border-radius:80px;transition:.5s;box-shadow:0 15px 25px #fe000066}body.auto-task-options .auto-task-form table label span i{position:absolute;top:4px;left:4px;width:72px;height:72px;background:#fff;border-radius:50%}body.auto-task-options .auto-task-form table label span i::before{content:"";position:absolute;top:22px;left:12px;width:12px;height:12px;border-radius:50%;background:#fe0000;box-shadow:35px 0 0 #fe0000;transition:.5s}body.auto-task-options .auto-task-form table label span i::after{content:"";position:absolute;bottom:15px;left:calc(50% - 15px);width:30px;height:6px;border-radius:6px;background:#fe0000;transition:.5s}body.auto-task-history{font-size:15px;font-weight:400;line-height:1.5}body.auto-task-history .container a{color:#007bff;text-decoration:none;background-color:transparent}body.auto-task-history .container .card{width:80%;max-width:800px;border-radius:10px;background:#7676761a;border-top:1px solid #ffffff80;-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 15px 25px #0000001a;margin:20px auto;position:relative;display:flex;flex-direction:column;word-wrap:break-word;-webkit-background-clip:border-box;background-clip:border-box;border:1px solid rgba(0,0,0,.125);border-radius:.25rem}body.auto-task-history .container .card .title{text-align:center;font-size:30px;font-weight:bold;margin:5px 0}body.auto-task-history .container .card .title a:hover{text-decoration:none;background:#93e1ff;border-radius:10px;padding:3px}body.auto-task-history .container .card ul{margin-bottom:25px}body.auto-task-history .container .card ul li{margin-bottom:5px;line-height:20px}body.auto-task-history .container .card ul a:hover{text-decoration:underline}body.auto-task-history .container .card .delete-task{right:10px;width:38px;height:35px;position:absolute;font-size:24px;cursor:pointer;border-radius:10px}body.auto-task-history .container .card .delete-task:hover{background:#fff}body.auto-task-history .container .card .time{right:5px;position:absolute;bottom:0;color:#e83e8c;font-family:\'SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace\';font-size:15px}#auto-task-buttons,.show-button-div{position:fixed;top:30px;right:15px;width:170px;z-index:999999999 !important;transform:scale(0.9)}#auto-task-buttons p,.show-button-div p{line-height:30px;height:40px;text-align:center;margin:5px !important}#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn{width:150px;height:40px;line-height:30px;font-size:20px}.show-button-div{width:20px}.auto-task-capitalize{text-transform:capitalize !important}.swal2-file:focus,.swal2-input:focus,.swal2-textarea:focus{box-shadow:inset 0px 0px 4px 1px rgba(100,150,200,.5) !important}.swal2-checkbox-custom{align-items:center;justify-content:center;background:#fff;color:inherit;margin:1em auto}.swal2-checkbox-custom input{flex-shrink:0;margin:0 .4em}.giveaway-actions #getKey{display:none !important}.auto-task-giveaway-status{color:#fff;border-radius:10px;padding:0 5px;margin-left:5px}.auto-task-giveaway-status.active{background-color:#5cb85c}.auto-task-giveaway-status.not-active{background-color:#d9534f}', '' ]);
       const __WEBPACK_DEFAULT_EXPORT__ = ___CSS_LOADER_EXPORT___.toString();
     },
-    999: function(module) {
+    1: function(module) {
       'use strict';
       module.exports = function(cssWithMappingToString) {
         var list = [];
@@ -500,7 +500,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         return list;
       };
     },
-    494: function(module) {
+    398: function(module) {
       'use strict';
       module.exports = function(i) {
         return i[1];
@@ -556,7 +556,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
     const external_Swal_namespaceObject = Swal;
     var external_Swal_default = __webpack_require__.n(external_Swal_namespaceObject);
     const external_Cookies_namespaceObject = Cookies;
-    var auto_task = __webpack_require__(568);
+    var auto_task = __webpack_require__(221);
     var javascript_utils_umd_min = __webpack_require__(108);
     const httpRequest = async (options, times = 0) => {
       if (window.TRACE) {
@@ -9152,9 +9152,27 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       undoneTasks = {
         ...Opquests_defaultTasks
       };
-      buttons = [ 'doTask', 'getKey' ];
+      buttons = [ 'doTask', 'verifyTask', 'getKey' ];
       static test() {
         return window.location.host === 'opquests.com';
+      }
+      async before() {
+        const opquestsVerifyTasks = GM_getValue('opquestsVerifyTasks') || [];
+        if (opquestsVerifyTasks.length > 0) {
+          const taskId = opquestsVerifyTasks.pop();
+          GM_setValue('opquestsVerifyTasks', opquestsVerifyTasks);
+          $(`#task_id[value="${taskId}"]`).parent().children('button[type="submit"]')[0].click();
+        } else {
+          if (GM_getValue('opquestsVerifyTasks')) {
+            GM_deleteValue('opquestsVerifyTasks');
+            scripts_echoLog({}).success(i18n('allTasksComplete'));
+            if (await this.getKey()) {
+              return;
+            }
+            window.location.reload();
+            return;
+          }
+        }
       }
       async after() {
         try {
@@ -9234,22 +9252,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           if (!this.initialized) {
             this.init();
           }
-          const tasks = $.makeArray($('div.w-full').find('.items-center').has('button.submit-loader')).map(ele => ({
-            token: $(ele).find('input[name="_token"]').val(),
-            taskId: $(ele).find('input[name="task_id"]').val(),
-            title: $(ele).find('span.text-sm').text().trim()
-          }));
+          const tasks = $.makeArray($('div.w-full').find('.items-center').has('button.submit-loader')).map(ele => $(ele).find('input[name="task_id"]').val());
           await this.#confirm();
-          for (const task of tasks) {
-            await this.#verify(task);
-            await delay(1e3);
-          }
-          scripts_echoLog({}).success(i18n('allTasksComplete'));
-          if (await this.getKey()) {
-            return true;
-          }
-          window.location.reload();
-          return false;
+          const taskId = tasks.pop();
+          GM_setValue('opquestsVerifyTasks', tasks);
+          $(`#task_id[value="${taskId}"]`).parent().children('button[type="submit"]')[0].click();
+          return true;
         } catch (error) {
           throwError(error, 'Opquests.verifyTask');
           return false;
@@ -9286,50 +9294,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         } catch (error) {
           throwError(error, 'Opquests.confirm');
-          return false;
-        }
-      }
-      async #verify(task) {
-        try {
-          const logStatus = scripts_echoLog({
-            html: `<li>${i18n('verifyingTask')}${task.title.trim()}...<font></font></li>`
-          });
-          const {
-            result,
-            statusText,
-            status,
-            data
-          } = await tools_httpRequest({
-            url: 'https://opquests.com/entries',
-            method: 'POST',
-            dataType: 'json',
-            nochche: true,
-            headers: {
-              origin: 'https://opquests.com',
-              pragma: 'no-cache',
-              referer: `${window.location.href.split('?')[0]}?confirm=1`,
-              'content-type': 'application/x-www-form-urlencoded'
-            },
-            data: `_token=${task.token}&task_id=${task.taskId}`
-          });
-          if (result === 'Success') {
-            if (data?.responseText?.includes('Successfully completed task') || data?.responseText?.includes('unlocked the key')) {
-              logStatus.success();
-              return true;
-            }
-            const key = $(data?.responseText || '').find('button[data-clipboard-text]:contains("Copy")').attr('data-clipboard-text')?.trim();
-            if (key) {
-              logStatus.success();
-              scripts_echoLog({}).success(key);
-              return true;
-            }
-            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
-            return false;
-          }
-          logStatus.error(`${result}:${statusText}(${status})`);
-          return false;
-        } catch (error) {
-          throwError(error, 'Opquests.verify');
           return false;
         }
       }
@@ -10857,8 +10821,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
     };
     const scripts_updateChecker = updateChecker;
     window.STYLE = GM_addStyle(auto_task.Z + GM_getResourceText('style'));
-    window.DEBUG = !!globalOptions.other?.debug;
-    window.TRACE = !!globalOptions.other?.debug && typeof console.trace === 'function';
+    window.DEBUG = !!globalOptions.other.debug;
+    window.TRACE = !!globalOptions.other.debug && typeof console.trace === 'function';
     const loadScript = async () => {
       if (window.location.hostname === 'www.twitch.tv' && window.location.hash === '#auth') {
         const authToken = external_Cookies_namespaceObject.get('auth-token');

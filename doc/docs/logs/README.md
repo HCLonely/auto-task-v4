@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.4
 
+### V4.4.3
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.3)
+
+- 修复:opquests任务无法验证([#17](https://github.com/HCLonely/auto-task-v4/issues/17))
+
 ### V4.4.2
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.2)
