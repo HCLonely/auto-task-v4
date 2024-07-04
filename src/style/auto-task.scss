@@ -10,7 +10,8 @@
   text-transform: capitalize;
 
   &:hover {
-    animation: animate 8s linear infinite;
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     cursor: pointer;
 
     &::before {
@@ -31,17 +32,6 @@
     border-radius: 40px;
     background-size: 400%;
     opacity: -1;
-    transition: 0.5s;
-  }
-
-  @keyframes animate {
-    0% {
-      background-position: 0%;
-    }
-
-    100% {
-      background-position: 100%;
-    }
   }
 }
 
@@ -383,9 +373,9 @@ body.auto-task-history {
   position: fixed;
   top: 30px;
   right: 15px;
-  width: 170px;
+  width: 124px;
   z-index: 999999999 !important;
-  transform: scale(0.9);
+  transform: scale(0.85);
 
   /*
   &.FreeAnyWhere-buttons,
@@ -412,10 +402,10 @@ body.auto-task-history {
 
   a.auto-task-website-btn {
     @extend .colorful-button;
-    width: 150px;
-    height: 40px;
-    line-height: 30px;
+    width: 105px;
+    line-height: 27px;
     font-size: 20px;
+    display: block;
   }
 }
 

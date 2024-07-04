@@ -21,9 +21,12 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.4.4
-          name: 4.4.4
-          body: '- 修复:opquests任务无法验证(#17)'
+          tag_name: v4.4.5
+          name: 4.4.5
+          body: |-
+            - 修复:Steam凭证更新失败(#16,#24)
+            - 修复:旧Twitter链接无法识别
+            - 优化:按钮样式
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

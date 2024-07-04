@@ -47,6 +47,8 @@
 // @grant              GM_setClipboard
 // @grant              GM_getResourceText
 // @grant              GM_cookie
+// @grant              GM_addValueChangeListener
+// @grant              GM_removeValueChangeListener
 // @grant              unsafeWindow
 // @grant              window.close
 // @grant              window.localStorage

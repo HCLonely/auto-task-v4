@@ -5,6 +5,14 @@ lang: zh-CN
 
 ## V4.4
 
+### V4.4.5
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.5)
+
+- 修复:Steam凭证更新失败(#16,#24)
+- 修复:旧Twitter链接无法识别
+- 优化:按钮样式
+
 ### V4.4.4
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.4)

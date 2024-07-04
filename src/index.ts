@@ -1,9 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2022-12-10 09:55:22
+ * @LastEditTime : 2024-07-02 10:38:57
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/index.ts
+ * @FilePath     : /auto-task-v4/src/index.ts
  * @Description  : 入口文件
  */
 
@@ -108,7 +108,7 @@ const loadScript = async () => {
   if (website?.before) await website?.before();
 
   // eslint-disable-next-line max-len
-  $('body').append(`<div id="auto-task-info" style="display:${globalOptions.other.defaultShowLog ? 'block' : 'none'};${globalOptions.position.logSideX}:${globalOptions.position.logDistance.split(',')[0]}px;${globalOptions.position.logSideY}:${globalOptions.position.logDistance.split(',')[1]}px;"></div><div id="auto-task-buttons" style="display:${globalOptions.other.defaultShowButton ? 'block' : 'none'};${globalOptions.position.buttonSideX}:${globalOptions.position.buttonDistance.split(',')[0]}px;${globalOptions.position.buttonSideY}:${globalOptions.position.buttonDistance.split(',')[1]}px;"></div><div class="show-button-div" style="display:${globalOptions.other.defaultShowButton ? 'none' : 'block'};${globalOptions.position.showButtonSideX}:${globalOptions.position.showButtonDistance.split(',')[0]}px;${globalOptions.position.showButtonSideY}:${globalOptions.position.showButtonDistance.split(',')[1]}px;"><a class="auto-task-website-btn" href="javascript:void(0);" target="_self" title="${__('showButton')}"></a></div>`);
+  $('body').append(`<div id="auto-task-info" style="display:${globalOptions.other.defaultShowLog ? 'block' : 'none'};${globalOptions.position.logSideX}:${globalOptions.position.logDistance.split(',')[0]}px;${globalOptions.position.logSideY}:${globalOptions.position.logDistance.split(',')[1]}px;"></div><div id="auto-task-buttons" style="display:${globalOptions.other.defaultShowButton ? 'block' : 'none'};${globalOptions.position.buttonSideX}:${globalOptions.position.buttonDistance.split(',')[0]}px;${globalOptions.position.buttonSideY}:${globalOptions.position.buttonDistance.split(',')[1]}px;"></div><div class="show-button-div" style="display:${globalOptions.other.defaultShowButton ? 'none' : 'block'};${globalOptions.position.showButtonSideX}:${globalOptions.position.showButtonDistance.split(',')[0]}px;${globalOptions.position.showButtonSideY}:${globalOptions.position.showButtonDistance.split(',')[1]}px;"><a class="auto-task-website-btn" href="javascript:void(0);" target="_self" title="${__('showButton')}"> </a></div>`);
 
   $('div.show-button-div').on('click', () => {
     $('#auto-task-buttons').show();
@@ -238,6 +238,39 @@ if (window.location.hostname === 'discord.com') {
   }
 } else if (window.location.hostname === 'opquests.com') {
   loadScript();
+} else if (window.opener && window.location.host === 'store.steampowered.com' && window.location.pathname === '/') {
+  $(() => {
+    if ($('[data-miniprofile]').length === 0) {
+      return;
+    }
+    window.onbeforeunload = function (event) {
+      GM_setValue('steamStoreAuth', null);
+      return null;
+    }
+    const storeSessionID = document.body.innerHTML.match(/g_sessionID = "(.+?)";/)?.[1];
+    if (storeSessionID) {
+      GM_setValue('steamStoreAuth', { storeSessionID });
+      return true;
+    }
+  });
+} else if (window.opener && window.location.host === 'steamcommunity.com' && window.location.pathname.includes('/id/')) {
+  $(() => {
+    window.onbeforeunload = function (event) {
+      GM_setValue('steamCommunityAuth', null);
+      return null;
+    }
+    const steam64Id = document.body.innerHTML.match(/g_steamID = "(.+?)";/)?.[1];
+    const communitySessionID = document.body.innerHTML.match(/g_sessionID = "(.+?)";/)?.[1];
+    const userName = document.body.innerHTML.match(/steamcommunity.com\/id\/(.+?)\/friends\//)?.[1];
+    const data:auth = {};
+    if (steam64Id) data.steam64Id = steam64Id;
+    if (userName) data.userName = userName;
+    if (communitySessionID) {
+      data.communitySessionID = communitySessionID;
+      GM_setValue('steamCommunityAuth', data);
+      return true;
+    }
+  });
 } else {
   if (window.location.hostname === 'key-hub.eu') {
     unsafeWindow.keyhubtracker = 1;

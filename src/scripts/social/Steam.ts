@@ -1,9 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2023-01-08 11:13:03
+ * @LastEditTime : 2024-07-02 10:37:53
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/scripts/social/Steam.ts
+ * @FilePath     : /auto-task-v4/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
  */
 // eslint-disable-next-line
@@ -73,7 +73,11 @@ class Steam extends Social {
         if (this.#storeInitialized) {
           return true;
         }
-        this.#storeInitialized = await this.#updateStoreAuth();
+        let storeInitialized = await this.#updateStoreAuth();
+        if (!storeInitialized) {
+          storeInitialized = await this.#updateStoreAuthTab();
+        }
+        this.#storeInitialized = storeInitialized;
         if (!this.#storeInitialized) {
           echoLog({}).error(__('initFailed', 'Steam'));
           return false;
@@ -85,7 +89,11 @@ class Steam extends Social {
         if (this.#communityInitialized) {
           return true;
         }
-        this.#communityInitialized = await this.#getUserLink();
+        let communityInitialized = await this.#getUserLink();
+        if (!communityInitialized) {
+          communityInitialized = await this.#updateCommunityAuthTab();
+        }
+        this.#communityInitialized = communityInitialized;
         if (!this.#communityInitialized) {
           echoLog({}).error(__('initFailed', 'Steam'));
           return false;
@@ -94,8 +102,6 @@ class Steam extends Social {
         return true;
       }
 
-      this.#storeInitialized = await this.#updateStoreAuth();
-      this.#communityInitialized = await this.#getUserLink();
       if (this.#storeInitialized && this.#communityInitialized) {
         echoLog({}).success(__('initSuccess', 'Steam'));
         return true;
@@ -216,30 +222,26 @@ class Steam extends Social {
         fetch: false,
         redirect: 'manual'
       });
-      if (result === 'Success') {
-        if (data?.status === 200) {
-          if (!data.responseText.includes('data-miniprofile=')) {
-            if (await this.#refreshToken('steamStore')) {
-              logStatus.warning(__('retry'));
-              if (retry) {
-                logStatus.error(`Error:${__('needLoginSteamStore')}`, true);
-                return false;
-              }
-              return this.#updateStoreAuth(true);
+      if (data?.status === 200) {
+        if (!data.responseText.includes('data-miniprofile=')) {
+          if (await this.#refreshToken('steamStore')) {
+            logStatus.warning(__('retry'));
+            if (retry) {
+              logStatus.error(`Error:${__('needLoginSteamStore')}`, true);
+              return false;
             }
-            logStatus.error(`Error:${__('needLoginSteamStore')}`, true);
-            return false;
+            return this.#updateStoreAuth(true);
           }
-          const storeSessionID = data.responseText.match(/g_sessionID = "(.+?)";/)?.[1];
-          if (storeSessionID) {
-            this.#auth.storeSessionID = storeSessionID;
-            logStatus.success();
-            return true;
-          }
-          logStatus.error('Error: Get "sessionID" failed');
+          logStatus.error(`Error:${__('needLoginSteamStore')}`, true);
           return false;
         }
-        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+        const storeSessionID = data.responseText.match(/g_sessionID = "(.+?)";/)?.[1];
+        if (storeSessionID) {
+          this.#auth.storeSessionID = storeSessionID;
+          logStatus.success();
+          return true;
+        }
+        logStatus.error('Error: Get "sessionID" failed');
         return false;
       }
       if ([301, 302].includes(data?.status as number)) {
@@ -258,6 +260,66 @@ class Steam extends Social {
       return false;
     } catch (error) {
       throwError(error as Error, 'Steam.updateStoreAuth');
+      return false;
+    }
+  }
+  async #updateStoreAuthTab(): Promise<boolean> {
+    /**
+     * @internal
+     * @description 更新Steam商店Token.
+     * @return true: 更新Token成功 | false: 更新Token失败
+    */
+    try {
+      const logStatus = echoLog({ text: __('updatingAuth', __('steamStore')) });
+      return await new Promise((resolve) => {
+        const newTab = window.open("https://store.steampowered.com/", "mozillaWindow", 'pop=1;');
+        GM_setValue('steamStoreAuth', 'update');
+        const listenerId = GM_addValueChangeListener<auth|null>('steamStoreAuth', (key, oldValue, newValue, remote) => {
+          GM_removeValueChangeListener(listenerId);
+          newTab?.close();
+          if (newValue && JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
+            this.#auth.storeSessionID = newValue.storeSessionID;
+            logStatus.success();
+            resolve(true);
+            return;
+          }
+          logStatus.error('Failed');
+          resolve(false);
+        });
+      });
+    } catch (error) {
+      throwError(error as Error, 'Steam.updateStoreAuthTab');
+      return false;
+    }
+  }
+  async #updateCommunityAuthTab(): Promise<boolean> {
+    /**
+     * @internal
+     * @description 更新Steam商店Token.
+     * @return true: 更新Token成功 | false: 更新Token失败
+    */
+    try {
+      const logStatus = echoLog({ text: __('updatingAuth', __('steamCommunity')) });
+      return await new Promise((resolve) => {
+        const newTab = window.open("https://steamcommunity.com/my", "mozillaWindow", 'pop=1;');
+        GM_setValue('steamCommunityAuth', 'update');
+        const listenerId = GM_addValueChangeListener<auth|null>('steamCommunityAuth', (key, oldValue, newValue, remote) => {
+          GM_removeValueChangeListener(listenerId);
+          newTab?.close();
+          if (newValue && JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
+            this.#auth.steam64Id = newValue.steam64Id;
+            this.#auth.userName = newValue.userName;
+            this.#auth.communitySessionID = newValue.communitySessionID;
+            logStatus.success();
+            resolve(true);
+            return;
+          }
+          logStatus.error('Failed');
+          resolve(false);
+        });
+      });
+    } catch (error) {
+      throwError(error as Error, 'Steam.updateCommunityAuthTab');
       return false;
     }
   }
@@ -283,6 +345,24 @@ class Steam extends Social {
         fetch: false,
         redirect: 'manual'
       });
+      if (data?.status === 200) {
+        if (data.finalUrl.includes('https://steamcommunity.com/login/home')) {
+          logStatus.error(`Error:${__('needLoginSteamCommunity')}`, true);
+          return false;
+        }
+        const steam64Id = data.responseText.match(/g_steamID = "(.+?)";/)?.[1];
+        const communitySessionID = data.responseText.match(/g_sessionID = "(.+?)";/)?.[1];
+        const userName = data.responseText.match(/steamcommunity.com\/id\/(.+?)\/friends\//)?.[1];
+        if (steam64Id) this.#auth.steam64Id = steam64Id;
+        if (userName) this.#auth.userName = userName;
+        if (communitySessionID) {
+          this.#auth.communitySessionID = communitySessionID;
+          logStatus.success();
+          return true;
+        }
+        logStatus.error('Error: Get "sessionID" failed');
+        return false;
+      }
       if (data?.status === 302) {
         if (await this.#refreshToken('steamCommunity')) {
           if (retry) {
@@ -300,6 +380,10 @@ class Steam extends Social {
       if (data?.status === 301 && location?.includes('steamcommunity.com/id')) {
         logStatus.success();
         return await this.#updateCommunityAuth(data.finalUrl);
+      }
+      if (data?.status === 301 && location?.includes('https://steamcommunity.com/login/home')) {
+        logStatus.error(`Error:${__('needLoginSteamCommunity')}`, true);
+        return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;

@@ -203,6 +203,8 @@ declare global {
     onclose: () => void
     closed: boolean
     }
+  function GM_addValueChangeListener<T>(key: string, callback: (key: string, old_value: T, new_value: T, remote: boolean) => void): number
+  function GM_removeValueChangeListener(listenerId: number): void
   const GM_cookie: {
     list(details: {
       url?: string

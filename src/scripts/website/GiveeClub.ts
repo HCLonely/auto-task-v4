@@ -1,21 +1,21 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 11:46:52
- * @LastEditTime : 2022-12-12 11:01:22
+ * @LastEditTime : 2024-07-02 10:38:37
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/scripts/website/GiveeClub.ts
+ * @FilePath     : /auto-task-v4/src/scripts/website/GiveeClub.ts
  * @Description  : https://givee.club/
  */
 
 // eslint-disable-next-line
-/// <reference path = "GiveawaySu.d.ts" />
+/// <reference path = "Giveawaysu.d.ts" />
 
 import Swal from 'sweetalert2';
 import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import { delay, getRedirectLink } from '../tools/tools';
-import { GiveawaySu, defaultTasks } from './GiveawaySu';
+import { GiveawaySu, defaultTasks } from './Giveawaysu';
 import { globalOptions } from '../globalOptions';
 
 class GiveeClub extends GiveawaySu {

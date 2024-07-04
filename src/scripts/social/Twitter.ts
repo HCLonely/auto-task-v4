@@ -1,9 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:36:57
- * @LastEditTime : 2022-06-06 09:42:50
+ * @LastEditTime : 2024-07-02 10:38:06
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/scripts/social/Twitter.ts
+ * @FilePath     : /auto-task-v4/src/scripts/social/Twitter.ts
  * @Description  : Twitter 关注/取关用户,转推/取消转推推文
  */
 
@@ -311,7 +311,7 @@ class Twitter extends Social {
       ) {
         echoLog({ type: 'globalOptionsSkip', text: 'twitter.users' });
       } else {
-        const realUsers = this.getRealParams('users', userLinks, doTask, (link) => link.match(/https:\/\/x\.com\/(.+)/)?.[1]);
+        const realUsers = this.getRealParams('users', userLinks, doTask, (link) => link.match(/https:\/\/x\.com\/(.+)/)?.[1] || link.match(/https:\/\/twitter\.com\/(.+)/)?.[1]);
         if (realUsers.length > 0) {
           for (const user of realUsers) {
             prom.push(this.#toggleUser({ name: user, doTask }));
@@ -326,7 +326,7 @@ class Twitter extends Social {
         echoLog({ type: 'globalOptionsSkip', text: 'twitter.retweets' });
       } else {
         const realRetweets = this.getRealParams('retweets', retweetLinks, doTask,
-          (link) => link.match(/https:\/\/x\.com\/.*?\/status\/([\d]+)/)?.[1]);
+          (link) => link.match(/https:\/\/x\.com\/.*?\/status\/([\d]+)/)?.[1] || link.match(/https:\/\/twitter\.com\/.*?\/status\/([\d]+)/)?.[1]);
         if (realRetweets.length > 0) {
           for (const retweet of realRetweets) {
             prom.push(this.#toggleRetweet({ retweetId: retweet, doTask }));

@@ -1,14 +1,14 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2022-02-06 11:38:06
+ * @LastEditTime : 2024-07-02 10:38:14
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/scripts/website/Giveawaysu.ts
+ * @FilePath     : /auto-task-v4/src/scripts/website/Giveawaysu.ts
  * @Description  : https://giveaway.su/
  */
 
 // eslint-disable-next-line
-/// <reference path = "GiveawaySu.d.ts" />
+/// <reference path = "Giveawaysu.d.ts" />
 
 import Swal from 'sweetalert2';
 import Website from './Website';
