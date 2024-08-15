@@ -27,6 +27,13 @@
 // @grant              GM_info
 // @grant              GM_getResourceText
 // @grant              GM_openInTab
+// @grant              GM_cookie
+// @grant              GM_addValueChangeListener
+// @grant              GM_removeValueChangeListener
+// @grant              GM_setClipboard
+// @grant              GM_listValues
+// @grant              GM_deleteValue
+// @grant              unsafeWindow
 // @grant              window.close
 // @grant              window.localStorage
 

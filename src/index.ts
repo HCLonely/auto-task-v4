@@ -246,7 +246,7 @@ if (window.location.hostname === 'discord.com') {
     window.onbeforeunload = function (event) {
       GM_setValue('steamStoreAuth', null);
       return null;
-    }
+    };
     const storeSessionID = document.body.innerHTML.match(/g_sessionID = "(.+?)";/)?.[1];
     if (storeSessionID) {
       GM_setValue('steamStoreAuth', { storeSessionID });
@@ -258,7 +258,7 @@ if (window.location.hostname === 'discord.com') {
     window.onbeforeunload = function (event) {
       GM_setValue('steamCommunityAuth', null);
       return null;
-    }
+    };
     const steam64Id = document.body.innerHTML.match(/g_steamID = "(.+?)";/)?.[1];
     const communitySessionID = document.body.innerHTML.match(/g_sessionID = "(.+?)";/)?.[1];
     const userName = document.body.innerHTML.match(/steamcommunity.com\/id\/(.+?)\/friends\//)?.[1];

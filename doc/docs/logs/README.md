@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.4
 
+### V4.4.6
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.6)
+
+- 修复:giveawaysu特供版更新SteamAuth报错([#26](https://github.com/HCLonely/auto-task-v4/issues/26))
+
 ### V4.4.5
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.5)

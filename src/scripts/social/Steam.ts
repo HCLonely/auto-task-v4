@@ -1,3 +1,4 @@
+/* eslint-disable new-cap */
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
@@ -272,7 +273,7 @@ class Steam extends Social {
     try {
       const logStatus = echoLog({ text: __('updatingAuth', __('steamStore')) });
       return await new Promise((resolve) => {
-        const newTab = window.open("https://store.steampowered.com/", "mozillaWindow", 'pop=1;');
+        const newTab = window.open('https://store.steampowered.com/', 'mozillaWindow', 'pop=1;');
         GM_setValue('steamStoreAuth', 'update');
         const listenerId = GM_addValueChangeListener<auth|null>('steamStoreAuth', (key, oldValue, newValue, remote) => {
           GM_removeValueChangeListener(listenerId);
@@ -301,7 +302,7 @@ class Steam extends Social {
     try {
       const logStatus = echoLog({ text: __('updatingAuth', __('steamCommunity')) });
       return await new Promise((resolve) => {
-        const newTab = window.open("https://steamcommunity.com/my", "mozillaWindow", 'pop=1;');
+        const newTab = window.open('https://steamcommunity.com/my', 'mozillaWindow', 'pop=1;');
         GM_setValue('steamCommunityAuth', 'update');
         const listenerId = GM_addValueChangeListener<auth|null>('steamCommunityAuth', (key, oldValue, newValue, remote) => {
           GM_removeValueChangeListener(listenerId);
