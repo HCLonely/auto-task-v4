@@ -318,6 +318,9 @@ const data = {
   // SweepWidget
   SweepWidgetNotice: '正在处理并验证任务，每次验证任务有1~3s间隔防止触发验证过快警告...',
 
+  // Freeanywhere
+  tasksNotCompleted: '任务未完成',
+
   // opquests
   confirmingTask: '正在跳过警告页面...'
 };

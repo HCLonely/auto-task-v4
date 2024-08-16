@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.4.6
+// @version            4.4.7
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1448,6 +1448,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       giveeClubVerifyFinished: '请等待验证完成后自行加入赠Key',
       doingKeyhubTask: '正在做Keyhub任务...',
       SweepWidgetNotice: '正在处理并验证任务，每次验证任务有1~3s间隔防止触发验证过快警告...',
+      tasksNotCompleted: '任务未完成',
       confirmingTask: '正在跳过警告页面...'
     };
     const zh_CN = data;
@@ -1727,6 +1728,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       giveeClubVerifyFinished: 'Wait for the verification to complete and join it by yourself',
       doingKeyhubTask: 'Doing Keyhub Task...',
       SweepWidgetNotice: 'The task is being processed and verified. ' + 'There is an interval of 1~3s for each verification task to prevent the triggering of too fast verification warning...',
+      tasksNotCompleted: 'Tasks Not Completed',
       confirmingTask: 'Confirming task...'
     };
     const en_US = en_US_data;
@@ -7019,6 +7021,13 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.success();
               scripts_echoLog({}).success(data.response.reward);
               return data.response.reward;
+            }
+            if (data?.response?.completed === false) {
+              logStatus.error(i18n('tasksNotCompleted'));
+              return false;
+            }
+            if (data?.response?.completed === true) {
+              await this.#checkLeftKey();
             }
             logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;

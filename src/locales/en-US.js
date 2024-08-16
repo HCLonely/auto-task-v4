@@ -337,6 +337,9 @@ const data = {
   SweepWidgetNotice: 'The task is being processed and verified. ' +
     'There is an interval of 1~3s for each verification task to prevent the triggering of too fast verification warning...',
 
+  // Freeanywhere
+  tasksNotCompleted: 'Tasks Not Completed',
+
   // opquests
   confirmingTask: 'Confirming task...'
 };

@@ -206,6 +206,13 @@ class FreeAnyWhere extends Website {
           echoLog({}).success(data.response.reward);
           return data.response.reward;
         }
+        if (data?.response?.completed === false) {
+          logStatus.error(__('tasksNotCompleted'));
+          return false;
+        }
+        if (data?.response?.completed === true) {
+          await this.#checkLeftKey();
+        }
         logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }

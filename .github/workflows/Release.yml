@@ -21,9 +21,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.4.6
-          name: 4.4.6
-          body: '- 修复:giveawaysu特供版更新SteamAuth报错(#26)'
+          tag_name: v4.4.7
+          name: 4.4.7
+          body: '- 优化:Freeanywhere获取没有剩余Key时的提示(#27)'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

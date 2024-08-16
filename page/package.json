@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.4.6",
+  "version": "4.4.7",
   "change": [
-    "修复:giveawaysu特供版更新SteamAuth报错(#26)"
+    "优化:Freeanywhere获取没有剩余Key时的提示(#27)"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

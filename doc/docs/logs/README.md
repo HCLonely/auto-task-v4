@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.4
 
+### V4.4.7
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.7)
+
+- 优化:Freeanywhere获取没有剩余Key时的提示([#27](https://github.com/HCLonely/auto-task-v4/issues/27))
+
 ### V4.4.6
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.6)
