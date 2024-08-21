@@ -18,6 +18,8 @@
 // @include            *://www.twitch.tv/*
 // @include            *://www.youtube.com/*
 // @include            *://*.reddit.com/*
+// @include            *://steamcommunity.com/id/*
+// @include            *://store.steampowered.com/*
 
 // @grant              GM_addStyle
 // @grant              GM_setValue
