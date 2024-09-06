@@ -11,6 +11,10 @@ declare global {
     [name: string]: any
   };
 
+  interface Array<T> {
+    at(index: number): T | undefined;
+  }
+
   interface MonkeyXhrResponse {
     finalUrl: string
     readyState: number

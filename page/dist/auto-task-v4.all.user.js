@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.4.8
+// @version            4.4.9
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -9272,21 +9272,18 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     };
     const Gleam_defaultTasks = JSON.stringify(Gleam_defaultTasksTemplate);
-    const Gleam_defaultOptions = {
-      vlootUsername: '',
-      gameroundUsername: ''
-    };
     class Gleam extends website_Website {
       name = 'Gleam';
       undoneTasks = JSON.parse(Gleam_defaultTasks);
       socialTasks = JSON.parse(Gleam_defaultTasks);
-      options = {
-        ...Gleam_defaultOptions,
-        ...GM_getValue('GleamOptions')
-      };
       buttons = [ 'doTask', 'undoTask', 'verifyTask' ];
       static test() {
         return window.location.host === 'gleam.io';
+      }
+      before() {
+        unsafeWindow.confirm = () => {};
+        unsafeWindow.alert = () => {};
+        unsafeWindow.prompt = () => {};
       }
       async after() {
         try {
@@ -9365,7 +9362,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 $element.attr('href', href);
               }
             }
-            if (socialIcon.hasClass('fa-twitter')) {
+            if (socialIcon.hasClass('fa-twitter') || socialIcon.hasClass('fa-x-twitter')) {
               const link = $task.find('a[href^="https://twitter.com/"],a[href^="https://x.com/"]').attr('href');
               if (!link) {
                 continue;
@@ -9454,20 +9451,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                   this.undoneTasks.steam.curatorLinks.push(link);
                 }
               }
-            } else if (socialIcon.hasClass('fa-shield') && taskText.includes('vloot.io') || socialIcon.hasClass('fa-tiktok')) {
-              const continueBtn = expandInfo.find('span:contains(Continue),button:contains(Continue)');
-              for (const button of continueBtn) {
-                button.click();
-                await delay(500);
-                expandInfo.find('input').val(this.options.vlootUsername);
-              }
-            } else if (socialIcon.hasClass('fa-gamepad-alt') && taskText.includes('Gameround')) {
-              const continueBtn = expandInfo.find('span:contains(Continue),button:contains(Continue)');
-              for (const button of continueBtn) {
-                button.click();
-                await delay(500);
-                expandInfo.find('input').val(this.options.gameroundUsername);
-              }
             } else if (socialIcon.hasClass('fa-bullhorn') && /Complete/gi.test(taskText)) {
               if (action !== 'do') {
                 continue;
@@ -9477,7 +9460,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 continue;
               }
               this.undoneTasks.extra.gleam.push(gleamLink);
-            } else if (socialIcon.hasClass('fa-question') || socialIcon.hasClass('fa-reddit') || socialIcon.hasClass('fa-instagram') || socialIcon.hasClass('fa-facebook-f') || socialIcon.hasClass('fa-telegram-plane') || socialIcon.hasClass('fa-telegram') || socialIcon.hasClass('fa-vk') || socialIcon.hasClass('fa-envelope') || socialIcon.hasClass('fa-gift') || socialIcon.hasClass('fa-square-up-right') || socialIcon.hasClass('fa-gamepad-modern') || socialIcon.hasClass('fa-shield') && taskText.includes('one of our giveaways') || socialIcon.hasClass('fa-shield') && taskText.includes('Check out')) {} else {
+            } else if (socialIcon.hasClass('fa-question') || socialIcon.hasClass('fa-reddit') || socialIcon.hasClass('fa-instagram') || socialIcon.hasClass('fa-facebook-f') || socialIcon.hasClass('fa-telegram-plane') || socialIcon.hasClass('fa-telegram') || socialIcon.hasClass('fa-vk') || socialIcon.hasClass('fa-envelope') || socialIcon.hasClass('fa-gift') || socialIcon.hasClass('fa-square-up-right') || socialIcon.hasClass('fa-gamepad-modern') || socialIcon.hasClass('fa-dollar-sign') || socialIcon.hasClass('fa-tiktok') || socialIcon.hasClass('fa-gamepad-alt') || socialIcon.hasClass('fa-shield') && taskText.includes('one of our giveaways') || socialIcon.hasClass('fa-shield') && taskText.includes('Check out') || socialIcon.hasClass('fa-shield') && taskText.includes('vloot.io')) {} else {
               scripts_echoLog({}).warning(`${i18n('unKnownTaskType')}: ${taskText}`);
             }
           }
@@ -9533,6 +9516,17 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             unsafeWindow.$hookTimer?.setSpeed(1e3);
             await delay(3e3);
             unsafeWindow.$hookTimer?.setSpeed(1);
+            const expandInfo = $task.find('.expandable');
+            const input = expandInfo.find('input')[0];
+            const evt = new Event('input', {
+              bubbles: true,
+              cancelable: true,
+              composed: true
+            });
+            const valuelimit = [ ...expandInfo.text().matchAll(/"(.+?)"/g) ].at(-1)?.[1];
+            input.value = valuelimit || 'vloot';
+            input.dispatchEvent(evt);
+            await delay(1e3);
             await this.#checkSync();
             const continueBtn = $task.find('.expandable').find('span:contains(Continue),button:contains(Continue)');
             for (const button of continueBtn) {

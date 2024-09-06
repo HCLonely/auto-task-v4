@@ -1,8 +1,9 @@
 {
   "name": "auto-task-v4",
-  "version": "4.4.8",
+  "version": "4.4.9",
   "change": [
-    "修复:更新Steam社区凭证报错(#26)"
+    "新增:自动完成Gleam输入框任务",
+    "优化:增加Gleam可识别任务"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

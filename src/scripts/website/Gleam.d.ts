@@ -35,10 +35,6 @@ declare interface gleamGMTasks {
   tasks: gleamSocialTasks
   time: number
 }
-interface options {
-  vlootUsername: string
-  gameroundUsername: string
-}
 
 interface vlootData {
   Data: Array<{

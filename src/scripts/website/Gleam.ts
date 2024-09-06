@@ -1,9 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2023-01-08 15:54:22
+ * @LastEditTime : 2024-09-06 10:30:30
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/scripts/website/Gleam.ts
+ * @FilePath     : /auto-task-v4/src/scripts/website/Gleam.ts
  * @Description  : https://gleam.io
  */
 
@@ -45,18 +45,10 @@ const defaultTasksTemplate: gleamSocialTasks = {
   }
 };
 const defaultTasks = JSON.stringify(defaultTasksTemplate);
-const defaultOptions: options = {
-  vlootUsername: '',
-  gameroundUsername: ''
-};
 class Gleam extends Website {
   name = 'Gleam';
   undoneTasks: gleamSocialTasks = JSON.parse(defaultTasks);
   socialTasks: gleamSocialTasks = JSON.parse(defaultTasks);
-  options = {
-    ...defaultOptions,
-    ...GM_getValue<options>('GleamOptions')
-  };
   buttons: Array<string> = [
     'doTask',
     'undoTask',
@@ -65,6 +57,12 @@ class Gleam extends Website {
 
   static test(): boolean {
     return window.location.host === 'gleam.io';
+  }
+
+  before() {
+    unsafeWindow.confirm = () => { };
+    unsafeWindow.alert = () => { };
+    unsafeWindow.prompt = () => { };
   }
 
   async after() {
@@ -142,7 +140,7 @@ class Gleam extends Website {
             $element.attr('href', href as string);
           }
         }
-        if (socialIcon.hasClass('fa-twitter')) {
+        if (socialIcon.hasClass('fa-twitter') || socialIcon.hasClass('fa-x-twitter')) {
           const link = $task.find('a[href^="https://twitter.com/"],a[href^="https://x.com/"]').attr('href');
           if (!link) continue;
           if (/follow/gi.test(taskText)) {
@@ -198,24 +196,6 @@ class Gleam extends Website {
             if (action === 'undo') this.socialTasks.steam.curatorLinks.push(link);
             if (action === 'do') this.undoneTasks.steam.curatorLinks.push(link);
           }
-        } else if (
-          (socialIcon.hasClass('fa-shield') && taskText.includes('vloot.io')) ||
-          (socialIcon.hasClass('fa-tiktok'))
-        ) {
-          const continueBtn = expandInfo.find('span:contains(Continue),button:contains(Continue)');
-          for (const button of continueBtn) {
-            button.click();
-            await delay(500);
-            expandInfo.find('input').val(this.options.vlootUsername);
-          }
-        } else if (socialIcon.hasClass('fa-gamepad-alt') && taskText
-          .includes('Gameround')) {
-          const continueBtn = expandInfo.find('span:contains(Continue),button:contains(Continue)');
-          for (const button of continueBtn) {
-            button.click();
-            await delay(500);
-            expandInfo.find('input').val(this.options.gameroundUsername);
-          }
         } else if (socialIcon.hasClass('fa-bullhorn') && /Complete/gi.test(taskText)) {
           if (action !== 'do') continue;
 
@@ -242,8 +222,12 @@ class Gleam extends Website {
           socialIcon.hasClass('fa-gift') ||
           socialIcon.hasClass('fa-square-up-right') ||
           socialIcon.hasClass('fa-gamepad-modern') ||
+          socialIcon.hasClass('fa-dollar-sign') ||
+          socialIcon.hasClass('fa-tiktok') ||
+          socialIcon.hasClass('fa-gamepad-alt') ||
           (socialIcon.hasClass('fa-shield') && taskText.includes('one of our giveaways')) ||
-          (socialIcon.hasClass('fa-shield') && taskText.includes('Check out'))
+          (socialIcon.hasClass('fa-shield') && taskText.includes('Check out')) ||
+          (socialIcon.hasClass('fa-shield') && taskText.includes('vloot.io'))
         ) {
           // skip
         } else {
@@ -298,6 +282,16 @@ class Gleam extends Website {
         unsafeWindow.$hookTimer?.setSpeed(1000);
         await delay(3000);
         unsafeWindow.$hookTimer?.setSpeed(1);
+
+        const expandInfo = $task.find('.expandable');
+        const input = expandInfo.find('input')[0];
+        const evt = new Event("input", { bubbles: true, cancelable: true, composed: true });
+        const valuelimit = [...expandInfo.text().matchAll(/"(.+?)"/g)].at(-1)?.[1];
+        input.value = valuelimit || 'vloot';
+        // expandInfo.find('input').val(this.options.vlootUsername);
+        input.dispatchEvent(evt);
+        await delay(1000);
+
         await this.#checkSync();
         const continueBtn = $task.find('.expandable').find('span:contains(Continue),button:contains(Continue)');
         for (const button of continueBtn) {
@@ -313,7 +307,7 @@ class Gleam extends Website {
     }
   }
 
-  async #checkSync():Promise<boolean> {
+  async #checkSync(): Promise<boolean> {
     try {
       return await new Promise((resolve) => {
         const checker = setInterval(() => {

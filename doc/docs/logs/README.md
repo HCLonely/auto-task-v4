@@ -5,6 +5,13 @@ lang: zh-CN
 
 ## V4.4
 
+### V4.4.9
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.9)
+
+- 新增:自动完成Gleam输入框任务
+- 优化:增加Gleam可识别任务
+
 ### V4.4.8
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.8)
