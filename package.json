@@ -1,9 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.4.9",
+  "version": "4.4.10",
   "change": [
-    "新增:自动完成Gleam输入框任务",
-    "优化:增加Gleam可识别任务"
+    "修复:Gleam没有输入框时报错(#29)"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

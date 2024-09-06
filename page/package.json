@@ -1,9 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.4.9",
+  "version": "4.4.10",
   "change": [
-    "新增:自动完成Gleam输入框任务",
-    "优化:增加Gleam可识别任务"
+    "修复:Gleam没有输入框时报错(#29)"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",
@@ -47,7 +46,7 @@
     "ts-loader": "^9.2.6",
     "typescript": "^4.4.4",
     "uglify-js": "^3.14.5",
-    "webpack": "^5.76.0",
+    "webpack": "^5.94.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.1",
     "webpack-obfuscator": "^3.5.1",

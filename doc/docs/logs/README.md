@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.4
 
+### V4.4.10
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.10)
+
+- 修复:Gleam没有输入框时报错([#29](https://github.com/HCLonely/auto-task-v4/issues/29))
+
 ### V4.4.9
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.9)

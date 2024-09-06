@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-19 14:42:43
- * @LastEditTime : 2024-09-06 10:30:30
+ * @LastEditTime : 2024-09-06 16:40:01
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-v4/src/scripts/website/Gleam.ts
  * @Description  : https://gleam.io
@@ -285,12 +285,14 @@ class Gleam extends Website {
 
         const expandInfo = $task.find('.expandable');
         const input = expandInfo.find('input')[0];
-        const evt = new Event("input", { bubbles: true, cancelable: true, composed: true });
-        const valuelimit = [...expandInfo.text().matchAll(/"(.+?)"/g)].at(-1)?.[1];
-        input.value = valuelimit || 'vloot';
-        // expandInfo.find('input').val(this.options.vlootUsername);
-        input.dispatchEvent(evt);
-        await delay(1000);
+        if (input) {
+          const evt = new Event("input", { bubbles: true, cancelable: true, composed: true });
+          const valuelimit = [...expandInfo.text().matchAll(/"(.+?)"/g)].at(-1)?.[1];
+          input.value = valuelimit || 'vloot';
+          // expandInfo.find('input').val(this.options.vlootUsername);
+          input.dispatchEvent(evt);
+          await delay(1000);
+        }
 
         await this.#checkSync();
         const continueBtn = $task.find('.expandable').find('span:contains(Continue),button:contains(Continue)');
