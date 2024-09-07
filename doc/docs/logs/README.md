@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.4
 
+### V4.4.11
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.11)
+
+- 修复:Steam社区凭证更新错误([#26](https://github.com/HCLonely/auto-task-v4/issues/26))
+
 ### V4.4.10
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.10)

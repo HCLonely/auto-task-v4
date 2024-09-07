@@ -21,9 +21,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.4.10
-          name: 4.4.10
-          body: '- 修复:Gleam没有输入框时报错(#29)'
+          tag_name: v4.4.11
+          name: 4.4.11
+          body: '- 修复:Steam社区凭证更新错误(#26)'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

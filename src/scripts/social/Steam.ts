@@ -2,7 +2,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2024-07-02 10:37:53
+ * @LastEditTime : 2024-09-07 14:44:39
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-v4/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -93,6 +93,7 @@ class Steam extends Social {
         let communityInitialized = await this.#getUserLink();
         if (!communityInitialized) {
           communityInitialized = await this.#updateCommunityAuthTab();
+          GM_setValue('steamCommunityAuth', null);
         }
         this.#communityInitialized = communityInitialized;
         if (!this.#communityInitialized) {

@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2024-07-02 10:38:57
+ * @LastEditTime : 2024-09-07 14:51:45
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-v4/src/index.ts
  * @Description  : 入口文件
@@ -253,22 +253,25 @@ if (window.location.hostname === 'discord.com') {
       return true;
     }
   });
-} else if (window.opener && window.location.host === 'steamcommunity.com' && window.location.pathname.includes('/id/')) {
+} else if (window.opener && window.location.host === 'steamcommunity.com') {
   $(() => {
     window.onbeforeunload = function (event) {
       GM_setValue('steamCommunityAuth', null);
       return null;
     };
+    if (GM_getValue('steamCommunityAuth') !== 'update') {
+      return null;
+    }
     const steam64Id = document.body.innerHTML.match(/g_steamID = "(.+?)";/)?.[1];
     const communitySessionID = document.body.innerHTML.match(/g_sessionID = "(.+?)";/)?.[1];
-    const userName = document.body.innerHTML.match(/steamcommunity.com\/id\/(.+?)\/friends\//)?.[1];
+    const userName = document.body.innerHTML.match(/steamcommunity.com\/id\/(.+?)\//)?.[1];
     const data:auth = {};
     if (steam64Id) data.steam64Id = steam64Id;
     if (userName) data.userName = userName;
     if (communitySessionID) {
       data.communitySessionID = communitySessionID;
       GM_setValue('steamCommunityAuth', data);
-      return true;
+      window.close();
     }
   });
 } else {

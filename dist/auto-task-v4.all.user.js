@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.4.10
+// @version            4.4.11
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -4604,6 +4604,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             let communityInitialized = await this.#getUserLink();
             if (!communityInitialized) {
               communityInitialized = await this.#updateCommunityAuthTab();
+              GM_setValue('steamCommunityAuth', null);
             }
             this.#communityInitialized = communityInitialized;
             if (!this.#communityInitialized) {
@@ -10874,15 +10875,18 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return true;
         }
       });
-    } else if (window.opener && window.location.host === 'steamcommunity.com' && window.location.pathname.includes('/id/')) {
+    } else if (window.opener && window.location.host === 'steamcommunity.com') {
       $(() => {
         window.onbeforeunload = function(event) {
           GM_setValue('steamCommunityAuth', null);
           return null;
         };
+        if (GM_getValue('steamCommunityAuth') !== 'update') {
+          return null;
+        }
         const steam64Id = document.body.innerHTML.match(/g_steamID = "(.+?)";/)?.[1];
         const communitySessionID = document.body.innerHTML.match(/g_sessionID = "(.+?)";/)?.[1];
-        const userName = document.body.innerHTML.match(/steamcommunity.com\/id\/(.+?)\/friends\//)?.[1];
+        const userName = document.body.innerHTML.match(/steamcommunity.com\/id\/(.+?)\//)?.[1];
         const data = {};
         if (steam64Id) {
           data.steam64Id = steam64Id;
@@ -10893,7 +10897,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         if (communitySessionID) {
           data.communitySessionID = communitySessionID;
           GM_setValue('steamCommunityAuth', data);
-          return true;
+          window.close();
         }
       });
     } else {
