@@ -1,6 +1,6 @@
 {
   "name": "auto-task-v4",
-  "version": "4.4.11",
+  "version": "4.4.12",
   "change": [
     "修复:Steam社区凭证更新错误(#26)"
   ],

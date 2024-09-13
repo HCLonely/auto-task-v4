@@ -259,9 +259,6 @@ if (window.location.hostname === 'discord.com') {
       GM_setValue('steamCommunityAuth', null);
       return null;
     };
-    if (GM_getValue('steamCommunityAuth') !== 'update') {
-      return null;
-    }
     const steam64Id = document.body.innerHTML.match(/g_steamID = "(.+?)";/)?.[1];
     const communitySessionID = document.body.innerHTML.match(/g_sessionID = "(.+?)";/)?.[1];
     const userName = document.body.innerHTML.match(/steamcommunity.com\/id\/(.+?)\//)?.[1];
@@ -271,7 +268,9 @@ if (window.location.hostname === 'discord.com') {
     if (communitySessionID) {
       data.communitySessionID = communitySessionID;
       GM_setValue('steamCommunityAuth', data);
-      window.close();
+      if (GM_getValue('steamCommunityAuth') === 'update') {
+        window.close();
+      }
     }
   });
 } else {
