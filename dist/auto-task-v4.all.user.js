@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.4.12
+// @version            4.4.13
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1239,8 +1239,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       skipTaskOption: '设置中已配置跳过任务',
       other: '其他',
       globalOptions: '全局设置',
-      checkLogin: '登录检测</br>需要登录的网站自动登录，部分本网站支持',
-      checkLeftKey: '剩余Key检测</br>赠Key活动结束提示是否关闭，部分本网站支持',
+      checkLogin: '登录检测</br>需要登录的网站自动登录，部分网站支持',
+      checkLeftKey: '剩余Key检测</br>赠Key活动结束提示是否关闭，部分网站支持',
       twitterVerifyId: '通过尝试关注该账号验证Twitter凭证</br>默认为Twitter官方帐号 783214</br>不想关注官方账号可以改为自己的帐号',
       youtubeVerifyChannel: '通过尝试订阅该频道验证YouTube凭证</br>默认为YouTube官方频道 UCrXUsMBcfTVqwAS7DKg9C0Q</br>不想关注官方频道可以改为自己的频道',
       autoUpdateSource: '更新源</br>github: 需代理，实时更新</br>jsdelivr: 可不用代理，更新有延迟</br>standby: 备用</br>auto: 依次使用github, jsdelivr, standby源进行尝试更新',
@@ -9513,11 +9513,27 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
             const taskInfo = $task.find('.user-links');
             taskInfo[0].click();
+            const aElements = $task.find('.expandable').find('a.btn');
+            if (aElements.length > 0) {
+              for (const element of aElements) {
+                const $element = $(element);
+                const href = $element.attr('href');
+                $element.removeAttr('href')[0].click();
+                $element.attr('href', href);
+              }
+            }
             unsafeWindow.$hookTimer?.setSpeed(1e3);
+            const visitBtn = $task.find('.expandable').find('span:contains(more seconds),button:contains(more seconds)').filter(':visible');
+            if (visitBtn.length > 0) {
+              const newTab = window.open('', '_blank');
+              newTab?.focus();
+              await delay(1e3);
+              newTab?.close();
+            }
             await delay(3e3);
             unsafeWindow.$hookTimer?.setSpeed(1);
             const expandInfo = $task.find('.expandable');
-            const input = expandInfo.find('input')[0];
+            const [ input ] = expandInfo.find('input');
             if (input) {
               const evt = new Event('input', {
                 bubbles: true,

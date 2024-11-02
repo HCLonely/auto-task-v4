@@ -1,8 +1,9 @@
 {
   "name": "auto-task-v4",
-  "version": "4.4.12",
+  "version": "4.4.13",
   "change": [
-    "修复:Steam社区凭证更新错误(#26)"
+    "修复:部分文本错误(#31)",
+    "修复:Gleam无法完成弹窗计时任务(#32)"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

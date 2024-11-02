@@ -5,6 +5,13 @@ lang: zh-CN
 
 ## V4.4
 
+### V4.4.13
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.13)
+
+- 修复:部分文本错误([#31](https://github.com/HCLonely/auto-task-v4/issues/31))
+- 修复:Gleam无法完成弹窗计时任务([#32](https://github.com/HCLonely/auto-task-v4/issues/32))
+
 ### V4.4.12
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.12)

@@ -7,6 +7,7 @@
  * @Description  : https://gleam.io
  */
 
+/* eslint-disable @typescript-eslint/no-empty-function */
 // eslint-disable-next-line
 /// <reference path = "Gleam.d.ts" />
 
@@ -279,14 +280,34 @@ class Gleam extends Website {
 
         const taskInfo = $task.find('.user-links');
         taskInfo[0].click();
+        // const clickBtn = .find('span:contains(Continue),button:contains(Continue)') Click Here
+
+        const aElements = $task.find('.expandable').find('a.btn');
+        if (aElements.length > 0) {
+          for (const element of aElements) {
+            const $element = $(element);
+            const href = $element.attr('href');
+            $element.removeAttr('href')[0].click();
+            $element.attr('href', href as string);
+          }
+        }
+
         unsafeWindow.$hookTimer?.setSpeed(1000);
+        const visitBtn = $task.find('.expandable').find('span:contains(more seconds),button:contains(more seconds)')
+          .filter(':visible');
+        if (visitBtn.length > 0) {
+          const newTab = window.open('', '_blank');
+          newTab?.focus();
+          await delay(1000);
+          newTab?.close();
+        }
         await delay(3000);
         unsafeWindow.$hookTimer?.setSpeed(1);
 
         const expandInfo = $task.find('.expandable');
-        const input = expandInfo.find('input')[0];
+        const [input] = expandInfo.find('input');
         if (input) {
-          const evt = new Event("input", { bubbles: true, cancelable: true, composed: true });
+          const evt = new Event('input', { bubbles: true, cancelable: true, composed: true });
           const valuelimit = [...expandInfo.text().matchAll(/"(.+?)"/g)].at(-1)?.[1];
           input.value = valuelimit || 'vloot';
           // expandInfo.find('input').val(this.options.vlootUsername);
