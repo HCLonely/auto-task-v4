@@ -5,6 +5,13 @@ lang: zh-CN
 
 ## V4.4
 
+### V4.4.14
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.14)
+
+- 修复:Keylol appid获取失败([#33](https://github.com/HCLonely/auto-task-v4/issues/33))
+- 修复:License入库失败([#33](https://github.com/HCLonely/auto-task-v4/issues/33))
+
 ### V4.4.13
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.13)

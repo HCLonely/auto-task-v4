@@ -1461,13 +1461,22 @@ class Steam extends Social {
       });
       if (result === 'Success') {
         if (data?.status === 200) {
+          if (data.responseText.includes('ds_owned_flag ds_flag') || data.responseText.includes('class="already_in_library"')) {
+            logStatus.success(__('owned'));
+            return false;
+          }
           if (this.#area === 'CN' && data.responseText.includes('id="error_box"')) {
             logStatus.warning(__('changeAreaNotice'));
             const result = await this.#changeArea();
             if (!result || result === 'CN' || result === 'skip') return false;
             return await this.#appid2subid(id);
           }
-          const subid = data.responseText.match(/name="subid" value="([\d]+?)"/)?.[1];
+          let subid = data.responseText.match(/name="subid" value="([\d]+?)"/)?.[1];
+          if (subid) {
+            logStatus.success();
+            return subid;
+          }
+          subid = data.responseText.match(/AddFreeLicense\(\s*(\d+)/)?.[1];
           if (subid) {
             logStatus.success();
             return subid;
@@ -1578,7 +1587,7 @@ class Steam extends Social {
     try {
       const logStatus = logStatusPre || echoLog({ type: 'addingFreeLicenseSubid', text: id });
       const { result, statusText, status, data } = await httpRequest({
-        url: 'https://store.steampowered.com/checkout/addfreelicense',
+        url: `https://store.steampowered.com/freelicense/addfreelicense/${id}`,
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -1587,9 +1596,8 @@ class Steam extends Social {
           Referer: 'https://store.steampowered.com/account/licenses/'
         },
         data: $.param({
-          action: 'add_to_cart',
-          sessionid: this.#auth.storeSessionID,
-          subid: id
+          ajax: true,
+          sessionid: this.#auth.storeSessionID
         }),
         dataType: 'json'
       });

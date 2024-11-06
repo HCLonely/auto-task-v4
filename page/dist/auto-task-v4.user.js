@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.4.13
+// @version            4.4.14
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1360,6 +1360,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       tryChangeAreaNotice: '此功能无法检测游戏是否限区，因此会尝试换区后再入库，换区失败也不影响后续入库',
       gettingUserLink: '正在获取Steam用户社区链接...',
       retry: '重试',
+      owned: '已拥有',
       initingASF: '正在初始化ASF...',
       servers: '服务器',
       joiningDiscordServer: '正在加入Discord服务器',
@@ -1640,6 +1641,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       versionNotMatched: 'The script manager version is too low, requiring TamperMonkey >= 5.2.0 or TamperMonkey Beta >= 5.2.6196',
       gettingUserLink: 'Getting steam user community link...',
       retry: 'Retry',
+      owned: 'Owned',
       initingASF: 'Initing ASF...',
       servers: 'Server',
       joiningDiscordServer: 'Joining Discord Server',
@@ -6101,6 +6103,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           });
           if (result === 'Success') {
             if (data?.status === 200) {
+              if (data.responseText.includes('ds_owned_flag ds_flag') || data.responseText.includes('class="already_in_library"')) {
+                logStatus.success(i18n('owned'));
+                return false;
+              }
               if (this.#area === 'CN' && data.responseText.includes('id="error_box"')) {
                 logStatus.warning(i18n('changeAreaNotice'));
                 const result = await this.#changeArea();
@@ -6109,7 +6115,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 }
                 return await this.#appid2subid(id);
               }
-              const subid = data.responseText.match(/name="subid" value="([\d]+?)"/)?.[1];
+              let subid = data.responseText.match(/name="subid" value="([\d]+?)"/)?.[1];
+              if (subid) {
+                logStatus.success();
+                return subid;
+              }
+              subid = data.responseText.match(/AddFreeLicense\(\s*(\d+)/)?.[1];
               if (subid) {
                 logStatus.success();
                 return subid;
@@ -6246,7 +6257,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             status,
             data
           } = await tools_httpRequest({
-            url: 'https://store.steampowered.com/checkout/addfreelicense',
+            url: `https://store.steampowered.com/freelicense/addfreelicense/${id}`,
             method: 'POST',
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -6255,9 +6266,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               Referer: 'https://store.steampowered.com/account/licenses/'
             },
             data: $.param({
-              action: 'add_to_cart',
-              sessionid: this.#auth.storeSessionID,
-              subid: id
+              ajax: true,
+              sessionid: this.#auth.storeSessionID
             }),
             dataType: 'json'
           });
@@ -8932,7 +8942,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             const asfLinks2 = mainPost.find('.blockcode:contains("addlicense"):visible');
             if (asfLinks2.length > 0) {
               for (const asfLink of asfLinks2) {
-                const subid = asfLink.innerText.match(/[\d]+/g);
+                const appid = [ ...asfLink.innerText.matchAll(/a(pp)?\/([\d]+)/g) ].map(matched => matched?.[2]).filter(id => id) || [];
+                if (appid.length > 0) {
+                  this.#addBtn($(asfLink).children('em')[0], 'steam', 'licenseLinks', `appid-${appid.join(',')}`);
+                }
+                const subid = asfLink.innerText.match(/[\d]+/g)?.filter(matched => !appid.includes(matched));
                 if (!subid || subid.length === 0) {
                   continue;
                 }

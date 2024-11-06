@@ -1,9 +1,9 @@
 {
   "name": "auto-task-v4",
-  "version": "4.4.13",
+  "version": "4.4.14",
   "change": [
-    "修复:部分文本错误(#31)",
-    "修复:Gleam无法完成弹窗计时任务(#32)"
+    "修复:Keylol appid获取失败(#33)",
+    "修复:License入库失败(#33)"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

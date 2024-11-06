@@ -215,7 +215,12 @@ class Keylol extends Website {
         if (asfLinks2.length > 0) {
           for (const asfLink of asfLinks2) {
             // const subid = [...asfLink.innerText.matchAll(/s\/([\d]+)/g)].map((arr) => arr[1]);
-            const subid = asfLink.innerText.match(/[\d]+/g);
+            const appid = [...asfLink.innerText.matchAll(/a(pp)?\/([\d]+)/g)].map((matched) => matched?.[2]).filter((id) => id) || [];
+            if (appid.length > 0) {
+              this.#addBtn($(asfLink).children('em')[0], 'steam', 'licenseLinks', `appid-${appid.join(',')}`);
+            }
+
+            const subid = asfLink.innerText.match(/[\d]+/g)?.filter((matched) => !appid.includes(matched));
             if (!subid || subid.length === 0) continue;
             this.#addBtn($(asfLink).children('em')[0], 'steam', 'licenseLinks', `subid-${subid.join(',')}`);
           }

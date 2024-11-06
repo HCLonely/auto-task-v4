@@ -217,6 +217,7 @@ const data = {
   tryChangeAreaNotice: '此功能无法检测游戏是否限区，因此会尝试换区后再入库，换区失败也不影响后续入库',
   gettingUserLink: '正在获取Steam用户社区链接...',
   retry: '重试',
+  owned: '已拥有',
 
   // Steam ASF
   initingASF: '正在初始化ASF...',

@@ -233,6 +233,7 @@ const data = {
   versionNotMatched: 'The script manager version is too low, requiring TamperMonkey >= 5.2.0 or TamperMonkey Beta >= 5.2.6196',
   gettingUserLink: 'Getting steam user community link...',
   retry: 'Retry',
+  owned: 'Owned',
 
   // Steam ASF
   initingASF: 'Initing ASF...',
