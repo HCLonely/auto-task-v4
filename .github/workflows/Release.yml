@@ -21,11 +21,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.4.14
-          name: 4.4.14
-          body: |-
-            - 修复:Keylol appid获取失败(#33)
-            - 修复:License入库失败(#33)
+          tag_name: v4.4.15
+          name: 4.4.15
+          body: '- 修复:更新Steam社区凭证问题(#26)'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

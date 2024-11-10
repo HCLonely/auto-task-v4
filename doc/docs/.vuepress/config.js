@@ -21,7 +21,7 @@ module.exports = {
       prevLinks: false
     },
     smoothScroll: true,
-    repo: 'HCLonely/auto-task',
+    repo: 'HCLonely/auto-task-v4',
     repoLabel: 'Github',
     docsRepo: 'HCLonely/auto-task-doc',
     docsDir: 'docs',

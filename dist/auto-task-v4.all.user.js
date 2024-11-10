@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.4.14
+// @version            4.4.15
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1244,7 +1244,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       twitterVerifyId: '通过尝试关注该账号验证Twitter凭证</br>默认为Twitter官方帐号 783214</br>不想关注官方账号可以改为自己的帐号',
       youtubeVerifyChannel: '通过尝试订阅该频道验证YouTube凭证</br>默认为YouTube官方频道 UCrXUsMBcfTVqwAS7DKg9C0Q</br>不想关注官方频道可以改为自己的频道',
       autoUpdateSource: '更新源</br>github: 需代理，实时更新</br>jsdelivr: 可不用代理，更新有延迟</br>standby: 备用</br>auto: 依次使用github, jsdelivr, standby源进行尝试更新',
-      saveGlobalOptions: '保存全局设置',
+      saveGlobalOptions: '保存设置',
       settingPage: '设置页面',
       name: '名称',
       version: '版本',
@@ -4891,13 +4891,17 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             logStatus.error(`Error:${i18n('needLoginSteamCommunity')}`, true);
             return false;
           }
-          const location = data?.responseHeaders?.split('\n')?.find(header => header.includes('location') ? header.replace('loctation:', '').trim() : null);
-          if (data?.status === 301 && location?.includes('steamcommunity.com/id')) {
-            logStatus.success();
-            return await this.#updateCommunityAuth(data.finalUrl);
-          }
-          if (data?.status === 301 && location?.includes('https://steamcommunity.com/login/home')) {
-            logStatus.error(`Error:${i18n('needLoginSteamCommunity')}`, true);
+          const location = data?.finalUrl || data?.responseHeaders?.split('\n')?.find(header => header.includes('location') ? header.replace('loctation:', '').trim() : null);
+          if (data?.status === 301) {
+            if (location?.includes('steamcommunity.com/id')) {
+              logStatus.success();
+              return await this.#updateCommunityAuth(location);
+            }
+            if (location?.includes('https://steamcommunity.com/login/home')) {
+              logStatus.error(`Error:${i18n('needLoginSteamCommunity')}`, true);
+              return false;
+            }
+            logStatus.error(`Error: 301 (${location})`, true);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);

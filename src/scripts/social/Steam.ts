@@ -377,16 +377,24 @@ class Steam extends Social {
         logStatus.error(`Error:${__('needLoginSteamCommunity')}`, true);
         return false;
       }
-      const location = data?.responseHeaders?.split('\n')
+      const location = data?.finalUrl || data?.responseHeaders?.split('\n')
         ?.find((header: string) => (header.includes('location') ? header.replace('loctation:', '').trim() : null));
-      if (data?.status === 301 && location?.includes('steamcommunity.com/id')) {
-        logStatus.success();
-        return await this.#updateCommunityAuth(data.finalUrl);
-      }
-      if (data?.status === 301 && location?.includes('https://steamcommunity.com/login/home')) {
-        logStatus.error(`Error:${__('needLoginSteamCommunity')}`, true);
+      if (data?.status === 301) {
+        if (location?.includes('steamcommunity.com/id')) {
+          logStatus.success();
+          return await this.#updateCommunityAuth(location);
+        }
+        if (location?.includes('https://steamcommunity.com/login/home')) {
+          logStatus.error(`Error:${__('needLoginSteamCommunity')}`, true);
+          return false;
+        }
+        logStatus.error(`Error: 301 (${location})`, true);
         return false;
       }
+      // if (data?.status === 301 && location?.includes('https://steamcommunity.com/login/home')) {
+      //   logStatus.error(`Error:${__('needLoginSteamCommunity')}`, true);
+      //   return false;
+      // }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {

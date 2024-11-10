@@ -1,9 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.4.14",
+  "version": "4.4.15",
   "change": [
-    "修复:Keylol appid获取失败(#33)",
-    "修复:License入库失败(#33)"
+    "修复:更新Steam社区凭证问题(#26)"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",
