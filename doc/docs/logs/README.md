@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.4
 
+### V4.4.18
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.18)
+
+- 修复:更新Steam社区凭证时重定向到profiles页面后无法正常运行([#26](https://github.com/HCLonely/auto-task-v4/issues/26))
+
 ### V4.4.17
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.4.17)

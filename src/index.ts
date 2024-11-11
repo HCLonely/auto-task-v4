@@ -247,6 +247,7 @@ if (window.location.hostname === 'discord.com') {
     if (storeSessionID) {
       GM_setValue('steamStoreAuth', { storeSessionID });
       window.close();
+      Swal.fire('', __('closePageNotice'));
     } else {
       Swal.fire({
         title: 'Error: Get "sessionID" failed',

@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.4.17",
+  "version": "4.4.18",
   "change": [
-    "修复:Steam用户名为中文时无法更新社区凭证(#26)"
+    "修复:更新Steam社区凭证时重定向到profiles页面后无法正常运行(#26)"
   ],
   "description": "赠Key站自动任务脚本",
   "main": "package.json",

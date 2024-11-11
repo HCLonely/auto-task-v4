@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.4.17
+// @version            4.4.18
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -33,6 +33,7 @@
 // @include            *://twitter.com/settings/account?k*
 // @include            *://x.com/settings/account*
 // @include            *://steamcommunity.com/id/*
+// @include            *://steamcommunity.com/profiles/*
 // @include            *://store.steampowered.com/*
 // @include            https://auto-task-v4.hclonely.com/setting.html
 // @include            https://auto-task-v4.hclonely.com/history.html
@@ -4793,6 +4794,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             text: i18n('updatingAuth', i18n('steamCommunity'))
           });
           return await new Promise(resolve => {
+            GM_deleteValue('steamCommunityAuth');
             const newTab = window.open('https://steamcommunity.com/my', 'ATv4_updateCommunityAuth', 'pop=1;');
             const listenerId = GM_addValueChangeListener('steamCommunityAuth', (key, oldValue, newValue) => {
               GM_removeValueChangeListener(listenerId);
@@ -10880,6 +10882,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             storeSessionID: storeSessionID
           });
           window.close();
+          external_Swal_default().fire('', i18n('closePageNotice'));
         } else {
           external_Swal_default().fire({
             title: 'Error: Get "sessionID" failed',

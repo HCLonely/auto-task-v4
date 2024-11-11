@@ -301,7 +301,8 @@ class Steam extends Social {
     try {
       const logStatus = echoLog({ text: __('updatingAuth', __('steamCommunity')) });
       return await new Promise((resolve) => {
-        const newTab = window.open('https://steamcommunity.com/my', 'ATv4_updateCommunityAuth', 'pop=1;');
+        GM_deleteValue('steamCommunityAuth');
+        const newTab = window.open('https://steamcommunity.com/my', 'ATv4_updateCommunityAuth', 'pop=1;') as WindowProxy;
         const listenerId = GM_addValueChangeListener<auth | null>('steamCommunityAuth', (key, oldValue, newValue) => {
           GM_removeValueChangeListener(listenerId);
           newTab?.close();

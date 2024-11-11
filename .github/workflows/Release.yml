@@ -21,9 +21,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.4.17
-          name: 4.4.17
-          body: '- 修复:Steam用户名为中文时无法更新社区凭证(#26)'
+          tag_name: v4.4.18
+          name: 4.4.18
+          body: '- 修复:更新Steam社区凭证时重定向到profiles页面后无法正常运行(#26)'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js
