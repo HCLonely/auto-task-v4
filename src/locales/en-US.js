@@ -234,6 +234,7 @@ const data = {
   gettingUserLink: 'Getting steam user community link...',
   retry: 'Retry',
   owned: 'Owned',
+  redirect: 'Redirect',
 
   // Steam ASF
   initingASF: 'Initing ASF...',

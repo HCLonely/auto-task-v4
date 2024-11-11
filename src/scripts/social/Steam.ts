@@ -304,13 +304,14 @@ class Steam extends Social {
       const logStatus = echoLog({ text: __('updatingAuth', __('steamCommunity')) });
       return await new Promise((resolve) => {
         const newTab = window.open('https://steamcommunity.com/my', 'mozillaWindow', 'pop=1;');
-        GM_setValue('steamCommunityAuth', 'update');
-        const listenerId = GM_addValueChangeListener<auth|null>('steamCommunityAuth', (key, oldValue, newValue, remote) => {
+        GM_setValue('steamCommunityAuthProcess', 'update');
+        const listenerId = GM_addValueChangeListener<auth | null>('steamCommunityAuth', (key, oldValue, newValue, remote) => {
+          GM_deleteValue('steamCommunityAuthProcess');
           GM_removeValueChangeListener(listenerId);
           newTab?.close();
           if (newValue && JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
             this.#auth.steam64Id = newValue.steam64Id;
-            this.#auth.userName = newValue.userName;
+            // this.#auth.userName = newValue.userName;
             this.#auth.communitySessionID = newValue.communitySessionID;
             logStatus.success();
             resolve(true);
@@ -339,7 +340,6 @@ class Steam extends Social {
         method: 'GET',
         headers: {
           Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-          'Cache-Control': 'max-age=0',
           'Sec-Fetch-Dest': 'document',
           'Sec-Fetch-Mode': 'navigate',
           'Upgrade-Insecure-Requests': '1'
@@ -354,9 +354,9 @@ class Steam extends Social {
         }
         const steam64Id = data.responseText.match(/g_steamID = "(.+?)";/)?.[1];
         const communitySessionID = data.responseText.match(/g_sessionID = "(.+?)";/)?.[1];
-        const userName = data.responseText.match(/steamcommunity.com\/id\/(.+?)\/friends\//)?.[1];
+        // const userName = data.responseText.match(/steamcommunity.com\/id\/(.+?)\/friends\//)?.[1];
         if (steam64Id) this.#auth.steam64Id = steam64Id;
-        if (userName) this.#auth.userName = userName;
+        // if (userName) this.#auth.userName = userName;
         if (communitySessionID) {
           this.#auth.communitySessionID = communitySessionID;
           logStatus.success();
@@ -384,9 +384,17 @@ class Steam extends Social {
           logStatus.success();
           return await this.#updateCommunityAuth(location);
         }
-        if (location?.includes('https://steamcommunity.com/login/home')) {
+        if (location?.includes('steamcommunity.com/login/home')) {
           logStatus.error(`Error:${__('needLoginSteamCommunity')}`, true);
           return false;
+        }
+        if (location?.includes('steamcommunity.com/my')) {
+          if (retry) {
+            logStatus.error(`Error:${__('redirect')}`, true);
+            return false;
+          }
+          logStatus.warning(__('retry'));
+          return await this.#getUserLink(true);
         }
         logStatus.error(`Error: 301 (${location})`, true);
         return false;
@@ -430,9 +438,9 @@ class Steam extends Social {
           }
           const steam64Id = data.responseText.match(/g_steamID = "(.+?)";/)?.[1];
           const communitySessionID = data.responseText.match(/g_sessionID = "(.+?)";/)?.[1];
-          const userName = data.responseText.match(/steamcommunity.com\/id\/(.+?)\/friends\//)?.[1];
+          // const userName = data.responseText.match(/steamcommunity.com\/id\/(.+?)\/friends\//)?.[1];
           if (steam64Id) this.#auth.steam64Id = steam64Id;
-          if (userName) this.#auth.userName = userName;
+          // if (userName) this.#auth.userName = userName;
           if (communitySessionID) {
             this.#auth.communitySessionID = communitySessionID;
             logStatus.success();
@@ -648,7 +656,7 @@ class Steam extends Social {
       if (!groupId) return false;
       const logStatus = echoLog({ type: 'leavingSteamGroup', text: groupName });
       const { result, statusText, status, data } = await httpRequest({
-        url: `https://steamcommunity.com/id/${this.#auth.userName}/home_process`,
+        url: `https://steamcommunity.com/profiles/${this.#auth.steam64Id}/home_process`,
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
         data: $.param({ sessionID: this.#auth.communitySessionID, action: 'leaveGroup', groupId })
@@ -771,7 +779,7 @@ class Steam extends Social {
       if (!groupId) return false;
       const logStatus = echoLog({ type: 'leavingSteamOfficialGroup', text: gameId });
       const { result, statusText, status, data } = await httpRequest({
-        url: `https://steamcommunity.com/id/${this.#auth.userName}/home_process`,
+        url: `https://steamcommunity.com/profiles/${this.#auth.steam64Id}/home_process`,
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
         data: $.param({ sessionID: this.#auth.communitySessionID, action: 'leaveGroup', groupId })

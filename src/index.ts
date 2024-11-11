@@ -243,7 +243,7 @@ if (window.location.hostname === 'discord.com') {
     if ($('[data-miniprofile]').length === 0) {
       return;
     }
-    window.onbeforeunload = function (event) {
+    window.onbeforeunload = function () {
       GM_setValue('steamStoreAuth', null);
       return null;
     };
@@ -255,20 +255,21 @@ if (window.location.hostname === 'discord.com') {
   });
 } else if (window.opener && window.location.host === 'steamcommunity.com') {
   $(() => {
-    window.onbeforeunload = function (event) {
+    window.onbeforeunload = function () {
       GM_setValue('steamCommunityAuth', null);
       return null;
     };
     const steam64Id = document.body.innerHTML.match(/g_steamID = "(.+?)";/)?.[1];
     const communitySessionID = document.body.innerHTML.match(/g_sessionID = "(.+?)";/)?.[1];
-    const userName = document.body.innerHTML.match(/steamcommunity.com\/id\/(.+?)\//)?.[1];
+    // const userName = document.body.innerHTML.match(/steamcommunity\.com\/id\/(.+?)\//)?.[1];
     const data:auth = {};
     if (steam64Id) data.steam64Id = steam64Id;
-    if (userName) data.userName = userName;
+    // if (userName) data.userName = userName;
     if (communitySessionID) {
       data.communitySessionID = communitySessionID;
       GM_setValue('steamCommunityAuth', data);
-      if (GM_getValue('steamCommunityAuth') === 'update') {
+      if (GM_getValue('steamCommunityAuthProcess') === 'update') {
+        GM_deleteValue('steamCommunityAuthProcess');
         window.close();
       }
     }

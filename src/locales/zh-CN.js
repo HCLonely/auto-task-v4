@@ -218,6 +218,7 @@ const data = {
   gettingUserLink: '正在获取Steam用户社区链接...',
   retry: '重试',
   owned: '已拥有',
+  redirect: '重定向',
 
   // Steam ASF
   initingASF: '正在初始化ASF...',
