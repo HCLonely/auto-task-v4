@@ -238,40 +238,37 @@ if (window.location.hostname === 'discord.com') {
   }
 } else if (window.location.hostname === 'opquests.com') {
   loadScript();
-} else if (window.opener && window.location.host === 'store.steampowered.com' && window.location.pathname === '/') {
+} else if (window.opener && window.name === 'ATv4_updateStoreAuth' && window.location.host === 'store.steampowered.com' && window.location.pathname === '/') {
   $(() => {
     if ($('[data-miniprofile]').length === 0) {
       return;
     }
-    window.onbeforeunload = function () {
-      GM_setValue('steamStoreAuth', null);
-      return null;
-    };
     const storeSessionID = document.body.innerHTML.match(/g_sessionID = "(.+?)";/)?.[1];
     if (storeSessionID) {
       GM_setValue('steamStoreAuth', { storeSessionID });
-      return true;
+      window.close();
+    } else {
+      Swal.fire({
+        title: 'Error: Get "sessionID" failed',
+        icon: 'error'
+      });
     }
   });
-} else if (window.opener && window.location.host === 'steamcommunity.com') {
+} else if (window.opener && window.name === 'ATv4_updateCommunityAuth' && window.location.host === 'steamcommunity.com') {
   $(() => {
-    window.onbeforeunload = function () {
-      GM_setValue('steamCommunityAuth', null);
-      return null;
-    };
     const steam64Id = document.body.innerHTML.match(/g_steamID = "(.+?)";/)?.[1];
     const communitySessionID = document.body.innerHTML.match(/g_sessionID = "(.+?)";/)?.[1];
-    // const userName = document.body.innerHTML.match(/steamcommunity\.com\/id\/(.+?)\//)?.[1];
     const data:auth = {};
     if (steam64Id) data.steam64Id = steam64Id;
-    // if (userName) data.userName = userName;
     if (communitySessionID) {
       data.communitySessionID = communitySessionID;
       GM_setValue('steamCommunityAuth', data);
-      if (GM_getValue('steamCommunityAuthProcess') === 'update') {
-        GM_deleteValue('steamCommunityAuthProcess');
-        window.close();
-      }
+      window.close();
+    } else {
+      Swal.fire({
+        title: 'Error: Get "sessionID" failed',
+        icon: 'error'
+      });
     }
   });
 } else {

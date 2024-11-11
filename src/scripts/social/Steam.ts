@@ -216,7 +216,6 @@ class Steam extends Social {
         method: 'GET',
         headers: {
           Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-          'Cache-Control': 'max-age=0',
           'Sec-Fetch-Dest': 'document',
           'Sec-Fetch-Mode': 'navigate',
           'Upgrade-Insecure-Requests': '1'
@@ -274,9 +273,8 @@ class Steam extends Social {
     try {
       const logStatus = echoLog({ text: __('updatingAuth', __('steamStore')) });
       return await new Promise((resolve) => {
-        const newTab = window.open('https://store.steampowered.com/', 'mozillaWindow', 'pop=1;');
-        GM_setValue('steamStoreAuth', 'update');
-        const listenerId = GM_addValueChangeListener<auth|null>('steamStoreAuth', (key, oldValue, newValue, remote) => {
+        const newTab = window.open('https://store.steampowered.com/', 'ATv4_updateStoreAuth', 'pop=1;');
+        const listenerId = GM_addValueChangeListener<auth|null>('steamStoreAuth', (key, oldValue, newValue) => {
           GM_removeValueChangeListener(listenerId);
           newTab?.close();
           if (newValue && JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
@@ -303,15 +301,12 @@ class Steam extends Social {
     try {
       const logStatus = echoLog({ text: __('updatingAuth', __('steamCommunity')) });
       return await new Promise((resolve) => {
-        const newTab = window.open('https://steamcommunity.com/my', 'mozillaWindow', 'pop=1;');
-        GM_setValue('steamCommunityAuthProcess', 'update');
-        const listenerId = GM_addValueChangeListener<auth | null>('steamCommunityAuth', (key, oldValue, newValue, remote) => {
-          GM_deleteValue('steamCommunityAuthProcess');
+        const newTab = window.open('https://steamcommunity.com/my', 'ATv4_updateCommunityAuth', 'pop=1;');
+        const listenerId = GM_addValueChangeListener<auth | null>('steamCommunityAuth', (key, oldValue, newValue) => {
           GM_removeValueChangeListener(listenerId);
           newTab?.close();
           if (newValue && JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
             this.#auth.steam64Id = newValue.steam64Id;
-            // this.#auth.userName = newValue.userName;
             this.#auth.communitySessionID = newValue.communitySessionID;
             logStatus.success();
             resolve(true);
@@ -354,9 +349,7 @@ class Steam extends Social {
         }
         const steam64Id = data.responseText.match(/g_steamID = "(.+?)";/)?.[1];
         const communitySessionID = data.responseText.match(/g_sessionID = "(.+?)";/)?.[1];
-        // const userName = data.responseText.match(/steamcommunity.com\/id\/(.+?)\/friends\//)?.[1];
         if (steam64Id) this.#auth.steam64Id = steam64Id;
-        // if (userName) this.#auth.userName = userName;
         if (communitySessionID) {
           this.#auth.communitySessionID = communitySessionID;
           logStatus.success();
@@ -399,10 +392,6 @@ class Steam extends Social {
         logStatus.error(`Error: 301 (${location})`, true);
         return false;
       }
-      // if (data?.status === 301 && location?.includes('https://steamcommunity.com/login/home')) {
-      //   logStatus.error(`Error:${__('needLoginSteamCommunity')}`, true);
-      //   return false;
-      // }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
@@ -438,9 +427,7 @@ class Steam extends Social {
           }
           const steam64Id = data.responseText.match(/g_steamID = "(.+?)";/)?.[1];
           const communitySessionID = data.responseText.match(/g_sessionID = "(.+?)";/)?.[1];
-          // const userName = data.responseText.match(/steamcommunity.com\/id\/(.+?)\/friends\//)?.[1];
           if (steam64Id) this.#auth.steam64Id = steam64Id;
-          // if (userName) this.#auth.userName = userName;
           if (communitySessionID) {
             this.#auth.communitySessionID = communitySessionID;
             logStatus.success();

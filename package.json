@@ -1,6 +1,6 @@
 {
   "name": "auto-task-v4",
-  "version": "4.4.16",
+  "version": "4.4.17",
   "change": [
     "修复:Steam用户名为中文时无法更新社区凭证(#26)"
   ],

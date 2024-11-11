@@ -21,8 +21,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.4.16
-          name: 4.4.16
+          tag_name: v4.4.17
+          name: 4.4.17
           body: '- 修复:Steam用户名为中文时无法更新社区凭证(#26)'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
