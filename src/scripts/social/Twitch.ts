@@ -15,6 +15,69 @@ import { unique, delay } from '../tools/tools';
 import __ from '../tools/i18n';
 import { globalOptions } from '../globalOptions';
 
+/**
+ * @class Twitch
+ * @extends Social
+ * @description 代表Twitch社交平台的操作，包括关注和取关频道的功能。
+ *
+ * @property {twitchTasks} tasks - 存储Twitch相关的任务信息。
+ * @property {twitchTasks} whiteList - 存储白名单中的频道信息。
+ * @private
+ * @property {auth} #auth - 存储Twitch的身份验证信息。
+ * @private
+ * @property {cache} #cache - 存储频道ID的缓存信息。
+ * @private
+ * @property {boolean} #initialized - 表示模块是否已初始化的状态。
+ * @private
+ * @property {string} #integrityToken - 存储Twitch的完整性Token。
+ *
+ * @constructor
+ * @description 创建一个Twitch实例，初始化任务模板和白名单。
+ *
+ * @async
+ * @function init
+ * @returns {Promise<boolean>} - 返回初始化结果，true表示成功，false表示失败。
+ *
+ * @async
+ * @function #verifyAuth
+ * @param {boolean} isFirst - 指示是否为第一次验证的标志。
+ * @returns {Promise<boolean>} - 返回Token验证结果，true表示有效，false表示无效。
+ *
+ * @async
+ * @function #integrity
+ * @param {boolean} [isFirst=true] - 指示是否为第一次检查的标志。
+ * @param {string} [ct=''] - 可选的上下文标识符。
+ * @returns {Promise<boolean>} - 返回完整性检查结果，true表示成功，false表示失败。
+ *
+ * @async
+ * @function #updateAuth
+ * @param {boolean} [isFirst=true] - 指示是否为第一次更新的标志。
+ * @returns {Promise<boolean>} - 返回更新操作结果，true表示成功，false表示失败。
+ *
+ * @async
+ * @function #toggleChannel
+ * @param {Object} options - 选项对象。
+ * @param {string} options.name - Twitch频道名。
+ * @param {boolean} [options.doTask=true] - 指示是否执行任务。
+ * @returns {Promise<boolean>} - 返回操作结果，true表示成功，false表示失败。
+ *
+ * @async
+ * @function #getChannelId
+ * @param {string} name - Twitch频道名。
+ * @returns {Promise<string | false>} - 返回频道ID或false。
+ *
+ * @async
+ * @function toggle
+ * @param {Object} options - 选项对象。
+ * @param {boolean} [options.doTask=true] - 指示是否执行任务。
+ * @param {Array<string>} [options.channelLinks=[]] - Twitch频道链接数组。
+ * @returns {Promise<boolean>} - 返回操作结果，true表示成功，false表示失败。
+ *
+ * @function #setCache
+ * @param {string} name - 要缓存的Twitch频道名。
+ * @param {string} id - 要缓存的Twitch频道ID。
+ * @returns {void} - 无返回值。
+ */
 class Twitch extends Social {
   tasks: twitchTasks;
   whiteList: twitchTasks;
@@ -23,6 +86,15 @@ class Twitch extends Social {
   #initialized = false;
   #integrityToken!: string;
 
+  /**
+   * 创建一个Twitch实例。
+   *
+   * @constructor
+   * @description
+   * 此构造函数初始化Twitch类的实例，设置默认任务模板和白名单。
+   * 默认任务模板包含一个空的频道数组，用于存储Twitch相关的任务信息。
+   * 白名单将从GM_getValue中获取，如果没有找到，则使用默认任务模板。
+   */
   constructor() {
     super();
     const defaultTasksTemplate: twitchTasks = {
@@ -31,11 +103,24 @@ class Twitch extends Social {
     this.tasks = defaultTasksTemplate;
     this.whiteList = { ...defaultTasksTemplate, ...(GM_getValue<whiteList>('whiteList')?.twitch || {}) };
   }
+
+  /**
+   * 初始化Twitch模块，验证用户身份并获取授权。
+   *
+   * @async
+   * @function init
+   * @returns {Promise<boolean>} - 返回一个Promise，表示初始化的结果。
+   *                              - true: 初始化成功
+   *                              - false: 初始化失败，toggle方法不可用
+   *
+   * @description
+   * 该方法首先检查模块是否已初始化。如果已初始化，则直接返回true。
+   * 然后检查身份验证信息是否完整。如果不完整，则调用`#updateAuth`方法获取新的授权信息。
+   * 如果身份验证成功，则记录成功日志并将初始化状态设置为true。
+   * 如果身份验证失败，则清除存储的身份验证信息，并尝试再次更新授权。
+   * 如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async init(): Promise<boolean> {
-    /**
-     * @description: 验证及获取Auth
-     * @return true: 初始化完成 | false: 初始化失败，toggle方法不可用
-    */
     try {
       if (this.#initialized) {
         return true;
@@ -67,12 +152,23 @@ class Twitch extends Social {
     }
   }
 
+  /**
+   * 验证Twitch的身份验证Token是否有效。
+   *
+   * @async
+   * @function #verifyAuth
+   * @param {boolean} isFirst - 指示是否为第一次验证的标志。
+   * @returns {Promise<boolean>} - 返回一个Promise，表示Token验证的结果。
+   *                              - true: Token有效
+   *                              - false: Token失效
+   *
+   * @description
+   * 该方法通过发送POST请求到Twitch API来验证Token的有效性。
+   * 如果请求成功且返回的结果为'Success'，并且状态码为200且包含当前用户信息，则记录成功日志并返回true。
+   * 如果请求失败或返回的状态不符合预期，则记录错误信息并返回false。
+   * 如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async #verifyAuth(isFirst: boolean): Promise<boolean> {
-    /**
-     * @internal
-     * @description 检测Twitch Token是否失效
-     * @return true: Token有效 | false: Token失效
-    */
     try {
       const logStatus = echoLog({ text: __('verifyingAuth', 'Twitch') });
       const { result, statusText, status, data } = await httpRequest({
@@ -102,12 +198,26 @@ class Twitch extends Social {
     }
   }
 
+  /**
+   * 检查Twitch的完整性。
+   *
+   * @async
+   * @function #integrity
+   * @param {boolean} [isFirst=true] - 指示是否为第一次检查的标志，默认为true。
+   * @param {string} [ct=''] - 可选的上下文标识符，用于完整性检查。
+   * @returns {Promise<boolean>} - 返回一个Promise，表示完整性检查的结果。
+   *                              - true: 完整性检查成功
+   *                              - false: 完整性检查失败
+   *
+   * @description
+   * 该方法执行Twitch的完整性检查，验证身份验证信息是否完整。
+   * 如果是第一次检查且身份验证信息不完整，则调用`#updateAuth`方法更新身份验证。
+   * 发送POST请求到Twitch的完整性检查API，并根据返回的结果判断检查是否成功。
+   * 如果返回的结果为'Success'且状态码为200，则记录成功日志并返回true。
+   * 如果返回的状态不符合预期，则记录错误信息并返回false。
+   * 如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async #integrity(isFirst = true, ct = ''): Promise<boolean> {
-    /**
-     * @internal
-     * @description 完整性检查
-     * @return true | false
-     */
     try {
       const logStatus = echoLog({ text: __('checkingTwitchIntegrity') });
       if (isFirst &&
@@ -150,17 +260,29 @@ class Twitch extends Social {
     }
   }
 
+  /**
+   * 更新Twitch的身份验证Token。
+   *
+   * @async
+   * @function #updateAuth
+   * @param {boolean} [isFirst=true] - 指示是否为第一次更新的标志，默认为true。
+   * @returns {Promise<boolean>} - 返回一个Promise，表示更新操作的结果。
+   *                              - true: 更新Token成功
+   *                              - false: 更新Token失败
+   *
+   * @description
+   * 该方法通过打开Twitch网站的授权页面来更新Token。
+   * 当新标签页关闭时，检查存储的身份验证信息。如果存在有效的Token，则更新内部的`#auth`属性并记录成功日志。
+   * 如果Token不存在，则记录错误信息并返回false。
+   * 如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async #updateAuth(isFirst = true): Promise<boolean> {
-    /**
-     * @internal
-     * @description 通过打开Twitch网站更新Token.
-     * @return true: 更新Token成功 | false: 更新Token失败
-    */
     try {
       const logStatus = echoLog({ text: __('updatingAuth', 'Twitch') });
       return await new Promise((resolve) => {
-        const newTab = GM_openInTab('https://www.twitch.tv/#auth',
+        const newTab = GM_openInTab('https://www.twitch.tv/',
           { active: true, insert: true, setParent: true });
+        newTab.name = 'ATv4_twitchAuth';
         newTab.onclose = async () => {
           const auth = GM_getValue<auth>('twitchAuth');
           if (auth) {
@@ -179,14 +301,28 @@ class Twitch extends Social {
     }
   }
 
+  /**
+   * 切换Twitch频道的订阅状态，关注或退订指定的频道。
+   *
+   * @async
+   * @function #toggleChannel
+   * @param {Object} options - 选项对象。
+   * @param {string} options.name - Twitch频道名。
+   * @param {boolean} [options.doTask=true] - 指示是否执行任务，true表示订阅频道，false表示退订频道。
+   * @returns {Promise<boolean>} - 返回一个Promise，表示操作的结果。
+   *                              - true: 操作成功
+   *                              - false: 操作失败
+   *
+   * @description
+   * 该方法处理Twitch频道的关注或退订任务。
+   * 如果`doTask`为false且频道在白名单中，则直接返回true。
+   * 通过调用`#getChannelId`方法获取频道ID，如果获取失败则返回false。
+   * 根据`doTask`的值构建相应的请求数据，并发送POST请求到Twitch API。
+   * 如果请求成功且返回结果为'Success'，并且状态码为200且没有错误，则记录成功日志并更新任务列表。
+   * 如果请求失败或返回的状态不符合预期，则记录错误信息并返回false。
+   * 如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async #toggleChannel({ name, doTask = true }: { name: string, doTask: boolean }): Promise<boolean> {
-    /**
-     * @internal
-     * @description 处理Twitch频道任务
-     * @param name Twitch频道名
-     * @param doTask true: 订阅频道 | false: 退订频道
-     * @return true: 成功 | false: 失败
-    */
     try {
       if (!doTask && this.whiteList.channels.includes(name)) {
         echoLog({ type: 'whiteList', text: 'Twitch.unfollowChannel', id: name });
@@ -239,13 +375,24 @@ class Twitch extends Social {
     }
   }
 
+  /**
+   * 通过频道名获取Twitch频道的ID。
+   *
+   * @async
+   * @function #getChannelId
+   * @param {string} name - Twitch频道名。
+   * @returns {Promise<string | false>} - 返回一个Promise，表示获取操作的结果。
+   *                                      - string: 获取成功，返回频道ID
+   *                                      - false: 获取失败
+   *
+   * @description
+   * 该方法首先检查缓存中是否存在对应的频道ID。如果存在，则直接返回该ID。
+   * 如果不存在，则发送POST请求到Twitch的GraphQL API以获取频道信息。
+   * 如果请求成功且返回结果为'Success'，并且状态码为200，则提取频道ID并缓存。
+   * 如果获取失败或返回的状态不符合预期，则记录错误信息并返回false。
+   * 如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async #getChannelId(name: string): Promise<string | false> {
-    /**
-     * @internal
-     * @description 通过频道名获取频道Id
-     * @param name 频道名
-     * @return {string}: 获取成功，返回频道Id | false: 获取失败
-    */
     try {
       const logStatus = echoLog({ type: 'gettingTwitchChannelId', text: name });
       const channelId = this.#cache[name];
@@ -285,6 +432,23 @@ class Twitch extends Social {
     }
   }
 
+  /**
+   * 切换Twitch频道的订阅状态，关注或退订指定的频道。
+   *
+   * @async
+   * @function toggle
+   * @param {Object} options - 选项对象。
+   * @param {boolean} [options.doTask=true] - 指示是否执行任务，true表示关注频道，false表示退订频道。
+   * @param {Array<string>} [options.channelLinks=[]] - Twitch频道链接数组。
+   * @returns {Promise<boolean>} - 返回一个Promise，表示操作的结果。
+   *                              - true: 操作成功
+   *                              - false: 操作失败
+   *
+   * @description
+   * 该方法统一处理Twitch相关任务。首先检查模块是否已初始化，如果未初始化，则返回false。
+   * 根据`doTask`和全局选项判断是否执行任务。如果执行任务，则获取实际的频道参数，并逐个处理关注或退订操作。
+   * 最后返回所有操作的结果，如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async toggle({
     doTask = true,
     channelLinks = []
@@ -292,11 +456,6 @@ class Twitch extends Social {
     doTask: boolean,
     channelLinks?: Array<string>
   }): Promise<boolean> {
-    /**
-     * @description 公有方法，统一处理Twitch相关任务
-     * @param {boolean} doTask true: 做任务 | false: 取消任务
-     * @param {?Array} channelLinks Twitch链接数组。
-    */
     try {
       if (!this.#initialized) {
         echoLog({ text: __('needInit') });
@@ -325,12 +484,20 @@ class Twitch extends Social {
       return false;
     }
   }
+
+  /**
+   * 设置缓存，将指定的频道名与频道ID进行关联。
+   *
+   * @function #setCache
+   * @param {string} name - 要缓存的Twitch频道名。
+   * @param {string} id - 要缓存的Twitch频道ID。
+   * @returns {void} - 无返回值。
+   *
+   * @description
+   * 该方法将频道名与频道ID的对应关系存储在缓存中，并使用`GM_setValue`将缓存保存到存储中。
+   * 如果在设置缓存过程中发生错误，将抛出错误并记录错误信息。
+   */
   #setCache(name: string, id: string): void {
-    /**
-     * @internal
-     * @description 缓存频道名与频道Id的对应关系
-     * @return {void}
-    */
     try {
       this.#cache[name] = id;
       GM_setValue('twitchCache', this.#cache);

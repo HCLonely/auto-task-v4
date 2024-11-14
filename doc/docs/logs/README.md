@@ -3,6 +3,15 @@ title: 更新日志
 lang: zh-CN
 ---
 
+## V4.5
+
+### V4.5.0
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.5.0)
+
+- 修复: 浏览器弹窗拦截导致登录凭证无法更新([#34](https://github.com/HCLonely/auto-task-v4/issues/34))
+- 优化: 开发文档
+
 ## V4.4
 
 ### V4.4.18

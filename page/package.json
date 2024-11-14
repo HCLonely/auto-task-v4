@@ -1,10 +1,14 @@
 {
   "name": "auto-task-v4",
-  "version": "4.4.18",
+  "version": "4.5.0",
   "change": [
-    "修复:更新Steam社区凭证时重定向到profiles页面后无法正常运行(#26)"
+    "修复: 浏览器弹窗拦截导致登录凭证无法更新(#34)",
+    "优化: 开发文档"
   ],
   "description": "赠Key站自动任务脚本",
+  "engines": {
+    "node": ">=18.0.0 & <=23.2.0"
+  },
   "main": "package.json",
   "scripts": {
     "test": "eslint",
@@ -13,7 +17,8 @@
     "dev": "webpack --config webpack.dev.config.js",
     "analyze": "webpack-bundle-analyzer ./dist/stats.json",
     "build": "set NODE_OPTIONS=--openssl-legacy-provider && webpack --config webpack.config.js && webpack --config webpack.compatibility.config.js && webpack --config webpack.giveawaysu.config.js && node build-all-static.js && node copy.js && node doc-sync.js && node release.js",
-    "buildv16": "webpack --config webpack.config.js && webpack --config webpack.compatibility.config.js && webpack --config webpack.giveawaysu.config.js && node build-all-static.js && node copy.js && node doc-sync.js && node release.js"
+    "buildv16": "webpack --config webpack.config.js && webpack --config webpack.compatibility.config.js && webpack --config webpack.giveawaysu.config.js && node build-all-static.js && node copy.js && node doc-sync.js && node release.js",
+    "jsdoc": "jsdoc temp/scripts/social/Steam.js -r -c .jsdoc.json -d doc/docs/jsdoc"
   },
   "author": "HCLonely <h1606051253@gmail.com>",
   "license": "MIT",

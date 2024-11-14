@@ -17,15 +17,77 @@ import { globalOptions } from '../globalOptions';
 
 declare function urlPath(value?: string): string
 
+/**
+ * 表示 IndieDB 网站的操作类。
+ *
+ * @class Indiedb
+ * @description
+ * 该类提供了与 IndieDB 网站交互的功能，包括检查用户登录状态、执行任务和加入抽奖等操作。
+ *
+ * @property {string} name - 类的名称。
+ * @property {Array<string>} buttons - 可用的按钮列表。
+ *
+ * @method static test - 检查当前域名是否为 IndieDB 网站。
+ * @returns {boolean} 如果当前域名为 'www.indiedb.com'，则返回 true；否则返回 false。
+ *
+ * @method after - 页面加载后的异步方法，检查用户登录状态和剩余密钥状态。
+ * @returns {Promise<void>} 无返回值。
+ * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+ *
+ * @method doTask - 执行任务的异步方法。
+ * @returns {Promise<boolean>} 如果任务成功执行，则返回 true；否则返回 false。
+ * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+ *
+ * @private
+ * @method #join - 加入抽奖的私有异步方法。
+ * @returns {Promise<boolean>} 如果成功加入抽奖，则返回 true；否则返回 false。
+ * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+ *
+ * @private
+ * @method #do - 执行任务的私有异步方法。
+ * @returns {Promise<boolean>} 如果所有任务成功执行，则返回 true；否则返回 false。
+ * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+ *
+ * @private
+ * @method #checkLogin - 检查用户是否已登录的私有方法。
+ * @returns {boolean} 如果用户已登录，则返回 true；否则返回 false。
+ * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+ *
+ * @private
+ * @method #checkLeftKey - 检查剩余密钥的私有异步方法。
+ * @returns {Promise<boolean>} 如果检查成功，则返回 true；如果发生错误，则返回 false。
+ * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+ */
 class Indiedb {
   name = 'Indiedb';
   buttons: Array<string> = [
     'doTask'
   ];
 
+  /**
+   * 检查当前域名是否为 IndieDB 网站的静态方法
+   *
+   * @returns {boolean} 如果当前域名为 'www.indiedb.com'，则返回 true；否则返回 false。
+   *
+   * @description
+   * 该方法通过比较当前窗口的域名来判断是否为 IndieDB 网站。
+   * 如果域名匹配，则返回 true；否则返回 false。
+   */
   static test(): boolean {
     return window.location.host === 'www.indiedb.com';
   }
+
+  /**
+   * 页面加载后的异步方法
+   *
+   * @returns {Promise<void>} 无返回值。
+   *
+   * @throws {Error} 如果在处理过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法首先检查用户是否已登录，如果未登录，则记录警告信息。
+   * 然后检查剩余密钥的状态，如果检查失败，则记录相应的警告信息。
+   */
   async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
@@ -38,6 +100,19 @@ class Indiedb {
       throwError(error as Error, 'Indiedb.after');
     }
   }
+
+  /**
+   * 执行任务的异步方法
+   *
+   * @returns {Promise<boolean>} 如果任务成功执行，则返回 true；否则返回 false。
+   *
+   * @throws {Error} 如果在执行过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法首先调用私有方法 `#join` 来加入任务。
+   * 如果加入失败，则返回 false。
+   * 如果成功加入，则调用私有方法 `#do` 执行任务并返回其结果。
+   */
   async doTask(): Promise<boolean> {
     try {
       if (!await this.#join()) {
@@ -49,6 +124,23 @@ class Indiedb {
       return false;
     }
   }
+
+  /**
+   * 加入抽奖的私有异步方法
+   *
+   * @returns {Promise<boolean>} 如果成功加入抽奖，则返回 true；否则返回 false。
+   *
+   * @throws {Error} 如果在加入过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法检查用户是否已登录，如果未登录，则记录错误信息并返回 false。
+   * 然后检查当前按钮是否为“加入抽奖”按钮。
+   * 如果是，则发送 POST 请求以加入抽奖。
+   * 如果请求成功且返回状态为 200，且响应中包含成功信息，则更新按钮状态并记录成功信息。
+   * 如果请求失败或返回错误信息，则记录相应的错误信息并返回 false。
+   * 如果按钮文本为“成功”，则直接返回 true。
+   * 如果按钮文本不符合预期，则记录警告信息并返回 false。
+   */
   async #join(): Promise<boolean> {
     try {
       if ($('a.buttonenter:contains(Register to join)').length > 0) {
@@ -96,6 +188,22 @@ class Indiedb {
       return false;
     }
   }
+
+  /**
+   * 执行任务的私有异步方法
+   *
+   * @returns {Promise<boolean>} 如果所有任务成功执行，则返回 true；否则返回 false。
+   *
+   * @throws {Error} 如果在执行过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法首先从页面中的脚本标签中提取任务ID。
+   * 如果成功提取到ID，则遍历已加入的抽奖任务，并对每个任务执行相应的操作。
+   * 根据任务的类型（如 Facebook、Twitter、邮件订阅等），发送相应的 AJAX 请求。
+   * 如果请求成功且返回状态为成功，则更新任务的状态并记录成功信息。
+   * 如果请求失败，则记录错误信息。
+   * 最后，等待所有任务完成并返回结果。
+   */
   async #do(): Promise<boolean> {
     try {
       const id = $('script').map((index, script) => {
@@ -249,6 +357,19 @@ class Indiedb {
       return false;
     }
   }
+
+  /**
+   * 检查用户是否已登录的私有方法
+   *
+   * @returns {boolean} 如果用户已登录，则返回 true；否则返回 false。
+   *
+   * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法检查全局选项中是否启用了登录检查功能。
+   * 如果启用且页面中存在“注册以加入”按钮，则重定向用户到登录页面。
+   * 如果没有找到登录链接，则返回 true，表示用户已登录或不需要登录。
+   */
   #checkLogin(): boolean {
     try {
       if (!globalOptions.other.checkLogin) return true;
@@ -261,10 +382,24 @@ class Indiedb {
       return false;
     }
   }
-  async #checkLeftKey() {
+
+  /**
+   * 检查剩余密钥的私有异步方法
+   *
+   * @returns {Promise<boolean>} 如果检查成功，则返回 true；如果发生错误，则返回 false。
+   *
+   * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法检查全局选项中是否启用了检查剩余密钥的功能。
+   * 如果启用且页面中存在“下次”或“抽奖已关闭”的按钮，则弹出警告框提示用户抽奖已结束。
+   * 用户可以选择确认或取消，确认后将关闭窗口。
+   * 如果没有错误发生，则返回 true。
+   */
+  async #checkLeftKey(): Promise<boolean> {
     try {
       if (!globalOptions.other.checkLeftKey) return true;
-      if ($('a.buttonenter:contains("next time")，a.buttonenter:contains("Giveaway is closed")').length > 0) {
+      if ($('a.buttonenter:contains("next time"), a.buttonenter:contains("Giveaway is closed")').length > 0) {
         await Swal.fire({
           icon: 'warning',
           title: __('notice'),

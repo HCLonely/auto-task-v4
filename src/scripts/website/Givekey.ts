@@ -37,6 +37,52 @@ const defaultTasksTemplate: gkSocialTasks = {
 };
 const defaultTasks = JSON.stringify(defaultTasksTemplate);
 
+/**
+ * 表示 Givekey 网站的任务处理类。
+ *
+ * @class Givekey
+ * @extends Website
+ *
+ * @property {string} name - 网站名称。
+ * @property {Array<string>} tasks - 存储任务ID的数组。
+ * @property {gkSocialTasks} socialTasks - 存储社交任务的对象。
+ * @property {gkSocialTasks} undoneTasks - 存储未完成任务的对象。
+ * @property {string} userId - 用户ID。
+ * @property {Array<string>} buttons - 可用按钮的数组。
+ *
+ * @method static test - 检查当前域名是否为 Givekey 网站。
+ * @returns {boolean} 如果当前域名为 'givekey.ru'，则返回 true；否则返回 false。
+ *
+ * @method after - 页面加载后的异步方法。
+ * @returns {Promise<void>} 无返回值。
+ * @throws {Error} 如果在处理过程中发生错误，将抛出错误。
+ *
+ * @method init - 初始化方法。
+ * @returns {boolean} 如果初始化成功，则返回 true；否则返回 false。
+ * @throws {Error} 如果在初始化过程中发生错误，将抛出错误。
+ *
+ * @method classifyTask - 分类任务的异步方法。
+ * @param {'do' | 'undo' | 'verify'} action - 要执行的操作类型。
+ * @returns {Promise<boolean>} 如果任务分类成功，则返回 true；否则返回 false。
+ * @throws {Error} 如果在分类过程中发生错误，将抛出错误。
+ *
+ * @method verifyTask - 验证任务的异步方法。
+ * @returns {Promise<boolean>} 如果所有任务成功验证，则返回 true；否则返回 false。
+ * @throws {Error} 如果在验证过程中发生错误，将抛出错误。
+ *
+ * @method #verify - 验证任务的私有异步方法。
+ * @param {string} task - 要验证的任务ID。
+ * @returns {Promise<boolean>} 如果任务验证成功，则返回 true；否则返回 false。
+ * @throws {Error} 如果在验证过程中发生错误，将抛出错误。
+ *
+ * @method #getGiveawayId - 获取抽奖ID的方法。
+ * @returns {boolean} 如果成功获取抽奖ID，则返回 true；否则返回 false。
+ * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+ *
+ * @method #checkLeftKey - 检查剩余密钥的私有异步方法。
+ * @returns {Promise<boolean>} 如果检查成功，则返回 true；如果发生错误，则返回 false。
+ * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+ */
 class Givekey extends Website {
   name = 'Givekey';
   tasks: Array<string> = [];
@@ -49,11 +95,32 @@ class Givekey extends Website {
     'verifyTask'
   ];
 
+  /**
+   * 检查当前域名是否为 Givekey 网站的静态方法
+   *
+   * @returns {boolean} 如果当前域名为 'givekey.ru'，则返回 true；否则返回 false。
+   *
+   * @description
+   * 该方法通过比较当前窗口的域名来判断是否为 Givekey 网站。
+   * 如果域名匹配，则返回 true；否则返回 false。
+   */
   static test(): boolean {
     return window.location.host === 'givekey.ru';
   }
 
-  async after() {
+  /**
+   * 页面加载后的异步方法
+   *
+   * @returns {Promise<void>} 无返回值。
+   *
+   * @throws {Error} 如果在处理过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法首先等待导航栏元素的出现，使用定时器检查元素是否存在。
+   * 一旦找到元素，清除定时器并继续执行后续操作。
+   * 然后检查剩余密钥的状态，如果检查失败，则记录相应的警告信息。
+   */
+  async after(): Promise<void> {
     try {
       await new Promise((resolve) => {
         const checker = setInterval(() => {
@@ -61,17 +128,30 @@ class Givekey extends Website {
             clearInterval(checker);
             resolve(true);
           }
-        });
+        }, 500); // 添加间隔时间以避免过于频繁的检查
       });
       if (!await this.#checkLeftKey()) {
         echoLog({}).warning(__('checkLeftKeyFailed'));
       }
     } catch (error) {
       throwError(error as Error, 'Givekey.after');
-      return false;
     }
   }
 
+  /**
+   * 初始化方法
+   *
+   * @returns {boolean} 如果初始化成功，则返回 true；否则返回 false。
+   *
+   * @throws {Error} 如果在初始化过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法尝试初始化抽奖功能。
+   * 首先记录初始化状态。如果页面中存在 Steam 登录链接，则重定向用户到 Steam 登录页面，并记录警告信息。
+   * 然后调用私有方法获取抽奖ID，如果获取失败，则返回 false。
+   * 接着从页面的 meta 标签中获取用户ID，如果未找到用户ID，则记录错误信息并返回 false。
+   * 如果成功获取用户ID，则将其赋值给实例属性 `userId`，并将 `initialized` 属性设置为 true，最后记录成功信息。
+   */
   init(): boolean {
     try {
       const logStatus = echoLog({ text: __('initing') });
@@ -96,6 +176,20 @@ class Givekey extends Website {
     }
   }
 
+  /**
+   * 分类任务的异步方法
+   *
+   * @param {'do' | 'undo' | 'verify'} action - 要执行的操作类型，'do' 表示执行任务，'undo' 表示撤销任务，'verify' 表示验证任务。
+   * @returns {Promise<boolean>} 如果任务分类成功，则返回 true；否则返回 false。
+   *
+   * @throws {Error} 如果在分类过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法根据传入的操作类型分类任务。
+   * 如果操作为 'undo'，则从存储中获取任务信息。
+   * 遍历页面中的任务，提取任务链接并根据任务类型分类到相应的社交任务列表中。
+   * 处理完成后，记录成功信息并将分类后的任务存储到本地。
+   */
   async classifyTask(action: 'do' | 'undo' | 'verify'): Promise<boolean> {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
@@ -165,6 +259,20 @@ class Givekey extends Website {
     }
   }
 
+  /**
+   * 验证任务的异步方法
+   *
+   * @returns {Promise<boolean>} 如果所有任务成功验证，则返回 true；否则返回 false。
+   *
+   * @throws {Error} 如果在验证过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法首先检查是否已初始化，如果未初始化则调用初始化方法。
+   * 然后检查任务列表是否为空，如果为空则调用分类任务的方法进行分类。
+   * 接着记录验证前的提示信息，并依次验证每个任务。
+   * 在验证每个任务之间，等待 15 秒的延迟。
+   * 最后记录所有任务完成的信息，并返回 true。
+   */
   async verifyTask(): Promise<boolean> {
     try {
       if (!this.initialized && !this.init()) {
@@ -190,6 +298,23 @@ class Givekey extends Website {
       return false;
     }
   }
+
+  /**
+   * 验证任务的私有异步方法
+   *
+   * @param {string} task - 要验证的任务ID。
+   * @returns {Promise<boolean>} 如果任务验证成功，则返回 true；否则返回 false。
+   *
+   * @throws {Error} 如果在验证过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法向服务器发送请求以验证指定的任务。
+   * 首先记录正在验证的任务状态。
+   * 发送 POST 请求到指定的 URL，并传递任务ID和用户ID。
+   * 如果请求成功且返回状态为 'ok'，则更新按钮状态并记录成功信息。
+   * 如果返回状态为 'end'，则记录成功信息并返回密钥。
+   * 如果发生错误，则记录错误信息并返回 false。
+   */
   async #verify(task: string): Promise<boolean> {
     try {
       const logStatus = echoLog({ html: `<li>${__('verifyingTask')}${task}...<font></font></li>` });
@@ -230,6 +355,19 @@ class Givekey extends Website {
     }
   }
 
+  /**
+   * 获取抽奖ID的方法
+   *
+   * @returns {boolean} 如果成功获取抽奖ID，则返回 true；否则返回 false。
+   *
+   * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法从当前窗口的URL中提取抽奖ID。
+   * 使用正则表达式匹配URL中的抽奖ID部分。
+   * 如果成功匹配到抽奖ID，则将其赋值给实例属性 `giveawayId` 并返回 true。
+   * 如果未能匹配到抽奖ID，则记录错误信息并返回 false。
+   */
   #getGiveawayId(): boolean {
     try {
       const giveawayId = window.location.href.match(/giveaway\/([\d]+)/)?.[1];
@@ -244,7 +382,21 @@ class Givekey extends Website {
       return false;
     }
   }
-  async #checkLeftKey() {
+
+  /**
+   * 检查剩余密钥的私有异步方法
+   *
+   * @returns {Promise<boolean>} 如果检查成功，则返回 true；如果发生错误，则返回 false。
+   *
+   * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法首先检查全局选项中是否启用了检查剩余密钥的功能。
+   * 如果启用且当前没有剩余密钥，则弹出警告框提示用户没有剩余密钥。
+   * 用户可以选择确认或取消，确认后将关闭窗口。
+   * 如果没有错误发生，则返回 true。
+   */
+  async #checkLeftKey(): Promise<boolean> {
     try {
       if (!globalOptions.other.checkLeftKey) return true;
       if (!$('#keys_count').text()) {

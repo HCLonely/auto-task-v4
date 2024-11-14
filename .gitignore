@@ -2,3 +2,5 @@
 node_modules
 stats.json
 *.js.ignore
+
+temp

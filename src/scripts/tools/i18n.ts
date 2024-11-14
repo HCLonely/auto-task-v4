@@ -19,6 +19,14 @@ const languages = {
 // @ts-ignore
 const language = ['zh', 'en'].includes(globalOptions.other.language) ? globalOptions.other.language : 'en';
 
+/**
+ * 根据给定的键和参数返回国际化字符串。
+ *
+ * @param {string} key - 用于查找的国际化键。
+ * @param {...string} argvs - 可选的参数，用于替换字符串中的占位符。
+ *
+ * @returns {string} 返回对应的国际化字符串，如果未找到则返回键本身。
+ */
 const I18n = (key: string, ...argvs: Array<string>): string => {
   // @ts-ignore
   if (!languages[language]?.[key]) {

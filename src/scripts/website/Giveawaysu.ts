@@ -55,6 +55,49 @@ const defaultTasks: gasSocialTasks = {
   }
 };
 
+/**
+ * GiveawaySu 类用于处理 GiveawaySu 网站的抽奖任务。
+ *
+ * @class GiveawaySu
+ * @extends Website
+ *
+ * @property {string} name - 网站名称。
+ * @property {gasSocialTasks} socialTasks - 社交任务列表。
+ * @property {gasSocialTasks} undoneTasks - 未完成的社交任务。
+ * @property {Array<string>} buttons - 可用的操作按钮。
+ *
+ * @static
+ * @method test - 检查当前URL是否为有效的抽奖页面。
+ * @returns {boolean} 如果当前URL匹配抽奖页面的格式，则返回 true；否则返回 false。
+ *
+ * @method after - 处理抽奖后续操作的异步方法。
+ * @returns {Promise<void>} 无返回值。
+ * @throws {Error} 如果在处理过程中发生错误，将抛出错误。
+ *
+ * @method init - 初始化方法。
+ * @returns {boolean} 如果初始化成功，则返回 true；否则返回 false。
+ * @throws {Error} 如果在初始化过程中发生错误，将抛出错误。
+ *
+ * @method classifyTask - 分类任务的异步方法。
+ * @param {'do' | 'undo'} action - 要执行的操作类型，'do' 表示执行任务，'undo' 表示撤销任务。
+ * @returns {Promise<boolean>} 如果任务分类成功，则返回 true；否则返回 false。
+ * @throws {Error} 如果在分类过程中发生错误，将抛出错误。
+ *
+ * @private
+ * @method #checkLogin - 检查用户是否已登录的私有方法。
+ * @returns {boolean} 如果用户已登录，则返回 true；否则返回 false。
+ * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+ *
+ * @private
+ * @method #checkLeftKey - 检查剩余密钥的私有异步方法。
+ * @returns {Promise<boolean>} 如果检查成功，则返回 true；如果发生错误，则返回 false。
+ * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+ *
+ * @private
+ * @method #getGiveawayId - 获取抽奖ID的方法。
+ * @returns {boolean} 如果成功获取抽奖ID，则返回 true；否则返回 false。
+ * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+ */
 class GiveawaySu extends Website {
   name = 'GiveawaySu';
   socialTasks: gasSocialTasks = defaultTasks;
@@ -64,9 +107,31 @@ class GiveawaySu extends Website {
     'undoTask'
   ];
 
+  /**
+   * 检查当前URL是否为有效的抽奖页面的静态方法
+   *
+   * @returns {boolean} 如果当前URL匹配抽奖页面的格式，则返回 true；否则返回 false。
+   *
+   * @description
+   * 该方法使用正则表达式检查当前窗口的URL是否符合抽奖页面的格式。
+   * 格式为：以 "http://" 或 "https://" 开头，后跟 "giveaway.su/giveaway/view/" 和一个数字ID。
+   */
   static test(): boolean {
     return /^https?:\/\/giveaway\.su\/giveaway\/view\/[\d]+/.test(window.location.href);
   }
+
+  /**
+   * 页面加载后的异步方法
+   *
+   * @returns {Promise<void>} 无返回值。
+   *
+   * @throws {Error} 如果在处理过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法首先检查用户是否已登录，如果未登录，则记录警告信息。
+   * 然后检查剩余密钥的状态，如果检查失败，则记录相应的警告信息。
+   * 最后，记录一个通用的通知信息。
+   */
   async after(): Promise<void> {
     try {
       if (!this.#checkLogin()) {
@@ -80,6 +145,20 @@ class GiveawaySu extends Website {
       throwError(error as Error, 'Giveawaysu.after');
     }
   }
+
+  /**
+   * 初始化方法
+   *
+   * @returns {boolean} 如果初始化成功，则返回 true；否则返回 false。
+   *
+   * @throws {Error} 如果在初始化过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法尝试初始化抽奖功能。
+   * 首先记录初始化状态。如果页面中存在 Steam 登录链接，则重定向到 Steam 登录页面，并记录警告信息。
+   * 然后调用私有方法获取抽奖ID，如果获取失败，则返回 false。
+   * 如果成功获取抽奖ID，则将 `initialized` 属性设置为 true，并记录成功信息。
+   */
   init(): boolean {
     try {
       const logStatus = echoLog({ text: __('initing') });
@@ -97,6 +176,21 @@ class GiveawaySu extends Website {
       return false;
     }
   }
+
+  /**
+   * 分类任务的异步方法
+   *
+   * @param {'do' | 'undo'} action - 要执行的操作类型，'do' 表示执行任务，'undo' 表示撤销任务。
+   * @returns {Promise<boolean>} 如果任务分类成功，则返回 true；否则返回 false。
+   *
+   * @throws {Error} 如果在分类过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法根据传入的操作类型分类任务。
+   * 如果操作为 'undo'，则从存储中获取任务信息并返回 true。
+   * 否则，遍历页面中的任务行，提取任务链接并根据任务类型分类到相应的未完成任务列表中。
+   * 处理完成后，记录成功信息并将分类后的任务存储到本地。
+   */
   async classifyTask(action: 'do' | 'undo'): Promise<boolean> {
     try {
       const logStatus = echoLog({ text: __('getTasksInfo') });
@@ -189,6 +283,19 @@ class GiveawaySu extends Website {
       return false;
     }
   }
+
+  /**
+   * 检查用户是否已登录的私有方法
+   *
+   * @returns {boolean} 如果用户已登录，则返回 true；否则返回 false。
+   *
+   * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法检查全局选项中是否启用了登录检查功能。
+   * 如果启用且页面中存在 Steam 登录链接，则重定向用户到 Steam 登录页面。
+   * 如果没有找到登录链接，则返回 true，表示用户已登录或不需要登录。
+   */
   #checkLogin(): boolean {
     try {
       if (!globalOptions.other.checkLogin) return true;
@@ -202,6 +309,20 @@ class GiveawaySu extends Website {
       return false;
     }
   }
+
+  /**
+   * 检查剩余密钥的私有异步方法
+   *
+   * @returns {Promise<boolean>} 如果检查成功，则返回 true；如果发生错误，则返回 false。
+   *
+   * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法首先检查全局选项中是否启用了检查剩余密钥的功能。
+   * 如果启用且当前抽奖已结束且没有剩余密钥，则弹出警告框提示用户没有剩余密钥。
+   * 用户可以选择确认或取消，确认后将关闭窗口。
+   * 如果没有错误发生，则返回 true。
+   */
   async #checkLeftKey(): Promise<boolean> {
     try {
       if (!globalOptions.other.checkLeftKey) return true;
@@ -226,14 +347,32 @@ class GiveawaySu extends Website {
     }
   }
 
-  #getGiveawayId() {
-    const giveawayId = window.location.href.match(/\/view\/([\d]+)/)?.[1];
-    if (giveawayId) {
-      this.giveawayId = giveawayId;
-      return true;
+  /**
+   * 获取抽奖ID的方法
+   *
+   * @returns {boolean} 如果成功获取抽奖ID，则返回 true；否则返回 false。
+   *
+   * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法从当前窗口的URL中提取抽奖ID。
+   * 使用正则表达式匹配URL中的抽奖ID部分。
+   * 如果成功匹配到抽奖ID，则将其赋值给实例属性 `giveawayId` 并返回 true。
+   * 如果未能匹配到抽奖ID，则记录错误信息并返回 false。
+   */
+  #getGiveawayId(): boolean {
+    try {
+      const giveawayId = window.location.href.match(/\/view\/([\d]+)/)?.[1];
+      if (giveawayId) {
+        this.giveawayId = giveawayId;
+        return true;
+      }
+      echoLog({ text: __('getFailed', 'GiveawayId') });
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'Giveawaysu.getGiveawayId');
+      return false;
     }
-    echoLog({ text: __('getFailed', 'GiveawayId') });
-    return false;
   }
 }
 

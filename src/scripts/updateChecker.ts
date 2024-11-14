@@ -18,6 +18,19 @@ interface packageJson {
   version: string
   change: Array<string>
 }
+
+/**
+ * 检查更新，获取指定链接的 package.json 文件。
+ *
+ * @param {string} updateLink - 更新链接，用于获取 package.json 文件。
+ * @param {boolean} auto - 是否为自动检查更新的标志。
+ *
+ * @returns {Promise<false | packageJson>} 返回一个 Promise，解析为 packageJson 对象或 false。
+ *          如果成功获取版本信息，则返回 packageJson 对象；如果失败，则返回 false。
+ *
+ * @throws {Error} 如果在检查更新的过程中发生错误，将抛出错误。
+ * }
+ */
 const checkUpdate = async (updateLink:string, auto: boolean): Promise<false | packageJson> => {
   try {
     const checkUrl = `${updateLink}package.json?time=${new Date().getTime()}`;
@@ -46,6 +59,17 @@ const checkUpdate = async (updateLink:string, auto: boolean): Promise<false | pa
     return false;
   }
 };
+
+/**
+ * 检查是否有新版本可用。
+ *
+ * @param {string} currentVersion - 当前版本号，格式为 "x.y.z" 或 "x.y.z-preview"。
+ * @param {string} remoteVersion - 远程版本号，格式为 "x.y.z" 或 "x.y.z-preview"。
+ *
+ * @returns {boolean} 如果有新版本可用，则返回 true；否则返回 false。
+ *
+ * @throws {Error} 如果在比较版本的过程中发生错误，将抛出错误。
+ */
 const hasNewVersion = (currentVersion: string, remoteVersion: string): boolean => {
   try {
     const [currentRealVersion] = currentVersion.split('-');
@@ -76,6 +100,14 @@ const hasNewVersion = (currentVersion: string, remoteVersion: string): boolean =
     return false;
   }
 };
+
+/**
+ * 检查更新并获取最新版本信息。如果有新版本可用，则记录相关信息。
+ *
+ * @returns {Promise<void>} 返回一个 Promise，表示异步操作的完成。
+ *
+ * @throws {Error} 如果在检查更新的过程中发生错误，将抛出错误。
+ */
 const updateChecker = async () => {
   try {
     const currentVersion = GM_info.script.version;

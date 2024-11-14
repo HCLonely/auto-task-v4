@@ -23,6 +23,46 @@ import { unique, visitLink } from '../tools/tools';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 
+/**
+ * Website 类用于管理社交媒体任务的初始化和切换。
+ *
+ * @class
+ * @property {Object} undoneTasks - 待处理的任务。
+ * @property {Object} socialTasks - 社交媒体任务。
+ * @property {string} giveawayId - 抽奖 ID。
+ * @property {Object} socialInitialized - 各社交媒体的初始化状态。
+ * @property {boolean} initialized - 是否已初始化。
+ * @property {Object} social - 存储社交媒体实例。
+ *
+ * @method #bind - 绑定方法的私有异步方法。
+ * @param {string} name - 绑定的名称。
+ * @param {Promise<boolean | 'skip'>} init - 初始化的 Promise，可能返回 true、false 或 'skip'。
+ * @returns {Promise<{name: string, result: boolean}>} 返回一个包含名称和结果的对象。
+ * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+ *
+ * @method initSocial - 初始化社交媒体的方法。
+ * @param {string} action - 要执行的操作类型，'do' 表示执行任务，'undo' 表示撤销任务。
+ * @returns {Promise<boolean>} 如果初始化成功，则返回 true；否则返回 false。
+ * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+ *
+ * @method uniqueTasks - 去重任务的保护方法。
+ * @param {webSocialTasks} allTasks - 包含所有社交任务的对象。
+ * @returns {webSocialTasks} 返回去重后的社交任务对象。
+ * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+ *
+ * @method toggleTask - 切换任务的异步方法。
+ * @param {'do' | 'undo'} action - 要执行的操作类型，'do' 表示执行任务，'undo' 表示撤销任务。
+ * @returns {Promise<boolean>} 如果任务切换成功，则返回 true；否则返回 false。
+ * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+ *
+ * @method doTask - 执行任务的异步方法。
+ * @returns {Promise<boolean>} 如果任务成功执行，则返回 true；否则返回 false。
+ * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+ *
+ * @method undoTask - 撤销任务的异步方法。
+ * @returns {Promise<boolean>} 如果任务成功撤销，则返回 true；否则返回 false。
+ * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
+ */
 abstract class Website {
   abstract name: string
   abstract buttons: Array<string>
@@ -53,9 +93,47 @@ abstract class Website {
     visitLink?: (link: string, options?: MonkeyXhrDetails) => Promise<boolean>
   } = {}
 
-  abstract classifyTask(action: 'do' | 'undo' | 'verify'): Promise<boolean> | boolean
-  abstract init(): boolean | 'skip' | Promise<boolean | 'skip'>
+  /**
+   * 分类任务的抽象方法
+   *
+   * @param {'do' | 'undo' | 'verify'} action - 要执行的操作类型，'do' 表示执行任务，'undo' 表示撤销任务，'verify' 表示验证任务。
+   * @returns {Promise<boolean> | boolean} 如果任务分类成功，则返回 true；否则返回 false。
+   *
+   * @throws {Error} 如果在分类过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法用于根据传入的操作类型分类任务。
+   * 子类需要实现该方法以处理具体的任务分类逻辑。
+   */
+  abstract classifyTask(action: 'do' | 'undo' | 'verify'): Promise<boolean> | boolean;
 
+  /**
+   * 初始化方法
+   *
+   * @returns {boolean | 'skip' | Promise<boolean | 'skip'>} 如果初始化成功，则返回 true；如果跳过初始化，则返回 'skip'；如果是异步操作，则返回 Promise。
+   *
+   * @throws {Error} 如果在初始化过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法用于初始化相关设置或状态。
+   * 子类需要实现该方法以处理具体的初始化逻辑。
+   * 如果初始化成功，返回 true；如果需要跳过初始化，返回 'skip'；如果是异步操作，返回一个 Promise。
+   */
+  abstract init(): boolean | 'skip' | Promise<boolean | 'skip'>;
+
+  /**
+   * 绑定方法的私有异步方法
+   *
+   * @param {string} name - 绑定的名称。
+   * @param {Promise<boolean | 'skip'>} init - 初始化的 Promise，可能返回 true、false 或 'skip'。
+   * @returns {Promise<bindReturn>} 返回一个包含名称和结果的对象。
+   *
+   * @throws {Error} 如果在绑定过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法用于绑定指定名称的任务，并等待初始化的 Promise 完成。
+   * 如果初始化成功，则返回包含名称和结果的对象；如果发生错误，则记录错误信息并返回结果为 false 的对象。
+   */
   async #bind(name: string, init: Promise<boolean | 'skip'>): Promise<bindReturn> {
     try {
       return { name, result: await init };
@@ -64,10 +142,27 @@ abstract class Website {
       return { name, result: false };
     }
   }
+
+  /**
+   * 初始化社交媒体的方法
+   *
+   * @param {string} action - 要执行的操作类型，'do' 表示执行任务，'undo' 表示撤销任务。
+   * @returns {Promise<boolean>} 如果初始化成功，则返回 true；否则返回 false。
+   *
+   * @throws {Error} 如果在初始化过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法根据传入的操作类型初始化社交媒体任务。
+   * 检查每种社交媒体类型（如 Discord、Instagram、Reddit、Twitch、Twitter、VK 和 YouTube）是否有待处理的任务。
+   * 如果存在待处理的任务且社交媒体尚未初始化，则创建相应的社交媒体实例并调用其初始化方法。
+   * 所有初始化操作的结果将通过 Promise.all 进行处理，最终返回所有操作的成功状态。
+   */
   protected async initSocial(action: string): Promise<boolean> {
     try {
       const pro = [];
       const tasks = action === 'do' ? this.undoneTasks : this.socialTasks;
+
+      // 检查 Discord 任务
       if (tasks.discord) {
         const hasDiscord = Object.values(tasks.discord).reduce((total, arr) => [...total, ...arr]).length > 0;
         if (hasDiscord && (!this.socialInitialized.discord || !this.social.discord)) {
@@ -75,6 +170,8 @@ abstract class Website {
           pro.push(this.#bind('discord', this.social.discord.init(action)));
         }
       }
+
+      // 检查 Instagram 任务
       if (tasks.instagram) {
         const hasInstagram = Object.values(tasks.instagram).reduce((total, arr) => [...total, ...arr]).length > 0;
         if (hasInstagram && (!this.socialInitialized.instagram || !this.social.instagram)) {
@@ -82,6 +179,8 @@ abstract class Website {
           pro.push(this.#bind('instagram', this.social.instagram.init()));
         }
       }
+
+      // 检查 Reddit 任务
       if (tasks.reddit) {
         const hasReddit = Object.values(tasks.reddit).reduce((total, arr) => [...total, ...arr]).length > 0;
         if (hasReddit && (!this.socialInitialized.reddit || !this.social.reddit)) {
@@ -89,6 +188,8 @@ abstract class Website {
           pro.push(this.#bind('reddit', this.social.reddit.init()));
         }
       }
+
+      // 检查 Twitch 任务
       if (tasks.twitch) {
         const hasTwitch = Object.values(tasks.twitch).reduce((total, arr) => [...total, ...arr]).length > 0;
         if (hasTwitch && (!this.socialInitialized.twitch || !this.social.twitch)) {
@@ -96,6 +197,8 @@ abstract class Website {
           pro.push(this.#bind('twitch', this.social.twitch.init()));
         }
       }
+
+      // 检查 Twitter 任务
       if (tasks.twitter) {
         const hasTwitter = Object.values(tasks.twitter).reduce((total, arr) => [...total, ...arr]).length > 0;
         if (hasTwitter && (!this.socialInitialized.twitter || !this.social.twitter)) {
@@ -103,6 +206,8 @@ abstract class Website {
           pro.push(this.#bind('twitter', this.social.twitter.init()));
         }
       }
+
+      // 检查 VK 任务
       if (tasks.vk) {
         const hasVk = Object.values(tasks.vk).reduce((total, arr) => [...total, ...arr]).length > 0;
         if (hasVk && (!this.socialInitialized.vk || !this.social.vk)) {
@@ -110,6 +215,8 @@ abstract class Website {
           pro.push(this.#bind('vk', this.social.vk.init()));
         }
       }
+
+      // 检查 YouTube 任务
       if (tasks.youtube) {
         const hasYoutube = Object.values(tasks.youtube).reduce((total, arr) => [...total, ...arr]).length > 0;
         if (hasYoutube && (!this.socialInitialized.youtube || !this.social.youtube)) {
@@ -117,6 +224,8 @@ abstract class Website {
           pro.push(this.#bind('youtube', this.social.youtube.init()));
         }
       }
+
+      // 检查 Steam 任务
       if (tasks.steam) {
         const steamLength = Object.values(tasks.steam).reduce((total, arr) => [...total, ...arr]).length;
         if (steamLength > 0) {
@@ -133,6 +242,8 @@ abstract class Website {
           }
         }
       }
+
+      // 处理链接任务
       if (tasks.links && tasks.links.length > 0) {
         this.social.visitLink = visitLink;
       }
@@ -154,17 +265,54 @@ abstract class Website {
       return false;
     }
   }
+
+  /**
+   * 去重任务的保护方法
+   *
+   * @param {webSocialTasks} allTasks - 包含所有社交任务的对象。
+   * @returns {webSocialTasks} 返回去重后的社交任务对象。
+   *
+   * @throws {Error} 如果在绑定过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法遍历传入的所有社交任务，针对每种社交媒体类型和任务类型进行去重处理。
+   * 使用 `unique` 函数对每种任务类型的任务数组进行去重，并将结果存储在新的对象中。
+   * 最后返回去重后的社交任务对象。
+   */
   protected uniqueTasks(allTasks: webSocialTasks): webSocialTasks {
-    const result: webSocialTasks = {};
-    for (const [social, types] of Object.entries(allTasks)) {
-      result[social as socialType] = {};
-      for (const [type, tasks] of Object.entries(types)) {
+    try {
+      const result: webSocialTasks = {};
+      for (const [social, types] of Object.entries(allTasks)) {
+        result[social as socialType] = {};
+        for (const [type, tasks] of Object.entries(types)) {
         // @ts-ignore
-        result[social][type] = unique(tasks as Array<string>);
+          result[social][type] = unique(tasks as Array<string>);
+        }
       }
+      return result;
+    } catch (error) {
+      throwError(error as Error, 'Website.uniqueTasks');
+      return allTasks;
     }
-    return result;
   }
+
+  /**
+   * 切换任务的异步方法
+   *
+   * @param {'do' | 'undo'} action - 要执行的操作类型，'do' 表示执行任务，'undo' 表示撤销任务。
+   * @returns {Promise<boolean>} 如果任务切换成功，则返回 true；否则返回 false。
+   *
+   * @throws {Error} 如果在切换过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法根据传入的操作类型切换任务状态。
+   * 首先检查是否已初始化，如果未初始化则调用初始化方法。
+   * 然后根据操作类型分类任务，并初始化社交媒体。
+   * 遍历每种社交媒体类型，调用相应的切换方法。
+   * 如果存在链接任务，则执行访问链接的操作。
+   * 如果存在额外任务，则调用额外任务处理方法。
+   * 最后，等待所有任务完成并记录成功信息。
+   */
   protected async toggleTask(action: 'do' | 'undo'): Promise<boolean> {
     try {
       if (!this.initialized && !this.init()) {
@@ -224,6 +372,18 @@ abstract class Website {
       return false;
     }
   }
+
+  /**
+   * 执行任务的异步方法
+   *
+   * @returns {Promise<boolean>} 如果任务成功执行，则返回 true；否则返回 false。
+   *
+   * @throws {Error} 如果在执行过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法调用 `toggleTask` 方法以执行任务。
+   * 如果在执行过程中发生错误，则记录错误信息并返回 false。
+   */
   async doTask(): Promise<boolean> {
     try {
       return await this.toggleTask('do');
@@ -232,6 +392,18 @@ abstract class Website {
       return false;
     }
   }
+
+  /**
+   * 撤销任务的异步方法
+   *
+   * @returns {Promise<boolean>} 如果任务成功撤销，则返回 true；否则返回 false。
+   *
+   * @throws {Error} 如果在撤销过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法调用 `toggleTask` 方法以撤销任务。
+   * 如果在撤销过程中发生错误，则记录错误信息并返回 false。
+   */
   async undoTask(): Promise<boolean> {
     try {
       return await this.toggleTask('undo');

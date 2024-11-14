@@ -51,6 +51,8 @@ const data = {
   updatingAuth: '正在更新%0凭证...',
   refreshingToken: '正在刷新%0凭证...',
   settingToken: '正在设置%0凭证...',
+  steamStoreTab: 'Steam商店(弹窗)',
+  steamCommunityTab: 'Steam社区(弹窗)',
   initing: '正在初始化...',
   getFailed: '获取%0失败！',
   checkLoginFailed: '检测登录状态失败！',

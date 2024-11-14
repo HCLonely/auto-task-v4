@@ -205,7 +205,9 @@ declare global {
   }): {
     close: () => void
     onclose: () => void
+    focus: () => void
     closed: boolean
+    name: string
     }
   function GM_addValueChangeListener<T>(key: string, callback: (key: string, old_value: T, new_value: T, remote: boolean) => void): number
   function GM_removeValueChangeListener(listenerId: number): void

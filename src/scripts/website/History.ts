@@ -13,6 +13,31 @@ import Swal from 'sweetalert2';
 import Keylol from './Keylol';
 import * as dayjs from 'dayjs';
 
+/**
+ * 表示历史记录的类，继承自 Keylol。
+ *
+ * @class History
+ * @extends Keylol
+ *
+ * @property {string} name - 类的名称，默认为 'History'。
+ * @property {Array<string>} buttons - 包含可用操作的按钮名称数组。
+ *
+ * @method static test - 检查当前域名和路径是否为历史记录页面。
+ * @returns {boolean} 如果当前域名为 'auto-task-v4.hclonely.com' 且路径为 '/history.html'，则返回 true；否则返回 false。
+ *
+ * @method before - 在执行操作之前清空页面的主体内容并添加类。
+ * @returns {void} 无返回值。
+ * @throws {Error} 如果在执行过程中发生错误，将抛出错误。
+ *
+ * @method clearHistory - 清除历史记录的方法。
+ * @returns {void} 无返回值。
+ * @throws {Error} 如果在清除过程中发生错误，将抛出错误。
+ *
+ * @method #addItem - 添加任务项的方法。
+ * @param {string} item - 要添加的任务项名称。
+ * @returns {void} 无返回值。
+ * @throws {Error} 如果在添加过程中发生错误，将抛出错误。
+ */
 class History extends Keylol {
   name = 'History';
   buttons: Array<string> = [
@@ -24,9 +49,31 @@ class History extends Keylol {
     'clearHistory'
   ];
 
+  /**
+   * 检查当前域名和路径是否为历史记录页面的静态方法
+   *
+   * @returns {boolean} 如果当前域名为 'auto-task-v4.hclonely.com' 且路径为 '/history.html'，则返回 true；否则返回 false。
+   *
+   * @description
+   * 该方法通过比较当前窗口的域名和路径来判断是否为历史记录页面。
+   * 如果域名和路径匹配，则返回 true；否则返回 false。
+   */
   static test(): boolean {
     return window.location.host === 'auto-task-v4.hclonely.com' && window.location.pathname === '/history.html';
   }
+
+  /**
+   * 在执行操作之前的函数
+   *
+   * @returns {void} 无返回值。
+   *
+   * @throws {Error} 如果在执行过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法在执行操作之前清空页面的主体内容，并为主体添加 'auto-task-history' 类。
+   * 然后获取存储中的所有值，并筛选出以 'Tasks-' 开头的任务历史记录。
+   * 遍历每个任务历史记录，调用私有方法 `#addItem` 将其添加到页面中。
+   */
   before(): void {
     try {
       $('body').html('<div class="container"></div>')
@@ -40,6 +87,19 @@ class History extends Keylol {
       throwError(error as Error, 'History.before');
     }
   }
+
+  /**
+   * 清除历史记录的方法
+   *
+   * @returns {void} 无返回值。
+   *
+   * @throws {Error} 如果在清除过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法从存储中获取所有值，并筛选出以 'Tasks-' 开头的任务历史记录。
+   * 遍历每个任务历史记录，调用 `GM_deleteValue` 删除对应的值。
+   * 清除完成后，弹出成功提示框。
+   */
   clearHistory(): void {
     try {
       const data = GM_listValues() || [];
@@ -52,10 +112,24 @@ class History extends Keylol {
         icon: 'success'
       });
     } catch (error) {
-      throwError(error as Error, 'History.after');
+      throwError(error as Error, 'History.clearHistory');
     }
   }
-  #addItem(item: string) {
+
+  /**
+   * 添加任务项的方法
+   *
+   * @param {string} item - 要添加的任务项名称。
+   * @returns {void} 无返回值。
+   *
+   * @throws {Error} 如果在添加过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该方法从存储中获取指定任务项的数据，并根据任务项的类型生成相应的 HTML。
+   * 然后将生成的 HTML 添加到页面的容器中，以便用户查看。
+   * 如果在过程中发生错误，则记录错误信息。
+   */
+  #addItem(item: string): void {
     try {
       const tasksData = GM_getValue<fawGMTasks | gasGMTasks | gkGMTasks | khGMTasks | prysGMTasks>(item);
       if (!tasksData?.tasks) return;

@@ -14,7 +14,21 @@ interface options {
   [name: string]: string
 }
 
-const websiteOptions = function (website:string, options: options): void {
+/**
+ * 设置网站选项的函数
+ *
+ * @param {string} website - 网站的名称。
+ * @param {options} options - 包含网站选项的对象。
+ * @returns {void} 无返回值。
+ *
+ * @throws {Error} 如果在设置过程中发生错误，将抛出错误。
+ *
+ * @description
+ * 该函数用于创建一个表单，以便用户可以编辑网站的选项。
+ * 表单包含每个选项的名称和当前值，用户可以修改这些值。
+ * 提交表单后，将更新的选项保存到存储中，并显示成功消息。
+ */
+const websiteOptions = function (website: string, options: options): void {
   try {
     let websiteOptionsForm = `<form id="websiteOptionsForm" class="auto-task-form">
   <table class="auto-task-table"><thead><tr><td>${__('option')}</td><td>${__('value')}</td></tr></thead><tbody>`;

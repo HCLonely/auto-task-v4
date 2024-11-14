@@ -49,6 +49,30 @@ type WebsiteType = FreeAnyWhere |
   Setting |
   History
 
+/**
+ * 网站类型数组
+ *
+ * @type {Array<WebsitesType>}
+ * @constant
+ *
+ * @description
+ * 该常量包含所有支持的网站类型，包括：
+ * - FreeAnyWhere
+ * - GiveawaySu
+ * - Indiedb
+ * - Keyhub
+ * - Givekey
+ * - GiveeClub
+ * - OpiumPulses
+ * - Keylol
+ * - Opquests
+ * - Gleam
+ * - SweepWidget
+ * - Setting
+ * - History
+ *
+ * 这些网站类型用于后续的抽奖操作和管理。
+ */
 const Websites: Array<WebsitesType> = [
   FreeAnyWhere, GiveawaySu, Indiedb, Keyhub, Givekey, GiveeClub, OpiumPulses, Keylol, Opquests, Gleam, SweepWidget, Setting, History
 ];

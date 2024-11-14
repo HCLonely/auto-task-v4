@@ -25,6 +25,83 @@ interface dataParams {
   publicJoined?: boolean
   wallHash?: string
 }
+
+/**
+ * Vk类用于处理与Vk社交平台相关的任务，包括加入/退出群组，关注/取关用户，以及转发/删除动态。
+ *
+ * @class Vk
+ * @extends Social
+ *
+ * @property {vkTasks} tasks - 当前Vk任务列表。
+ * @property {vkTasks} whiteList - 白名单任务列表。
+ * @private
+ * @property {string} #username - 当前用户的用户名。
+ * @private
+ * @property {cache} #cache - 存储Vk墙ID与帖子ID的缓存。
+ * @private
+ * @property {boolean} #initialized - 模块是否已初始化的状态。
+ *
+ * @constructor
+ * @description 创建一个Vk实例，初始化任务模板和白名单。
+ *
+ * @async
+ * @function init
+ * @returns {Promise<boolean>} - 返回初始化结果，true表示成功，false表示失败。
+ *
+ * @async
+ * @function #verifyAuth
+ * @returns {Promise<boolean>} - 返回Token验证结果，true表示有效，false表示无效。
+ *
+ * @async
+ * @function #toggleGroup
+ * @param {string} name - 群组名称。
+ * @param {dataParams} dataParam - 请求参数，包括群组ID和哈希值。
+ * @param {boolean} [doTask=true] - 指示是否执行任务，true表示关注，false表示取关。
+ * @returns {Promise<boolean>} - 返回操作结果，true表示成功，false表示失败。
+ *
+ * @async
+ * @function #togglePublic
+ * @param {string} name - Public的名称。
+ * @param {dataParams} dataParam - 请求参数，包括公共页面的ID和哈希值。
+ * @param {boolean} [doTask=true] - 指示是否执行任务，true表示关注，false表示取关。
+ * @returns {Promise<boolean>} - 返回操作结果，true表示成功，false表示失败。
+ *
+ * @async
+ * @function #sendWall
+ * @param {string} name - 要转发的墙的ID。
+ * @returns {Promise<boolean>} - 返回操作结果，true表示成功，false表示失败。
+ *
+ * @async
+ * @function #deleteWall
+ * @param {string} name - 要删除的墙的ID。
+ * @param {dataParams} dataParams - 请求参数。
+ * @returns {Promise<boolean>} - 返回操作结果，true表示删除成功，false表示删除失败。
+ *
+ * @async
+ * @function #getId
+ * @param {string} name - 要获取ID的名称。
+ * @param {boolean} doTask - 指示是否执行任务，true表示执行，false表示取消。
+ * @returns {Promise<dataParams | false>} - 返回获取操作的结果，成功时返回请求参数，失败时返回false。
+ *
+ * @async
+ * @function #toggleVk
+ * @param {Object} options - 选项对象。
+ * @param {string} options.name - 要处理的Vk名称。
+ * @param {boolean} [options.doTask=true] - 指示是否执行任务，true表示执行，false表示取消。
+ * @returns {Promise<boolean>} - 返回操作结果，true表示成功，false表示失败。
+ *
+ * @async
+ * @function toggle
+ * @param {Object} options - 选项对象。
+ * @param {boolean} [options.doTask=true] - 指示是否执行任务，true表示执行，false表示取消。
+ * @param {Array<string>} [options.nameLinks=[]] - Vk任务链接数组。
+ * @returns {Promise<boolean>} - 返回操作结果，true表示成功，false表示失败。
+ *
+ * @function #setCache
+ * @param {string} name - 要缓存的Vk墙的名称。
+ * @param {string} postId - 要缓存的Vk帖子ID。
+ * @returns {void} - 无返回值。
+ */
 class Vk extends Social {
   tasks: vkTasks;
   whiteList: vkTasks;
@@ -32,6 +109,15 @@ class Vk extends Social {
   #cache: cache = GM_getValue<cache>('vkCache') || {};
   #initialized = false;
 
+  /**
+   * 创建一个Vk实例。
+   *
+   * @constructor
+   * @description
+   * 此构造函数初始化Vk类的实例，设置默认任务模板和白名单。
+   * 默认任务模板包含一个空的名称数组，用于存储Vk相关的任务信息。
+   * 白名单将从GM_getValue中获取，如果没有找到，则使用默认任务模板。
+   */
   constructor() {
     super();
     const defaultTasksTemplate: vkTasks = {
@@ -40,11 +126,23 @@ class Vk extends Social {
     this.tasks = defaultTasksTemplate;
     this.whiteList = { ...defaultTasksTemplate, ...(GM_getValue<whiteList>('whiteList')?.vk || {}) };
   }
+
+  /**
+   * 初始化Vk模块，验证用户身份并获取授权。
+   *
+   * @async
+   * @function init
+   * @returns {Promise<boolean>} - 返回一个Promise，表示初始化的结果。
+   *                              - true: 初始化成功
+   *                              - false: 初始化失败，toggle方法不可用
+   *
+   * @description
+   * 该方法首先检查模块是否已初始化。如果已初始化，则直接返回true。
+   * 然后调用`#verifyAuth`方法验证用户身份。如果验证成功，记录成功日志并将初始化状态设置为true。
+   * 如果验证失败，则记录错误日志并返回false。
+   * 如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async init(): Promise<boolean> {
-    /**
-     * @description: 验证及获取Auth
-     * @return true: 初始化完成 | false: 初始化失败，toggle方法不可用
-    */
     try {
       if (this.#initialized) {
         return true;
@@ -63,12 +161,23 @@ class Vk extends Social {
     }
   }
 
+  /**
+   * 验证Vk的身份验证Token是否有效。
+   *
+   * @async
+   * @function #verifyAuth
+   * @returns {Promise<boolean>} - 返回一个Promise，表示Token验证的结果。
+   *                              - true: Token有效
+   *                              - false: Token失效
+   *
+   * @description
+   * 该方法通过发送GET请求到Vk的IM接口来验证Token的有效性。
+   * 如果请求成功且返回的URL包含登录页面，则记录错误信息并返回false。
+   * 如果返回的状态为200，则提取用户名并记录成功日志，返回true。
+   * 如果请求失败或返回的状态不符合预期，则记录错误信息并返回false。
+   * 如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async #verifyAuth(): Promise<boolean> {
-    /**
-     * @internal
-     * @description 检测Vk Token是否失效
-     * @return true: Token有效 | false: Token失效
-    */
     try {
       const logStatus = echoLog({ text: __('verifyAuth', 'Vk') });
       const { result, statusText, status, data } = await httpRequest({
@@ -96,15 +205,27 @@ class Vk extends Social {
     }
   }
 
+  /**
+   * 处理Vk Group相关任务，关注或取关指定的群组。
+   *
+   * @async
+   * @function #toggleGroup
+   * @param {string} name - 群组名称。
+   * @param {dataParams} dataParam - 请求参数，包括群组ID和哈希值。
+   * @param {boolean} [doTask=true] - 指示是否执行任务，true表示关注，false表示取关。
+   * @returns {Promise<boolean>} - 返回一个Promise，表示操作的结果。
+   *                              - true: 操作成功
+   *                              - false: 操作失败
+   *
+   * @description
+   * 该方法根据传入的参数处理Vk群组的关注或取关任务。
+   * 如果当前操作与请求的操作相反，则直接返回true。
+   * 构建请求数据并发送POST请求到Vk API以执行关注或取关操作。
+   * 如果请求成功且返回结果为'Success'，并且状态码为200，则记录成功日志并更新任务列表。
+   * 如果请求失败或返回的状态不符合预期，则记录错误信息并返回false。
+   * 如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async #toggleGroup(name: string, dataParam: dataParams, doTask = true): Promise<boolean> {
-    /**
-     * @internal
-     * @description 处理Vk Group相关任务
-     * @param name Group名
-     * @param doTask true: 关注 | false: 取关
-     * @param dataParam 请求参数
-     * @return true: 成功 | false: 失败
-    */
     try {
       const logStatus = echoLog({ type: doTask ? 'joiningVkGroup' : 'leavingVkGroup', text: name });
       if ((dataParam.groupAct === 'enter' && !doTask) || (dataParam.groupAct === 'leave' && doTask)) {
@@ -151,15 +272,27 @@ class Vk extends Social {
     }
   }
 
+  /**
+   * 处理Vk Public相关任务，关注或取关指定的公共页面。
+   *
+   * @async
+   * @function #togglePublic
+   * @param {string} name - Public的名称。
+   * @param {dataParams} dataParam - 请求参数，包括公共页面的ID和哈希值。
+   * @param {boolean} [doTask=true] - 指示是否执行任务，true表示关注，false表示取关。
+   * @returns {Promise<boolean>} - 返回一个Promise，表示操作的结果。
+   *                              - true: 操作成功
+   *                              - false: 操作失败
+   *
+   * @description
+   * 该方法根据传入的参数处理Vk公共页面的关注或取关任务。
+   * 如果当前操作与请求的操作相反，则直接返回true。
+   * 构建请求数据并发送POST请求到Vk API以执行关注或取关操作。
+   * 如果请求成功且返回结果为'Success'，并且状态码为200，则记录成功日志并更新任务列表。
+   * 如果请求失败或返回的状态不符合预期，则记录错误信息并返回false。
+   * 如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async #togglePublic(name: string, dataParam: dataParams, doTask = true): Promise<boolean> {
-    /**
-     * @internal
-     * @description 处理Vk Public相关任务
-     * @param name Public名
-     * @param doTask true: 关注 | false: 取关
-     * @param dataParam 请求参数
-     * @return true: 成功 | false: 失败
-    */
     try {
       const logStatus = echoLog({ type: doTask ? 'joiningVkPublic' : 'leavingVkPublic', text: name });
       if ((dataParam.publicJoined && doTask) || (!dataParam.publicJoined && !doTask)) {
@@ -198,13 +331,25 @@ class Vk extends Social {
     }
   }
 
+  /**
+   * 转发指定的Vk墙内容。
+   *
+   * @async
+   * @function #sendWall
+   * @param {string} name - 要转发的墙的ID。
+   * @returns {Promise<boolean>} - 返回一个Promise，表示操作的结果。
+   *                              - true: 成功
+   *                              - false: 失败
+   *
+   * @description
+   * 该方法通过发送POST请求到Vk的API来转发墙内容。
+   * 首先构建请求数据并发送请求以发布墙内容。
+   * 如果请求成功且返回结果为'Success'，则继续处理返回的数据以获取hash值。
+   * 使用hash值再次发送请求以完成转发操作。
+   * 如果转发成功且返回的状态为200，则记录成功日志并更新任务列表。
+   * 如果在任何步骤中发生错误，将记录错误信息并返回false。
+   */
   async #sendWall(name: string): Promise<boolean> {
-    /**
-     * @internal
-     * @description 转发Vk Wall
-     * @param name Wall Id
-     * @return true: 成功 | false: 失败
-    */
     try {
       const logStatus = echoLog({ type: 'sendingVkWall', text: name });
       const { result, statusText, status, data } = await httpRequest({
@@ -285,14 +430,25 @@ class Vk extends Social {
     }
   }
 
+  /**
+   * 删除指定的Vk墙内容。
+   *
+   * @async
+   * @function #deleteWall
+   * @param {string} name - 要删除的墙的ID。
+   * @param {dataParams} dataParams - 请求参数。
+   * @returns {Promise<boolean>} - 返回一个Promise，表示操作的结果。
+   *                              - true: 删除成功
+   *                              - false: 删除失败
+   *
+   * @description
+   * 该方法通过发送POST请求到Vk的API来删除墙内容。
+   * 首先构建请求数据并发送请求以删除指定的墙内容。
+   * 如果请求成功且返回结果为'Success'，则记录成功日志并返回true。
+   * 如果请求失败或返回的状态不符合预期，则记录错误信息并返回false。
+   * 如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async #deleteWall(name: string, dataParams: dataParams): Promise<boolean> {
-    /**
-     * @internal
-     * @description 删除转发的转发Vk Wall
-     * @param name Wall Id
-     * @param dataParam 请求参数
-     * @return true: 成功 | false: 失败
-    */
     try {
       const logStatus = echoLog({ type: 'deletingVkWall', text: name });
       const { result, statusText, status, data } = await httpRequest({
@@ -333,14 +489,25 @@ class Vk extends Social {
     }
   }
 
+  /**
+   * 获取指定名称的请求参数。
+   *
+   * @async
+   * @function #getId
+   * @param {string} name - 要获取ID的名称。
+   * @param {boolean} doTask - 指示是否执行任务，true表示执行，false表示取消。
+   * @returns {Promise<dataParams | false>} - 返回一个Promise，表示获取操作的结果。
+   *                                          - {dataParams}: 获取成功，返回请求参数
+   *                                          - false: 获取失败
+   *
+   * @description
+   * 该方法根据传入的名称构建请求URL，并发送GET请求以获取相关的请求参数。
+   * 如果名称以`wall-`开头，则根据`doTask`的值决定返回不同的请求参数。
+   * 如果请求成功且返回状态为200，则解析响应文本以提取所需的参数。
+   * 如果未找到所需的参数，则记录错误信息并返回false。
+   * 如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async #getId(name: string, doTask: boolean): Promise<dataParams | false> {
-    /**
-     * @internal
-     * @description 获取请求参数
-     * @param name name
-     * @param doTask true: 做任务 | false: 取消任务
-     * @return {dataParams}: 获取成功，返回请求参数 | false: 获取失败
-    */
     try {
       let url = `https://vk.com/${name}`;
       if (/^wall-/.test(name)) {
@@ -393,14 +560,26 @@ class Vk extends Social {
     }
   }
 
+  /**
+   * 处理Vk相关任务，关注或取消关注指定的名称。
+   *
+   * @async
+   * @function #toggleVk
+   * @param {Object} options - 选项对象。
+   * @param {string} options.name - 要处理的Vk名称。
+   * @param {boolean} [options.doTask=true] - 指示是否执行任务，true表示执行，false表示取消。
+   * @returns {Promise<boolean>} - 返回一个Promise，表示操作的结果。
+   *                              - true: 操作成功
+   *                              - false: 操作失败
+   *
+   * @description
+   * 该方法根据传入的参数处理Vk相关任务。
+   * 如果`doTask`为false且名称在白名单中，则直接返回true。
+   * 调用`#getId`方法获取相关数据，如果获取失败则返回false。
+   * 根据数据的类型决定调用相应的处理方法（如`#toggleGroup`、`#togglePublic`、`#sendWall`或`#deleteWall`）。
+   * 如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async #toggleVk({ name, doTask = true }: { name: string, doTask: boolean }): Promise<boolean> {
-    /**
-     * @internal
-     * @description 处理Vk任务
-     * @param name name
-     * @param doTask true: 做任务 | false: 取消任务
-     * @return true: 成功 | false: 失败
-    */
     try {
       if (!doTask && this.whiteList.names.includes(name)) {
         echoLog({ type: 'whiteList', text: 'Vk.undoTask', id: name });
@@ -427,6 +606,25 @@ class Vk extends Social {
     }
   }
 
+  /**
+   * 统一处理Vk相关任务，关注或取消关注指定的名称。
+   *
+   * @async
+   * @function toggle
+   * @param {Object} options - 选项对象。
+   * @param {boolean} [options.doTask=true] - 指示是否执行任务，true表示执行，false表示取消。
+   * @param {Array<string>} [options.nameLinks=[]] - Vk任务链接数组。
+   * @returns {Promise<boolean>} - 返回一个Promise，表示操作的结果。
+   *                              - true: 操作成功
+   *                              - false: 操作失败
+   *
+   * @description
+   * 该方法根据传入的参数处理Vk相关任务。
+   * 首先检查模块是否已初始化，如果未初始化，则返回false。
+   * 根据`doTask`和全局选项判断是否执行任务。
+   * 如果执行任务，则获取实际的名称参数，并逐个处理关注或取消关注操作。
+   * 最后返回所有操作的结果，如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async toggle({
     doTask = true,
     nameLinks = []
@@ -467,12 +665,20 @@ class Vk extends Social {
       return false;
     }
   }
+
+  /**
+   * 缓存Vk墙ID与帖子ID的对应关系。
+   *
+   * @function #setCache
+   * @param {string} name - 要缓存的Vk墙的名称。
+   * @param {string} postId - 要缓存的Vk帖子ID。
+   * @returns {void} - 无返回值。
+   *
+   * @description
+   * 该方法将墙名称与帖子ID的对应关系存储在缓存中，并使用`GM_setValue`将缓存保存到存储中。
+   * 如果在设置缓存过程中发生错误，将抛出错误并记录错误信息。
+   */
   #setCache(name: string, postId: string): void {
-    /**
-     * @internal
-     * @description 缓存Vk Wall Id与Post Id的对应关系
-     * @return {void}
-    */
     try {
       this.#cache[name] = postId;
       GM_setValue('vkCache', this.#cache);

@@ -7,6 +7,17 @@
  * @Description  : http请求函数封装
  */
 import throwError from './throwError';
+
+/**
+ * 发送 HTTP 请求并返回响应结果。
+ *
+ * @param {httpRequestOptions} options - 请求的配置选项，包括请求方法、URL、数据类型等。
+ * @param {number} [times=0] - 当前重试次数，默认为 0。
+ *
+ * @returns {Promise<httpResponse>} 返回一个 Promise，解析为 HTTP 响应对象。
+ *
+ * @throws {Error} 如果请求过程中发生错误，将抛出错误。
+ */
 const httpRequest = async (options: httpRequestOptions, times = 0): Promise<httpResponse> => {
   if (window.TRACE) console.trace('%cAuto-Task[Debug]:', 'color:blue');
   try {

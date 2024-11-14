@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.4.18
+// @version            4.5.0
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -560,6 +560,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
     const external_Swal_namespaceObject = Swal;
     var external_Swal_default = __webpack_require__.n(external_Swal_namespaceObject);
     const external_Cookies_namespaceObject = Cookies;
+    var external_Cookies_default = __webpack_require__.n(external_Cookies_namespaceObject);
     var auto_task = __webpack_require__(675);
     var javascript_utils_umd_min = __webpack_require__(991);
     const httpRequest = async (options, times = 0) => {
@@ -1197,6 +1198,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       updatingAuth: '正在更新%0凭证...',
       refreshingToken: '正在刷新%0凭证...',
       settingToken: '正在设置%0凭证...',
+      steamStoreTab: 'Steam商店(弹窗)',
+      steamCommunityTab: 'Steam社区(弹窗)',
       initing: '正在初始化...',
       getFailed: '获取%0失败！',
       checkLoginFailed: '检测登录状态失败！',
@@ -1479,6 +1482,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       needInit: 'Please initialize first',
       verifyingAuth: 'Verifying %0 token...',
       updatingAuth: 'Update %0 token...',
+      refreshingToken: 'Refreshing %0 token...',
+      settingToken: 'Setting %0 token...',
+      steamStoreTab: 'Steam store (new tab)',
+      steamCommunityTab: 'Steam community(new tab)',
       initing: 'Initializing...',
       getFailed: 'Failed to get %0!',
       checkLoginFailed: 'Failed to detect login status!',
@@ -1748,8 +1755,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         isConfirmed
       }) => {
         if (isConfirmed) {
-          window.open(`https://github.com/HCLonely/auto-task-v4/issues/new?title=${encodeURIComponent(`[BUG] 脚本报错: ${name}`)}&labels=bug&template=bug_report.yml&website=${encodeURIComponent(window.location.href)}&browser=${encodeURIComponent(JSON.stringify((0, 
-          javascript_utils_umd_min.ua)(), null, 4))}&manager=${encodeURIComponent(`${GM_info.scriptHandler} ${GM_info.version}`)}&user-script=${encodeURIComponent(GM_info.script.version)}&logs=${encodeURIComponent(error.stack || 'null')}&run-logs=${encodeURIComponent($.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\n'))}`, '_blank');
+          GM_openInTab(`https://github.com/HCLonely/auto-task-v4/issues/new?title=${encodeURIComponent(`[BUG] 脚本报错: ${name}`)}&labels=bug&template=bug_report.yml&website=${encodeURIComponent(window.location.href)}&browser=${encodeURIComponent(JSON.stringify((0, 
+          javascript_utils_umd_min.ua)(), null, 4))}&manager=${encodeURIComponent(`${GM_info.scriptHandler} ${GM_info.version}`)}&user-script=${encodeURIComponent(GM_info.script.version)}&logs=${encodeURIComponent(error.stack || 'null')}&run-logs=${encodeURIComponent($.makeArray($('#auto-task-info>li')).map(element => element.innerText).join('\n'))}`, {
+            active: true
+          });
         } else if (isDenied) {
           const text = `错误链接: [url=${window.location.href}]${window.location.href}[/url]
 
@@ -1771,7 +1780,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             icon: 'success',
             confirmButtonText: i18n('ok')
           }).then(() => {
-            window.open('https://keylol.com/forum.php?mod=post&action=reply&fid=319&tid=777450', '_blank');
+            GM_openInTab('https://keylol.com/forum.php?mod=post&action=reply&fid=319&tid=777450', {
+              active: true
+            });
           });
         }
       });
@@ -1915,11 +1926,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             text: i18n('updatingAuth', 'Discord')
           });
           return await new Promise(resolve => {
-            const newTab = GM_openInTab('https://discord.com/channels/@me#auth', {
+            const newTab = GM_openInTab('https://discord.com/channels/@me', {
               active: true,
               insert: true,
               setParent: true
             });
+            newTab.name = 'ATv4_discordAuth';
             newTab.onclose = async () => {
               const auth = GM_getValue('discordAuth')?.auth;
               if (auth) {
@@ -2375,13 +2387,13 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           const logStatus = scripts_echoLog({
             text: i18n('changingRedditVersion')
           });
-          GM_setValue('redditAuth', null);
           return await new Promise(resolve => {
-            const newTab = GM_openInTab('https://www.reddit.com/#auth', {
+            const newTab = GM_openInTab('https://www.reddit.com/', {
               active: true,
               insert: true,
               setParent: true
             });
+            newTab.name = 'ATv4_redditAuth';
             newTab.onclose = async () => {
               logStatus.success();
               resolve(await this.#updateAuth(true));
@@ -2440,7 +2452,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async toggleTask({
+      async #toggleTask({
         name,
         doTask = true
       }) {
@@ -2525,7 +2537,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             });
             if (realReddits.length > 0) {
               for (const name of realReddits) {
-                prom.push(this.toggleTask({
+                prom.push(this.#toggleTask({
                   name: name,
                   doTask: doTask
                 }));
@@ -2680,11 +2692,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             text: i18n('updatingAuth', 'Twitch')
           });
           return await new Promise(resolve => {
-            const newTab = GM_openInTab('https://www.twitch.tv/#auth', {
+            const newTab = GM_openInTab('https://www.twitch.tv/', {
               active: true,
               insert: true,
               setParent: true
             });
+            newTab.name = 'ATv4_twitchAuth';
             newTab.onclose = async () => {
               const auth = GM_getValue('twitchAuth');
               if (auth) {
@@ -4766,10 +4779,15 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       async #updateStoreAuthTab() {
         try {
           const logStatus = scripts_echoLog({
-            text: i18n('updatingAuth', i18n('steamStore'))
+            text: i18n('updatingAuth', i18n('steamStoreTab'))
           });
           return await new Promise(resolve => {
-            const newTab = window.open('https://store.steampowered.com/', 'ATv4_updateStoreAuth', 'pop=1;');
+            GM_deleteValue('steamStoreAuth');
+            const newTab = GM_openInTab('https://store.steampowered.com/', {
+              active: true,
+              setParent: true
+            });
+            newTab.name = 'ATv4_updateStoreAuth';
             const listenerId = GM_addValueChangeListener('steamStoreAuth', (key, oldValue, newValue) => {
               GM_removeValueChangeListener(listenerId);
               newTab?.close();
@@ -4791,11 +4809,15 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       async #updateCommunityAuthTab() {
         try {
           const logStatus = scripts_echoLog({
-            text: i18n('updatingAuth', i18n('steamCommunity'))
+            text: i18n('updatingAuth', i18n('steamCommunityTab'))
           });
           return await new Promise(resolve => {
             GM_deleteValue('steamCommunityAuth');
-            const newTab = window.open('https://steamcommunity.com/my', 'ATv4_updateCommunityAuth', 'pop=1;');
+            const newTab = GM_openInTab('https://steamcommunity.com/my', {
+              active: true,
+              setParent: true
+            });
+            newTab.name = 'ATv4_updateCommunityAuth';
             const listenerId = GM_addValueChangeListener('steamCommunityAuth', (key, oldValue, newValue) => {
               GM_removeValueChangeListener(listenerId);
               newTab?.close();
@@ -6685,14 +6707,19 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         }
       }
       uniqueTasks(allTasks) {
-        const result = {};
-        for (const [ social, types ] of Object.entries(allTasks)) {
-          result[social] = {};
-          for (const [ type, tasks ] of Object.entries(types)) {
-            result[social][type] = unique(tasks);
+        try {
+          const result = {};
+          for (const [ social, types ] of Object.entries(allTasks)) {
+            result[social] = {};
+            for (const [ type, tasks ] of Object.entries(types)) {
+              result[social][type] = unique(tasks);
+            }
           }
+          return result;
+        } catch (error) {
+          throwError(error, 'Website.uniqueTasks');
+          return allTasks;
         }
-        return result;
       }
       async toggleTask(action) {
         try {
@@ -6868,7 +6895,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             method: 'GET',
             headers: {
               authorization: `Token ${window.localStorage.getItem('token')}`,
-              'x-csrftoken': external_Cookies_namespaceObject.get('csrftoken')
+              'x-csrftoken': external_Cookies_default().get('csrftoken')
             },
             responseType: 'json'
           });
@@ -7046,6 +7073,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         } catch (error) {
           throwError(error, 'FreeAnyWhere.getGiveawayId');
+          return false;
         }
       }
       async #verify(task) {
@@ -7064,7 +7092,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             dataType: 'json',
             headers: {
               authorization: `Token ${window.localStorage.getItem('token')}`,
-              'x-csrftoken': external_Cookies_namespaceObject.get('csrftoken')
+              'x-csrftoken': external_Cookies_default().get('csrftoken')
             }
           });
           if (result === 'Success') {
@@ -7338,15 +7366,20 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         }
       }
       #getGiveawayId() {
-        const giveawayId = window.location.href.match(/\/view\/([\d]+)/)?.[1];
-        if (giveawayId) {
-          this.giveawayId = giveawayId;
-          return true;
+        try {
+          const giveawayId = window.location.href.match(/\/view\/([\d]+)/)?.[1];
+          if (giveawayId) {
+            this.giveawayId = giveawayId;
+            return true;
+          }
+          scripts_echoLog({
+            text: i18n('getFailed', 'GiveawayId')
+          });
+          return false;
+        } catch (error) {
+          throwError(error, 'Giveawaysu.getGiveawayId');
+          return false;
         }
-        scripts_echoLog({
-          text: i18n('getFailed', 'GiveawayId')
-        });
-        return false;
       }
     }
     class Indiedb {
@@ -7625,7 +7658,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           if (!globalOptions.other.checkLeftKey) {
             return true;
           }
-          if ($('a.buttonenter:contains("next time")，a.buttonenter:contains("Giveaway is closed")').length > 0) {
+          if ($('a.buttonenter:contains("next time"), a.buttonenter:contains("Giveaway is closed")').length > 0) {
             await external_Swal_default().fire({
               icon: 'warning',
               title: i18n('notice'),
@@ -7728,7 +7761,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               link = await getRedirectLink(link) || link;
             }
             if (/https?:\/\/key-hub\.eu\/connect\/discord/.test(link)) {
-              window.open(link, '_blank');
+              GM_openInTab(link, {
+                active: true
+              });
             } else if (/steamcommunity\.com\/groups\//.test(link)) {
               if (action === 'undo') {
                 this.socialTasks.steam.groupLinks.push(link);
@@ -7932,14 +7967,13 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 clearInterval(checker);
                 resolve(true);
               }
-            });
+            }, 500);
           });
           if (!await this.#checkLeftKey()) {
             scripts_echoLog({}).warning(i18n('checkLeftKeyFailed'));
           }
         } catch (error) {
           throwError(error, 'Givekey.after');
-          return false;
         }
       }
       init() {
@@ -8730,7 +8764,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           }
           return false;
         } catch (error) {
-          throwError(error, 'leftKeyChecker.opquests');
+          throwError(error, 'leftKeyChecker.itch');
           return false;
         }
       }
@@ -9042,15 +9076,19 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         return window.location.host === 'opquests.com';
       }
       async before() {
-        const opquestsVerifyTasks = GM_getValue('opquestsVerifyTasks') || [];
-        if (opquestsVerifyTasks.length > 0) {
-          const taskId = opquestsVerifyTasks.pop();
-          GM_setValue('opquestsVerifyTasks', opquestsVerifyTasks);
-          $(`#task_id[value="${taskId}"]`).parent().children('button[type="submit"]')[0].click();
-        } else {
-          if (GM_getValue('opquestsVerifyTasks')) {
-            GM_deleteValue('opquestsVerifyTasks');
+        try {
+          const opquestsVerifyTasks = GM_getValue('opquestsVerifyTasks') || [];
+          if (opquestsVerifyTasks.length > 0) {
+            const taskId = opquestsVerifyTasks.pop();
+            GM_setValue('opquestsVerifyTasks', opquestsVerifyTasks);
+            $(`#task_id[value="${taskId}"]`).parent().children('button[type="submit"]')[0].click();
+          } else {
+            if (GM_getValue('opquestsVerifyTasks')) {
+              GM_deleteValue('opquestsVerifyTasks');
+            }
           }
+        } catch (error) {
+          throwError(error, 'Opquests.before');
         }
       }
       async after() {
@@ -9279,9 +9317,13 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         return window.location.host === 'gleam.io';
       }
       before() {
-        unsafeWindow.confirm = () => {};
-        unsafeWindow.alert = () => {};
-        unsafeWindow.prompt = () => {};
+        try {
+          unsafeWindow.confirm = () => {};
+          unsafeWindow.alert = () => {};
+          unsafeWindow.prompt = () => {};
+        } catch (error) {
+          throwError(error, 'Gleam.before');
+        }
       }
       async after() {
         try {
@@ -9314,7 +9356,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           }
         } catch (error) {
           throwError(error, 'Gleam.after');
-          return false;
         }
       }
       init() {
@@ -9523,8 +9564,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             unsafeWindow.$hookTimer?.setSpeed(1e3);
             const visitBtn = $task.find('.expandable').find('span:contains(more seconds),button:contains(more seconds)').filter(':visible');
             if (visitBtn.length > 0) {
-              const newTab = window.open('', '_blank');
-              newTab?.focus();
+              const newTab = GM_openInTab('', {
+                active: true
+              });
               await delay(1e3);
               newTab?.close();
             }
@@ -9824,7 +9866,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 clearInterval(checker);
                 resolve(true);
               }
-            });
+            }, 500);
           });
         } catch (error) {
           throwError(error, 'SweepWidget.checkEnter');
@@ -9839,7 +9881,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 clearInterval(checker);
                 resolve(true);
               }
-            });
+            }, 500);
           });
         } catch (error) {
           throwError(error, 'SweepWidget.checkFinish');
@@ -10296,13 +10338,19 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       buttons = [ 'saveGlobalOptions', 'syncData', 'tasksHistory' ];
       syncData = dataSync;
       tasksHistory() {
-        window.open('https://auto-task-v4.hclonely.com/history.html', '_blank');
+        GM_openInTab('https://auto-task-v4.hclonely.com/history.html', {
+          active: true
+        });
       }
       static test() {
         return window.location.host === 'auto-task-v4.hclonely.com' && window.location.pathname === '/setting.html';
       }
       before() {
-        $('body').html('').addClass('auto-task-options');
+        try {
+          $('body').html('').addClass('auto-task-options');
+        } catch (error) {
+          throwError(error, 'Setting.before');
+        }
       }
       after() {
         try {
@@ -10405,14 +10453,18 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         }
       }
       saveGlobalOptions() {
-        saveData();
+        try {
+          saveData();
+        } catch (error) {
+          throwError(error, 'Setting.saveGlobalOptions');
+        }
       }
       #getId(social) {
         try {
           external_Swal_default().fire({
             title: i18n('getId', i18n(social)),
             html: `<input id="socialLink" class="swal2-input" placeholder="在此处输入链接获取id">
-        <button id="link2id" data-type="${social}" class="swal2-confirm swal2-styled">获取id</button>`,
+          <button id="link2id" data-type="${social}" class="swal2-confirm swal2-styled">获取id</button>`,
             showCancelButton: true,
             cancelButtonText: i18n('close'),
             showConfirmButton: false
@@ -10482,7 +10534,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             icon: 'success'
           });
         } catch (error) {
-          throwError(error, 'History.after');
+          throwError(error, 'History.clearHistory');
         }
       }
       #addItem(item) {
@@ -10715,9 +10767,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
     window.DEBUG = !!globalOptions.other?.debug;
     window.TRACE = !!globalOptions.other?.debug && typeof console.trace === 'function';
     const loadScript = async () => {
-      if (window.location.hostname === 'www.twitch.tv' && window.location.hash === '#auth') {
-        const authToken = external_Cookies_namespaceObject.get('auth-token');
-        const isLogin = !!external_Cookies_namespaceObject.get('login');
+      if (window.name === 'ATv4_twitchAuth' && window.location.hostname === 'www.twitch.tv') {
+        const authToken = external_Cookies_default().get('auth-token');
+        const isLogin = !!external_Cookies_default().get('login');
         if (isLogin) {
           GM_setValue('twitchAuth', {
             authToken: authToken,
@@ -10733,13 +10785,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         }
         return;
       }
-      if (window.location.hostname === 'www.reddit.com' && (window.location.hash === '#auth' || GM_getValue('redditAuth') === '#auth')) {
+      if (window.name === 'ATv4_redditAuth' && window.location.hostname === 'www.reddit.com') {
         const betaButton = $('#redesign-beta-optin-btn');
         if (betaButton.length > 0) {
-          GM_setValue('redditAuth', '#auth');
           return betaButton[0].click();
         }
-        GM_setValue('redditAuth', null);
         window.close();
         external_Swal_default().fire('', i18n('closePageNotice'));
         return;
@@ -10758,7 +10808,27 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       if (website?.before) {
         await website?.before();
       }
-      $('body').append(`<div id="auto-task-info" style="display:${globalOptions.other.defaultShowLog ? 'block' : 'none'};${globalOptions.position.logSideX}:${globalOptions.position.logDistance.split(',')[0]}px;${globalOptions.position.logSideY}:${globalOptions.position.logDistance.split(',')[1]}px;"></div><div id="auto-task-buttons" style="display:${globalOptions.other.defaultShowButton ? 'block' : 'none'};${globalOptions.position.buttonSideX}:${globalOptions.position.buttonDistance.split(',')[0]}px;${globalOptions.position.buttonSideY}:${globalOptions.position.buttonDistance.split(',')[1]}px;"></div><div class="show-button-div" style="display:${globalOptions.other.defaultShowButton ? 'none' : 'block'};${globalOptions.position.showButtonSideX}:${globalOptions.position.showButtonDistance.split(',')[0]}px;${globalOptions.position.showButtonSideY}:${globalOptions.position.showButtonDistance.split(',')[1]}px;"><a class="auto-task-website-btn" href="javascript:void(0);" target="_self" title="${i18n('showButton')}"> </a></div>`);
+      $('body').append(`
+    <div id="auto-task-info"
+         style="display:${globalOptions.other.defaultShowLog ? 'block' : 'none'};
+                ${globalOptions.position.logSideX}:${globalOptions.position.logDistance.split(',')[0]}px;
+                ${globalOptions.position.logSideY}:${globalOptions.position.logDistance.split(',')[1]}px;">
+    </div>
+    <div id="auto-task-buttons"
+         style="display:${globalOptions.other.defaultShowButton ? 'block' : 'none'};
+                ${globalOptions.position.buttonSideX}:${globalOptions.position.buttonDistance.split(',')[0]}px;
+                ${globalOptions.position.buttonSideY}:${globalOptions.position.buttonDistance.split(',')[1]}px;">
+    </div>
+    <div class="show-button-div"
+         style="display:${globalOptions.other.defaultShowButton ? 'none' : 'block'};
+                ${globalOptions.position.showButtonSideX}:${globalOptions.position.showButtonDistance.split(',')[0]}px;
+                ${globalOptions.position.showButtonSideY}:${globalOptions.position.showButtonDistance.split(',')[1]}px;">
+      <a class="auto-task-website-btn"
+         href="javascript:void(0);"
+         target="_self"
+         title="${i18n('showButton')}"> </a>
+    </div>
+  `);
       $('div.show-button-div').on('click', () => {
         $('#auto-task-buttons').show();
         $('div.show-button-div').hide();
@@ -10781,7 +10851,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       });
       external_keyboardJS_default().bind(globalOptions.hotKey.undoTaskKey, () => {
         if (website.undoTask) {
-          website.doTask();
+          website.undoTask();
         }
       });
       external_keyboardJS_default().bind(globalOptions.hotKey.toggleLogKey, toggleLog);
@@ -10801,13 +10871,13 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         }
       }
       const hideButtonElement = $(`<p><a class="auto-task-website-btn ${website.name}-button" href="javascript:void(0);" target="_self">
-    ${i18n('hideButton')}</a></p>`);
+      ${i18n('hideButton')}</a></p>`);
       hideButtonElement.find('a.auto-task-website-btn').on('click', () => {
         $('#auto-task-buttons').hide();
         $('div.show-button-div').show();
       });
       const toggleLogElement = $(`<p><a id="toggle-log" class="auto-task-website-btn ${website.name}-button" href="javascript:void(0);" target="_self" data-status="${globalOptions.other.defaultShowLog ? 'show' : 'hide'}">
-      ${globalOptions.other.defaultShowLog ? i18n('hideLog') : i18n('showLog')}</a></p>`);
+        ${globalOptions.other.defaultShowLog ? i18n('hideLog') : i18n('showLog')}</a></p>`);
       toggleLogElement.find('a.auto-task-website-btn').on('click', toggleLog);
       $('#auto-task-buttons').append(hideButtonElement).append(toggleLogElement);
       if (website?.options) {
@@ -10820,7 +10890,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           changeGlobalOptions('swal');
         });
         GM_registerMenuCommand(i18n('settingPage'), () => {
-          window.open('https://auto-task-v4.hclonely.com/setting.html', '_blank');
+          GM_openInTab('https://auto-task-v4.hclonely.com/setting.html', {
+            active: true
+          });
         });
       }
       console.log('%c%s', 'color:#1bbe1a', 'Auto-Task[Load]: 脚本加载完成');
@@ -10833,7 +10905,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           title: i18n('swalNotice'),
           icon: 'warning'
         }).then(() => {
-          window.open(i18n('noticeLink'), '_blank');
+          GM_openInTab(i18n('noticeLink'), {
+            active: true
+          });
           GM_setValue('notice', new Date().getTime());
         });
         scripts_echoLog({
@@ -10846,7 +10920,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
     };
     if (window.location.hostname === 'discord.com') {
       const LocalStorage = window.localStorage;
-      if (window.location.hash === '#auth') {
+      if (window.name === 'ATv4_discordAuth') {
         window.localStorage.removeItem = () => true;
         const discordAuth = LocalStorage?.getItem('token')?.replace(/^"|"$/g, '');
         if (discordAuth && discordAuth.length > 0) {
@@ -10871,7 +10945,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     } else if (window.location.hostname === 'opquests.com') {
       loadScript();
-    } else if (window.opener && window.name === 'ATv4_updateStoreAuth' && window.location.host === 'store.steampowered.com' && window.location.pathname === '/') {
+    } else if (window.name === 'ATv4_updateStoreAuth' && window.location.host === 'store.steampowered.com') {
       $(() => {
         if ($('[data-miniprofile]').length === 0) {
           return;
@@ -10890,7 +10964,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           });
         }
       });
-    } else if (window.opener && window.name === 'ATv4_updateCommunityAuth' && window.location.host === 'steamcommunity.com') {
+    } else if (window.name === 'ATv4_updateCommunityAuth' && window.location.host === 'steamcommunity.com') {
       $(() => {
         const steam64Id = document.body.innerHTML.match(/g_steamID = "(.+?)";/)?.[1];
         const communitySessionID = document.body.innerHTML.match(/g_sessionID = "(.+?)";/)?.[1];

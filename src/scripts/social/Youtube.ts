@@ -18,14 +18,24 @@ import __ from '../tools/i18n';
 import { unique, delay } from '../tools/tools';
 import { globalOptions } from '../globalOptions';
 
-const getInfo = async function (link: string, type: string): Promise <youtubeInfo> {
-  /**
-   * @internal
-   * @description 获取请求参数
-   * @param link link
-   * @param type 任务类型
-   * @return {youtubeInfo}: 获取成功，返回请求参数 | false: 获取失败
-  */
+/**
+ * 获取YouTube视频或频道的信息。
+ *
+ * @async
+ * @function getInfo
+ * @param {string} link - 要请求的YouTube链接。
+ * @param {string} type - 任务类型，可能的值包括'channel'和'likeVideo'。
+ * @returns {Promise<youtubeInfo>} - 返回一个Promise，表示获取操作的结果。
+ *                                   - {youtubeInfo}: 获取成功，返回请求参数
+ *                                   - false: 获取失败
+ *
+ * @description
+ * 该函数通过发送GET请求到指定的YouTube链接来获取相关信息。
+ * 如果请求成功且返回状态为200，则解析响应文本以提取所需的参数。
+ * 根据任务类型，分别处理频道ID或视频ID的获取。
+ * 如果在获取过程中发生错误，将记录错误信息并返回空对象。
+ */
+const getInfo = async function (link: string, type: string): Promise<youtubeInfo> {
   try {
     const logStatus = echoLog({ text: __('gettingYtbToken') });
     const { result, statusText, status, data } = await httpRequest({
@@ -83,6 +93,64 @@ const getInfo = async function (link: string, type: string): Promise <youtubeInf
   }
 };
 
+/**
+ * @class Youtube
+ * @extends Social
+ * @description 处理YouTube相关的任务，包括订阅/取消订阅频道和点赞/取消点赞视频。
+ *
+ * @property {youtubeTasks} tasks - 存储当前的YouTube任务信息，包括频道和点赞数组。
+ * @property {youtubeTasks} whiteList - 存储白名单任务信息。
+ * @private
+ * @property {auth} #auth - 存储YouTube的身份验证信息。
+ * @private
+ * @property {boolean} #initialized - 表示YouTube模块是否已初始化。
+ * @private
+ * @property {string} #verifyChannel - 用于验证频道的URL。
+ *
+ * @constructor
+ * @description 创建一个Youtube实例，初始化任务模板和白名单。
+ *
+ * @async
+ * @function init
+ * @returns {Promise<boolean>} - 返回初始化结果，true表示成功，false表示失败。
+ *
+ * @async
+ * @function #verifyAuth
+ * @returns {Promise<boolean>} - 验证身份验证Token的有效性，true表示有效，false表示无效。
+ *
+ * @async
+ * @function #updateAuth
+ * @returns {Promise<boolean>} - 更新身份验证Token，true表示成功，false表示失败。
+ *
+ * @async
+ * @function #getInfo
+ * @param {string} link - 要获取信息的YouTube链接。
+ * @param {string} type - 请求的信息类型，可能的值包括'video'和'channel'。
+ * @returns {Promise<youtubeInfo>} - 返回获取操作的结果，成功返回信息，失败返回false。
+ *
+ * @async
+ * @function #toggleChannel
+ * @param {Object} options - 选项对象。
+ * @param {string} options.link - 要处理的YouTube频道链接。
+ * @param {boolean} [options.doTask=true] - 是否执行任务，true表示关注，false表示退订。
+ * @param {boolean} [options.verify=false] - 是否用于验证Token。
+ * @returns {Promise<boolean>} - 返回操作结果，true表示成功，false表示失败。
+ *
+ * @async
+ * @function #toggleLikeVideo
+ * @param {Object} options - 选项对象。
+ * @param {string} options.link - 要点赞的YouTube视频链接。
+ * @param {boolean} [options.doTask=true] - 是否执行任务，true表示点赞，false表示取消点赞。
+ * @returns {Promise<boolean>} - 返回操作结果，true表示成功，false表示失败。
+ *
+ * @async
+ * @function toggle
+ * @param {Object} options - 选项对象。
+ * @param {boolean} [options.doTask=true] - 是否执行任务，true表示执行，false表示取消。
+ * @param {Array<string>} [options.channelLinks=[]] - YouTube频道链接数组。
+ * @param {Array<string>} [options.videoLinks=[]] - YouTube视频链接数组。
+ * @returns {Promise<boolean>} - 返回操作结果，true表示成功，false表示失败。
+ */
 class Youtube extends Social {
   tasks: youtubeTasks;
   whiteList: youtubeTasks;
@@ -90,6 +158,15 @@ class Youtube extends Social {
   #initialized = false;
   #verifyChannel = `https://www.youtube.com/channel/${globalOptions.other.youtubeVerifyChannel}`;
 
+  /**
+   * 创建一个Youtube实例。
+   *
+   * @constructor
+   * @description
+   * 此构造函数初始化Youtube类的实例，设置默认任务模板和白名单。
+   * 默认任务模板包含空的频道和点赞数组，用于存储Youtube相关的任务信息。
+   * 白名单将从GM_getValue中获取，如果没有找到，则使用默认任务模板。
+   */
   constructor() {
     super();
     const defaultTasksTemplate: youtubeTasks = {
@@ -98,11 +175,24 @@ class Youtube extends Social {
     this.tasks = defaultTasksTemplate;
     this.whiteList = { ...defaultTasksTemplate, ...(GM_getValue<whiteList>('whiteList')?.youtube || {}) };
   }
+
+  /**
+   * 初始化Youtube模块，验证用户身份并获取授权。
+   *
+   * @async
+   * @function init
+   * @returns {Promise<boolean>} - 返回一个Promise，表示初始化的结果。
+   *                              - true: 初始化成功
+   *                              - false: 初始化失败，toggle方法不可用
+   *
+   * @description
+   * 该方法首先检查模块是否已初始化。如果已初始化，则直接返回true。
+   * 然后检查身份验证信息是否完整。如果不完整，则调用`#updateAuth`方法获取新的授权信息。
+   * 如果身份验证成功，则记录成功日志并将初始化状态设置为true。
+   * 如果身份验证失败，则清除存储的身份验证信息，并尝试再次更新授权。
+   * 如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async init(): Promise<boolean> {
-    /**
-     * @description: 验证及获取Auth
-     * @return true: 初始化完成 | false: 初始化失败，toggle方法不可用
-    */
     try {
       if (this.#initialized) {
         return true;
@@ -133,13 +223,21 @@ class Youtube extends Social {
       return false;
     }
   }
-
+  /**
+ * 验证Youtube的身份验证Token是否有效。
+ *
+ * @async
+ * @function #verifyAuth
+ * @returns {Promise<boolean>} - 返回一个Promise，表示Token验证的结果。
+ *                              - true: Token有效
+ *                              - false: Token失效
+ *
+ * @description
+ * 该方法通过调用`#toggleChannel`方法来检测Token的有效性。
+ * 如果调用成功且返回结果为true，则表示Token有效；如果发生错误，则记录错误信息并返回false。
+ * 如果在执行过程中发生错误，将抛出错误并返回false。
+ */
   async #verifyAuth(): Promise<boolean> {
-    /**
-     * @internal
-     * @description 检测Youtube Token是否失效
-     * @return true: Token有效 | false: Token失效
-    */
     try {
       return await this.#toggleChannel({ link: this.#verifyChannel, doTask: true, verify: true });
     } catch (error) {
@@ -147,12 +245,23 @@ class Youtube extends Social {
       return false;
     }
   }
+
+  /**
+   * 更新Youtube的身份验证Token。
+   *
+   * @async
+   * @function #updateAuth
+   * @returns {Promise<boolean>} - 返回一个Promise，表示更新操作的结果。
+   *                              - true: 更新Token成功
+   *                              - false: 更新Token失败
+   *
+   * @description
+   * 该方法通过获取Youtube网站的cookie来更新Token。
+   * 如果成功获取到`__Secure-3PAPISID`的值，则将其存储在`youtubeAuth`中，并更新内部的`#auth`属性。
+   * 如果用户未登录，则记录错误信息并返回false。
+   * 如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async #updateAuth(): Promise<boolean> {
-    /**
-     * @internal
-     * @description 通过打开Youtube网站更新Token.
-     * @return true: 更新Token成功 | false: 更新Token失败
-    */
     try {
       const logStatus = echoLog({ text: __('updatingAuth', 'Youtube') });
       return await new Promise((resolve) => {
@@ -197,19 +306,49 @@ class Youtube extends Social {
     }
   }
 
+  /**
+   * 获取指定YouTube链接的信息。
+   *
+   * @async
+   * @function #getInfo
+   * @param {string} link - 要获取信息的YouTube链接。
+   * @param {string} type - 请求的信息类型，可能的值包括'video'和'channel'。
+   * @returns {Promise<youtubeInfo>} - 返回一个Promise，表示获取操作的结果。
+   *                                   - {youtubeInfo}: 获取成功，返回请求参数
+   *                                   - false: 获取失败
+   *
+   * @description
+   * 该方法调用外部的`getInfo`函数来获取指定YouTube链接的信息。
+   * 如果获取成功，则返回相应的信息；如果获取失败，则返回false。
+   * 在获取过程中，如果发生错误，将抛出错误并返回false。
+   */
   #getInfo(link: string, type: string): Promise<youtubeInfo> {
     return getInfo(link, type);
   }
 
+  /**
+   * 切换YouTube频道的订阅状态，关注或退订指定的频道。
+   *
+   * @async
+   * @function #toggleChannel
+   * @param {Object} options - 选项对象。
+   * @param {string} options.link - 要处理的YouTube频道链接。
+   * @param {boolean} [options.doTask=true] - 指示是否执行任务，true表示关注频道，false表示退订频道。
+   * @param {boolean} [options.verify=false] - 指示是否用于验证Token，true表示验证，false表示处理频道任务。
+   * @returns {Promise<boolean>} - 返回一个Promise，表示操作的结果。
+   *                              - true: 操作成功
+   *                              - false: 操作失败
+   *
+   * @description
+   * 该方法根据传入的参数处理YouTube频道的关注或退订任务。
+   * 如果需要登录，则显示登录提示并返回false。
+   * 如果获取频道信息失败，则记录错误信息并返回false。
+   * 根据`doTask`的值构建相应的请求数据，并发送POST请求到YouTube API。
+   * 如果请求成功且返回结果为'Success'，并且状态码为200，则记录成功日志并更新任务列表。
+   * 如果请求失败或返回的状态不符合预期，则记录错误信息并返回false。
+   * 如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async #toggleChannel({ link, doTask = true, verify = false }: { link: string, doTask: boolean, verify?: boolean }): Promise<boolean> {
-    /**
-     * @internal
-     * @description 处理Youtube频道任务
-     * @param link Youtube频道链接
-     * @param doTask true: 订阅频道 | false: 退订频道
-     * @param verify true: 用于验证Token | false: 处理频道任务
-     * @return true: 成功 | false: 失败
-    */
     try {
       const { params, needLogin } = await this.#getInfo(link, 'channel');
       const { apiKey, client, request, channelId } = params || {};
@@ -290,14 +429,28 @@ class Youtube extends Social {
     }
   }
 
+  /**
+   * 处理YouTube视频的点赞任务。
+   *
+   * @async
+   * @function #toggleLikeVideo
+   * @param {Object} options - 选项对象。
+   * @param {string} options.link - 要点赞的YouTube视频链接。
+   * @param {boolean} [options.doTask=true] - 指示是否执行任务，true表示点赞，false表示取消点赞。
+   * @returns {Promise<boolean>} - 返回一个Promise，表示操作的结果。
+   *                              - true: 操作成功
+   *                              - false: 操作失败
+   *
+   * @description
+   * 该方法根据传入的参数处理YouTube视频的点赞或取消点赞任务。
+   * 首先调用`#getInfo`方法获取视频信息，如果需要登录，则提示用户登录并返回false。
+   * 如果获取信息失败或参数不完整，则记录错误信息并返回false。
+   * 根据`doTask`的值构建相应的请求数据，并发送POST请求到YouTube API。
+   * 如果请求成功且返回结果为'Success'，并且状态码为200，则记录成功日志并更新任务列表。
+   * 如果请求失败或返回的状态不符合预期，则记录错误信息并返回false。
+   * 如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async #toggleLikeVideo({ link, doTask = true }: { link: string, doTask: boolean }): Promise<boolean> {
-    /**
-     * @internal
-     * @description 处理Youtube视频点赞任务
-     * @param link Youtube视频链接
-     * @param doTask true: 点赞 | false: 取消点赞
-     * @return true: 成功 | false: 失败
-    */
     try {
       const { params, needLogin } = await this.#getInfo(link, 'likeVideo');
       const { apiKey, client, request, videoId, likeParams } = params || {};
@@ -381,6 +534,27 @@ class Youtube extends Social {
     }
   }
 
+  /**
+   * 统一处理YouTube相关任务，关注或取消关注指定的频道和视频。
+   *
+   * @async
+   * @function toggle
+   * @param {Object} options - 选项对象。
+   * @param {boolean} [options.doTask=true] - 指示是否执行任务，true表示执行，false表示取消。
+   * @param {Array<string>} [options.channelLinks=[]] - YouTube频道链接数组。
+   * @param {Array<string>} [options.videoLinks=[]] - YouTube视频链接数组。
+   * @returns {Promise<boolean>} - 返回一个Promise，表示操作的结果。
+   *                              - true: 操作成功
+   *                              - false: 操作失败
+   *
+   * @description
+   * 该方法根据传入的参数处理YouTube相关任务。
+   * 首先检查模块是否已初始化，如果未初始化，则返回false。
+   * 根据`doTask`和全局选项判断是否执行频道关注或取消关注的任务。
+   * 如果执行任务，则获取实际的频道参数，并逐个处理关注或取消关注操作。
+   * 同样处理视频的点赞或取消点赞操作。
+   * 最后返回所有操作的结果，如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async toggle({
     doTask = true,
     channelLinks = [],
@@ -390,12 +564,6 @@ class Youtube extends Social {
     channelLinks?: Array<string>,
     videoLinks?: Array<string>
   }): Promise<boolean> {
-    /**
-     * @description 公有方法，统一处理Youtube相关任务
-     * @param {boolean} doTask true: 做任务 | false: 取消任务
-     * @param {?Array} channelLinks Youtube频道链接数组。
-     * @param {?Array} videoLinks Youtube视频推文链接数组。
-    */
     try {
       if (!this.#initialized) {
         echoLog({ text: __('needInit') });

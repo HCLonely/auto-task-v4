@@ -10,6 +10,15 @@ import throwError from './throwError';
 import httpRequest from './httpRequest';
 import echoLog from '../echoLog';
 
+/**
+ * 从给定的数组中返回唯一值的数组。
+ *
+ * @param {Array<any>} array - 输入的数组，可以包含任意类型的元素。
+ *
+ * @returns {Array<any>} 返回一个包含唯一值的新数组。如果发生错误，则返回空数组。
+ *
+ * @throws {Error} 如果在处理过程中发生错误，将抛出错误。
+ */
 const unique = (array: Array<any>): Array<any> => {
   try {
     return [...new Set(array)];
@@ -19,13 +28,30 @@ const unique = (array: Array<any>): Array<any> => {
   }
 };
 
-const delay = (time = 1000):Promise<true> => new Promise((resolve) => {
+/**
+ * 创建一个延迟的 Promise
+ *
+ * @param {number} [time=1000] - 延迟的时间（以毫秒为单位），默认为 1000 毫秒。
+ *
+ * @returns {Promise<true>} 返回一个 Promise
+ */
+const delay = (time = 1000): Promise<true> => new Promise((resolve) => {
   setTimeout(() => { resolve(true); }, time);
 });
 
 interface redirectLinksCache {
   [link:string]: string
 }
+
+/**
+ * 获取重定向链接。
+ *
+ * @param {string | undefined} link - 要重定向的链接，如果未提供则返回 null。
+ *
+ * @returns {Promise<string | null>} 返回一个 Promise，解析为重定向后的链接，如果没有重定向则返回 null。
+ *
+ * @throws {Error} 如果在获取重定向链接的过程中发生错误，将抛出错误。
+ */
 const getRedirectLink = async (link: string | undefined): Promise<string | null> => {
   try {
     if (!link) return null;
@@ -47,6 +73,17 @@ const getRedirectLink = async (link: string | undefined): Promise<string | null>
     return null;
   }
 };
+
+/**
+ * 访问指定的链接并返回访问结果。
+ *
+ * @param {string} link - 要访问的链接。
+ * @param {MonkeyXhrDetails} [options] - 可选的请求配置选项。
+ *
+ * @returns {Promise<boolean>} 返回一个 Promise，解析为访问结果，成功时为 `true`，失败时为 `false`。
+ *
+ * @throws {Error} 如果在访问过程中发生错误，将抛出错误。
+ */
 const visitLink = async (link: string, options?: MonkeyXhrDetails): Promise<boolean> => {
   try {
     const logStatus = echoLog({ type: 'visitLink', text: link });
@@ -71,6 +108,8 @@ const visitLink = async (link: string, options?: MonkeyXhrDetails): Promise<bool
 interface urlQuery {
   [name: string]: string
 }
+
+// todo: 使用URl实例优化
 const getUrlQuery = (url?: string): urlQuery => {
   try {
     const query: urlQuery = {};
@@ -88,11 +127,25 @@ const getUrlQuery = (url?: string): urlQuery => {
   }
 };
 
+/**
+ * 生成一个唯一的 UUID 字符串。
+ *
+ * @returns {string} 返回生成的 UUID 字符串。
+ */
 const getUuid = (): string => {
   const uuidUrl = URL.createObjectURL(new Blob()).toString();
   return uuidUrl.slice(uuidUrl.lastIndexOf('/') + 1);
 };
 
+/**
+ * 将给定字符串转换为颜色代码。
+ *
+ * @param {string} str - 要转换的字符串。
+ *
+ * @returns {string} 返回生成的颜色代码，格式为十六进制字符串（例如：#RRGGBB）。
+ *
+ * @throws {Error} 如果在处理过程中发生错误，将抛出错误。
+ */
 const stringToColour = (str: string): string => {
   try {
     let hash = 0;

@@ -9,6 +9,19 @@
 import throwError from './tools/throwError';
 import __ from './tools/i18n';
 
+/**
+ * 记录日志信息并返回日志状态对象。
+ *
+ * @param {Object} options - 日志选项对象。
+ * @param {string} [options.type] - 日志类型，用于确定日志的内容和格式。
+ * @param {string} [options.text] - 日志文本内容。
+ * @param {string} [options.html] - 日志的 HTML 内容。
+ * @param {string} [options.id] - 相关的 ID，用于特定日志类型。
+ *
+ * @returns {logStatus} 返回一个日志状态对象，包含成功、错误、警告和信息的方法。
+ *
+ * @throws {Error} 如果在记录日志的过程中发生错误，将抛出错误。
+ */
 const echoLog = ({ type, text, html, id }: { type?: string, text?: string, html?: string, id?: string }): logStatus => {
   const emptyStatus = {
     success: () => emptyStatus,

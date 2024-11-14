@@ -14,7 +14,71 @@ import httpRequest from '../tools/httpRequest';
 import { unique, delay } from '../tools/tools';
 import __ from '../tools/i18n';
 import { globalOptions } from '../globalOptions';
-
+/**
+ * Twitter类用于处理与Twitter相关的任务，包括关注/取关用户和转推/取消转推推文。
+ *
+ * @class Twitter
+ * @extends Social
+ *
+ * @property {twitterTasks} tasks - 存储当前的Twitter任务，包括用户、转推和点赞。
+ * @property {twitterTasks} whiteList - 存储白名单用户和推文。
+ * @private
+ * @property {string} #verifyId - Twitter验证ID。
+ * @private
+ * @property {auth} #auth - 存储Twitter的身份验证信息。
+ * @private
+ * @property {cache} #cache - 存储用户ID的缓存。
+ * @private
+ * @property {boolean} #initialized - 模块是否已初始化的标志。
+ *
+ * @constructor
+ * @description 创建一个Twitter实例，初始化任务模板和白名单。
+ *
+ * @async
+ * @function init
+ * @returns {Promise<boolean>} - 返回初始化结果，true表示成功，false表示失败。
+ *
+ * @async
+ * @function #verifyAuth
+ * @returns {Promise<boolean>} - 返回Token验证结果，true表示有效，false表示无效。
+ *
+ * @async
+ * @function #updateAuth
+ * @returns {Promise<boolean>} - 返回更新Token的结果，true表示成功，false表示失败。
+ *
+ * @async
+ * @function #toggleUser
+ * @param {Object} options - 选项对象。
+ * @param {string} options.name - Twitter用户名。
+ * @param {boolean} [options.doTask=true] - 是否执行任务，true表示关注，false表示取关。
+ * @param {boolean} [options.verify=false] - 是否用于验证Token。
+ * @returns {Promise<boolean>} - 返回操作结果，true表示成功，false表示失败。
+ *
+ * @async
+ * @function userName2id
+ * @param {string} name - Twitter用户名。
+ * @returns {Promise<string | false>} - 返回用户ID或false。
+ *
+ * @async
+ * @function #toggleRetweet
+ * @param {Object} options - 选项对象。
+ * @param {string} options.retweetId - 推文的ID。
+ * @param {boolean} [options.doTask=true] - 是否执行转推任务。
+ * @returns {Promise<boolean>} - 返回操作结果，true表示成功，false表示失败。
+ *
+ * @async
+ * @function toggle
+ * @param {Object} options - 选项对象。
+ * @param {boolean} [options.doTask=true] - 是否执行任务。
+ * @param {Array<string>} [options.userLinks=[]] - Twitter用户链接数组。
+ * @param {Array<string>} [options.retweetLinks=[]] - 推文链接数组。
+ * @returns {Promise<boolean>} - 返回操作结果，true表示成功，false表示失败。
+ *
+ * @function #setCache
+ * @param {string} name - 要缓存的Twitter用户名。
+ * @param {string} id - 要缓存的Twitter用户ID。
+ * @returns {void} - 无返回值。
+ */
 class Twitter extends Social {
   tasks: twitterTasks;
   whiteList: twitterTasks;
@@ -23,6 +87,15 @@ class Twitter extends Social {
   #cache: cache = GM_getValue<cache>('twitterCache') || {};
   #initialized = false;
 
+  /**
+   * 创建一个Twitter实例。
+   *
+   * @constructor
+   * @description
+   * 此构造函数初始化Twitter类的实例，设置默认任务模板和白名单。
+   * 默认任务模板包含空的用户、转发和点赞数组，用于存储Twitter相关的任务信息。
+   * 白名单将从GM_getValue中获取，如果没有找到，则使用默认任务模板。
+   */
   constructor() {
     super();
     const defaultTasksTemplate: twitterTasks = {
@@ -31,11 +104,24 @@ class Twitter extends Social {
     this.tasks = defaultTasksTemplate;
     this.whiteList = { ...defaultTasksTemplate, ...(GM_getValue<whiteList>('whiteList')?.twitter || {}) };
   }
+
+  /**
+   * 初始化Twitter模块，验证用户身份并获取授权。
+   *
+   * @async
+   * @function init
+   * @returns {Promise<boolean>} - 返回一个Promise，表示初始化的结果。
+   *                              - true: 初始化成功
+   *                              - false: 初始化失败，toggle方法不可用
+   *
+   * @description
+   * 该方法首先检查模块是否已初始化。如果已初始化，则直接返回true。
+   * 然后检查身份验证信息是否完整。如果不完整，则调用`#updateAuth`方法获取新的授权信息。
+   * 如果身份验证成功，则记录成功日志并将初始化状态设置为true。
+   * 如果身份验证失败，则清除存储的身份验证信息，并尝试再次更新授权。
+   * 如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async init(): Promise<boolean> {
-    /**
-     * @description: 验证及获取Auth
-     * @return true: 初始化完成 | false: 初始化失败，toggle方法不可用
-    */
     try {
       if (this.#initialized) {
         return true;
@@ -67,12 +153,21 @@ class Twitter extends Social {
     }
   }
 
+  /**
+   * 验证Twitter的身份验证Token是否有效。
+   *
+   * @async
+   * @function #verifyAuth
+   * @returns {Promise<boolean>} - 返回一个Promise，表示Token验证的结果。
+   *                              - true: Token有效
+   *                              - false: Token失效
+   *
+   * @description
+   * 该方法通过调用`#toggleUser`方法来检测Token的有效性。
+   * 如果调用成功且返回结果为true，则表示Token有效；如果发生错误，则记录错误信息并返回false。
+   * 如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async #verifyAuth(): Promise<boolean> {
-    /**
-     * @internal
-     * @description 检测Twitter Token是否失效
-     * @return true: Token有效 | false: Token失效
-    */
     try {
       return await this.#toggleUser({ name: 'verify', doTask: true, verify: true });
     } catch (error) {
@@ -81,12 +176,22 @@ class Twitter extends Social {
     }
   }
 
+  /**
+   * 更新Twitter的身份验证Token。
+   *
+   * @async
+   * @function #updateAuth
+   * @returns {Promise<boolean>} - 返回一个Promise，表示更新操作的结果。
+   *                              - true: 更新Token成功
+   *                              - false: 更新Token失败
+   *
+   * @description
+   * 该方法通过打开Twitter网站的设置页面来更新Token。
+   * 使用`GM_cookie.list`方法获取当前的cookie信息，如果成功获取到`ct0`和`twid`的值，则更新存储的身份验证信息。
+   * 如果用户未登录，则记录错误信息并返回false。
+   * 如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async #updateAuth(): Promise<boolean> {
-    /**
-     * @internal
-     * @description 通过打开Twitter网站更新Token.
-     * @return true: 更新Token成功 | false: 更新Token失败
-    */
     try {
       const logStatus = echoLog({ text: __('updatingAuth', 'Twitter') });
       return await new Promise((resolve) => {
@@ -116,15 +221,29 @@ class Twitter extends Social {
     }
   }
 
+  /**
+   * 处理Twitter用户任务，关注或取关指定的用户。
+   *
+   * @async
+   * @function #toggleUser
+   * @param {Object} options - 选项对象。
+   * @param {string} options.name - Twitter用户名。
+   * @param {boolean} [options.doTask=true] - 指示是否执行任务，true表示关注，false表示取关。
+   * @param {boolean} [options.verify=false] - 指示是否用于验证Token，true表示验证，false表示处理用户任务。
+   * @returns {Promise<boolean>} - 返回一个Promise，表示操作的结果。
+   *                              - true: 操作成功
+   *                              - false: 操作失败
+   *
+   * @description
+   * 该方法根据传入的参数处理Twitter用户的关注或取关任务。
+   * 如果`doTask`为false且用户在白名单中，则直接返回true。
+   * 通过调用`#verifyId`或`userName2id`方法获取用户ID，如果获取失败则返回false。
+   * 根据`doTask`的值构建相应的请求数据，并发送POST请求到Twitter API。
+   * 如果请求成功且返回结果为'Success'，并且状态码为200，则记录成功日志并更新任务列表。
+   * 如果请求失败或返回的状态不符合预期，则记录错误信息并返回false。
+   * 如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async #toggleUser({ name, doTask = true, verify = false }: { name: string, doTask: boolean, verify?: boolean }): Promise<boolean> {
-    /**
-     * @internal
-     * @description 处理Twitter用户任务
-     * @param name Twitter用户名
-     * @param doTask true: 关注 | false: 取关
-     * @param verify true: 用于验证Token | false: 处理用户任务
-     * @return true: 成功 | false: 失败
-    */
     try {
       if (!doTask && !verify && this.whiteList.users.includes(name)) {
         echoLog({ type: 'whiteList', text: 'Twitter.unfollowUser', id: name });
@@ -182,12 +301,24 @@ class Twitter extends Social {
     }
   }
 
+  /**
+   * 通过用户名获取Twitter用户的ID。
+   *
+   * @async
+   * @function userName2id
+   * @param {string} name - Twitter用户名。
+   * @returns {Promise<string | false>} - 返回一个Promise，表示获取操作的结果。
+   *                                      - string: 获取成功，返回用户ID
+   *                                      - false: 获取失败
+   *
+   * @description
+   * 该方法首先检查缓存中是否存在对应的用户ID。如果存在，则直接返回该ID。
+   * 如果不存在，则发送GET请求到Twitter的GraphQL API以获取用户信息。
+   * 如果请求成功且返回结果为'Success'，并且状态码为200，则提取用户ID并缓存。
+   * 如果获取失败或返回的状态不符合预期，则记录错误信息并返回false。
+   * 如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async userName2id(name: string): Promise<string | false> {
-    /**
-     * @description 通过用户名获取Id
-     * @param name 用户名
-     * @return {string}: 获取成功，返回用户Id | false: 获取失败
-    */
     try {
       const logStatus = echoLog({ type: 'gettingTwitterUserId', text: name });
       const userId = this.#cache[name];
@@ -239,14 +370,27 @@ class Twitter extends Social {
     }
   }
 
+  /**
+   * 处理转推任务，关注或撤销转推指定的推文。
+   *
+   * @async
+   * @function #toggleRetweet
+   * @param {Object} options - 选项对象。
+   * @param {string} options.retweetId - 推文的ID。
+   * @param {boolean} [options.doTask=true] - 指示是否执行转推任务，true表示转推，false表示撤销转推。
+   * @returns {Promise<boolean>} - 返回一个Promise，表示操作的结果。
+   *                              - true: 操作成功
+   *                              - false: 操作失败
+   *
+   * @description
+   * 该方法根据传入的参数处理转推任务。
+   * 如果`doTask`为false且推文在白名单中，则直接返回true。
+   * 发送POST请求到Twitter API以执行转推或撤销转推操作。
+   * 如果请求成功且返回结果为'Success'，并且状态码为200或403（表示已撤销转推），则记录成功日志并更新任务列表。
+   * 如果请求失败或返回的状态不符合预期，则记录错误信息并返回false。
+   * 如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async #toggleRetweet({ retweetId, doTask = true }: { retweetId: string, doTask: boolean }): Promise<boolean> {
-    /**
-     * @internal
-     * @description 处理转推任务
-     * @param retweetId 推文Id
-     * @param doTask true: 转推 | false: 撤销转推
-     * @return true: 成功 | false: 失败
-    */
     try {
       if (!doTask && this.whiteList.retweets.includes(retweetId)) {
         echoLog({ type: 'whiteList', text: 'Twitter.unretweet', id: retweetId });
@@ -282,6 +426,27 @@ class Twitter extends Social {
     }
   }
 
+  /**
+   * 统一处理Twitter相关任务，关注或取消关注指定的用户和推文。
+   *
+   * @async
+   * @function toggle
+   * @param {Object} options - 选项对象。
+   * @param {boolean} [options.doTask=true] - 指示是否执行任务，true表示执行，false表示取消。
+   * @param {Array<string>} [options.userLinks=[]] - Twitter用户链接数组。
+   * @param {Array<string>} [options.retweetLinks=[]] - 推文链接数组。
+   * @returns {Promise<boolean>} - 返回一个Promise，表示操作的结果。
+   *                              - true: 操作成功
+   *                              - false: 操作失败
+   *
+   * @description
+   * 该方法根据传入的参数处理Twitter相关任务。
+   * 首先检查模块是否已初始化，如果未初始化，则返回false。
+   * 根据`doTask`和全局选项判断是否执行用户关注或取消关注的任务。
+   * 如果执行任务，则获取实际的用户参数，并逐个处理关注或取消关注操作。
+   * 同样处理推文的转推或取消转推操作。
+   * 最后返回所有操作的结果，如果在执行过程中发生错误，将抛出错误并返回false。
+   */
   async toggle({
     doTask = true,
     userLinks = [],
@@ -291,12 +456,6 @@ class Twitter extends Social {
     userLinks?: Array<string>,
     retweetLinks?: Array<string>
   }): Promise<boolean> {
-    /**
-     * @description 公有方法，统一处理Twitter相关任务
-     * @param {boolean} doTask true: 做任务 | false: 取消任务
-     * @param {?Array} userLinks Twitter用户链接数组。
-     * @param {?Array} retweetLinks 推文链接数组。
-    */
     try {
       if (!this.#initialized) {
         echoLog({ text: __('needInit') });
@@ -341,12 +500,20 @@ class Twitter extends Social {
       return false;
     }
   }
+
+  /**
+   * 设置缓存，将指定的用户名与用户ID进行关联。
+   *
+   * @function #setCache
+   * @param {string} name - 要缓存的Twitter用户名。
+   * @param {string} id - 要缓存的Twitter用户ID。
+   * @returns {void} - 无返回值。
+   *
+   * @description
+   * 该方法将用户名与用户ID的对应关系存储在缓存中，并使用`GM_setValue`将缓存保存到存储中。
+   * 如果在设置缓存过程中发生错误，将抛出错误并记录错误信息。
+   */
   #setCache(name: string, id: string): void {
-    /**
-     * @internal
-     * @description 缓存用户名与用户Id的对应关系
-     * @return {void}
-    */
     try {
       this.#cache[name] = id;
       GM_setValue('twitterCache', this.#cache);

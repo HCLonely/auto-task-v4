@@ -13,6 +13,19 @@ import httpRequest from './tools/httpRequest';
 import Swal from 'sweetalert2';
 import echoLog from './echoLog';
 
+/**
+ * 设置 Gist 数据。
+ *
+ * @param {string} token - GitHub 访问令牌，用于身份验证。
+ * @param {string} gistId - 要更新的 Gist 的 ID。
+ * @param {string} fileName - 要更新的文件名。
+ * @param {commonObject} content - 要设置的内容对象，将被序列化为 JSON。
+ *
+ * @returns {Promise<boolean>} 返回一个 Promise，解析为布尔值，表示操作是否成功。
+ *
+ * @throws {Error} 如果在设置 Gist 数据的过程中发生错误，将抛出错误。
+ * }
+ */
 const setGistData = async (token: string, gistId: string, fileName: string, content: commonObject): Promise<boolean> => {
   try {
     const logStatus = echoLog({ text: __('settingData') });
@@ -50,6 +63,20 @@ const setGistData = async (token: string, gistId: string, fileName: string, cont
     return false;
   }
 };
+
+/**
+ * 获取指定 Gist 的数据。
+ *
+ * @param {string} token - GitHub 访问令牌，用于身份验证。
+ * @param {string} gistId - 要获取的 Gist 的 ID。
+ * @param {string} fileName - 要获取的文件名。
+ * @param {boolean} [test=false] - 可选参数，指示是否进行测试，默认为 false。
+ *
+ * @returns {Promise<boolean | globalOptions>} 返回一个 Promise，解析为布尔值或全局选项对象。
+ *          如果成功获取数据，则返回全局选项对象；如果失败，则返回 false。
+ *
+ * @throws {Error} 如果在获取 Gist 数据的过程中发生错误，将抛出错误。
+ */
 const getGistData = async (token: string, gistId: string, fileName: string, test = false): Promise<boolean | globalOptions> => {
   try {
     const logStatus = echoLog({ text: __('gettingData') });
@@ -95,7 +122,13 @@ const getGistData = async (token: string, gistId: string, fileName: string, test
     return false;
   }
 };
-
+/**
+ * 同步 Gist 配置选项，允许用户输入 GitHub Token、Gist ID 和文件名，并提供上传和下载数据的功能。
+ *
+ * @returns {void} 无返回值。
+ *
+ * @throws {Error} 如果在同步过程中发生错误，将抛出错误。
+ */
 const syncOptions = (): void => {
   try {
     const {

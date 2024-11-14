@@ -10,6 +10,15 @@
 import Swal from 'sweetalert2';
 import { ua } from '@xuanmo/javascript-utils';
 import __ from './i18n';
+
+/**
+ * 处理错误并显示相应的提示框，允许用户报告错误或复制错误信息。
+ *
+ * @param {Error} error - 要处理的错误对象。
+ * @param {string} name - 错误的名称，用于描述错误类型。
+ *
+ * @returns {void} 无返回值。
+ */
 export default function throwError(error: Error, name: string): void {
   if (window.TRACE) console.trace('%cAuto-Task[Debug]:', 'color:blue');
   Swal.fire({
@@ -23,8 +32,8 @@ export default function throwError(error: Error, name: string): void {
   }).then(({ isDenied, isConfirmed }) => {
     if (isConfirmed) {
       // eslint-disable-next-line max-len
-      window.open(`https://github.com/HCLonely/auto-task-v4/issues/new?title=${encodeURIComponent(`[BUG] 脚本报错: ${name}`)}&labels=bug&template=bug_report.yml&website=${encodeURIComponent(window.location.href)}&browser=${encodeURIComponent(JSON.stringify(ua(), null, 4))}&manager=${encodeURIComponent(`${GM_info.scriptHandler} ${GM_info.version}`)}&user-script=${encodeURIComponent(GM_info.script.version)}&logs=${encodeURIComponent(error.stack || 'null')}&run-logs=${encodeURIComponent($.makeArray($('#auto-task-info>li')).map((element) => element.innerText)
-        .join('\n'))}`, '_blank');
+      GM_openInTab(`https://github.com/HCLonely/auto-task-v4/issues/new?title=${encodeURIComponent(`[BUG] 脚本报错: ${name}`)}&labels=bug&template=bug_report.yml&website=${encodeURIComponent(window.location.href)}&browser=${encodeURIComponent(JSON.stringify(ua(), null, 4))}&manager=${encodeURIComponent(`${GM_info.scriptHandler} ${GM_info.version}`)}&user-script=${encodeURIComponent(GM_info.script.version)}&logs=${encodeURIComponent(error.stack || 'null')}&run-logs=${encodeURIComponent($.makeArray($('#auto-task-info>li')).map((element) => element.innerText)
+        .join('\n'))}`, { active: true });
     } else if (isDenied) {
       const text = `错误链接: [url=${window.location.href}]${window.location.href}[/url]
 
@@ -47,7 +56,7 @@ export default function throwError(error: Error, name: string): void {
         icon: 'success',
         confirmButtonText: __('ok')
       }).then(() => {
-        window.open('https://keylol.com/forum.php?mod=post&action=reply&fid=319&tid=777450', '_blank');
+        GM_openInTab('https://keylol.com/forum.php?mod=post&action=reply&fid=319&tid=777450', { active: true });
       });
     }
   });
