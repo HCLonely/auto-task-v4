@@ -565,10 +565,12 @@ class Steam extends Social {
       const logStatus = echoLog({ text: __('updatingAuth', __('steamStoreTab')) });
       return await new Promise((resolve) => {
         GM_deleteValue('steamStoreAuth');
+        GM_setValue('ATv4_updateStoreAuth', true);
         const newTab = GM_openInTab('https://store.steampowered.com/', { active: true, setParent: true });
         newTab.name = 'ATv4_updateStoreAuth';
         const listenerId = GM_addValueChangeListener<auth|null>('steamStoreAuth', (key, oldValue, newValue) => {
           GM_removeValueChangeListener(listenerId);
+          GM_deleteValue('ATv4_updateStoreAuth');
           newTab?.close();
           if (newValue && JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
             this.#auth.storeSessionID = newValue.storeSessionID;
@@ -579,6 +581,9 @@ class Steam extends Social {
           logStatus.error('Failed');
           resolve(false);
         });
+        newTab.onclose = () => {
+          GM_deleteValue('ATv4_updateStoreAuth');
+        };
       });
     } catch (error) {
       throwError(error as Error, 'Steam.updateStoreAuthTab');
@@ -608,10 +613,12 @@ class Steam extends Social {
       const logStatus = echoLog({ text: __('updatingAuth', __('steamCommunityTab')) });
       return await new Promise((resolve) => {
         GM_deleteValue('steamCommunityAuth');
+        GM_setValue('ATv4_updateCommunityAuth', true);
         const newTab = GM_openInTab('https://steamcommunity.com/my', { active: true, setParent: true });
         newTab.name = 'ATv4_updateCommunityAuth';
         const listenerId = GM_addValueChangeListener<auth | null>('steamCommunityAuth', (key, oldValue, newValue) => {
           GM_removeValueChangeListener(listenerId);
+          GM_deleteValue('ATv4_updateCommunityAuth');
           newTab?.close();
           if (newValue && JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
             this.#auth.steam64Id = newValue.steam64Id;
@@ -623,6 +630,9 @@ class Steam extends Social {
           logStatus.error('Failed');
           resolve(false);
         });
+        newTab.onclose = () => {
+          GM_deleteValue('ATv4_updateCommunityAuth');
+        };
       });
     } catch (error) {
       throwError(error as Error, 'Steam.updateCommunityAuthTab');

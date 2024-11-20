@@ -358,7 +358,7 @@ if (window.location.hostname === 'discord.com') {
   }
 } else if (window.location.hostname === 'opquests.com') {
   loadScript();
-} else if (window.name === 'ATv4_updateStoreAuth' && window.location.host === 'store.steampowered.com') {
+} else if ((window.name === 'ATv4_updateStoreAuth' || GM_getValue('ATv4_updateStoreAuth')) && window.location.host === 'store.steampowered.com') {
   // 当页面加载完成后执行以下代码
   $(() => {
     // 检查页面中是否存在数据属性为 miniprofile 的元素
@@ -371,6 +371,7 @@ if (window.location.hostname === 'discord.com') {
 
     // 如果成功获取到 sessionID
     if (storeSessionID) {
+      GM_deleteValue('ATv4_updateStoreAuth');
       // 将 sessionID 存储到 GM 值中
       GM_setValue('steamStoreAuth', { storeSessionID });
       // 关闭当前窗口
@@ -385,7 +386,7 @@ if (window.location.hostname === 'discord.com') {
       });
     }
   });
-} else if (window.name === 'ATv4_updateCommunityAuth' && window.location.host === 'steamcommunity.com') {
+} else if ((window.name === 'ATv4_updateCommunityAuth' || GM_getValue('ATv4_updateCommunityAuth')) && window.location.host === 'steamcommunity.com') {
   // 当页面加载完成后执行以下代码
   $(() => {
     // 从页面的 HTML 中提取用户的 Steam64 ID
@@ -393,26 +394,26 @@ if (window.location.hostname === 'discord.com') {
     // 从页面的 HTML 中提取社区会话ID
     const communitySessionID = document.body.innerHTML.match(/g_sessionID = "(.+?)";/)?.[1];
 
-    // 创建一个对象用于存储认证信息
-    const data: auth = {};
-
-    // 如果成功获取到 Steam64 ID，则将其添加到数据对象中
-    if (steam64Id) data.steam64Id = steam64Id;
-
     // 如果成功获取到社区会话ID
-    if (communitySessionID) {
-      // 将社区会话ID添加到数据对象中
-      data.communitySessionID = communitySessionID;
+    if (steam64Id && communitySessionID) {
+      GM_deleteValue('ATv4_updateCommunityAuth');
       // 将认证信息存储到 GM 值中
-      GM_setValue('steamCommunityAuth', data);
+      GM_setValue('steamCommunityAuth', {
+        steam64Id,
+        communitySessionID
+      });
       // 关闭当前窗口
       window.close();
+      // 弹出提示框，通知用户关闭页面
+      Swal.fire('', __('closePageNotice'));
     } else {
+      setTimeout(() => {
       // 如果未能获取到社区会话ID，弹出错误提示框
-      Swal.fire({
-        title: 'Error: Get "sessionID" failed',
-        icon: 'error'
-      });
+        Swal.fire({
+          title: 'Error: Get "sessionID" failed',
+          icon: 'error'
+        });
+      }, 3000);
     }
   });
 } else {

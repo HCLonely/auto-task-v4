@@ -1,9 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.5.0",
+  "version": "4.5.1",
   "change": [
-    "修复: 浏览器弹窗拦截导致登录凭证无法更新(#34)",
-    "优化: 开发文档"
+    "修复: Steam社区凭证无法更新(#34,#24)"
   ],
   "description": "赠Key站自动任务脚本",
   "engines": {

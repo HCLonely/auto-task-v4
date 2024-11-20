@@ -32,8 +32,7 @@
 // @include            *://*.reddit.com/*
 // @include            *://twitter.com/settings/account?k*
 // @include            *://x.com/settings/account*
-// @include            *://steamcommunity.com/id/*
-// @include            *://steamcommunity.com/profiles/*
+// @include            *://steamcommunity.com/*
 // @include            *://store.steampowered.com/*
 // @include            https://auto-task-v4.hclonely.com/setting.html
 // @include            https://auto-task-v4.hclonely.com/history.html

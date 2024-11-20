@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.5.0
+// @version            4.5.1
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -32,8 +32,7 @@
 // @include            *://*.reddit.com/*
 // @include            *://twitter.com/settings/account?k*
 // @include            *://x.com/settings/account*
-// @include            *://steamcommunity.com/id/*
-// @include            *://steamcommunity.com/profiles/*
+// @include            *://steamcommunity.com/*
 // @include            *://store.steampowered.com/*
 // @include            https://auto-task-v4.hclonely.com/setting.html
 // @include            https://auto-task-v4.hclonely.com/history.html
@@ -4783,6 +4782,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           });
           return await new Promise(resolve => {
             GM_deleteValue('steamStoreAuth');
+            GM_setValue('ATv4_updateStoreAuth', true);
             const newTab = GM_openInTab('https://store.steampowered.com/', {
               active: true,
               setParent: true
@@ -4790,6 +4790,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             newTab.name = 'ATv4_updateStoreAuth';
             const listenerId = GM_addValueChangeListener('steamStoreAuth', (key, oldValue, newValue) => {
               GM_removeValueChangeListener(listenerId);
+              GM_deleteValue('ATv4_updateStoreAuth');
               newTab?.close();
               if (newValue && JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
                 this.#auth.storeSessionID = newValue.storeSessionID;
@@ -4800,6 +4801,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.error('Failed');
               resolve(false);
             });
+            newTab.onclose = () => {
+              GM_deleteValue('ATv4_updateStoreAuth');
+            };
           });
         } catch (error) {
           throwError(error, 'Steam.updateStoreAuthTab');
@@ -4813,6 +4817,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           });
           return await new Promise(resolve => {
             GM_deleteValue('steamCommunityAuth');
+            GM_setValue('ATv4_updateCommunityAuth', true);
             const newTab = GM_openInTab('https://steamcommunity.com/my', {
               active: true,
               setParent: true
@@ -4820,6 +4825,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             newTab.name = 'ATv4_updateCommunityAuth';
             const listenerId = GM_addValueChangeListener('steamCommunityAuth', (key, oldValue, newValue) => {
               GM_removeValueChangeListener(listenerId);
+              GM_deleteValue('ATv4_updateCommunityAuth');
               newTab?.close();
               if (newValue && JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
                 this.#auth.steam64Id = newValue.steam64Id;
@@ -4831,6 +4837,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.error('Failed');
               resolve(false);
             });
+            newTab.onclose = () => {
+              GM_deleteValue('ATv4_updateCommunityAuth');
+            };
           });
         } catch (error) {
           throwError(error, 'Steam.updateCommunityAuthTab');
@@ -10945,13 +10954,14 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     } else if (window.location.hostname === 'opquests.com') {
       loadScript();
-    } else if (window.name === 'ATv4_updateStoreAuth' && window.location.host === 'store.steampowered.com') {
+    } else if ((window.name === 'ATv4_updateStoreAuth' || GM_getValue('ATv4_updateStoreAuth')) && window.location.host === 'store.steampowered.com') {
       $(() => {
         if ($('[data-miniprofile]').length === 0) {
           return;
         }
         const storeSessionID = document.body.innerHTML.match(/g_sessionID = "(.+?)";/)?.[1];
         if (storeSessionID) {
+          GM_deleteValue('ATv4_updateStoreAuth');
           GM_setValue('steamStoreAuth', {
             storeSessionID: storeSessionID
           });
@@ -10964,23 +10974,25 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           });
         }
       });
-    } else if (window.name === 'ATv4_updateCommunityAuth' && window.location.host === 'steamcommunity.com') {
+    } else if ((window.name === 'ATv4_updateCommunityAuth' || GM_getValue('ATv4_updateCommunityAuth')) && window.location.host === 'steamcommunity.com') {
       $(() => {
         const steam64Id = document.body.innerHTML.match(/g_steamID = "(.+?)";/)?.[1];
         const communitySessionID = document.body.innerHTML.match(/g_sessionID = "(.+?)";/)?.[1];
-        const data = {};
-        if (steam64Id) {
-          data.steam64Id = steam64Id;
-        }
-        if (communitySessionID) {
-          data.communitySessionID = communitySessionID;
-          GM_setValue('steamCommunityAuth', data);
-          window.close();
-        } else {
-          external_Swal_default().fire({
-            title: 'Error: Get "sessionID" failed',
-            icon: 'error'
+        if (steam64Id && communitySessionID) {
+          GM_deleteValue('ATv4_updateCommunityAuth');
+          GM_setValue('steamCommunityAuth', {
+            steam64Id: steam64Id,
+            communitySessionID: communitySessionID
           });
+          window.close();
+          external_Swal_default().fire('', i18n('closePageNotice'));
+        } else {
+          setTimeout(() => {
+            external_Swal_default().fire({
+              title: 'Error: Get "sessionID" failed',
+              icon: 'error'
+            });
+          }, 3e3);
         }
       });
     } else {

@@ -21,11 +21,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.5.0
-          name: 4.5.0
-          body: |-
-            - 修复: 浏览器弹窗拦截导致登录凭证无法更新(#34)
-            - 优化: 开发文档
+          tag_name: v4.5.1
+          name: 4.5.1
+          body: '- 修复: Steam社区凭证无法更新(#34,#24)'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js
