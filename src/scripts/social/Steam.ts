@@ -328,7 +328,7 @@ class Steam extends Social {
         if (this.#communityInitialized) {
           return true;
         }
-        let communityInitialized = await this.#getUserLink();
+        let communityInitialized = await this.#updateCommunityAuth();
         if (!communityInitialized) {
           communityInitialized = await this.#updateCommunityAuthTab();
           GM_setValue('steamCommunityAuth', null);
@@ -572,6 +572,7 @@ class Steam extends Social {
           GM_removeValueChangeListener(listenerId);
           GM_deleteValue('ATv4_updateStoreAuth');
           newTab?.close();
+          window.focus();
           if (newValue && JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
             this.#auth.storeSessionID = newValue.storeSessionID;
             logStatus.success();
@@ -620,6 +621,7 @@ class Steam extends Social {
           GM_removeValueChangeListener(listenerId);
           GM_deleteValue('ATv4_updateCommunityAuth');
           newTab?.close();
+          window.focus();
           if (newValue && JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
             this.#auth.steam64Id = newValue.steam64Id;
             this.#auth.communitySessionID = newValue.communitySessionID;
@@ -660,20 +662,19 @@ class Steam extends Social {
    * 如果状态为301，函数会根据重定向的URL进行相应处理。
    * 如果请求失败或发生异常，函数会记录错误并返回false。
    */
-  async #getUserLink(retry = false): Promise<boolean> {
+  async #updateCommunityAuth(): Promise<boolean> {
     try {
       const logStatus = echoLog({ text: __('gettingUserLink') });
       const { result, statusText, status, data } = await httpRequest({
         url: 'https://steamcommunity.com/my',
         method: 'GET',
         headers: {
-          Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+          Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+          Host: 'steamcommunity.com',
           'Sec-Fetch-Dest': 'document',
-          'Sec-Fetch-Mode': 'navigate',
-          'Upgrade-Insecure-Requests': '1'
+          'Sec-Fetch-Mode': 'navigate'
         },
-        fetch: false,
-        redirect: 'manual'
+        fetch: false
       });
       if (data?.status === 200) {
         if (data.finalUrl.includes('https://steamcommunity.com/login/home')) {
@@ -682,108 +683,14 @@ class Steam extends Social {
         }
         const steam64Id = data.responseText.match(/g_steamID = "(.+?)";/)?.[1];
         const communitySessionID = data.responseText.match(/g_sessionID = "(.+?)";/)?.[1];
-        if (steam64Id) this.#auth.steam64Id = steam64Id;
-        if (communitySessionID) {
+        // if (steam64Id) this.#auth.steam64Id = steam64Id;
+        if (steam64Id && communitySessionID) {
+          this.#auth.steam64Id = steam64Id;
           this.#auth.communitySessionID = communitySessionID;
           logStatus.success();
           return true;
         }
         logStatus.error('Error: Get "sessionID" failed');
-        return false;
-      }
-      if (data?.status === 302) {
-        if (await this.#refreshToken('steamCommunity')) {
-          if (retry) {
-            logStatus.error(`Error:${__('needLoginSteamCommunity')}`, true);
-            return false;
-          }
-          logStatus.warning(__('retry'));
-          return this.#getUserLink(true);
-        }
-        logStatus.error(`Error:${__('needLoginSteamCommunity')}`, true);
-        return false;
-      }
-      const location = data?.finalUrl || data?.responseHeaders?.split('\n')
-        ?.find((header: string) => (header.includes('location') ? header.replace('loctation:', '').trim() : null));
-      if (data?.status === 301) {
-        if (location?.includes('steamcommunity.com/id')) {
-          logStatus.success();
-          return await this.#updateCommunityAuth(location);
-        }
-        if (location?.includes('steamcommunity.com/login/home')) {
-          logStatus.error(`Error:${__('needLoginSteamCommunity')}`, true);
-          return false;
-        }
-        if (location?.includes('steamcommunity.com/my')) {
-          if (retry) {
-            logStatus.error(`Error:${__('redirect')}`, true);
-            return false;
-          }
-          logStatus.warning(__('retry'));
-          return await this.#getUserLink(true);
-        }
-        logStatus.error(`Error: 301 (${location})`, true);
-        return false;
-      }
-      logStatus.error(`${result}:${statusText}(${status})`);
-      return false;
-    } catch (error) {
-      throwError(error as Error, 'Steam.updateCommunityAuth');
-      return false;
-    }
-  }
-
-  /**
-   * 更新Steam社区的身份验证信息。
-   *
-   * @async
-   * @function #updateCommunityAuth
-   * @param {string} url - 要请求的Steam社区URL。
-   * @returns {Promise<boolean>} - 返回一个Promise，表示更新操作的结果。
-   *                              - true: 更新成功
-   *                              - false: 更新失败
-   * @throws {Error} - 如果在更新过程中发生错误，将抛出错误。
-   *
-   * @description
-   * 该函数通过发送GET请求到指定的Steam社区URL来更新身份验证信息。
-   * 如果请求成功且返回结果为'Success'，函数会检查响应的状态码。
-   * 如果状态码为200，进一步检查最终URL是否需要登录。
-   * 如果需要登录，则记录错误并返回false。
-   * 如果成功获取到`steam64Id`和`communitySessionID`，则将其存储并返回true。
-   * 如果请求失败或发生异常，函数会记录错误并返回false。
-   */
-  async #updateCommunityAuth(url: string): Promise<boolean> {
-    try {
-      const logStatus = echoLog({ text: __('updatingAuth', __('steamCommunity')) });
-      const { result, statusText, status, data } = await httpRequest({
-        url,
-        method: 'GET',
-        headers: {
-          Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-          'Cache-Control': 'max-age=0',
-          'Sec-Fetch-Dest': 'document',
-          'Sec-Fetch-Mode': 'navigate',
-          'Upgrade-Insecure-Requests': '1'
-        }
-      });
-      if (result === 'Success') {
-        if (data?.status === 200) {
-          if (data.finalUrl.includes('https://steamcommunity.com/login/home')) {
-            logStatus.error(`Error:${__('needLoginSteamCommunity')}`, true);
-            return false;
-          }
-          const steam64Id = data.responseText.match(/g_steamID = "(.+?)";/)?.[1];
-          const communitySessionID = data.responseText.match(/g_sessionID = "(.+?)";/)?.[1];
-          if (steam64Id) this.#auth.steam64Id = steam64Id;
-          if (communitySessionID) {
-            this.#auth.communitySessionID = communitySessionID;
-            logStatus.success();
-            return true;
-          }
-          logStatus.error('Error: Get "sessionID" failed');
-          return false;
-        }
-        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
@@ -1512,7 +1419,7 @@ class Steam extends Social {
       if (this.#area === 'CN' && followed === 'areaLocked') {
         logStatus.warning(__('changeAreaNotice'));
         if (!(await this.#changeArea())) return false;
-        return await this.#removeFromWishlist(gameId);
+        return await this.#toggleFollowGame(gameId, doTask);
       }
       if (doTask === followed) {
         logStatus.success();
@@ -2674,7 +2581,6 @@ class Steam extends Social {
           }
         }
       }
-      // TODO: 返回值处理
       return Promise.all(prom).then(async () => {
         if (this.#area !== 'CN') {
           echoLog({}).warning(__('steamFinishNotice'));

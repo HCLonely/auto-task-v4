@@ -346,7 +346,6 @@ class Instagram extends Social {
           }
         }
       }
-      // TODO: 返回值处理
       return await Promise.all(prom).then(() => true);
     } catch (error) {
       throwError(error as Error, 'Instagram.toggleUsers');

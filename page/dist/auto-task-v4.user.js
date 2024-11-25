@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.5.1
+// @version            4.5.2
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -54,6 +54,7 @@
 // @grant              unsafeWindow
 // @grant              window.close
 // @grant              window.localStorage
+// @grant              window.focus
 
 // @connect            cdn.jsdelivr.net
 // @connect            store.steampowered.com
@@ -562,6 +563,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
     var external_Cookies_default = __webpack_require__.n(external_Cookies_namespaceObject);
     var auto_task = __webpack_require__(675);
     var javascript_utils_umd_min = __webpack_require__(991);
+    const getFinalUrl = (responseHeaders, finalUrl) => {
+      const realFinalUrl = responseHeaders?.split('\n')?.find(header => header.includes('location') ? header.replace('loctation:', '').trim() : null);
+      return realFinalUrl || finalUrl;
+    };
     const httpRequest = async (options, times = 0) => {
       if (window.TRACE) {
         console.trace('%cAuto-Task[Debug]:', 'color:blue');
@@ -602,6 +607,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 });
               },
               onload(data) {
+                data.finalUrl = getFinalUrl(data.responseHeaders, data.finalUrl);
                 if (options.responseType === 'json' && data?.response && typeof data.response !== 'object') {
                   try {
                     data.response = JSON.parse(data.responseText);
@@ -4598,7 +4604,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             if (this.#communityInitialized) {
               return true;
             }
-            let communityInitialized = await this.#getUserLink();
+            let communityInitialized = await this.#updateCommunityAuth();
             if (!communityInitialized) {
               communityInitialized = await this.#updateCommunityAuthTab();
               GM_setValue('steamCommunityAuth', null);
@@ -4792,6 +4798,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               GM_removeValueChangeListener(listenerId);
               GM_deleteValue('ATv4_updateStoreAuth');
               newTab?.close();
+              window.focus();
               if (newValue && JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
                 this.#auth.storeSessionID = newValue.storeSessionID;
                 logStatus.success();
@@ -4827,6 +4834,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               GM_removeValueChangeListener(listenerId);
               GM_deleteValue('ATv4_updateCommunityAuth');
               newTab?.close();
+              window.focus();
               if (newValue && JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
                 this.#auth.steam64Id = newValue.steam64Id;
                 this.#auth.communitySessionID = newValue.communitySessionID;
@@ -4846,7 +4854,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      async #getUserLink(retry = false) {
+      async #updateCommunityAuth() {
         try {
           const logStatus = scripts_echoLog({
             text: i18n('gettingUserLink')
@@ -4860,13 +4868,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             url: 'https://steamcommunity.com/my',
             method: 'GET',
             headers: {
-              Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+              Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+              Host: 'steamcommunity.com',
               'Sec-Fetch-Dest': 'document',
-              'Sec-Fetch-Mode': 'navigate',
-              'Upgrade-Insecure-Requests': '1'
+              'Sec-Fetch-Mode': 'navigate'
             },
-            fetch: false,
-            redirect: 'manual'
+            fetch: false
           });
           if (data?.status === 200) {
             if (data.finalUrl.includes('https://steamcommunity.com/login/home')) {
@@ -4875,98 +4882,13 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
             const steam64Id = data.responseText.match(/g_steamID = "(.+?)";/)?.[1];
             const communitySessionID = data.responseText.match(/g_sessionID = "(.+?)";/)?.[1];
-            if (steam64Id) {
+            if (steam64Id && communitySessionID) {
               this.#auth.steam64Id = steam64Id;
-            }
-            if (communitySessionID) {
               this.#auth.communitySessionID = communitySessionID;
               logStatus.success();
               return true;
             }
             logStatus.error('Error: Get "sessionID" failed');
-            return false;
-          }
-          if (data?.status === 302) {
-            if (await this.#refreshToken('steamCommunity')) {
-              if (retry) {
-                logStatus.error(`Error:${i18n('needLoginSteamCommunity')}`, true);
-                return false;
-              }
-              logStatus.warning(i18n('retry'));
-              return this.#getUserLink(true);
-            }
-            logStatus.error(`Error:${i18n('needLoginSteamCommunity')}`, true);
-            return false;
-          }
-          const location = data?.finalUrl || data?.responseHeaders?.split('\n')?.find(header => header.includes('location') ? header.replace('loctation:', '').trim() : null);
-          if (data?.status === 301) {
-            if (location?.includes('steamcommunity.com/id')) {
-              logStatus.success();
-              return await this.#updateCommunityAuth(location);
-            }
-            if (location?.includes('steamcommunity.com/login/home')) {
-              logStatus.error(`Error:${i18n('needLoginSteamCommunity')}`, true);
-              return false;
-            }
-            if (location?.includes('steamcommunity.com/my')) {
-              if (retry) {
-                logStatus.error(`Error:${i18n('redirect')}`, true);
-                return false;
-              }
-              logStatus.warning(i18n('retry'));
-              return await this.#getUserLink(true);
-            }
-            logStatus.error(`Error: 301 (${location})`, true);
-            return false;
-          }
-          logStatus.error(`${result}:${statusText}(${status})`);
-          return false;
-        } catch (error) {
-          throwError(error, 'Steam.updateCommunityAuth');
-          return false;
-        }
-      }
-      async #updateCommunityAuth(url) {
-        try {
-          const logStatus = scripts_echoLog({
-            text: i18n('updatingAuth', i18n('steamCommunity'))
-          });
-          const {
-            result,
-            statusText,
-            status,
-            data
-          } = await tools_httpRequest({
-            url: url,
-            method: 'GET',
-            headers: {
-              Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-              'Cache-Control': 'max-age=0',
-              'Sec-Fetch-Dest': 'document',
-              'Sec-Fetch-Mode': 'navigate',
-              'Upgrade-Insecure-Requests': '1'
-            }
-          });
-          if (result === 'Success') {
-            if (data?.status === 200) {
-              if (data.finalUrl.includes('https://steamcommunity.com/login/home')) {
-                logStatus.error(`Error:${i18n('needLoginSteamCommunity')}`, true);
-                return false;
-              }
-              const steam64Id = data.responseText.match(/g_steamID = "(.+?)";/)?.[1];
-              const communitySessionID = data.responseText.match(/g_sessionID = "(.+?)";/)?.[1];
-              if (steam64Id) {
-                this.#auth.steam64Id = steam64Id;
-              }
-              if (communitySessionID) {
-                this.#auth.communitySessionID = communitySessionID;
-                logStatus.success();
-                return true;
-              }
-              logStatus.error('Error: Get "sessionID" failed');
-              return false;
-            }
-            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
@@ -5632,7 +5554,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             if (!await this.#changeArea()) {
               return false;
             }
-            return await this.#removeFromWishlist(gameId);
+            return await this.#toggleFollowGame(gameId, doTask);
           }
           if (doTask === followed) {
             logStatus.success();
@@ -8265,6 +8187,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             this.socialTasks = GM_getValue(`gcTasks-${this.giveawayId}`)?.tasks || Giveawaysu_defaultTasks;
             return true;
           }
+          this.undoneTasks = Giveawaysu_defaultTasks;
           const pro = [];
           const tasks = $('.event-actions tr');
           for (const task of tasks) {
@@ -9578,6 +9501,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               });
               await delay(1e3);
               newTab?.close();
+              window.focus();
             }
             await delay(3e3);
             unsafeWindow.$hookTimer?.setSpeed(1);

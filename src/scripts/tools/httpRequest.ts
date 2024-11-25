@@ -8,6 +8,11 @@
  */
 import throwError from './throwError';
 
+const getFinalUrl = (responseHeaders: string, finalUrl: string) => {
+  const realFinalUrl = responseHeaders?.split('\n')
+    ?.find((header: string) => (header.includes('location') ? header.replace('loctation:', '').trim() : null));
+  return realFinalUrl || finalUrl;
+};
 /**
  * 发送 HTTP 请求并返回响应结果。
  *
@@ -38,6 +43,7 @@ const httpRequest = async (options: httpRequestOptions, times = 0): Promise<http
             resolve({ result: 'Error', statusText: 'Error', status: 603, data, options });
           },
           onload(data) {
+            data.finalUrl = getFinalUrl(data.responseHeaders, data.finalUrl);
             if (options.responseType === 'json' && data?.response && typeof data.response !== 'object') {
               try {
                 data.response = JSON.parse(data.responseText);

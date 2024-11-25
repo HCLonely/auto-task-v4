@@ -54,6 +54,7 @@
 // @grant              unsafeWindow
 // @grant              window.close
 // @grant              window.localStorage
+// @grant              window.focus
 
 // @connect            cdn.jsdelivr.net
 // @connect            store.steampowered.com

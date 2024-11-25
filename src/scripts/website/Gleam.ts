@@ -460,6 +460,7 @@ class Gleam extends Website {
           // newTab?.focus();
           await delay(1000);
           newTab?.close();
+          window.focus();
         }
         await delay(3000);
         unsafeWindow.$hookTimer?.setSpeed(1);

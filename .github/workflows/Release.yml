@@ -21,9 +21,12 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.5.1
-          name: 4.5.1
-          body: '- 修复: Steam社区凭证无法更新(#34,#24)'
+          tag_name: v4.5.2
+          name: 4.5.2
+          body: |-
+            - 修复: 弹窗关闭后无法返回原标签页
+            - 修复: 关注/取关Steam限区游戏时动作错误
+            - 优化: Steam社区凭证更新逻辑
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

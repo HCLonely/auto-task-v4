@@ -5,6 +5,14 @@ lang: zh-CN
 
 ## V4.5
 
+### V4.5.2
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.5.2)
+
+- 修复: 弹窗关闭后无法返回原标签页
+- 修复: 关注/取关Steam限区游戏时动作错误
+- 优化: Steam社区凭证更新逻辑
+
 ### V4.5.1
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.5.1)

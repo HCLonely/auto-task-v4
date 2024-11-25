@@ -493,7 +493,6 @@ class Twitter extends Social {
           }
         }
       }
-      // TODO: 返回值处理
       return Promise.all(prom).then(() => true);
     } catch (error) {
       throwError(error as Error, 'Twitter.toggle');

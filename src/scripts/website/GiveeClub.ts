@@ -156,6 +156,8 @@ class GiveeClub extends GiveawaySu {
         return true;
       }
 
+      this.undoneTasks = defaultTasks;
+
       const pro = [];
       const tasks = $('.event-actions tr');
       for (const task of tasks) {

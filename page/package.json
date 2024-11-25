@@ -1,8 +1,10 @@
 {
   "name": "auto-task-v4",
-  "version": "4.5.1",
+  "version": "4.5.2",
   "change": [
-    "修复: Steam社区凭证无法更新(#34,#24)"
+    "修复: 弹窗关闭后无法返回原标签页",
+    "修复: 关注/取关Steam限区游戏时动作错误",
+    "优化: Steam社区凭证更新逻辑"
   ],
   "description": "赠Key站自动任务脚本",
   "engines": {
