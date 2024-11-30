@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.5.2
+// @version            4.5.3
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -9032,11 +9032,14 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           if (opquestsVerifyTasks.length > 0) {
             const taskId = opquestsVerifyTasks.pop();
             GM_setValue('opquestsVerifyTasks', opquestsVerifyTasks);
-            $(`#task_id[value="${taskId}"]`).parent().children('button[type="submit"]')[0].click();
-          } else {
-            if (GM_getValue('opquestsVerifyTasks')) {
-              GM_deleteValue('opquestsVerifyTasks');
+            const [ verifyBtn ] = $(`#task_id[value="${taskId}"]`).parent().children('button[type="submit"]');
+            if (verifyBtn) {
+              verifyBtn.click();
+              return;
             }
+          }
+          if (GM_getValue('opquestsVerifyTasks')) {
+            GM_deleteValue('opquestsVerifyTasks');
           }
         } catch (error) {
           throwError(error, 'Opquests.before');

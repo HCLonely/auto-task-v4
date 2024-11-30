@@ -125,12 +125,16 @@ class Opquests extends Website {
       if (opquestsVerifyTasks.length > 0) {
         const taskId = opquestsVerifyTasks.pop();
         GM_setValue('opquestsVerifyTasks', opquestsVerifyTasks);
-        $(`#task_id[value="${taskId}"]`).parent()
-          .children('button[type="submit"]')[0].click();
-      } else {
-        if (GM_getValue<Array<string>>('opquestsVerifyTasks')) {
-          GM_deleteValue('opquestsVerifyTasks');
-          /*
+        const [verifyBtn] = $(`#task_id[value="${taskId}"]`).parent()
+          .children('button[type="submit"]');
+        if (verifyBtn) {
+          verifyBtn.click();
+          return;
+        }
+      }
+      if (GM_getValue<Array<string>>('opquestsVerifyTasks')) {
+        GM_deleteValue('opquestsVerifyTasks');
+        /*
             echoLog({}).success(__('allTasksComplete'));
             if (await this.getKey()) {
               return;
@@ -138,7 +142,6 @@ class Opquests extends Website {
             window.location.reload();
             return;
             */
-        }
       }
     } catch (error) {
       throwError(error as Error, 'Opquests.before');

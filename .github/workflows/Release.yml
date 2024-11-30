@@ -21,12 +21,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.5.2
-          name: 4.5.2
-          body: |-
-            - 修复: 弹窗关闭后无法返回原标签页
-            - 修复: 关注/取关Steam限区游戏时动作错误
-            - 优化: Steam社区凭证更新逻辑
+          tag_name: v4.5.3
+          name: 4.5.3
+          body: '- 修复: Opquests验证任务报错(#35)'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js
