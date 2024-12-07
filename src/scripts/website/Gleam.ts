@@ -454,7 +454,7 @@ class Gleam extends Website {
         unsafeWindow.$hookTimer?.setSpeed(1000);
         const visitBtn = $task.find('.expandable').find('span:contains(more seconds),button:contains(more seconds)')
           .filter(':visible');
-        if (visitBtn.length > 0) {
+        if (visitBtn.length > 0 && unsafeWindow.$hookTimer) {
           const newTab = GM_openInTab('', { active: true });
           // const newTab = window.open('', '_blank');
           // newTab?.focus();

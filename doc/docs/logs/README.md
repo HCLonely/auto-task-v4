@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.5
 
+### V4.5.4
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.5.4)
+
+- 优化: 未安装TimerHooker脚本时不再弹出空白页面([#36](https://github.com/HCLonely/auto-task-v4/issues/36))
+
 ### V4.5.3
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.5.3)
