@@ -131,6 +131,8 @@ class Opquests extends Website {
           verifyBtn.click();
           return;
         }
+        this.before();
+        return;
       }
       if (GM_getValue<Array<string>>('opquestsVerifyTasks')) {
         GM_deleteValue('opquestsVerifyTasks');

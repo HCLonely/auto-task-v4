@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.5
 
+### V4.5.5
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.5.5)
+
+- 优化: opquests任务无法完成时跳过([#38](https://github.com/HCLonely/auto-task-v4/issues/38))
+
 ### V4.5.4
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.5.4)

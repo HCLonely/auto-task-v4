@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.5.4",
+  "version": "4.5.5",
   "change": [
-    "优化: 未安装TimerHooker脚本时不再弹出空白页面(#36)"
+    "优化: opquests任务无法完成时跳过(#38)"
   ],
   "description": "赠Key站自动任务脚本",
   "engines": {
