@@ -289,6 +289,11 @@ class SteamASF {
   async addToWishlist(gameId: string): Promise<boolean> {
     try {
       const logStatus = echoLog({ type: 'addingToWishlist', text: gameId });
+      if ((await this.#checkGame(gameId)).wishlist === true) {
+        logStatus.success();
+        return true;
+      }
+
       const { result, statusText, status, data } = await httpRequest({
         ...this.#asfOptions,
         data: JSON.stringify({ Command: `!ADDWISHLIST ${this.#botName} ${gameId}` })
@@ -330,6 +335,10 @@ class SteamASF {
   async removeFromWishlist(gameId: string): Promise<boolean> {
     try {
       const logStatus = echoLog({ type: 'removingFromWishlist', text: gameId });
+      if ((await this.#checkGame(gameId)).wishlist === false) {
+        logStatus.success();
+        return true;
+      }
 
       const { result, statusText, status, data } = await httpRequest({
         ...this.#asfOptions,
@@ -374,6 +383,10 @@ class SteamASF {
   async toggleFollowGame(gameId: string, doTask: boolean): Promise<boolean> {
     try {
       const logStatus = echoLog({ type: `${doTask ? '' : 'un'}followingGame`, text: gameId });
+      if ((doTask && (await this.#checkGame(gameId)).followed === true) || (!doTask && (await this.#checkGame(gameId)).followed === false)) {
+        logStatus.success();
+        return true;
+      }
 
       const { result, statusText, status, data } = await httpRequest({
         ...this.#asfOptions,
@@ -394,6 +407,47 @@ class SteamASF {
     } catch (error) {
       throwError(error as Error, 'SteamASF.toggleFollowGame');
       return false;
+    }
+  }
+
+  /**
+   * 检查指定的Steam游戏状态。
+   *
+   * @async
+   * @function checkGame
+   * @param {string} gameId - Steam游戏的AppId。
+   * @returns {Promise<{ wishlist?: boolean, followed?: boolean }>} - 返回一个Promise，表示操作的结果。
+   *
+   * @description
+   * 该方法通过发送HTTP请求来检查指定的Steam游戏状态。
+   * 如果请求成功且返回结果为'Success'，并且响应状态为200且包含成功信息，则返回true。
+   * 如果请求失败或返回的状态不符合预期，则记录错误信息并返回false。
+   * 如果在请求过程中发生错误，将抛出错误并返回false。
+   */
+  async #checkGame(gameId: string): Promise<{ wishlist?: boolean, followed?: boolean }> {
+    try {
+      const { result, data } = await httpRequest({
+        ...this.#asfOptions,
+        data: JSON.stringify({ Command: `!CHECK ${this.#botName} ${gameId}` })
+      });
+      if (result === 'Success') {
+        if (data?.status === 200 && data.response?.Result?.includes(gameId)) {
+          const matchedResult = data.response.Result.split('\n').find((result: string) => result.includes(gameId))
+            ?.split('|');
+          if (matchedResult?.length > 3) {
+            return {
+              wishlist: matchedResult.at(-3).trim() === '√' || matchedResult.at(-2).trim() === '√',
+              followed: matchedResult.at(-1).trim() === '√'
+            };
+          }
+          return {};
+        }
+        return {};
+      }
+      return {};
+    } catch (error) {
+      throwError(error as Error, 'SteamASF.checkGame');
+      return {};
     }
   }
 

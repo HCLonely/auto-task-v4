@@ -1,8 +1,10 @@
 {
   "name": "auto-task-v4",
-  "version": "4.5.5",
+  "version": "4.5.6",
   "change": [
-    "优化: opquests任务无法完成时跳过(#38)"
+    "修复: Keylol存在多个ASF激活代码时识别错误(#40)",
+    "优化: Steam任务完成后的换区逻辑(#41)",
+    "优化: 使用ASF完成愿望单/关注游戏的逻辑"
   ],
   "description": "赠Key站自动任务脚本",
   "engines": {

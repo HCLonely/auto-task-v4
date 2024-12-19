@@ -21,9 +21,12 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.5.5
-          name: 4.5.5
-          body: '- 优化: opquests任务无法完成时跳过(#38)'
+          tag_name: v4.5.6
+          name: 4.5.6
+          body: |-
+            - 修复: Keylol存在多个ASF激活代码时识别错误(#40)
+            - 优化: Steam任务完成后的换区逻辑(#41)
+            - 优化: 使用ASF完成愿望单/关注游戏的逻辑
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

@@ -31,6 +31,7 @@ import SteamASF from './SteamASF';
  * @property {auth} #auth - 存储身份验证信息。
  * @property {boolean} #storeInitialized - 标记Steam商店是否已初始化。
  * @property {boolean} #communityInitialized - 标记Steam社区是否已初始化。
+ * @property {string} #oldArea - 当前地区的代码。
  * @property {string} #area - 当前地区的代码。
  * @property {string} #areaStatus - 当前地区状态。
  * @property {SteamASF} #ASF - 存储ASF实例。
@@ -247,6 +248,7 @@ class Steam extends Social {
   #storeInitialized = false;
   #communityInitialized = false;
   #area = 'CN';
+  #oldArea!: string;
   #areaStatus = 'end';
   #ASF!: SteamASF;
 
@@ -848,6 +850,9 @@ class Steam extends Social {
       if (result === 'Success') {
         if (data?.status === 200 && data.responseText === 'true') {
           const { currentArea } = await this.#getAreaInfo();
+          if (!this.#oldArea && currentArea) {
+            this.#oldArea = currentArea;
+          }
           if (currentArea === aimedArea) {
             this.#areaStatus = 'success';
             logStatus.success();
@@ -2564,9 +2569,13 @@ class Steam extends Social {
       if (doTask && !globalOptions.doTask.steam.licenses) {
         echoLog({ type: 'globalOptionsSkip', text: 'steam.licenses' });
       } else if (doTask && globalOptions.doTask.steam.licenses && licenseLinks.length > 0) {
-        for (const id of licenseLinks) {
-          prom.push(this.#addLicense(id));
-          await delay(1000);
+        for (const ids of licenseLinks) {
+          const [type, idsStr] = ids.split('-');
+          const idsArr = idsStr.split(',');
+          for (const id of idsArr) {
+            prom.push(this.#addLicense(`${type}-${id}`));
+            await delay(1000);
+          }
         }
       }
 
@@ -2582,9 +2591,9 @@ class Steam extends Social {
         }
       }
       return Promise.all(prom).then(async () => {
-        if (this.#area !== 'CN') {
-          echoLog({}).warning(__('steamFinishNotice'));
-          await this.#changeArea('CN');
+        if (this.#area !== this.#oldArea) {
+          echoLog({}).warning(__('steamFinishNotice', this.#oldArea));
+          await this.#changeArea(this.#oldArea);
         }
         return true;
       });

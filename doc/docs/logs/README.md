@@ -5,6 +5,14 @@ lang: zh-CN
 
 ## V4.5
 
+### V4.5.6
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.5.6)
+
+- 修复: Keylol存在多个ASF激活代码时识别错误([#40](https://github.com/HCLonely/auto-task-v4/issues/40))
+- 优化: Steam任务完成后的换区逻辑([#41](https://github.com/HCLonely/auto-task-v4/issues/41))
+- 优化: 使用ASF完成愿望单/关注游戏的逻辑
+
 ### V4.5.5
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.5.5)

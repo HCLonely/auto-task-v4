@@ -210,7 +210,7 @@ const data = {
   noAnotherArea: '请检测是否开启正确开启代理',
   gettingAreaInfo: '正在获取Steam地区信息...',
   changeAreaNotice: '疑似锁区游戏，尝试换区执行',
-  steamFinishNotice: 'Steam任务完成，尝试将购物车地区换回CN',
+  steamFinishNotice: 'Steam任务完成，尝试将购物车地区换回%s',
   gettingSubid: '正在获取游戏subid',
   addingFreeLicense: '正在入库',
   missParams: '缺少参数',

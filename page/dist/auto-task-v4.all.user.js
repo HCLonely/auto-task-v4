@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.5.5
+// @version            4.5.6
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1379,7 +1379,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       noAnotherArea: '请检测是否开启正确开启代理',
       gettingAreaInfo: '正在获取Steam地区信息...',
       changeAreaNotice: '疑似锁区游戏，尝试换区执行',
-      steamFinishNotice: 'Steam任务完成，尝试将购物车地区换回CN',
+      steamFinishNotice: 'Steam任务完成，尝试将购物车地区换回%s',
       gettingSubid: '正在获取游戏subid',
       addingFreeLicense: '正在入库',
       missParams: '缺少参数',
@@ -1664,7 +1664,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       noAnotherArea: 'Please check whether the proxy is turned on correctly',
       gettingAreaInfo: 'Getting Steam area information...',
       changeAreaNotice: 'Suspected of a locked zone game, try to change the zone to execute',
-      steamFinishNotice: 'Steam task completed, try to change the shopping cart area back to CN',
+      steamFinishNotice: 'Steam task completed, try to change the shopping cart area back to %s',
       gettingSubid: 'Getting subid',
       addingFreeLicense: 'Adding free license',
       missParams: 'Missing parameters',
@@ -4324,6 +4324,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             type: 'addingToWishlist',
             text: gameId
           });
+          if ((await this.#checkGame(gameId)).wishlist === true) {
+            logStatus.success();
+            return true;
+          }
           const {
             result,
             statusText,
@@ -4356,6 +4360,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             type: 'removingFromWishlist',
             text: gameId
           });
+          if ((await this.#checkGame(gameId)).wishlist === false) {
+            logStatus.success();
+            return true;
+          }
           const {
             result,
             statusText,
@@ -4388,6 +4396,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             type: `${doTask ? '' : 'un'}followingGame`,
             text: gameId
           });
+          if (doTask && (await this.#checkGame(gameId)).followed === true || !doTask && (await this.#checkGame(gameId)).followed === false) {
+            logStatus.success();
+            return true;
+          }
           const {
             result,
             statusText,
@@ -4412,6 +4424,36 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         } catch (error) {
           throwError(error, 'SteamASF.toggleFollowGame');
           return false;
+        }
+      }
+      async #checkGame(gameId) {
+        try {
+          const {
+            result,
+            data
+          } = await tools_httpRequest({
+            ...this.#asfOptions,
+            data: JSON.stringify({
+              Command: `!CHECK ${this.#botName} ${gameId}`
+            })
+          });
+          if (result === 'Success') {
+            if (data?.status === 200 && data.response?.Result?.includes(gameId)) {
+              const matchedResult = data.response.Result.split('\n').find(result => result.includes(gameId))?.split('|');
+              if (matchedResult?.length > 3) {
+                return {
+                  wishlist: matchedResult.at(-3).trim() === '√' || matchedResult.at(-2).trim() === '√',
+                  followed: matchedResult.at(-1).trim() === '√'
+                };
+              }
+              return {};
+            }
+            return {};
+          }
+          return {};
+        } catch (error) {
+          throwError(error, 'SteamASF.checkGame');
+          return {};
         }
       }
       async toggleCurator(curatorId, doTask = true) {
@@ -4568,6 +4610,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       #storeInitialized = false;
       #communityInitialized = false;
       #area = 'CN';
+      #oldArea;
       #areaStatus = 'end';
       #ASF;
       constructor() {
@@ -5051,6 +5094,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               const {
                 currentArea
               } = await this.#getAreaInfo();
+              if (!this.#oldArea && currentArea) {
+                this.#oldArea = currentArea;
+              }
               if (currentArea === aimedArea) {
                 this.#areaStatus = 'success';
                 logStatus.success();
@@ -6497,9 +6543,13 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               text: 'steam.licenses'
             });
           } else if (doTask && globalOptions.doTask.steam.licenses && licenseLinks.length > 0) {
-            for (const id of licenseLinks) {
-              prom.push(this.#addLicense(id));
-              await delay(1e3);
+            for (const ids of licenseLinks) {
+              const [ type, idsStr ] = ids.split('-');
+              const idsArr = idsStr.split(',');
+              for (const id of idsArr) {
+                prom.push(this.#addLicense(`${type}-${id}`));
+                await delay(1e3);
+              }
             }
           }
           if (doTask && !globalOptions.doTask.steam.playtests) {
@@ -6517,9 +6567,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
           }
           return Promise.all(prom).then(async () => {
-            if (this.#area !== 'CN') {
-              scripts_echoLog({}).warning(i18n('steamFinishNotice'));
-              await this.#changeArea('CN');
+            if (this.#area !== this.#oldArea) {
+              scripts_echoLog({}).warning(i18n('steamFinishNotice', this.#oldArea));
+              await this.#changeArea(this.#oldArea);
             }
             return true;
           });
