@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.5
 
+### V4.5.7
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.5.7)
+
+- 修复: Steam任务完成后的换区逻辑([#41](https://github.com/HCLonely/auto-task-v4/issues/41))
+
 ### V4.5.6
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.5.6)

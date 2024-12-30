@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.5.6
+// @version            4.5.7
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1360,7 +1360,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       noAnotherArea: '请检测是否开启正确开启代理',
       gettingAreaInfo: '正在获取Steam地区信息...',
       changeAreaNotice: '疑似锁区游戏，尝试换区执行',
-      steamFinishNotice: 'Steam任务完成，尝试将购物车地区换回%s',
+      steamFinishNotice: 'Steam任务完成，尝试将购物车地区换回',
       gettingSubid: '正在获取游戏subid',
       addingFreeLicense: '正在入库',
       missParams: '缺少参数',
@@ -1371,6 +1371,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       retry: '重试',
       owned: '已拥有',
       redirect: '重定向',
+      noSubid: '无法获取，跳过',
       initingASF: '正在初始化ASF...',
       servers: '服务器',
       joiningDiscordServer: '正在加入Discord服务器',
@@ -1645,7 +1646,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       noAnotherArea: 'Please check whether the proxy is turned on correctly',
       gettingAreaInfo: 'Getting Steam area information...',
       changeAreaNotice: 'Suspected of a locked zone game, try to change the zone to execute',
-      steamFinishNotice: 'Steam task completed, try to change the shopping cart area back to %s',
+      steamFinishNotice: 'Steam task completed, try to change the shopping cart area back to ',
       gettingSubid: 'Getting subid',
       addingFreeLicense: 'Adding free license',
       missParams: 'Missing parameters',
@@ -1657,6 +1658,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       retry: 'Retry',
       owned: 'Owned',
       redirect: 'Redirect',
+      noSubid: 'skip due to unrecognized',
       initingASF: 'Initing ASF...',
       servers: 'Server',
       joiningDiscordServer: 'Joining Discord Server',
@@ -5075,8 +5077,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               const {
                 currentArea
               } = await this.#getAreaInfo();
-              if (!this.#oldArea && currentArea) {
-                this.#oldArea = currentArea;
+              if (currentArea) {
+                this.#area = currentArea;
+                if (!this.#oldArea) {
+                  this.#oldArea = currentArea;
+                }
               }
               if (currentArea === aimedArea) {
                 this.#areaStatus = 'success';
@@ -6127,7 +6132,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 logStatus.success();
                 return subid;
               }
-              logStatus.error(`Error:${data.statusText}(${data.status})`);
+              logStatus.error(`Error:${i18n('noSubid')}`);
               return false;
             }
             logStatus.error(`Error:${data?.statusText}(${data?.status})`);
@@ -6278,7 +6283,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               if (this.#area === 'CN' && data.responseText.includes('id="error_box"')) {
                 logStatus.warning(i18n('changeAreaNotice'));
                 const result = await this.#changeArea();
-                if (!result || result === 'CN') {
+                if (!result || [ 'CN', 'skip' ].includes(result)) {
                   return false;
                 }
                 return await this.#addFreeLicense(id);
@@ -6548,8 +6553,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             }
           }
           return Promise.all(prom).then(async () => {
-            if (this.#area !== this.#oldArea) {
-              scripts_echoLog({}).warning(i18n('steamFinishNotice', this.#oldArea));
+            if (this.#oldArea && this.#area !== this.#oldArea) {
+              scripts_echoLog({}).warning(i18n('steamFinishNotice') + this.#oldArea);
               await this.#changeArea(this.#oldArea);
             }
             return true;

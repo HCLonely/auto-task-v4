@@ -226,7 +226,7 @@ const data = {
   noAnotherArea: 'Please check whether the proxy is turned on correctly',
   gettingAreaInfo: 'Getting Steam area information...',
   changeAreaNotice: 'Suspected of a locked zone game, try to change the zone to execute',
-  steamFinishNotice: 'Steam task completed, try to change the shopping cart area back to %s',
+  steamFinishNotice: 'Steam task completed, try to change the shopping cart area back to ',
   gettingSubid: 'Getting subid',
   addingFreeLicense: 'Adding free license',
   missParams: 'Missing parameters',
@@ -239,6 +239,7 @@ const data = {
   retry: 'Retry',
   owned: 'Owned',
   redirect: 'Redirect',
+  noSubid: 'skip due to unrecognized',
 
   // Steam ASF
   initingASF: 'Initing ASF...',

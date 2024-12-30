@@ -850,8 +850,11 @@ class Steam extends Social {
       if (result === 'Success') {
         if (data?.status === 200 && data.responseText === 'true') {
           const { currentArea } = await this.#getAreaInfo();
-          if (!this.#oldArea && currentArea) {
-            this.#oldArea = currentArea;
+          if (currentArea) {
+            this.#area = currentArea;
+            if (!this.#oldArea) {
+              this.#oldArea = currentArea;
+            }
           }
           if (currentArea === aimedArea) {
             this.#areaStatus = 'success';
@@ -2081,7 +2084,7 @@ class Steam extends Social {
             logStatus.success();
             return subid;
           }
-          logStatus.error(`Error:${data.statusText}(${data.status})`);
+          logStatus.error(`Error:${__('noSubid')}`);
           return false;
         }
         logStatus.error(`Error:${data?.statusText}(${data?.status})`);
@@ -2261,7 +2264,7 @@ class Steam extends Social {
           if (this.#area === 'CN' && data.responseText.includes('id="error_box"')) {
             logStatus.warning(__('changeAreaNotice'));
             const result = await this.#changeArea();
-            if (!result || result === 'CN') return false;
+            if (!result || ['CN', 'skip'].includes(result as string)) return false;
             return await this.#addFreeLicense(id);
           }
           logStatus.success();
@@ -2591,8 +2594,8 @@ class Steam extends Social {
         }
       }
       return Promise.all(prom).then(async () => {
-        if (this.#area !== this.#oldArea) {
-          echoLog({}).warning(__('steamFinishNotice', this.#oldArea));
+        if (this.#oldArea && this.#area !== this.#oldArea) {
+          echoLog({}).warning(__('steamFinishNotice') + this.#oldArea);
           await this.#changeArea(this.#oldArea);
         }
         return true;
