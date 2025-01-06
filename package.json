@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.5.7",
+  "version": "4.5.8",
   "change": [
-    "修复: Steam任务完成后的换区逻辑(#41)"
+    "修复: Opquests识别不到按钮导致验证停止(#42)"
   ],
   "description": "赠Key站自动任务脚本",
   "engines": {

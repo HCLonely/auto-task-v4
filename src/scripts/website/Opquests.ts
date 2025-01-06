@@ -289,7 +289,7 @@ class Opquests extends Website {
       const taskId = tasks.pop();
       GM_setValue('opquestsVerifyTasks', tasks);
       $(`#task_id[value="${taskId}"]`).parent()
-        .children('button[type="submit"]')[0].click();
+        .children('button[type="submit"]')[0]?.click();
       return true;
     } catch (error) {
       throwError(error as Error, 'Opquests.verifyTask');
