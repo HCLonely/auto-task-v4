@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.5
 
+### V4.5.9
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.5.9)
+
+- 修复: Opquests识别不到按钮导致验证停止([#42](https://github.com/HCLonely/auto-task-v4/issues/42))
+
 ### V4.5.8
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.5.8)

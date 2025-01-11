@@ -126,7 +126,8 @@ class Opquests extends Website {
         const taskId = opquestsVerifyTasks.pop();
         GM_setValue('opquestsVerifyTasks', opquestsVerifyTasks);
         const [verifyBtn] = $(`#task_id[value="${taskId}"]`).parent()
-          .children('button[type="submit"]');
+          .find('button[type="button"]')
+          .has('i.fa-check');
         if (verifyBtn) {
           verifyBtn.click();
           return;
@@ -282,14 +283,15 @@ class Opquests extends Website {
       if (!this.initialized) {
         this.init();
       }
-      const tasks: Array<string> = $.makeArray($('div.w-full').find('.items-center')
-        .has('button.submit-loader')).map((ele) => $(ele).find('input[name="task_id"]')
+      const tasks: Array<string> = $.makeArray($('.items-center').has('input[name="task_id"]'))
+        .map((ele) => $(ele).find('input[name="task_id"]')
           .val() as string);
       await this.#confirm();
       const taskId = tasks.pop();
       GM_setValue('opquestsVerifyTasks', tasks);
       $(`#task_id[value="${taskId}"]`).parent()
-        .children('button[type="submit"]')[0]?.click();
+        .find('button[type="button"]')
+        .has('i.fa-check')[0]?.click();
       return true;
     } catch (error) {
       throwError(error as Error, 'Opquests.verifyTask');

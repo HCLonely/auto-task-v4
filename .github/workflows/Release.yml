@@ -21,8 +21,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.5.8
-          name: 4.5.8
+          tag_name: v4.5.9
+          name: 4.5.9
           body: '- 修复: Opquests识别不到按钮导致验证停止(#42)'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js

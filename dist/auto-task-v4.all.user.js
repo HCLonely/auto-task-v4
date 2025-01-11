@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.5.8
+// @version            4.5.9
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -9087,7 +9087,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           if (opquestsVerifyTasks.length > 0) {
             const taskId = opquestsVerifyTasks.pop();
             GM_setValue('opquestsVerifyTasks', opquestsVerifyTasks);
-            const [ verifyBtn ] = $(`#task_id[value="${taskId}"]`).parent().children('button[type="submit"]');
+            const [ verifyBtn ] = $(`#task_id[value="${taskId}"]`).parent().find('button[type="button"]').has('i.fa-check');
             if (verifyBtn) {
               verifyBtn.click();
               return;
@@ -9180,11 +9180,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           if (!this.initialized) {
             this.init();
           }
-          const tasks = $.makeArray($('div.w-full').find('.items-center').has('button.submit-loader')).map(ele => $(ele).find('input[name="task_id"]').val());
+          const tasks = $.makeArray($('.items-center').has('input[name="task_id"]')).map(ele => $(ele).find('input[name="task_id"]').val());
           await this.#confirm();
           const taskId = tasks.pop();
           GM_setValue('opquestsVerifyTasks', tasks);
-          $(`#task_id[value="${taskId}"]`).parent().children('button[type="submit"]')[0]?.click();
+          $(`#task_id[value="${taskId}"]`).parent().find('button[type="button"]').has('i.fa-check')[0]?.click();
           return true;
         } catch (error) {
           throwError(error, 'Opquests.verifyTask');

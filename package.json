@@ -1,6 +1,6 @@
 {
   "name": "auto-task-v4",
-  "version": "4.5.8",
+  "version": "4.5.9",
   "change": [
     "修复: Opquests识别不到按钮导致验证停止(#42)"
   ],
