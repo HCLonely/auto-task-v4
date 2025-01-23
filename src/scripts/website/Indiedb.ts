@@ -156,9 +156,10 @@ class Indiedb {
           data: 'ajax=t',
           dataType: 'json',
           headers: {
-            'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            accept: 'application/json, text/javascript, */*; q=0.01',
-            origin: window.location.origin
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            Accept: 'application/json, text/javascript, */*; q=0.01',
+            Origin: window.location.origin,
+            referer: window.location.href
           }
         });
         if (result === 'Success') {
