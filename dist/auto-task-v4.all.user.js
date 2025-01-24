@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.5.10
+// @version            4.5.11
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -7456,6 +7456,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 logStatus.error(`Error${data.response?.text ? `:${data.response?.text}` : ''}`);
                 return false;
               }
+              if (await this.#join2()) {
+                logStatus.success('Success');
+                return true;
+              }
               logStatus.error(`Error:${data?.statusText}(${data?.status})`);
               return false;
             }
@@ -7467,7 +7471,32 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           scripts_echoLog({}).warning(i18n('needJoinGiveaway'));
           return false;
         } catch (error) {
-          throwError(error, 'Indiedb.init');
+          throwError(error, 'Indiedb.join');
+          return false;
+        }
+      }
+      async #join2() {
+        try {
+          return await new Promise(resolve => {
+            const targetNode = document.getElementById('giveawaysjoined');
+            const config = {
+              attributes: true
+            };
+            const observer = new MutationObserver(() => {
+              if ($('#giveawaysjoined').is(':visible')) {
+                resolve(true);
+                observer.disconnect();
+              }
+            });
+            observer.observe(targetNode, config);
+            $('a.buttonenter.buttongiveaway')[0]?.click();
+            setTimeout(() => {
+              resolve(false);
+              observer.disconnect();
+            }, 3e4);
+          });
+        } catch (error) {
+          throwError(error, 'Indiedb.join2');
           return false;
         }
       }

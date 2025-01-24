@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.5
 
+### V4.5.11
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.5.11)
+
+- 测试: 尝试修复Indiedb入赠Key时返回403([#43](https://github.com/HCLonely/auto-task-v4/issues/43))
+
 ### V4.5.10
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.5.10)

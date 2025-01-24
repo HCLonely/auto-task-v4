@@ -174,6 +174,10 @@ class Indiedb {
             logStatus.error(`Error${data.response?.text ? (`:${data.response?.text}`) : ''}`);
             return false;
           }
+          if (await this.#join2()) {
+            logStatus.success('Success');
+            return true;
+          }
           logStatus.error(`Error:${data?.statusText}(${data?.status})`);
           return false;
         }
@@ -185,7 +189,31 @@ class Indiedb {
       echoLog({}).warning(__('needJoinGiveaway'));
       return false;
     } catch (error) {
-      throwError(error as Error, 'Indiedb.init');
+      throwError(error as Error, 'Indiedb.join');
+      return false;
+    }
+  }
+
+  async #join2(): Promise<boolean> {
+    try {
+      return await new Promise((resolve) => {
+        const targetNode = document.getElementById('giveawaysjoined') as HTMLElement;
+        const config = { attributes: true };
+        const observer = new MutationObserver(() => {
+          if ($('#giveawaysjoined').is(':visible')) {
+            resolve(true);
+            observer.disconnect();
+          }
+        });
+        observer.observe(targetNode, config);
+        $('a.buttonenter.buttongiveaway')[0]?.click();
+        setTimeout(() => {
+          resolve(false);
+          observer.disconnect();
+        }, 30000);
+      });
+    } catch (error) {
+      throwError(error as Error, 'Indiedb.join2');
       return false;
     }
   }
