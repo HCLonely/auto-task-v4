@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.5.11
+// @version            4.5.12
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -9007,6 +9007,17 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 this.#addBtn($(asfLink).children('em')[0], 'steam', 'licenseLinks', `subid-${subid.join(',')}`);
               }
             }
+          }
+          if ($('#threadindex').length > 0) {
+            const [ targetNode ] = $('#postlist').children('div[id^="post_"]');
+            const config = {
+              childList: true
+            };
+            const observer = new MutationObserver(() => {
+              observer.disconnect();
+              this.after();
+            });
+            observer.observe(targetNode, config);
           }
         } catch (error) {
           throwError(error, 'keylol.after');

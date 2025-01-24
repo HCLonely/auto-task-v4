@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.5.11",
+  "version": "4.5.12",
   "change": [
-    "测试: 尝试修复Indiedb入赠Key时返回403(#43)"
+    "优化: 兼容Keylol存在目录时的分页识别(#44)"
   ],
   "description": "赠Key站自动任务脚本",
   "engines": {

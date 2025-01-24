@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.5
 
+### V4.5.12
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.5.12)
+
+- 优化: 兼容Keylol存在目录时的分页识别([#44](https://github.com/HCLonely/auto-task-v4/issues/44))
+
 ### V4.5.11
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.5.11)

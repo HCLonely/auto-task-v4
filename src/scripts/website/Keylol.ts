@@ -328,6 +328,16 @@ class Keylol extends Website {
           }
         }
       }
+
+      if ($('#threadindex').length > 0) {
+        const [targetNode] = $('#postlist').children('div[id^="post_"]');
+        const config = { childList: true };
+        const observer = new MutationObserver(() => {
+          observer.disconnect();
+          this.after();
+        });
+        observer.observe(targetNode, config);
+      }
     } catch (error) {
       throwError(error as Error, 'keylol.after');
     }
