@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.5
 
+### V4.5.13
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.5.13)
+
+- 修复: GiveeClub的Twitter任务识别
+
 ### V4.5.12
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.5.12)

@@ -211,9 +211,9 @@ class GiveeClub extends GiveawaySu {
             } else if (taskIcon.includes('vk') || /join.*vk.*group/gim.test(taskName)) {
               this.undoneTasks.vk.nameLinks.push(taskLink);
             } else if (taskIcon.includes('twitter')) {
-              if (/https?:\/\/twitter\.com\/[^/]+\/?$/gim.test(taskLink)) {
+              if (/https?:\/\/(twitter|x)\.com\/[^/]+\/?$/gim.test(taskLink)) {
                 this.undoneTasks.twitter.userLinks.push(taskLink);
-              } else if (/https?:\/\/twitter\.com\/[^/]+?\/status\/[\d]+/gim.test(taskLink)) {
+              } else if (/https?:\/\/(twitter|x)\.com\/[^/]+?\/status\/[\d]+/gim.test(taskLink)) {
                 this.undoneTasks.twitter.retweetLinks.push(taskLink);
               }
             } else {

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.5.12
+// @version            4.5.13
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -8322,9 +8322,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 } else if (taskIcon.includes('vk') || /join.*vk.*group/gim.test(taskName)) {
                   this.undoneTasks.vk.nameLinks.push(taskLink);
                 } else if (taskIcon.includes('twitter')) {
-                  if (/https?:\/\/twitter\.com\/[^/]+\/?$/gim.test(taskLink)) {
+                  if (/https?:\/\/(twitter|x)\.com\/[^/]+\/?$/gim.test(taskLink)) {
                     this.undoneTasks.twitter.userLinks.push(taskLink);
-                  } else if (/https?:\/\/twitter\.com\/[^/]+?\/status\/[\d]+/gim.test(taskLink)) {
+                  } else if (/https?:\/\/(twitter|x)\.com\/[^/]+?\/status\/[\d]+/gim.test(taskLink)) {
                     this.undoneTasks.twitter.retweetLinks.push(taskLink);
                   }
                 } else {

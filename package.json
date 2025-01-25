@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.5.12",
+  "version": "4.5.13",
   "change": [
-    "优化: 兼容Keylol存在目录时的分页识别(#44)"
+    "修复: GiveeClub的Twitter任务识别"
   ],
   "description": "赠Key站自动任务脚本",
   "engines": {
