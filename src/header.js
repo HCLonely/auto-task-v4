@@ -26,6 +26,8 @@
 // @include            *://opquests.com/quests/*
 // @include            *://gleam.io/*
 // @include            *://sweepwidget.com/view/*
+// @include            *://giveawayhopper.com/c/*
+
 // @include            *://discord.com/*
 // @include            *://www.twitch.tv/*
 // @include            *://www.youtube.com/*
@@ -54,6 +56,7 @@
 // @grant              unsafeWindow
 // @grant              window.close
 // @grant              window.localStorage
+// @grant              window.sessionStorage
 // @grant              window.focus
 
 // @connect            cdn.jsdelivr.net
@@ -90,6 +93,7 @@
 // @connect            opquests.com
 // @connect            itch.io
 // @connect            auto-task-v4.hclonely.com
+// @connect            giveawayhopper.com
 // @connect            *
 // @require            https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
 // @require            https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js

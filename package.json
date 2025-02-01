@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.5.13",
+  "version": "4.6.0",
   "change": [
-    "修复: GiveeClub的Twitter任务识别"
+    "新增: GiveawayHopper网站支持"
   ],
   "description": "赠Key站自动任务脚本",
   "engines": {

@@ -21,9 +21,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.5.13
-          name: 4.5.13
-          body: '- 修复: GiveeClub的Twitter任务识别'
+          tag_name: v4.6.0
+          name: 4.6.0
+          body: '- 新增: GiveawayHopper网站支持'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

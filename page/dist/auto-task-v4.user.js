@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.5.13
+// @version            4.6.0
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -26,6 +26,8 @@
 // @include            *://opquests.com/quests/*
 // @include            *://gleam.io/*
 // @include            *://sweepwidget.com/view/*
+// @include            *://giveawayhopper.com/c/*
+
 // @include            *://discord.com/*
 // @include            *://www.twitch.tv/*
 // @include            *://www.youtube.com/*
@@ -54,6 +56,7 @@
 // @grant              unsafeWindow
 // @grant              window.close
 // @grant              window.localStorage
+// @grant              window.sessionStorage
 // @grant              window.focus
 
 // @connect            cdn.jsdelivr.net
@@ -90,6 +93,7 @@
 // @connect            opquests.com
 // @connect            itch.io
 // @connect            auto-task-v4.hclonely.com
+// @connect            giveawayhopper.com
 // @connect            *
 // @require            https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js
 // @require            https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js
@@ -10651,7 +10655,292 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     }
     const website_History = History;
-    const Websites = [ Freeanywhere, GiveawaySu, website_Indiedb, website_Keyhub, website_Givekey, website_GiveeClub, website_OpiumPulses, website_Keylol, website_Opquests, website_Gleam, website_SweepWidget, website_Setting, website_History ];
+    const GiveawayHopper_defaultTasksTemplate = {
+      steam: {
+        groupLinks: [],
+        wishlistLinks: [],
+        followLinks: [],
+        curatorLinks: [],
+        curatorLikeLinks: []
+      },
+      twitter: {
+        userLinks: [],
+        retweetLinks: []
+      },
+      twitch: {
+        channelLinks: []
+      },
+      discord: {
+        serverLinks: []
+      },
+      youtube: {
+        channelLinks: []
+      },
+      extra: {
+        giveawayHopper: []
+      }
+    };
+    const GiveawayHopper_defaultTasks = JSON.stringify(GiveawayHopper_defaultTasksTemplate);
+    class GiveawayHopper extends website_Website {
+      name = 'GiveawayHopper';
+      undoneTasks = JSON.parse(GiveawayHopper_defaultTasks);
+      socialTasks = JSON.parse(GiveawayHopper_defaultTasks);
+      tasks = [];
+      buttons = [ 'doTask', 'undoTask', 'verifyTask' ];
+      static test() {
+        return window.location.host === 'giveawayhopper.com';
+      }
+      async after() {
+        try {
+          if (!this.#checkLogin()) {
+            scripts_echoLog({}).warning(i18n('checkLoginFailed'));
+          }
+          this.#getGiveawayId();
+        } catch (error) {
+          throwError(error, 'GiveawayHopper.after');
+        }
+      }
+      async init() {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('initing')
+          });
+          if (!await this.#checkLeftKey()) {
+            scripts_echoLog({}).warning(i18n('checkLeftKeyFailed'));
+          }
+          this.initialized = true;
+          logStatus.success();
+          return true;
+        } catch (error) {
+          throwError(error, 'GiveawayHopper.init');
+          return false;
+        }
+      }
+      async classifyTask(action) {
+        try {
+          if (!this.giveawayId) {
+            await this.#getGiveawayId();
+          }
+          const logStatus = scripts_echoLog({
+            text: i18n('getTasksInfo')
+          });
+          if (action === 'undo') {
+            this.socialTasks = GM_getValue(`giveawayHopperTasks-${this.giveawayId}`)?.tasks || JSON.parse(GiveawayHopper_defaultTasks);
+          }
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: `https://giveawayhopper.com/api/v1/campaigns/${this.giveawayId}/with-auth`,
+            method: 'GET',
+            responseType: 'json',
+            fetch: true,
+            headers: {
+              authorization: `Bearer ${window.sessionStorage.gw_auth}`,
+              'x-xsrf-token': decodeURIComponent(document.cookie.match(/XSRF-TOKEN=([^;]+)/)?.[1])
+            }
+          });
+          if (result === 'Success') {
+            if (data?.status === 200 && data?.response?.tasks) {
+              this.tasks = data.response.tasks;
+              for (const task of data.response.tasks) {
+                if (task.isDone) {
+                  continue;
+                }
+                await tools_httpRequest({
+                  url: `https://giveawayhopper.com/api/v1/campaigns/${this.giveawayId}/tasks/${task.id}/visited`,
+                  method: 'GET',
+                  responseType: 'json',
+                  fetch: true,
+                  headers: {
+                    authorization: `Bearer ${window.sessionStorage.gw_auth}`,
+                    'x-xsrf-token': decodeURIComponent(document.cookie.match(/XSRF-TOKEN=([^;]+)/)?.[1])
+                  }
+                });
+                if (task.category === 'Steam' && task.type === 'JoinGroup') {
+                  const steamGroupLink = await getRedirectLink(`https://steamcommunity.com/gid/${task.group_id}`);
+                  if (!steamGroupLink) {
+                    continue;
+                  }
+                  if (action === 'undo') {
+                    this.socialTasks.steam.groupLinks.push(steamGroupLink);
+                  }
+                  if (action === 'do') {
+                    this.undoneTasks.steam.groupLinks.push(steamGroupLink);
+                  }
+                  continue;
+                }
+                if (task.category === 'Discord' && task.type === 'JoinServer') {
+                  if (action === 'undo') {
+                    this.socialTasks.discord.serverLinks.push(`https://discord.gg/${task.invite_code}`);
+                  }
+                  if (action === 'do') {
+                    this.undoneTasks.discord.serverLinks.push(`https://discord.gg/${task.invite_code}`);
+                  }
+                  continue;
+                }
+                if ([ 'TikTok', 'YouTube', 'General' ].includes(task.category)) {
+                  continue;
+                }
+                scripts_echoLog({}).warning(`${i18n('unKnownTaskType')}: ${task.category}-${task.type}`);
+              }
+              logStatus.success();
+              this.undoneTasks = this.uniqueTasks(this.undoneTasks);
+              this.socialTasks = this.uniqueTasks(this.socialTasks);
+              if (window.DEBUG) {
+                console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
+              }
+              GM_setValue(`giveawayHopperTasks-${this.giveawayId}`, {
+                tasks: this.socialTasks,
+                time: new Date().getTime()
+              });
+              return true;
+            }
+            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'GiveawayHopper.classifyTask');
+          return false;
+        }
+      }
+      async verifyTask() {
+        try {
+          for (const task of this.tasks) {
+            if (task.isDone) {
+              continue;
+            }
+            const logStatus = scripts_echoLog({
+              text: `${i18n('verifyingTask')}[${task.displayName?.replace(':target', task.targetName) || task.name}]...`
+            });
+            if (!task.link) {
+              if (task.category === 'YouTube' && task.type === 'FollowAccount') {
+                task.link = `https://www.youtube.com/@${task.targetName}`;
+              } else if (task.category === 'TikTok' && task.type === 'FollowAccount') {
+                task.link = `https://www.tiktok.com/@${task.targetName}`;
+              } else if (task.category === 'Steam' && task.type === 'JoinGroup') {
+                task.link = '';
+              } else if (task.category === 'Discord' && task.type === 'JoinServer') {
+                task.link = '';
+              }
+            }
+            if (task.link) {
+              await tools_httpRequest({
+                url: `https://giveawayhopper.com/fw?url=${encodeURIComponent(task.link)}&src=campaign&src_id=${this.giveawayId}&ref=task&ref_id=${task.id}&token=${window.sessionStorage.gw_auth}`,
+                method: 'GET',
+                fetch: true,
+                headers: {
+                  authorization: `Bearer ${window.sessionStorage.gw_auth}`,
+                  'x-xsrf-token': decodeURIComponent(document.cookie.match(/XSRF-TOKEN=([^;]+)/)?.[1])
+                }
+              });
+            }
+            await delay(1e3);
+            const postData = {
+              taskcategory: task.category,
+              taskname: task.type
+            };
+            if ([ 'YouTube', 'TikTok' ].includes(task.category)) {
+              postData.username = '1';
+            }
+            const {
+              result,
+              statusText,
+              status,
+              data
+            } = await tools_httpRequest({
+              url: `https://giveawayhopper.com/api/v1/campaigns/${this.giveawayId}/tasks/${task.id}/complete`,
+              method: 'POST',
+              fetch: true,
+              headers: {
+                authorization: `Bearer ${window.sessionStorage.gw_auth}`,
+                'x-xsrf-token': decodeURIComponent(document.cookie.match(/XSRF-TOKEN=([^;]+)/)?.[1]),
+                'content-type': 'application/json'
+              },
+              dataType: 'json',
+              data: JSON.stringify(postData)
+            });
+            if (result === 'Success') {
+              if (data?.status === 200 && data?.response?.completed) {
+                logStatus.success();
+                continue;
+              }
+              logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+              continue;
+            }
+            logStatus.error(`${result}:${statusText}(${status})`);
+            continue;
+          }
+        } catch (error) {
+          throwError(error, 'GiveawayHopper.verifyTask');
+          return false;
+        }
+      }
+      #getGiveawayId() {
+        try {
+          const giveawayId = window.location.pathname.split('/').at(-1);
+          if (giveawayId) {
+            this.giveawayId = giveawayId;
+            return true;
+          }
+          scripts_echoLog({
+            text: i18n('getFailed', 'GiveawayId')
+          });
+          return false;
+        } catch (error) {
+          throwError(error, 'GiveawayHopper.getGiveawayId');
+          return false;
+        }
+      }
+      #checkLogin() {
+        try {
+          if (!globalOptions.other.checkLogin) {
+            return true;
+          }
+          if ($('div.widget-connections-edit:contains("Log in")').length > 0) {
+            $('div.widget-connections-edit:contains("Log in") a')[0].click();
+          }
+          return true;
+        } catch (error) {
+          throwError(error, 'GiveawayHopper.checkLogin');
+          return false;
+        }
+      }
+      async #checkLeftKey() {
+        try {
+          if (!globalOptions.other.checkLeftKey) {
+            return true;
+          }
+          if ($('p.widget-single-prize span').length > 0 && parseInt($('p.widget-single-prize span').text()?.match(/\d+/)?.[0] || '0', 10) > 0) {
+            return true;
+          }
+          await external_Swal_default().fire({
+            icon: 'warning',
+            title: i18n('notice'),
+            text: i18n('noKeysLeft'),
+            confirmButtonText: i18n('confirm'),
+            cancelButtonText: i18n('cancel'),
+            showCancelButton: true
+          }).then(({
+            value
+          }) => {
+            if (value) {
+              window.close();
+            }
+          });
+          return true;
+        } catch (error) {
+          throwError(error, 'GiveawayHopper.checkLeftKey');
+          return false;
+        }
+      }
+    }
+    const website_GiveawayHopper = GiveawayHopper;
+    const Websites = [ Freeanywhere, GiveawaySu, website_Indiedb, website_Keyhub, website_Givekey, website_GiveeClub, website_OpiumPulses, website_Keylol, website_Opquests, website_Gleam, website_SweepWidget, website_Setting, website_History, website_GiveawayHopper ];
     const websiteOptions = function(website, options) {
       try {
         let websiteOptionsForm = `<form id="websiteOptionsForm" class="auto-task-form">

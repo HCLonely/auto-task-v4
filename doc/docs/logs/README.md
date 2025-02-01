@@ -3,6 +3,14 @@ title: 更新日志
 lang: zh-CN
 ---
 
+## V4.6
+
+### V4.6.0
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.6.0)
+
+- 新增: GiveawayHopper网站支持
+
 ## V4.5
 
 ### V4.5.13

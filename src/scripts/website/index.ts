@@ -20,6 +20,7 @@ import Gleam from './Gleam';
 import SweepWidget from './SweepWidget';
 import Setting from './Setting';
 import History from './History';
+import GiveawayHopper from './GiveawayHopper';
 
 type WebsitesType = typeof FreeAnyWhere |
   typeof GiveawaySu |
@@ -33,7 +34,8 @@ type WebsitesType = typeof FreeAnyWhere |
   typeof Gleam |
   typeof SweepWidget |
   typeof Setting |
-  typeof History
+  typeof History |
+  typeof GiveawayHopper;
 
 type WebsiteType = FreeAnyWhere |
   GiveawaySu |
@@ -47,7 +49,8 @@ type WebsiteType = FreeAnyWhere |
   Gleam |
   SweepWidget |
   Setting |
-  History
+  History |
+  GiveawayHopper;
 
 /**
  * 网站类型数组
@@ -70,11 +73,12 @@ type WebsiteType = FreeAnyWhere |
  * - SweepWidget
  * - Setting
  * - History
+ * - GiveawayHopper
  *
  * 这些网站类型用于后续的抽奖操作和管理。
  */
 const Websites: Array<WebsitesType> = [
-  FreeAnyWhere, GiveawaySu, Indiedb, Keyhub, Givekey, GiveeClub, OpiumPulses, Keylol, Opquests, Gleam, SweepWidget, Setting, History
+  FreeAnyWhere, GiveawaySu, Indiedb, Keyhub, Givekey, GiveeClub, OpiumPulses, Keylol, Opquests, Gleam, SweepWidget, Setting, History, GiveawayHopper
 ];
 
 export { Websites, WebsiteType };
