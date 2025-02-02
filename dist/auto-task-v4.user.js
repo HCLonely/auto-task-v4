@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.6.0
+// @version            4.6.1
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -567,10 +567,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
     var external_Cookies_default = __webpack_require__.n(external_Cookies_namespaceObject);
     var auto_task = __webpack_require__(675);
     var javascript_utils_umd_min = __webpack_require__(991);
-    const getFinalUrl = (responseHeaders, finalUrl) => {
-      const realFinalUrl = responseHeaders?.split('\n')?.find(header => header.includes('location') ? header.replace('loctation:', '').trim() : null);
-      return realFinalUrl || finalUrl;
-    };
     const httpRequest = async (options, times = 0) => {
       if (window.TRACE) {
         console.trace('%cAuto-Task[Debug]:', 'color:blue');
@@ -611,7 +607,29 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 });
               },
               onload(data) {
-                data.finalUrl = getFinalUrl(data.responseHeaders, data.finalUrl);
+                const headers = {};
+                data.responseHeaders?.split('\n').forEach(header => {
+                  const headerArr = header.trim().split(':');
+                  const name = headerArr.shift()?.trim() || '';
+                  const value = headerArr.join(':').trim();
+                  if (name && value) {
+                    if (headers[name]) {
+                      if (Array.isArray(headers[name])) {
+                        headers[name].push(value);
+                      } else {
+                        headers[name] = [ headers[name], value ];
+                      }
+                    } else {
+                      headers[name] = value;
+                    }
+                  }
+                });
+                if (headers['set-cookie'] && !Array.isArray(headers['set-cookie'])) {
+                  headers['set-cookie'] = [ headers['set-cookie'] ];
+                }
+                data.responseHeadersText = data.responseHeaders;
+                data.responseHeaders = headers;
+                data.finalUrl = data.responseHeaders?.location || data.finalUrl;
                 if (options.responseType === 'json' && data?.response && typeof data.response !== 'object') {
                   try {
                     data.response = JSON.parse(data.responseText);
@@ -2982,7 +3000,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       async #toggleUser({
         name,
         doTask = true,
-        verify = false
+        verify = false,
+        retry = false
       }) {
         try {
           if (!doTask && !verify && this.whiteList.users.includes(name)) {
@@ -3038,9 +3057,21 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               }
               return true;
             }
-            if (verify && data?.status === 403 && data.response?.errors?.[0]?.code === 158) {
-              logStatus.success();
-              return true;
+            if (verify && data?.status === 403) {
+              if (data.response?.errors?.[0]?.code === 158) {
+                logStatus.success();
+                return true;
+              }
+              if (data.response?.errors?.[0]?.code === 353 && !retry && data.responseHeaders?.['set-cookie']) {
+                this.#auth.ct0 = data.responseHeaders['set-cookie']?.find(cookie => cookie.includes('ct0='))?.split(';')?.at(0)?.split('=')?.at(-1) || this.#auth.ct0;
+                logStatus.warning(i18n('retry'));
+                return this.#toggleUser({
+                  name: name,
+                  doTask: doTask,
+                  verify: verify,
+                  retry: true
+                });
+              }
             }
             logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
@@ -6719,55 +6750,53 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           if (!await this.classifyTask(action)) {
             return false;
           }
-          if (!await this.initSocial(action)) {
-            return false;
-          }
+          await this.initSocial(action);
           const pro = [];
           const doTask = action === 'do';
           const tasks = doTask ? this.undoneTasks : this.socialTasks;
-          if (this.socialInitialized.discord !== 'skip' && this.social.discord) {
+          if (this.socialInitialized.discord === true && this.social.discord) {
             pro.push(this.social.discord.toggle({
               doTask: doTask,
               ...tasks.discord
             }));
           }
-          if (this.social.instagram) {
+          if (this.socialInitialized.instagram === true && this.social.instagram) {
             pro.push(this.social.instagram.toggle({
               doTask: doTask,
               ...tasks.instagram
             }));
           }
-          if (this.social.reddit) {
+          if (this.socialInitialized.reddit === true && this.social.reddit) {
             pro.push(this.social.reddit.toggle({
               doTask: doTask,
               ...tasks.reddit
             }));
           }
-          if (this.social.twitch) {
+          if (this.socialInitialized.twitch === true && this.social.twitch) {
             pro.push(this.social.twitch.toggle({
               doTask: doTask,
               ...tasks.twitch
             }));
           }
-          if (this.social.twitter) {
+          if (this.socialInitialized.twitter === true && this.social.twitter) {
             pro.push(this.social.twitter.toggle({
               doTask: doTask,
               ...tasks.twitter
             }));
           }
-          if (this.social.vk) {
+          if (this.socialInitialized.vk === true && this.social.vk) {
             pro.push(this.social.vk.toggle({
               doTask: doTask,
               ...tasks.vk
             }));
           }
-          if (this.social.youtube) {
+          if (this.socialInitialized.youtube === true && this.social.youtube) {
             pro.push(this.social.youtube.toggle({
               doTask: doTask,
               ...tasks.youtube
             }));
           }
-          if (this.social.steam) {
+          if (this.socialInitialized.steamCommunity === true && this.socialInitialized.steamStore === true && this.social.steam) {
             pro.push(this.social.steam.toggle({
               doTask: doTask,
               ...tasks.steam

@@ -5,6 +5,13 @@ lang: zh-CN
 
 ## V4.6
 
+### V4.6.1
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.6.1)
+
+- 优化: Twitter验证凭证时返回353代码的应对方式([#45](https://github.com/HCLonely/auto-task-v4/issues/45))
+- 优化: 初始化失败时跳过相应任务([#45](https://github.com/HCLonely/auto-task-v4/issues/45))
+
 ### V4.6.0
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.6.0)
