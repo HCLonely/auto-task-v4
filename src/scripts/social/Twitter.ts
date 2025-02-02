@@ -243,7 +243,7 @@ class Twitter extends Social {
    * 如果请求失败或返回的状态不符合预期，则记录错误信息并返回false。
    * 如果在执行过程中发生错误，将抛出错误并返回false。
    */
-  async #toggleUser({ name, doTask = true, verify = false }: { name: string, doTask: boolean, verify?: boolean }): Promise<boolean> {
+  async #toggleUser({ name, doTask = true, verify = false, retry = false }: { name: string, doTask: boolean, verify?: boolean, retry?: boolean }): Promise<boolean> {
     try {
       if (!doTask && !verify && this.whiteList.users.includes(name)) {
         echoLog({ type: 'whiteList', text: 'Twitter.unfollowUser', id: name });
@@ -286,9 +286,19 @@ class Twitter extends Social {
           }
           return true;
         }
-        if (verify && data?.status === 403 && data.response?.errors?.[0]?.code === 158) {
-          logStatus.success();
-          return true;
+        if (verify && data?.status === 403) {
+          if (data.response?.errors?.[0]?.code === 158) {
+            logStatus.success();
+            return true;
+          }
+          if (data.response?.errors?.[0]?.code === 353 && !retry && data.responseHeaders?.['set-cookie']) {
+            this.#auth.ct0 = data.responseHeaders['set-cookie']?.find((cookie: string) => cookie.includes('ct0='))?.split(';')
+              ?.at(0)
+              ?.split('=')
+              ?.at(-1) || this.#auth.ct0;
+            logStatus.warning(__('retry'));
+            return this.#toggleUser({ name, doTask, verify, retry: true });
+          }
         }
         logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;

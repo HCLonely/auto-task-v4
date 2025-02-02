@@ -321,34 +321,35 @@ abstract class Website {
       if (!(await this.classifyTask(action))) {
         return false;
       }
-      if (!(await this.initSocial(action))) {
-        return false;
-      }
+      // if (!(await this.initSocial(action))) {
+      //   return false;
+      // }
+      await this.initSocial(action);
       const pro = [];
       const doTask = action === 'do';
       const tasks = doTask ? this.undoneTasks : this.socialTasks;
-      if (this.socialInitialized.discord !== 'skip' && this.social.discord) {
+      if (this.socialInitialized.discord === true && this.social.discord) {
         pro.push(this.social.discord.toggle({ doTask, ...tasks.discord }));
       }
-      if (this.social.instagram) {
+      if (this.socialInitialized.instagram === true && this.social.instagram) {
         pro.push(this.social.instagram.toggle({ doTask, ...tasks.instagram }));
       }
-      if (this.social.reddit) {
+      if (this.socialInitialized.reddit === true && this.social.reddit) {
         pro.push(this.social.reddit.toggle({ doTask, ...tasks.reddit }));
       }
-      if (this.social.twitch) {
+      if (this.socialInitialized.twitch === true && this.social.twitch) {
         pro.push(this.social.twitch.toggle({ doTask, ...tasks.twitch }));
       }
-      if (this.social.twitter) {
+      if (this.socialInitialized.twitter === true && this.social.twitter) {
         pro.push(this.social.twitter.toggle({ doTask, ...tasks.twitter }));
       }
-      if (this.social.vk) {
+      if (this.socialInitialized.vk === true && this.social.vk) {
         pro.push(this.social.vk.toggle({ doTask, ...tasks.vk }));
       }
-      if (this.social.youtube) {
+      if (this.socialInitialized.youtube === true && this.social.youtube) {
         pro.push(this.social.youtube.toggle({ doTask, ...tasks.youtube }));
       }
-      if (this.social.steam) {
+      if (this.socialInitialized.steamCommunity === true && this.socialInitialized.steamStore === true && this.social.steam) {
         pro.push(this.social.steam.toggle({ doTask, ...tasks.steam }));
       }
       if (this.social.visitLink && tasks.links && doTask) {

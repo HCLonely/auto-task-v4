@@ -20,6 +20,7 @@ declare global {
     readyState: number
     status: number
     statusText: string
+    responseHeadersText: string
     responseHeaders: any
     response: any
     responseXML: Document
