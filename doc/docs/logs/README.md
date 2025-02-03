@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.6
 
+### V4.6.2
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.6.2)
+
+- 修复: Steam相关任务不执行([#45](https://github.com/HCLonely/auto-task-v4/issues/45))
+
 ### V4.6.1
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.6.1)

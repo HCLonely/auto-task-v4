@@ -1,9 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.6.1",
+  "version": "4.6.2",
   "change": [
-    "优化: Twitter验证凭证时返回353代码的应对方式(#45)",
-    "优化: 初始化失败时跳过相应任务(#45)"
+    "修复: Steam相关任务不执行(#45)"
   ],
   "description": "赠Key站自动任务脚本",
   "engines": {

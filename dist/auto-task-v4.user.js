@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.6.1
+// @version            4.6.2
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -6625,6 +6625,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         steamCommunity: false
       };
       initialized = false;
+      steamTaskType = {
+        steamStore: false,
+        steamCommunity: false
+      };
       social = {};
       async #bind(name, init) {
         try {
@@ -6700,11 +6704,17 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 this.social.steam = new social_Steam();
               }
               const steamCommunityLength = Object.keys(tasks.steam).map(type => [ 'groupLinks', 'officialGroupLinks', 'forumLinks', 'workshopLinks', 'workshopVoteLinks' ].includes(type) ? tasks.steam?.[type]?.length || 0 : 0).reduce((total, number) => total + number, 0);
-              if (steamLength - steamCommunityLength > 0 && !this.socialInitialized.steamStore) {
-                pro.push(this.#bind('steamStore', this.social.steam.init('store')));
+              if (steamLength - steamCommunityLength > 0) {
+                this.steamTaskType.steamStore = true;
+                if (!this.socialInitialized.steamStore) {
+                  pro.push(this.#bind('steamStore', this.social.steam.init('store')));
+                }
               }
-              if (steamCommunityLength > 0 && !this.socialInitialized.steamCommunity) {
-                pro.push(this.#bind('steamCommunity', this.social.steam.init('community')));
+              if (steamCommunityLength > 0) {
+                if (!this.socialInitialized.steamCommunity) {
+                  this.steamTaskType.steamCommunity = true;
+                  pro.push(this.#bind('steamCommunity', this.social.steam.init('community')));
+                }
               }
             }
           }
@@ -6796,7 +6806,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               ...tasks.youtube
             }));
           }
-          if (this.socialInitialized.steamCommunity === true && this.socialInitialized.steamStore === true && this.social.steam) {
+          if ((this.steamTaskType.steamCommunity ? this.socialInitialized.steamCommunity === true : true) && (this.steamTaskType.steamStore ? this.socialInitialized.steamStore === true : true) && this.social.steam) {
             pro.push(this.social.steam.toggle({
               doTask: doTask,
               ...tasks.steam

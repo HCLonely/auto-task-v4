@@ -81,6 +81,10 @@ abstract class Website {
     steamCommunity: false
   }
   protected initialized = false
+  protected steamTaskType = {
+    steamStore: false,
+    steamCommunity: false
+  }
   protected social: {
     discord?: Discord
     instagram?: Instagram
@@ -234,11 +238,17 @@ abstract class Website {
             ['groupLinks', 'officialGroupLinks', 'forumLinks', 'workshopLinks', 'workshopVoteLinks'].includes(type) ?
               (tasks.steam?.[type as keyof typeof tasks.steam]?.length || 0) : 0))
             .reduce((total, number) => total + number, 0);
-          if (steamLength - steamCommunityLength > 0 && !this.socialInitialized.steamStore) {
-            pro.push(this.#bind('steamStore', this.social.steam.init('store')));
+          if (steamLength - steamCommunityLength > 0) {
+            this.steamTaskType.steamStore = true;
+            if (!this.socialInitialized.steamStore) {
+              pro.push(this.#bind('steamStore', this.social.steam.init('store')));
+            }
           }
-          if (steamCommunityLength > 0 && !this.socialInitialized.steamCommunity) {
-            pro.push(this.#bind('steamCommunity', this.social.steam.init('community')));
+          if (steamCommunityLength > 0) {
+            if (!this.socialInitialized.steamCommunity) {
+              this.steamTaskType.steamCommunity = true;
+              pro.push(this.#bind('steamCommunity', this.social.steam.init('community')));
+            }
           }
         }
       }
@@ -349,7 +359,11 @@ abstract class Website {
       if (this.socialInitialized.youtube === true && this.social.youtube) {
         pro.push(this.social.youtube.toggle({ doTask, ...tasks.youtube }));
       }
-      if (this.socialInitialized.steamCommunity === true && this.socialInitialized.steamStore === true && this.social.steam) {
+      if (
+        (this.steamTaskType.steamCommunity ? this.socialInitialized.steamCommunity === true : true) &&
+        (this.steamTaskType.steamStore ? this.socialInitialized.steamStore === true : true) &&
+        this.social.steam
+      ) {
         pro.push(this.social.steam.toggle({ doTask, ...tasks.steam }));
       }
       if (this.social.visitLink && tasks.links && doTask) {
