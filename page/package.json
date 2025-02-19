@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.6.2",
+  "version": "4.6.3",
   "change": [
-    "修复: Steam相关任务不执行(#45)"
+    "优化: opquests无法自动连续验证(#38)"
   ],
   "description": "赠Key站自动任务脚本",
   "engines": {

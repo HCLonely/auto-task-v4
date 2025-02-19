@@ -79,6 +79,7 @@ import { globalOptions } from '../globalOptions';
  * @param {string} id - 要缓存的Twitter用户ID。
  * @returns {void} - 无返回值。
  */
+
 class Twitter extends Social {
   tasks: twitterTasks;
   whiteList: twitterTasks;
@@ -260,7 +261,9 @@ class Twitter extends Social {
         headers: {
           authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
           'Content-Type': 'application/x-www-form-urlencoded',
-          'x-csrf-token': this.#auth.ct0 as string
+          'x-csrf-token': this.#auth.ct0 as string,
+          'X-Twitter-Auth-Type': 'OAuth2Session',
+          'X-Twitter-Active-User': 'yes'
         },
         responseType: 'json',
         /* eslint-disable camelcase */
@@ -346,7 +349,9 @@ class Twitter extends Social {
           authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
           'content-type': 'application/json',
           referer: `https://x.com/${name}`,
-          'x-csrf-token': this.#auth.ct0 as string
+          'x-csrf-token': this.#auth.ct0 as string,
+          'X-Twitter-Auth-Type': 'OAuth2Session',
+          'X-Twitter-Active-User': 'yes'
         },
         responseType: 'json'
       });
@@ -413,7 +418,9 @@ class Twitter extends Social {
         headers: {
           authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
           'Content-Type': 'application/json',
-          'x-csrf-token': this.#auth.ct0 as string
+          'x-csrf-token': this.#auth.ct0 as string,
+          'X-Twitter-Auth-Type': 'OAuth2Session',
+          'X-Twitter-Active-User': 'yes'
         },
         // eslint-disable-next-line max-len
         data: `{"variables":{"tweet_id":"${retweetId}","dark_request":false},"queryId":"${doTask ? 'ojPdsZsimiJrUGLR1sjUtA' : 'iQtK4dl5hBmXewYZuEOKVw'}"}`,

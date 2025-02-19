@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.6
 
+### V4.6.3
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.6.3)
+
+- 优化: opquests无法自动连续验证([#38](https://github.com/HCLonely/auto-task-v4/issues/38))
+
 ### V4.6.2
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.6.2)

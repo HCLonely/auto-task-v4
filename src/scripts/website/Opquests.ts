@@ -286,12 +286,9 @@ class Opquests extends Website {
       const tasks: Array<string> = $.makeArray($('.items-center').has('input[name="task_id"]'))
         .map((ele) => $(ele).find('input[name="task_id"]')
           .val() as string);
-      await this.#confirm();
-      const taskId = tasks.pop();
       GM_setValue('opquestsVerifyTasks', tasks);
-      $(`#task_id[value="${taskId}"]`).parent()
-        .find('button[type="button"]')
-        .has('i.fa-check')[0]?.click();
+      await this.#confirm();
+      this.before();
       return true;
     } catch (error) {
       throwError(error as Error, 'Opquests.verifyTask');

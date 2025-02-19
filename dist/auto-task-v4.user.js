@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.6.2
+// @version            4.6.3
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -3033,7 +3033,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             headers: {
               authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
               'Content-Type': 'application/x-www-form-urlencoded',
-              'x-csrf-token': this.#auth.ct0
+              'x-csrf-token': this.#auth.ct0,
+              'X-Twitter-Auth-Type': 'OAuth2Session',
+              'X-Twitter-Active-User': 'yes'
             },
             responseType: 'json',
             data: $.param({
@@ -3106,7 +3108,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
               'content-type': 'application/json',
               referer: `https://x.com/${name}`,
-              'x-csrf-token': this.#auth.ct0
+              'x-csrf-token': this.#auth.ct0,
+              'X-Twitter-Auth-Type': 'OAuth2Session',
+              'X-Twitter-Active-User': 'yes'
             },
             responseType: 'json'
           });
@@ -3167,7 +3171,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             headers: {
               authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
               'Content-Type': 'application/json',
-              'x-csrf-token': this.#auth.ct0
+              'x-csrf-token': this.#auth.ct0,
+              'X-Twitter-Auth-Type': 'OAuth2Session',
+              'X-Twitter-Active-User': 'yes'
             },
             data: `{"variables":{"tweet_id":"${retweetId}","dark_request":false},"queryId":"${doTask ? 'ojPdsZsimiJrUGLR1sjUtA' : 'iQtK4dl5hBmXewYZuEOKVw'}"}`,
             responseType: 'json'
@@ -9246,10 +9252,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             this.init();
           }
           const tasks = $.makeArray($('.items-center').has('input[name="task_id"]')).map(ele => $(ele).find('input[name="task_id"]').val());
-          await this.#confirm();
-          const taskId = tasks.pop();
           GM_setValue('opquestsVerifyTasks', tasks);
-          $(`#task_id[value="${taskId}"]`).parent().find('button[type="button"]').has('i.fa-check')[0]?.click();
+          await this.#confirm();
+          this.before();
           return true;
         } catch (error) {
           throwError(error, 'Opquests.verifyTask');
