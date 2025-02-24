@@ -21,9 +21,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.6.3
-          name: 4.6.3
-          body: '- 优化: opquests无法自动连续验证(#38)'
+          tag_name: v4.6.4
+          name: 4.6.4
+          body: '- 优化: Gleam任务识别'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

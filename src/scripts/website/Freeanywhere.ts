@@ -17,7 +17,7 @@ import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import httpRequest from '../tools/httpRequest';
-import { delay } from '../tools/tools';
+import { delay, debug } from '../tools/tools'; // todo
 import { globalOptions } from '../globalOptions';
 
 const defaultTasksTemplate: fawSocialTasks = {
@@ -115,21 +115,25 @@ class FreeAnyWhere extends Website {
   async init(): Promise<boolean> {
     try {
       const logStatus = echoLog({ text: __('initing') });
+      debug('检测登录按钮');
       if ($('a[href="#/login"]').length > 0) {
         window.open('/#/login', '_self');
         logStatus.warning(__('needLogin'));
         return false;
       }
+      debug('检测是否为登录页面');
       if (window.location.href.includes('/login')) {
         logStatus.warning(__('needLogin'));
         return false;
       }
+      debug('检测url是否包含额外参数');
       if (!/^https?:\/\/freeanywhere\.net\/#\/giveaway\/[\d]+/.test(window.location.href)) {
         const id = window.location.href.match(/https?:\/\/freeanywhere\.net\/.*?#\/giveaway\/([\d]+)/)?.[1];
         if (!id) {
           logStatus.error(__('getFailed', 'Id'));
           return false;
         }
+        debug('重定向到不包含额外参数的url');
         window.location.href = `https://freeanywhere.net/#/giveaway/${id}`;
       }
       if (!this.#getGiveawayId()) return false;
@@ -184,6 +188,7 @@ class FreeAnyWhere extends Website {
             this.tasks = [];
           }
           for (const task of tasks) {
+            debug('任务分类', task);
             const type = task.challenge;
             const social = task.challenge_provider;
             const taskInfo: fawTaskInfo = {
@@ -235,6 +240,7 @@ class FreeAnyWhere extends Website {
           GM_setValue(`fawTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() });
           return true;
         }
+        debug('返回的数据中不包含任务信息', data?.response);
         logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }
@@ -263,9 +269,11 @@ class FreeAnyWhere extends Website {
   async verifyTask(): Promise<boolean> {
     try {
       if (!this.initialized && !this.init()) {
+        debug('未初始化');
         return false;
       }
       if (this.tasks.length === 0 && !(await this.classifyTask('verify'))) {
+        debug('任务列表为空', this.tasks);
         return false;
       }
       const pro = [];
@@ -301,6 +309,7 @@ class FreeAnyWhere extends Website {
   async getKey(initialized?: boolean): Promise<false | string> {
     try {
       if (!initialized && !this.initialized && !this.init()) {
+        debug('未初始化');
         return false;
       }
       const logStatus = echoLog({ text: __('gettingKey') });
@@ -396,6 +405,7 @@ class FreeAnyWhere extends Website {
           logStatus.success();
           return true;
         }
+        debug('任务验证结果', data?.response);
         logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }
@@ -426,6 +436,7 @@ class FreeAnyWhere extends Website {
   async #checkLeftKey(): Promise<boolean> {
     try {
       if (!globalOptions.other.checkLeftKey) return true;
+      debug('检测剩余Key');
       const { data } = await httpRequest({
         url: 'https://freeanywhere.net/api/v1/widget/?format=json',
         method: 'GET',

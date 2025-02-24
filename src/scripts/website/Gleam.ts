@@ -326,7 +326,7 @@ class Gleam extends Website {
             if (action === 'undo') this.socialTasks.steam.curatorLinks.push(link);
             if (action === 'do') this.undoneTasks.steam.curatorLinks.push(link);
           }
-        } else if (socialIcon.hasClass('fa-bullhorn') && /Complete/gi.test(taskText)) {
+        } else if (socialIcon.hasClass('fa-bullhorn') && (/Complete|Increase/gi.test(taskText))) {
           if (action !== 'do') continue;
 
           /*

@@ -164,4 +164,9 @@ const stringToColour = (str: string): string => {
   }
 };
 
-export { unique, delay, getRedirectLink, getUrlQuery, visitLink, getUuid, stringToColour };
+const debug = (log: string, data?: any) => {
+  if (!window.DEBUG) return;
+  console.log('%c%s', 'color:#a7a7a7', `Auto-Task[Debug]: ${log}`);
+  if (data) console.log('%c%s', 'color:#a7a7a7', 'Auto-Task[Debug]: ', data);
+};
+export { unique, delay, getRedirectLink, getUrlQuery, visitLink, getUuid, stringToColour, debug };

@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.6.3",
+  "version": "4.6.4",
   "change": [
-    "优化: opquests无法自动连续验证(#38)"
+    "优化: Gleam任务识别"
   ],
   "description": "赠Key站自动任务脚本",
   "engines": {

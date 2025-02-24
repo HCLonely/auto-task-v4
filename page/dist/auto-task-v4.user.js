@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.6.3
+// @version            4.6.4
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -985,6 +985,15 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       } catch (error) {
         throwError(error, 'stringToColour');
         return '#fff';
+      }
+    };
+    const debug = (log, data) => {
+      if (!window.DEBUG) {
+        return;
+      }
+      console.log('%c%s', 'color:#a7a7a7', `Auto-Task[Debug]: ${log}`);
+      if (data) {
+        console.log('%c%s', 'color:#a7a7a7', 'Auto-Task[Debug]: ', data);
       }
     };
     const defaultGlobalOptions = {
@@ -6881,21 +6890,25 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           const logStatus = scripts_echoLog({
             text: i18n('initing')
           });
+          debug('检测登录按钮');
           if ($('a[href="#/login"]').length > 0) {
             window.open('/#/login', '_self');
             logStatus.warning(i18n('needLogin'));
             return false;
           }
+          debug('检测是否为登录页面');
           if (window.location.href.includes('/login')) {
             logStatus.warning(i18n('needLogin'));
             return false;
           }
+          debug('检测url是否包含额外参数');
           if (!/^https?:\/\/freeanywhere\.net\/#\/giveaway\/[\d]+/.test(window.location.href)) {
             const id = window.location.href.match(/https?:\/\/freeanywhere\.net\/.*?#\/giveaway\/([\d]+)/)?.[1];
             if (!id) {
               logStatus.error(i18n('getFailed', 'Id'));
               return false;
             }
+            debug('重定向到不包含额外参数的url');
             window.location.href = `https://freeanywhere.net/#/giveaway/${id}`;
           }
           if (!this.#getGiveawayId()) {
@@ -6941,6 +6954,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 this.tasks = [];
               }
               for (const task of tasks) {
+                debug('任务分类', task);
                 const type = task.challenge;
                 const social = task.challenge_provider;
                 const taskInfo = {
@@ -7022,6 +7036,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               });
               return true;
             }
+            debug('返回的数据中不包含任务信息', data?.response);
             logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
@@ -7035,9 +7050,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       async verifyTask() {
         try {
           if (!this.initialized && !this.init()) {
+            debug('未初始化');
             return false;
           }
           if (this.tasks.length === 0 && !await this.classifyTask('verify')) {
+            debug('任务列表为空', this.tasks);
             return false;
           }
           const pro = [];
@@ -7056,6 +7073,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       async getKey(initialized) {
         try {
           if (!initialized && !this.initialized && !this.init()) {
+            debug('未初始化');
             return false;
           }
           const logStatus = scripts_echoLog({
@@ -7135,6 +7153,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               logStatus.success();
               return true;
             }
+            debug('任务验证结果', data?.response);
             logStatus.error(`Error:${data?.statusText}(${data?.status})`);
             return false;
           }
@@ -7150,6 +7169,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           if (!globalOptions.other.checkLeftKey) {
             return true;
           }
+          debug('检测剩余Key');
           const {
             data
           } = await tools_httpRequest({
@@ -9571,7 +9591,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                   this.undoneTasks.steam.curatorLinks.push(link);
                 }
               }
-            } else if (socialIcon.hasClass('fa-bullhorn') && /Complete/gi.test(taskText)) {
+            } else if (socialIcon.hasClass('fa-bullhorn') && /Complete|Increase/gi.test(taskText)) {
               if (action !== 'do') {
                 continue;
               }
