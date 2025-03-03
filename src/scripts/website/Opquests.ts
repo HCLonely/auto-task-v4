@@ -105,53 +105,6 @@ class Opquests extends Website {
   }
 
   /**
-   * 在执行操作之前的异步方法
-   *
-   * @returns {Promise<void>} 无返回值。
-   *
-   * @throws {Error} 如果在执行过程中发生错误，将抛出错误。
-   *
-   * @description
-   * 该方法首先从存储中获取待验证的任务列表。
-   * 如果任务列表不为空，则弹出最后一个任务ID，并从列表中移除该任务。
-   * 然后，点击对应任务的提交按钮以执行该任务。
-   * 如果任务列表为空且存在任务记录，则删除该记录。
-   *
-   * 注释部分的代码用于在所有任务完成后获取密钥并重新加载页面。
-   */
-  async before(): Promise<void> {
-    try {
-      const opquestsVerifyTasks = GM_getValue<Array<string>>('opquestsVerifyTasks') || [];
-      if (opquestsVerifyTasks.length > 0) {
-        const taskId = opquestsVerifyTasks.pop();
-        GM_setValue('opquestsVerifyTasks', opquestsVerifyTasks);
-        const [verifyBtn] = $(`#task_id[value="${taskId}"]`).parent()
-          .find('button[type="button"]')
-          .has('i.fa-check');
-        if (verifyBtn) {
-          verifyBtn.click();
-          return;
-        }
-        this.before();
-        return;
-      }
-      if (GM_getValue<Array<string>>('opquestsVerifyTasks')) {
-        GM_deleteValue('opquestsVerifyTasks');
-        /*
-            echoLog({}).success(__('allTasksComplete'));
-            if (await this.getKey()) {
-              return;
-            }
-            window.location.reload();
-            return;
-            */
-      }
-    } catch (error) {
-      throwError(error as Error, 'Opquests.before');
-    }
-  }
-
-  /**
    * 页面加载后的异步方法
    *
    * @returns {Promise<void>} 无返回值。
@@ -166,6 +119,31 @@ class Opquests extends Website {
     try {
       if (!this.#checkLogin()) {
         echoLog({}).warning(__('checkLoginFailed'));
+      }
+      const opquestsVerifyTasks = GM_getValue<Array<string>>('opquestsVerifyTasks') || [];
+      if (opquestsVerifyTasks.length > 0) {
+        const taskId = opquestsVerifyTasks.pop();
+        GM_setValue('opquestsVerifyTasks', opquestsVerifyTasks);
+        const [verifyBtn] = $(`#task_id[value="${taskId}"]`).parent()
+          .find('button[type="button"]')
+          .has('i.fa-check');
+        if (verifyBtn) {
+          verifyBtn.click();
+          return;
+        }
+        this.after();
+        return;
+      }
+      if (GM_getValue<Array<string>>('opquestsVerifyTasks')) {
+        GM_deleteValue('opquestsVerifyTasks');
+        /*
+            echoLog({}).success(__('allTasksComplete'));
+            if (await this.getKey()) {
+              return;
+            }
+            window.location.reload();
+            return;
+            */
       }
     } catch (error) {
       throwError(error as Error, 'Opquests.after');
@@ -288,7 +266,7 @@ class Opquests extends Website {
           .val() as string);
       GM_setValue('opquestsVerifyTasks', tasks);
       await this.#confirm();
-      this.before();
+      this.after();
       return true;
     } catch (error) {
       throwError(error as Error, 'Opquests.verifyTask');

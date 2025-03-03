@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.6.4
+// @version            4.6.5
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -9191,8 +9191,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       static test() {
         return window.location.host === 'opquests.com';
       }
-      async before() {
+      async after() {
         try {
+          if (!this.#checkLogin()) {
+            scripts_echoLog({}).warning(i18n('checkLoginFailed'));
+          }
           const opquestsVerifyTasks = GM_getValue('opquestsVerifyTasks') || [];
           if (opquestsVerifyTasks.length > 0) {
             const taskId = opquestsVerifyTasks.pop();
@@ -9202,20 +9205,11 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               verifyBtn.click();
               return;
             }
-            this.before();
+            this.after();
             return;
           }
           if (GM_getValue('opquestsVerifyTasks')) {
             GM_deleteValue('opquestsVerifyTasks');
-          }
-        } catch (error) {
-          throwError(error, 'Opquests.before');
-        }
-      }
-      async after() {
-        try {
-          if (!this.#checkLogin()) {
-            scripts_echoLog({}).warning(i18n('checkLoginFailed'));
           }
         } catch (error) {
           throwError(error, 'Opquests.after');
@@ -9293,7 +9287,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           const tasks = $.makeArray($('.items-center').has('input[name="task_id"]')).map(ele => $(ele).find('input[name="task_id"]').val());
           GM_setValue('opquestsVerifyTasks', tasks);
           await this.#confirm();
-          this.before();
+          this.after();
           return true;
         } catch (error) {
           throwError(error, 'Opquests.verifyTask');

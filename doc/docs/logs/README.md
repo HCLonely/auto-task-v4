@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.6
 
+### V4.6.5
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.6.5)
+
+- 优化: Opquests页面加载完成后再验证([#38](https://github.com/HCLonely/auto-task-v4/issues/38))
+
 ### V4.6.4
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.6.4)
