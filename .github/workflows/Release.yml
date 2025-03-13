@@ -21,9 +21,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.6.5
-          name: 4.6.5
-          body: '- 优化: Opquests页面加载完成后再验证(#38)'
+          tag_name: v4.7.0
+          name: 4.7.0
+          body: '- 修复: 兼容Freeanywhere新版页面(#48)'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

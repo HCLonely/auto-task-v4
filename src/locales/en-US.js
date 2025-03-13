@@ -346,6 +346,7 @@ const data = {
 
   // Freeanywhere
   tasksNotCompleted: 'Tasks Not Completed',
+  notConnect: 'Social platform is not connectted, skip',
 
   // opquests
   confirmingTask: 'Confirming task...'

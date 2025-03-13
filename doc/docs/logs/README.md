@@ -3,6 +3,14 @@ title: 更新日志
 lang: zh-CN
 ---
 
+## V4.7
+
+### V4.7.0
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.7.0)
+
+- 修复: 兼容Freeanywhere新版页面([#48](https://github.com/HCLonely/auto-task-v4/issues/48))
+
 ## V4.6
 
 ### V4.6.5

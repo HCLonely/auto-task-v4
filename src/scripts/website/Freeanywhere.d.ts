@@ -15,6 +15,12 @@ declare interface fawSocialTasks {
   vk: {
     nameLinks: Array<string>
   }
+  discord: {
+    serverLinks: Array<string>
+  }
+  extra: {
+    website: Array<string>
+  }
 }
 declare interface fawGMTasks {
   tasks: fawSocialTasks

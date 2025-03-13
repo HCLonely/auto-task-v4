@@ -11,7 +11,7 @@
 /// <reference path = "FreeAnyWhere.d.ts" />
 
 import Swal from 'sweetalert2';
-// import Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 import Website from './Website';
 import throwError from '../tools/throwError';
 import echoLog from '../echoLog';
@@ -27,11 +27,11 @@ const defaultTasksTemplate: fawSocialTasks = {
     curatorLinks: [],
     followLinks: []
   },
-  discord: {
-    serverLinks: []
-  },
   vk: {
     nameLinks: []
+  },
+  discord: {
+    serverLinks: []
   },
   extra: {
     website: []
@@ -122,8 +122,8 @@ class FreeAnyWhere extends Website {
     try {
       const logStatus = echoLog({ text: __('initing') });
       debug('检测登录按钮');
-      if ($('div.header__login a[href*=logout]').length === 0) {
-        window.open('https://freeanywhere.net/game.php?steam_login', '_self');
+      if ($('a[href="#/login"]').length > 0) {
+        window.open('/#/login', '_self');
         logStatus.warning(__('needLogin'));
         return false;
       }
@@ -132,21 +132,21 @@ class FreeAnyWhere extends Website {
         logStatus.warning(__('needLogin'));
         return false;
       }
-      // debug('检测url是否包含额外参数');
-      // if (!/^https?:\/\/freeanywhere\.net\/#\/giveaway\/[\d]+/.test(window.location.href)) {
-      //   const id = window.location.href.match(/https?:\/\/freeanywhere\.net\/.*?#\/giveaway\/([\d]+)/)?.[1];
-      //   if (!id) {
-      //     logStatus.error(__('getFailed', 'Id'));
-      //     return false;
-      //   }
-      //   debug('重定向到不包含额外参数的url');
-      //   window.location.href = `https://freeanywhere.net/#/giveaway/${id}`;
-      // }
-      // if (!this.#getGiveawayId()) return false;
+      debug('检测url是否包含额外参数');
+      if (!/^https?:\/\/freeanywhere\.net\/#\/giveaway\/[\d]+/.test(window.location.href)) {
+        const id = window.location.href.match(/https?:\/\/freeanywhere\.net\/.*?#\/giveaway\/([\d]+)/)?.[1];
+        if (!id) {
+          logStatus.error(__('getFailed', 'Id'));
+          return false;
+        }
+        debug('重定向到不包含额外参数的url');
+        window.location.href = `https://freeanywhere.net/#/giveaway/${id}`;
+      }
+      if (!this.#getGiveawayId()) return false;
 
-      // if (!await this.#checkLeftKey()) {
-      //   echoLog({}).warning(__('checkLeftKeyFailed'));
-      // }
+      if (!await this.#checkLeftKey()) {
+        echoLog({}).warning(__('checkLeftKeyFailed'));
+      }
       this.initialized = true;
       logStatus.success();
       return true;
@@ -178,82 +178,80 @@ class FreeAnyWhere extends Website {
         this.socialTasks = GM_getValue<fawGMTasks>(`fawTasks-${this.giveawayId}`)?.tasks || JSON.parse(defaultTasks);
       }
 
-      const tasks = $('div.game__content-tasks__task').map((index, element) => ({
-        id: $(element).attr('data-id') as string,
-        social: $(element).find('div.task-img img')
-          .attr('alt'),
-        link: $(element).find('div.task-link a')
-          .attr('href'),
-        title: $(element).find('div.task-link')
-          .text()
-          .trim(),
-        type: $(element).attr('data-type'),
-        isSuccess: $(element).hasClass('done')
-      }))
-        .toArray();
-      if (tasks.length === 0) {
-        logStatus.success();
+      const { result, statusText, status, data } = await httpRequest({
+        url: `https://freeanywhere.net/api/v1/giveaway/${this.giveawayId}/?format=json`,
+        method: 'GET',
+        headers: {
+          authorization: `Token ${window.localStorage.getItem('token')}`,
+          'x-csrftoken': Cookies.get('csrftoken') as string
+        },
+        responseType: 'json'
+      });
+      if (result === 'Success') {
+        const tasks = data?.response?.challenges;
+        if (tasks) {
+          if (action === 'verify') {
+            this.tasks = [];
+          }
+          for (const task of tasks) {
+            debug('任务分类', task);
+            const type = task.challenge;
+            const social = task.challenge_provider;
+            const taskInfo: fawTaskInfo = {
+              id: task.id,
+              title: task.title
+            };
+            if (action === 'verify' && !task.is_success) {
+              this.tasks.push(taskInfo);
+              continue;
+            }
+            switch (social) {
+            case 'steam':
+              taskInfo.social = 'steam';
+              switch (type) {
+              case 'WL':
+                if (action === 'undo') this.socialTasks.steam.wishlistLinks.push(task.link);
+                if (action === 'do' && !task.is_success) this.undoneTasks.steam.wishlistLinks.push(task.link);
+                break;
+              case 'JTG':
+                if (action === 'undo') this.socialTasks.steam.groupLinks.push(task.link);
+                if (action === 'do' && !task.is_success) this.undoneTasks.steam.groupLinks.push(task.link);
+                break;
+              case 'STC':
+                if (action === 'undo') this.socialTasks.steam.curatorLinks.push(task.link);
+                if (action === 'do' && !task.is_success) this.undoneTasks.steam.curatorLinks.push(task.link);
+                break;
+              case 'GF':
+                if (action === 'undo') this.socialTasks.steam.followLinks.push(task.link);
+                if (action === 'do' && !task.is_success) this.undoneTasks.steam.followLinks.push(task.link);
+                break;
+              }
+              break;
+            case 'vk-oauth2':
+              if (action === 'undo') this.socialTasks.vk.nameLinks.push(task.link);
+              if (action === 'do' && !task.is_success) this.undoneTasks.vk.nameLinks.push(task.link);
+              break;
+            case 'website':
+              // todo
+              break;
+            default:
+              echoLog({}).warning(`${__('unKnownTaskType')}: ${social}`);
+              break;
+            }
+          }
+          logStatus.success();
+          this.undoneTasks = this.uniqueTasks(this.undoneTasks) as fawSocialTasks;
+          this.socialTasks = this.uniqueTasks(this.socialTasks) as fawSocialTasks;
+          if (window.DEBUG) console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
+          GM_setValue(`fawTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() });
+          return true;
+        }
+        debug('返回的数据中不包含任务信息', data?.response);
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
         return false;
       }
-
-      if (action === 'verify') {
-        this.tasks = [];
-      }
-      for (const task of tasks) {
-        debug('任务分类', task);
-        const { id, social, title, type, link, isSuccess } = task;
-        const taskInfo: fawTaskInfo = {
-          id,
-          title,
-          social,
-          type
-        };
-        if (action === 'verify' && !isSuccess) {
-          this.tasks.push(taskInfo);
-          continue;
-        }
-        switch (type) {
-        case 'steam_account_verify':
-        //   if (action === 'do' && !isSuccess && link) this.undoneTasks.steam.wishlistLinks.push(link);
-          break;
-        case 'steam_game_wishlist':
-          if (action === 'undo' && link) this.socialTasks.steam.wishlistLinks.push(link);
-          if (action === 'do' && !isSuccess && link) this.undoneTasks.steam.wishlistLinks.push(link);
-          break;
-        case 'steam_group_sub':
-          if (action === 'undo' && link) this.socialTasks.steam.groupLinks.push(link);
-          if (action === 'do' && !isSuccess && link) this.undoneTasks.steam.groupLinks.push(link);
-          break;
-          // case 'STC':
-          //   if (action === 'undo') this.socialTasks.steam.curatorLinks.push(task.link);
-          //   if (action === 'do' && !task.is_success) this.undoneTasks.steam.curatorLinks.push(task.link);
-          //   break;
-          // case 'GF':
-          //   if (action === 'undo') this.socialTasks.steam.followLinks.push(task.link);
-          //   if (action === 'do' && !task.is_success) this.undoneTasks.steam.followLinks.push(task.link);
-          //   break;
-        case 'site_visit':
-          // if (action === 'undo' && link) this.socialTasks.steam.groupLinks.push(link);
-          if (action === 'do' && !isSuccess) this.undoneTasks.extra.website.push(`id=${id}&type=${type}&task=true`);
-          break;
-        case 'discord_server_sub':
-          if (action === 'undo' && link) this.socialTasks.discord.serverLinks.push(link);
-          if (action === 'do' && !isSuccess && link) this.undoneTasks.discord.serverLinks.push(link);
-          break;
-        case 'none':
-          echoLog({}).warning(`${__('notConnect')}`);
-          break;
-        default:
-          echoLog({}).warning(`${__('unKnownTaskType')}: ${type}`);
-          break;
-        }
-      }
-      logStatus.success();
-      this.undoneTasks = this.uniqueTasks(this.undoneTasks) as fawSocialTasks;
-      this.socialTasks = this.uniqueTasks(this.socialTasks) as fawSocialTasks;
-      if (window.DEBUG) console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
-      GM_setValue(`fawTasks-${this.giveawayId}`, { tasks: this.socialTasks, time: new Date().getTime() });
-      return true;
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
     } catch (error) {
       throwError(error as Error, 'Freeanywhere.classifyTask');
       return false;
@@ -292,67 +290,8 @@ class FreeAnyWhere extends Website {
       await Promise.all(pro);
       echoLog({}).success(__('allTasksComplete'));
       return !!await this.getKey(true);
-      // return true;
     } catch (error) {
       throwError(error as Error, 'Freeanywhere.verifyTask');
-      return false;
-    }
-  }
-
-  /**
-   * 执行额外任务的异步方法
-   *
-   * @param {Object} params - 方法参数对象。
-   * @param {Array<string>} params.website - 包含要执行的额外任务链接的数组。
-   * @returns {Promise<boolean>} 如果所有任务成功执行，则返回 true；否则返回 false。
-   *
-   * @throws {Error} 如果在执行过程中发生错误，将抛出错误。
-   *
-   * @description
-   * 该方法遍历传入的额外任务链接数组，并为每个链接调用私有方法 `#doVisitWebsite`。
-   * 所有任务的执行结果将通过 `Promise.all` 进行处理。
-   * 如果所有任务成功完成，则返回 true；如果发生错误，则记录错误信息并返回 false。
-   */
-  async extraDoTask({ website }: { website: Array<string> }): Promise<boolean> {
-    try {
-      const pro = [];
-      for (const link of website) {
-        pro.push(this.#doVisitWebsite(link));
-      }
-      return Promise.all(pro).then(() => true);
-    } catch (error) {
-      throwError(error as Error, 'FreeAnyWhere.extraDoTask');
-      return false;
-    }
-  }
-
-  async #doVisitWebsite(link: string): Promise<boolean> {
-    try {
-      const logStatus = echoLog({ text: __('visitingLink') });
-
-      const { result, statusText, status, data } = await httpRequest({
-        url: 'https://freeanywhere.net/php/task_site_visit_done.php',
-        method: 'POST',
-        headers: {
-          'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        },
-        data: link
-      });
-      if (result === 'Success') {
-        logStatus.success();
-        return true;
-        // if (data?.responseText.trim() === 'good') {
-        //   logStatus.success();
-        //   return true;
-        // }
-        // debug('任务验证结果', data?.response);
-        // logStatus.error(`Error:${data?.statusText}(${data?.status})`);
-        // return false;
-      }
-      logStatus.error(`${result}:${statusText}(${status})`);
-      return false;
-    } catch (error) {
-      throwError(error as Error, 'FreeAnyWhere.doVisitWebsite');
       return false;
     }
   }
@@ -381,18 +320,28 @@ class FreeAnyWhere extends Website {
       }
       const logStatus = echoLog({ text: __('gettingKey') });
       const { result, statusText, status, data } = await httpRequest({
-        url: 'https://freeanywhere.net/php/user_get_key.php',
-        method: 'POST'
+        url: `https://freeanywhere.net/api/v1/giveaway/${this.giveawayId}/reward/?format=json`,
+        method: 'GET',
+        dataType: 'json',
+        headers: {
+          authorization: `Token ${window.localStorage.getItem('token')}`
+        }
       });
       if (result === 'Success') {
-        if (data?.responseText.indexOf('bad') !== -1 || data?.responseText.length > 50) {
-          logStatus.error(data?.responseText);
+        if (data?.response?.reward) {
+          logStatus.success();
+          echoLog({}).success(data.response.reward);
+          return data.response.reward;
+        }
+        if (data?.response?.completed === false) {
+          logStatus.error(__('tasksNotCompleted'));
           return false;
         }
-
-        logStatus.success();
-        echoLog({}).success(data.responseText);
-        return data.responseText;
+        if (data?.response?.completed === true) {
+          await this.#checkLeftKey();
+        }
+        logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+        return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
@@ -417,7 +366,7 @@ class FreeAnyWhere extends Website {
    */
   #getGiveawayId(): boolean {
     try {
-      const giveawayId = new URLSearchParams(window.location.search).get('n');
+      const giveawayId = window.location.href.match(/\/giveaway\/([\d]+)/)?.[1];
       if (giveawayId) {
         this.giveawayId = giveawayId;
         return true;
@@ -449,15 +398,16 @@ class FreeAnyWhere extends Website {
       const logStatus = echoLog({ html: `<li>${__('verifyingTask')}${task.title.trim()}...<font></font></li>` });
 
       const { result, statusText, status, data } = await httpRequest({
-        url: 'https://freeanywhere.net/php/user_task_update.php',
-        method: 'POST',
+        url: `https://freeanywhere.net/api/v1/giveaway/${this.giveawayId}/challenge-status/${task.id}/?format=json`,
+        method: 'GET',
+        dataType: 'json',
         headers: {
-          'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        },
-        data: `id=${task.id}&type=${task.type}`
+          authorization: `Token ${window.localStorage.getItem('token')}`,
+          'x-csrftoken': Cookies.get('csrftoken') as string
+        }
       });
       if (result === 'Success') {
-        if (data?.responseText.trim() === 'good') {
+        if (data?.response?.status) {
           logStatus.success();
           return true;
         }

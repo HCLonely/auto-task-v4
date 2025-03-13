@@ -325,6 +325,7 @@ const data = {
 
   // Freeanywhere
   tasksNotCompleted: '任务未完成',
+  notConnect: '社交平台未连接，跳过任务',
 
   // opquests
   confirmingTask: '正在跳过警告页面...'

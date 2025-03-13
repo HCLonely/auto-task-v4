@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.6.5
+// @version            4.7.0
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -427,7 +427,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(314);
       var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
       var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default());
-      ___CSS_LOADER_EXPORT___.push([ module.id, `.colorful-button,#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn,body.auto-task-options .auto-task-form table button{position:relative;padding:5px 10px;text-align:center;color:#fff;text-decoration:none;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:30px;background-size:400%;text-transform:capitalize}.colorful-button:hover,#auto-task-buttons a.auto-task-website-btn:hover,.show-button-div a.auto-task-website-btn:hover,body.auto-task-options .auto-task-form table button:hover{transform:scale(1.05);box-shadow:0 6px 20px rgba(0,0,0,.3);cursor:pointer}.colorful-button:hover::before,#auto-task-buttons a.auto-task-website-btn:hover::before,.show-button-div a.auto-task-website-btn:hover::before,body.auto-task-options .auto-task-form table button:hover::before{filter:blur(10px);opacity:1}.colorful-button::before,#auto-task-buttons a.auto-task-website-btn::before,.show-button-div a.auto-task-website-btn::before,body.auto-task-options .auto-task-form table button::before{content:"";position:absolute;top:-5px;left:-5px;right:-5px;bottom:-5px;z-index:-1;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:40px;background-size:400%;opacity:-1}#auto-task-info{z-index:999999999 !important}#auto-task-info{position:fixed;bottom:10px;right:10px;width:60%;max-width:500px;max-height:60%;overflow-y:auto;color:#000;background-color:#fff;padding-left:5px;border:solid 2px #add8e6;border-radius:10px}#auto-task-info li{text-align:left}#auto-task-info li a.high-light{color:#00aeff;font-weight:bold}#auto-task-info .success{color:green}#auto-task-info .error{color:red}#auto-task-info .warning{color:blue}#auto-task-info .info{color:#ff0}#auto-task-info .update-text{color:green;border:solid 2px #8dcb69;margin:5px 10px 5px 20px;border-radius:10px;padding:5px 20px}.auto-task-keylol{text-decoration:none !important}.auto-task-keylol{display:inline-block;text-transform:capitalize;margin-left:10px;border:solid 1px;border-radius:5px;padding:0 2px}.auto-task-keylol[selected=selected]{background-color:blue !important;color:#fff !important}.auto-task-form table{font-family:verdana,arial,sans-serif;font-size:11px;color:#333;border-width:1px;border-color:#999;border-collapse:collapse;width:100%}.auto-task-form table thead td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;font-weight:bold;background-color:#fff}.auto-task-form table tbody tr{background-color:#d4e3e5}.auto-task-form table tbody tr:hover{background-color:#ff6 !important}.auto-task-form table tbody tr th{background-color:#c3dde0;border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;text-transform:capitalize}.auto-task-form table tbody tr td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}.swal2-modal{width:70% !important;max-width:1000px !important}body.auto-task-options{padding-top:10px;text-align:center}body.auto-task-options .auto-task-form{width:80%;max-width:1000px;margin:0 auto;padding-bottom:20px}body.auto-task-options .auto-task-form table input.editOption{width:80%}body.auto-task-options .auto-task-form table #getTwitterUserId,body.auto-task-options .auto-task-form table #getYoutubeChannelId{margin-top:5px}body.auto-task-options .auto-task-form table button{z-index:1}body.auto-task-options .auto-task-form table input[type=text]{outline-style:none;border:1px solid #ccc;border-radius:3px;padding:5px 10px;font-size:14px}body.auto-task-options .auto-task-form table input[type=text]:focus{border-color:#66afe9;outline:0;box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)}body.auto-task-options .auto-task-form table label{position:relative;width:160px;height:80px;cursor:pointer;transform:scale(0.25);margin:-25% 0;top:-30px;display:inline-block}body.auto-task-options .auto-task-form table label input{position:relative;z-index:1;appearance:none}body.auto-task-options .auto-task-form table label input:checked~span{background:#05be05;box-shadow:0 15px 25px rgba(5,190,5,.4)}body.auto-task-options .auto-task-form table label input:checked~span i{left:84px}body.auto-task-options .auto-task-form table label input:checked~span i::before{background:#05be05;box-shadow:35px 0 0 #05be05}body.auto-task-options .auto-task-form table label input:checked~span i::after{bottom:12px;height:15px;border-bottom-left-radius:15px;border-bottom-right-radius:15px;background:#05be05}body.auto-task-options .auto-task-form table label span{position:absolute;top:0;left:0;width:100%;height:100%;background:#fe0000;border-radius:80px;transition:.5s;box-shadow:0 15px 25px rgba(254,0,0,.4)}body.auto-task-options .auto-task-form table label span i{position:absolute;top:4px;left:4px;width:72px;height:72px;background:#fff;border-radius:50%}body.auto-task-options .auto-task-form table label span i::before{content:"";position:absolute;top:22px;left:12px;width:12px;height:12px;border-radius:50%;background:#fe0000;box-shadow:35px 0 0 #fe0000;transition:.5s}body.auto-task-options .auto-task-form table label span i::after{content:"";position:absolute;bottom:15px;left:calc(50% - 15px);width:30px;height:6px;border-radius:6px;background:#fe0000;transition:.5s}body.auto-task-history{font-size:15px;font-weight:400;line-height:1.5}body.auto-task-history .container a{color:#007bff;text-decoration:none;background-color:rgba(0,0,0,0)}body.auto-task-history .container .card{width:80%;max-width:800px;border-radius:10px;background:rgba(118,118,118,.1019607843);border-top:1px solid rgba(255,255,255,.5019607843);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 15px 25px rgba(0,0,0,.1019607843);margin:20px auto;position:relative;display:flex;flex-direction:column;word-wrap:break-word;-webkit-background-clip:border-box;background-clip:border-box;border:1px solid rgba(0,0,0,.125);border-radius:.25rem}body.auto-task-history .container .card .title{text-align:center;font-size:30px;font-weight:bold;margin:5px 0}body.auto-task-history .container .card .title a:hover{text-decoration:none;background:#93e1ff;border-radius:10px;padding:3px}body.auto-task-history .container .card ul{margin-bottom:25px}body.auto-task-history .container .card ul li{margin-bottom:5px;line-height:20px}body.auto-task-history .container .card ul a:hover{text-decoration:underline}body.auto-task-history .container .card .delete-task{right:10px;width:38px;height:35px;position:absolute;font-size:24px;cursor:pointer;border-radius:10px}body.auto-task-history .container .card .delete-task:hover{background:#fff}body.auto-task-history .container .card .time{right:5px;position:absolute;bottom:0;color:#e83e8c;font-family:'SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace';font-size:15px}#auto-task-buttons,.show-button-div{z-index:999999999 !important}#auto-task-buttons,.show-button-div{position:fixed;top:30px;right:15px;width:124px;transform:scale(0.85)}#auto-task-buttons p,.show-button-div p{margin:5px !important}#auto-task-buttons p,.show-button-div p{line-height:30px;height:40px;text-align:center}#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn{width:105px;line-height:27px;font-size:20px;display:block}.show-button-div{width:20px}.auto-task-capitalize{text-transform:capitalize !important}.swal2-file:focus,.swal2-input:focus,.swal2-textarea:focus{box-shadow:inset 0px 0px 4px 1px rgba(100,150,200,.5) !important}.swal2-checkbox-custom{align-items:center;justify-content:center;background:#fff;color:inherit;margin:1em auto}.swal2-checkbox-custom input{flex-shrink:0;margin:0 .4em}.giveaway-actions #getKey{display:none !important}.auto-task-giveaway-status{color:#fff;border-radius:10px;padding:0 5px;margin-left:5px}.auto-task-giveaway-status.active{background-color:#5cb85c}.auto-task-giveaway-status.not-active{background-color:#d9534f}`, '' ]);
+      ___CSS_LOADER_EXPORT___.push([ module.id, `.colorful-button,#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn,body.auto-task-options .auto-task-form table button{position:relative;padding:5px 10px;text-align:center;color:#fff;text-decoration:none;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:30px;background-size:400%;text-transform:capitalize}.colorful-button:hover,#auto-task-buttons a.auto-task-website-btn:hover,.show-button-div a.auto-task-website-btn:hover,body.auto-task-options .auto-task-form table button:hover{transform:scale(1.05);box-shadow:0 6px 20px rgba(0,0,0,.3);cursor:pointer}.colorful-button:hover::before,#auto-task-buttons a.auto-task-website-btn:hover::before,.show-button-div a.auto-task-website-btn:hover::before,body.auto-task-options .auto-task-form table button:hover::before{filter:blur(10px);opacity:1}.colorful-button::before,#auto-task-buttons a.auto-task-website-btn::before,.show-button-div a.auto-task-website-btn::before,body.auto-task-options .auto-task-form table button::before{content:"";position:absolute;top:-5px;left:-5px;right:-5px;bottom:-5px;z-index:-1;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:40px;background-size:400%;opacity:-1}#auto-task-info{position:fixed;bottom:10px;right:10px;width:60%;max-width:500px;max-height:60%;overflow-y:auto;color:#000;background-color:#fff;padding-left:5px;z-index:999999999 !important;border:solid 2px #add8e6;border-radius:10px}#auto-task-info li{text-align:left}#auto-task-info li a.high-light{color:#00aeff;font-weight:bold}#auto-task-info .success{color:green}#auto-task-info .error{color:red}#auto-task-info .warning{color:blue}#auto-task-info .info{color:#ff0}#auto-task-info .update-text{color:green;border:solid 2px #8dcb69;margin:5px 10px 5px 20px;border-radius:10px;padding:5px 20px}.auto-task-keylol{display:inline-block;text-transform:capitalize;margin-left:10px;text-decoration:none !important;border:solid 1px;border-radius:5px;padding:0 2px}.auto-task-keylol[selected=selected]{background-color:blue !important;color:#fff !important}.auto-task-form table{font-family:verdana,arial,sans-serif;font-size:11px;color:#333;border-width:1px;border-color:#999;border-collapse:collapse;width:100%}.auto-task-form table thead td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;font-weight:bold;background-color:#fff}.auto-task-form table tbody tr{background-color:#d4e3e5}.auto-task-form table tbody tr:hover{background-color:#ff6 !important}.auto-task-form table tbody tr th{background-color:#c3dde0;border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;text-transform:capitalize}.auto-task-form table tbody tr td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}.swal2-modal{width:70% !important;max-width:1000px !important}body.auto-task-options{padding-top:10px;text-align:center}body.auto-task-options .auto-task-form{width:80%;max-width:1000px;margin:0 auto;padding-bottom:20px}body.auto-task-options .auto-task-form table input.editOption{width:80%}body.auto-task-options .auto-task-form table #getTwitterUserId,body.auto-task-options .auto-task-form table #getYoutubeChannelId{margin-top:5px}body.auto-task-options .auto-task-form table button{z-index:1}body.auto-task-options .auto-task-form table input[type=text]{outline-style:none;border:1px solid #ccc;border-radius:3px;padding:5px 10px;font-size:14px}body.auto-task-options .auto-task-form table input[type=text]:focus{border-color:#66afe9;outline:0;box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)}body.auto-task-options .auto-task-form table label{position:relative;width:160px;height:80px;cursor:pointer;transform:scale(0.25);margin:-25% 0;top:-30px;display:inline-block}body.auto-task-options .auto-task-form table label input{position:relative;z-index:1;appearance:none}body.auto-task-options .auto-task-form table label input:checked~span{background:#05be05;box-shadow:0 15px 25px rgba(5,190,5,.4)}body.auto-task-options .auto-task-form table label input:checked~span i{left:84px}body.auto-task-options .auto-task-form table label input:checked~span i::before{background:#05be05;box-shadow:35px 0 0 #05be05}body.auto-task-options .auto-task-form table label input:checked~span i::after{bottom:12px;height:15px;border-bottom-left-radius:15px;border-bottom-right-radius:15px;background:#05be05}body.auto-task-options .auto-task-form table label span{position:absolute;top:0;left:0;width:100%;height:100%;background:#fe0000;border-radius:80px;transition:.5s;box-shadow:0 15px 25px rgba(254,0,0,.4)}body.auto-task-options .auto-task-form table label span i{position:absolute;top:4px;left:4px;width:72px;height:72px;background:#fff;border-radius:50%}body.auto-task-options .auto-task-form table label span i::before{content:"";position:absolute;top:22px;left:12px;width:12px;height:12px;border-radius:50%;background:#fe0000;box-shadow:35px 0 0 #fe0000;transition:.5s}body.auto-task-options .auto-task-form table label span i::after{content:"";position:absolute;bottom:15px;left:calc(50% - 15px);width:30px;height:6px;border-radius:6px;background:#fe0000;transition:.5s}body.auto-task-history{font-size:15px;font-weight:400;line-height:1.5}body.auto-task-history .container a{color:#007bff;text-decoration:none;background-color:rgba(0,0,0,0)}body.auto-task-history .container .card{width:80%;max-width:800px;border-radius:10px;background:rgba(118,118,118,.1019607843);border-top:1px solid rgba(255,255,255,.5019607843);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 15px 25px rgba(0,0,0,.1019607843);margin:20px auto;position:relative;display:flex;flex-direction:column;word-wrap:break-word;-webkit-background-clip:border-box;background-clip:border-box;border:1px solid rgba(0,0,0,.125);border-radius:.25rem}body.auto-task-history .container .card .title{text-align:center;font-size:30px;font-weight:bold;margin:5px 0}body.auto-task-history .container .card .title a:hover{text-decoration:none;background:#93e1ff;border-radius:10px;padding:3px}body.auto-task-history .container .card ul{margin-bottom:25px}body.auto-task-history .container .card ul li{margin-bottom:5px;line-height:20px}body.auto-task-history .container .card ul a:hover{text-decoration:underline}body.auto-task-history .container .card .delete-task{right:10px;width:38px;height:35px;position:absolute;font-size:24px;cursor:pointer;border-radius:10px}body.auto-task-history .container .card .delete-task:hover{background:#fff}body.auto-task-history .container .card .time{right:5px;position:absolute;bottom:0;color:#e83e8c;font-family:'SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace';font-size:15px}#auto-task-buttons,.show-button-div{position:fixed;top:30px;right:15px;width:124px;z-index:999999999 !important;transform:scale(0.85)}#auto-task-buttons p,.show-button-div p{line-height:30px;height:40px;text-align:center;margin:5px !important}#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn{width:105px;line-height:27px;font-size:20px;display:block}.show-button-div{width:20px}.auto-task-capitalize{text-transform:capitalize !important}.swal2-file:focus,.swal2-input:focus,.swal2-textarea:focus{box-shadow:inset 0px 0px 4px 1px rgba(100,150,200,.5) !important}.swal2-checkbox-custom{align-items:center;justify-content:center;background:#fff;color:inherit;margin:1em auto}.swal2-checkbox-custom input{flex-shrink:0;margin:0 .4em}.giveaway-actions #getKey{display:none !important}.auto-task-giveaway-status{color:#fff;border-radius:10px;padding:0 5px;margin-left:5px}.auto-task-giveaway-status.active{background-color:#5cb85c}.auto-task-giveaway-status.not-active{background-color:#d9534f}`, '' ]);
       const __WEBPACK_DEFAULT_EXPORT__ = ___CSS_LOADER_EXPORT___.toString();
     },
     314: function(module) {
@@ -1474,6 +1474,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       doingKeyhubTask: '正在做Keyhub任务...',
       SweepWidgetNotice: '正在处理并验证任务，每次验证任务有1~3s间隔防止触发验证过快警告...',
       tasksNotCompleted: '任务未完成',
+      notConnect: '社交平台未连接，跳过任务',
       confirmingTask: '正在跳过警告页面...'
     };
     const zh_CN = data;
@@ -1761,6 +1762,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       doingKeyhubTask: 'Doing Keyhub Task...',
       SweepWidgetNotice: 'The task is being processed and verified. ' + 'There is an interval of 1~3s for each verification task to prevent the triggering of too fast verification warning...',
       tasksNotCompleted: 'Tasks Not Completed',
+      notConnect: 'Social platform is not connectted, skip',
       confirmingTask: 'Confirming task...'
     };
     const en_US = en_US_data;
@@ -6871,8 +6873,14 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         curatorLinks: [],
         followLinks: []
       },
+      discord: {
+        serverLinks: []
+      },
       vk: {
         nameLinks: []
+      },
+      extra: {
+        website: []
       }
     };
     const defaultTasks = JSON.stringify(defaultTasksTemplate);
@@ -6891,8 +6899,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             text: i18n('initing')
           });
           debug('检测登录按钮');
-          if ($('a[href="#/login"]').length > 0) {
-            window.open('/#/login', '_self');
+          if ($('div.header__login a[href*=logout]').length === 0) {
+            window.open('https://freeanywhere.net/game.php?steam_login', '_self');
             logStatus.warning(i18n('needLogin'));
             return false;
           }
@@ -6900,22 +6908,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           if (window.location.href.includes('/login')) {
             logStatus.warning(i18n('needLogin'));
             return false;
-          }
-          debug('检测url是否包含额外参数');
-          if (!/^https?:\/\/freeanywhere\.net\/#\/giveaway\/[\d]+/.test(window.location.href)) {
-            const id = window.location.href.match(/https?:\/\/freeanywhere\.net\/.*?#\/giveaway\/([\d]+)/)?.[1];
-            if (!id) {
-              logStatus.error(i18n('getFailed', 'Id'));
-              return false;
-            }
-            debug('重定向到不包含额外参数的url');
-            window.location.href = `https://freeanywhere.net/#/giveaway/${id}`;
-          }
-          if (!this.#getGiveawayId()) {
-            return false;
-          }
-          if (!await this.#checkLeftKey()) {
-            scripts_echoLog({}).warning(i18n('checkLeftKeyFailed'));
           }
           this.initialized = true;
           logStatus.success();
@@ -6933,115 +6925,98 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           if (action === 'undo') {
             this.socialTasks = GM_getValue(`fawTasks-${this.giveawayId}`)?.tasks || JSON.parse(defaultTasks);
           }
-          const {
-            result,
-            statusText,
-            status,
-            data
-          } = await tools_httpRequest({
-            url: `https://freeanywhere.net/api/v1/giveaway/${this.giveawayId}/?format=json`,
-            method: 'GET',
-            headers: {
-              authorization: `Token ${window.localStorage.getItem('token')}`,
-              'x-csrftoken': external_Cookies_default().get('csrftoken')
-            },
-            responseType: 'json'
-          });
-          if (result === 'Success') {
-            const tasks = data?.response?.challenges;
-            if (tasks) {
-              if (action === 'verify') {
-                this.tasks = [];
-              }
-              for (const task of tasks) {
-                debug('任务分类', task);
-                const type = task.challenge;
-                const social = task.challenge_provider;
-                const taskInfo = {
-                  id: task.id,
-                  title: task.title
-                };
-                if (action === 'verify' && !task.is_success) {
-                  this.tasks.push(taskInfo);
-                  continue;
-                }
-                switch (social) {
-                 case 'steam':
-                  taskInfo.social = 'steam';
-                  switch (type) {
-                   case 'WL':
-                    if (action === 'undo') {
-                      this.socialTasks.steam.wishlistLinks.push(task.link);
-                    }
-                    if (action === 'do' && !task.is_success) {
-                      this.undoneTasks.steam.wishlistLinks.push(task.link);
-                    }
-                    break;
-
-                   case 'JTG':
-                    if (action === 'undo') {
-                      this.socialTasks.steam.groupLinks.push(task.link);
-                    }
-                    if (action === 'do' && !task.is_success) {
-                      this.undoneTasks.steam.groupLinks.push(task.link);
-                    }
-                    break;
-
-                   case 'STC':
-                    if (action === 'undo') {
-                      this.socialTasks.steam.curatorLinks.push(task.link);
-                    }
-                    if (action === 'do' && !task.is_success) {
-                      this.undoneTasks.steam.curatorLinks.push(task.link);
-                    }
-                    break;
-
-                   case 'GF':
-                    if (action === 'undo') {
-                      this.socialTasks.steam.followLinks.push(task.link);
-                    }
-                    if (action === 'do' && !task.is_success) {
-                      this.undoneTasks.steam.followLinks.push(task.link);
-                    }
-                    break;
-                  }
-                  break;
-
-                 case 'vk-oauth2':
-                  if (action === 'undo') {
-                    this.socialTasks.vk.nameLinks.push(task.link);
-                  }
-                  if (action === 'do' && !task.is_success) {
-                    this.undoneTasks.vk.nameLinks.push(task.link);
-                  }
-                  break;
-
-                 case 'website':
-                  break;
-
-                 default:
-                  scripts_echoLog({}).warning(`${i18n('unKnownTaskType')}: ${social}`);
-                  break;
-                }
-              }
-              logStatus.success();
-              this.undoneTasks = this.uniqueTasks(this.undoneTasks);
-              this.socialTasks = this.uniqueTasks(this.socialTasks);
-              if (window.DEBUG) {
-                console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
-              }
-              GM_setValue(`fawTasks-${this.giveawayId}`, {
-                tasks: this.socialTasks,
-                time: new Date().getTime()
-              });
-              return true;
-            }
-            debug('返回的数据中不包含任务信息', data?.response);
-            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
+          const tasks = $('div.game__content-tasks__task').map((index, element) => ({
+            id: $(element).attr('data-id'),
+            social: $(element).find('div.task-img img').attr('alt'),
+            link: $(element).find('div.task-link a').attr('href'),
+            title: $(element).find('div.task-link').text().trim(),
+            type: $(element).attr('data-type'),
+            isSuccess: $(element).hasClass('done')
+          })).toArray();
+          if (tasks.length === 0) {
+            logStatus.success();
             return false;
           }
-          logStatus.error(`${result}:${statusText}(${status})`);
-          return false;
+          if (action === 'verify') {
+            this.tasks = [];
+          }
+          for (const task of tasks) {
+            debug('任务分类', task);
+            const {
+              id,
+              social,
+              title,
+              type,
+              link,
+              isSuccess
+            } = task;
+            const taskInfo = {
+              id: id,
+              title: title,
+              social: social,
+              type: type
+            };
+            if (action === 'verify' && !isSuccess) {
+              this.tasks.push(taskInfo);
+              continue;
+            }
+            switch (type) {
+             case 'steam_account_verify':
+              break;
+
+             case 'steam_game_wishlist':
+              if (action === 'undo' && link) {
+                this.socialTasks.steam.wishlistLinks.push(link);
+              }
+              if (action === 'do' && !isSuccess && link) {
+                this.undoneTasks.steam.wishlistLinks.push(link);
+              }
+              break;
+
+             case 'steam_group_sub':
+              if (action === 'undo' && link) {
+                this.socialTasks.steam.groupLinks.push(link);
+              }
+              if (action === 'do' && !isSuccess && link) {
+                this.undoneTasks.steam.groupLinks.push(link);
+              }
+              break;
+
+             case 'site_visit':
+              if (action === 'do' && !isSuccess) {
+                this.undoneTasks.extra.website.push(`id=${id}&type=${type}&task=true`);
+              }
+              break;
+
+             case 'discord_server_sub':
+              if (action === 'undo' && link) {
+                this.socialTasks.discord.serverLinks.push(link);
+              }
+              if (action === 'do' && !isSuccess && link) {
+                this.undoneTasks.discord.serverLinks.push(link);
+              }
+              break;
+
+             case 'none':
+              scripts_echoLog({}).warning(`${i18n('notConnect')}`);
+              break;
+
+             default:
+              scripts_echoLog({}).warning(`${i18n('unKnownTaskType')}: ${type}`);
+              break;
+            }
+          }
+          logStatus.success();
+          this.undoneTasks = this.uniqueTasks(this.undoneTasks);
+          this.socialTasks = this.uniqueTasks(this.socialTasks);
+          if (window.DEBUG) {
+            console.log('%cAuto-Task[Debug]:', 'color:blue', JSON.stringify(this));
+          }
+          GM_setValue(`fawTasks-${this.giveawayId}`, {
+            tasks: this.socialTasks,
+            time: new Date().getTime()
+          });
+          return true;
         } catch (error) {
           throwError(error, 'Freeanywhere.classifyTask');
           return false;
@@ -7070,6 +7045,49 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
+      async extraDoTask({
+        website
+      }) {
+        try {
+          const pro = [];
+          for (const link of website) {
+            pro.push(this.#doVisitWebsite(link));
+          }
+          return Promise.all(pro).then(() => true);
+        } catch (error) {
+          throwError(error, 'FreeAnyWhere.extraDoTask');
+          return false;
+        }
+      }
+      async #doVisitWebsite(link) {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('visitingLink')
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            url: 'https://freeanywhere.net/php/task_site_visit_done.php',
+            method: 'POST',
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            data: link
+          });
+          if (result === 'Success') {
+            logStatus.success();
+            return true;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'FreeAnyWhere.doVisitWebsite');
+          return false;
+        }
+      }
       async getKey(initialized) {
         try {
           if (!initialized && !this.initialized && !this.init()) {
@@ -7085,28 +7103,17 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             status,
             data
           } = await tools_httpRequest({
-            url: `https://freeanywhere.net/api/v1/giveaway/${this.giveawayId}/reward/?format=json`,
-            method: 'GET',
-            dataType: 'json',
-            headers: {
-              authorization: `Token ${window.localStorage.getItem('token')}`
-            }
+            url: 'https://freeanywhere.net/php/user_get_key.php',
+            method: 'POST'
           });
           if (result === 'Success') {
-            if (data?.response?.reward) {
-              logStatus.success();
-              scripts_echoLog({}).success(data.response.reward);
-              return data.response.reward;
-            }
-            if (data?.response?.completed === false) {
-              logStatus.error(i18n('tasksNotCompleted'));
+            if (data?.responseText.indexOf('bad') !== -1 || data?.responseText.length > 50) {
+              logStatus.error(data?.responseText);
               return false;
             }
-            if (data?.response?.completed === true) {
-              await this.#checkLeftKey();
-            }
-            logStatus.error(`Error:${data?.statusText}(${data?.status})`);
-            return false;
+            logStatus.success();
+            scripts_echoLog({}).success(data.responseText);
+            return data.responseText;
           }
           logStatus.error(`${result}:${statusText}(${status})`);
           return false;
@@ -7117,7 +7124,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
       #getGiveawayId() {
         try {
-          const giveawayId = window.location.href.match(/\/giveaway\/([\d]+)/)?.[1];
+          const giveawayId = new URLSearchParams(window.location.search).get('n');
           if (giveawayId) {
             this.giveawayId = giveawayId;
             return true;
@@ -7140,16 +7147,15 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             status,
             data
           } = await tools_httpRequest({
-            url: `https://freeanywhere.net/api/v1/giveaway/${this.giveawayId}/challenge-status/${task.id}/?format=json`,
-            method: 'GET',
-            dataType: 'json',
+            url: 'https://freeanywhere.net/php/user_task_update.php',
+            method: 'POST',
             headers: {
-              authorization: `Token ${window.localStorage.getItem('token')}`,
-              'x-csrftoken': external_Cookies_default().get('csrftoken')
-            }
+              'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            data: `id=${task.id}&type=${task.type}`
           });
           if (result === 'Success') {
-            if (data?.response?.status) {
+            if (data?.responseText.trim() === 'good') {
               logStatus.success();
               return true;
             }
