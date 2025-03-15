@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.7
 
+### V4.7.1
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.7.1)
+
+- 优化: Freeanywhere新增vk任务识别
+
 ### V4.7.0
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.7.0)

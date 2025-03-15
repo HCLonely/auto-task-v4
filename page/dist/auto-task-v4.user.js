@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.7.0
+// @version            4.7.1
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -3439,6 +3439,57 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
+      async #toggleLikeWall(name, dataParam, doTask = true) {
+        try {
+          const logStatus = scripts_echoLog({
+            type: doTask ? 'likingVkPublic' : 'unlikingVkPublic',
+            text: name
+          });
+          const postData = {
+            act: 'a_set_reaction',
+            al: 1,
+            event_subtype: 'post_modal',
+            from: 'wall_page',
+            hash: dataParam.hash,
+            object: dataParam.object,
+            track_code: dataParam.trackCode,
+            wall: 2
+          };
+          if (doTask) {
+            postData.reaction_id = 0;
+          }
+          const {
+            result: resultR,
+            statusText: statusTextR,
+            status: statusR,
+            data: dataR
+          } = await tools_httpRequest({
+            url: 'https://vk.com/like.php?act=a_set_reaction',
+            method: 'POST',
+            headers: {
+              origin: 'https://vk.com',
+              referer: `https://vk.com/${name}`,
+              'content-type': 'application/x-www-form-urlencoded'
+            },
+            data: $.param(postData)
+          });
+          if (resultR === 'Success') {
+            if (dataR?.status === 200) {
+              if (dataR.response?.payload?.[1]?.[1]?.like_my === true) {
+                logStatus.success();
+                return true;
+              }
+            }
+            logStatus.error(`Error:${dataR?.statusText}(${dataR?.status})`);
+            return false;
+          }
+          logStatus.error(`${resultR}:${statusTextR}(${statusR})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'Vk.sendWall');
+          return false;
+        }
+      }
       async #sendWall(name) {
         try {
           const logStatus = scripts_echoLog({
@@ -3629,6 +3680,19 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                   publicJoined: publicJoined,
                   type: 'public'
                 };
+              } else if (name.includes('action=like')) {
+                const hash = data.responseText.match(/data-reaction-hash="(.*?)"/)?.[1];
+                const trackCode = data.responseText.match(/data-post-track-code="(.*?)"/)?.[1];
+                const object = name.match(/wall-[\w_]+/)?.[0];
+                if (hash && trackCode && object) {
+                  logStatus.success();
+                  return {
+                    type: 'likeWall',
+                    hash: hash,
+                    trackCode: trackCode,
+                    object: object
+                  };
+                }
               } else if (data.responseText.includes('wall.deletePost') && !doTask) {
                 const wallHash = data.responseText.match(/wall\.deletePost\(this, '.*?', '(.*?)'\)/)?.[1];
                 if (wallHash) {
@@ -3681,6 +3745,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
 
            case 'public':
             return await this.#togglePublic(formatName, data, doTask);
+
+           case 'likeWall':
+            return await this.#toggleLikeWall(formatName, data, doTask);
 
            case 'sendWall':
             return doTask ? await this.#sendWall(formatName) : true;
@@ -6985,6 +7052,24 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
              case 'site_visit':
               if (action === 'do' && !isSuccess) {
                 this.undoneTasks.extra.website.push(`id=${id}&type=${type}&task=true`);
+              }
+              break;
+
+             case 'vk_community_sub':
+              if (action === 'undo' && link) {
+                this.socialTasks.vk.nameLinks.push(link);
+              }
+              if (action === 'do' && !isSuccess && link) {
+                this.undoneTasks.vk.nameLinks.push(link);
+              }
+              break;
+
+             case 'vk_post_like':
+              if (action === 'undo' && link) {
+                this.socialTasks.vk.nameLinks.push(`${link}&action=like`);
+              }
+              if (action === 'do' && !isSuccess && link) {
+                this.undoneTasks.vk.nameLinks.push(`${link}&action=like`);
               }
               break;
 

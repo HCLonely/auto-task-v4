@@ -24,6 +24,9 @@ interface dataParams {
   publicPid?: string
   publicJoined?: boolean
   wallHash?: string
+  hash?: string
+  trackCode?: string
+  object?: string
 }
 
 /**
@@ -331,6 +334,53 @@ class Vk extends Social {
     }
   }
 
+  async #toggleLikeWall(name:string, dataParam: dataParams, doTask = true): Promise<boolean> {
+    try {
+      const logStatus = echoLog({ type: doTask ? 'likingVkPublic' : 'unlikingVkPublic', text: name });
+
+      /* eslint-disable camelcase */
+      const postData: { [name: string]: any } = {
+        act: 'a_set_reaction',
+        al: 1,
+        event_subtype: 'post_modal',
+        from: 'wall_page',
+        hash: dataParam.hash,
+        object: dataParam.object,
+        track_code: dataParam.trackCode,
+        wall: 2
+      };
+      if (doTask) {
+        postData.reaction_id = 0;
+      }
+      /* eslint-enable camelcase */
+      const { result: resultR, statusText: statusTextR, status: statusR, data: dataR } = await httpRequest({
+        url: 'https://vk.com/like.php?act=a_set_reaction',
+        method: 'POST',
+        headers: {
+          origin: 'https://vk.com',
+          referer: `https://vk.com/${name}`,
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        data: $.param(postData)
+      });
+      if (resultR === 'Success') {
+        if (dataR?.status === 200) {
+          if (dataR.response?.payload?.[1]?.[1]?.like_my === true) { // eslint-disable-line camelcase
+            logStatus.success();
+            return true;
+          }
+        }
+        logStatus.error(`Error:${dataR?.statusText}(${dataR?.status})`);
+        return false;
+      }
+      logStatus.error(`${resultR}:${statusTextR}(${statusR})`);
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'Vk.sendWall');
+      return false;
+    }
+  }
+
   /**
    * 转发指定的Vk墙内容。
    *
@@ -536,6 +586,14 @@ class Vk extends Social {
           } else if (publicHash && publicPid) {
             logStatus.success();
             return { publicHash, publicPid, publicJoined, type: 'public' };
+          } else if (name.includes('action=like')) {
+            const hash = data.responseText.match(/data-reaction-hash="(.*?)"/)?.[1];
+            const trackCode = data.responseText.match(/data-post-track-code="(.*?)"/)?.[1];
+            const object = name.match(/wall-[\w_]+/)?.[0];
+            if (hash && trackCode && object) {
+              logStatus.success();
+              return { type: 'likeWall', hash, trackCode, object };
+            }
           } else if (data.responseText.includes('wall.deletePost') && !doTask) {
             const wallHash = data.responseText.match(/wall\.deletePost\(this, '.*?', '(.*?)'\)/)?.[1];
             if (wallHash) {
@@ -593,6 +651,8 @@ class Vk extends Social {
         return await this.#toggleGroup(formatName, data, doTask);
       case 'public':
         return await this.#togglePublic(formatName, data, doTask);
+      case 'likeWall':
+        return await this.#toggleLikeWall(formatName, data, doTask);
       case 'sendWall':
         return doTask ? await this.#sendWall(formatName) : true;
       case 'deleteWall':

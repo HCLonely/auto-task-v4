@@ -236,6 +236,14 @@ class FreeAnyWhere extends Website {
           // if (action === 'undo' && link) this.socialTasks.steam.groupLinks.push(link);
           if (action === 'do' && !isSuccess) this.undoneTasks.extra.website.push(`id=${id}&type=${type}&task=true`);
           break;
+        case 'vk_community_sub':
+          if (action === 'undo' && link) this.socialTasks.vk.nameLinks.push(link);
+          if (action === 'do' && !isSuccess && link) this.undoneTasks.vk.nameLinks.push(link);
+          break;
+        case 'vk_post_like':
+          if (action === 'undo' && link) this.socialTasks.vk.nameLinks.push(`${link}&action=like`);
+          if (action === 'do' && !isSuccess && link) this.undoneTasks.vk.nameLinks.push(`${link}&action=like`);
+          break;
         case 'discord_server_sub':
           if (action === 'undo' && link) this.socialTasks.discord.serverLinks.push(link);
           if (action === 'do' && !isSuccess && link) this.undoneTasks.discord.serverLinks.push(link);

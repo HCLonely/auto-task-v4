@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.7.0",
+  "version": "4.7.1",
   "change": [
-    "修复: 兼容Freeanywhere新版页面(#48)"
+    "优化: Freeanywhere新增vk任务识别"
   ],
   "description": "赠Key站自动任务脚本",
   "engines": {
