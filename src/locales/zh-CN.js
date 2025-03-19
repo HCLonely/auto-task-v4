@@ -326,6 +326,7 @@ const data = {
   // Freeanywhere
   tasksNotCompleted: '任务未完成',
   notConnect: '社交平台未连接，跳过任务',
+  tgTaskNotice: '检测到Telegram任务，需要手动完成',
 
   // opquests
   confirmingTask: '正在跳过警告页面...'

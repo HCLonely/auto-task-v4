@@ -347,6 +347,7 @@ const data = {
   // Freeanywhere
   tasksNotCompleted: 'Tasks Not Completed',
   notConnect: 'Social platform is not connectted, skip',
+  tgTaskNotice: 'The telegram task is checked, need to do it yourself!',
 
   // opquests
   confirmingTask: 'Confirming task...'

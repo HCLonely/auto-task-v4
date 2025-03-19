@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.7.1
+// @version            4.7.2
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1494,6 +1494,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       SweepWidgetNotice: '正在处理并验证任务，每次验证任务有1~3s间隔防止触发验证过快警告...',
       tasksNotCompleted: '任务未完成',
       notConnect: '社交平台未连接，跳过任务',
+      tgTaskNotice: '检测到Telegram任务，需要手动完成',
       confirmingTask: '正在跳过警告页面...'
     };
     const zh_CN = data;
@@ -1782,6 +1783,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       SweepWidgetNotice: 'The task is being processed and verified. ' + 'There is an interval of 1~3s for each verification task to prevent the triggering of too fast verification warning...',
       tasksNotCompleted: 'Tasks Not Completed',
       notConnect: 'Social platform is not connectted, skip',
+      tgTaskNotice: 'The telegram task is checked, need to do it yourself!',
       confirmingTask: 'Confirming task...'
     };
     const en_US = en_US_data;
@@ -7099,6 +7101,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               if (action === 'do' && !isSuccess && link) {
                 this.undoneTasks.discord.serverLinks.push(link);
               }
+              break;
+
+             case 'telegram_channel_sub':
+              scripts_echoLog({}).warning(`${i18n('tgTaskNotice')}`);
               break;
 
              case 'none':

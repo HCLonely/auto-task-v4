@@ -248,6 +248,9 @@ class FreeAnyWhere extends Website {
           if (action === 'undo' && link) this.socialTasks.discord.serverLinks.push(link);
           if (action === 'do' && !isSuccess && link) this.undoneTasks.discord.serverLinks.push(link);
           break;
+        case 'telegram_channel_sub':
+          echoLog({}).warning(`${__('tgTaskNotice')}`);
+          break;
         case 'none':
           echoLog({}).warning(`${__('notConnect')}`);
           break;
