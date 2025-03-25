@@ -11,7 +11,7 @@
 (async () => {
   const fs = require('fs-extra');
   const path = require('path');
-  const chalk = require('chalk');
+  const chalk = await import('chalk');
 
   const headerText = fs.readFileSync('./src/header.js').toString();
   const requireJsName = [...headerText.matchAll(/\/\/ @require[\s]+?(http.+)/g)]
@@ -42,5 +42,5 @@
     .replace(new RegExp(`GM_getResourceText\\(("|')(${Object.keys(resourcesFile).join('|')})("|')\\)`, 'g'),
       (match, p1, name) => `\`${resourcesFile[name]}\``));
 
-  console.log(`All static version files generated ${chalk.green.bold('successfully')}!`);
+  console.log(`All static version files generated ${chalk.default.green.bold('successfully')}!`);
 })();

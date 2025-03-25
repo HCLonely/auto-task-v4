@@ -209,12 +209,12 @@ const assignObject = (obj1: globalOptions, obj2: object): globalOptions => {
   try {
     const newObj = {};
     for (const [key, value] of Object.entries(obj1)) {
-    // @ts-ignore
-      if (Object.prototype.toString.call(value) === '[object Object]' && Object.prototype.toString.call(obj2[key]) === '[object Object]') {
       // @ts-ignore
+      if (Object.prototype.toString.call(value) === '[object Object]' && Object.prototype.toString.call(obj2[key]) === '[object Object]') {
+        // @ts-ignore
         newObj[key] = assignObject(value, obj2[key]);
       } else {
-      // @ts-ignore
+        // @ts-ignore
         newObj[key] = obj2[key] ?? value;
       }
     }
@@ -239,7 +239,7 @@ const saveData = () => {
     const data = {};
     $('#globalOptionsForm').serializeArray()
       .map((value) => {
-      // @ts-ignore
+        // @ts-ignore
         data[value.name] = value.value;
         return value;
       });
@@ -247,11 +247,11 @@ const saveData = () => {
       const name = $(element).attr('name') as string;
       const keys = name.split('.');
       if (keys.length === 3) {
-      // @ts-ignore
-      globalOptions[keys[0]][keys[1]][keys[2]] = data[name] ? (data[name] === 'on' ? true : data[name]) : false; // eslint-disable-line
+        // @ts-ignore
+        globalOptions[keys[0]][keys[1]][keys[2]] = data[name] ? (data[name] === 'on' ? true : data[name]) : (data[name] ?? false); // eslint-disable-line
       } else if (keys.length === 2) {
-      // @ts-ignore
-      globalOptions[keys[0]][keys[1]] = data[name] ? (data[name] === 'on' ? true : data[name]) : false; // eslint-disable-line
+        // @ts-ignore
+        globalOptions[keys[0]][keys[1]] = data[name] ? (data[name] === 'on' ? true : data[name]) : (data[name] ?? false); // eslint-disable-line
       }
       return element;
     });
@@ -284,33 +284,28 @@ const changeGlobalOptions = (showType: 'page' | 'swal') => {
         if (['other', 'position', 'hotKey', 'ASF'].includes(type)) {
           if (typeof data2 === 'boolean') {
             globalOptionsForm +=
-            `<tr style="background-color: ${stringToColour(type)}44">${
-              Object.keys(data1).indexOf(option) === 0 ?
+              `<tr style="background-color: ${stringToColour(type)}44">${Object.keys(data1).indexOf(option) === 0 ?
                 `<th rowspan="${Object.keys(data1).length}">${__(type)}</th>` :
                 ''
-            }<td>${__(option)}</td><td><label><input type="checkbox" name="${type}.${option}"${
-              data2 ? ' checked="checked"' : ''
-            }/><span><i></i></span></label></td></tr>`;
+              }<td>${__(option)}</td><td><label><input type="checkbox" name="${type}.${option}"${data2 ? ' checked="checked"' : ''
+              }/><span><i></i></span></label></td></tr>`;
           } else {
             globalOptionsForm +=
-            `<tr style="background-color: ${stringToColour(type)}44">${
-              Object.keys(data1).indexOf(option) === 0 ?
+              `<tr style="background-color: ${stringToColour(type)}44">${Object.keys(data1).indexOf(option) === 0 ?
                 `<th rowspan="${Object.keys(data1).length}" style="background-color: ${stringToColour(type)}66">${__(type)}</th>` :
                 ''
-            }<td>${__(option)}</td><td><input class="editOption" type="text" name="${type}.${option}" value="${data2}"/></td></tr>`;
+              }<td>${__(option)}</td><td><input class="editOption" type="text" name="${type}.${option}" value="${data2}"/></td></tr>`;
           }
         } else {
-        // @ts-ignore
+          // @ts-ignore
           for (const [socialType, data3] of Object.entries(data2)) {
             globalOptionsForm +=
-            `<tr style="background-color: ${stringToColour(option)}66">${
-              Object.keys(data1).indexOf(option) === 0 ?
+              `<tr style="background-color: ${stringToColour(option)}66">${Object.keys(data1).indexOf(option) === 0 ?
                 `<th rowspan="${Object.keys(data1).map((key) => Object.keys(data1[key]).length)
                   .reduce((acr, cur) => acr + cur)}" style="background-color: ${stringToColour(type)}66">${__(type)}</th>` :
                 ''
-            }<td>${option}.${__(socialType)}</td><td><label><input type="checkbox" name="${type}.${option}.${socialType}"${
-              data3 ? ' checked="checked"' : ''
-            }/><span><i></i></span></label></td></tr>`;
+              }<td>${option}.${__(socialType)}</td><td><label><input type="checkbox" name="${type}.${option}.${socialType}"${data3 ? ' checked="checked"' : ''
+              }/><span><i></i></span></label></td></tr>`;
           }
         }
       }

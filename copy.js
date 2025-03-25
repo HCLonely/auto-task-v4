@@ -6,11 +6,14 @@
  * @FilePath     : /auto-task-new/copy.js
  * @Description  : 复制文件到备用源网站
  */
-/* eslint-disable @typescript-eslint/no-var-requires */
-const fs = require('fs-extra');
-const chalk = require('chalk');
 
-fs.copySync('./dist', './page/dist');
-fs.copySync('./package.json', './page/package.json');
+(async () => {
+  /* eslint-disable @typescript-eslint/no-var-requires */
+  const fs = require('fs-extra');
+  const chalk = await import('chalk');
 
-console.log(`Files copied ${chalk.green.bold('successfully')}!`);
+  fs.copySync('./dist', './page/dist');
+  fs.copySync('./package.json', './page/package.json');
+
+  console.log(`Files copied ${chalk.default.green.bold('successfully')}!`);
+})();

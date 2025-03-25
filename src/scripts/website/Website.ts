@@ -10,6 +10,7 @@
 // eslint-disable-next-line
 /// <reference path = "Website.d.ts" />
 
+// import EventEmitter3 from 'eventemitter3';
 import throwError from '../tools/throwError';
 import Discord from '../social/Discord';
 import Instagram from '../social/Instagram';
@@ -69,6 +70,7 @@ abstract class Website {
   undoneTasks!: webSocialTasks
   socialTasks!: webSocialTasks
   giveawayId!: string
+  // EventEmitter!: EventEmitter3
   protected socialInitialized: socialInitialized = {
     discord: false,
     instagram: false,
@@ -97,6 +99,9 @@ abstract class Website {
     visitLink?: (link: string, options?: MonkeyXhrDetails) => Promise<boolean>
   } = {}
 
+  // constructor(EventEmitter: EventEmitter3) {
+  //   this.EventEmitter = EventEmitter;
+  // }
   /**
    * 分类任务的抽象方法
    *

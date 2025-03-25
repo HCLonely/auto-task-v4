@@ -66,31 +66,7 @@ const loadScript = async () => {
     }
     return;
   }
-  /*
-  if (window.location.hostname === 'x.com' && window.location.hash === '#auth') {
-    const ct0 = Cookies.get('ct0');
-    const isLogin = !!Cookies.get('twid');
-    if (isLogin && ct0) {
-      GM_setValue('twitterAuth', { ct0 });
-      window.close();
-      Swal.fire('', __('closePageNotice'));
-    } else {
-      Swal.fire('', __('needLogin'));
-    }
-    return;
-  }
-  if (window.location.hostname === 'www.youtube.com' && window.location.hash === '#auth') {
-    const PAPISID = Cookies.get('__Secure-3PAPISID');
-    if (PAPISID) {
-      GM_setValue('youtubeAuth', { PAPISID });
-      window.close();
-      Swal.fire('', __('closePageNotice'));
-    } else {
-      Swal.fire('', __('needLogin'));
-    }
-    return;
-  }
-  */
+
   /**
    * 检查用户是否已登录到 Reddit
    *

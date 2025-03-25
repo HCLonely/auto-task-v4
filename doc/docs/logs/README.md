@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.7
 
+### V4.7.3
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.7.3)
+
+- 修复: ASF配置项识别错误([#49](https://github.com/HCLonely/auto-task-v4/issues/49))
+
 ### V4.7.2
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.7.2)

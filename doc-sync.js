@@ -7,28 +7,29 @@
  * @Description  : 文档同步
  */
 
-/* eslint-disable @typescript-eslint/no-var-requires */
-const fs = require('fs-extra');
-const chalk = require('chalk');
+(async () => {
+  /* eslint-disable @typescript-eslint/no-var-requires */
+  const fs = require('fs-extra');
+  const chalk = await import('chalk');
 
-const currentContext = fs.readFileSync('./doc/docs/logs/README.md').toString();
-const { version, change } = fs.readJSONSync('./package.json');
-const bigVersion = version.replace(/\.[\d]+(-[\w]+)?$/, '');
+  const currentContext = fs.readFileSync('./doc/docs/logs/README.md').toString();
+  const { version, change } = fs.readJSONSync('./package.json');
+  const bigVersion = version.replace(/\.[\d]+(-[\w]+)?$/, '');
 
-if (currentContext.includes(`## V${version}`)) {
-  return console.log(chalk.yellow('No new version!'));
-}
+  if (currentContext.includes(`## V${version}`)) {
+    return console.log(chalk.default.yellow('No new version!'));
+  }
 
-if (currentContext.includes(`## V${bigVersion}`)) {
-  fs.writeFileSync('./doc/docs/logs/README.md', currentContext.replace(`## V${bigVersion}`, `## V${bigVersion}
+  if (currentContext.includes(`## V${bigVersion}`)) {
+    fs.writeFileSync('./doc/docs/logs/README.md', currentContext.replace(`## V${bigVersion}`, `## V${bigVersion}
 
 ### V${version}
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v${version})
 
 - ${change.join('\n- ').replace(/\(#([\d]+?)\)/g, '([#$1](https://github.com/HCLonely/auto-task-v4/issues/$1))')}`));
-} else {
-  fs.writeFileSync('./doc/docs/logs/README.md', currentContext.replace(/---[\s]+?##/, `---
+  } else {
+    fs.writeFileSync('./doc/docs/logs/README.md', currentContext.replace(/---[\s]+?##/, `---
 
 ## V${bigVersion}
 
@@ -39,6 +40,8 @@ if (currentContext.includes(`## V${bigVersion}`)) {
 - ${change.join('\n- ').replace(/\(#([\d]+?)\)/g, '([#$1](https://github.com/HCLonely/auto-task-v4/issues/$1))')}
 
 ##`));
-}
+  }
 
-console.log(`Document updated ${chalk.green.bold('successfully')}!`);
+  console.log(`Document updated ${chalk.default.green.bold('successfully')}!`);
+
+})();
