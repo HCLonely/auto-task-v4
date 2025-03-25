@@ -65,11 +65,11 @@ import __ from '../tools/i18n';
  * @throws {Error} 如果在检查过程中发生错误，将抛出错误。
  */
 abstract class Website {
-  abstract name: string
-  abstract buttons: Array<string>
-  undoneTasks!: webSocialTasks
-  socialTasks!: webSocialTasks
-  giveawayId!: string
+  abstract name: string;
+  abstract buttons: Array<string>;
+  undoneTasks!: webSocialTasks;
+  socialTasks!: webSocialTasks;
+  giveawayId!: string;
   // EventEmitter!: EventEmitter3
   protected socialInitialized: socialInitialized = {
     discord: false,
@@ -81,12 +81,12 @@ abstract class Website {
     youtube: false,
     steamStore: false,
     steamCommunity: false
-  }
-  protected initialized = false
+  };
+  protected initialized = false;
   protected steamTaskType = {
     steamStore: false,
     steamCommunity: false
-  }
+  };
   protected social: {
     discord?: Discord
     instagram?: Instagram
@@ -97,7 +97,7 @@ abstract class Website {
     youtube?: Youtube
     steam?: Steam
     visitLink?: (link: string, options?: MonkeyXhrDetails) => Promise<boolean>
-  } = {}
+  } = {};
 
   // constructor(EventEmitter: EventEmitter3) {
   //   this.EventEmitter = EventEmitter;

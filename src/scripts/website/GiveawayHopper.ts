@@ -7,7 +7,6 @@
  * @Description  : https://giveawayhopper.com/
  */
 
-/* eslint-disable @typescript-eslint/no-empty-function */
 // eslint-disable-next-line
 /// <reference path = "GiveawayHopper.d.ts" />
 

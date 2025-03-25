@@ -5,7 +5,6 @@
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-new/src/module.d.ts
  */
-
 declare module '*.scss' {
   const content: any;
   export default content;

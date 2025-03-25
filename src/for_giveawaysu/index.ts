@@ -8,7 +8,7 @@
  */
 
 import Swal from 'sweetalert2';
-import * as Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 import __ from '../scripts/tools/i18n';
 import Giveawaysu from './Giveawaysu';
 import style from './index.scss';

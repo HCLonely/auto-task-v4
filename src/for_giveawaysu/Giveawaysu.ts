@@ -63,7 +63,7 @@ const defaultTasks: gasSocialTasks = {
 };
 
 class GiveawaySu {
-  undoneTasks: gasSocialTasks = defaultTasks
+  undoneTasks: gasSocialTasks = defaultTasks;
   giveawayId!: string;
   socialInitialized: socialInitialized = {
     discord: false,
@@ -85,7 +85,7 @@ class GiveawaySu {
     vk?: Vk
     youtube?: Youtube
     steam?: Steam
-  } = {}
+  } = {};
 
   static test(): boolean {
     return /^https?:\/\/giveaway\.su\/giveaway\/view\/[\d]+/.test(window.location.href);

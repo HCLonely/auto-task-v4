@@ -361,11 +361,11 @@ class Twitter extends Social {
           if (!response) {
             try {
               response = JSON.parse(data.responseText);
-            } catch (error) {
+            } catch (error) { // eslint-disable-line @typescript-eslint/no-unused-vars
               response = null;
             }
           }
-          const userId = String(response?.data?.user?.result?.rest_id); // eslint-disable-line camelcase
+          const userId = String(response?.data?.user?.result?.rest_id);
           if (userId) {
             this.#setCache(name, userId);
             logStatus.success();
@@ -422,7 +422,6 @@ class Twitter extends Social {
           'X-Twitter-Auth-Type': 'OAuth2Session',
           'X-Twitter-Active-User': 'yes'
         },
-        // eslint-disable-next-line max-len
         data: `{"variables":{"tweet_id":"${retweetId}","dark_request":false},"queryId":"${doTask ? 'ojPdsZsimiJrUGLR1sjUtA' : 'iQtK4dl5hBmXewYZuEOKVw'}"}`,
         responseType: 'json'
       });

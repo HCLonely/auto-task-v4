@@ -112,7 +112,6 @@ const loadScript = async () => {
   // @ts-ignore
   if (website?.before) await website?.before();
 
-  // eslint-disable-next-line max-len
   // 向页面的主体中添加自动任务信息和按钮的 HTML 结构
   $('body').append(`
     <div id="auto-task-info"

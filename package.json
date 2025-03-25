@@ -24,6 +24,9 @@
   "devDependencies": {
     "@babel/core": "^7.26.10",
     "@babel/preset-env": "^7.26.9",
+    "@eslint/compat": "^1.2.7",
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.23.0",
     "@types/jquery": "^3.5.32",
     "@types/js-cookie": "^3.0.6",
     "@types/keyboardjs": "^2.5.3",
@@ -37,6 +40,7 @@
     "eslint": "^9.22.0",
     "eslint-plugin-import": "^2.31.0",
     "fs-extra": "^11.3.0",
+    "globals": "^16.0.0",
     "javascript-obfuscator": "^4.1.1",
     "js-cookie": "^3.0.5",
     "js-yaml": "^4.1.0",

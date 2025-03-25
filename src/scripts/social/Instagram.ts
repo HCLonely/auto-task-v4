@@ -228,7 +228,7 @@ class Instagram extends Social {
           this.tasks.users = unique([...this.tasks.users, name]);
           return true;
         }
-        logStatus.error(`Error:${data?.response?.feedback_message || (`${data?.statusText}(${data?.status})`)}`); // eslint-disable-line camelcase
+        logStatus.error(`Error:${data?.response?.feedback_message || (`${data?.statusText}(${data?.status})`)}`);
         return false;
       }
       logStatus.error(`${result}:${statusText}(${status})`);

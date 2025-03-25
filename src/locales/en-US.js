@@ -251,7 +251,6 @@ const data = {
   gettingDiscordGuild: 'Getting Discord server Id',
   getDiscordAuthFailed: 'Failed to get Discord token, please check whether the Discord account is logged in',
   discordImportantNotice: 'Important Reminder! ! !',
-  // eslint-disable-next-line max-len
   discordImportantNoticeText: 'Due to the background update of the Discord website, currently using this script to join a group may cause the Discord account to be forcibly logged out, and two-step verification is required to log in normally, please use it with caution! ! !',
   continue: 'Continue',
   skipDiscordTask: 'Skip',

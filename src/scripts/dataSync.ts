@@ -105,7 +105,7 @@ const getGistData = async (token: string, gistId: string, fileName: string, test
         }
         try {
           formatedContent = JSON.parse(content);
-        } catch (error) {
+        } catch (error) { // eslint-disable-line @typescript-eslint/no-unused-vars
           logStatus.error(`Error:${__('errorRemoteDataFormat')}`);
           return false;
         }

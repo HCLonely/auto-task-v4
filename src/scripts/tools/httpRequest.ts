@@ -65,7 +65,7 @@ const httpRequest = async (options: httpRequestOptions, times = 0): Promise<http
             if (options.responseType === 'json' && data?.response && typeof data.response !== 'object') {
               try {
                 data.response = JSON.parse(data.responseText);
-              } catch (error) {
+              } catch (error) { // eslint-disable-line @typescript-eslint/no-unused-vars
                 //
               }
             }

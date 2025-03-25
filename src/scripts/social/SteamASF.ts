@@ -6,7 +6,6 @@
  * @FilePath     : /auto-task-new/src/scripts/social/SteamASF.ts
  * @Description  : steam ASF相关功能
  */
-// eslint-disable-next-line
 
 import echoLog from '../echoLog';
 import throwError from '../tools/throwError';

@@ -7,7 +7,6 @@
  * @Description  : https://gleam.io
  */
 
-/* eslint-disable @typescript-eslint/no-empty-function */
 // eslint-disable-next-line
 /// <reference path = "Gleam.d.ts" />
 

@@ -365,7 +365,7 @@ class Vk extends Social {
       });
       if (resultR === 'Success') {
         if (dataR?.status === 200) {
-          if (dataR.response?.payload?.[1]?.[1]?.like_my === true) { // eslint-disable-line camelcase
+          if (dataR.response?.payload?.[1]?.[1]?.like_my === true) {
             logStatus.success();
             return true;
           }
@@ -449,7 +449,7 @@ class Vk extends Social {
             if (resultR === 'Success') {
               if (dataR?.status === 200) {
                 const jsonData = JSON.parse(dataR.responseText?.replace('<!--', '') || '{}');
-                if (jsonData?.payload?.[1]?.[1]?.share_my === true) { // eslint-disable-line camelcase
+                if (jsonData?.payload?.[1]?.[1]?.share_my === true) {
                   logStatus.success();
                   const postId = String(jsonData?.payload?.[1]?.[1]?.post_id);
                   const ownerId = String(jsonData?.payload?.[1]?.[1]?.owner_id);

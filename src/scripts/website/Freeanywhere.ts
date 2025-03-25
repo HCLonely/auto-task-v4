@@ -10,7 +10,7 @@
 // eslint-disable-next-line
 /// <reference path = "FreeAnyWhere.d.ts" />
 
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 // import Cookies from 'js-cookie';
 import Website from './Website';
 import throwError from '../tools/throwError';
@@ -18,7 +18,7 @@ import echoLog from '../echoLog';
 import __ from '../tools/i18n';
 import httpRequest from '../tools/httpRequest';
 import { delay, debug } from '../tools/tools'; // todo
-import { globalOptions } from '../globalOptions';
+// import { globalOptions } from '../globalOptions';
 
 const defaultTasksTemplate: fawSocialTasks = {
   steam: {
@@ -341,7 +341,7 @@ class FreeAnyWhere extends Website {
     try {
       const logStatus = echoLog({ text: __('visitingLink') });
 
-      const { result, statusText, status, data } = await httpRequest({
+      const { result, statusText, status } = await httpRequest({
         url: 'https://freeanywhere.net/php/task_site_visit_done.php',
         method: 'POST',
         headers: {
@@ -426,20 +426,20 @@ class FreeAnyWhere extends Website {
    * 如果成功匹配到抽奖ID，则将其赋值给实例属性 `giveawayId` 并返回 true。
    * 如果未能匹配到抽奖ID，则记录错误信息并返回 false。
    */
-  #getGiveawayId(): boolean {
-    try {
-      const giveawayId = new URLSearchParams(window.location.search).get('n');
-      if (giveawayId) {
-        this.giveawayId = giveawayId;
-        return true;
-      }
-      echoLog({}).error(__('getFailed', 'GiveawayId'));
-      return false;
-    } catch (error) {
-      throwError(error as Error, 'FreeAnyWhere.getGiveawayId');
-      return false;
-    }
-  }
+  // #getGiveawayId(): boolean {
+  //   try {
+  //     const giveawayId = new URLSearchParams(window.location.search).get('n');
+  //     if (giveawayId) {
+  //       this.giveawayId = giveawayId;
+  //       return true;
+  //     }
+  //     echoLog({}).error(__('getFailed', 'GiveawayId'));
+  //     return false;
+  //   } catch (error) {
+  //     throwError(error as Error, 'FreeAnyWhere.getGiveawayId');
+  //     return false;
+  //   }
+  // }
 
   /**
    * 验证任务的私有异步方法
@@ -500,39 +500,39 @@ class FreeAnyWhere extends Website {
    * 如果用户选择确认，则关闭窗口。
    * 最后，返回 true。
    */
-  async #checkLeftKey(): Promise<boolean> {
-    try {
-      if (!globalOptions.other.checkLeftKey) return true;
-      debug('检测剩余Key');
-      const { data } = await httpRequest({
-        url: 'https://freeanywhere.net/api/v1/widget/?format=json',
-        method: 'GET',
-        dataType: 'json',
-        headers: {
-          authorization: `Token ${window.localStorage.getItem('token')}`
-        }
-      });
-      if (data?.response?.giveaways.find((giveaway: any) => `${giveaway?.id}` === this.giveawayId)) {
-        return true;
-      }
-      await Swal.fire({
-        icon: 'warning',
-        title: __('notice'),
-        text: __('noKeysLeft'),
-        confirmButtonText: __('confirm'),
-        cancelButtonText: __('cancel'),
-        showCancelButton: true
-      }).then(({ value }) => {
-        if (value) {
-          window.close();
-        }
-      });
-      return true;
-    } catch (error) {
-      throwError(error as Error, 'Giveawaysu.checkLeftKey');
-      return false;
-    }
-  }
+  // async #checkLeftKey(): Promise<boolean> {
+  //   try {
+  //     if (!globalOptions.other.checkLeftKey) return true;
+  //     debug('检测剩余Key');
+  //     const { data } = await httpRequest({
+  //       url: 'https://freeanywhere.net/api/v1/widget/?format=json',
+  //       method: 'GET',
+  //       dataType: 'json',
+  //       headers: {
+  //         authorization: `Token ${window.localStorage.getItem('token')}`
+  //       }
+  //     });
+  //     if (data?.response?.giveaways.find((giveaway: any) => `${giveaway?.id}` === this.giveawayId)) {
+  //       return true;
+  //     }
+  //     await Swal.fire({
+  //       icon: 'warning',
+  //       title: __('notice'),
+  //       text: __('noKeysLeft'),
+  //       confirmButtonText: __('confirm'),
+  //       cancelButtonText: __('cancel'),
+  //       showCancelButton: true
+  //     }).then(({ value }) => {
+  //       if (value) {
+  //         window.close();
+  //       }
+  //     });
+  //     return true;
+  //   } catch (error) {
+  //     throwError(error as Error, 'Giveawaysu.checkLeftKey');
+  //     return false;
+  //   }
+  // }
 }
 
 export default FreeAnyWhere;
