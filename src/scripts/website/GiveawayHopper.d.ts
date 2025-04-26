@@ -32,7 +32,7 @@ declare interface giveawayHopperSocialTasks {
   }
 }
 declare interface giveawayHopperGMTasks {
-  tasks: gasSocialTasks
+  tasks: giveawayHopperSocialTasks
   time: number
 }
 declare interface giveawayHopperTaskInfo {

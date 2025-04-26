@@ -21,9 +21,11 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.7.3
-          name: 4.7.3
-          body: '- 修复: ASF配置项识别错误(#49)'
+          tag_name: v4.7.4
+          name: 4.7.4
+          body: |-
+            - 修复: 重新支持X/Twitter(#44)
+            - 优化: 部分日志文本
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

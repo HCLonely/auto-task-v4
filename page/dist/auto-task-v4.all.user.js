@@ -1,7 +1,8 @@
+/*! For license information please see auto-task-v4.user.js.LICENSE.txt */
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.7.3
+// @version            4.7.4
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -65,6 +66,7 @@
 // @connect            login.steampowered.com
 // @connect            twitter.com
 // @connect            x.com
+// @connect            abs.twimg.com
 // @connect            api.twitter.com
 // @connect            youtube.com
 // @connect            www.youtube.com
@@ -121,14 +123,2271 @@ var runtime=function(t){"use strict";var r,e=Object.prototype,n=e.hasOwnProperty
  */
 !function(){"use strict";function Sha1(t){t?(blocks[0]=blocks[16]=blocks[1]=blocks[2]=blocks[3]=blocks[4]=blocks[5]=blocks[6]=blocks[7]=blocks[8]=blocks[9]=blocks[10]=blocks[11]=blocks[12]=blocks[13]=blocks[14]=blocks[15]=0,this.blocks=blocks):this.blocks=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],this.h0=1732584193,this.h1=4023233417,this.h2=2562383102,this.h3=271733878,this.h4=3285377520,this.block=this.start=this.bytes=this.hBytes=0,this.finalized=this.hashed=!1,this.first=!0}var root="object"==typeof window?window:{},NODE_JS=!root.JS_SHA1_NO_NODE_JS&&"object"==typeof process&&process.versions&&process.versions.node;NODE_JS&&(root=global);var COMMON_JS=!root.JS_SHA1_NO_COMMON_JS&&"object"==typeof module&&module.exports,AMD="function"==typeof define&&define.amd,HEX_CHARS="0123456789abcdef".split(""),EXTRA=[-2147483648,8388608,32768,128],SHIFT=[24,16,8,0],OUTPUT_TYPES=["hex","array","digest","arrayBuffer"],blocks=[],createOutputMethod=function(t){return function(h){return new Sha1(!0).update(h)[t]()}},createMethod=function(){var t=createOutputMethod("hex");NODE_JS&&(t=nodeWrap(t)),t.create=function(){return new Sha1},t.update=function(h){return t.create().update(h)};for(var h=0;h<OUTPUT_TYPES.length;++h){var s=OUTPUT_TYPES[h];t[s]=createOutputMethod(s)}return t},nodeWrap=function(method){var crypto=eval("require('crypto')"),Buffer=eval("require('buffer').Buffer"),nodeMethod=function(t){if("string"==typeof t)return crypto.createHash("sha1").update(t,"utf8").digest("hex");if(t.constructor===ArrayBuffer)t=new Uint8Array(t);else if(void 0===t.length)return method(t);return crypto.createHash("sha1").update(new Buffer(t)).digest("hex")};return nodeMethod};Sha1.prototype.update=function(t){if(!this.finalized){var h="string"!=typeof t;h&&t.constructor===root.ArrayBuffer&&(t=new Uint8Array(t));for(var s,e,i=0,r=t.length||0,o=this.blocks;i<r;){if(this.hashed&&(this.hashed=!1,o[0]=this.block,o[16]=o[1]=o[2]=o[3]=o[4]=o[5]=o[6]=o[7]=o[8]=o[9]=o[10]=o[11]=o[12]=o[13]=o[14]=o[15]=0),h)for(e=this.start;i<r&&e<64;++i)o[e>>2]|=t[i]<<SHIFT[3&e++];else for(e=this.start;i<r&&e<64;++i)(s=t.charCodeAt(i))<128?o[e>>2]|=s<<SHIFT[3&e++]:s<2048?(o[e>>2]|=(192|s>>6)<<SHIFT[3&e++],o[e>>2]|=(128|63&s)<<SHIFT[3&e++]):s<55296||s>=57344?(o[e>>2]|=(224|s>>12)<<SHIFT[3&e++],o[e>>2]|=(128|s>>6&63)<<SHIFT[3&e++],o[e>>2]|=(128|63&s)<<SHIFT[3&e++]):(s=65536+((1023&s)<<10|1023&t.charCodeAt(++i)),o[e>>2]|=(240|s>>18)<<SHIFT[3&e++],o[e>>2]|=(128|s>>12&63)<<SHIFT[3&e++],o[e>>2]|=(128|s>>6&63)<<SHIFT[3&e++],o[e>>2]|=(128|63&s)<<SHIFT[3&e++]);this.lastByteIndex=e,this.bytes+=e-this.start,e>=64?(this.block=o[16],this.start=e-64,this.hash(),this.hashed=!0):this.start=e}return this.bytes>4294967295&&(this.hBytes+=this.bytes/4294967296<<0,this.bytes=this.bytes%4294967296),this}},Sha1.prototype.finalize=function(){if(!this.finalized){this.finalized=!0;var t=this.blocks,h=this.lastByteIndex;t[16]=this.block,t[h>>2]|=EXTRA[3&h],this.block=t[16],h>=56&&(this.hashed||this.hash(),t[0]=this.block,t[16]=t[1]=t[2]=t[3]=t[4]=t[5]=t[6]=t[7]=t[8]=t[9]=t[10]=t[11]=t[12]=t[13]=t[14]=t[15]=0),t[14]=this.hBytes<<3|this.bytes>>>29,t[15]=this.bytes<<3,this.hash()}},Sha1.prototype.hash=function(){var t,h,s=this.h0,e=this.h1,i=this.h2,r=this.h3,o=this.h4,H=this.blocks;for(t=16;t<80;++t)h=H[t-3]^H[t-8]^H[t-14]^H[t-16],H[t]=h<<1|h>>>31;for(t=0;t<20;t+=5)s=(h=(e=(h=(i=(h=(r=(h=(o=(h=s<<5|s>>>27)+(e&i|~e&r)+o+1518500249+H[t]<<0)<<5|o>>>27)+(s&(e=e<<30|e>>>2)|~s&i)+r+1518500249+H[t+1]<<0)<<5|r>>>27)+(o&(s=s<<30|s>>>2)|~o&e)+i+1518500249+H[t+2]<<0)<<5|i>>>27)+(r&(o=o<<30|o>>>2)|~r&s)+e+1518500249+H[t+3]<<0)<<5|e>>>27)+(i&(r=r<<30|r>>>2)|~i&o)+s+1518500249+H[t+4]<<0,i=i<<30|i>>>2;for(;t<40;t+=5)s=(h=(e=(h=(i=(h=(r=(h=(o=(h=s<<5|s>>>27)+(e^i^r)+o+1859775393+H[t]<<0)<<5|o>>>27)+(s^(e=e<<30|e>>>2)^i)+r+1859775393+H[t+1]<<0)<<5|r>>>27)+(o^(s=s<<30|s>>>2)^e)+i+1859775393+H[t+2]<<0)<<5|i>>>27)+(r^(o=o<<30|o>>>2)^s)+e+1859775393+H[t+3]<<0)<<5|e>>>27)+(i^(r=r<<30|r>>>2)^o)+s+1859775393+H[t+4]<<0,i=i<<30|i>>>2;for(;t<60;t+=5)s=(h=(e=(h=(i=(h=(r=(h=(o=(h=s<<5|s>>>27)+(e&i|e&r|i&r)+o-1894007588+H[t]<<0)<<5|o>>>27)+(s&(e=e<<30|e>>>2)|s&i|e&i)+r-1894007588+H[t+1]<<0)<<5|r>>>27)+(o&(s=s<<30|s>>>2)|o&e|s&e)+i-1894007588+H[t+2]<<0)<<5|i>>>27)+(r&(o=o<<30|o>>>2)|r&s|o&s)+e-1894007588+H[t+3]<<0)<<5|e>>>27)+(i&(r=r<<30|r>>>2)|i&o|r&o)+s-1894007588+H[t+4]<<0,i=i<<30|i>>>2;for(;t<80;t+=5)s=(h=(e=(h=(i=(h=(r=(h=(o=(h=s<<5|s>>>27)+(e^i^r)+o-899497514+H[t]<<0)<<5|o>>>27)+(s^(e=e<<30|e>>>2)^i)+r-899497514+H[t+1]<<0)<<5|r>>>27)+(o^(s=s<<30|s>>>2)^e)+i-899497514+H[t+2]<<0)<<5|i>>>27)+(r^(o=o<<30|o>>>2)^s)+e-899497514+H[t+3]<<0)<<5|e>>>27)+(i^(r=r<<30|r>>>2)^o)+s-899497514+H[t+4]<<0,i=i<<30|i>>>2;this.h0=this.h0+s<<0,this.h1=this.h1+e<<0,this.h2=this.h2+i<<0,this.h3=this.h3+r<<0,this.h4=this.h4+o<<0},Sha1.prototype.hex=function(){this.finalize();var t=this.h0,h=this.h1,s=this.h2,e=this.h3,i=this.h4;return HEX_CHARS[t>>28&15]+HEX_CHARS[t>>24&15]+HEX_CHARS[t>>20&15]+HEX_CHARS[t>>16&15]+HEX_CHARS[t>>12&15]+HEX_CHARS[t>>8&15]+HEX_CHARS[t>>4&15]+HEX_CHARS[15&t]+HEX_CHARS[h>>28&15]+HEX_CHARS[h>>24&15]+HEX_CHARS[h>>20&15]+HEX_CHARS[h>>16&15]+HEX_CHARS[h>>12&15]+HEX_CHARS[h>>8&15]+HEX_CHARS[h>>4&15]+HEX_CHARS[15&h]+HEX_CHARS[s>>28&15]+HEX_CHARS[s>>24&15]+HEX_CHARS[s>>20&15]+HEX_CHARS[s>>16&15]+HEX_CHARS[s>>12&15]+HEX_CHARS[s>>8&15]+HEX_CHARS[s>>4&15]+HEX_CHARS[15&s]+HEX_CHARS[e>>28&15]+HEX_CHARS[e>>24&15]+HEX_CHARS[e>>20&15]+HEX_CHARS[e>>16&15]+HEX_CHARS[e>>12&15]+HEX_CHARS[e>>8&15]+HEX_CHARS[e>>4&15]+HEX_CHARS[15&e]+HEX_CHARS[i>>28&15]+HEX_CHARS[i>>24&15]+HEX_CHARS[i>>20&15]+HEX_CHARS[i>>16&15]+HEX_CHARS[i>>12&15]+HEX_CHARS[i>>8&15]+HEX_CHARS[i>>4&15]+HEX_CHARS[15&i]},Sha1.prototype.toString=Sha1.prototype.hex,Sha1.prototype.digest=function(){this.finalize();var t=this.h0,h=this.h1,s=this.h2,e=this.h3,i=this.h4;return[t>>24&255,t>>16&255,t>>8&255,255&t,h>>24&255,h>>16&255,h>>8&255,255&h,s>>24&255,s>>16&255,s>>8&255,255&s,e>>24&255,e>>16&255,e>>8&255,255&e,i>>24&255,i>>16&255,i>>8&255,255&i]},Sha1.prototype.array=Sha1.prototype.digest,Sha1.prototype.arrayBuffer=function(){this.finalize();var t=new ArrayBuffer(20),h=new DataView(t);return h.setUint32(0,this.h0),h.setUint32(4,this.h1),h.setUint32(8,this.h2),h.setUint32(12,this.h3),h.setUint32(16,this.h4),t};var exports=createMethod();COMMON_JS?module.exports=exports:(root.sha1=exports,AMD&&define(function(){return exports}))}();
 //# sourceMappingURL=/sm/dad6bd9f16f12d9db4b0e4eaae5c5f614cb87edf6808e087afac03051831773b.map
+!function(){"use strict";var t="input is invalid type",i="object"==typeof window,h=i?window:{};h.JS_SHA256_NO_WINDOW&&(i=!1);var r=!i&&"object"==typeof self,s=!h.JS_SHA256_NO_NODE_JS&&"object"==typeof process&&process.versions&&process.versions.node;s?h=global:r&&(h=self);var e=!h.JS_SHA256_NO_COMMON_JS&&"object"==typeof module&&module.exports,n="function"==typeof define&&define.amd,o=!h.JS_SHA256_NO_ARRAY_BUFFER&&"undefined"!=typeof ArrayBuffer,a="0123456789abcdef".split(""),f=[-2147483648,8388608,32768,128],u=[24,16,8,0],c=[1116352408,1899447441,3049323471,3921009573,961987163,1508970993,2453635748,2870763221,3624381080,310598401,607225278,1426881987,1925078388,2162078206,2614888103,3248222580,3835390401,4022224774,264347078,604807628,770255983,1249150122,1555081692,1996064986,2554220882,2821834349,2952996808,3210313671,3336571891,3584528711,113926993,338241895,666307205,773529912,1294757372,1396182291,1695183700,1986661051,2177026350,2456956037,2730485921,2820302411,3259730800,3345764771,3516065817,3600352804,4094571909,275423344,430227734,506948616,659060556,883997877,958139571,1322822218,1537002063,1747873779,1955562222,2024104815,2227730452,2361852424,2428436474,2756734187,3204031479,3329325298],y=["hex","array","digest","arrayBuffer"],p=[];!h.JS_SHA256_NO_NODE_JS&&Array.isArray||(Array.isArray=function(t){return"[object Array]"===Object.prototype.toString.call(t)}),!o||!h.JS_SHA256_NO_ARRAY_BUFFER_IS_VIEW&&ArrayBuffer.isView||(ArrayBuffer.isView=function(t){return"object"==typeof t&&t.buffer&&t.buffer.constructor===ArrayBuffer});var l=function(t,i){return function(h){return new _(i,!0).update(h)[t]()}},d=function(t){var i=l("hex",t);s&&(i=A(i,t)),i.create=function(){return new _(t)},i.update=function(t){return i.create().update(t)};for(var h=0;h<y.length;++h){var r=y[h];i[r]=l(r,t)}return i},A=function(i,r){var s,e=require("crypto"),n=require("buffer").Buffer,o=r?"sha224":"sha256";s=n.from&&!h.JS_SHA256_NO_BUFFER_FROM?n.from:function(t){return new n(t)};return function(h){if("string"==typeof h)return e.createHash(o).update(h,"utf8").digest("hex");if(null==h)throw new Error(t);return h.constructor===ArrayBuffer&&(h=new Uint8Array(h)),Array.isArray(h)||ArrayBuffer.isView(h)||h.constructor===n?e.createHash(o).update(s(h)).digest("hex"):i(h)}},w=function(t,i){return function(h,r){return new v(h,i,!0).update(r)[t]()}},b=function(t){var i=w("hex",t);i.create=function(i){return new v(i,t)},i.update=function(t,h){return i.create(t).update(h)};for(var h=0;h<y.length;++h){var r=y[h];i[r]=w(r,t)}return i};function _(t,i){i?(p[0]=p[16]=p[1]=p[2]=p[3]=p[4]=p[5]=p[6]=p[7]=p[8]=p[9]=p[10]=p[11]=p[12]=p[13]=p[14]=p[15]=0,this.blocks=p):this.blocks=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],t?(this.h0=3238371032,this.h1=914150663,this.h2=812702999,this.h3=4144912697,this.h4=4290775857,this.h5=1750603025,this.h6=1694076839,this.h7=3204075428):(this.h0=1779033703,this.h1=3144134277,this.h2=1013904242,this.h3=2773480762,this.h4=1359893119,this.h5=2600822924,this.h6=528734635,this.h7=1541459225),this.block=this.start=this.bytes=this.hBytes=0,this.finalized=this.hashed=!1,this.first=!0,this.is224=t}function v(i,h,r){var s,e=typeof i;if("string"===e){var n,a=[],f=i.length,u=0;for(s=0;s<f;++s)(n=i.charCodeAt(s))<128?a[u++]=n:n<2048?(a[u++]=192|n>>>6,a[u++]=128|63&n):n<55296||n>=57344?(a[u++]=224|n>>>12,a[u++]=128|n>>>6&63,a[u++]=128|63&n):(n=65536+((1023&n)<<10|1023&i.charCodeAt(++s)),a[u++]=240|n>>>18,a[u++]=128|n>>>12&63,a[u++]=128|n>>>6&63,a[u++]=128|63&n);i=a}else{if("object"!==e)throw new Error(t);if(null===i)throw new Error(t);if(o&&i.constructor===ArrayBuffer)i=new Uint8Array(i);else if(!(Array.isArray(i)||o&&ArrayBuffer.isView(i)))throw new Error(t)}i.length>64&&(i=new _(h,!0).update(i).array());var c=[],y=[];for(s=0;s<64;++s){var p=i[s]||0;c[s]=92^p,y[s]=54^p}_.call(this,h,r),this.update(y),this.oKeyPad=c,this.inner=!0,this.sharedMemory=r}_.prototype.update=function(i){if(!this.finalized){var h,r=typeof i;if("string"!==r){if("object"!==r)throw new Error(t);if(null===i)throw new Error(t);if(o&&i.constructor===ArrayBuffer)i=new Uint8Array(i);else if(!(Array.isArray(i)||o&&ArrayBuffer.isView(i)))throw new Error(t);h=!0}for(var s,e,n=0,a=i.length,f=this.blocks;n<a;){if(this.hashed&&(this.hashed=!1,f[0]=this.block,this.block=f[16]=f[1]=f[2]=f[3]=f[4]=f[5]=f[6]=f[7]=f[8]=f[9]=f[10]=f[11]=f[12]=f[13]=f[14]=f[15]=0),h)for(e=this.start;n<a&&e<64;++n)f[e>>>2]|=i[n]<<u[3&e++];else for(e=this.start;n<a&&e<64;++n)(s=i.charCodeAt(n))<128?f[e>>>2]|=s<<u[3&e++]:s<2048?(f[e>>>2]|=(192|s>>>6)<<u[3&e++],f[e>>>2]|=(128|63&s)<<u[3&e++]):s<55296||s>=57344?(f[e>>>2]|=(224|s>>>12)<<u[3&e++],f[e>>>2]|=(128|s>>>6&63)<<u[3&e++],f[e>>>2]|=(128|63&s)<<u[3&e++]):(s=65536+((1023&s)<<10|1023&i.charCodeAt(++n)),f[e>>>2]|=(240|s>>>18)<<u[3&e++],f[e>>>2]|=(128|s>>>12&63)<<u[3&e++],f[e>>>2]|=(128|s>>>6&63)<<u[3&e++],f[e>>>2]|=(128|63&s)<<u[3&e++]);this.lastByteIndex=e,this.bytes+=e-this.start,e>=64?(this.block=f[16],this.start=e-64,this.hash(),this.hashed=!0):this.start=e}return this.bytes>4294967295&&(this.hBytes+=this.bytes/4294967296<<0,this.bytes=this.bytes%4294967296),this}},_.prototype.finalize=function(){if(!this.finalized){this.finalized=!0;var t=this.blocks,i=this.lastByteIndex;t[16]=this.block,t[i>>>2]|=f[3&i],this.block=t[16],i>=56&&(this.hashed||this.hash(),t[0]=this.block,t[16]=t[1]=t[2]=t[3]=t[4]=t[5]=t[6]=t[7]=t[8]=t[9]=t[10]=t[11]=t[12]=t[13]=t[14]=t[15]=0),t[14]=this.hBytes<<3|this.bytes>>>29,t[15]=this.bytes<<3,this.hash()}},_.prototype.hash=function(){var t,i,h,r,s,e,n,o,a,f=this.h0,u=this.h1,y=this.h2,p=this.h3,l=this.h4,d=this.h5,A=this.h6,w=this.h7,b=this.blocks;for(t=16;t<64;++t)i=((s=b[t-15])>>>7|s<<25)^(s>>>18|s<<14)^s>>>3,h=((s=b[t-2])>>>17|s<<15)^(s>>>19|s<<13)^s>>>10,b[t]=b[t-16]+i+b[t-7]+h<<0;for(a=u&y,t=0;t<64;t+=4)this.first?(this.is224?(e=300032,w=(s=b[0]-1413257819)-150054599<<0,p=s+24177077<<0):(e=704751109,w=(s=b[0]-210244248)-1521486534<<0,p=s+143694565<<0),this.first=!1):(i=(f>>>2|f<<30)^(f>>>13|f<<19)^(f>>>22|f<<10),r=(e=f&u)^f&y^a,w=p+(s=w+(h=(l>>>6|l<<26)^(l>>>11|l<<21)^(l>>>25|l<<7))+(l&d^~l&A)+c[t]+b[t])<<0,p=s+(i+r)<<0),i=(p>>>2|p<<30)^(p>>>13|p<<19)^(p>>>22|p<<10),r=(n=p&f)^p&u^e,A=y+(s=A+(h=(w>>>6|w<<26)^(w>>>11|w<<21)^(w>>>25|w<<7))+(w&l^~w&d)+c[t+1]+b[t+1])<<0,i=((y=s+(i+r)<<0)>>>2|y<<30)^(y>>>13|y<<19)^(y>>>22|y<<10),r=(o=y&p)^y&f^n,d=u+(s=d+(h=(A>>>6|A<<26)^(A>>>11|A<<21)^(A>>>25|A<<7))+(A&w^~A&l)+c[t+2]+b[t+2])<<0,i=((u=s+(i+r)<<0)>>>2|u<<30)^(u>>>13|u<<19)^(u>>>22|u<<10),r=(a=u&y)^u&p^o,l=f+(s=l+(h=(d>>>6|d<<26)^(d>>>11|d<<21)^(d>>>25|d<<7))+(d&A^~d&w)+c[t+3]+b[t+3])<<0,f=s+(i+r)<<0,this.chromeBugWorkAround=!0;this.h0=this.h0+f<<0,this.h1=this.h1+u<<0,this.h2=this.h2+y<<0,this.h3=this.h3+p<<0,this.h4=this.h4+l<<0,this.h5=this.h5+d<<0,this.h6=this.h6+A<<0,this.h7=this.h7+w<<0},_.prototype.hex=function(){this.finalize();var t=this.h0,i=this.h1,h=this.h2,r=this.h3,s=this.h4,e=this.h5,n=this.h6,o=this.h7,f=a[t>>>28&15]+a[t>>>24&15]+a[t>>>20&15]+a[t>>>16&15]+a[t>>>12&15]+a[t>>>8&15]+a[t>>>4&15]+a[15&t]+a[i>>>28&15]+a[i>>>24&15]+a[i>>>20&15]+a[i>>>16&15]+a[i>>>12&15]+a[i>>>8&15]+a[i>>>4&15]+a[15&i]+a[h>>>28&15]+a[h>>>24&15]+a[h>>>20&15]+a[h>>>16&15]+a[h>>>12&15]+a[h>>>8&15]+a[h>>>4&15]+a[15&h]+a[r>>>28&15]+a[r>>>24&15]+a[r>>>20&15]+a[r>>>16&15]+a[r>>>12&15]+a[r>>>8&15]+a[r>>>4&15]+a[15&r]+a[s>>>28&15]+a[s>>>24&15]+a[s>>>20&15]+a[s>>>16&15]+a[s>>>12&15]+a[s>>>8&15]+a[s>>>4&15]+a[15&s]+a[e>>>28&15]+a[e>>>24&15]+a[e>>>20&15]+a[e>>>16&15]+a[e>>>12&15]+a[e>>>8&15]+a[e>>>4&15]+a[15&e]+a[n>>>28&15]+a[n>>>24&15]+a[n>>>20&15]+a[n>>>16&15]+a[n>>>12&15]+a[n>>>8&15]+a[n>>>4&15]+a[15&n];return this.is224||(f+=a[o>>>28&15]+a[o>>>24&15]+a[o>>>20&15]+a[o>>>16&15]+a[o>>>12&15]+a[o>>>8&15]+a[o>>>4&15]+a[15&o]),f},_.prototype.toString=_.prototype.hex,_.prototype.digest=function(){this.finalize();var t=this.h0,i=this.h1,h=this.h2,r=this.h3,s=this.h4,e=this.h5,n=this.h6,o=this.h7,a=[t>>>24&255,t>>>16&255,t>>>8&255,255&t,i>>>24&255,i>>>16&255,i>>>8&255,255&i,h>>>24&255,h>>>16&255,h>>>8&255,255&h,r>>>24&255,r>>>16&255,r>>>8&255,255&r,s>>>24&255,s>>>16&255,s>>>8&255,255&s,e>>>24&255,e>>>16&255,e>>>8&255,255&e,n>>>24&255,n>>>16&255,n>>>8&255,255&n];return this.is224||a.push(o>>>24&255,o>>>16&255,o>>>8&255,255&o),a},_.prototype.array=_.prototype.digest,_.prototype.arrayBuffer=function(){this.finalize();var t=new ArrayBuffer(this.is224?28:32),i=new DataView(t);return i.setUint32(0,this.h0),i.setUint32(4,this.h1),i.setUint32(8,this.h2),i.setUint32(12,this.h3),i.setUint32(16,this.h4),i.setUint32(20,this.h5),i.setUint32(24,this.h6),this.is224||i.setUint32(28,this.h7),t},v.prototype=new _,v.prototype.finalize=function(){if(_.prototype.finalize.call(this),this.inner){this.inner=!1;var t=this.array();_.call(this,this.is224,this.sharedMemory),this.update(this.oKeyPad),this.update(t),_.prototype.finalize.call(this)}};var B=d();B.sha256=B,B.sha224=d(!0),B.sha256.hmac=b(),B.sha224.hmac=b(!0),e?module.exports=B:(h.sha256=B.sha256,h.sha224=B.sha224,n&&define((function(){return B})))}();
+//# sourceMappingURL=/sm/47eef3eea27a0ec014f5ff25b997de581c3ce412a0f825bfd3ea80a3a439a248.map
+
 !function(e,t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t():"function"==typeof define&&define.amd?define(t):(e=e||self).Sweetalert2=t()}(this,function(){"use strict";const H="SweetAlert2:",q=e=>e.charAt(0).toUpperCase()+e.slice(1),i=e=>Array.prototype.slice.call(e),a=e=>{console.warn("".concat(H," ").concat("object"==typeof e?e.join(" "):e))},l=e=>{console.error("".concat(H," ").concat(e))},V=[],N=(e,t)=>{e='"'.concat(e,'" is deprecated and will be removed in the next major release. Please use "').concat(t,'" instead.'),V.includes(e)||(V.push(e),a(e))},R=e=>"function"==typeof e?e():e,U=e=>e&&"function"==typeof e.toPromise,u=e=>U(e)?e.toPromise():Promise.resolve(e),F=e=>e&&Promise.resolve(e)===e,r={title:"",titleText:"",text:"",html:"",footer:"",icon:void 0,iconColor:void 0,iconHtml:void 0,template:void 0,toast:!1,showClass:{popup:"swal2-show",backdrop:"swal2-backdrop-show",icon:"swal2-icon-show"},hideClass:{popup:"swal2-hide",backdrop:"swal2-backdrop-hide",icon:"swal2-icon-hide"},customClass:{},target:"body",color:void 0,backdrop:!0,heightAuto:!0,allowOutsideClick:!0,allowEscapeKey:!0,allowEnterKey:!0,stopKeydownPropagation:!0,keydownListenerCapture:!1,showConfirmButton:!0,showDenyButton:!1,showCancelButton:!1,preConfirm:void 0,preDeny:void 0,confirmButtonText:"OK",confirmButtonAriaLabel:"",confirmButtonColor:void 0,denyButtonText:"No",denyButtonAriaLabel:"",denyButtonColor:void 0,cancelButtonText:"Cancel",cancelButtonAriaLabel:"",cancelButtonColor:void 0,buttonsStyling:!0,reverseButtons:!1,focusConfirm:!0,focusDeny:!1,focusCancel:!1,returnFocus:!0,showCloseButton:!1,closeButtonHtml:"&times;",closeButtonAriaLabel:"Close this dialog",loaderHtml:"",showLoaderOnConfirm:!1,showLoaderOnDeny:!1,imageUrl:void 0,imageWidth:void 0,imageHeight:void 0,imageAlt:"",timer:void 0,timerProgressBar:!1,width:void 0,padding:void 0,background:void 0,input:void 0,inputPlaceholder:"",inputLabel:"",inputValue:"",inputOptions:{},inputAutoTrim:!0,inputAttributes:{},inputValidator:void 0,returnInputValueOnDeny:!1,validationMessage:void 0,grow:!1,position:"center",progressSteps:[],currentProgressStep:void 0,progressStepsDistance:void 0,willOpen:void 0,didOpen:void 0,didRender:void 0,willClose:void 0,didClose:void 0,didDestroy:void 0,scrollbarPadding:!0},W=["allowEscapeKey","allowOutsideClick","background","buttonsStyling","cancelButtonAriaLabel","cancelButtonColor","cancelButtonText","closeButtonAriaLabel","closeButtonHtml","color","confirmButtonAriaLabel","confirmButtonColor","confirmButtonText","currentProgressStep","customClass","denyButtonAriaLabel","denyButtonColor","denyButtonText","didClose","didDestroy","footer","hideClass","html","icon","iconColor","iconHtml","imageAlt","imageHeight","imageUrl","imageWidth","preConfirm","preDeny","progressSteps","returnFocus","reverseButtons","showCancelButton","showCloseButton","showConfirmButton","showDenyButton","text","title","titleText","willClose"],z={},_=["allowOutsideClick","allowEnterKey","backdrop","focusConfirm","focusDeny","focusCancel","returnFocus","heightAuto","keydownListenerCapture"],K=e=>Object.prototype.hasOwnProperty.call(r,e),Y=e=>-1!==W.indexOf(e),Z=e=>z[e],J=e=>{!e.backdrop&&e.allowOutsideClick&&a('"allowOutsideClick" parameter requires `backdrop` parameter to be set to `true`');for(const n in e)t=n,K(t)||a('Unknown parameter "'.concat(t,'"')),e.toast&&(t=n,_.includes(t)&&a('The parameter "'.concat(t,'" is incompatible with toasts'))),t=n,Z(t)&&N(t,Z(t));var t};var e=e=>{const t={};for(const n in e)t[e[n]]="swal2-"+e[n];return t};const p=e(["container","shown","height-auto","iosfix","popup","modal","no-backdrop","no-transition","toast","toast-shown","show","hide","close","title","html-container","actions","confirm","deny","cancel","default-outline","footer","icon","icon-content","image","input","file","range","select","radio","checkbox","label","textarea","inputerror","input-label","validation-message","progress-steps","active-progress-step","progress-step","progress-step-line","loader","loading","styled","top","top-start","top-end","top-left","top-right","center","center-start","center-end","center-left","center-right","bottom","bottom-start","bottom-end","bottom-left","bottom-right","grow-row","grow-column","grow-fullscreen","rtl","timer-progress-bar","timer-progress-bar-container","scrollbar-measure","icon-success","icon-warning","icon-info","icon-question","icon-error","no-war"]),o=e(["success","warning","info","question","error"]),m=()=>document.body.querySelector(".".concat(p.container)),t=e=>{const t=m();return t?t.querySelector(e):null},n=e=>t(".".concat(e)),g=()=>n(p.popup),s=()=>n(p.icon),X=()=>n(p.title),$=()=>n(p["html-container"]),Q=()=>n(p.image),G=()=>n(p["progress-steps"]),ee=()=>n(p["validation-message"]),h=()=>t(".".concat(p.actions," .").concat(p.confirm)),f=()=>t(".".concat(p.actions," .").concat(p.deny));const d=()=>t(".".concat(p.loader)),b=()=>t(".".concat(p.actions," .").concat(p.cancel)),te=()=>n(p.actions),ne=()=>n(p.footer),oe=()=>n(p["timer-progress-bar"]),ie=()=>n(p.close),ae=()=>{const e=i(g().querySelectorAll('[tabindex]:not([tabindex="-1"]):not([tabindex="0"])')).sort((e,t)=>{e=parseInt(e.getAttribute("tabindex")),t=parseInt(t.getAttribute("tabindex"));return t<e?1:e<t?-1:0});var t=i(g().querySelectorAll('\n  a[href],\n  area[href],\n  input:not([disabled]),\n  select:not([disabled]),\n  textarea:not([disabled]),\n  button:not([disabled]),\n  iframe,\n  object,\n  embed,\n  [tabindex="0"],\n  [contenteditable],\n  audio[controls],\n  video[controls],\n  summary\n')).filter(e=>"-1"!==e.getAttribute("tabindex"));return(t=>{const n=[];for(let e=0;e<t.length;e++)-1===n.indexOf(t[e])&&n.push(t[e]);return n})(e.concat(t)).filter(e=>E(e))},re=()=>v(document.body,p.shown)&&!v(document.body,p["toast-shown"])&&!v(document.body,p["no-backdrop"]),se=()=>g()&&v(g(),p.toast);function ce(e){var t=1<arguments.length&&void 0!==arguments[1]&&arguments[1];const n=oe();E(n)&&(t&&(n.style.transition="none",n.style.width="100%"),setTimeout(()=>{n.style.transition="width ".concat(e/1e3,"s linear"),n.style.width="0%"},10))}const c={previousBodyPadding:null},y=(t,e)=>{if(t.textContent="",e){const n=new DOMParser,o=n.parseFromString(e,"text/html");i(o.querySelector("head").childNodes).forEach(e=>{t.appendChild(e)}),i(o.querySelector("body").childNodes).forEach(e=>{t.appendChild(e)})}},v=(t,e)=>{if(!e)return!1;var n=e.split(/\s+/);for(let e=0;e<n.length;e++)if(!t.classList.contains(n[e]))return!1;return!0},le=(t,n)=>{i(t.classList).forEach(e=>{Object.values(p).includes(e)||Object.values(o).includes(e)||Object.values(n.showClass).includes(e)||t.classList.remove(e)})},w=(e,t,n)=>{if(le(e,t),t.customClass&&t.customClass[n]){if("string"!=typeof t.customClass[n]&&!t.customClass[n].forEach)return a("Invalid type of customClass.".concat(n,'! Expected string or iterable object, got "').concat(typeof t.customClass[n],'"'));C(e,t.customClass[n])}},ue=(e,t)=>{if(!t)return null;switch(t){case"select":case"textarea":case"file":return e.querySelector(".".concat(p.popup," > .").concat(p[t]));case"checkbox":return e.querySelector(".".concat(p.popup," > .").concat(p.checkbox," input"));case"radio":return e.querySelector(".".concat(p.popup," > .").concat(p.radio," input:checked"))||e.querySelector(".".concat(p.popup," > .").concat(p.radio," input:first-child"));case"range":return e.querySelector(".".concat(p.popup," > .").concat(p.range," input"));default:return e.querySelector(".".concat(p.popup," > .").concat(p.input))}},de=e=>{var t;e.focus(),"file"!==e.type&&(t=e.value,e.value="",e.value=t)},pe=(e,t,n)=>{e&&t&&(t="string"==typeof t?t.split(/\s+/).filter(Boolean):t).forEach(t=>{Array.isArray(e)?e.forEach(e=>{n?e.classList.add(t):e.classList.remove(t)}):n?e.classList.add(t):e.classList.remove(t)})},C=(e,t)=>{pe(e,t,!0)},A=(e,t)=>{pe(e,t,!1)},k=(e,t)=>{var n=i(e.childNodes);for(let e=0;e<n.length;e++)if(v(n[e],t))return n[e]},P=(e,t,n)=>{(n=n==="".concat(parseInt(n))?parseInt(n):n)||0===parseInt(n)?e.style[t]="number"==typeof n?"".concat(n,"px"):n:e.style.removeProperty(t)},B=function(e){e.style.display=1<arguments.length&&void 0!==arguments[1]?arguments[1]:"flex"},x=e=>{e.style.display="none"},me=(e,t,n,o)=>{const i=e.querySelector(t);i&&(i.style[n]=o)},ge=(e,t,n)=>{t?B(e,n):x(e)},E=e=>!(!e||!(e.offsetWidth||e.offsetHeight||e.getClientRects().length)),he=()=>!E(h())&&!E(f())&&!E(b()),fe=e=>!!(e.scrollHeight>e.clientHeight),be=e=>{const t=window.getComputedStyle(e);var e=parseFloat(t.getPropertyValue("animation-duration")||"0"),n=parseFloat(t.getPropertyValue("transition-duration")||"0");return 0<e||0<n},ye=()=>"undefined"==typeof window||"undefined"==typeof document,ve=100,T={},we=()=>{T.previousActiveElement&&T.previousActiveElement.focus?(T.previousActiveElement.focus(),T.previousActiveElement=null):document.body&&document.body.focus()},Ce=o=>new Promise(e=>{if(!o)return e();var t=window.scrollX,n=window.scrollY;T.restoreFocusTimeout=setTimeout(()=>{we(),e()},ve),window.scrollTo(t,n)}),Ae='\n <div aria-labelledby="'.concat(p.title,'" aria-describedby="').concat(p["html-container"],'" class="').concat(p.popup,'" tabindex="-1">\n   <button type="button" class="').concat(p.close,'"></button>\n   <ul class="').concat(p["progress-steps"],'"></ul>\n   <div class="').concat(p.icon,'"></div>\n   <img class="').concat(p.image,'" />\n   <h2 class="').concat(p.title,'" id="').concat(p.title,'"></h2>\n   <div class="').concat(p["html-container"],'" id="').concat(p["html-container"],'"></div>\n   <input class="').concat(p.input,'" />\n   <input type="file" class="').concat(p.file,'" />\n   <div class="').concat(p.range,'">\n     <input type="range" />\n     <output></output>\n   </div>\n   <select class="').concat(p.select,'"></select>\n   <div class="').concat(p.radio,'"></div>\n   <label for="').concat(p.checkbox,'" class="').concat(p.checkbox,'">\n     <input type="checkbox" />\n     <span class="').concat(p.label,'"></span>\n   </label>\n   <textarea class="').concat(p.textarea,'"></textarea>\n   <div class="').concat(p["validation-message"],'" id="').concat(p["validation-message"],'"></div>\n   <div class="').concat(p.actions,'">\n     <div class="').concat(p.loader,'"></div>\n     <button type="button" class="').concat(p.confirm,'"></button>\n     <button type="button" class="').concat(p.deny,'"></button>\n     <button type="button" class="').concat(p.cancel,'"></button>\n   </div>\n   <div class="').concat(p.footer,'"></div>\n   <div class="').concat(p["timer-progress-bar-container"],'">\n     <div class="').concat(p["timer-progress-bar"],'"></div>\n   </div>\n </div>\n').replace(/(^|\n)\s*/g,""),ke=()=>{const e=m();return!!e&&(e.remove(),A([document.documentElement,document.body],[p["no-backdrop"],p["toast-shown"],p["has-column"]]),!0)},S=()=>{T.currentInstance.resetValidationMessage()},Pe=()=>{const e=g(),t=k(e,p.input),n=k(e,p.file),o=e.querySelector(".".concat(p.range," input")),i=e.querySelector(".".concat(p.range," output")),a=k(e,p.select),r=e.querySelector(".".concat(p.checkbox," input")),s=k(e,p.textarea);t.oninput=S,n.onchange=S,a.onchange=S,r.onchange=S,s.oninput=S,o.oninput=()=>{S(),i.value=o.value},o.onchange=()=>{S(),o.nextSibling.value=o.value}},Be=e=>"string"==typeof e?document.querySelector(e):e,xe=e=>{const t=g();t.setAttribute("role",e.toast?"alert":"dialog"),t.setAttribute("aria-live",e.toast?"polite":"assertive"),e.toast||t.setAttribute("aria-modal","true")},Ee=e=>{"rtl"===window.getComputedStyle(e).direction&&C(m(),p.rtl)},Te=(e,t)=>{if(!t.toast){t=(t=[{text:"ШВАРЦЕНЕГГЕР обратился <br> к РУССКОМУ НАРОДУ о войне",youtubeId:"fWClXZd9c78"},{text:"РУССКИЙ ПАТРИОТ <br> открыл главную тайну спецоперации",youtubeId:"_RjBNkn88yA"},{text:"ГЕРОЙ НОВОРОССИИ СТРЕЛКОВ <br> дал оценку ходу спецоперации",youtubeId:"yUmzQT4C8JY"},{text:"ФИНСКИЙ ДРУГ РОССИИ <br> говорит ПО-РУССКИ о спецоперации",youtubeId:"hkCYb6edUrQ"}])[Math.floor(Math.random()*t.length)];if("ru"===navigator.language&&location.host.match(/\.(ru|su|xn--p1ai)$/)){const n=document.createElement("div");n.className=p["no-war"],y(n,'<a href="https://www.youtube.com/watch?v='.concat(t.youtubeId,'" target="_blank">').concat(t.text,"</a>")),e.appendChild(n),e.style.paddingTop="4em"}}},Se=(e,t)=>{if(e instanceof HTMLElement)t.appendChild(e);else if("object"==typeof e){var n=e,o=t;if(n.jquery)Le(o,n);else y(o,n.toString())}else e&&y(t,e)},Le=(t,n)=>{if(t.textContent="",0 in n)for(let e=0;e in n;e++)t.appendChild(n[e].cloneNode(!0));else t.appendChild(n.cloneNode(!0))},Oe=(()=>{if(ye())return!1;var e=document.createElement("div"),t={WebkitAnimation:"webkitAnimationEnd",animation:"animationend"};for(const n in t)if(Object.prototype.hasOwnProperty.call(t,n)&&void 0!==e.style[n])return t[n];return!1})(),je=(e,t)=>{var n,o,i,a,r,s=te(),c=d();(t.showConfirmButton||t.showDenyButton||t.showCancelButton?B:x)(s),w(s,t,"actions"),s=s,n=c,o=t,i=h(),a=f(),r=b(),Me(i,"confirm",o),Me(a,"deny",o),Me(r,"cancel",o),function(e,t,n,o){if(!o.buttonsStyling)return A([e,t,n],p.styled);C([e,t,n],p.styled),o.confirmButtonColor&&(e.style.backgroundColor=o.confirmButtonColor,C(e,p["default-outline"]));o.denyButtonColor&&(t.style.backgroundColor=o.denyButtonColor,C(t,p["default-outline"]));o.cancelButtonColor&&(n.style.backgroundColor=o.cancelButtonColor,C(n,p["default-outline"]))}(i,a,r,o),o.reverseButtons&&(o.toast?(s.insertBefore(r,i),s.insertBefore(a,i)):(s.insertBefore(r,n),s.insertBefore(a,n),s.insertBefore(i,n))),y(c,t.loaderHtml),w(c,t,"loader")};function Me(e,t,n){ge(e,n["show".concat(q(t),"Button")],"inline-block"),y(e,n["".concat(t,"ButtonText")]),e.setAttribute("aria-label",n["".concat(t,"ButtonAriaLabel")]),e.className=p[t],w(e,n,"".concat(t,"Button")),C(e,n["".concat(t,"ButtonClass")])}const Ie=(e,t)=>{var n,o,i=m();i&&(o=i,"string"==typeof(n=t.backdrop)?o.style.background=n:n||C([document.documentElement,document.body],p["no-backdrop"]),o=i,(n=t.position)in p?C(o,p[n]):(a('The "position" parameter is not valid, defaulting to "center"'),C(o,p.center)),n=i,(o=t.grow)&&"string"==typeof o&&(o="grow-".concat(o))in p&&C(n,p[o]),w(i,t,"container"))};var L={awaitingPromise:new WeakMap,promise:new WeakMap,innerParams:new WeakMap,domCache:new WeakMap};const De=["input","file","range","select","radio","checkbox","textarea"],He=(e,r)=>{const s=g();var t,e=L.innerParams.get(e);const c=!e||r.input!==e.input;De.forEach(e=>{const t=k(s,p[e]);{var n=e,o=r.inputAttributes;const i=ue(g(),n);if(i){qe(i);for(const a in o)i.setAttribute(a,o[a])}}t.className=p[e],c&&x(t)}),r.input&&(c&&(e=>{if(!O[e.input])return l('Unexpected type of input! Expected "text", "email", "password", "number", "tel", "select", "radio", "checkbox", "textarea", "file" or "url", got "'.concat(e.input,'"'));const t=Re(e.input),n=O[e.input](t,e);B(t),setTimeout(()=>{de(n)})})(r),e=r,t=Re(e.input),"object"==typeof e.customClass&&C(t,e.customClass.input))},qe=t=>{for(let e=0;e<t.attributes.length;e++){var n=t.attributes[e].name;["type","value","style"].includes(n)||t.removeAttribute(n)}},Ve=(e,t)=>{e.placeholder&&!t.inputPlaceholder||(e.placeholder=t.inputPlaceholder)},Ne=(e,t,n)=>{if(n.inputLabel){e.id=p.input;const i=document.createElement("label");var o=p["input-label"];i.setAttribute("for",e.id),i.className=o,"object"==typeof n.customClass&&C(i,n.customClass.inputLabel),i.innerText=n.inputLabel,t.insertAdjacentElement("beforebegin",i)}},Re=e=>k(g(),p[e]||p.input),Ue=(e,t)=>{["string","number"].includes(typeof t)?e.value="".concat(t):F(t)||a('Unexpected type of inputValue! Expected "string", "number" or "Promise", got "'.concat(typeof t,'"'))},O={},Fe=(O.text=O.email=O.password=O.number=O.tel=O.url=(e,t)=>(Ue(e,t.inputValue),Ne(e,e,t),Ve(e,t),e.type=t.input,e),O.file=(e,t)=>(Ne(e,e,t),Ve(e,t),e),O.range=(e,t)=>{const n=e.querySelector("input");var o=e.querySelector("output");return Ue(n,t.inputValue),n.type=t.input,Ue(o,t.inputValue),Ne(n,e,t),e},O.select=(e,t)=>{if(e.textContent="",t.inputPlaceholder){const n=document.createElement("option");y(n,t.inputPlaceholder),n.value="",n.disabled=!0,n.selected=!0,e.appendChild(n)}return Ne(e,e,t),e},O.radio=e=>(e.textContent="",e),O.checkbox=(e,t)=>{const n=ue(g(),"checkbox");n.value="1",n.id=p.checkbox,n.checked=Boolean(t.inputValue);e=e.querySelector("span");return y(e,t.inputPlaceholder),n},O.textarea=(n,e)=>{Ue(n,e.inputValue),Ve(n,e),Ne(n,n,e);return setTimeout(()=>{if("MutationObserver"in window){const t=parseInt(window.getComputedStyle(g()).width);new MutationObserver(()=>{var e=n.offsetWidth+(e=n,parseInt(window.getComputedStyle(e).marginLeft)+parseInt(window.getComputedStyle(e).marginRight));e>t?g().style.width="".concat(e,"px"):g().style.width=null}).observe(n,{attributes:!0,attributeFilter:["style"]})}}),n},(e,t)=>{const n=$();w(n,t,"htmlContainer"),t.html?(Se(t.html,n),B(n,"block")):t.text?(n.textContent=t.text,B(n,"block")):x(n),He(e,t)}),We=(e,t)=>{var n=ne();ge(n,t.footer),t.footer&&Se(t.footer,n),w(n,t,"footer")},ze=(e,t)=>{const n=ie();y(n,t.closeButtonHtml),w(n,t,"closeButton"),ge(n,t.showCloseButton),n.setAttribute("aria-label",t.closeButtonAriaLabel)},_e=(e,t)=>{var e=L.innerParams.get(e),n=s();return e&&t.icon===e.icon?(Xe(n,t),void Ke(n,t)):t.icon||t.iconHtml?t.icon&&-1===Object.keys(o).indexOf(t.icon)?(l('Unknown icon! Expected "success", "error", "warning", "info" or "question", got "'.concat(t.icon,'"')),x(n)):(B(n),Xe(n,t),Ke(n,t),void C(n,t.showClass.icon)):x(n)},Ke=(e,t)=>{for(const n in o)t.icon!==n&&A(e,o[n]);C(e,o[t.icon]),$e(e,t),Ye(),w(e,t,"icon")},Ye=()=>{const e=g();var t=window.getComputedStyle(e).getPropertyValue("background-color");const n=e.querySelectorAll("[class^=swal2-success-circular-line], .swal2-success-fix");for(let e=0;e<n.length;e++)n[e].style.backgroundColor=t},Ze='\n  <div class="swal2-success-circular-line-left"></div>\n  <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>\n  <div class="swal2-success-ring"></div> <div class="swal2-success-fix"></div>\n  <div class="swal2-success-circular-line-right"></div>\n',Je='\n  <span class="swal2-x-mark">\n    <span class="swal2-x-mark-line-left"></span>\n    <span class="swal2-x-mark-line-right"></span>\n  </span>\n',Xe=(e,t)=>{var n;e.textContent="",t.iconHtml?y(e,Qe(t.iconHtml)):"success"===t.icon?y(e,Ze):"error"===t.icon?y(e,Je):(n={question:"?",warning:"!",info:"i"},y(e,Qe(n[t.icon])))},$e=(e,t)=>{if(t.iconColor){e.style.color=t.iconColor,e.style.borderColor=t.iconColor;for(const n of[".swal2-success-line-tip",".swal2-success-line-long",".swal2-x-mark-line-left",".swal2-x-mark-line-right"])me(e,n,"backgroundColor",t.iconColor);me(e,".swal2-success-ring","borderColor",t.iconColor)}},Qe=e=>'<div class="'.concat(p["icon-content"],'">').concat(e,"</div>"),Ge=(e,t)=>{const n=Q();if(!t.imageUrl)return x(n);B(n,""),n.setAttribute("src",t.imageUrl),n.setAttribute("alt",t.imageAlt),P(n,"width",t.imageWidth),P(n,"height",t.imageHeight),n.className=p.image,w(n,t,"image")},et=(e,n)=>{const o=G();if(!n.progressSteps||0===n.progressSteps.length)return x(o);B(o),o.textContent="",n.currentProgressStep>=n.progressSteps.length&&a("Invalid currentProgressStep parameter, it should be less than progressSteps.length (currentProgressStep like JS arrays starts from 0)"),n.progressSteps.forEach((e,t)=>{var e=(e=>{const t=document.createElement("li");return C(t,p["progress-step"]),y(t,e),t})(e);o.appendChild(e),t===n.currentProgressStep&&C(e,p["active-progress-step"]),t!==n.progressSteps.length-1&&(e=(e=>{const t=document.createElement("li");if(C(t,p["progress-step-line"]),e.progressStepsDistance)P(t,"width",e.progressStepsDistance);return t})(n),o.appendChild(e))})},tt=(e,t)=>{const n=X();ge(n,t.title||t.titleText,"block"),t.title&&Se(t.title,n),t.titleText&&(n.innerText=t.titleText),w(n,t,"title")},nt=(e,t)=>{var n=m();const o=g();t.toast?(P(n,"width",t.width),o.style.width="100%",o.insertBefore(d(),s())):P(o,"width",t.width),P(o,"padding",t.padding),t.color&&(o.style.color=t.color),t.background&&(o.style.background=t.background),x(ee());n=o;(n.className="".concat(p.popup," ").concat(E(n)?t.showClass.popup:""),t.toast)?(C([document.documentElement,document.body],p["toast-shown"]),C(n,p.toast)):C(n,p.modal);w(n,t,"popup"),"string"==typeof t.customClass&&C(n,t.customClass);t.icon&&C(n,p["icon-".concat(t.icon)])},ot=(e,t)=>{nt(e,t),Ie(e,t),et(e,t),_e(e,t),Ge(e,t),tt(e,t),ze(e,t),Fe(e,t),je(e,t),We(e,t),"function"==typeof t.didRender&&t.didRender(g())},j=Object.freeze({cancel:"cancel",backdrop:"backdrop",close:"close",esc:"esc",timer:"timer"}),it=()=>{const e=i(document.body.children);e.forEach(e=>{e===m()||e.contains(m())||(e.hasAttribute("aria-hidden")&&e.setAttribute("data-previous-aria-hidden",e.getAttribute("aria-hidden")),e.setAttribute("aria-hidden","true"))})},at=()=>{const e=i(document.body.children);e.forEach(e=>{e.hasAttribute("data-previous-aria-hidden")?(e.setAttribute("aria-hidden",e.getAttribute("data-previous-aria-hidden")),e.removeAttribute("data-previous-aria-hidden")):e.removeAttribute("aria-hidden")})},rt=["swal-title","swal-html","swal-footer"],st=e=>{const n={};return i(e.querySelectorAll("swal-param")).forEach(e=>{M(e,["name","value"]);var t=e.getAttribute("name"),e=e.getAttribute("value");"boolean"==typeof r[t]&&"false"===e&&(n[t]=!1),"object"==typeof r[t]&&(n[t]=JSON.parse(e))}),n},ct=e=>{const n={};return i(e.querySelectorAll("swal-button")).forEach(e=>{M(e,["type","color","aria-label"]);var t=e.getAttribute("type");n["".concat(t,"ButtonText")]=e.innerHTML,n["show".concat(q(t),"Button")]=!0,e.hasAttribute("color")&&(n["".concat(t,"ButtonColor")]=e.getAttribute("color")),e.hasAttribute("aria-label")&&(n["".concat(t,"ButtonAriaLabel")]=e.getAttribute("aria-label"))}),n},lt=e=>{const t={},n=e.querySelector("swal-image");return n&&(M(n,["src","width","height","alt"]),n.hasAttribute("src")&&(t.imageUrl=n.getAttribute("src")),n.hasAttribute("width")&&(t.imageWidth=n.getAttribute("width")),n.hasAttribute("height")&&(t.imageHeight=n.getAttribute("height")),n.hasAttribute("alt")&&(t.imageAlt=n.getAttribute("alt"))),t},ut=e=>{const t={},n=e.querySelector("swal-icon");return n&&(M(n,["type","color"]),n.hasAttribute("type")&&(t.icon=n.getAttribute("type")),n.hasAttribute("color")&&(t.iconColor=n.getAttribute("color")),t.iconHtml=n.innerHTML),t},dt=e=>{const n={},t=e.querySelector("swal-input");t&&(M(t,["type","label","placeholder","value"]),n.input=t.getAttribute("type")||"text",t.hasAttribute("label")&&(n.inputLabel=t.getAttribute("label")),t.hasAttribute("placeholder")&&(n.inputPlaceholder=t.getAttribute("placeholder")),t.hasAttribute("value")&&(n.inputValue=t.getAttribute("value")));e=e.querySelectorAll("swal-input-option");return e.length&&(n.inputOptions={},i(e).forEach(e=>{M(e,["value"]);var t=e.getAttribute("value"),e=e.innerHTML;n.inputOptions[t]=e})),n},pt=(e,t)=>{const n={};for(const o in t){const i=t[o],a=e.querySelector(i);a&&(M(a,[]),n[i.replace(/^swal-/,"")]=a.innerHTML.trim())}return n},mt=e=>{const t=rt.concat(["swal-param","swal-button","swal-image","swal-icon","swal-input","swal-input-option"]);i(e.children).forEach(e=>{e=e.tagName.toLowerCase();-1===t.indexOf(e)&&a("Unrecognized element <".concat(e,">"))})},M=(t,n)=>{i(t.attributes).forEach(e=>{-1===n.indexOf(e.name)&&a(['Unrecognized attribute "'.concat(e.name,'" on <').concat(t.tagName.toLowerCase(),">."),"".concat(n.length?"Allowed attributes are: ".concat(n.join(", ")):"To set the value, use HTML within the element.")])})};var gt={email:(e,t)=>/^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9-]{2,24}$/.test(e)?Promise.resolve():Promise.resolve(t||"Invalid email address"),url:(e,t)=>/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-z]{2,63}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)$/.test(e)?Promise.resolve():Promise.resolve(t||"Invalid URL")};function ht(e){(t=e).inputValidator||Object.keys(gt).forEach(e=>{t.input===e&&(t.inputValidator=gt[e])}),e.showLoaderOnConfirm&&!e.preConfirm&&a("showLoaderOnConfirm is set to true, but preConfirm is not defined.\nshowLoaderOnConfirm should be used together with preConfirm, see usage example:\nhttps://sweetalert2.github.io/#ajax-request"),(n=e).target&&("string"!=typeof n.target||document.querySelector(n.target))&&("string"==typeof n.target||n.target.appendChild)||(a('Target parameter is not valid, defaulting to "body"'),n.target="body"),"string"==typeof e.title&&(e.title=e.title.split("\n").join("<br />"));var t,n=e,e=ke();if(ye())l("SweetAlert2 requires document to initialize");else{const o=document.createElement("div"),i=(o.className=p.container,e&&C(o,p["no-transition"]),y(o,Ae),Be(n.target));i.appendChild(o),xe(n),Ee(i),Pe(),Te(o,n)}}class ft{constructor(e,t){this.callback=e,this.remaining=t,this.running=!1,this.start()}start(){return this.running||(this.running=!0,this.started=new Date,this.id=setTimeout(this.callback,this.remaining)),this.remaining}stop(){return this.running&&(this.running=!1,clearTimeout(this.id),this.remaining-=(new Date).getTime()-this.started.getTime()),this.remaining}increase(e){var t=this.running;return t&&this.stop(),this.remaining+=e,t&&this.start(),this.remaining}getTimerLeft(){return this.running&&(this.stop(),this.start()),this.remaining}isRunning(){return this.running}}const bt=()=>{null===c.previousBodyPadding&&document.body.scrollHeight>window.innerHeight&&(c.previousBodyPadding=parseInt(window.getComputedStyle(document.body).getPropertyValue("padding-right")),document.body.style.paddingRight="".concat(c.previousBodyPadding+(()=>{const e=document.createElement("div");e.className=p["scrollbar-measure"],document.body.appendChild(e);var t=e.getBoundingClientRect().width-e.clientWidth;return document.body.removeChild(e),t})(),"px"))},yt=()=>{null!==c.previousBodyPadding&&(document.body.style.paddingRight="".concat(c.previousBodyPadding,"px"),c.previousBodyPadding=null)},vt=()=>{if((/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream||"MacIntel"===navigator.platform&&1<navigator.maxTouchPoints)&&!v(document.body,p.iosfix)){var e,t=document.body.scrollTop;document.body.style.top="".concat(-1*t,"px"),C(document.body,p.iosfix);{const n=m();let t;n.ontouchstart=e=>{t=wt(e)},n.ontouchmove=e=>{t&&(e.preventDefault(),e.stopPropagation())}}{const o=navigator.userAgent,i=!!o.match(/iPad/i)||!!o.match(/iPhone/i),a=!!o.match(/WebKit/i),r=i&&a&&!o.match(/CriOS/i);r&&(e=44,g().scrollHeight>window.innerHeight-44&&(m().style.paddingBottom="".concat(44,"px")))}}},wt=e=>{var t,n=e.target,o=m();return!((t=e).touches&&t.touches.length&&"stylus"===t.touches[0].touchType||(t=e).touches&&1<t.touches.length)&&(n===o||!(fe(o)||"INPUT"===n.tagName||"TEXTAREA"===n.tagName||fe($())&&$().contains(n)))},Ct=()=>{var e;v(document.body,p.iosfix)&&(e=parseInt(document.body.style.top,10),A(document.body,p.iosfix),document.body.style.top="",document.body.scrollTop=-1*e)},At=10,kt=e=>{const t=g();if(e.target===t){const n=m();t.removeEventListener(Oe,kt),n.style.overflowY="auto"}},Pt=(e,t)=>{Oe&&be(t)?(e.style.overflowY="hidden",t.addEventListener(Oe,kt)):e.style.overflowY="auto"},Bt=(e,t,n)=>{vt(),t&&"hidden"!==n&&bt(),setTimeout(()=>{e.scrollTop=0})},xt=(e,t,n)=>{C(e,n.showClass.backdrop),t.style.setProperty("opacity","0","important"),B(t,"grid"),setTimeout(()=>{C(t,n.showClass.popup),t.style.removeProperty("opacity")},At),C([document.documentElement,document.body],p.shown),n.heightAuto&&n.backdrop&&!n.toast&&C([document.documentElement,document.body],p["height-auto"])},I=e=>{let t=g();t||new An,t=g();var n=d();if(se())x(s());else{var o=t;const i=te(),a=d();!e&&E(h())&&(e=h());B(i),e&&(x(e),a.setAttribute("data-button-to-replace",e.className));a.parentNode.insertBefore(a,e),C([o,i],p.loading)}B(n),t.setAttribute("data-loading",!0),t.setAttribute("aria-busy",!0),t.focus()},Et=(t,n)=>{const o=g(),i=e=>St[n.input](o,Lt(e),n);U(n.inputOptions)||F(n.inputOptions)?(I(h()),u(n.inputOptions).then(e=>{t.hideLoading(),i(e)})):"object"==typeof n.inputOptions?i(n.inputOptions):l("Unexpected type of inputOptions! Expected object, Map or Promise, got ".concat(typeof n.inputOptions))},Tt=(t,n)=>{const o=t.getInput();x(o),u(n.inputValue).then(e=>{o.value="number"===n.input?parseFloat(e)||0:"".concat(e),B(o),o.focus(),t.hideLoading()}).catch(e=>{l("Error in inputValue promise: ".concat(e)),o.value="",B(o),o.focus(),t.hideLoading()})},St={select:(e,t,i)=>{const a=k(e,p.select),r=(e,t,n)=>{const o=document.createElement("option");o.value=n,y(o,t),o.selected=Ot(n,i.inputValue),e.appendChild(o)};t.forEach(e=>{var t=e[0];const n=e[1];if(Array.isArray(n)){const o=document.createElement("optgroup");o.label=t,o.disabled=!1,a.appendChild(o),n.forEach(e=>r(o,e[1],e[0]))}else r(a,n,t)}),a.focus()},radio:(e,t,a)=>{const r=k(e,p.radio),n=(t.forEach(e=>{var t=e[0],e=e[1];const n=document.createElement("input"),o=document.createElement("label"),i=(n.type="radio",n.name=p.radio,n.value=t,Ot(t,a.inputValue)&&(n.checked=!0),document.createElement("span"));y(i,e),i.className=p.label,o.appendChild(n),o.appendChild(i),r.appendChild(o)}),r.querySelectorAll("input"));n.length&&n[0].focus()}},Lt=n=>{const o=[];return"undefined"!=typeof Map&&n instanceof Map?n.forEach((e,t)=>{let n=e;"object"==typeof n&&(n=Lt(n)),o.push([t,n])}):Object.keys(n).forEach(e=>{let t=n[e];"object"==typeof t&&(t=Lt(t)),o.push([e,t])}),o},Ot=(e,t)=>t&&t.toString()===e.toString();function jt(){var e,t=L.innerParams.get(this);if(t){const n=L.domCache.get(this);x(n.loader),se()?t.icon&&B(s()):(t=n,(e=t.popup.getElementsByClassName(t.loader.getAttribute("data-button-to-replace"))).length?B(e[0],"inline-block"):he()&&x(t.actions)),A([n.popup,n.actions],p.loading),n.popup.removeAttribute("aria-busy"),n.popup.removeAttribute("data-loading"),n.confirmButton.disabled=!1,n.denyButton.disabled=!1,n.cancelButton.disabled=!1}}var Mt={swalPromiseResolve:new WeakMap,swalPromiseReject:new WeakMap};const It=()=>h()&&h().click();const Dt=e=>{e.keydownTarget&&e.keydownHandlerAdded&&(e.keydownTarget.removeEventListener("keydown",e.keydownHandler,{capture:e.keydownListenerCapture}),e.keydownHandlerAdded=!1)},Ht=(e,t,n)=>{const o=ae();if(o.length)return(t+=n)===o.length?t=0:-1===t&&(t=o.length-1),o[t].focus();g().focus()},qt=["ArrowRight","ArrowDown"],Vt=["ArrowLeft","ArrowUp"],Nt=(e,n,t)=>{var o=L.innerParams.get(e);if(o&&(!n.isComposing&&229!==n.keyCode))if(o.stopKeydownPropagation&&n.stopPropagation(),"Enter"===n.key)e=e,s=n,i=o,R(i.allowEnterKey)&&s.target&&e.getInput()&&s.target.outerHTML===e.getInput().outerHTML&&(["textarea","file"].includes(i.input)||(It(),s.preventDefault()));else if("Tab"===n.key){e=n;var i=o;var a=e.target,r=ae();let t=-1;for(let e=0;e<r.length;e++)if(a===r[e]){t=e;break}e.shiftKey?Ht(i,t,-1):Ht(i,t,1);e.stopPropagation(),e.preventDefault()}else if([...qt,...Vt].includes(n.key)){var s=n.key;const l=h(),u=f(),d=b();if([l,u,d].includes(document.activeElement)){var c=qt.includes(s)?"nextElementSibling":"previousElementSibling";let t=document.activeElement;for(let e=0;e<te().children.length;e++){if(!(t=t[c]))return;if(E(t)&&t instanceof HTMLButtonElement)break}t instanceof HTMLButtonElement&&t.focus()}}else if("Escape"===n.key){e=n,n=o,o=t;if(R(n.allowEscapeKey)){e.preventDefault();o(j.esc)}}};function Rt(e,t,n,o){se()?zt(e,o):(Ce(n).then(()=>zt(e,o)),Dt(T)),/^((?!chrome|android).)*safari/i.test(navigator.userAgent)?(t.setAttribute("style","display:none !important"),t.removeAttribute("class"),t.innerHTML=""):t.remove(),re()&&(yt(),Ct(),at()),A([document.documentElement,document.body],[p.shown,p["height-auto"],p["no-backdrop"],p["toast-shown"]])}function Ut(e){e=void 0!==(n=e)?Object.assign({isConfirmed:!1,isDenied:!1,isDismissed:!1},n):{isConfirmed:!1,isDenied:!1,isDismissed:!0};const t=Mt.swalPromiseResolve.get(this);var n=(e=>{const t=g();if(!t)return false;const n=L.innerParams.get(e);if(!n||v(t,n.hideClass.popup))return false;A(t,n.showClass.popup),C(t,n.hideClass.popup);const o=m();return A(o,n.showClass.backdrop),C(o,n.hideClass.backdrop),Wt(e,t,n),true})(this);this.isAwaitingPromise()?e.isDismissed||(Ft(this),t(e)):n&&t(e)}const Ft=e=>{e.isAwaitingPromise()&&(L.awaitingPromise.delete(e),L.innerParams.get(e)||e._destroy())},Wt=(e,t,n)=>{var o,i,a,r=m(),s=Oe&&be(t);"function"==typeof n.willClose&&n.willClose(t),s?(s=e,o=t,t=r,i=n.returnFocus,a=n.didClose,T.swalCloseEventFinishedCallback=Rt.bind(null,s,t,i,a),o.addEventListener(Oe,function(e){e.target===o&&(T.swalCloseEventFinishedCallback(),delete T.swalCloseEventFinishedCallback)})):Rt(e,r,n.returnFocus,n.didClose)},zt=(e,t)=>{setTimeout(()=>{"function"==typeof t&&t.bind(e.params)(),e._destroy()})};function _t(e,t,n){const o=L.domCache.get(e);t.forEach(e=>{o[e].disabled=n})}function Kt(e,t){if(!e)return!1;if("radio"===e.type){const n=e.parentNode.parentNode,o=n.querySelectorAll("input");for(let e=0;e<o.length;e++)o[e].disabled=t}else e.disabled=t}const Yt=e=>{e.isAwaitingPromise()?(Zt(L,e),L.awaitingPromise.set(e,!0)):(Zt(Mt,e),Zt(L,e))},Zt=(e,t)=>{for(const n in e)e[n].delete(t)};e=Object.freeze({hideLoading:jt,disableLoading:jt,getInput:function(e){var t=L.innerParams.get(e||this);return(e=L.domCache.get(e||this))?ue(e.popup,t.input):null},close:Ut,isAwaitingPromise:function(){return!!L.awaitingPromise.get(this)},rejectPromise:function(e){const t=Mt.swalPromiseReject.get(this);Ft(this),t&&t(e)},handleAwaitingPromise:Ft,closePopup:Ut,closeModal:Ut,closeToast:Ut,enableButtons:function(){_t(this,["confirmButton","denyButton","cancelButton"],!1)},disableButtons:function(){_t(this,["confirmButton","denyButton","cancelButton"],!0)},enableInput:function(){return Kt(this.getInput(),!1)},disableInput:function(){return Kt(this.getInput(),!0)},showValidationMessage:function(e){const t=L.domCache.get(this);var n=L.innerParams.get(this);y(t.validationMessage,e),t.validationMessage.className=p["validation-message"],n.customClass&&n.customClass.validationMessage&&C(t.validationMessage,n.customClass.validationMessage),B(t.validationMessage);const o=this.getInput();o&&(o.setAttribute("aria-invalid",!0),o.setAttribute("aria-describedby",p["validation-message"]),de(o),C(o,p.inputerror))},resetValidationMessage:function(){var e=L.domCache.get(this);e.validationMessage&&x(e.validationMessage);const t=this.getInput();t&&(t.removeAttribute("aria-invalid"),t.removeAttribute("aria-describedby"),A(t,p.inputerror))},getProgressSteps:function(){return L.domCache.get(this).progressSteps},update:function(e){var t=g(),n=L.innerParams.get(this);if(!t||v(t,n.hideClass.popup))return a("You're trying to update the closed or closing popup, that won't work. Use the update() method in preConfirm parameter or show a new popup.");t=(t=>{const n={};return Object.keys(t).forEach(e=>{if(Y(e))n[e]=t[e];else a("Invalid parameter to update: ".concat(e))}),n})(e),n=Object.assign({},n,t),ot(this,n),L.innerParams.set(this,n),Object.defineProperties(this,{params:{value:Object.assign({},this.params,e),writable:!1,enumerable:!0}})},_destroy:function(){var e=L.domCache.get(this);const t=L.innerParams.get(this);t?(e.popup&&T.swalCloseEventFinishedCallback&&(T.swalCloseEventFinishedCallback(),delete T.swalCloseEventFinishedCallback),T.deferDisposalTimer&&(clearTimeout(T.deferDisposalTimer),delete T.deferDisposalTimer),"function"==typeof t.didDestroy&&t.didDestroy(),e=this,Yt(e),delete e.params,delete T.keydownHandler,delete T.keydownTarget,delete T.currentInstance):Yt(this)}});const Jt=(e,t)=>{var n=L.innerParams.get(e);if(!n.input)return l('The "input" parameter is needed to be set when using returnInputValueOn'.concat(q(t)));var o=((e,t)=>{const n=e.getInput();if(!n)return null;switch(t.input){case"checkbox":return n.checked?1:0;case"radio":return(o=n).checked?o.value:null;case"file":return(o=n).files.length?null!==o.getAttribute("multiple")?o.files:o.files[0]:null;default:return t.inputAutoTrim?n.value.trim():n.value}var o})(e,n);if(n.inputValidator){var i=e;var a=o;var r=t;const s=L.innerParams.get(i),c=(i.disableInput(),Promise.resolve().then(()=>u(s.inputValidator(a,s.validationMessage))));c.then(e=>{i.enableButtons(),i.enableInput(),e?i.showValidationMessage(e):("deny"===r?Xt:Gt)(i,a)})}else e.getInput().checkValidity()?("deny"===t?Xt:Gt)(e,o):(e.enableButtons(),e.showValidationMessage(n.validationMessage))},Xt=(t,n)=>{const e=L.innerParams.get(t||void 0);if(e.showLoaderOnDeny&&I(f()),e.preDeny){L.awaitingPromise.set(t||void 0,!0);const o=Promise.resolve().then(()=>u(e.preDeny(n,e.validationMessage)));o.then(e=>{!1===e?(t.hideLoading(),Ft(t)):t.closePopup({isDenied:!0,value:void 0===e?n:e})}).catch(e=>Qt(t||void 0,e))}else t.closePopup({isDenied:!0,value:n})},$t=(e,t)=>{e.closePopup({isConfirmed:!0,value:t})},Qt=(e,t)=>{e.rejectPromise(t)},Gt=(t,n)=>{const e=L.innerParams.get(t||void 0);if(e.showLoaderOnConfirm&&I(),e.preConfirm){t.resetValidationMessage(),L.awaitingPromise.set(t||void 0,!0);const o=Promise.resolve().then(()=>u(e.preConfirm(n,e.validationMessage)));o.then(e=>{E(ee())||!1===e?(t.hideLoading(),Ft(t)):$t(t,void 0===e?n:e)}).catch(e=>Qt(t||void 0,e))}else $t(t,n)},en=(n,e,o)=>{e.popup.onclick=()=>{var e,t=L.innerParams.get(n);t&&((e=t).showConfirmButton||e.showDenyButton||e.showCancelButton||e.showCloseButton||t.timer||t.input)||o(j.close)}};let tn=!1;const nn=t=>{t.popup.onmousedown=()=>{t.container.onmouseup=function(e){t.container.onmouseup=void 0,e.target===t.container&&(tn=!0)}}},on=t=>{t.container.onmousedown=()=>{t.popup.onmouseup=function(e){t.popup.onmouseup=void 0,e.target!==t.popup&&!t.popup.contains(e.target)||(tn=!0)}}},an=(n,o,i)=>{o.container.onclick=e=>{var t=L.innerParams.get(n);tn?tn=!1:e.target===o.container&&R(t.allowOutsideClick)&&i(j.backdrop)}},rn=e=>"object"==typeof e&&e.jquery,sn=e=>e instanceof Element||rn(e);const cn=()=>{if(T.timeout){{const n=oe();var e=parseInt(window.getComputedStyle(n).width),t=(n.style.removeProperty("transition"),n.style.width="100%",parseInt(window.getComputedStyle(n).width)),e=e/t*100;n.style.removeProperty("transition"),n.style.width="".concat(e,"%")}return T.timeout.stop()}},ln=()=>{var e;if(T.timeout)return e=T.timeout.start(),ce(e),e};let un=!1;const dn={};const pn=t=>{for(let e=t.target;e&&e!==document;e=e.parentNode)for(const o in dn){var n=e.getAttribute(o);if(n)return void dn[o].fire({template:n})}};var mn=Object.freeze({isValidParameter:K,isUpdatableParameter:Y,isDeprecatedParameter:Z,argsToParams:n=>{const o={};return"object"!=typeof n[0]||sn(n[0])?["title","html","icon"].forEach((e,t)=>{t=n[t];"string"==typeof t||sn(t)?o[e]=t:void 0!==t&&l("Unexpected type of ".concat(e,'! Expected "string" or "Element", got ').concat(typeof t))}):Object.assign(o,n[0]),o},isVisible:()=>E(g()),clickConfirm:It,clickDeny:()=>f()&&f().click(),clickCancel:()=>b()&&b().click(),getContainer:m,getPopup:g,getTitle:X,getHtmlContainer:$,getImage:Q,getIcon:s,getInputLabel:()=>n(p["input-label"]),getCloseButton:ie,getActions:te,getConfirmButton:h,getDenyButton:f,getCancelButton:b,getLoader:d,getFooter:ne,getTimerProgressBar:oe,getFocusableElements:ae,getValidationMessage:ee,isLoading:()=>g().hasAttribute("data-loading"),fire:function(){for(var e=arguments.length,t=new Array(e),n=0;n<e;n++)t[n]=arguments[n];return new this(...t)},mixin:function(n){class e extends this{_main(e,t){return super._main(e,Object.assign({},n,t))}}return e},showLoading:I,enableLoading:I,getTimerLeft:()=>T.timeout&&T.timeout.getTimerLeft(),stopTimer:cn,resumeTimer:ln,toggleTimer:()=>{var e=T.timeout;return e&&(e.running?cn:ln)()},increaseTimer:e=>{if(T.timeout)return e=T.timeout.increase(e),ce(e,!0),e},isTimerRunning:()=>T.timeout&&T.timeout.isRunning(),bindClickHandler:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:"data-swal-template";dn[e]=this,un||(document.body.addEventListener("click",pn),un=!0)}});let gn;class D{constructor(){if("undefined"!=typeof window){gn=this;for(var e=arguments.length,t=new Array(e),n=0;n<e;n++)t[n]=arguments[n];var o=Object.freeze(this.constructor.argsToParams(t)),o=(Object.defineProperties(this,{params:{value:o,writable:!1,enumerable:!0,configurable:!0}}),this._main(this.params));L.promise.set(this,o)}}_main(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:{},e=(J(Object.assign({},t,e)),T.currentInstance&&(T.currentInstance._destroy(),re()&&at()),T.currentInstance=this,fn(e,t)),t=(ht(e),Object.freeze(e),T.timeout&&(T.timeout.stop(),delete T.timeout),clearTimeout(T.restoreFocusTimeout),bn(this));return ot(this,e),L.innerParams.set(this,e),hn(this,t,e)}then(e){const t=L.promise.get(this);return t.then(e)}finally(e){const t=L.promise.get(this);return t.finally(e)}}const hn=(l,u,d)=>new Promise((e,t)=>{const n=e=>{l.closePopup({isDismissed:!0,dismiss:e})};var o,i,a;Mt.swalPromiseResolve.set(l,e),Mt.swalPromiseReject.set(l,t),u.confirmButton.onclick=()=>{var e=l,t=L.innerParams.get(e);e.disableButtons(),t.input?Jt(e,"confirm"):Gt(e,!0)},u.denyButton.onclick=()=>{var e=l,t=L.innerParams.get(e);e.disableButtons(),t.returnInputValueOnDeny?Jt(e,"deny"):Xt(e,!1)},u.cancelButton.onclick=()=>{var e=l,t=n;e.disableButtons(),t(j.cancel)},u.closeButton.onclick=()=>n(j.close),e=l,t=u,a=n,L.innerParams.get(e).toast?en(e,t,a):(nn(t),on(t),an(e,t,a)),o=l,e=T,t=d,i=n,Dt(e),t.toast||(e.keydownHandler=e=>Nt(o,e,i),e.keydownTarget=t.keydownListenerCapture?window:g(),e.keydownListenerCapture=t.keydownListenerCapture,e.keydownTarget.addEventListener("keydown",e.keydownHandler,{capture:e.keydownListenerCapture}),e.keydownHandlerAdded=!0),a=l,"select"===(t=d).input||"radio"===t.input?Et(a,t):["text","email","number","tel","textarea"].includes(t.input)&&(U(t.inputValue)||F(t.inputValue))&&(I(h()),Tt(a,t));{var r=d;const s=m(),c=g();"function"==typeof r.willOpen&&r.willOpen(c),e=window.getComputedStyle(document.body).overflowY,xt(s,c,r),setTimeout(()=>{Pt(s,c)},At),re()&&(Bt(s,r.scrollbarPadding,e),it()),se()||T.previousActiveElement||(T.previousActiveElement=document.activeElement),"function"==typeof r.didOpen&&setTimeout(()=>r.didOpen(c)),A(s,p["no-transition"])}yn(T,d,n),vn(u,d),setTimeout(()=>{u.container.scrollTop=0})}),fn=(e,t)=>{var n=(e=>{e="string"==typeof e.template?document.querySelector(e.template):e.template;if(!e)return{};e=e.content,mt(e),e=Object.assign(st(e),ct(e),lt(e),ut(e),dt(e),pt(e,rt));return e})(e);const o=Object.assign({},r,t,n,e);return o.showClass=Object.assign({},r.showClass,o.showClass),o.hideClass=Object.assign({},r.hideClass,o.hideClass),o},bn=e=>{var t={popup:g(),container:m(),actions:te(),confirmButton:h(),denyButton:f(),cancelButton:b(),loader:d(),closeButton:ie(),validationMessage:ee(),progressSteps:G()};return L.domCache.set(e,t),t},yn=(e,t,n)=>{var o=oe();x(o),t.timer&&(e.timeout=new ft(()=>{n("timer"),delete e.timeout},t.timer),t.timerProgressBar&&(B(o),w(o,t,"timerProgressBar"),setTimeout(()=>{e.timeout&&e.timeout.running&&ce(t.timer)})))},vn=(e,t)=>{if(!t.toast)return R(t.allowEnterKey)?void(wn(e,t)||Ht(t,-1,1)):Cn()},wn=(e,t)=>t.focusDeny&&E(e.denyButton)?(e.denyButton.focus(),!0):t.focusCancel&&E(e.cancelButton)?(e.cancelButton.focus(),!0):!(!t.focusConfirm||!E(e.confirmButton))&&(e.confirmButton.focus(),!0),Cn=()=>{document.activeElement instanceof HTMLElement&&"function"==typeof document.activeElement.blur&&document.activeElement.blur()},An=(Object.assign(D.prototype,e),Object.assign(D,mn),Object.keys(e).forEach(e=>{D[e]=function(){if(gn)return gn[e](...arguments)}}),D.DismissReason=j,D.version="11.4.14",D);return An.default=An}),void 0!==this&&this.Sweetalert2&&(this.swal=this.sweetAlert=this.Swal=this.SweetAlert=this.Sweetalert2);
 !function(e,t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t():"function"==typeof define&&define.amd?define(t):(e=e||self).keyboardJS=t()}(this,(function(){"use strict";function e(t){return(e="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(t)}function t(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function n(e,t){for(var n=0;n<t.length;n++){var i=t[n];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(e,i.key,i)}}function i(e,t,i){return t&&n(e.prototype,t),i&&n(e,i),e}function r(e){return function(e){if(Array.isArray(e))return s(e)}(e)||function(e){if("undefined"!=typeof Symbol&&Symbol.iterator in Object(e))return Array.from(e)}(e)||function(e,t){if(!e)return;if("string"==typeof e)return s(e,t);var n=Object.prototype.toString.call(e).slice(8,-1);"Object"===n&&e.constructor&&(n=e.constructor.name);if("Map"===n||"Set"===n)return Array.from(e);if("Arguments"===n||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))return s(e,t)}(e)||function(){throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}()}function s(e,t){(null==t||t>e.length)&&(t=e.length);for(var n=0,i=new Array(t);n<t;n++)i[n]=e[n];return i}var o=function(){function n(e){t(this,n),this.sourceStr=e,this.subCombos=n.parseComboStr(e),this.keyNames=this.subCombos.reduce((function(e,t){return e.concat(t)}),[])}return i(n,[{key:"check",value:function(e){for(var t=0,n=0;n<this.subCombos.length;n+=1)if(-1===(t=this._checkSubCombo(this.subCombos[n],t,e)))return!1;return!0}},{key:"isEqual",value:function(t){if(!t||"string"!=typeof t&&"object"!==e(t))return!1;if("string"==typeof t&&(t=new n(t)),this.subCombos.length!==t.subCombos.length)return!1;for(var i=0;i<this.subCombos.length;i+=1)if(this.subCombos[i].length!==t.subCombos[i].length)return!1;for(var r=0;r<this.subCombos.length;r+=1){for(var s=this.subCombos[r],o=t.subCombos[r].slice(0),a=0;a<s.length;a+=1){var l=s[a],d=o.indexOf(l);d>-1&&o.splice(d,1)}if(0!==o.length)return!1}return!0}},{key:"_checkSubCombo",value:function(e,t,i){e=e.slice(0),i=i.slice(t);for(var r=t,s=0;s<e.length;s+=1){var o=e[s];if("\\"===o[0]){var a=o.slice(1);a!==n.comboDeliminator&&a!==n.keyDeliminator||(o=a)}var l=i.indexOf(o);if(l>-1&&(e.splice(s,1),s-=1,l>r&&(r=l),0===e.length))return r}return-1}}]),n}();o.comboDeliminator=">",o.keyDeliminator="+",o.parseComboStr=function(e){for(var t=o._splitStr(e,o.comboDeliminator),n=[],i=0;i<t.length;i+=1)n.push(o._splitStr(t[i],o.keyDeliminator));return n},o._splitStr=function(e,t){for(var n=e,i=t,r="",s=[],o=0;o<n.length;o+=1)o>0&&n[o]===i&&"\\"!==n[o-1]&&(s.push(r.trim()),r="",o+=1),r+=n[o];return r&&s.push(r.trim()),s};var a=function(){function e(n){t(this,e),this.localeName=n,this.activeTargetKeys=[],this.pressedKeys=[],this._appliedMacros=[],this._keyMap={},this._killKeyCodes=[],this._macros=[]}return i(e,[{key:"bindKeyCode",value:function(e,t){"string"==typeof t&&(t=[t]),this._keyMap[e]=t}},{key:"bindMacro",value:function(e,t){"string"==typeof t&&(t=[t]);var n=null;"function"==typeof t&&(n=t,t=null);var i={keyCombo:new o(e),keyNames:t,handler:n};this._macros.push(i)}},{key:"getKeyCodes",value:function(e){var t=[];for(var n in this._keyMap){this._keyMap[n].indexOf(e)>-1&&t.push(0|n)}return t}},{key:"getKeyNames",value:function(e){return this._keyMap[e]||[]}},{key:"setKillKey",value:function(e){if("string"!=typeof e)this._killKeyCodes.push(e);else for(var t=this.getKeyCodes(e),n=0;n<t.length;n+=1)this.setKillKey(t[n])}},{key:"pressKey",value:function(e){if("string"!=typeof e){this.activeTargetKeys.length=0;for(var t=this.getKeyNames(e),n=0;n<t.length;n+=1)this.activeTargetKeys.push(t[n]),-1===this.pressedKeys.indexOf(t[n])&&this.pressedKeys.push(t[n]);this._applyMacros()}else for(var i=this.getKeyCodes(e),r=0;r<i.length;r+=1)this.pressKey(i[r])}},{key:"releaseKey",value:function(e){if("string"==typeof e)for(var t=this.getKeyCodes(e),n=0;n<t.length;n+=1)this.releaseKey(t[n]);else{var i=this.getKeyNames(e);if(-1!==this._killKeyCodes.indexOf(e))this.pressedKeys.length=0;else for(var r=0;r<i.length;r+=1){var s=this.pressedKeys.indexOf(i[r]);s>-1&&this.pressedKeys.splice(s,1)}this.activeTargetKeys.length=0,this._clearMacros()}}},{key:"_applyMacros",value:function(){for(var e=this._macros.slice(0),t=0;t<e.length;t+=1){var n=e[t];if(n.keyCombo.check(this.pressedKeys)){n.handler&&(n.keyNames=n.handler(this.pressedKeys));for(var i=0;i<n.keyNames.length;i+=1)-1===this.pressedKeys.indexOf(n.keyNames[i])&&this.pressedKeys.push(n.keyNames[i]);this._appliedMacros.push(n)}}}},{key:"_clearMacros",value:function(){for(var e=0;e<this._appliedMacros.length;e+=1){var t=this._appliedMacros[e];if(!t.keyCombo.check(this.pressedKeys)){for(var n=0;n<t.keyNames.length;n+=1){var i=this.pressedKeys.indexOf(t.keyNames[n]);i>-1&&this.pressedKeys.splice(i,1)}t.handler&&(t.keyNames=null),this._appliedMacros.splice(e,1),e-=1}}}}]),e}(),l=function(){function n(e,i,r,s){t(this,n),this._locale=null,this._currentContext="",this._contexts={},this._listeners=[],this._appliedListeners=[],this._locales={},this._targetElement=null,this._targetWindow=null,this._targetPlatform="",this._targetUserAgent="",this._isModernBrowser=!1,this._targetKeyDownBinding=null,this._targetKeyUpBinding=null,this._targetResetBinding=null,this._paused=!1,this._contexts.global={listeners:this._listeners,targetWindow:e,targetElement:i,targetPlatform:r,targetUserAgent:s},this.setContext("global")}return i(n,[{key:"setLocale",value:function(e,t){var n=null;return"string"==typeof e?t?t(n=new a(e),this._targetPlatform,this._targetUserAgent):n=this._locales[e]||null:e=(n=e)._localeName,this._locale=n,this._locales[e]=n,n&&(this._locale.pressedKeys=n.pressedKeys),this}},{key:"getLocale",value:function(e){return e||(e=this._locale.localeName),this._locales[e]||null}},{key:"bind",value:function(t,n,i,r){if(null!==t&&"function"!=typeof t||(r=i,i=n,n=t,t=null),t&&"object"===e(t)&&"number"==typeof t.length){for(var s=0;s<t.length;s+=1)this.bind(t[s],n,i);return this}return this._listeners.push({keyCombo:t?new o(t):null,pressHandler:n||null,releaseHandler:i||null,preventRepeat:r||!1,preventRepeatByDefault:r||!1,executingHandler:!1}),this}},{key:"addListener",value:function(e,t,n,i){return this.bind(e,t,n,i)}},{key:"on",value:function(e,t,n,i){return this.bind(e,t,n,i)}},{key:"bindPress",value:function(e,t,n){return this.bind(e,t,null,n)}},{key:"bindRelease",value:function(e,t){return this.bind(e,null,t,preventRepeatByDefault)}},{key:"unbind",value:function(t,n,i){if(null!==t&&"function"!=typeof t||(i=n,n=t,t=null),t&&"object"===e(t)&&"number"==typeof t.length){for(var r=0;r<t.length;r+=1)this.unbind(t[r],n,i);return this}for(var s=0;s<this._listeners.length;s+=1){var o=this._listeners[s],a=!t&&!o.keyCombo||o.keyCombo&&o.keyCombo.isEqual(t),l=!n&&!i||!n&&!o.pressHandler||n===o.pressHandler,d=!n&&!i||!i&&!o.releaseHandler||i===o.releaseHandler;a&&l&&d&&(this._listeners.splice(s,1),s-=1)}return this}},{key:"removeListener",value:function(e,t,n){return this.unbind(e,t,n)}},{key:"off",value:function(e,t,n){return this.unbind(e,t,n)}},{key:"setContext",value:function(e){if(this._locale&&this.releaseAllKeys(),!this._contexts[e]){var t=this._contexts.global;this._contexts[e]={listeners:[],targetWindow:t.targetWindow,targetElement:t.targetElement,targetPlatform:t.targetPlatform,targetUserAgent:t.targetUserAgent}}var n=this._contexts[e];return this._currentContext=e,this._listeners=n.listeners,this.stop(),this.watch(n.targetWindow,n.targetElement,n.targetPlatform,n.targetUserAgent),this}},{key:"getContext",value:function(){return this._currentContext}},{key:"withContext",value:function(e,t){var n=this.getContext();return this.setContext(e),t(),this.setContext(n),this}},{key:"watch",value:function(e,t,n,i){var r=this;this.stop();var s="undefined"!=typeof globalThis?globalThis:"undefined"!=typeof global?global:"undefined"!=typeof window?window:{};if(!e){if(!s.addEventListener&&!s.attachEvent)throw new Error("Cannot find window functions addEventListener or attachEvent.");e=s}if("number"==typeof e.nodeType&&(i=n,n=t,t=e,e=s),!e.addEventListener&&!e.attachEvent)throw new Error("Cannot find addEventListener or attachEvent methods on targetWindow.");this._isModernBrowser=!!e.addEventListener;var o=e.navigator&&e.navigator.userAgent||"",a=e.navigator&&e.navigator.platform||"";t&&null!==t||(t=e.document),n&&null!==n||(n=a),i&&null!==i||(i=o),this._targetKeyDownBinding=function(e){r.pressKey(e.keyCode,e),r._handleCommandBug(e,a)},this._targetKeyUpBinding=function(e){r.releaseKey(e.keyCode,e)},this._targetResetBinding=function(e){r.releaseAllKeys(e)},this._bindEvent(t,"keydown",this._targetKeyDownBinding),this._bindEvent(t,"keyup",this._targetKeyUpBinding),this._bindEvent(e,"focus",this._targetResetBinding),this._bindEvent(e,"blur",this._targetResetBinding),this._targetElement=t,this._targetWindow=e,this._targetPlatform=n,this._targetUserAgent=i;var l=this._contexts[this._currentContext];return l.targetWindow=this._targetWindow,l.targetElement=this._targetElement,l.targetPlatform=this._targetPlatform,l.targetUserAgent=this._targetUserAgent,this}},{key:"stop",value:function(){if(this._targetElement&&this._targetWindow)return this._unbindEvent(this._targetElement,"keydown",this._targetKeyDownBinding),this._unbindEvent(this._targetElement,"keyup",this._targetKeyUpBinding),this._unbindEvent(this._targetWindow,"focus",this._targetResetBinding),this._unbindEvent(this._targetWindow,"blur",this._targetResetBinding),this._targetWindow=null,this._targetElement=null,this}},{key:"pressKey",value:function(e,t){if(this._paused)return this;if(!this._locale)throw new Error("Locale not set");return this._locale.pressKey(e),this._applyBindings(t),this}},{key:"releaseKey",value:function(e,t){if(this._paused)return this;if(!this._locale)throw new Error("Locale not set");return this._locale.releaseKey(e),this._clearBindings(t),this}},{key:"releaseAllKeys",value:function(e){if(this._paused)return this;if(!this._locale)throw new Error("Locale not set");return this._locale.pressedKeys.length=0,this._clearBindings(e),this}},{key:"pause",value:function(){return this._paused||(this._locale&&this.releaseAllKeys(),this._paused=!0),this}},{key:"resume",value:function(){return this._paused=!1,this}},{key:"reset",value:function(){return this.releaseAllKeys(),this._listeners.length=0,this}},{key:"_bindEvent",value:function(e,t,n){return this._isModernBrowser?e.addEventListener(t,n,!1):e.attachEvent("on"+t,n)}},{key:"_unbindEvent",value:function(e,t,n){return this._isModernBrowser?e.removeEventListener(t,n,!1):e.detachEvent("on"+t,n)}},{key:"_getGroupedListeners",value:function(){var e=[],t=[],n=this._listeners;return"global"!==this._currentContext&&(n=[].concat(r(n),r(this._contexts.global.listeners))),n.sort((function(e,t){return(t.keyCombo?t.keyCombo.keyNames.length:0)-(e.keyCombo?e.keyCombo.keyNames.length:0)})).forEach((function(n){for(var i=-1,r=0;r<t.length;r+=1)(null===t[r]&&null===n.keyCombo||null!==t[r]&&t[r].isEqual(n.keyCombo))&&(i=r);-1===i&&(i=t.length,t.push(n.keyCombo)),e[i]||(e[i]=[]),e[i].push(n)})),e}},{key:"_applyBindings",value:function(e){var t=this,n=!1;e||(e={}),e.preventRepeat=function(){n=!0},e.pressedKeys=this._locale.pressedKeys.slice(0);for(var i=this._locale.activeTargetKeys,r=this._locale.pressedKeys.slice(0),s=this._getGroupedListeners(),o=function(o){var a=s[o],l=a[0].keyCombo;if(null===l||l.check(r)&&i.some((function(e){return l.keyNames.includes(e)}))){for(var d=0;d<a.length;d+=1){var u=a[d];u.executingHandler||!u.pressHandler||u.preventRepeat||(u.executingHandler=!0,u.pressHandler.call(t,e),u.executingHandler=!1,(n||u.preventRepeatByDefault)&&(u.preventRepeat=!0,n=!1)),-1===t._appliedListeners.indexOf(u)&&t._appliedListeners.push(u)}if(l)for(var h=0;h<l.keyNames.length;h+=1){var c=r.indexOf(l.keyNames[h]);-1!==c&&(r.splice(c,1),h-=1)}}},a=0;a<s.length;a+=1)o(a)}},{key:"_clearBindings",value:function(e){e||(e={}),e.pressedKeys=this._locale.pressedKeys.slice(0);for(var t=0;t<this._appliedListeners.length;t+=1){var n=this._appliedListeners[t],i=n.keyCombo;null!==i&&i.check(this._locale.pressedKeys)||(n.preventRepeat=!1,null===i&&0!==e.pressedKeys.length||(this._appliedListeners.splice(t,1),t-=1),!n.executingHandler&&n.releaseHandler&&(n.executingHandler=!0,n.releaseHandler.call(this,e),n.executingHandler=!1))}}},{key:"_handleCommandBug",value:function(e,t){t.match("Mac")&&this._locale.pressedKeys.includes("command")&&!["shift","ctrl","alt","capslock","tab","command"].includes(this._locale.getKeyNames(e.keyCode)[0])&&this._targetKeyUpBinding(e)}}]),n}();var d=new l;return d.setLocale("us",(function(e,t,n){e.bindKeyCode(3,["cancel"]),e.bindKeyCode(8,["backspace"]),e.bindKeyCode(9,["tab"]),e.bindKeyCode(12,["clear"]),e.bindKeyCode(13,["enter"]),e.bindKeyCode(16,["shift"]),e.bindKeyCode(17,["ctrl"]),e.bindKeyCode(18,["alt","menu"]),e.bindKeyCode(19,["pause","break"]),e.bindKeyCode(20,["capslock"]),e.bindKeyCode(27,["escape","esc"]),e.bindKeyCode(32,["space","spacebar"]),e.bindKeyCode(33,["pageup"]),e.bindKeyCode(34,["pagedown"]),e.bindKeyCode(35,["end"]),e.bindKeyCode(36,["home"]),e.bindKeyCode(37,["left"]),e.bindKeyCode(38,["up"]),e.bindKeyCode(39,["right"]),e.bindKeyCode(40,["down"]),e.bindKeyCode(41,["select"]),e.bindKeyCode(42,["printscreen"]),e.bindKeyCode(43,["execute"]),e.bindKeyCode(44,["snapshot"]),e.bindKeyCode(45,["insert","ins"]),e.bindKeyCode(46,["delete","del"]),e.bindKeyCode(47,["help"]),e.bindKeyCode(145,["scrolllock","scroll"]),e.bindKeyCode(188,["comma",","]),e.bindKeyCode(190,["period","."]),e.bindKeyCode(191,["slash","forwardslash","/"]),e.bindKeyCode(192,["graveaccent","`"]),e.bindKeyCode(219,["openbracket","["]),e.bindKeyCode(220,["backslash","\\"]),e.bindKeyCode(221,["closebracket","]"]),e.bindKeyCode(222,["apostrophe","'"]),e.bindKeyCode(48,["zero","0"]),e.bindKeyCode(49,["one","1"]),e.bindKeyCode(50,["two","2"]),e.bindKeyCode(51,["three","3"]),e.bindKeyCode(52,["four","4"]),e.bindKeyCode(53,["five","5"]),e.bindKeyCode(54,["six","6"]),e.bindKeyCode(55,["seven","7"]),e.bindKeyCode(56,["eight","8"]),e.bindKeyCode(57,["nine","9"]),e.bindKeyCode(96,["numzero","num0"]),e.bindKeyCode(97,["numone","num1"]),e.bindKeyCode(98,["numtwo","num2"]),e.bindKeyCode(99,["numthree","num3"]),e.bindKeyCode(100,["numfour","num4"]),e.bindKeyCode(101,["numfive","num5"]),e.bindKeyCode(102,["numsix","num6"]),e.bindKeyCode(103,["numseven","num7"]),e.bindKeyCode(104,["numeight","num8"]),e.bindKeyCode(105,["numnine","num9"]),e.bindKeyCode(106,["nummultiply","num*"]),e.bindKeyCode(107,["numadd","num+"]),e.bindKeyCode(108,["numenter"]),e.bindKeyCode(109,["numsubtract","num-"]),e.bindKeyCode(110,["numdecimal","num."]),e.bindKeyCode(111,["numdivide","num/"]),e.bindKeyCode(144,["numlock","num"]),e.bindKeyCode(112,["f1"]),e.bindKeyCode(113,["f2"]),e.bindKeyCode(114,["f3"]),e.bindKeyCode(115,["f4"]),e.bindKeyCode(116,["f5"]),e.bindKeyCode(117,["f6"]),e.bindKeyCode(118,["f7"]),e.bindKeyCode(119,["f8"]),e.bindKeyCode(120,["f9"]),e.bindKeyCode(121,["f10"]),e.bindKeyCode(122,["f11"]),e.bindKeyCode(123,["f12"]),e.bindKeyCode(124,["f13"]),e.bindKeyCode(125,["f14"]),e.bindKeyCode(126,["f15"]),e.bindKeyCode(127,["f16"]),e.bindKeyCode(128,["f17"]),e.bindKeyCode(129,["f18"]),e.bindKeyCode(130,["f19"]),e.bindKeyCode(131,["f20"]),e.bindKeyCode(132,["f21"]),e.bindKeyCode(133,["f22"]),e.bindKeyCode(134,["f23"]),e.bindKeyCode(135,["f24"]),e.bindMacro("shift + `",["tilde","~"]),e.bindMacro("shift + 1",["exclamation","exclamationpoint","!"]),e.bindMacro("shift + 2",["at","@"]),e.bindMacro("shift + 3",["number","#"]),e.bindMacro("shift + 4",["dollar","dollars","dollarsign","$"]),e.bindMacro("shift + 5",["percent","%"]),e.bindMacro("shift + 6",["caret","^"]),e.bindMacro("shift + 7",["ampersand","and","&"]),e.bindMacro("shift + 8",["asterisk","*"]),e.bindMacro("shift + 9",["openparen","("]),e.bindMacro("shift + 0",["closeparen",")"]),e.bindMacro("shift + -",["underscore","_"]),e.bindMacro("shift + =",["plus","+"]),e.bindMacro("shift + [",["opencurlybrace","opencurlybracket","{"]),e.bindMacro("shift + ]",["closecurlybrace","closecurlybracket","}"]),e.bindMacro("shift + \\",["verticalbar","|"]),e.bindMacro("shift + ;",["colon",":"]),e.bindMacro("shift + '",["quotationmark","'"]),e.bindMacro("shift + !,",["openanglebracket","<"]),e.bindMacro("shift + .",["closeanglebracket",">"]),e.bindMacro("shift + /",["questionmark","?"]),t.match("Mac")?e.bindMacro("command",["mod","modifier"]):e.bindMacro("ctrl",["mod","modifier"]);for(var i=65;i<=90;i+=1){var r=String.fromCharCode(i+32),s=String.fromCharCode(i);e.bindKeyCode(i,r),e.bindMacro("shift + "+r,s),e.bindMacro("capslock + "+r,s)}var o,a,l=n.match("Firefox")?59:186,d=n.match("Firefox")?173:189,u=n.match("Firefox")?61:187;t.match("Mac")&&(n.match("Safari")||n.match("Chrome"))?(o=91,a=93):t.match("Mac")&&n.match("Opera")?(o=17,a=17):t.match("Mac")&&n.match("Firefox")&&(o=224,a=224),e.bindKeyCode(l,["semicolon",";"]),e.bindKeyCode(d,["dash","-"]),e.bindKeyCode(u,["equal","equalsign","="]),e.bindKeyCode(o,["command","windows","win","super","leftcommand","leftwindows","leftwin","leftsuper"]),e.bindKeyCode(a,["command","windows","win","super","rightcommand","rightwindows","rightwin","rightsuper"]),e.setKillKey("command")})),d.Keyboard=l,d.Locale=a,d.KeyCombo=o,d}));
 
 !function(t,e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&define.amd?define(e):(t="undefined"!=typeof globalThis?globalThis:t||self).dayjs=e()}(this,(function(){"use strict";var t=1e3,e=6e4,n=36e5,r="millisecond",i="second",s="minute",u="hour",a="day",o="week",f="month",h="quarter",c="year",d="date",$="Invalid Date",l=/^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[Tt\s]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/,y=/\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g,M={name:"en",weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_")},m=function(t,e,n){var r=String(t);return!r||r.length>=e?t:""+Array(e+1-r.length).join(n)+t},g={s:m,z:function(t){var e=-t.utcOffset(),n=Math.abs(e),r=Math.floor(n/60),i=n%60;return(e<=0?"+":"-")+m(r,2,"0")+":"+m(i,2,"0")},m:function t(e,n){if(e.date()<n.date())return-t(n,e);var r=12*(n.year()-e.year())+(n.month()-e.month()),i=e.clone().add(r,f),s=n-i<0,u=e.clone().add(r+(s?-1:1),f);return+(-(r+(n-i)/(s?i-u:u-i))||0)},a:function(t){return t<0?Math.ceil(t)||0:Math.floor(t)},p:function(t){return{M:f,y:c,w:o,d:a,D:d,h:u,m:s,s:i,ms:r,Q:h}[t]||String(t||"").toLowerCase().replace(/s$/,"")},u:function(t){return void 0===t}},D="en",v={};v[D]=M;var p=function(t){return t instanceof _},S=function(t,e,n){var r;if(!t)return D;if("string"==typeof t)v[t]&&(r=t),e&&(v[t]=e,r=t);else{var i=t.name;v[i]=t,r=i}return!n&&r&&(D=r),r||!n&&D},w=function(t,e){if(p(t))return t.clone();var n="object"==typeof e?e:{};return n.date=t,n.args=arguments,new _(n)},O=g;O.l=S,O.i=p,O.w=function(t,e){return w(t,{locale:e.$L,utc:e.$u,x:e.$x,$offset:e.$offset})};var _=function(){function M(t){this.$L=S(t.locale,null,!0),this.parse(t)}var m=M.prototype;return m.parse=function(t){this.$d=function(t){var e=t.date,n=t.utc;if(null===e)return new Date(NaN);if(O.u(e))return new Date;if(e instanceof Date)return new Date(e);if("string"==typeof e&&!/Z$/i.test(e)){var r=e.match(l);if(r){var i=r[2]-1||0,s=(r[7]||"0").substring(0,3);return n?new Date(Date.UTC(r[1],i,r[3]||1,r[4]||0,r[5]||0,r[6]||0,s)):new Date(r[1],i,r[3]||1,r[4]||0,r[5]||0,r[6]||0,s)}}return new Date(e)}(t),this.$x=t.x||{},this.init()},m.init=function(){var t=this.$d;this.$y=t.getFullYear(),this.$M=t.getMonth(),this.$D=t.getDate(),this.$W=t.getDay(),this.$H=t.getHours(),this.$m=t.getMinutes(),this.$s=t.getSeconds(),this.$ms=t.getMilliseconds()},m.$utils=function(){return O},m.isValid=function(){return!(this.$d.toString()===$)},m.isSame=function(t,e){var n=w(t);return this.startOf(e)<=n&&n<=this.endOf(e)},m.isAfter=function(t,e){return w(t)<this.startOf(e)},m.isBefore=function(t,e){return this.endOf(e)<w(t)},m.$g=function(t,e,n){return O.u(t)?this[e]:this.set(n,t)},m.unix=function(){return Math.floor(this.valueOf()/1e3)},m.valueOf=function(){return this.$d.getTime()},m.startOf=function(t,e){var n=this,r=!!O.u(e)||e,h=O.p(t),$=function(t,e){var i=O.w(n.$u?Date.UTC(n.$y,e,t):new Date(n.$y,e,t),n);return r?i:i.endOf(a)},l=function(t,e){return O.w(n.toDate()[t].apply(n.toDate("s"),(r?[0,0,0,0]:[23,59,59,999]).slice(e)),n)},y=this.$W,M=this.$M,m=this.$D,g="set"+(this.$u?"UTC":"");switch(h){case c:return r?$(1,0):$(31,11);case f:return r?$(1,M):$(0,M+1);case o:var D=this.$locale().weekStart||0,v=(y<D?y+7:y)-D;return $(r?m-v:m+(6-v),M);case a:case d:return l(g+"Hours",0);case u:return l(g+"Minutes",1);case s:return l(g+"Seconds",2);case i:return l(g+"Milliseconds",3);default:return this.clone()}},m.endOf=function(t){return this.startOf(t,!1)},m.$set=function(t,e){var n,o=O.p(t),h="set"+(this.$u?"UTC":""),$=(n={},n[a]=h+"Date",n[d]=h+"Date",n[f]=h+"Month",n[c]=h+"FullYear",n[u]=h+"Hours",n[s]=h+"Minutes",n[i]=h+"Seconds",n[r]=h+"Milliseconds",n)[o],l=o===a?this.$D+(e-this.$W):e;if(o===f||o===c){var y=this.clone().set(d,1);y.$d[$](l),y.init(),this.$d=y.set(d,Math.min(this.$D,y.daysInMonth())).$d}else $&&this.$d[$](l);return this.init(),this},m.set=function(t,e){return this.clone().$set(t,e)},m.get=function(t){return this[O.p(t)]()},m.add=function(r,h){var d,$=this;r=Number(r);var l=O.p(h),y=function(t){var e=w($);return O.w(e.date(e.date()+Math.round(t*r)),$)};if(l===f)return this.set(f,this.$M+r);if(l===c)return this.set(c,this.$y+r);if(l===a)return y(1);if(l===o)return y(7);var M=(d={},d[s]=e,d[u]=n,d[i]=t,d)[l]||1,m=this.$d.getTime()+r*M;return O.w(m,this)},m.subtract=function(t,e){return this.add(-1*t,e)},m.format=function(t){var e=this,n=this.$locale();if(!this.isValid())return n.invalidDate||$;var r=t||"YYYY-MM-DDTHH:mm:ssZ",i=O.z(this),s=this.$H,u=this.$m,a=this.$M,o=n.weekdays,f=n.months,h=function(t,n,i,s){return t&&(t[n]||t(e,r))||i[n].substr(0,s)},c=function(t){return O.s(s%12||12,t,"0")},d=n.meridiem||function(t,e,n){var r=t<12?"AM":"PM";return n?r.toLowerCase():r},l={YY:String(this.$y).slice(-2),YYYY:this.$y,M:a+1,MM:O.s(a+1,2,"0"),MMM:h(n.monthsShort,a,f,3),MMMM:h(f,a),D:this.$D,DD:O.s(this.$D,2,"0"),d:String(this.$W),dd:h(n.weekdaysMin,this.$W,o,2),ddd:h(n.weekdaysShort,this.$W,o,3),dddd:o[this.$W],H:String(s),HH:O.s(s,2,"0"),h:c(1),hh:c(2),a:d(s,u,!0),A:d(s,u,!1),m:String(u),mm:O.s(u,2,"0"),s:String(this.$s),ss:O.s(this.$s,2,"0"),SSS:O.s(this.$ms,3,"0"),Z:i};return r.replace(y,(function(t,e){return e||l[t]||i.replace(":","")}))},m.utcOffset=function(){return 15*-Math.round(this.$d.getTimezoneOffset()/15)},m.diff=function(r,d,$){var l,y=O.p(d),M=w(r),m=(M.utcOffset()-this.utcOffset())*e,g=this-M,D=O.m(this,M);return D=(l={},l[c]=D/12,l[f]=D,l[h]=D/3,l[o]=(g-m)/6048e5,l[a]=(g-m)/864e5,l[u]=g/n,l[s]=g/e,l[i]=g/t,l)[y]||g,$?D:O.a(D)},m.daysInMonth=function(){return this.endOf(f).$D},m.$locale=function(){return v[this.$L]},m.locale=function(t,e){if(!t)return this.$L;var n=this.clone(),r=S(t,e,!0);return r&&(n.$L=r),n},m.clone=function(){return O.w(this.$d,this)},m.toDate=function(){return new Date(this.valueOf())},m.toJSON=function(){return this.isValid()?this.toISOString():null},m.toISOString=function(){return this.$d.toISOString()},m.toString=function(){return this.$d.toUTCString()},M}(),b=_.prototype;return w.prototype=b,[["$ms",r],["$s",i],["$m",s],["$H",u],["$W",a],["$M",f],["$y",c],["$D",d]].forEach((function(t){b[t[1]]=function(e){return this.$g(e,t[0],t[1])}})),w.extend=function(t,e){return t.$i||(t(e,_,w),t.$i=!0),w},w.locale=S,w.isDayjs=p,w.unix=function(t){return w(1e3*t)},w.en=v[D],w.Ls=v,w.p={},w}));
+!function(t){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=t();else if("function"==typeof define&&define.amd)define([],t);else{("undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this).buffer=t()}}(function(){return function(){return function t(r,e,n){function i(f,u){if(!e[f]){if(!r[f]){var s="function"==typeof require&&require;if(!u&&s)return s(f,!0);if(o)return o(f,!0);var h=new Error("Cannot find module '"+f+"'");throw h.code="MODULE_NOT_FOUND",h}var a=e[f]={exports:{}};r[f][0].call(a.exports,function(t){return i(r[f][1][t]||t)},a,a.exports,t,r,e,n)}return e[f].exports}for(var o="function"==typeof require&&require,f=0;f<n.length;f++)i(n[f]);return i}}()({1:[function(t,r,e){"use strict";e.byteLength=function(t){var r=h(t),e=r[0],n=r[1];return 3*(e+n)/4-n},e.toByteArray=function(t){var r,e,n=h(t),f=n[0],u=n[1],s=new o(function(t,r,e){return 3*(r+e)/4-e}(0,f,u)),a=0,c=u>0?f-4:f;for(e=0;e<c;e+=4)r=i[t.charCodeAt(e)]<<18|i[t.charCodeAt(e+1)]<<12|i[t.charCodeAt(e+2)]<<6|i[t.charCodeAt(e+3)],s[a++]=r>>16&255,s[a++]=r>>8&255,s[a++]=255&r;2===u&&(r=i[t.charCodeAt(e)]<<2|i[t.charCodeAt(e+1)]>>4,s[a++]=255&r);1===u&&(r=i[t.charCodeAt(e)]<<10|i[t.charCodeAt(e+1)]<<4|i[t.charCodeAt(e+2)]>>2,s[a++]=r>>8&255,s[a++]=255&r);return s},e.fromByteArray=function(t){for(var r,e=t.length,i=e%3,o=[],f=0,u=e-i;f<u;f+=16383)o.push(a(t,f,f+16383>u?u:f+16383));1===i?(r=t[e-1],o.push(n[r>>2]+n[r<<4&63]+"==")):2===i&&(r=(t[e-2]<<8)+t[e-1],o.push(n[r>>10]+n[r>>4&63]+n[r<<2&63]+"="));return o.join("")};for(var n=[],i=[],o="undefined"!=typeof Uint8Array?Uint8Array:Array,f="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",u=0,s=f.length;u<s;++u)n[u]=f[u],i[f.charCodeAt(u)]=u;function h(t){var r=t.length;if(r%4>0)throw new Error("Invalid string. Length must be a multiple of 4");var e=t.indexOf("=");return-1===e&&(e=r),[e,e===r?0:4-e%4]}function a(t,r,e){for(var i,o,f=[],u=r;u<e;u+=3)i=(t[u]<<16&16711680)+(t[u+1]<<8&65280)+(255&t[u+2]),f.push(n[(o=i)>>18&63]+n[o>>12&63]+n[o>>6&63]+n[63&o]);return f.join("")}i["-".charCodeAt(0)]=62,i["_".charCodeAt(0)]=63},{}],2:[function(t,r,e){(function(r){"use strict";var n=t("base64-js"),i=t("ieee754");e.Buffer=r,e.SlowBuffer=function(t){+t!=t&&(t=0);return r.alloc(+t)},e.INSPECT_MAX_BYTES=50;var o=2147483647;function f(t){if(t>o)throw new RangeError('The value "'+t+'" is invalid for option "size"');var e=new Uint8Array(t);return e.__proto__=r.prototype,e}function r(t,r,e){if("number"==typeof t){if("string"==typeof r)throw new TypeError('The "string" argument must be of type string. Received type number');return h(t)}return u(t,r,e)}function u(t,e,n){if("string"==typeof t)return function(t,e){"string"==typeof e&&""!==e||(e="utf8");if(!r.isEncoding(e))throw new TypeError("Unknown encoding: "+e);var n=0|p(t,e),i=f(n),o=i.write(t,e);o!==n&&(i=i.slice(0,o));return i}(t,e);if(ArrayBuffer.isView(t))return a(t);if(null==t)throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type "+typeof t);if(j(t,ArrayBuffer)||t&&j(t.buffer,ArrayBuffer))return function(t,e,n){if(e<0||t.byteLength<e)throw new RangeError('"offset" is outside of buffer bounds');if(t.byteLength<e+(n||0))throw new RangeError('"length" is outside of buffer bounds');var i;i=void 0===e&&void 0===n?new Uint8Array(t):void 0===n?new Uint8Array(t,e):new Uint8Array(t,e,n);return i.__proto__=r.prototype,i}(t,e,n);if("number"==typeof t)throw new TypeError('The "value" argument must not be of type number. Received type number');var i=t.valueOf&&t.valueOf();if(null!=i&&i!==t)return r.from(i,e,n);var o=function(t){if(r.isBuffer(t)){var e=0|c(t.length),n=f(e);return 0===n.length?n:(t.copy(n,0,0,e),n)}if(void 0!==t.length)return"number"!=typeof t.length||F(t.length)?f(0):a(t);if("Buffer"===t.type&&Array.isArray(t.data))return a(t.data)}(t);if(o)return o;if("undefined"!=typeof Symbol&&null!=Symbol.toPrimitive&&"function"==typeof t[Symbol.toPrimitive])return r.from(t[Symbol.toPrimitive]("string"),e,n);throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type "+typeof t)}function s(t){if("number"!=typeof t)throw new TypeError('"size" argument must be of type number');if(t<0)throw new RangeError('The value "'+t+'" is invalid for option "size"')}function h(t){return s(t),f(t<0?0:0|c(t))}function a(t){for(var r=t.length<0?0:0|c(t.length),e=f(r),n=0;n<r;n+=1)e[n]=255&t[n];return e}function c(t){if(t>=o)throw new RangeError("Attempt to allocate Buffer larger than maximum size: 0x"+o.toString(16)+" bytes");return 0|t}function p(t,e){if(r.isBuffer(t))return t.length;if(ArrayBuffer.isView(t)||j(t,ArrayBuffer))return t.byteLength;if("string"!=typeof t)throw new TypeError('The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type '+typeof t);var n=t.length,i=arguments.length>2&&!0===arguments[2];if(!i&&0===n)return 0;for(var o=!1;;)switch(e){case"ascii":case"latin1":case"binary":return n;case"utf8":case"utf-8":return P(t).length;case"ucs2":case"ucs-2":case"utf16le":case"utf-16le":return 2*n;case"hex":return n>>>1;case"base64":return k(t).length;default:if(o)return i?-1:P(t).length;e=(""+e).toLowerCase(),o=!0}}function l(t,r,e){var n=t[r];t[r]=t[e],t[e]=n}function y(t,e,n,i,o){if(0===t.length)return-1;if("string"==typeof n?(i=n,n=0):n>2147483647?n=2147483647:n<-2147483648&&(n=-2147483648),F(n=+n)&&(n=o?0:t.length-1),n<0&&(n=t.length+n),n>=t.length){if(o)return-1;n=t.length-1}else if(n<0){if(!o)return-1;n=0}if("string"==typeof e&&(e=r.from(e,i)),r.isBuffer(e))return 0===e.length?-1:g(t,e,n,i,o);if("number"==typeof e)return e&=255,"function"==typeof Uint8Array.prototype.indexOf?o?Uint8Array.prototype.indexOf.call(t,e,n):Uint8Array.prototype.lastIndexOf.call(t,e,n):g(t,[e],n,i,o);throw new TypeError("val must be string, number or Buffer")}function g(t,r,e,n,i){var o,f=1,u=t.length,s=r.length;if(void 0!==n&&("ucs2"===(n=String(n).toLowerCase())||"ucs-2"===n||"utf16le"===n||"utf-16le"===n)){if(t.length<2||r.length<2)return-1;f=2,u/=2,s/=2,e/=2}function h(t,r){return 1===f?t[r]:t.readUInt16BE(r*f)}if(i){var a=-1;for(o=e;o<u;o++)if(h(t,o)===h(r,-1===a?0:o-a)){if(-1===a&&(a=o),o-a+1===s)return a*f}else-1!==a&&(o-=o-a),a=-1}else for(e+s>u&&(e=u-s),o=e;o>=0;o--){for(var c=!0,p=0;p<s;p++)if(h(t,o+p)!==h(r,p)){c=!1;break}if(c)return o}return-1}function w(t,r,e,n){e=Number(e)||0;var i=t.length-e;n?(n=Number(n))>i&&(n=i):n=i;var o=r.length;n>o/2&&(n=o/2);for(var f=0;f<n;++f){var u=parseInt(r.substr(2*f,2),16);if(F(u))return f;t[e+f]=u}return f}function d(t,r,e,n){return $(P(r,t.length-e),t,e,n)}function b(t,r,e,n){return $(function(t){for(var r=[],e=0;e<t.length;++e)r.push(255&t.charCodeAt(e));return r}(r),t,e,n)}function m(t,r,e,n){return b(t,r,e,n)}function E(t,r,e,n){return $(k(r),t,e,n)}function v(t,r,e,n){return $(function(t,r){for(var e,n,i,o=[],f=0;f<t.length&&!((r-=2)<0);++f)e=t.charCodeAt(f),n=e>>8,i=e%256,o.push(i),o.push(n);return o}(r,t.length-e),t,e,n)}function B(t,r,e){return 0===r&&e===t.length?n.fromByteArray(t):n.fromByteArray(t.slice(r,e))}function A(t,r,e){e=Math.min(t.length,e);for(var n=[],i=r;i<e;){var o,f,u,s,h=t[i],a=null,c=h>239?4:h>223?3:h>191?2:1;if(i+c<=e)switch(c){case 1:h<128&&(a=h);break;case 2:128==(192&(o=t[i+1]))&&(s=(31&h)<<6|63&o)>127&&(a=s);break;case 3:o=t[i+1],f=t[i+2],128==(192&o)&&128==(192&f)&&(s=(15&h)<<12|(63&o)<<6|63&f)>2047&&(s<55296||s>57343)&&(a=s);break;case 4:o=t[i+1],f=t[i+2],u=t[i+3],128==(192&o)&&128==(192&f)&&128==(192&u)&&(s=(15&h)<<18|(63&o)<<12|(63&f)<<6|63&u)>65535&&s<1114112&&(a=s)}null===a?(a=65533,c=1):a>65535&&(a-=65536,n.push(a>>>10&1023|55296),a=56320|1023&a),n.push(a),i+=c}return function(t){var r=t.length;if(r<=I)return String.fromCharCode.apply(String,t);var e="",n=0;for(;n<r;)e+=String.fromCharCode.apply(String,t.slice(n,n+=I));return e}(n)}e.kMaxLength=o,r.TYPED_ARRAY_SUPPORT=function(){try{var t=new Uint8Array(1);return t.__proto__={__proto__:Uint8Array.prototype,foo:function(){return 42}},42===t.foo()}catch(t){return!1}}(),r.TYPED_ARRAY_SUPPORT||"undefined"==typeof console||"function"!=typeof console.error||console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."),Object.defineProperty(r.prototype,"parent",{enumerable:!0,get:function(){if(r.isBuffer(this))return this.buffer}}),Object.defineProperty(r.prototype,"offset",{enumerable:!0,get:function(){if(r.isBuffer(this))return this.byteOffset}}),"undefined"!=typeof Symbol&&null!=Symbol.species&&r[Symbol.species]===r&&Object.defineProperty(r,Symbol.species,{value:null,configurable:!0,enumerable:!1,writable:!1}),r.poolSize=8192,r.from=function(t,r,e){return u(t,r,e)},r.prototype.__proto__=Uint8Array.prototype,r.__proto__=Uint8Array,r.alloc=function(t,r,e){return function(t,r,e){return s(t),t<=0?f(t):void 0!==r?"string"==typeof e?f(t).fill(r,e):f(t).fill(r):f(t)}(t,r,e)},r.allocUnsafe=function(t){return h(t)},r.allocUnsafeSlow=function(t){return h(t)},r.isBuffer=function(t){return null!=t&&!0===t._isBuffer&&t!==r.prototype},r.compare=function(t,e){if(j(t,Uint8Array)&&(t=r.from(t,t.offset,t.byteLength)),j(e,Uint8Array)&&(e=r.from(e,e.offset,e.byteLength)),!r.isBuffer(t)||!r.isBuffer(e))throw new TypeError('The "buf1", "buf2" arguments must be one of type Buffer or Uint8Array');if(t===e)return 0;for(var n=t.length,i=e.length,o=0,f=Math.min(n,i);o<f;++o)if(t[o]!==e[o]){n=t[o],i=e[o];break}return n<i?-1:i<n?1:0},r.isEncoding=function(t){switch(String(t).toLowerCase()){case"hex":case"utf8":case"utf-8":case"ascii":case"latin1":case"binary":case"base64":case"ucs2":case"ucs-2":case"utf16le":case"utf-16le":return!0;default:return!1}},r.concat=function(t,e){if(!Array.isArray(t))throw new TypeError('"list" argument must be an Array of Buffers');if(0===t.length)return r.alloc(0);var n;if(void 0===e)for(e=0,n=0;n<t.length;++n)e+=t[n].length;var i=r.allocUnsafe(e),o=0;for(n=0;n<t.length;++n){var f=t[n];if(j(f,Uint8Array)&&(f=r.from(f)),!r.isBuffer(f))throw new TypeError('"list" argument must be an Array of Buffers');f.copy(i,o),o+=f.length}return i},r.byteLength=p,r.prototype._isBuffer=!0,r.prototype.swap16=function(){var t=this.length;if(t%2!=0)throw new RangeError("Buffer size must be a multiple of 16-bits");for(var r=0;r<t;r+=2)l(this,r,r+1);return this},r.prototype.swap32=function(){var t=this.length;if(t%4!=0)throw new RangeError("Buffer size must be a multiple of 32-bits");for(var r=0;r<t;r+=4)l(this,r,r+3),l(this,r+1,r+2);return this},r.prototype.swap64=function(){var t=this.length;if(t%8!=0)throw new RangeError("Buffer size must be a multiple of 64-bits");for(var r=0;r<t;r+=8)l(this,r,r+7),l(this,r+1,r+6),l(this,r+2,r+5),l(this,r+3,r+4);return this},r.prototype.toString=function(){var t=this.length;return 0===t?"":0===arguments.length?A(this,0,t):function(t,r,e){var n=!1;if((void 0===r||r<0)&&(r=0),r>this.length)return"";if((void 0===e||e>this.length)&&(e=this.length),e<=0)return"";if((e>>>=0)<=(r>>>=0))return"";for(t||(t="utf8");;)switch(t){case"hex":return T(this,r,e);case"utf8":case"utf-8":return A(this,r,e);case"ascii":return U(this,r,e);case"latin1":case"binary":return R(this,r,e);case"base64":return B(this,r,e);case"ucs2":case"ucs-2":case"utf16le":case"utf-16le":return _(this,r,e);default:if(n)throw new TypeError("Unknown encoding: "+t);t=(t+"").toLowerCase(),n=!0}}.apply(this,arguments)},r.prototype.toLocaleString=r.prototype.toString,r.prototype.equals=function(t){if(!r.isBuffer(t))throw new TypeError("Argument must be a Buffer");return this===t||0===r.compare(this,t)},r.prototype.inspect=function(){var t="",r=e.INSPECT_MAX_BYTES;return t=this.toString("hex",0,r).replace(/(.{2})/g,"$1 ").trim(),this.length>r&&(t+=" ... "),"<Buffer "+t+">"},r.prototype.compare=function(t,e,n,i,o){if(j(t,Uint8Array)&&(t=r.from(t,t.offset,t.byteLength)),!r.isBuffer(t))throw new TypeError('The "target" argument must be one of type Buffer or Uint8Array. Received type '+typeof t);if(void 0===e&&(e=0),void 0===n&&(n=t?t.length:0),void 0===i&&(i=0),void 0===o&&(o=this.length),e<0||n>t.length||i<0||o>this.length)throw new RangeError("out of range index");if(i>=o&&e>=n)return 0;if(i>=o)return-1;if(e>=n)return 1;if(this===t)return 0;for(var f=(o>>>=0)-(i>>>=0),u=(n>>>=0)-(e>>>=0),s=Math.min(f,u),h=this.slice(i,o),a=t.slice(e,n),c=0;c<s;++c)if(h[c]!==a[c]){f=h[c],u=a[c];break}return f<u?-1:u<f?1:0},r.prototype.includes=function(t,r,e){return-1!==this.indexOf(t,r,e)},r.prototype.indexOf=function(t,r,e){return y(this,t,r,e,!0)},r.prototype.lastIndexOf=function(t,r,e){return y(this,t,r,e,!1)},r.prototype.write=function(t,r,e,n){if(void 0===r)n="utf8",e=this.length,r=0;else if(void 0===e&&"string"==typeof r)n=r,e=this.length,r=0;else{if(!isFinite(r))throw new Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");r>>>=0,isFinite(e)?(e>>>=0,void 0===n&&(n="utf8")):(n=e,e=void 0)}var i=this.length-r;if((void 0===e||e>i)&&(e=i),t.length>0&&(e<0||r<0)||r>this.length)throw new RangeError("Attempt to write outside buffer bounds");n||(n="utf8");for(var o=!1;;)switch(n){case"hex":return w(this,t,r,e);case"utf8":case"utf-8":return d(this,t,r,e);case"ascii":return b(this,t,r,e);case"latin1":case"binary":return m(this,t,r,e);case"base64":return E(this,t,r,e);case"ucs2":case"ucs-2":case"utf16le":case"utf-16le":return v(this,t,r,e);default:if(o)throw new TypeError("Unknown encoding: "+n);n=(""+n).toLowerCase(),o=!0}},r.prototype.toJSON=function(){return{type:"Buffer",data:Array.prototype.slice.call(this._arr||this,0)}};var I=4096;function U(t,r,e){var n="";e=Math.min(t.length,e);for(var i=r;i<e;++i)n+=String.fromCharCode(127&t[i]);return n}function R(t,r,e){var n="";e=Math.min(t.length,e);for(var i=r;i<e;++i)n+=String.fromCharCode(t[i]);return n}function T(t,r,e){var n=t.length;(!r||r<0)&&(r=0),(!e||e<0||e>n)&&(e=n);for(var i="",o=r;o<e;++o)i+=N(t[o]);return i}function _(t,r,e){for(var n=t.slice(r,e),i="",o=0;o<n.length;o+=2)i+=String.fromCharCode(n[o]+256*n[o+1]);return i}function L(t,r,e){if(t%1!=0||t<0)throw new RangeError("offset is not uint");if(t+r>e)throw new RangeError("Trying to access beyond buffer length")}function S(t,e,n,i,o,f){if(!r.isBuffer(t))throw new TypeError('"buffer" argument must be a Buffer instance');if(e>o||e<f)throw new RangeError('"value" argument is out of bounds');if(n+i>t.length)throw new RangeError("Index out of range")}function O(t,r,e,n,i,o){if(e+n>t.length)throw new RangeError("Index out of range");if(e<0)throw new RangeError("Index out of range")}function C(t,r,e,n,o){return r=+r,e>>>=0,o||O(t,0,e,4),i.write(t,r,e,n,23,4),e+4}function x(t,r,e,n,o){return r=+r,e>>>=0,o||O(t,0,e,8),i.write(t,r,e,n,52,8),e+8}r.prototype.slice=function(t,e){var n=this.length;(t=~~t)<0?(t+=n)<0&&(t=0):t>n&&(t=n),(e=void 0===e?n:~~e)<0?(e+=n)<0&&(e=0):e>n&&(e=n),e<t&&(e=t);var i=this.subarray(t,e);return i.__proto__=r.prototype,i},r.prototype.readUIntLE=function(t,r,e){t>>>=0,r>>>=0,e||L(t,r,this.length);for(var n=this[t],i=1,o=0;++o<r&&(i*=256);)n+=this[t+o]*i;return n},r.prototype.readUIntBE=function(t,r,e){t>>>=0,r>>>=0,e||L(t,r,this.length);for(var n=this[t+--r],i=1;r>0&&(i*=256);)n+=this[t+--r]*i;return n},r.prototype.readUInt8=function(t,r){return t>>>=0,r||L(t,1,this.length),this[t]},r.prototype.readUInt16LE=function(t,r){return t>>>=0,r||L(t,2,this.length),this[t]|this[t+1]<<8},r.prototype.readUInt16BE=function(t,r){return t>>>=0,r||L(t,2,this.length),this[t]<<8|this[t+1]},r.prototype.readUInt32LE=function(t,r){return t>>>=0,r||L(t,4,this.length),(this[t]|this[t+1]<<8|this[t+2]<<16)+16777216*this[t+3]},r.prototype.readUInt32BE=function(t,r){return t>>>=0,r||L(t,4,this.length),16777216*this[t]+(this[t+1]<<16|this[t+2]<<8|this[t+3])},r.prototype.readIntLE=function(t,r,e){t>>>=0,r>>>=0,e||L(t,r,this.length);for(var n=this[t],i=1,o=0;++o<r&&(i*=256);)n+=this[t+o]*i;return n>=(i*=128)&&(n-=Math.pow(2,8*r)),n},r.prototype.readIntBE=function(t,r,e){t>>>=0,r>>>=0,e||L(t,r,this.length);for(var n=r,i=1,o=this[t+--n];n>0&&(i*=256);)o+=this[t+--n]*i;return o>=(i*=128)&&(o-=Math.pow(2,8*r)),o},r.prototype.readInt8=function(t,r){return t>>>=0,r||L(t,1,this.length),128&this[t]?-1*(255-this[t]+1):this[t]},r.prototype.readInt16LE=function(t,r){t>>>=0,r||L(t,2,this.length);var e=this[t]|this[t+1]<<8;return 32768&e?4294901760|e:e},r.prototype.readInt16BE=function(t,r){t>>>=0,r||L(t,2,this.length);var e=this[t+1]|this[t]<<8;return 32768&e?4294901760|e:e},r.prototype.readInt32LE=function(t,r){return t>>>=0,r||L(t,4,this.length),this[t]|this[t+1]<<8|this[t+2]<<16|this[t+3]<<24},r.prototype.readInt32BE=function(t,r){return t>>>=0,r||L(t,4,this.length),this[t]<<24|this[t+1]<<16|this[t+2]<<8|this[t+3]},r.prototype.readFloatLE=function(t,r){return t>>>=0,r||L(t,4,this.length),i.read(this,t,!0,23,4)},r.prototype.readFloatBE=function(t,r){return t>>>=0,r||L(t,4,this.length),i.read(this,t,!1,23,4)},r.prototype.readDoubleLE=function(t,r){return t>>>=0,r||L(t,8,this.length),i.read(this,t,!0,52,8)},r.prototype.readDoubleBE=function(t,r){return t>>>=0,r||L(t,8,this.length),i.read(this,t,!1,52,8)},r.prototype.writeUIntLE=function(t,r,e,n){(t=+t,r>>>=0,e>>>=0,n)||S(this,t,r,e,Math.pow(2,8*e)-1,0);var i=1,o=0;for(this[r]=255&t;++o<e&&(i*=256);)this[r+o]=t/i&255;return r+e},r.prototype.writeUIntBE=function(t,r,e,n){(t=+t,r>>>=0,e>>>=0,n)||S(this,t,r,e,Math.pow(2,8*e)-1,0);var i=e-1,o=1;for(this[r+i]=255&t;--i>=0&&(o*=256);)this[r+i]=t/o&255;return r+e},r.prototype.writeUInt8=function(t,r,e){return t=+t,r>>>=0,e||S(this,t,r,1,255,0),this[r]=255&t,r+1},r.prototype.writeUInt16LE=function(t,r,e){return t=+t,r>>>=0,e||S(this,t,r,2,65535,0),this[r]=255&t,this[r+1]=t>>>8,r+2},r.prototype.writeUInt16BE=function(t,r,e){return t=+t,r>>>=0,e||S(this,t,r,2,65535,0),this[r]=t>>>8,this[r+1]=255&t,r+2},r.prototype.writeUInt32LE=function(t,r,e){return t=+t,r>>>=0,e||S(this,t,r,4,4294967295,0),this[r+3]=t>>>24,this[r+2]=t>>>16,this[r+1]=t>>>8,this[r]=255&t,r+4},r.prototype.writeUInt32BE=function(t,r,e){return t=+t,r>>>=0,e||S(this,t,r,4,4294967295,0),this[r]=t>>>24,this[r+1]=t>>>16,this[r+2]=t>>>8,this[r+3]=255&t,r+4},r.prototype.writeIntLE=function(t,r,e,n){if(t=+t,r>>>=0,!n){var i=Math.pow(2,8*e-1);S(this,t,r,e,i-1,-i)}var o=0,f=1,u=0;for(this[r]=255&t;++o<e&&(f*=256);)t<0&&0===u&&0!==this[r+o-1]&&(u=1),this[r+o]=(t/f>>0)-u&255;return r+e},r.prototype.writeIntBE=function(t,r,e,n){if(t=+t,r>>>=0,!n){var i=Math.pow(2,8*e-1);S(this,t,r,e,i-1,-i)}var o=e-1,f=1,u=0;for(this[r+o]=255&t;--o>=0&&(f*=256);)t<0&&0===u&&0!==this[r+o+1]&&(u=1),this[r+o]=(t/f>>0)-u&255;return r+e},r.prototype.writeInt8=function(t,r,e){return t=+t,r>>>=0,e||S(this,t,r,1,127,-128),t<0&&(t=255+t+1),this[r]=255&t,r+1},r.prototype.writeInt16LE=function(t,r,e){return t=+t,r>>>=0,e||S(this,t,r,2,32767,-32768),this[r]=255&t,this[r+1]=t>>>8,r+2},r.prototype.writeInt16BE=function(t,r,e){return t=+t,r>>>=0,e||S(this,t,r,2,32767,-32768),this[r]=t>>>8,this[r+1]=255&t,r+2},r.prototype.writeInt32LE=function(t,r,e){return t=+t,r>>>=0,e||S(this,t,r,4,2147483647,-2147483648),this[r]=255&t,this[r+1]=t>>>8,this[r+2]=t>>>16,this[r+3]=t>>>24,r+4},r.prototype.writeInt32BE=function(t,r,e){return t=+t,r>>>=0,e||S(this,t,r,4,2147483647,-2147483648),t<0&&(t=4294967295+t+1),this[r]=t>>>24,this[r+1]=t>>>16,this[r+2]=t>>>8,this[r+3]=255&t,r+4},r.prototype.writeFloatLE=function(t,r,e){return C(this,t,r,!0,e)},r.prototype.writeFloatBE=function(t,r,e){return C(this,t,r,!1,e)},r.prototype.writeDoubleLE=function(t,r,e){return x(this,t,r,!0,e)},r.prototype.writeDoubleBE=function(t,r,e){return x(this,t,r,!1,e)},r.prototype.copy=function(t,e,n,i){if(!r.isBuffer(t))throw new TypeError("argument should be a Buffer");if(n||(n=0),i||0===i||(i=this.length),e>=t.length&&(e=t.length),e||(e=0),i>0&&i<n&&(i=n),i===n)return 0;if(0===t.length||0===this.length)return 0;if(e<0)throw new RangeError("targetStart out of bounds");if(n<0||n>=this.length)throw new RangeError("Index out of range");if(i<0)throw new RangeError("sourceEnd out of bounds");i>this.length&&(i=this.length),t.length-e<i-n&&(i=t.length-e+n);var o=i-n;if(this===t&&"function"==typeof Uint8Array.prototype.copyWithin)this.copyWithin(e,n,i);else if(this===t&&n<e&&e<i)for(var f=o-1;f>=0;--f)t[f+e]=this[f+n];else Uint8Array.prototype.set.call(t,this.subarray(n,i),e);return o},r.prototype.fill=function(t,e,n,i){if("string"==typeof t){if("string"==typeof e?(i=e,e=0,n=this.length):"string"==typeof n&&(i=n,n=this.length),void 0!==i&&"string"!=typeof i)throw new TypeError("encoding must be a string");if("string"==typeof i&&!r.isEncoding(i))throw new TypeError("Unknown encoding: "+i);if(1===t.length){var o=t.charCodeAt(0);("utf8"===i&&o<128||"latin1"===i)&&(t=o)}}else"number"==typeof t&&(t&=255);if(e<0||this.length<e||this.length<n)throw new RangeError("Out of range index");if(n<=e)return this;var f;if(e>>>=0,n=void 0===n?this.length:n>>>0,t||(t=0),"number"==typeof t)for(f=e;f<n;++f)this[f]=t;else{var u=r.isBuffer(t)?t:r.from(t,i),s=u.length;if(0===s)throw new TypeError('The value "'+t+'" is invalid for argument "value"');for(f=0;f<n-e;++f)this[f+e]=u[f%s]}return this};var M=/[^+\/0-9A-Za-z-_]/g;function N(t){return t<16?"0"+t.toString(16):t.toString(16)}function P(t,r){var e;r=r||1/0;for(var n=t.length,i=null,o=[],f=0;f<n;++f){if((e=t.charCodeAt(f))>55295&&e<57344){if(!i){if(e>56319){(r-=3)>-1&&o.push(239,191,189);continue}if(f+1===n){(r-=3)>-1&&o.push(239,191,189);continue}i=e;continue}if(e<56320){(r-=3)>-1&&o.push(239,191,189),i=e;continue}e=65536+(i-55296<<10|e-56320)}else i&&(r-=3)>-1&&o.push(239,191,189);if(i=null,e<128){if((r-=1)<0)break;o.push(e)}else if(e<2048){if((r-=2)<0)break;o.push(e>>6|192,63&e|128)}else if(e<65536){if((r-=3)<0)break;o.push(e>>12|224,e>>6&63|128,63&e|128)}else{if(!(e<1114112))throw new Error("Invalid code point");if((r-=4)<0)break;o.push(e>>18|240,e>>12&63|128,e>>6&63|128,63&e|128)}}return o}function k(t){return n.toByteArray(function(t){if((t=(t=t.split("=")[0]).trim().replace(M,"")).length<2)return"";for(;t.length%4!=0;)t+="=";return t}(t))}function $(t,r,e,n){for(var i=0;i<n&&!(i+e>=r.length||i>=t.length);++i)r[i+e]=t[i];return i}function j(t,r){return t instanceof r||null!=t&&null!=t.constructor&&null!=t.constructor.name&&t.constructor.name===r.name}function F(t){return t!=t}}).call(this,t("buffer").Buffer)},{"base64-js":1,buffer:2,ieee754:3}],3:[function(t,r,e){e.read=function(t,r,e,n,i){var o,f,u=8*i-n-1,s=(1<<u)-1,h=s>>1,a=-7,c=e?i-1:0,p=e?-1:1,l=t[r+c];for(c+=p,o=l&(1<<-a)-1,l>>=-a,a+=u;a>0;o=256*o+t[r+c],c+=p,a-=8);for(f=o&(1<<-a)-1,o>>=-a,a+=n;a>0;f=256*f+t[r+c],c+=p,a-=8);if(0===o)o=1-h;else{if(o===s)return f?NaN:1/0*(l?-1:1);f+=Math.pow(2,n),o-=h}return(l?-1:1)*f*Math.pow(2,o-n)},e.write=function(t,r,e,n,i,o){var f,u,s,h=8*o-i-1,a=(1<<h)-1,c=a>>1,p=23===i?Math.pow(2,-24)-Math.pow(2,-77):0,l=n?0:o-1,y=n?1:-1,g=r<0||0===r&&1/r<0?1:0;for(r=Math.abs(r),isNaN(r)||r===1/0?(u=isNaN(r)?1:0,f=a):(f=Math.floor(Math.log(r)/Math.LN2),r*(s=Math.pow(2,-f))<1&&(f--,s*=2),(r+=f+c>=1?p/s:p*Math.pow(2,1-c))*s>=2&&(f++,s/=2),f+c>=a?(u=0,f=a):f+c>=1?(u=(r*s-1)*Math.pow(2,i),f+=c):(u=r*Math.pow(2,c-1)*Math.pow(2,i),f=0));i>=8;t[e+l]=255&u,l+=y,u/=256,i-=8);for(f=f<<i|u,h+=i;h>0;t[e+l]=255&f,l+=y,f/=256,h-=8);t[e+l-y]|=128*g}},{}],4:[function(t,r,e){(function(r){"use strict";const n=t("base64-js"),i=t("ieee754"),o="function"==typeof Symbol&&"function"==typeof Symbol.for?Symbol.for("nodejs.util.inspect.custom"):null;e.Buffer=r,e.SlowBuffer=function(t){+t!=t&&(t=0);return r.alloc(+t)},e.INSPECT_MAX_BYTES=50;const f=2147483647;function u(t){if(t>f)throw new RangeError('The value "'+t+'" is invalid for option "size"');const e=new Uint8Array(t);return Object.setPrototypeOf(e,r.prototype),e}function r(t,r,e){if("number"==typeof t){if("string"==typeof r)throw new TypeError('The "string" argument must be of type string. Received type number');return a(t)}return s(t,r,e)}function s(t,e,n){if("string"==typeof t)return function(t,e){"string"==typeof e&&""!==e||(e="utf8");if(!r.isEncoding(e))throw new TypeError("Unknown encoding: "+e);const n=0|y(t,e);let i=u(n);const o=i.write(t,e);o!==n&&(i=i.slice(0,o));return i}(t,e);if(ArrayBuffer.isView(t))return function(t){if(W(t,Uint8Array)){const r=new Uint8Array(t);return p(r.buffer,r.byteOffset,r.byteLength)}return c(t)}(t);if(null==t)throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type "+typeof t);if(W(t,ArrayBuffer)||t&&W(t.buffer,ArrayBuffer))return p(t,e,n);if("undefined"!=typeof SharedArrayBuffer&&(W(t,SharedArrayBuffer)||t&&W(t.buffer,SharedArrayBuffer)))return p(t,e,n);if("number"==typeof t)throw new TypeError('The "value" argument must not be of type number. Received type number');const i=t.valueOf&&t.valueOf();if(null!=i&&i!==t)return r.from(i,e,n);const o=function(t){if(r.isBuffer(t)){const r=0|l(t.length),e=u(r);return 0===e.length?e:(t.copy(e,0,0,r),e)}if(void 0!==t.length)return"number"!=typeof t.length||X(t.length)?u(0):c(t);if("Buffer"===t.type&&Array.isArray(t.data))return c(t.data)}(t);if(o)return o;if("undefined"!=typeof Symbol&&null!=Symbol.toPrimitive&&"function"==typeof t[Symbol.toPrimitive])return r.from(t[Symbol.toPrimitive]("string"),e,n);throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type "+typeof t)}function h(t){if("number"!=typeof t)throw new TypeError('"size" argument must be of type number');if(t<0)throw new RangeError('The value "'+t+'" is invalid for option "size"')}function a(t){return h(t),u(t<0?0:0|l(t))}function c(t){const r=t.length<0?0:0|l(t.length),e=u(r);for(let n=0;n<r;n+=1)e[n]=255&t[n];return e}function p(t,e,n){if(e<0||t.byteLength<e)throw new RangeError('"offset" is outside of buffer bounds');if(t.byteLength<e+(n||0))throw new RangeError('"length" is outside of buffer bounds');let i;return i=void 0===e&&void 0===n?new Uint8Array(t):void 0===n?new Uint8Array(t,e):new Uint8Array(t,e,n),Object.setPrototypeOf(i,r.prototype),i}function l(t){if(t>=f)throw new RangeError("Attempt to allocate Buffer larger than maximum size: 0x"+f.toString(16)+" bytes");return 0|t}function y(t,e){if(r.isBuffer(t))return t.length;if(ArrayBuffer.isView(t)||W(t,ArrayBuffer))return t.byteLength;if("string"!=typeof t)throw new TypeError('The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type '+typeof t);const n=t.length,i=arguments.length>2&&!0===arguments[2];if(!i&&0===n)return 0;let o=!1;for(;;)switch(e){case"ascii":case"latin1":case"binary":return n;case"utf8":case"utf-8":return q(t).length;case"ucs2":case"ucs-2":case"utf16le":case"utf-16le":return 2*n;case"hex":return n>>>1;case"base64":return G(t).length;default:if(o)return i?-1:q(t).length;e=(""+e).toLowerCase(),o=!0}}function g(t,r,e){const n=t[r];t[r]=t[e],t[e]=n}function w(t,e,n,i,o){if(0===t.length)return-1;if("string"==typeof n?(i=n,n=0):n>2147483647?n=2147483647:n<-2147483648&&(n=-2147483648),X(n=+n)&&(n=o?0:t.length-1),n<0&&(n=t.length+n),n>=t.length){if(o)return-1;n=t.length-1}else if(n<0){if(!o)return-1;n=0}if("string"==typeof e&&(e=r.from(e,i)),r.isBuffer(e))return 0===e.length?-1:d(t,e,n,i,o);if("number"==typeof e)return e&=255,"function"==typeof Uint8Array.prototype.indexOf?o?Uint8Array.prototype.indexOf.call(t,e,n):Uint8Array.prototype.lastIndexOf.call(t,e,n):d(t,[e],n,i,o);throw new TypeError("val must be string, number or Buffer")}function d(t,r,e,n,i){let o,f=1,u=t.length,s=r.length;if(void 0!==n&&("ucs2"===(n=String(n).toLowerCase())||"ucs-2"===n||"utf16le"===n||"utf-16le"===n)){if(t.length<2||r.length<2)return-1;f=2,u/=2,s/=2,e/=2}function h(t,r){return 1===f?t[r]:t.readUInt16BE(r*f)}if(i){let n=-1;for(o=e;o<u;o++)if(h(t,o)===h(r,-1===n?0:o-n)){if(-1===n&&(n=o),o-n+1===s)return n*f}else-1!==n&&(o-=o-n),n=-1}else for(e+s>u&&(e=u-s),o=e;o>=0;o--){let e=!0;for(let n=0;n<s;n++)if(h(t,o+n)!==h(r,n)){e=!1;break}if(e)return o}return-1}function b(t,r,e,n){e=Number(e)||0;const i=t.length-e;n?(n=Number(n))>i&&(n=i):n=i;const o=r.length;let f;for(n>o/2&&(n=o/2),f=0;f<n;++f){const n=parseInt(r.substr(2*f,2),16);if(X(n))return f;t[e+f]=n}return f}function m(t,r,e,n){return V(q(r,t.length-e),t,e,n)}function E(t,r,e,n){return V(function(t){const r=[];for(let e=0;e<t.length;++e)r.push(255&t.charCodeAt(e));return r}(r),t,e,n)}function v(t,r,e,n){return V(G(r),t,e,n)}function B(t,r,e,n){return V(function(t,r){let e,n,i;const o=[];for(let f=0;f<t.length&&!((r-=2)<0);++f)e=t.charCodeAt(f),n=e>>8,i=e%256,o.push(i),o.push(n);return o}(r,t.length-e),t,e,n)}function A(t,r,e){return 0===r&&e===t.length?n.fromByteArray(t):n.fromByteArray(t.slice(r,e))}function I(t,r,e){e=Math.min(t.length,e);const n=[];let i=r;for(;i<e;){const r=t[i];let o=null,f=r>239?4:r>223?3:r>191?2:1;if(i+f<=e){let e,n,u,s;switch(f){case 1:r<128&&(o=r);break;case 2:128==(192&(e=t[i+1]))&&(s=(31&r)<<6|63&e)>127&&(o=s);break;case 3:e=t[i+1],n=t[i+2],128==(192&e)&&128==(192&n)&&(s=(15&r)<<12|(63&e)<<6|63&n)>2047&&(s<55296||s>57343)&&(o=s);break;case 4:e=t[i+1],n=t[i+2],u=t[i+3],128==(192&e)&&128==(192&n)&&128==(192&u)&&(s=(15&r)<<18|(63&e)<<12|(63&n)<<6|63&u)>65535&&s<1114112&&(o=s)}}null===o?(o=65533,f=1):o>65535&&(o-=65536,n.push(o>>>10&1023|55296),o=56320|1023&o),n.push(o),i+=f}return function(t){const r=t.length;if(r<=U)return String.fromCharCode.apply(String,t);let e="",n=0;for(;n<r;)e+=String.fromCharCode.apply(String,t.slice(n,n+=U));return e}(n)}e.kMaxLength=f,r.TYPED_ARRAY_SUPPORT=function(){try{const t=new Uint8Array(1),r={foo:function(){return 42}};return Object.setPrototypeOf(r,Uint8Array.prototype),Object.setPrototypeOf(t,r),42===t.foo()}catch(t){return!1}}(),r.TYPED_ARRAY_SUPPORT||"undefined"==typeof console||"function"!=typeof console.error||console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."),Object.defineProperty(r.prototype,"parent",{enumerable:!0,get:function(){if(r.isBuffer(this))return this.buffer}}),Object.defineProperty(r.prototype,"offset",{enumerable:!0,get:function(){if(r.isBuffer(this))return this.byteOffset}}),r.poolSize=8192,r.from=function(t,r,e){return s(t,r,e)},Object.setPrototypeOf(r.prototype,Uint8Array.prototype),Object.setPrototypeOf(r,Uint8Array),r.alloc=function(t,r,e){return function(t,r,e){return h(t),t<=0?u(t):void 0!==r?"string"==typeof e?u(t).fill(r,e):u(t).fill(r):u(t)}(t,r,e)},r.allocUnsafe=function(t){return a(t)},r.allocUnsafeSlow=function(t){return a(t)},r.isBuffer=function(t){return null!=t&&!0===t._isBuffer&&t!==r.prototype},r.compare=function(t,e){if(W(t,Uint8Array)&&(t=r.from(t,t.offset,t.byteLength)),W(e,Uint8Array)&&(e=r.from(e,e.offset,e.byteLength)),!r.isBuffer(t)||!r.isBuffer(e))throw new TypeError('The "buf1", "buf2" arguments must be one of type Buffer or Uint8Array');if(t===e)return 0;let n=t.length,i=e.length;for(let r=0,o=Math.min(n,i);r<o;++r)if(t[r]!==e[r]){n=t[r],i=e[r];break}return n<i?-1:i<n?1:0},r.isEncoding=function(t){switch(String(t).toLowerCase()){case"hex":case"utf8":case"utf-8":case"ascii":case"latin1":case"binary":case"base64":case"ucs2":case"ucs-2":case"utf16le":case"utf-16le":return!0;default:return!1}},r.concat=function(t,e){if(!Array.isArray(t))throw new TypeError('"list" argument must be an Array of Buffers');if(0===t.length)return r.alloc(0);let n;if(void 0===e)for(e=0,n=0;n<t.length;++n)e+=t[n].length;const i=r.allocUnsafe(e);let o=0;for(n=0;n<t.length;++n){let e=t[n];if(W(e,Uint8Array))o+e.length>i.length?(r.isBuffer(e)||(e=r.from(e)),e.copy(i,o)):Uint8Array.prototype.set.call(i,e,o);else{if(!r.isBuffer(e))throw new TypeError('"list" argument must be an Array of Buffers');e.copy(i,o)}o+=e.length}return i},r.byteLength=y,r.prototype._isBuffer=!0,r.prototype.swap16=function(){const t=this.length;if(t%2!=0)throw new RangeError("Buffer size must be a multiple of 16-bits");for(let r=0;r<t;r+=2)g(this,r,r+1);return this},r.prototype.swap32=function(){const t=this.length;if(t%4!=0)throw new RangeError("Buffer size must be a multiple of 32-bits");for(let r=0;r<t;r+=4)g(this,r,r+3),g(this,r+1,r+2);return this},r.prototype.swap64=function(){const t=this.length;if(t%8!=0)throw new RangeError("Buffer size must be a multiple of 64-bits");for(let r=0;r<t;r+=8)g(this,r,r+7),g(this,r+1,r+6),g(this,r+2,r+5),g(this,r+3,r+4);return this},r.prototype.toString=function(){const t=this.length;return 0===t?"":0===arguments.length?I(this,0,t):function(t,r,e){let n=!1;if((void 0===r||r<0)&&(r=0),r>this.length)return"";if((void 0===e||e>this.length)&&(e=this.length),e<=0)return"";if((e>>>=0)<=(r>>>=0))return"";for(t||(t="utf8");;)switch(t){case"hex":return _(this,r,e);case"utf8":case"utf-8":return I(this,r,e);case"ascii":return R(this,r,e);case"latin1":case"binary":return T(this,r,e);case"base64":return A(this,r,e);case"ucs2":case"ucs-2":case"utf16le":case"utf-16le":return L(this,r,e);default:if(n)throw new TypeError("Unknown encoding: "+t);t=(t+"").toLowerCase(),n=!0}}.apply(this,arguments)},r.prototype.toLocaleString=r.prototype.toString,r.prototype.equals=function(t){if(!r.isBuffer(t))throw new TypeError("Argument must be a Buffer");return this===t||0===r.compare(this,t)},r.prototype.inspect=function(){let t="";const r=e.INSPECT_MAX_BYTES;return t=this.toString("hex",0,r).replace(/(.{2})/g,"$1 ").trim(),this.length>r&&(t+=" ... "),"<Buffer "+t+">"},o&&(r.prototype[o]=r.prototype.inspect),r.prototype.compare=function(t,e,n,i,o){if(W(t,Uint8Array)&&(t=r.from(t,t.offset,t.byteLength)),!r.isBuffer(t))throw new TypeError('The "target" argument must be one of type Buffer or Uint8Array. Received type '+typeof t);if(void 0===e&&(e=0),void 0===n&&(n=t?t.length:0),void 0===i&&(i=0),void 0===o&&(o=this.length),e<0||n>t.length||i<0||o>this.length)throw new RangeError("out of range index");if(i>=o&&e>=n)return 0;if(i>=o)return-1;if(e>=n)return 1;if(this===t)return 0;let f=(o>>>=0)-(i>>>=0),u=(n>>>=0)-(e>>>=0);const s=Math.min(f,u),h=this.slice(i,o),a=t.slice(e,n);for(let t=0;t<s;++t)if(h[t]!==a[t]){f=h[t],u=a[t];break}return f<u?-1:u<f?1:0},r.prototype.includes=function(t,r,e){return-1!==this.indexOf(t,r,e)},r.prototype.indexOf=function(t,r,e){return w(this,t,r,e,!0)},r.prototype.lastIndexOf=function(t,r,e){return w(this,t,r,e,!1)},r.prototype.write=function(t,r,e,n){if(void 0===r)n="utf8",e=this.length,r=0;else if(void 0===e&&"string"==typeof r)n=r,e=this.length,r=0;else{if(!isFinite(r))throw new Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");r>>>=0,isFinite(e)?(e>>>=0,void 0===n&&(n="utf8")):(n=e,e=void 0)}const i=this.length-r;if((void 0===e||e>i)&&(e=i),t.length>0&&(e<0||r<0)||r>this.length)throw new RangeError("Attempt to write outside buffer bounds");n||(n="utf8");let o=!1;for(;;)switch(n){case"hex":return b(this,t,r,e);case"utf8":case"utf-8":return m(this,t,r,e);case"ascii":case"latin1":case"binary":return E(this,t,r,e);case"base64":return v(this,t,r,e);case"ucs2":case"ucs-2":case"utf16le":case"utf-16le":return B(this,t,r,e);default:if(o)throw new TypeError("Unknown encoding: "+n);n=(""+n).toLowerCase(),o=!0}},r.prototype.toJSON=function(){return{type:"Buffer",data:Array.prototype.slice.call(this._arr||this,0)}};const U=4096;function R(t,r,e){let n="";e=Math.min(t.length,e);for(let i=r;i<e;++i)n+=String.fromCharCode(127&t[i]);return n}function T(t,r,e){let n="";e=Math.min(t.length,e);for(let i=r;i<e;++i)n+=String.fromCharCode(t[i]);return n}function _(t,r,e){const n=t.length;(!r||r<0)&&(r=0),(!e||e<0||e>n)&&(e=n);let i="";for(let n=r;n<e;++n)i+=J[t[n]];return i}function L(t,r,e){const n=t.slice(r,e);let i="";for(let t=0;t<n.length-1;t+=2)i+=String.fromCharCode(n[t]+256*n[t+1]);return i}function S(t,r,e){if(t%1!=0||t<0)throw new RangeError("offset is not uint");if(t+r>e)throw new RangeError("Trying to access beyond buffer length")}function O(t,e,n,i,o,f){if(!r.isBuffer(t))throw new TypeError('"buffer" argument must be a Buffer instance');if(e>o||e<f)throw new RangeError('"value" argument is out of bounds');if(n+i>t.length)throw new RangeError("Index out of range")}function C(t,r,e,n,i){F(r,n,i,t,e,7);let o=Number(r&BigInt(4294967295));t[e++]=o,o>>=8,t[e++]=o,o>>=8,t[e++]=o,o>>=8,t[e++]=o;let f=Number(r>>BigInt(32)&BigInt(4294967295));return t[e++]=f,f>>=8,t[e++]=f,f>>=8,t[e++]=f,f>>=8,t[e++]=f,e}function x(t,r,e,n,i){F(r,n,i,t,e,7);let o=Number(r&BigInt(4294967295));t[e+7]=o,o>>=8,t[e+6]=o,o>>=8,t[e+5]=o,o>>=8,t[e+4]=o;let f=Number(r>>BigInt(32)&BigInt(4294967295));return t[e+3]=f,f>>=8,t[e+2]=f,f>>=8,t[e+1]=f,f>>=8,t[e]=f,e+8}function M(t,r,e,n,i,o){if(e+n>t.length)throw new RangeError("Index out of range");if(e<0)throw new RangeError("Index out of range")}function N(t,r,e,n,o){return r=+r,e>>>=0,o||M(t,0,e,4),i.write(t,r,e,n,23,4),e+4}function P(t,r,e,n,o){return r=+r,e>>>=0,o||M(t,0,e,8),i.write(t,r,e,n,52,8),e+8}r.prototype.slice=function(t,e){const n=this.length;(t=~~t)<0?(t+=n)<0&&(t=0):t>n&&(t=n),(e=void 0===e?n:~~e)<0?(e+=n)<0&&(e=0):e>n&&(e=n),e<t&&(e=t);const i=this.subarray(t,e);return Object.setPrototypeOf(i,r.prototype),i},r.prototype.readUintLE=r.prototype.readUIntLE=function(t,r,e){t>>>=0,r>>>=0,e||S(t,r,this.length);let n=this[t],i=1,o=0;for(;++o<r&&(i*=256);)n+=this[t+o]*i;return n},r.prototype.readUintBE=r.prototype.readUIntBE=function(t,r,e){t>>>=0,r>>>=0,e||S(t,r,this.length);let n=this[t+--r],i=1;for(;r>0&&(i*=256);)n+=this[t+--r]*i;return n},r.prototype.readUint8=r.prototype.readUInt8=function(t,r){return t>>>=0,r||S(t,1,this.length),this[t]},r.prototype.readUint16LE=r.prototype.readUInt16LE=function(t,r){return t>>>=0,r||S(t,2,this.length),this[t]|this[t+1]<<8},r.prototype.readUint16BE=r.prototype.readUInt16BE=function(t,r){return t>>>=0,r||S(t,2,this.length),this[t]<<8|this[t+1]},r.prototype.readUint32LE=r.prototype.readUInt32LE=function(t,r){return t>>>=0,r||S(t,4,this.length),(this[t]|this[t+1]<<8|this[t+2]<<16)+16777216*this[t+3]},r.prototype.readUint32BE=r.prototype.readUInt32BE=function(t,r){return t>>>=0,r||S(t,4,this.length),16777216*this[t]+(this[t+1]<<16|this[t+2]<<8|this[t+3])},r.prototype.readBigUInt64LE=Z(function(t){z(t>>>=0,"offset");const r=this[t],e=this[t+7];void 0!==r&&void 0!==e||D(t,this.length-8);const n=r+256*this[++t]+65536*this[++t]+this[++t]*2**24,i=this[++t]+256*this[++t]+65536*this[++t]+e*2**24;return BigInt(n)+(BigInt(i)<<BigInt(32))}),r.prototype.readBigUInt64BE=Z(function(t){z(t>>>=0,"offset");const r=this[t],e=this[t+7];void 0!==r&&void 0!==e||D(t,this.length-8);const n=r*2**24+65536*this[++t]+256*this[++t]+this[++t],i=this[++t]*2**24+65536*this[++t]+256*this[++t]+e;return(BigInt(n)<<BigInt(32))+BigInt(i)}),r.prototype.readIntLE=function(t,r,e){t>>>=0,r>>>=0,e||S(t,r,this.length);let n=this[t],i=1,o=0;for(;++o<r&&(i*=256);)n+=this[t+o]*i;return n>=(i*=128)&&(n-=Math.pow(2,8*r)),n},r.prototype.readIntBE=function(t,r,e){t>>>=0,r>>>=0,e||S(t,r,this.length);let n=r,i=1,o=this[t+--n];for(;n>0&&(i*=256);)o+=this[t+--n]*i;return o>=(i*=128)&&(o-=Math.pow(2,8*r)),o},r.prototype.readInt8=function(t,r){return t>>>=0,r||S(t,1,this.length),128&this[t]?-1*(255-this[t]+1):this[t]},r.prototype.readInt16LE=function(t,r){t>>>=0,r||S(t,2,this.length);const e=this[t]|this[t+1]<<8;return 32768&e?4294901760|e:e},r.prototype.readInt16BE=function(t,r){t>>>=0,r||S(t,2,this.length);const e=this[t+1]|this[t]<<8;return 32768&e?4294901760|e:e},r.prototype.readInt32LE=function(t,r){return t>>>=0,r||S(t,4,this.length),this[t]|this[t+1]<<8|this[t+2]<<16|this[t+3]<<24},r.prototype.readInt32BE=function(t,r){return t>>>=0,r||S(t,4,this.length),this[t]<<24|this[t+1]<<16|this[t+2]<<8|this[t+3]},r.prototype.readBigInt64LE=Z(function(t){z(t>>>=0,"offset");const r=this[t],e=this[t+7];void 0!==r&&void 0!==e||D(t,this.length-8);const n=this[t+4]+256*this[t+5]+65536*this[t+6]+(e<<24);return(BigInt(n)<<BigInt(32))+BigInt(r+256*this[++t]+65536*this[++t]+this[++t]*2**24)}),r.prototype.readBigInt64BE=Z(function(t){z(t>>>=0,"offset");const r=this[t],e=this[t+7];void 0!==r&&void 0!==e||D(t,this.length-8);const n=(r<<24)+65536*this[++t]+256*this[++t]+this[++t];return(BigInt(n)<<BigInt(32))+BigInt(this[++t]*2**24+65536*this[++t]+256*this[++t]+e)}),r.prototype.readFloatLE=function(t,r){return t>>>=0,r||S(t,4,this.length),i.read(this,t,!0,23,4)},r.prototype.readFloatBE=function(t,r){return t>>>=0,r||S(t,4,this.length),i.read(this,t,!1,23,4)},r.prototype.readDoubleLE=function(t,r){return t>>>=0,r||S(t,8,this.length),i.read(this,t,!0,52,8)},r.prototype.readDoubleBE=function(t,r){return t>>>=0,r||S(t,8,this.length),i.read(this,t,!1,52,8)},r.prototype.writeUintLE=r.prototype.writeUIntLE=function(t,r,e,n){if(t=+t,r>>>=0,e>>>=0,!n){O(this,t,r,e,Math.pow(2,8*e)-1,0)}let i=1,o=0;for(this[r]=255&t;++o<e&&(i*=256);)this[r+o]=t/i&255;return r+e},r.prototype.writeUintBE=r.prototype.writeUIntBE=function(t,r,e,n){if(t=+t,r>>>=0,e>>>=0,!n){O(this,t,r,e,Math.pow(2,8*e)-1,0)}let i=e-1,o=1;for(this[r+i]=255&t;--i>=0&&(o*=256);)this[r+i]=t/o&255;return r+e},r.prototype.writeUint8=r.prototype.writeUInt8=function(t,r,e){return t=+t,r>>>=0,e||O(this,t,r,1,255,0),this[r]=255&t,r+1},r.prototype.writeUint16LE=r.prototype.writeUInt16LE=function(t,r,e){return t=+t,r>>>=0,e||O(this,t,r,2,65535,0),this[r]=255&t,this[r+1]=t>>>8,r+2},r.prototype.writeUint16BE=r.prototype.writeUInt16BE=function(t,r,e){return t=+t,r>>>=0,e||O(this,t,r,2,65535,0),this[r]=t>>>8,this[r+1]=255&t,r+2},r.prototype.writeUint32LE=r.prototype.writeUInt32LE=function(t,r,e){return t=+t,r>>>=0,e||O(this,t,r,4,4294967295,0),this[r+3]=t>>>24,this[r+2]=t>>>16,this[r+1]=t>>>8,this[r]=255&t,r+4},r.prototype.writeUint32BE=r.prototype.writeUInt32BE=function(t,r,e){return t=+t,r>>>=0,e||O(this,t,r,4,4294967295,0),this[r]=t>>>24,this[r+1]=t>>>16,this[r+2]=t>>>8,this[r+3]=255&t,r+4},r.prototype.writeBigUInt64LE=Z(function(t,r=0){return C(this,t,r,BigInt(0),BigInt("0xffffffffffffffff"))}),r.prototype.writeBigUInt64BE=Z(function(t,r=0){return x(this,t,r,BigInt(0),BigInt("0xffffffffffffffff"))}),r.prototype.writeIntLE=function(t,r,e,n){if(t=+t,r>>>=0,!n){const n=Math.pow(2,8*e-1);O(this,t,r,e,n-1,-n)}let i=0,o=1,f=0;for(this[r]=255&t;++i<e&&(o*=256);)t<0&&0===f&&0!==this[r+i-1]&&(f=1),this[r+i]=(t/o>>0)-f&255;return r+e},r.prototype.writeIntBE=function(t,r,e,n){if(t=+t,r>>>=0,!n){const n=Math.pow(2,8*e-1);O(this,t,r,e,n-1,-n)}let i=e-1,o=1,f=0;for(this[r+i]=255&t;--i>=0&&(o*=256);)t<0&&0===f&&0!==this[r+i+1]&&(f=1),this[r+i]=(t/o>>0)-f&255;return r+e},r.prototype.writeInt8=function(t,r,e){return t=+t,r>>>=0,e||O(this,t,r,1,127,-128),t<0&&(t=255+t+1),this[r]=255&t,r+1},r.prototype.writeInt16LE=function(t,r,e){return t=+t,r>>>=0,e||O(this,t,r,2,32767,-32768),this[r]=255&t,this[r+1]=t>>>8,r+2},r.prototype.writeInt16BE=function(t,r,e){return t=+t,r>>>=0,e||O(this,t,r,2,32767,-32768),this[r]=t>>>8,this[r+1]=255&t,r+2},r.prototype.writeInt32LE=function(t,r,e){return t=+t,r>>>=0,e||O(this,t,r,4,2147483647,-2147483648),this[r]=255&t,this[r+1]=t>>>8,this[r+2]=t>>>16,this[r+3]=t>>>24,r+4},r.prototype.writeInt32BE=function(t,r,e){return t=+t,r>>>=0,e||O(this,t,r,4,2147483647,-2147483648),t<0&&(t=4294967295+t+1),this[r]=t>>>24,this[r+1]=t>>>16,this[r+2]=t>>>8,this[r+3]=255&t,r+4},r.prototype.writeBigInt64LE=Z(function(t,r=0){return C(this,t,r,-BigInt("0x8000000000000000"),BigInt("0x7fffffffffffffff"))}),r.prototype.writeBigInt64BE=Z(function(t,r=0){return x(this,t,r,-BigInt("0x8000000000000000"),BigInt("0x7fffffffffffffff"))}),r.prototype.writeFloatLE=function(t,r,e){return N(this,t,r,!0,e)},r.prototype.writeFloatBE=function(t,r,e){return N(this,t,r,!1,e)},r.prototype.writeDoubleLE=function(t,r,e){return P(this,t,r,!0,e)},r.prototype.writeDoubleBE=function(t,r,e){return P(this,t,r,!1,e)},r.prototype.copy=function(t,e,n,i){if(!r.isBuffer(t))throw new TypeError("argument should be a Buffer");if(n||(n=0),i||0===i||(i=this.length),e>=t.length&&(e=t.length),e||(e=0),i>0&&i<n&&(i=n),i===n)return 0;if(0===t.length||0===this.length)return 0;if(e<0)throw new RangeError("targetStart out of bounds");if(n<0||n>=this.length)throw new RangeError("Index out of range");if(i<0)throw new RangeError("sourceEnd out of bounds");i>this.length&&(i=this.length),t.length-e<i-n&&(i=t.length-e+n);const o=i-n;return this===t&&"function"==typeof Uint8Array.prototype.copyWithin?this.copyWithin(e,n,i):Uint8Array.prototype.set.call(t,this.subarray(n,i),e),o},r.prototype.fill=function(t,e,n,i){if("string"==typeof t){if("string"==typeof e?(i=e,e=0,n=this.length):"string"==typeof n&&(i=n,n=this.length),void 0!==i&&"string"!=typeof i)throw new TypeError("encoding must be a string");if("string"==typeof i&&!r.isEncoding(i))throw new TypeError("Unknown encoding: "+i);if(1===t.length){const r=t.charCodeAt(0);("utf8"===i&&r<128||"latin1"===i)&&(t=r)}}else"number"==typeof t?t&=255:"boolean"==typeof t&&(t=Number(t));if(e<0||this.length<e||this.length<n)throw new RangeError("Out of range index");if(n<=e)return this;let o;if(e>>>=0,n=void 0===n?this.length:n>>>0,t||(t=0),"number"==typeof t)for(o=e;o<n;++o)this[o]=t;else{const f=r.isBuffer(t)?t:r.from(t,i),u=f.length;if(0===u)throw new TypeError('The value "'+t+'" is invalid for argument "value"');for(o=0;o<n-e;++o)this[o+e]=f[o%u]}return this};const k={};function $(t,r,e){k[t]=class extends e{constructor(){super(),Object.defineProperty(this,"message",{value:r.apply(this,arguments),writable:!0,configurable:!0}),this.name=`${this.name} [${t}]`,this.stack,delete this.name}get code(){return t}set code(t){Object.defineProperty(this,"code",{configurable:!0,enumerable:!0,value:t,writable:!0})}toString(){return`${this.name} [${t}]: ${this.message}`}}}function j(t){let r="",e=t.length;const n="-"===t[0]?1:0;for(;e>=n+4;e-=3)r=`_${t.slice(e-3,e)}${r}`;return`${t.slice(0,e)}${r}`}function F(t,r,e,n,i,o){if(t>e||t<r){const n="bigint"==typeof r?"n":"";let i;throw i=o>3?0===r||r===BigInt(0)?`>= 0${n} and < 2${n} ** ${8*(o+1)}${n}`:`>= -(2${n} ** ${8*(o+1)-1}${n}) and < 2 ** `+`${8*(o+1)-1}${n}`:`>= ${r}${n} and <= ${e}${n}`,new k.ERR_OUT_OF_RANGE("value",i,t)}!function(t,r,e){z(r,"offset"),void 0!==t[r]&&void 0!==t[r+e]||D(r,t.length-(e+1))}(n,i,o)}function z(t,r){if("number"!=typeof t)throw new k.ERR_INVALID_ARG_TYPE(r,"number",t)}function D(t,r,e){if(Math.floor(t)!==t)throw z(t,e),new k.ERR_OUT_OF_RANGE(e||"offset","an integer",t);if(r<0)throw new k.ERR_BUFFER_OUT_OF_BOUNDS;throw new k.ERR_OUT_OF_RANGE(e||"offset",`>= ${e?1:0} and <= ${r}`,t)}$("ERR_BUFFER_OUT_OF_BOUNDS",function(t){return t?`${t} is outside of buffer bounds`:"Attempt to access memory outside buffer bounds"},RangeError),$("ERR_INVALID_ARG_TYPE",function(t,r){return`The "${t}" argument must be of type number. Received type ${typeof r}`},TypeError),$("ERR_OUT_OF_RANGE",function(t,r,e){let n=`The value of "${t}" is out of range.`,i=e;return Number.isInteger(e)&&Math.abs(e)>2**32?i=j(String(e)):"bigint"==typeof e&&(i=String(e),(e>BigInt(2)**BigInt(32)||e<-(BigInt(2)**BigInt(32)))&&(i=j(i)),i+="n"),n+=` It must be ${r}. Received ${i}`},RangeError);const Y=/[^+\/0-9A-Za-z-_]/g;function q(t,r){let e;r=r||1/0;const n=t.length;let i=null;const o=[];for(let f=0;f<n;++f){if((e=t.charCodeAt(f))>55295&&e<57344){if(!i){if(e>56319){(r-=3)>-1&&o.push(239,191,189);continue}if(f+1===n){(r-=3)>-1&&o.push(239,191,189);continue}i=e;continue}if(e<56320){(r-=3)>-1&&o.push(239,191,189),i=e;continue}e=65536+(i-55296<<10|e-56320)}else i&&(r-=3)>-1&&o.push(239,191,189);if(i=null,e<128){if((r-=1)<0)break;o.push(e)}else if(e<2048){if((r-=2)<0)break;o.push(e>>6|192,63&e|128)}else if(e<65536){if((r-=3)<0)break;o.push(e>>12|224,e>>6&63|128,63&e|128)}else{if(!(e<1114112))throw new Error("Invalid code point");if((r-=4)<0)break;o.push(e>>18|240,e>>12&63|128,e>>6&63|128,63&e|128)}}return o}function G(t){return n.toByteArray(function(t){if((t=(t=t.split("=")[0]).trim().replace(Y,"")).length<2)return"";for(;t.length%4!=0;)t+="=";return t}(t))}function V(t,r,e,n){let i;for(i=0;i<n&&!(i+e>=r.length||i>=t.length);++i)r[i+e]=t[i];return i}function W(t,r){return t instanceof r||null!=t&&null!=t.constructor&&null!=t.constructor.name&&t.constructor.name===r.name}function X(t){return t!=t}const J=function(){const t=new Array(256);for(let r=0;r<16;++r){const e=16*r;for(let n=0;n<16;++n)t[e+n]="0123456789abcdef"[r]+"0123456789abcdef"[n]}return t}();function Z(t){return"undefined"==typeof BigInt?H:t}function H(){throw new Error("BigInt not supported")}}).call(this,t("buffer").Buffer)},{"base64-js":5,buffer:2,ieee754:6}],5:[function(t,r,e){"use strict";e.byteLength=function(t){var r=h(t),e=r[0],n=r[1];return 3*(e+n)/4-n},e.toByteArray=function(t){var r,e,n=h(t),f=n[0],u=n[1],s=new o(function(t,r,e){return 3*(r+e)/4-e}(0,f,u)),a=0,c=u>0?f-4:f;for(e=0;e<c;e+=4)r=i[t.charCodeAt(e)]<<18|i[t.charCodeAt(e+1)]<<12|i[t.charCodeAt(e+2)]<<6|i[t.charCodeAt(e+3)],s[a++]=r>>16&255,s[a++]=r>>8&255,s[a++]=255&r;2===u&&(r=i[t.charCodeAt(e)]<<2|i[t.charCodeAt(e+1)]>>4,s[a++]=255&r);1===u&&(r=i[t.charCodeAt(e)]<<10|i[t.charCodeAt(e+1)]<<4|i[t.charCodeAt(e+2)]>>2,s[a++]=r>>8&255,s[a++]=255&r);return s},e.fromByteArray=function(t){for(var r,e=t.length,i=e%3,o=[],f=0,u=e-i;f<u;f+=16383)o.push(a(t,f,f+16383>u?u:f+16383));1===i?(r=t[e-1],o.push(n[r>>2]+n[r<<4&63]+"==")):2===i&&(r=(t[e-2]<<8)+t[e-1],o.push(n[r>>10]+n[r>>4&63]+n[r<<2&63]+"="));return o.join("")};for(var n=[],i=[],o="undefined"!=typeof Uint8Array?Uint8Array:Array,f="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",u=0,s=f.length;u<s;++u)n[u]=f[u],i[f.charCodeAt(u)]=u;function h(t){var r=t.length;if(r%4>0)throw new Error("Invalid string. Length must be a multiple of 4");var e=t.indexOf("=");return-1===e&&(e=r),[e,e===r?0:4-e%4]}function a(t,r,e){for(var i,o,f=[],u=r;u<e;u+=3)i=(t[u]<<16&16711680)+(t[u+1]<<8&65280)+(255&t[u+2]),f.push(n[(o=i)>>18&63]+n[o>>12&63]+n[o>>6&63]+n[63&o]);return f.join("")}i["-".charCodeAt(0)]=62,i["_".charCodeAt(0)]=63},{}],6:[function(t,r,e){e.read=function(t,r,e,n,i){var o,f,u=8*i-n-1,s=(1<<u)-1,h=s>>1,a=-7,c=e?i-1:0,p=e?-1:1,l=t[r+c];for(c+=p,o=l&(1<<-a)-1,l>>=-a,a+=u;a>0;o=256*o+t[r+c],c+=p,a-=8);for(f=o&(1<<-a)-1,o>>=-a,a+=n;a>0;f=256*f+t[r+c],c+=p,a-=8);if(0===o)o=1-h;else{if(o===s)return f?NaN:1/0*(l?-1:1);f+=Math.pow(2,n),o-=h}return(l?-1:1)*f*Math.pow(2,o-n)},e.write=function(t,r,e,n,i,o){var f,u,s,h=8*o-i-1,a=(1<<h)-1,c=a>>1,p=23===i?Math.pow(2,-24)-Math.pow(2,-77):0,l=n?0:o-1,y=n?1:-1,g=r<0||0===r&&1/r<0?1:0;for(r=Math.abs(r),isNaN(r)||r===1/0?(u=isNaN(r)?1:0,f=a):(f=Math.floor(Math.log(r)/Math.LN2),r*(s=Math.pow(2,-f))<1&&(f--,s*=2),(r+=f+c>=1?p/s:p*Math.pow(2,1-c))*s>=2&&(f++,s/=2),f+c>=a?(u=0,f=a):f+c>=1?(u=(r*s-1)*Math.pow(2,i),f+=c):(u=r*Math.pow(2,c-1)*Math.pow(2,i),f=0));i>=8;t[e+l]=255&u,l+=y,u/=256,i-=8);for(f=f<<i|u,h+=i;h>0;t[e+l]=255&f,l+=y,f/=256,h-=8);t[e+l-y]|=128*g}},{}]},{},[4])(4)});
 
 console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
 (function() {
   var __webpack_modules__ = {
+    251: function(__unused_webpack_module, exports) {
+      exports.read = function(buffer, offset, isLE, mLen, nBytes) {
+        var e, m;
+        var eLen = nBytes * 8 - mLen - 1;
+        var eMax = (1 << eLen) - 1;
+        var eBias = eMax >> 1;
+        var nBits = -7;
+        var i = isLE ? nBytes - 1 : 0;
+        var d = isLE ? -1 : 1;
+        var s = buffer[offset + i];
+        i += d;
+        e = s & (1 << -nBits) - 1;
+        s >>= -nBits;
+        nBits += eLen;
+        for (;nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+        m = e & (1 << -nBits) - 1;
+        e >>= -nBits;
+        nBits += mLen;
+        for (;nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+        if (e === 0) {
+          e = 1 - eBias;
+        } else if (e === eMax) {
+          return m ? NaN : (s ? -1 : 1) * Infinity;
+        } else {
+          m = m + Math.pow(2, mLen);
+          e = e - eBias;
+        }
+        return (s ? -1 : 1) * m * Math.pow(2, e - mLen);
+      };
+      exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
+        var e, m, c;
+        var eLen = nBytes * 8 - mLen - 1;
+        var eMax = (1 << eLen) - 1;
+        var eBias = eMax >> 1;
+        var rt = mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0;
+        var i = isLE ? 0 : nBytes - 1;
+        var d = isLE ? 1 : -1;
+        var s = value < 0 || value === 0 && 1 / value < 0 ? 1 : 0;
+        value = Math.abs(value);
+        if (isNaN(value) || value === Infinity) {
+          m = isNaN(value) ? 1 : 0;
+          e = eMax;
+        } else {
+          e = Math.floor(Math.log(value) / Math.LN2);
+          if (value * (c = Math.pow(2, -e)) < 1) {
+            e--;
+            c *= 2;
+          }
+          if (e + eBias >= 1) {
+            value += rt / c;
+          } else {
+            value += rt * Math.pow(2, 1 - eBias);
+          }
+          if (value * c >= 2) {
+            e++;
+            c /= 2;
+          }
+          if (e + eBias >= eMax) {
+            m = 0;
+            e = eMax;
+          } else if (e + eBias >= 1) {
+            m = (value * c - 1) * Math.pow(2, mLen);
+            e = e + eBias;
+          } else {
+            m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen);
+            e = 0;
+          }
+        }
+        for (;mLen >= 8; buffer[offset + i] = m & 255, i += d, m /= 256, mLen -= 8) {}
+        e = e << mLen | m;
+        eLen += mLen;
+        for (;eLen > 0; buffer[offset + i] = e & 255, i += d, e /= 256, eLen -= 8) {}
+        buffer[offset + i - d] |= s * 128;
+      };
+    },
+    287: function(__unused_webpack_module, exports, __webpack_require__) {
+      'use strict';
+      var __webpack_unused_export__;
+      const base64 = __webpack_require__(526);
+      const ieee754 = __webpack_require__(251);
+      const customInspectSymbol = typeof Symbol === 'function' && typeof Symbol['for'] === 'function' ? Symbol['for']('nodejs.util.inspect.custom') : null;
+      exports.hp = Buffer;
+      __webpack_unused_export__ = SlowBuffer;
+      exports.IS = 50;
+      const K_MAX_LENGTH = 2147483647;
+      __webpack_unused_export__ = K_MAX_LENGTH;
+      Buffer.TYPED_ARRAY_SUPPORT = typedArraySupport();
+      if (!Buffer.TYPED_ARRAY_SUPPORT && typeof console !== 'undefined' && typeof console.error === 'function') {
+        console.error('This browser lacks typed array (Uint8Array) support which is required by ' + '`buffer` v5.x. Use `buffer` v4.x if you require old browser support.');
+      }
+      function typedArraySupport() {
+        try {
+          const arr = new Uint8Array(1);
+          const proto = {
+            foo: function() {
+              return 42;
+            }
+          };
+          Object.setPrototypeOf(proto, Uint8Array.prototype);
+          Object.setPrototypeOf(arr, proto);
+          return arr.foo() === 42;
+        } catch (e) {
+          return false;
+        }
+      }
+      Object.defineProperty(Buffer.prototype, 'parent', {
+        enumerable: true,
+        get: function() {
+          if (!Buffer.isBuffer(this)) {
+            return undefined;
+          }
+          return this.buffer;
+        }
+      });
+      Object.defineProperty(Buffer.prototype, 'offset', {
+        enumerable: true,
+        get: function() {
+          if (!Buffer.isBuffer(this)) {
+            return undefined;
+          }
+          return this.byteOffset;
+        }
+      });
+      function createBuffer(length) {
+        if (length > K_MAX_LENGTH) {
+          throw new RangeError('The value "' + length + '" is invalid for option "size"');
+        }
+        const buf = new Uint8Array(length);
+        Object.setPrototypeOf(buf, Buffer.prototype);
+        return buf;
+      }
+      function Buffer(arg, encodingOrOffset, length) {
+        if (typeof arg === 'number') {
+          if (typeof encodingOrOffset === 'string') {
+            throw new TypeError('The "string" argument must be of type string. Received type number');
+          }
+          return allocUnsafe(arg);
+        }
+        return from(arg, encodingOrOffset, length);
+      }
+      Buffer.poolSize = 8192;
+      function from(value, encodingOrOffset, length) {
+        if (typeof value === 'string') {
+          return fromString(value, encodingOrOffset);
+        }
+        if (ArrayBuffer.isView(value)) {
+          return fromArrayView(value);
+        }
+        if (value == null) {
+          throw new TypeError('The first argument must be one of type string, Buffer, ArrayBuffer, Array, ' + 'or Array-like Object. Received type ' + typeof value);
+        }
+        if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer)) {
+          return fromArrayBuffer(value, encodingOrOffset, length);
+        }
+        if (typeof SharedArrayBuffer !== 'undefined' && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) {
+          return fromArrayBuffer(value, encodingOrOffset, length);
+        }
+        if (typeof value === 'number') {
+          throw new TypeError('The "value" argument must not be of type number. Received type number');
+        }
+        const valueOf = value.valueOf && value.valueOf();
+        if (valueOf != null && valueOf !== value) {
+          return Buffer.from(valueOf, encodingOrOffset, length);
+        }
+        const b = fromObject(value);
+        if (b) {
+          return b;
+        }
+        if (typeof Symbol !== 'undefined' && Symbol.toPrimitive != null && typeof value[Symbol.toPrimitive] === 'function') {
+          return Buffer.from(value[Symbol.toPrimitive]('string'), encodingOrOffset, length);
+        }
+        throw new TypeError('The first argument must be one of type string, Buffer, ArrayBuffer, Array, ' + 'or Array-like Object. Received type ' + typeof value);
+      }
+      Buffer.from = function(value, encodingOrOffset, length) {
+        return from(value, encodingOrOffset, length);
+      };
+      Object.setPrototypeOf(Buffer.prototype, Uint8Array.prototype);
+      Object.setPrototypeOf(Buffer, Uint8Array);
+      function assertSize(size) {
+        if (typeof size !== 'number') {
+          throw new TypeError('"size" argument must be of type number');
+        } else if (size < 0) {
+          throw new RangeError('The value "' + size + '" is invalid for option "size"');
+        }
+      }
+      function alloc(size, fill, encoding) {
+        assertSize(size);
+        if (size <= 0) {
+          return createBuffer(size);
+        }
+        if (fill !== undefined) {
+          return typeof encoding === 'string' ? createBuffer(size).fill(fill, encoding) : createBuffer(size).fill(fill);
+        }
+        return createBuffer(size);
+      }
+      Buffer.alloc = function(size, fill, encoding) {
+        return alloc(size, fill, encoding);
+      };
+      function allocUnsafe(size) {
+        assertSize(size);
+        return createBuffer(size < 0 ? 0 : checked(size) | 0);
+      }
+      Buffer.allocUnsafe = function(size) {
+        return allocUnsafe(size);
+      };
+      Buffer.allocUnsafeSlow = function(size) {
+        return allocUnsafe(size);
+      };
+      function fromString(string, encoding) {
+        if (typeof encoding !== 'string' || encoding === '') {
+          encoding = 'utf8';
+        }
+        if (!Buffer.isEncoding(encoding)) {
+          throw new TypeError('Unknown encoding: ' + encoding);
+        }
+        const length = byteLength(string, encoding) | 0;
+        let buf = createBuffer(length);
+        const actual = buf.write(string, encoding);
+        if (actual !== length) {
+          buf = buf.slice(0, actual);
+        }
+        return buf;
+      }
+      function fromArrayLike(array) {
+        const length = array.length < 0 ? 0 : checked(array.length) | 0;
+        const buf = createBuffer(length);
+        for (let i = 0; i < length; i += 1) {
+          buf[i] = array[i] & 255;
+        }
+        return buf;
+      }
+      function fromArrayView(arrayView) {
+        if (isInstance(arrayView, Uint8Array)) {
+          const copy = new Uint8Array(arrayView);
+          return fromArrayBuffer(copy.buffer, copy.byteOffset, copy.byteLength);
+        }
+        return fromArrayLike(arrayView);
+      }
+      function fromArrayBuffer(array, byteOffset, length) {
+        if (byteOffset < 0 || array.byteLength < byteOffset) {
+          throw new RangeError('"offset" is outside of buffer bounds');
+        }
+        if (array.byteLength < byteOffset + (length || 0)) {
+          throw new RangeError('"length" is outside of buffer bounds');
+        }
+        let buf;
+        if (byteOffset === undefined && length === undefined) {
+          buf = new Uint8Array(array);
+        } else if (length === undefined) {
+          buf = new Uint8Array(array, byteOffset);
+        } else {
+          buf = new Uint8Array(array, byteOffset, length);
+        }
+        Object.setPrototypeOf(buf, Buffer.prototype);
+        return buf;
+      }
+      function fromObject(obj) {
+        if (Buffer.isBuffer(obj)) {
+          const len = checked(obj.length) | 0;
+          const buf = createBuffer(len);
+          if (buf.length === 0) {
+            return buf;
+          }
+          obj.copy(buf, 0, 0, len);
+          return buf;
+        }
+        if (obj.length !== undefined) {
+          if (typeof obj.length !== 'number' || numberIsNaN(obj.length)) {
+            return createBuffer(0);
+          }
+          return fromArrayLike(obj);
+        }
+        if (obj.type === 'Buffer' && Array.isArray(obj.data)) {
+          return fromArrayLike(obj.data);
+        }
+      }
+      function checked(length) {
+        if (length >= K_MAX_LENGTH) {
+          throw new RangeError('Attempt to allocate Buffer larger than maximum ' + 'size: 0x' + K_MAX_LENGTH.toString(16) + ' bytes');
+        }
+        return length | 0;
+      }
+      function SlowBuffer(length) {
+        if (+length != length) {
+          length = 0;
+        }
+        return Buffer.alloc(+length);
+      }
+      Buffer.isBuffer = function isBuffer(b) {
+        return b != null && b._isBuffer === true && b !== Buffer.prototype;
+      };
+      Buffer.compare = function compare(a, b) {
+        if (isInstance(a, Uint8Array)) {
+          a = Buffer.from(a, a.offset, a.byteLength);
+        }
+        if (isInstance(b, Uint8Array)) {
+          b = Buffer.from(b, b.offset, b.byteLength);
+        }
+        if (!Buffer.isBuffer(a) || !Buffer.isBuffer(b)) {
+          throw new TypeError('The "buf1", "buf2" arguments must be one of type Buffer or Uint8Array');
+        }
+        if (a === b) {
+          return 0;
+        }
+        let x = a.length;
+        let y = b.length;
+        for (let i = 0, len = Math.min(x, y); i < len; ++i) {
+          if (a[i] !== b[i]) {
+            x = a[i];
+            y = b[i];
+            break;
+          }
+        }
+        if (x < y) {
+          return -1;
+        }
+        if (y < x) {
+          return 1;
+        }
+        return 0;
+      };
+      Buffer.isEncoding = function isEncoding(encoding) {
+        switch (String(encoding).toLowerCase()) {
+         case 'hex':
+         case 'utf8':
+         case 'utf-8':
+         case 'ascii':
+         case 'latin1':
+         case 'binary':
+         case 'base64':
+         case 'ucs2':
+         case 'ucs-2':
+         case 'utf16le':
+         case 'utf-16le':
+          return true;
+
+         default:
+          return false;
+        }
+      };
+      Buffer.concat = function concat(list, length) {
+        if (!Array.isArray(list)) {
+          throw new TypeError('"list" argument must be an Array of Buffers');
+        }
+        if (list.length === 0) {
+          return Buffer.alloc(0);
+        }
+        let i;
+        if (length === undefined) {
+          length = 0;
+          for (i = 0; i < list.length; ++i) {
+            length += list[i].length;
+          }
+        }
+        const buffer = Buffer.allocUnsafe(length);
+        let pos = 0;
+        for (i = 0; i < list.length; ++i) {
+          let buf = list[i];
+          if (isInstance(buf, Uint8Array)) {
+            if (pos + buf.length > buffer.length) {
+              if (!Buffer.isBuffer(buf)) {
+                buf = Buffer.from(buf);
+              }
+              buf.copy(buffer, pos);
+            } else {
+              Uint8Array.prototype.set.call(buffer, buf, pos);
+            }
+          } else if (!Buffer.isBuffer(buf)) {
+            throw new TypeError('"list" argument must be an Array of Buffers');
+          } else {
+            buf.copy(buffer, pos);
+          }
+          pos += buf.length;
+        }
+        return buffer;
+      };
+      function byteLength(string, encoding) {
+        if (Buffer.isBuffer(string)) {
+          return string.length;
+        }
+        if (ArrayBuffer.isView(string) || isInstance(string, ArrayBuffer)) {
+          return string.byteLength;
+        }
+        if (typeof string !== 'string') {
+          throw new TypeError('The "string" argument must be one of type string, Buffer, or ArrayBuffer. ' + 'Received type ' + typeof string);
+        }
+        const len = string.length;
+        const mustMatch = arguments.length > 2 && arguments[2] === true;
+        if (!mustMatch && len === 0) {
+          return 0;
+        }
+        let loweredCase = false;
+        for (;;) {
+          switch (encoding) {
+           case 'ascii':
+           case 'latin1':
+           case 'binary':
+            return len;
+
+           case 'utf8':
+           case 'utf-8':
+            return utf8ToBytes(string).length;
+
+           case 'ucs2':
+           case 'ucs-2':
+           case 'utf16le':
+           case 'utf-16le':
+            return len * 2;
+
+           case 'hex':
+            return len >>> 1;
+
+           case 'base64':
+            return base64ToBytes(string).length;
+
+           default:
+            if (loweredCase) {
+              return mustMatch ? -1 : utf8ToBytes(string).length;
+            }
+            encoding = ('' + encoding).toLowerCase();
+            loweredCase = true;
+          }
+        }
+      }
+      Buffer.byteLength = byteLength;
+      function slowToString(encoding, start, end) {
+        let loweredCase = false;
+        if (start === undefined || start < 0) {
+          start = 0;
+        }
+        if (start > this.length) {
+          return '';
+        }
+        if (end === undefined || end > this.length) {
+          end = this.length;
+        }
+        if (end <= 0) {
+          return '';
+        }
+        end >>>= 0;
+        start >>>= 0;
+        if (end <= start) {
+          return '';
+        }
+        if (!encoding) {
+          encoding = 'utf8';
+        }
+        while (true) {
+          switch (encoding) {
+           case 'hex':
+            return hexSlice(this, start, end);
+
+           case 'utf8':
+           case 'utf-8':
+            return utf8Slice(this, start, end);
+
+           case 'ascii':
+            return asciiSlice(this, start, end);
+
+           case 'latin1':
+           case 'binary':
+            return latin1Slice(this, start, end);
+
+           case 'base64':
+            return base64Slice(this, start, end);
+
+           case 'ucs2':
+           case 'ucs-2':
+           case 'utf16le':
+           case 'utf-16le':
+            return utf16leSlice(this, start, end);
+
+           default:
+            if (loweredCase) {
+              throw new TypeError('Unknown encoding: ' + encoding);
+            }
+            encoding = (encoding + '').toLowerCase();
+            loweredCase = true;
+          }
+        }
+      }
+      Buffer.prototype._isBuffer = true;
+      function swap(b, n, m) {
+        const i = b[n];
+        b[n] = b[m];
+        b[m] = i;
+      }
+      Buffer.prototype.swap16 = function swap16() {
+        const len = this.length;
+        if (len % 2 !== 0) {
+          throw new RangeError('Buffer size must be a multiple of 16-bits');
+        }
+        for (let i = 0; i < len; i += 2) {
+          swap(this, i, i + 1);
+        }
+        return this;
+      };
+      Buffer.prototype.swap32 = function swap32() {
+        const len = this.length;
+        if (len % 4 !== 0) {
+          throw new RangeError('Buffer size must be a multiple of 32-bits');
+        }
+        for (let i = 0; i < len; i += 4) {
+          swap(this, i, i + 3);
+          swap(this, i + 1, i + 2);
+        }
+        return this;
+      };
+      Buffer.prototype.swap64 = function swap64() {
+        const len = this.length;
+        if (len % 8 !== 0) {
+          throw new RangeError('Buffer size must be a multiple of 64-bits');
+        }
+        for (let i = 0; i < len; i += 8) {
+          swap(this, i, i + 7);
+          swap(this, i + 1, i + 6);
+          swap(this, i + 2, i + 5);
+          swap(this, i + 3, i + 4);
+        }
+        return this;
+      };
+      Buffer.prototype.toString = function toString() {
+        const length = this.length;
+        if (length === 0) {
+          return '';
+        }
+        if (arguments.length === 0) {
+          return utf8Slice(this, 0, length);
+        }
+        return slowToString.apply(this, arguments);
+      };
+      Buffer.prototype.toLocaleString = Buffer.prototype.toString;
+      Buffer.prototype.equals = function equals(b) {
+        if (!Buffer.isBuffer(b)) {
+          throw new TypeError('Argument must be a Buffer');
+        }
+        if (this === b) {
+          return true;
+        }
+        return Buffer.compare(this, b) === 0;
+      };
+      Buffer.prototype.inspect = function inspect() {
+        let str = '';
+        const max = exports.IS;
+        str = this.toString('hex', 0, max).replace(/(.{2})/g, '$1 ').trim();
+        if (this.length > max) {
+          str += ' ... ';
+        }
+        return '<Buffer ' + str + '>';
+      };
+      if (customInspectSymbol) {
+        Buffer.prototype[customInspectSymbol] = Buffer.prototype.inspect;
+      }
+      Buffer.prototype.compare = function compare(target, start, end, thisStart, thisEnd) {
+        if (isInstance(target, Uint8Array)) {
+          target = Buffer.from(target, target.offset, target.byteLength);
+        }
+        if (!Buffer.isBuffer(target)) {
+          throw new TypeError('The "target" argument must be one of type Buffer or Uint8Array. ' + 'Received type ' + typeof target);
+        }
+        if (start === undefined) {
+          start = 0;
+        }
+        if (end === undefined) {
+          end = target ? target.length : 0;
+        }
+        if (thisStart === undefined) {
+          thisStart = 0;
+        }
+        if (thisEnd === undefined) {
+          thisEnd = this.length;
+        }
+        if (start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) {
+          throw new RangeError('out of range index');
+        }
+        if (thisStart >= thisEnd && start >= end) {
+          return 0;
+        }
+        if (thisStart >= thisEnd) {
+          return -1;
+        }
+        if (start >= end) {
+          return 1;
+        }
+        start >>>= 0;
+        end >>>= 0;
+        thisStart >>>= 0;
+        thisEnd >>>= 0;
+        if (this === target) {
+          return 0;
+        }
+        let x = thisEnd - thisStart;
+        let y = end - start;
+        const len = Math.min(x, y);
+        const thisCopy = this.slice(thisStart, thisEnd);
+        const targetCopy = target.slice(start, end);
+        for (let i = 0; i < len; ++i) {
+          if (thisCopy[i] !== targetCopy[i]) {
+            x = thisCopy[i];
+            y = targetCopy[i];
+            break;
+          }
+        }
+        if (x < y) {
+          return -1;
+        }
+        if (y < x) {
+          return 1;
+        }
+        return 0;
+      };
+      function bidirectionalIndexOf(buffer, val, byteOffset, encoding, dir) {
+        if (buffer.length === 0) {
+          return -1;
+        }
+        if (typeof byteOffset === 'string') {
+          encoding = byteOffset;
+          byteOffset = 0;
+        } else if (byteOffset > 2147483647) {
+          byteOffset = 2147483647;
+        } else if (byteOffset < -2147483648) {
+          byteOffset = -2147483648;
+        }
+        byteOffset = +byteOffset;
+        if (numberIsNaN(byteOffset)) {
+          byteOffset = dir ? 0 : buffer.length - 1;
+        }
+        if (byteOffset < 0) {
+          byteOffset = buffer.length + byteOffset;
+        }
+        if (byteOffset >= buffer.length) {
+          if (dir) {
+            return -1;
+          } else {
+            byteOffset = buffer.length - 1;
+          }
+        } else if (byteOffset < 0) {
+          if (dir) {
+            byteOffset = 0;
+          } else {
+            return -1;
+          }
+        }
+        if (typeof val === 'string') {
+          val = Buffer.from(val, encoding);
+        }
+        if (Buffer.isBuffer(val)) {
+          if (val.length === 0) {
+            return -1;
+          }
+          return arrayIndexOf(buffer, val, byteOffset, encoding, dir);
+        } else if (typeof val === 'number') {
+          val = val & 255;
+          if (typeof Uint8Array.prototype.indexOf === 'function') {
+            if (dir) {
+              return Uint8Array.prototype.indexOf.call(buffer, val, byteOffset);
+            } else {
+              return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset);
+            }
+          }
+          return arrayIndexOf(buffer, [ val ], byteOffset, encoding, dir);
+        }
+        throw new TypeError('val must be string, number or Buffer');
+      }
+      function arrayIndexOf(arr, val, byteOffset, encoding, dir) {
+        let indexSize = 1;
+        let arrLength = arr.length;
+        let valLength = val.length;
+        if (encoding !== undefined) {
+          encoding = String(encoding).toLowerCase();
+          if (encoding === 'ucs2' || encoding === 'ucs-2' || encoding === 'utf16le' || encoding === 'utf-16le') {
+            if (arr.length < 2 || val.length < 2) {
+              return -1;
+            }
+            indexSize = 2;
+            arrLength /= 2;
+            valLength /= 2;
+            byteOffset /= 2;
+          }
+        }
+        function read(buf, i) {
+          if (indexSize === 1) {
+            return buf[i];
+          } else {
+            return buf.readUInt16BE(i * indexSize);
+          }
+        }
+        let i;
+        if (dir) {
+          let foundIndex = -1;
+          for (i = byteOffset; i < arrLength; i++) {
+            if (read(arr, i) === read(val, foundIndex === -1 ? 0 : i - foundIndex)) {
+              if (foundIndex === -1) {
+                foundIndex = i;
+              }
+              if (i - foundIndex + 1 === valLength) {
+                return foundIndex * indexSize;
+              }
+            } else {
+              if (foundIndex !== -1) {
+                i -= i - foundIndex;
+              }
+              foundIndex = -1;
+            }
+          }
+        } else {
+          if (byteOffset + valLength > arrLength) {
+            byteOffset = arrLength - valLength;
+          }
+          for (i = byteOffset; i >= 0; i--) {
+            let found = true;
+            for (let j = 0; j < valLength; j++) {
+              if (read(arr, i + j) !== read(val, j)) {
+                found = false;
+                break;
+              }
+            }
+            if (found) {
+              return i;
+            }
+          }
+        }
+        return -1;
+      }
+      Buffer.prototype.includes = function includes(val, byteOffset, encoding) {
+        return this.indexOf(val, byteOffset, encoding) !== -1;
+      };
+      Buffer.prototype.indexOf = function indexOf(val, byteOffset, encoding) {
+        return bidirectionalIndexOf(this, val, byteOffset, encoding, true);
+      };
+      Buffer.prototype.lastIndexOf = function lastIndexOf(val, byteOffset, encoding) {
+        return bidirectionalIndexOf(this, val, byteOffset, encoding, false);
+      };
+      function hexWrite(buf, string, offset, length) {
+        offset = Number(offset) || 0;
+        const remaining = buf.length - offset;
+        if (!length) {
+          length = remaining;
+        } else {
+          length = Number(length);
+          if (length > remaining) {
+            length = remaining;
+          }
+        }
+        const strLen = string.length;
+        if (length > strLen / 2) {
+          length = strLen / 2;
+        }
+        let i;
+        for (i = 0; i < length; ++i) {
+          const parsed = parseInt(string.substr(i * 2, 2), 16);
+          if (numberIsNaN(parsed)) {
+            return i;
+          }
+          buf[offset + i] = parsed;
+        }
+        return i;
+      }
+      function utf8Write(buf, string, offset, length) {
+        return blitBuffer(utf8ToBytes(string, buf.length - offset), buf, offset, length);
+      }
+      function asciiWrite(buf, string, offset, length) {
+        return blitBuffer(asciiToBytes(string), buf, offset, length);
+      }
+      function base64Write(buf, string, offset, length) {
+        return blitBuffer(base64ToBytes(string), buf, offset, length);
+      }
+      function ucs2Write(buf, string, offset, length) {
+        return blitBuffer(utf16leToBytes(string, buf.length - offset), buf, offset, length);
+      }
+      Buffer.prototype.write = function write(string, offset, length, encoding) {
+        if (offset === undefined) {
+          encoding = 'utf8';
+          length = this.length;
+          offset = 0;
+        } else if (length === undefined && typeof offset === 'string') {
+          encoding = offset;
+          length = this.length;
+          offset = 0;
+        } else if (isFinite(offset)) {
+          offset = offset >>> 0;
+          if (isFinite(length)) {
+            length = length >>> 0;
+            if (encoding === undefined) {
+              encoding = 'utf8';
+            }
+          } else {
+            encoding = length;
+            length = undefined;
+          }
+        } else {
+          throw new Error('Buffer.write(string, encoding, offset[, length]) is no longer supported');
+        }
+        const remaining = this.length - offset;
+        if (length === undefined || length > remaining) {
+          length = remaining;
+        }
+        if (string.length > 0 && (length < 0 || offset < 0) || offset > this.length) {
+          throw new RangeError('Attempt to write outside buffer bounds');
+        }
+        if (!encoding) {
+          encoding = 'utf8';
+        }
+        let loweredCase = false;
+        for (;;) {
+          switch (encoding) {
+           case 'hex':
+            return hexWrite(this, string, offset, length);
+
+           case 'utf8':
+           case 'utf-8':
+            return utf8Write(this, string, offset, length);
+
+           case 'ascii':
+           case 'latin1':
+           case 'binary':
+            return asciiWrite(this, string, offset, length);
+
+           case 'base64':
+            return base64Write(this, string, offset, length);
+
+           case 'ucs2':
+           case 'ucs-2':
+           case 'utf16le':
+           case 'utf-16le':
+            return ucs2Write(this, string, offset, length);
+
+           default:
+            if (loweredCase) {
+              throw new TypeError('Unknown encoding: ' + encoding);
+            }
+            encoding = ('' + encoding).toLowerCase();
+            loweredCase = true;
+          }
+        }
+      };
+      Buffer.prototype.toJSON = function toJSON() {
+        return {
+          type: 'Buffer',
+          data: Array.prototype.slice.call(this._arr || this, 0)
+        };
+      };
+      function base64Slice(buf, start, end) {
+        if (start === 0 && end === buf.length) {
+          return base64.fromByteArray(buf);
+        } else {
+          return base64.fromByteArray(buf.slice(start, end));
+        }
+      }
+      function utf8Slice(buf, start, end) {
+        end = Math.min(buf.length, end);
+        const res = [];
+        let i = start;
+        while (i < end) {
+          const firstByte = buf[i];
+          let codePoint = null;
+          let bytesPerSequence = firstByte > 239 ? 4 : firstByte > 223 ? 3 : firstByte > 191 ? 2 : 1;
+          if (i + bytesPerSequence <= end) {
+            let secondByte, thirdByte, fourthByte, tempCodePoint;
+            switch (bytesPerSequence) {
+             case 1:
+              if (firstByte < 128) {
+                codePoint = firstByte;
+              }
+              break;
+
+             case 2:
+              secondByte = buf[i + 1];
+              if ((secondByte & 192) === 128) {
+                tempCodePoint = (firstByte & 31) << 6 | secondByte & 63;
+                if (tempCodePoint > 127) {
+                  codePoint = tempCodePoint;
+                }
+              }
+              break;
+
+             case 3:
+              secondByte = buf[i + 1];
+              thirdByte = buf[i + 2];
+              if ((secondByte & 192) === 128 && (thirdByte & 192) === 128) {
+                tempCodePoint = (firstByte & 15) << 12 | (secondByte & 63) << 6 | thirdByte & 63;
+                if (tempCodePoint > 2047 && (tempCodePoint < 55296 || tempCodePoint > 57343)) {
+                  codePoint = tempCodePoint;
+                }
+              }
+              break;
+
+             case 4:
+              secondByte = buf[i + 1];
+              thirdByte = buf[i + 2];
+              fourthByte = buf[i + 3];
+              if ((secondByte & 192) === 128 && (thirdByte & 192) === 128 && (fourthByte & 192) === 128) {
+                tempCodePoint = (firstByte & 15) << 18 | (secondByte & 63) << 12 | (thirdByte & 63) << 6 | fourthByte & 63;
+                if (tempCodePoint > 65535 && tempCodePoint < 1114112) {
+                  codePoint = tempCodePoint;
+                }
+              }
+            }
+          }
+          if (codePoint === null) {
+            codePoint = 65533;
+            bytesPerSequence = 1;
+          } else if (codePoint > 65535) {
+            codePoint -= 65536;
+            res.push(codePoint >>> 10 & 1023 | 55296);
+            codePoint = 56320 | codePoint & 1023;
+          }
+          res.push(codePoint);
+          i += bytesPerSequence;
+        }
+        return decodeCodePointsArray(res);
+      }
+      const MAX_ARGUMENTS_LENGTH = 4096;
+      function decodeCodePointsArray(codePoints) {
+        const len = codePoints.length;
+        if (len <= MAX_ARGUMENTS_LENGTH) {
+          return String.fromCharCode.apply(String, codePoints);
+        }
+        let res = '';
+        let i = 0;
+        while (i < len) {
+          res += String.fromCharCode.apply(String, codePoints.slice(i, i += MAX_ARGUMENTS_LENGTH));
+        }
+        return res;
+      }
+      function asciiSlice(buf, start, end) {
+        let ret = '';
+        end = Math.min(buf.length, end);
+        for (let i = start; i < end; ++i) {
+          ret += String.fromCharCode(buf[i] & 127);
+        }
+        return ret;
+      }
+      function latin1Slice(buf, start, end) {
+        let ret = '';
+        end = Math.min(buf.length, end);
+        for (let i = start; i < end; ++i) {
+          ret += String.fromCharCode(buf[i]);
+        }
+        return ret;
+      }
+      function hexSlice(buf, start, end) {
+        const len = buf.length;
+        if (!start || start < 0) {
+          start = 0;
+        }
+        if (!end || end < 0 || end > len) {
+          end = len;
+        }
+        let out = '';
+        for (let i = start; i < end; ++i) {
+          out += hexSliceLookupTable[buf[i]];
+        }
+        return out;
+      }
+      function utf16leSlice(buf, start, end) {
+        const bytes = buf.slice(start, end);
+        let res = '';
+        for (let i = 0; i < bytes.length - 1; i += 2) {
+          res += String.fromCharCode(bytes[i] + bytes[i + 1] * 256);
+        }
+        return res;
+      }
+      Buffer.prototype.slice = function slice(start, end) {
+        const len = this.length;
+        start = ~~start;
+        end = end === undefined ? len : ~~end;
+        if (start < 0) {
+          start += len;
+          if (start < 0) {
+            start = 0;
+          }
+        } else if (start > len) {
+          start = len;
+        }
+        if (end < 0) {
+          end += len;
+          if (end < 0) {
+            end = 0;
+          }
+        } else if (end > len) {
+          end = len;
+        }
+        if (end < start) {
+          end = start;
+        }
+        const newBuf = this.subarray(start, end);
+        Object.setPrototypeOf(newBuf, Buffer.prototype);
+        return newBuf;
+      };
+      function checkOffset(offset, ext, length) {
+        if (offset % 1 !== 0 || offset < 0) {
+          throw new RangeError('offset is not uint');
+        }
+        if (offset + ext > length) {
+          throw new RangeError('Trying to access beyond buffer length');
+        }
+      }
+      Buffer.prototype.readUintLE = Buffer.prototype.readUIntLE = function readUIntLE(offset, byteLength, noAssert) {
+        offset = offset >>> 0;
+        byteLength = byteLength >>> 0;
+        if (!noAssert) {
+          checkOffset(offset, byteLength, this.length);
+        }
+        let val = this[offset];
+        let mul = 1;
+        let i = 0;
+        while (++i < byteLength && (mul *= 256)) {
+          val += this[offset + i] * mul;
+        }
+        return val;
+      };
+      Buffer.prototype.readUintBE = Buffer.prototype.readUIntBE = function readUIntBE(offset, byteLength, noAssert) {
+        offset = offset >>> 0;
+        byteLength = byteLength >>> 0;
+        if (!noAssert) {
+          checkOffset(offset, byteLength, this.length);
+        }
+        let val = this[offset + --byteLength];
+        let mul = 1;
+        while (byteLength > 0 && (mul *= 256)) {
+          val += this[offset + --byteLength] * mul;
+        }
+        return val;
+      };
+      Buffer.prototype.readUint8 = Buffer.prototype.readUInt8 = function readUInt8(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkOffset(offset, 1, this.length);
+        }
+        return this[offset];
+      };
+      Buffer.prototype.readUint16LE = Buffer.prototype.readUInt16LE = function readUInt16LE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkOffset(offset, 2, this.length);
+        }
+        return this[offset] | this[offset + 1] << 8;
+      };
+      Buffer.prototype.readUint16BE = Buffer.prototype.readUInt16BE = function readUInt16BE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkOffset(offset, 2, this.length);
+        }
+        return this[offset] << 8 | this[offset + 1];
+      };
+      Buffer.prototype.readUint32LE = Buffer.prototype.readUInt32LE = function readUInt32LE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkOffset(offset, 4, this.length);
+        }
+        return (this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16) + this[offset + 3] * 16777216;
+      };
+      Buffer.prototype.readUint32BE = Buffer.prototype.readUInt32BE = function readUInt32BE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkOffset(offset, 4, this.length);
+        }
+        return this[offset] * 16777216 + (this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3]);
+      };
+      Buffer.prototype.readBigUInt64LE = defineBigIntMethod(function readBigUInt64LE(offset) {
+        offset = offset >>> 0;
+        validateNumber(offset, 'offset');
+        const first = this[offset];
+        const last = this[offset + 7];
+        if (first === undefined || last === undefined) {
+          boundsError(offset, this.length - 8);
+        }
+        const lo = first + this[++offset] * 2 ** 8 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 24;
+        const hi = this[++offset] + this[++offset] * 2 ** 8 + this[++offset] * 2 ** 16 + last * 2 ** 24;
+        return BigInt(lo) + (BigInt(hi) << BigInt(32));
+      });
+      Buffer.prototype.readBigUInt64BE = defineBigIntMethod(function readBigUInt64BE(offset) {
+        offset = offset >>> 0;
+        validateNumber(offset, 'offset');
+        const first = this[offset];
+        const last = this[offset + 7];
+        if (first === undefined || last === undefined) {
+          boundsError(offset, this.length - 8);
+        }
+        const hi = first * 2 ** 24 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 8 + this[++offset];
+        const lo = this[++offset] * 2 ** 24 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 8 + last;
+        return (BigInt(hi) << BigInt(32)) + BigInt(lo);
+      });
+      Buffer.prototype.readIntLE = function readIntLE(offset, byteLength, noAssert) {
+        offset = offset >>> 0;
+        byteLength = byteLength >>> 0;
+        if (!noAssert) {
+          checkOffset(offset, byteLength, this.length);
+        }
+        let val = this[offset];
+        let mul = 1;
+        let i = 0;
+        while (++i < byteLength && (mul *= 256)) {
+          val += this[offset + i] * mul;
+        }
+        mul *= 128;
+        if (val >= mul) {
+          val -= Math.pow(2, 8 * byteLength);
+        }
+        return val;
+      };
+      Buffer.prototype.readIntBE = function readIntBE(offset, byteLength, noAssert) {
+        offset = offset >>> 0;
+        byteLength = byteLength >>> 0;
+        if (!noAssert) {
+          checkOffset(offset, byteLength, this.length);
+        }
+        let i = byteLength;
+        let mul = 1;
+        let val = this[offset + --i];
+        while (i > 0 && (mul *= 256)) {
+          val += this[offset + --i] * mul;
+        }
+        mul *= 128;
+        if (val >= mul) {
+          val -= Math.pow(2, 8 * byteLength);
+        }
+        return val;
+      };
+      Buffer.prototype.readInt8 = function readInt8(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkOffset(offset, 1, this.length);
+        }
+        if (!(this[offset] & 128)) {
+          return this[offset];
+        }
+        return (255 - this[offset] + 1) * -1;
+      };
+      Buffer.prototype.readInt16LE = function readInt16LE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkOffset(offset, 2, this.length);
+        }
+        const val = this[offset] | this[offset + 1] << 8;
+        return val & 32768 ? val | 4294901760 : val;
+      };
+      Buffer.prototype.readInt16BE = function readInt16BE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkOffset(offset, 2, this.length);
+        }
+        const val = this[offset + 1] | this[offset] << 8;
+        return val & 32768 ? val | 4294901760 : val;
+      };
+      Buffer.prototype.readInt32LE = function readInt32LE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkOffset(offset, 4, this.length);
+        }
+        return this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16 | this[offset + 3] << 24;
+      };
+      Buffer.prototype.readInt32BE = function readInt32BE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkOffset(offset, 4, this.length);
+        }
+        return this[offset] << 24 | this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3];
+      };
+      Buffer.prototype.readBigInt64LE = defineBigIntMethod(function readBigInt64LE(offset) {
+        offset = offset >>> 0;
+        validateNumber(offset, 'offset');
+        const first = this[offset];
+        const last = this[offset + 7];
+        if (first === undefined || last === undefined) {
+          boundsError(offset, this.length - 8);
+        }
+        const val = this[offset + 4] + this[offset + 5] * 2 ** 8 + this[offset + 6] * 2 ** 16 + (last << 24);
+        return (BigInt(val) << BigInt(32)) + BigInt(first + this[++offset] * 2 ** 8 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 24);
+      });
+      Buffer.prototype.readBigInt64BE = defineBigIntMethod(function readBigInt64BE(offset) {
+        offset = offset >>> 0;
+        validateNumber(offset, 'offset');
+        const first = this[offset];
+        const last = this[offset + 7];
+        if (first === undefined || last === undefined) {
+          boundsError(offset, this.length - 8);
+        }
+        const val = (first << 24) + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 8 + this[++offset];
+        return (BigInt(val) << BigInt(32)) + BigInt(this[++offset] * 2 ** 24 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 8 + last);
+      });
+      Buffer.prototype.readFloatLE = function readFloatLE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkOffset(offset, 4, this.length);
+        }
+        return ieee754.read(this, offset, true, 23, 4);
+      };
+      Buffer.prototype.readFloatBE = function readFloatBE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkOffset(offset, 4, this.length);
+        }
+        return ieee754.read(this, offset, false, 23, 4);
+      };
+      Buffer.prototype.readDoubleLE = function readDoubleLE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkOffset(offset, 8, this.length);
+        }
+        return ieee754.read(this, offset, true, 52, 8);
+      };
+      Buffer.prototype.readDoubleBE = function readDoubleBE(offset, noAssert) {
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkOffset(offset, 8, this.length);
+        }
+        return ieee754.read(this, offset, false, 52, 8);
+      };
+      function checkInt(buf, value, offset, ext, max, min) {
+        if (!Buffer.isBuffer(buf)) {
+          throw new TypeError('"buffer" argument must be a Buffer instance');
+        }
+        if (value > max || value < min) {
+          throw new RangeError('"value" argument is out of bounds');
+        }
+        if (offset + ext > buf.length) {
+          throw new RangeError('Index out of range');
+        }
+      }
+      Buffer.prototype.writeUintLE = Buffer.prototype.writeUIntLE = function writeUIntLE(value, offset, byteLength, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        byteLength = byteLength >>> 0;
+        if (!noAssert) {
+          const maxBytes = Math.pow(2, 8 * byteLength) - 1;
+          checkInt(this, value, offset, byteLength, maxBytes, 0);
+        }
+        let mul = 1;
+        let i = 0;
+        this[offset] = value & 255;
+        while (++i < byteLength && (mul *= 256)) {
+          this[offset + i] = value / mul & 255;
+        }
+        return offset + byteLength;
+      };
+      Buffer.prototype.writeUintBE = Buffer.prototype.writeUIntBE = function writeUIntBE(value, offset, byteLength, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        byteLength = byteLength >>> 0;
+        if (!noAssert) {
+          const maxBytes = Math.pow(2, 8 * byteLength) - 1;
+          checkInt(this, value, offset, byteLength, maxBytes, 0);
+        }
+        let i = byteLength - 1;
+        let mul = 1;
+        this[offset + i] = value & 255;
+        while (--i >= 0 && (mul *= 256)) {
+          this[offset + i] = value / mul & 255;
+        }
+        return offset + byteLength;
+      };
+      Buffer.prototype.writeUint8 = Buffer.prototype.writeUInt8 = function writeUInt8(value, offset, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkInt(this, value, offset, 1, 255, 0);
+        }
+        this[offset] = value & 255;
+        return offset + 1;
+      };
+      Buffer.prototype.writeUint16LE = Buffer.prototype.writeUInt16LE = function writeUInt16LE(value, offset, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkInt(this, value, offset, 2, 65535, 0);
+        }
+        this[offset] = value & 255;
+        this[offset + 1] = value >>> 8;
+        return offset + 2;
+      };
+      Buffer.prototype.writeUint16BE = Buffer.prototype.writeUInt16BE = function writeUInt16BE(value, offset, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkInt(this, value, offset, 2, 65535, 0);
+        }
+        this[offset] = value >>> 8;
+        this[offset + 1] = value & 255;
+        return offset + 2;
+      };
+      Buffer.prototype.writeUint32LE = Buffer.prototype.writeUInt32LE = function writeUInt32LE(value, offset, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkInt(this, value, offset, 4, 4294967295, 0);
+        }
+        this[offset + 3] = value >>> 24;
+        this[offset + 2] = value >>> 16;
+        this[offset + 1] = value >>> 8;
+        this[offset] = value & 255;
+        return offset + 4;
+      };
+      Buffer.prototype.writeUint32BE = Buffer.prototype.writeUInt32BE = function writeUInt32BE(value, offset, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkInt(this, value, offset, 4, 4294967295, 0);
+        }
+        this[offset] = value >>> 24;
+        this[offset + 1] = value >>> 16;
+        this[offset + 2] = value >>> 8;
+        this[offset + 3] = value & 255;
+        return offset + 4;
+      };
+      function wrtBigUInt64LE(buf, value, offset, min, max) {
+        checkIntBI(value, min, max, buf, offset, 7);
+        let lo = Number(value & BigInt(4294967295));
+        buf[offset++] = lo;
+        lo = lo >> 8;
+        buf[offset++] = lo;
+        lo = lo >> 8;
+        buf[offset++] = lo;
+        lo = lo >> 8;
+        buf[offset++] = lo;
+        let hi = Number(value >> BigInt(32) & BigInt(4294967295));
+        buf[offset++] = hi;
+        hi = hi >> 8;
+        buf[offset++] = hi;
+        hi = hi >> 8;
+        buf[offset++] = hi;
+        hi = hi >> 8;
+        buf[offset++] = hi;
+        return offset;
+      }
+      function wrtBigUInt64BE(buf, value, offset, min, max) {
+        checkIntBI(value, min, max, buf, offset, 7);
+        let lo = Number(value & BigInt(4294967295));
+        buf[offset + 7] = lo;
+        lo = lo >> 8;
+        buf[offset + 6] = lo;
+        lo = lo >> 8;
+        buf[offset + 5] = lo;
+        lo = lo >> 8;
+        buf[offset + 4] = lo;
+        let hi = Number(value >> BigInt(32) & BigInt(4294967295));
+        buf[offset + 3] = hi;
+        hi = hi >> 8;
+        buf[offset + 2] = hi;
+        hi = hi >> 8;
+        buf[offset + 1] = hi;
+        hi = hi >> 8;
+        buf[offset] = hi;
+        return offset + 8;
+      }
+      Buffer.prototype.writeBigUInt64LE = defineBigIntMethod(function writeBigUInt64LE(value, offset = 0) {
+        return wrtBigUInt64LE(this, value, offset, BigInt(0), BigInt('0xffffffffffffffff'));
+      });
+      Buffer.prototype.writeBigUInt64BE = defineBigIntMethod(function writeBigUInt64BE(value, offset = 0) {
+        return wrtBigUInt64BE(this, value, offset, BigInt(0), BigInt('0xffffffffffffffff'));
+      });
+      Buffer.prototype.writeIntLE = function writeIntLE(value, offset, byteLength, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) {
+          const limit = Math.pow(2, 8 * byteLength - 1);
+          checkInt(this, value, offset, byteLength, limit - 1, -limit);
+        }
+        let i = 0;
+        let mul = 1;
+        let sub = 0;
+        this[offset] = value & 255;
+        while (++i < byteLength && (mul *= 256)) {
+          if (value < 0 && sub === 0 && this[offset + i - 1] !== 0) {
+            sub = 1;
+          }
+          this[offset + i] = (value / mul >> 0) - sub & 255;
+        }
+        return offset + byteLength;
+      };
+      Buffer.prototype.writeIntBE = function writeIntBE(value, offset, byteLength, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) {
+          const limit = Math.pow(2, 8 * byteLength - 1);
+          checkInt(this, value, offset, byteLength, limit - 1, -limit);
+        }
+        let i = byteLength - 1;
+        let mul = 1;
+        let sub = 0;
+        this[offset + i] = value & 255;
+        while (--i >= 0 && (mul *= 256)) {
+          if (value < 0 && sub === 0 && this[offset + i + 1] !== 0) {
+            sub = 1;
+          }
+          this[offset + i] = (value / mul >> 0) - sub & 255;
+        }
+        return offset + byteLength;
+      };
+      Buffer.prototype.writeInt8 = function writeInt8(value, offset, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkInt(this, value, offset, 1, 127, -128);
+        }
+        if (value < 0) {
+          value = 255 + value + 1;
+        }
+        this[offset] = value & 255;
+        return offset + 1;
+      };
+      Buffer.prototype.writeInt16LE = function writeInt16LE(value, offset, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkInt(this, value, offset, 2, 32767, -32768);
+        }
+        this[offset] = value & 255;
+        this[offset + 1] = value >>> 8;
+        return offset + 2;
+      };
+      Buffer.prototype.writeInt16BE = function writeInt16BE(value, offset, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkInt(this, value, offset, 2, 32767, -32768);
+        }
+        this[offset] = value >>> 8;
+        this[offset + 1] = value & 255;
+        return offset + 2;
+      };
+      Buffer.prototype.writeInt32LE = function writeInt32LE(value, offset, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkInt(this, value, offset, 4, 2147483647, -2147483648);
+        }
+        this[offset] = value & 255;
+        this[offset + 1] = value >>> 8;
+        this[offset + 2] = value >>> 16;
+        this[offset + 3] = value >>> 24;
+        return offset + 4;
+      };
+      Buffer.prototype.writeInt32BE = function writeInt32BE(value, offset, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkInt(this, value, offset, 4, 2147483647, -2147483648);
+        }
+        if (value < 0) {
+          value = 4294967295 + value + 1;
+        }
+        this[offset] = value >>> 24;
+        this[offset + 1] = value >>> 16;
+        this[offset + 2] = value >>> 8;
+        this[offset + 3] = value & 255;
+        return offset + 4;
+      };
+      Buffer.prototype.writeBigInt64LE = defineBigIntMethod(function writeBigInt64LE(value, offset = 0) {
+        return wrtBigUInt64LE(this, value, offset, -BigInt('0x8000000000000000'), BigInt('0x7fffffffffffffff'));
+      });
+      Buffer.prototype.writeBigInt64BE = defineBigIntMethod(function writeBigInt64BE(value, offset = 0) {
+        return wrtBigUInt64BE(this, value, offset, -BigInt('0x8000000000000000'), BigInt('0x7fffffffffffffff'));
+      });
+      function checkIEEE754(buf, value, offset, ext, max, min) {
+        if (offset + ext > buf.length) {
+          throw new RangeError('Index out of range');
+        }
+        if (offset < 0) {
+          throw new RangeError('Index out of range');
+        }
+      }
+      function writeFloat(buf, value, offset, littleEndian, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkIEEE754(buf, value, offset, 4, 34028234663852886e22, -34028234663852886e22);
+        }
+        ieee754.write(buf, value, offset, littleEndian, 23, 4);
+        return offset + 4;
+      }
+      Buffer.prototype.writeFloatLE = function writeFloatLE(value, offset, noAssert) {
+        return writeFloat(this, value, offset, true, noAssert);
+      };
+      Buffer.prototype.writeFloatBE = function writeFloatBE(value, offset, noAssert) {
+        return writeFloat(this, value, offset, false, noAssert);
+      };
+      function writeDouble(buf, value, offset, littleEndian, noAssert) {
+        value = +value;
+        offset = offset >>> 0;
+        if (!noAssert) {
+          checkIEEE754(buf, value, offset, 8, 17976931348623157e292, -17976931348623157e292);
+        }
+        ieee754.write(buf, value, offset, littleEndian, 52, 8);
+        return offset + 8;
+      }
+      Buffer.prototype.writeDoubleLE = function writeDoubleLE(value, offset, noAssert) {
+        return writeDouble(this, value, offset, true, noAssert);
+      };
+      Buffer.prototype.writeDoubleBE = function writeDoubleBE(value, offset, noAssert) {
+        return writeDouble(this, value, offset, false, noAssert);
+      };
+      Buffer.prototype.copy = function copy(target, targetStart, start, end) {
+        if (!Buffer.isBuffer(target)) {
+          throw new TypeError('argument should be a Buffer');
+        }
+        if (!start) {
+          start = 0;
+        }
+        if (!end && end !== 0) {
+          end = this.length;
+        }
+        if (targetStart >= target.length) {
+          targetStart = target.length;
+        }
+        if (!targetStart) {
+          targetStart = 0;
+        }
+        if (end > 0 && end < start) {
+          end = start;
+        }
+        if (end === start) {
+          return 0;
+        }
+        if (target.length === 0 || this.length === 0) {
+          return 0;
+        }
+        if (targetStart < 0) {
+          throw new RangeError('targetStart out of bounds');
+        }
+        if (start < 0 || start >= this.length) {
+          throw new RangeError('Index out of range');
+        }
+        if (end < 0) {
+          throw new RangeError('sourceEnd out of bounds');
+        }
+        if (end > this.length) {
+          end = this.length;
+        }
+        if (target.length - targetStart < end - start) {
+          end = target.length - targetStart + start;
+        }
+        const len = end - start;
+        if (this === target && typeof Uint8Array.prototype.copyWithin === 'function') {
+          this.copyWithin(targetStart, start, end);
+        } else {
+          Uint8Array.prototype.set.call(target, this.subarray(start, end), targetStart);
+        }
+        return len;
+      };
+      Buffer.prototype.fill = function fill(val, start, end, encoding) {
+        if (typeof val === 'string') {
+          if (typeof start === 'string') {
+            encoding = start;
+            start = 0;
+            end = this.length;
+          } else if (typeof end === 'string') {
+            encoding = end;
+            end = this.length;
+          }
+          if (encoding !== undefined && typeof encoding !== 'string') {
+            throw new TypeError('encoding must be a string');
+          }
+          if (typeof encoding === 'string' && !Buffer.isEncoding(encoding)) {
+            throw new TypeError('Unknown encoding: ' + encoding);
+          }
+          if (val.length === 1) {
+            const code = val.charCodeAt(0);
+            if (encoding === 'utf8' && code < 128 || encoding === 'latin1') {
+              val = code;
+            }
+          }
+        } else if (typeof val === 'number') {
+          val = val & 255;
+        } else if (typeof val === 'boolean') {
+          val = Number(val);
+        }
+        if (start < 0 || this.length < start || this.length < end) {
+          throw new RangeError('Out of range index');
+        }
+        if (end <= start) {
+          return this;
+        }
+        start = start >>> 0;
+        end = end === undefined ? this.length : end >>> 0;
+        if (!val) {
+          val = 0;
+        }
+        let i;
+        if (typeof val === 'number') {
+          for (i = start; i < end; ++i) {
+            this[i] = val;
+          }
+        } else {
+          const bytes = Buffer.isBuffer(val) ? val : Buffer.from(val, encoding);
+          const len = bytes.length;
+          if (len === 0) {
+            throw new TypeError('The value "' + val + '" is invalid for argument "value"');
+          }
+          for (i = 0; i < end - start; ++i) {
+            this[i + start] = bytes[i % len];
+          }
+        }
+        return this;
+      };
+      const errors = {};
+      function E(sym, getMessage, Base) {
+        errors[sym] = class NodeError extends Base {
+          constructor() {
+            super();
+            Object.defineProperty(this, 'message', {
+              value: getMessage.apply(this, arguments),
+              writable: true,
+              configurable: true
+            });
+            this.name = `${this.name} [${sym}]`;
+            this.stack;
+            delete this.name;
+          }
+          get code() {
+            return sym;
+          }
+          set code(value) {
+            Object.defineProperty(this, 'code', {
+              configurable: true,
+              enumerable: true,
+              value: value,
+              writable: true
+            });
+          }
+          toString() {
+            return `${this.name} [${sym}]: ${this.message}`;
+          }
+        };
+      }
+      E('ERR_BUFFER_OUT_OF_BOUNDS', function(name) {
+        if (name) {
+          return `${name} is outside of buffer bounds`;
+        }
+        return 'Attempt to access memory outside buffer bounds';
+      }, RangeError);
+      E('ERR_INVALID_ARG_TYPE', function(name, actual) {
+        return `The "${name}" argument must be of type number. Received type ${typeof actual}`;
+      }, TypeError);
+      E('ERR_OUT_OF_RANGE', function(str, range, input) {
+        let msg = `The value of "${str}" is out of range.`;
+        let received = input;
+        if (Number.isInteger(input) && Math.abs(input) > 2 ** 32) {
+          received = addNumericalSeparator(String(input));
+        } else if (typeof input === 'bigint') {
+          received = String(input);
+          if (input > BigInt(2) ** BigInt(32) || input < -(BigInt(2) ** BigInt(32))) {
+            received = addNumericalSeparator(received);
+          }
+          received += 'n';
+        }
+        msg += ` It must be ${range}. Received ${received}`;
+        return msg;
+      }, RangeError);
+      function addNumericalSeparator(val) {
+        let res = '';
+        let i = val.length;
+        const start = val[0] === '-' ? 1 : 0;
+        for (;i >= start + 4; i -= 3) {
+          res = `_${val.slice(i - 3, i)}${res}`;
+        }
+        return `${val.slice(0, i)}${res}`;
+      }
+      function checkBounds(buf, offset, byteLength) {
+        validateNumber(offset, 'offset');
+        if (buf[offset] === undefined || buf[offset + byteLength] === undefined) {
+          boundsError(offset, buf.length - (byteLength + 1));
+        }
+      }
+      function checkIntBI(value, min, max, buf, offset, byteLength) {
+        if (value > max || value < min) {
+          const n = typeof min === 'bigint' ? 'n' : '';
+          let range;
+          if (byteLength > 3) {
+            if (min === 0 || min === BigInt(0)) {
+              range = `>= 0${n} and < 2${n} ** ${(byteLength + 1) * 8}${n}`;
+            } else {
+              range = `>= -(2${n} ** ${(byteLength + 1) * 8 - 1}${n}) and < 2 ** ` + `${(byteLength + 1) * 8 - 1}${n}`;
+            }
+          } else {
+            range = `>= ${min}${n} and <= ${max}${n}`;
+          }
+          throw new errors.ERR_OUT_OF_RANGE('value', range, value);
+        }
+        checkBounds(buf, offset, byteLength);
+      }
+      function validateNumber(value, name) {
+        if (typeof value !== 'number') {
+          throw new errors.ERR_INVALID_ARG_TYPE(name, 'number', value);
+        }
+      }
+      function boundsError(value, length, type) {
+        if (Math.floor(value) !== value) {
+          validateNumber(value, type);
+          throw new errors.ERR_OUT_OF_RANGE(type || 'offset', 'an integer', value);
+        }
+        if (length < 0) {
+          throw new errors.ERR_BUFFER_OUT_OF_BOUNDS();
+        }
+        throw new errors.ERR_OUT_OF_RANGE(type || 'offset', `>= ${type ? 1 : 0} and <= ${length}`, value);
+      }
+      const INVALID_BASE64_RE = /[^+/0-9A-Za-z-_]/g;
+      function base64clean(str) {
+        str = str.split('=')[0];
+        str = str.trim().replace(INVALID_BASE64_RE, '');
+        if (str.length < 2) {
+          return '';
+        }
+        while (str.length % 4 !== 0) {
+          str = str + '=';
+        }
+        return str;
+      }
+      function utf8ToBytes(string, units) {
+        units = units || Infinity;
+        let codePoint;
+        const length = string.length;
+        let leadSurrogate = null;
+        const bytes = [];
+        for (let i = 0; i < length; ++i) {
+          codePoint = string.charCodeAt(i);
+          if (codePoint > 55295 && codePoint < 57344) {
+            if (!leadSurrogate) {
+              if (codePoint > 56319) {
+                if ((units -= 3) > -1) {
+                  bytes.push(239, 191, 189);
+                }
+                continue;
+              } else if (i + 1 === length) {
+                if ((units -= 3) > -1) {
+                  bytes.push(239, 191, 189);
+                }
+                continue;
+              }
+              leadSurrogate = codePoint;
+              continue;
+            }
+            if (codePoint < 56320) {
+              if ((units -= 3) > -1) {
+                bytes.push(239, 191, 189);
+              }
+              leadSurrogate = codePoint;
+              continue;
+            }
+            codePoint = (leadSurrogate - 55296 << 10 | codePoint - 56320) + 65536;
+          } else if (leadSurrogate) {
+            if ((units -= 3) > -1) {
+              bytes.push(239, 191, 189);
+            }
+          }
+          leadSurrogate = null;
+          if (codePoint < 128) {
+            if ((units -= 1) < 0) {
+              break;
+            }
+            bytes.push(codePoint);
+          } else if (codePoint < 2048) {
+            if ((units -= 2) < 0) {
+              break;
+            }
+            bytes.push(codePoint >> 6 | 192, codePoint & 63 | 128);
+          } else if (codePoint < 65536) {
+            if ((units -= 3) < 0) {
+              break;
+            }
+            bytes.push(codePoint >> 12 | 224, codePoint >> 6 & 63 | 128, codePoint & 63 | 128);
+          } else if (codePoint < 1114112) {
+            if ((units -= 4) < 0) {
+              break;
+            }
+            bytes.push(codePoint >> 18 | 240, codePoint >> 12 & 63 | 128, codePoint >> 6 & 63 | 128, codePoint & 63 | 128);
+          } else {
+            throw new Error('Invalid code point');
+          }
+        }
+        return bytes;
+      }
+      function asciiToBytes(str) {
+        const byteArray = [];
+        for (let i = 0; i < str.length; ++i) {
+          byteArray.push(str.charCodeAt(i) & 255);
+        }
+        return byteArray;
+      }
+      function utf16leToBytes(str, units) {
+        let c, hi, lo;
+        const byteArray = [];
+        for (let i = 0; i < str.length; ++i) {
+          if ((units -= 2) < 0) {
+            break;
+          }
+          c = str.charCodeAt(i);
+          hi = c >> 8;
+          lo = c % 256;
+          byteArray.push(lo);
+          byteArray.push(hi);
+        }
+        return byteArray;
+      }
+      function base64ToBytes(str) {
+        return base64.toByteArray(base64clean(str));
+      }
+      function blitBuffer(src, dst, offset, length) {
+        let i;
+        for (i = 0; i < length; ++i) {
+          if (i + offset >= dst.length || i >= src.length) {
+            break;
+          }
+          dst[i + offset] = src[i];
+        }
+        return i;
+      }
+      function isInstance(obj, type) {
+        return obj instanceof type || obj != null && obj.constructor != null && obj.constructor.name != null && obj.constructor.name === type.name;
+      }
+      function numberIsNaN(obj) {
+        return obj !== obj;
+      }
+      const hexSliceLookupTable = function() {
+        const alphabet = '0123456789abcdef';
+        const table = new Array(256);
+        for (let i = 0; i < 16; ++i) {
+          const i16 = i * 16;
+          for (let j = 0; j < 16; ++j) {
+            table[i16 + j] = alphabet[i] + alphabet[j];
+          }
+        }
+        return table;
+      }();
+      function defineBigIntMethod(fn) {
+        return typeof BigInt === 'undefined' ? BufferBigIntNotDefined : fn;
+      }
+      function BufferBigIntNotDefined() {
+        throw new Error('BigInt not supported');
+      }
+    },
+    312: function(module, exports, __webpack_require__) {
+      var __WEBPACK_AMD_DEFINE_RESULT__;
+      (function() {
+        'use strict';
+        var ERROR = 'input is invalid type';
+        var WINDOW = typeof window === 'object';
+        var root = WINDOW ? window : {};
+        if (root.JS_SHA256_NO_WINDOW) {
+          WINDOW = false;
+        }
+        var WEB_WORKER = !WINDOW && typeof self === 'object';
+        var NODE_JS = !root.JS_SHA256_NO_NODE_JS && typeof process === 'object' && process.versions && process.versions.node;
+        if (NODE_JS) {
+          root = __webpack_require__.g;
+        } else if (WEB_WORKER) {
+          root = self;
+        }
+        var COMMON_JS = !root.JS_SHA256_NO_COMMON_JS && 'object' === 'object' && module.exports;
+        var AMD = true && __webpack_require__.amdO;
+        var ARRAY_BUFFER = !root.JS_SHA256_NO_ARRAY_BUFFER && typeof ArrayBuffer !== 'undefined';
+        var HEX_CHARS = '0123456789abcdef'.split('');
+        var EXTRA = [ -2147483648, 8388608, 32768, 128 ];
+        var SHIFT = [ 24, 16, 8, 0 ];
+        var K = [ 1116352408, 1899447441, 3049323471, 3921009573, 961987163, 1508970993, 2453635748, 2870763221, 3624381080, 310598401, 607225278, 1426881987, 1925078388, 2162078206, 2614888103, 3248222580, 3835390401, 4022224774, 264347078, 604807628, 770255983, 1249150122, 1555081692, 1996064986, 2554220882, 2821834349, 2952996808, 3210313671, 3336571891, 3584528711, 113926993, 338241895, 666307205, 773529912, 1294757372, 1396182291, 1695183700, 1986661051, 2177026350, 2456956037, 2730485921, 2820302411, 3259730800, 3345764771, 3516065817, 3600352804, 4094571909, 275423344, 430227734, 506948616, 659060556, 883997877, 958139571, 1322822218, 1537002063, 1747873779, 1955562222, 2024104815, 2227730452, 2361852424, 2428436474, 2756734187, 3204031479, 3329325298 ];
+        var OUTPUT_TYPES = [ 'hex', 'array', 'digest', 'arrayBuffer' ];
+        var blocks = [];
+        if (root.JS_SHA256_NO_NODE_JS || !Array.isArray) {
+          Array.isArray = function(obj) {
+            return Object.prototype.toString.call(obj) === '[object Array]';
+          };
+        }
+        if (ARRAY_BUFFER && (root.JS_SHA256_NO_ARRAY_BUFFER_IS_VIEW || !ArrayBuffer.isView)) {
+          ArrayBuffer.isView = function(obj) {
+            return typeof obj === 'object' && obj.buffer && obj.buffer.constructor === ArrayBuffer;
+          };
+        }
+        var createOutputMethod = function(outputType, is224) {
+          return function(message) {
+            return new Sha256(is224, true).update(message)[outputType]();
+          };
+        };
+        var createMethod = function(is224) {
+          var method = createOutputMethod('hex', is224);
+          if (NODE_JS) {
+            method = nodeWrap(method, is224);
+          }
+          method.create = function() {
+            return new Sha256(is224);
+          };
+          method.update = function(message) {
+            return method.create().update(message);
+          };
+          for (var i = 0; i < OUTPUT_TYPES.length; ++i) {
+            var type = OUTPUT_TYPES[i];
+            method[type] = createOutputMethod(type, is224);
+          }
+          return method;
+        };
+        var nodeWrap = function(method, is224) {
+          var crypto = __webpack_require__(394);
+          var Buffer = __webpack_require__(903).Buffer;
+          var algorithm = is224 ? 'sha224' : 'sha256';
+          var bufferFrom;
+          if (Buffer.from && !root.JS_SHA256_NO_BUFFER_FROM) {
+            bufferFrom = Buffer.from;
+          } else {
+            bufferFrom = function(message) {
+              return new Buffer(message);
+            };
+          }
+          var nodeMethod = function(message) {
+            if (typeof message === 'string') {
+              return crypto.createHash(algorithm).update(message, 'utf8').digest('hex');
+            } else {
+              if (message === null || message === undefined) {
+                throw new Error(ERROR);
+              } else if (message.constructor === ArrayBuffer) {
+                message = new Uint8Array(message);
+              }
+            }
+            if (Array.isArray(message) || ArrayBuffer.isView(message) || message.constructor === Buffer) {
+              return crypto.createHash(algorithm).update(bufferFrom(message)).digest('hex');
+            } else {
+              return method(message);
+            }
+          };
+          return nodeMethod;
+        };
+        var createHmacOutputMethod = function(outputType, is224) {
+          return function(key, message) {
+            return new HmacSha256(key, is224, true).update(message)[outputType]();
+          };
+        };
+        var createHmacMethod = function(is224) {
+          var method = createHmacOutputMethod('hex', is224);
+          method.create = function(key) {
+            return new HmacSha256(key, is224);
+          };
+          method.update = function(key, message) {
+            return method.create(key).update(message);
+          };
+          for (var i = 0; i < OUTPUT_TYPES.length; ++i) {
+            var type = OUTPUT_TYPES[i];
+            method[type] = createHmacOutputMethod(type, is224);
+          }
+          return method;
+        };
+        function Sha256(is224, sharedMemory) {
+          if (sharedMemory) {
+            blocks[0] = blocks[16] = blocks[1] = blocks[2] = blocks[3] = blocks[4] = blocks[5] = blocks[6] = blocks[7] = blocks[8] = blocks[9] = blocks[10] = blocks[11] = blocks[12] = blocks[13] = blocks[14] = blocks[15] = 0;
+            this.blocks = blocks;
+          } else {
+            this.blocks = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+          }
+          if (is224) {
+            this.h0 = 3238371032;
+            this.h1 = 914150663;
+            this.h2 = 812702999;
+            this.h3 = 4144912697;
+            this.h4 = 4290775857;
+            this.h5 = 1750603025;
+            this.h6 = 1694076839;
+            this.h7 = 3204075428;
+          } else {
+            this.h0 = 1779033703;
+            this.h1 = 3144134277;
+            this.h2 = 1013904242;
+            this.h3 = 2773480762;
+            this.h4 = 1359893119;
+            this.h5 = 2600822924;
+            this.h6 = 528734635;
+            this.h7 = 1541459225;
+          }
+          this.block = this.start = this.bytes = this.hBytes = 0;
+          this.finalized = this.hashed = false;
+          this.first = true;
+          this.is224 = is224;
+        }
+        Sha256.prototype.update = function(message) {
+          if (this.finalized) {
+            return;
+          }
+          var notString, type = typeof message;
+          if (type !== 'string') {
+            if (type === 'object') {
+              if (message === null) {
+                throw new Error(ERROR);
+              } else if (ARRAY_BUFFER && message.constructor === ArrayBuffer) {
+                message = new Uint8Array(message);
+              } else if (!Array.isArray(message)) {
+                if (!ARRAY_BUFFER || !ArrayBuffer.isView(message)) {
+                  throw new Error(ERROR);
+                }
+              }
+            } else {
+              throw new Error(ERROR);
+            }
+            notString = true;
+          }
+          var code, index = 0, i, length = message.length, blocks = this.blocks;
+          while (index < length) {
+            if (this.hashed) {
+              this.hashed = false;
+              blocks[0] = this.block;
+              this.block = blocks[16] = blocks[1] = blocks[2] = blocks[3] = blocks[4] = blocks[5] = blocks[6] = blocks[7] = blocks[8] = blocks[9] = blocks[10] = blocks[11] = blocks[12] = blocks[13] = blocks[14] = blocks[15] = 0;
+            }
+            if (notString) {
+              for (i = this.start; index < length && i < 64; ++index) {
+                blocks[i >>> 2] |= message[index] << SHIFT[i++ & 3];
+              }
+            } else {
+              for (i = this.start; index < length && i < 64; ++index) {
+                code = message.charCodeAt(index);
+                if (code < 128) {
+                  blocks[i >>> 2] |= code << SHIFT[i++ & 3];
+                } else if (code < 2048) {
+                  blocks[i >>> 2] |= (192 | code >>> 6) << SHIFT[i++ & 3];
+                  blocks[i >>> 2] |= (128 | code & 63) << SHIFT[i++ & 3];
+                } else if (code < 55296 || code >= 57344) {
+                  blocks[i >>> 2] |= (224 | code >>> 12) << SHIFT[i++ & 3];
+                  blocks[i >>> 2] |= (128 | code >>> 6 & 63) << SHIFT[i++ & 3];
+                  blocks[i >>> 2] |= (128 | code & 63) << SHIFT[i++ & 3];
+                } else {
+                  code = 65536 + ((code & 1023) << 10 | message.charCodeAt(++index) & 1023);
+                  blocks[i >>> 2] |= (240 | code >>> 18) << SHIFT[i++ & 3];
+                  blocks[i >>> 2] |= (128 | code >>> 12 & 63) << SHIFT[i++ & 3];
+                  blocks[i >>> 2] |= (128 | code >>> 6 & 63) << SHIFT[i++ & 3];
+                  blocks[i >>> 2] |= (128 | code & 63) << SHIFT[i++ & 3];
+                }
+              }
+            }
+            this.lastByteIndex = i;
+            this.bytes += i - this.start;
+            if (i >= 64) {
+              this.block = blocks[16];
+              this.start = i - 64;
+              this.hash();
+              this.hashed = true;
+            } else {
+              this.start = i;
+            }
+          }
+          if (this.bytes > 4294967295) {
+            this.hBytes += this.bytes / 4294967296 << 0;
+            this.bytes = this.bytes % 4294967296;
+          }
+          return this;
+        };
+        Sha256.prototype.finalize = function() {
+          if (this.finalized) {
+            return;
+          }
+          this.finalized = true;
+          var blocks = this.blocks, i = this.lastByteIndex;
+          blocks[16] = this.block;
+          blocks[i >>> 2] |= EXTRA[i & 3];
+          this.block = blocks[16];
+          if (i >= 56) {
+            if (!this.hashed) {
+              this.hash();
+            }
+            blocks[0] = this.block;
+            blocks[16] = blocks[1] = blocks[2] = blocks[3] = blocks[4] = blocks[5] = blocks[6] = blocks[7] = blocks[8] = blocks[9] = blocks[10] = blocks[11] = blocks[12] = blocks[13] = blocks[14] = blocks[15] = 0;
+          }
+          blocks[14] = this.hBytes << 3 | this.bytes >>> 29;
+          blocks[15] = this.bytes << 3;
+          this.hash();
+        };
+        Sha256.prototype.hash = function() {
+          var a = this.h0, b = this.h1, c = this.h2, d = this.h3, e = this.h4, f = this.h5, g = this.h6, h = this.h7, blocks = this.blocks, j, s0, s1, maj, t1, t2, ch, ab, da, cd, bc;
+          for (j = 16; j < 64; ++j) {
+            t1 = blocks[j - 15];
+            s0 = (t1 >>> 7 | t1 << 25) ^ (t1 >>> 18 | t1 << 14) ^ t1 >>> 3;
+            t1 = blocks[j - 2];
+            s1 = (t1 >>> 17 | t1 << 15) ^ (t1 >>> 19 | t1 << 13) ^ t1 >>> 10;
+            blocks[j] = blocks[j - 16] + s0 + blocks[j - 7] + s1 << 0;
+          }
+          bc = b & c;
+          for (j = 0; j < 64; j += 4) {
+            if (this.first) {
+              if (this.is224) {
+                ab = 300032;
+                t1 = blocks[0] - 1413257819;
+                h = t1 - 150054599 << 0;
+                d = t1 + 24177077 << 0;
+              } else {
+                ab = 704751109;
+                t1 = blocks[0] - 210244248;
+                h = t1 - 1521486534 << 0;
+                d = t1 + 143694565 << 0;
+              }
+              this.first = false;
+            } else {
+              s0 = (a >>> 2 | a << 30) ^ (a >>> 13 | a << 19) ^ (a >>> 22 | a << 10);
+              s1 = (e >>> 6 | e << 26) ^ (e >>> 11 | e << 21) ^ (e >>> 25 | e << 7);
+              ab = a & b;
+              maj = ab ^ a & c ^ bc;
+              ch = e & f ^ ~e & g;
+              t1 = h + s1 + ch + K[j] + blocks[j];
+              t2 = s0 + maj;
+              h = d + t1 << 0;
+              d = t1 + t2 << 0;
+            }
+            s0 = (d >>> 2 | d << 30) ^ (d >>> 13 | d << 19) ^ (d >>> 22 | d << 10);
+            s1 = (h >>> 6 | h << 26) ^ (h >>> 11 | h << 21) ^ (h >>> 25 | h << 7);
+            da = d & a;
+            maj = da ^ d & b ^ ab;
+            ch = h & e ^ ~h & f;
+            t1 = g + s1 + ch + K[j + 1] + blocks[j + 1];
+            t2 = s0 + maj;
+            g = c + t1 << 0;
+            c = t1 + t2 << 0;
+            s0 = (c >>> 2 | c << 30) ^ (c >>> 13 | c << 19) ^ (c >>> 22 | c << 10);
+            s1 = (g >>> 6 | g << 26) ^ (g >>> 11 | g << 21) ^ (g >>> 25 | g << 7);
+            cd = c & d;
+            maj = cd ^ c & a ^ da;
+            ch = g & h ^ ~g & e;
+            t1 = f + s1 + ch + K[j + 2] + blocks[j + 2];
+            t2 = s0 + maj;
+            f = b + t1 << 0;
+            b = t1 + t2 << 0;
+            s0 = (b >>> 2 | b << 30) ^ (b >>> 13 | b << 19) ^ (b >>> 22 | b << 10);
+            s1 = (f >>> 6 | f << 26) ^ (f >>> 11 | f << 21) ^ (f >>> 25 | f << 7);
+            bc = b & c;
+            maj = bc ^ b & d ^ cd;
+            ch = f & g ^ ~f & h;
+            t1 = e + s1 + ch + K[j + 3] + blocks[j + 3];
+            t2 = s0 + maj;
+            e = a + t1 << 0;
+            a = t1 + t2 << 0;
+            this.chromeBugWorkAround = true;
+          }
+          this.h0 = this.h0 + a << 0;
+          this.h1 = this.h1 + b << 0;
+          this.h2 = this.h2 + c << 0;
+          this.h3 = this.h3 + d << 0;
+          this.h4 = this.h4 + e << 0;
+          this.h5 = this.h5 + f << 0;
+          this.h6 = this.h6 + g << 0;
+          this.h7 = this.h7 + h << 0;
+        };
+        Sha256.prototype.hex = function() {
+          this.finalize();
+          var h0 = this.h0, h1 = this.h1, h2 = this.h2, h3 = this.h3, h4 = this.h4, h5 = this.h5, h6 = this.h6, h7 = this.h7;
+          var hex = HEX_CHARS[h0 >>> 28 & 15] + HEX_CHARS[h0 >>> 24 & 15] + HEX_CHARS[h0 >>> 20 & 15] + HEX_CHARS[h0 >>> 16 & 15] + HEX_CHARS[h0 >>> 12 & 15] + HEX_CHARS[h0 >>> 8 & 15] + HEX_CHARS[h0 >>> 4 & 15] + HEX_CHARS[h0 & 15] + HEX_CHARS[h1 >>> 28 & 15] + HEX_CHARS[h1 >>> 24 & 15] + HEX_CHARS[h1 >>> 20 & 15] + HEX_CHARS[h1 >>> 16 & 15] + HEX_CHARS[h1 >>> 12 & 15] + HEX_CHARS[h1 >>> 8 & 15] + HEX_CHARS[h1 >>> 4 & 15] + HEX_CHARS[h1 & 15] + HEX_CHARS[h2 >>> 28 & 15] + HEX_CHARS[h2 >>> 24 & 15] + HEX_CHARS[h2 >>> 20 & 15] + HEX_CHARS[h2 >>> 16 & 15] + HEX_CHARS[h2 >>> 12 & 15] + HEX_CHARS[h2 >>> 8 & 15] + HEX_CHARS[h2 >>> 4 & 15] + HEX_CHARS[h2 & 15] + HEX_CHARS[h3 >>> 28 & 15] + HEX_CHARS[h3 >>> 24 & 15] + HEX_CHARS[h3 >>> 20 & 15] + HEX_CHARS[h3 >>> 16 & 15] + HEX_CHARS[h3 >>> 12 & 15] + HEX_CHARS[h3 >>> 8 & 15] + HEX_CHARS[h3 >>> 4 & 15] + HEX_CHARS[h3 & 15] + HEX_CHARS[h4 >>> 28 & 15] + HEX_CHARS[h4 >>> 24 & 15] + HEX_CHARS[h4 >>> 20 & 15] + HEX_CHARS[h4 >>> 16 & 15] + HEX_CHARS[h4 >>> 12 & 15] + HEX_CHARS[h4 >>> 8 & 15] + HEX_CHARS[h4 >>> 4 & 15] + HEX_CHARS[h4 & 15] + HEX_CHARS[h5 >>> 28 & 15] + HEX_CHARS[h5 >>> 24 & 15] + HEX_CHARS[h5 >>> 20 & 15] + HEX_CHARS[h5 >>> 16 & 15] + HEX_CHARS[h5 >>> 12 & 15] + HEX_CHARS[h5 >>> 8 & 15] + HEX_CHARS[h5 >>> 4 & 15] + HEX_CHARS[h5 & 15] + HEX_CHARS[h6 >>> 28 & 15] + HEX_CHARS[h6 >>> 24 & 15] + HEX_CHARS[h6 >>> 20 & 15] + HEX_CHARS[h6 >>> 16 & 15] + HEX_CHARS[h6 >>> 12 & 15] + HEX_CHARS[h6 >>> 8 & 15] + HEX_CHARS[h6 >>> 4 & 15] + HEX_CHARS[h6 & 15];
+          if (!this.is224) {
+            hex += HEX_CHARS[h7 >>> 28 & 15] + HEX_CHARS[h7 >>> 24 & 15] + HEX_CHARS[h7 >>> 20 & 15] + HEX_CHARS[h7 >>> 16 & 15] + HEX_CHARS[h7 >>> 12 & 15] + HEX_CHARS[h7 >>> 8 & 15] + HEX_CHARS[h7 >>> 4 & 15] + HEX_CHARS[h7 & 15];
+          }
+          return hex;
+        };
+        Sha256.prototype.toString = Sha256.prototype.hex;
+        Sha256.prototype.digest = function() {
+          this.finalize();
+          var h0 = this.h0, h1 = this.h1, h2 = this.h2, h3 = this.h3, h4 = this.h4, h5 = this.h5, h6 = this.h6, h7 = this.h7;
+          var arr = [ h0 >>> 24 & 255, h0 >>> 16 & 255, h0 >>> 8 & 255, h0 & 255, h1 >>> 24 & 255, h1 >>> 16 & 255, h1 >>> 8 & 255, h1 & 255, h2 >>> 24 & 255, h2 >>> 16 & 255, h2 >>> 8 & 255, h2 & 255, h3 >>> 24 & 255, h3 >>> 16 & 255, h3 >>> 8 & 255, h3 & 255, h4 >>> 24 & 255, h4 >>> 16 & 255, h4 >>> 8 & 255, h4 & 255, h5 >>> 24 & 255, h5 >>> 16 & 255, h5 >>> 8 & 255, h5 & 255, h6 >>> 24 & 255, h6 >>> 16 & 255, h6 >>> 8 & 255, h6 & 255 ];
+          if (!this.is224) {
+            arr.push(h7 >>> 24 & 255, h7 >>> 16 & 255, h7 >>> 8 & 255, h7 & 255);
+          }
+          return arr;
+        };
+        Sha256.prototype.array = Sha256.prototype.digest;
+        Sha256.prototype.arrayBuffer = function() {
+          this.finalize();
+          var buffer = new ArrayBuffer(this.is224 ? 28 : 32);
+          var dataView = new DataView(buffer);
+          dataView.setUint32(0, this.h0);
+          dataView.setUint32(4, this.h1);
+          dataView.setUint32(8, this.h2);
+          dataView.setUint32(12, this.h3);
+          dataView.setUint32(16, this.h4);
+          dataView.setUint32(20, this.h5);
+          dataView.setUint32(24, this.h6);
+          if (!this.is224) {
+            dataView.setUint32(28, this.h7);
+          }
+          return buffer;
+        };
+        function HmacSha256(key, is224, sharedMemory) {
+          var i, type = typeof key;
+          if (type === 'string') {
+            var bytes = [], length = key.length, index = 0, code;
+            for (i = 0; i < length; ++i) {
+              code = key.charCodeAt(i);
+              if (code < 128) {
+                bytes[index++] = code;
+              } else if (code < 2048) {
+                bytes[index++] = 192 | code >>> 6;
+                bytes[index++] = 128 | code & 63;
+              } else if (code < 55296 || code >= 57344) {
+                bytes[index++] = 224 | code >>> 12;
+                bytes[index++] = 128 | code >>> 6 & 63;
+                bytes[index++] = 128 | code & 63;
+              } else {
+                code = 65536 + ((code & 1023) << 10 | key.charCodeAt(++i) & 1023);
+                bytes[index++] = 240 | code >>> 18;
+                bytes[index++] = 128 | code >>> 12 & 63;
+                bytes[index++] = 128 | code >>> 6 & 63;
+                bytes[index++] = 128 | code & 63;
+              }
+            }
+            key = bytes;
+          } else {
+            if (type === 'object') {
+              if (key === null) {
+                throw new Error(ERROR);
+              } else if (ARRAY_BUFFER && key.constructor === ArrayBuffer) {
+                key = new Uint8Array(key);
+              } else if (!Array.isArray(key)) {
+                if (!ARRAY_BUFFER || !ArrayBuffer.isView(key)) {
+                  throw new Error(ERROR);
+                }
+              }
+            } else {
+              throw new Error(ERROR);
+            }
+          }
+          if (key.length > 64) {
+            key = new Sha256(is224, true).update(key).array();
+          }
+          var oKeyPad = [], iKeyPad = [];
+          for (i = 0; i < 64; ++i) {
+            var b = key[i] || 0;
+            oKeyPad[i] = 92 ^ b;
+            iKeyPad[i] = 54 ^ b;
+          }
+          Sha256.call(this, is224, sharedMemory);
+          this.update(iKeyPad);
+          this.oKeyPad = oKeyPad;
+          this.inner = true;
+          this.sharedMemory = sharedMemory;
+        }
+        HmacSha256.prototype = new Sha256();
+        HmacSha256.prototype.finalize = function() {
+          Sha256.prototype.finalize.call(this);
+          if (this.inner) {
+            this.inner = false;
+            var innerHash = this.array();
+            Sha256.call(this, this.is224, this.sharedMemory);
+            this.update(this.oKeyPad);
+            this.update(innerHash);
+            Sha256.prototype.finalize.call(this);
+          }
+        };
+        var exports = createMethod();
+        exports.sha256 = exports;
+        exports.sha224 = createMethod(true);
+        exports.sha256.hmac = createHmacMethod();
+        exports.sha224.hmac = createHmacMethod(true);
+        if (COMMON_JS) {
+          module.exports = exports;
+        } else {
+          root.sha256 = exports.sha256;
+          root.sha224 = exports.sha224;
+          if (AMD) {
+            !(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
+              return exports;
+            }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+          }
+        }
+      })();
+    },
     314: function(module) {
       'use strict';
       module.exports = function(cssWithMappingToString) {
@@ -207,6 +2466,100 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         return list;
       };
     },
+    394: function() {},
+    526: function(__unused_webpack_module, exports) {
+      'use strict';
+      exports.byteLength = byteLength;
+      exports.toByteArray = toByteArray;
+      exports.fromByteArray = fromByteArray;
+      var lookup = [];
+      var revLookup = [];
+      var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array;
+      var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+      for (var i = 0, len = code.length; i < len; ++i) {
+        lookup[i] = code[i];
+        revLookup[code.charCodeAt(i)] = i;
+      }
+      revLookup['-'.charCodeAt(0)] = 62;
+      revLookup['_'.charCodeAt(0)] = 63;
+      function getLens(b64) {
+        var len = b64.length;
+        if (len % 4 > 0) {
+          throw new Error('Invalid string. Length must be a multiple of 4');
+        }
+        var validLen = b64.indexOf('=');
+        if (validLen === -1) {
+          validLen = len;
+        }
+        var placeHoldersLen = validLen === len ? 0 : 4 - validLen % 4;
+        return [ validLen, placeHoldersLen ];
+      }
+      function byteLength(b64) {
+        var lens = getLens(b64);
+        var validLen = lens[0];
+        var placeHoldersLen = lens[1];
+        return (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen;
+      }
+      function _byteLength(b64, validLen, placeHoldersLen) {
+        return (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen;
+      }
+      function toByteArray(b64) {
+        var tmp;
+        var lens = getLens(b64);
+        var validLen = lens[0];
+        var placeHoldersLen = lens[1];
+        var arr = new Arr(_byteLength(b64, validLen, placeHoldersLen));
+        var curByte = 0;
+        var len = placeHoldersLen > 0 ? validLen - 4 : validLen;
+        var i;
+        for (i = 0; i < len; i += 4) {
+          tmp = revLookup[b64.charCodeAt(i)] << 18 | revLookup[b64.charCodeAt(i + 1)] << 12 | revLookup[b64.charCodeAt(i + 2)] << 6 | revLookup[b64.charCodeAt(i + 3)];
+          arr[curByte++] = tmp >> 16 & 255;
+          arr[curByte++] = tmp >> 8 & 255;
+          arr[curByte++] = tmp & 255;
+        }
+        if (placeHoldersLen === 2) {
+          tmp = revLookup[b64.charCodeAt(i)] << 2 | revLookup[b64.charCodeAt(i + 1)] >> 4;
+          arr[curByte++] = tmp & 255;
+        }
+        if (placeHoldersLen === 1) {
+          tmp = revLookup[b64.charCodeAt(i)] << 10 | revLookup[b64.charCodeAt(i + 1)] << 4 | revLookup[b64.charCodeAt(i + 2)] >> 2;
+          arr[curByte++] = tmp >> 8 & 255;
+          arr[curByte++] = tmp & 255;
+        }
+        return arr;
+      }
+      function tripletToBase64(num) {
+        return lookup[num >> 18 & 63] + lookup[num >> 12 & 63] + lookup[num >> 6 & 63] + lookup[num & 63];
+      }
+      function encodeChunk(uint8, start, end) {
+        var tmp;
+        var output = [];
+        for (var i = start; i < end; i += 3) {
+          tmp = (uint8[i] << 16 & 16711680) + (uint8[i + 1] << 8 & 65280) + (uint8[i + 2] & 255);
+          output.push(tripletToBase64(tmp));
+        }
+        return output.join('');
+      }
+      function fromByteArray(uint8) {
+        var tmp;
+        var len = uint8.length;
+        var extraBytes = len % 3;
+        var parts = [];
+        var maxChunkLength = 16383;
+        for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
+          parts.push(encodeChunk(uint8, i, i + maxChunkLength > len2 ? len2 : i + maxChunkLength));
+        }
+        if (extraBytes === 1) {
+          tmp = uint8[len - 1];
+          parts.push(lookup[tmp >> 2] + lookup[tmp << 4 & 63] + '==');
+        } else if (extraBytes === 2) {
+          tmp = (uint8[len - 2] << 8) + uint8[len - 1];
+          parts.push(lookup[tmp >> 10] + lookup[tmp >> 4 & 63] + lookup[tmp << 2 & 63] + '=');
+        }
+        return parts.join('');
+      }
+    },
     601: function(module) {
       'use strict';
       module.exports = function(i) {
@@ -228,6 +2581,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       ___CSS_LOADER_EXPORT___.push([ module.id, `.colorful-button,#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn,body.auto-task-options .auto-task-form table button{position:relative;padding:5px 10px;text-align:center;color:#fff;-webkit-text-decoration:none;text-decoration:none;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:30px;background-size:400%;text-transform:capitalize}.colorful-button:hover,#auto-task-buttons a.auto-task-website-btn:hover,.show-button-div a.auto-task-website-btn:hover,body.auto-task-options .auto-task-form table button:hover{transform:scale(1.05);box-shadow:0 6px 20px rgba(0,0,0,.3);cursor:pointer}.colorful-button:hover::before,#auto-task-buttons a.auto-task-website-btn:hover::before,.show-button-div a.auto-task-website-btn:hover::before,body.auto-task-options .auto-task-form table button:hover::before{filter:blur(10px);opacity:1}.colorful-button::before,#auto-task-buttons a.auto-task-website-btn::before,.show-button-div a.auto-task-website-btn::before,body.auto-task-options .auto-task-form table button::before{content:"";position:absolute;top:-5px;left:-5px;right:-5px;bottom:-5px;z-index:-1;background:linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);border-radius:40px;background-size:400%;opacity:-1}#auto-task-info{position:fixed;bottom:10px;right:10px;width:60%;max-width:500px;max-height:60%;overflow-y:auto;color:#000;background-color:#fff;padding-left:5px;z-index:999999999 !important;border:solid 2px #add8e6;border-radius:10px}#auto-task-info li{text-align:left}#auto-task-info li a.high-light{color:#00aeff;font-weight:bold}#auto-task-info .success{color:green}#auto-task-info .error{color:red}#auto-task-info .warning{color:blue}#auto-task-info .info{color:#ff0}#auto-task-info .update-text{color:green;border:solid 2px #8dcb69;margin:5px 10px 5px 20px;border-radius:10px;padding:5px 20px}.auto-task-keylol{display:inline-block;text-transform:capitalize;margin-left:10px;-webkit-text-decoration:none !important;text-decoration:none !important;border:solid 1px;border-radius:5px;padding:0 2px}.auto-task-keylol[selected=selected]{background-color:blue !important;color:#fff !important}.auto-task-form table{font-family:verdana,arial,sans-serif;font-size:11px;color:#333;border-width:1px;border-color:#999;border-collapse:collapse;width:100%}.auto-task-form table thead td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;font-weight:bold;background-color:#fff}.auto-task-form table tbody tr{background-color:#d4e3e5}.auto-task-form table tbody tr:hover{background-color:#ff6 !important}.auto-task-form table tbody tr th{background-color:#c3dde0;border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9;text-transform:capitalize}.auto-task-form table tbody tr td{border-width:1px;padding:8px;border-style:solid;border-color:#a9c6c9}.swal2-modal{width:70% !important;max-width:1000px !important}body.auto-task-options{padding-top:10px;text-align:center}body.auto-task-options .auto-task-form{width:80%;max-width:1000px;margin:0 auto;padding-bottom:20px}body.auto-task-options .auto-task-form table input.editOption{width:80%}body.auto-task-options .auto-task-form table #getTwitterUserId,body.auto-task-options .auto-task-form table #getYoutubeChannelId{margin-top:5px}body.auto-task-options .auto-task-form table button{z-index:1}body.auto-task-options .auto-task-form table input[type=text]{outline-style:none;border:1px solid #ccc;border-radius:3px;padding:5px 10px;font-size:14px}body.auto-task-options .auto-task-form table input[type=text]:focus{border-color:#66afe9;outline:0;box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)}body.auto-task-options .auto-task-form table label{position:relative;width:160px;height:80px;cursor:pointer;transform:scale(0.25);margin:-25% 0;top:-30px;display:inline-block}body.auto-task-options .auto-task-form table label input{position:relative;z-index:1;appearance:none}body.auto-task-options .auto-task-form table label input:checked~span{background:#05be05;box-shadow:0 15px 25px rgba(5,190,5,.4)}body.auto-task-options .auto-task-form table label input:checked~span i{left:84px}body.auto-task-options .auto-task-form table label input:checked~span i::before{background:#05be05;box-shadow:35px 0 0 #05be05}body.auto-task-options .auto-task-form table label input:checked~span i::after{bottom:12px;height:15px;border-bottom-left-radius:15px;border-bottom-right-radius:15px;background:#05be05}body.auto-task-options .auto-task-form table label span{position:absolute;top:0;left:0;width:100%;height:100%;background:#fe0000;border-radius:80px;transition:.5s;box-shadow:0 15px 25px rgba(254,0,0,.4)}body.auto-task-options .auto-task-form table label span i{position:absolute;top:4px;left:4px;width:72px;height:72px;background:#fff;border-radius:50%}body.auto-task-options .auto-task-form table label span i::before{content:"";position:absolute;top:22px;left:12px;width:12px;height:12px;border-radius:50%;background:#fe0000;box-shadow:35px 0 0 #fe0000;transition:.5s}body.auto-task-options .auto-task-form table label span i::after{content:"";position:absolute;bottom:15px;left:calc(50% - 15px);width:30px;height:6px;border-radius:6px;background:#fe0000;transition:.5s}body.auto-task-history{font-size:15px;font-weight:400;line-height:1.5}body.auto-task-history .container a{color:#007bff;-webkit-text-decoration:none;text-decoration:none;background-color:rgba(0,0,0,0)}body.auto-task-history .container .card{width:80%;max-width:800px;border-radius:10px;background:rgba(118,118,118,.1019607843);border-top:1px solid hsla(0,0%,100%,.5019607843);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 15px 25px rgba(0,0,0,.1019607843);margin:20px auto;position:relative;display:flex;flex-direction:column;word-wrap:break-word;-webkit-background-clip:border-box;background-clip:border-box;border:1px solid rgba(0,0,0,.125);border-radius:.25rem}body.auto-task-history .container .card .title{text-align:center;font-size:30px;font-weight:bold;margin:5px 0}body.auto-task-history .container .card .title a:hover{-webkit-text-decoration:none;text-decoration:none;background:#93e1ff;border-radius:10px;padding:3px}body.auto-task-history .container .card ul{margin-bottom:25px}body.auto-task-history .container .card ul li{margin-bottom:5px;line-height:20px}body.auto-task-history .container .card ul a:hover{-webkit-text-decoration:underline;text-decoration:underline}body.auto-task-history .container .card .delete-task{right:10px;width:38px;height:35px;position:absolute;font-size:24px;cursor:pointer;border-radius:10px}body.auto-task-history .container .card .delete-task:hover{background:#fff}body.auto-task-history .container .card .time{right:5px;position:absolute;bottom:0;color:#e83e8c;font-family:'SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace';font-size:15px}#auto-task-buttons,.show-button-div{position:fixed;top:30px;right:15px;width:124px;z-index:999999999 !important;transform:scale(0.85)}#auto-task-buttons p,.show-button-div p{line-height:30px;height:40px;text-align:center;margin:5px !important}#auto-task-buttons a.auto-task-website-btn,.show-button-div a.auto-task-website-btn{width:105px;line-height:27px;font-size:20px;display:block}.show-button-div{width:20px}.auto-task-capitalize{text-transform:capitalize !important}.swal2-file:focus,.swal2-input:focus,.swal2-textarea:focus{box-shadow:inset 0px 0px 4px 1px rgba(100,150,200,.5) !important}.swal2-checkbox-custom{align-items:center;justify-content:center;background:#fff;color:inherit;margin:1em auto}.swal2-checkbox-custom input{flex-shrink:0;margin:0 .4em}.giveaway-actions #getKey{display:none !important}.auto-task-giveaway-status{color:#fff;border-radius:10px;padding:0 5px;margin-left:5px}.auto-task-giveaway-status.active{background-color:#5cb85c}.auto-task-giveaway-status.not-active{background-color:#d9534f}`, '' ]);
       const __WEBPACK_DEFAULT_EXPORT__ = ___CSS_LOADER_EXPORT___.toString();
     },
+    903: function() {},
     991: function(__unused_webpack_module, exports) {
       !function(e, n) {
         true ? n(exports) : 0;
@@ -583,6 +2937,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
     return module.exports;
   }
   !function() {
+    __webpack_require__.amdO = {};
+  }();
+  !function() {
     __webpack_require__.n = function(module) {
       var getter = module && module.__esModule ? function() {
         return module['default'];
@@ -606,6 +2963,20 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         }
       }
     };
+  }();
+  !function() {
+    __webpack_require__.g = function() {
+      if (typeof globalThis === 'object') {
+        return globalThis;
+      }
+      try {
+        return this || new Function('return this')();
+      } catch (e) {
+        if (typeof window === 'object') {
+          return window;
+        }
+      }
+    }();
   }();
   !function() {
     __webpack_require__.o = function(obj, prop) {
@@ -642,12 +3013,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                   options: options
                 });
               },
-              onabort(data) {
+              onabort() {
                 resolve({
                   result: 'Error',
                   statusText: 'Aborted',
                   status: 602,
-                  data: data,
+                  data: undefined,
                   options: options
                 });
               },
@@ -1301,7 +3672,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       verifyAuth: '正在验证 %0 凭证...',
       closePageNotice: '如果此页面没有自动关闭，请自行关闭本页面。',
       errorReport: '检测到脚本报错，是否前往反馈BUG？',
-      visitingLink: '正在访问链接: ',
+      visitingLink: '正在访问链接...',
       doTask: '做任务',
       undoTask: '撤销任务',
       verifyTask: '验证任务',
@@ -1590,7 +3961,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       verifyAuth: 'Verifying %0 token...',
       closePageNotice: 'f this page does not close automatically, please close this page yourself.',
       errorReport: 'A script error is detected, do you want to report the BUG?',
-      visitingLink: 'Visiting link: ',
+      visitingLink: 'Visiting link ...',
       doTask: 'DoTask',
       undoTask: 'UndoTask',
       verifyTask: 'Verify',
@@ -2966,6 +5337,478 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
     }
     const social_Twitch = Twitch;
+    const parseResponseHeaders = headerStr => {
+      const headers = {};
+      if (!headerStr) {
+        return headers;
+      }
+      headerStr.split('\r\n').forEach(line => {
+        if (line) {
+          const parts = line.split(':');
+          const key = parts.shift()?.trim();
+          const value = parts.join(':').trim();
+          if (key) {
+            if (key.toLowerCase() === 'set-cookie') {
+              if (headers[key]) {
+                if (Array.isArray(headers[key])) {
+                  headers[key].push(value);
+                } else {
+                  headers[key] = [ headers[key], value ];
+                }
+              } else {
+                headers[key] = value;
+              }
+            } else {
+              headers[key] = value;
+            }
+          }
+        }
+      });
+      return headers;
+    };
+    const axiosGM = function(config) {
+      const finalConfig = {
+        ...axiosGM.defaults,
+        ...config
+      };
+      const retries = finalConfig.retry ?? 0;
+      const retryDelay = finalConfig.retryDelay ?? 0;
+      const requestAttempt = attempt => new Promise((resolve, reject) => {
+        GM_xmlhttpRequest({
+          method: finalConfig.method ? finalConfig.method.toUpperCase() : 'GET',
+          url: finalConfig.url,
+          headers: finalConfig.headers,
+          data: finalConfig.data,
+          responseType: finalConfig.responseType || 'json',
+          timeout: finalConfig.timeout,
+          fetch: finalConfig.fetch ?? true,
+          onload(response) {
+            const axiosResponse = {
+              data: response.response || response.responseText,
+              status: response.status,
+              statusText: response.statusText,
+              headers: parseResponseHeaders(response.responseHeaders),
+              config: finalConfig,
+              request: response
+            };
+            resolve(axiosResponse);
+          },
+          onerror(error) {
+            if (attempt < retries) {
+              setTimeout(() => {
+                requestAttempt(attempt + 1).then(resolve).catch(reject);
+              }, retryDelay);
+            } else {
+              reject(error);
+            }
+          },
+          ontimeout() {
+            if (attempt < retries) {
+              setTimeout(() => {
+                requestAttempt(attempt + 1).then(resolve).catch(reject);
+              }, retryDelay);
+            } else {
+              reject('Error: timeout');
+            }
+          }
+        });
+      });
+      return requestAttempt(0);
+    };
+    axiosGM.defaults = {};
+    axiosGM.get = function(url, config = {}) {
+      return axiosGM({
+        ...config,
+        url: url,
+        method: 'GET'
+      });
+    };
+    axiosGM.post = function(url, data, config = {}) {
+      return axiosGM({
+        ...config,
+        url: url,
+        data: data,
+        method: 'POST'
+      });
+    };
+    axiosGM.head = function(url, config = {}) {
+      return axiosGM({
+        ...config,
+        url: url,
+        method: 'HEAD'
+      });
+    };
+    axiosGM.create = function(instanceDefaults = {}) {
+      const instance = config => {
+        const mergedConfig = {
+          ...axiosGM.defaults,
+          ...instanceDefaults,
+          ...config
+        };
+        return axiosGM(mergedConfig);
+      };
+      instance.defaults = {
+        ...axiosGM.defaults,
+        ...instanceDefaults
+      };
+      instance.get = function(url, config = {}) {
+        return instance({
+          ...config,
+          url: url,
+          method: 'GET'
+        });
+      };
+      instance.post = function(url, data, config = {}) {
+        return instance({
+          ...config,
+          url: url,
+          data: data,
+          method: 'POST'
+        });
+      };
+      instance.head = function(url, config = {}) {
+        return instance({
+          ...config,
+          url: url,
+          method: 'HEAD'
+        });
+      };
+      instance.create = axiosGM.create;
+      return instance;
+    };
+    var node_modules_buffer = __webpack_require__(287);
+    const MIGRATION_REDIRECTION_REGEX = /(http?s:\/\/(?:www\.)?(twitter|x){1}\.com(\/x)?\/migrate([/?])?tok=[a-zA-Z0-9%\-_]+)+/;
+    const handleXMigration = async session => {
+      let homePage;
+      const response = await session({
+        method: 'GET',
+        url: 'https://x.com'
+      });
+      homePage = $(`<div>${response.data}</div>`);
+      const migrationUrl = homePage.find('meta[http-equiv="refresh"]').attr('content');
+      let migrationRedirectionUrl = migrationUrl?.match(MIGRATION_REDIRECTION_REGEX)?.[0];
+      if (!migrationRedirectionUrl) {
+        const contentMatch = response.data.match(MIGRATION_REDIRECTION_REGEX);
+        migrationRedirectionUrl = contentMatch?.[0];
+      }
+      if (migrationRedirectionUrl) {
+        const redirectResponse = await session({
+          method: 'GET',
+          url: migrationRedirectionUrl
+        });
+        homePage = $(`<div>${redirectResponse.data}</div>`);
+      }
+      const migrationForm = homePage.find('form[name="f"], form[action="https://x.com/x/migrate"]');
+      if (migrationForm.length > 0) {
+        const formAction = migrationForm.attr('action') || 'https://x.com/x/migrate';
+        const formMethod = migrationForm.attr('method')?.toUpperCase() || 'POST';
+        const payload = {};
+        migrationForm.find('input').each((idx, el) => {
+          const element = $(el);
+          const name = element.attr('name');
+          const value = element.attr('value') || '';
+          if (name) {
+            payload[name] = value;
+          }
+        });
+        const formResponse = await session({
+          method: formMethod,
+          url: formAction,
+          data: payload
+        });
+        homePage = $(`<div>${formResponse.data}</div>`);
+      }
+      return homePage;
+    };
+    const floatToHex = xx => {
+      let quotient = Math.floor(xx);
+      let fraction = xx - quotient;
+      const result = [];
+      while (quotient > 0) {
+        const remainder = quotient % 16;
+        quotient = Math.floor(quotient / 16);
+        result.unshift(remainder > 9 ? String.fromCharCode(remainder + 55) : remainder.toString());
+      }
+      if (fraction > 0) {
+        result.push('.');
+        let precision = 0;
+        while (fraction > 0 && precision < 10) {
+          fraction *= 16;
+          const integer = Math.floor(fraction);
+          fraction -= integer;
+          result.push(integer > 9 ? String.fromCharCode(integer + 55) : integer.toString());
+          precision += 1;
+        }
+      }
+      return result.length > 0 ? result.join('') : '0';
+    };
+    const isOdd = num => num % 2 ? -1 : 0;
+    const base64Encode = input => {
+      const buffer = node_modules_buffer.hp.isBuffer(input) ? input : node_modules_buffer.hp.from(input);
+      return buffer.toString('base64');
+    };
+    const base64Decode = input => {
+      try {
+        return Buffer.from(input, 'base64').toString();
+      } catch (error) {
+        return Array.from(Buffer.from(input));
+      }
+    };
+    class Cubic {
+      curves;
+      constructor(curves) {
+        if (curves.length !== 4) {
+          throw new Error('Cubic curves array must contain exactly 4 elements');
+        }
+        this.curves = curves.map(nn => Number(nn));
+      }
+      getValue(time) {
+        let startGradient = 0;
+        let endGradient = 0;
+        let start = 0;
+        let end = 1;
+        let mid = 0;
+        if (time <= 0) {
+          if (this.curves[0] > 0) {
+            startGradient = this.curves[1] / this.curves[0];
+          } else if (this.curves[1] === 0 && this.curves[2] > 0) {
+            startGradient = this.curves[3] / this.curves[2];
+          }
+          return startGradient * time;
+        }
+        if (time >= 1) {
+          if (this.curves[2] < 1) {
+            endGradient = (this.curves[3] - 1) / (this.curves[2] - 1);
+          } else if (this.curves[2] === 1 && this.curves[0] < 1) {
+            endGradient = (this.curves[1] - 1) / (this.curves[0] - 1);
+          }
+          return 1 + endGradient * (time - 1);
+        }
+        let iterations = 0;
+        while (start < end && iterations < 20) {
+          mid = (start + end) / 2;
+          const xEst = Cubic.calculate(this.curves[0], this.curves[2], mid);
+          if (Math.abs(time - xEst) < 1e-5) {
+            return Cubic.calculate(this.curves[1], this.curves[3], mid);
+          }
+          if (xEst < time) {
+            start = mid;
+          } else {
+            end = mid;
+          }
+          iterations += 1;
+        }
+        return Cubic.calculate(this.curves[1], this.curves[3], mid);
+      }
+      static calculate(aa, bb, mm) {
+        return 3 * aa * (1 - mm) * (1 - mm) * mm + 3 * bb * (1 - mm) * mm * mm + mm * mm * mm;
+      }
+    }
+    const interpolateValue = (fromVal, toVal, ff) => {
+      if (typeof fromVal === 'number' && typeof toVal === 'number') {
+        return fromVal * (1 - ff) + toVal * ff;
+      }
+      if (typeof fromVal === 'boolean' && typeof toVal === 'boolean') {
+        return ff < .5 ? 0 : 1;
+      }
+      const type1 = typeof fromVal;
+      const type2 = typeof toVal;
+      throw new Error(`Type mismatch in interpolation: ${type1} vs ${type2}`);
+    };
+    const interpolate = (fromList, toList, ff) => {
+      if (fromList.length !== toList.length) {
+        throw new Error(`Mismatched interpolation arguments ${fromList}: ${toList}`);
+      }
+      return fromList.map((fromVal, ii) => interpolateValue(fromVal, toList[ii], ff));
+    };
+    const convertRotationToMatrix = rotation => {
+      const rad = Math.PI * rotation / 180;
+      return [ Math.cos(rad), -Math.sin(rad), Math.sin(rad), Math.cos(rad) ];
+    };
+    const convertRotationToMatrix3x2 = degrees => {
+      const radians = degrees * Math.PI / 180;
+      const cos = Math.cos(radians);
+      const sin = Math.sin(radians);
+      return [ cos, sin, -sin, cos, 0, 0 ];
+    };
+    var sha256 = __webpack_require__(312);
+    const ON_DEMAND_FILE_REGEX = /['"](ondemand\.s)['"]:\s*['"]([\w]*)['"]/gim;
+    const INDICES_REGEX = /\(\w\[(\d{1,2})\],\s*16\)/gim;
+    class ClientTransaction {
+      static ADDITIONAL_RANDOM_NUMBER = 3;
+      static DEFAULT_KEYWORD = 'obfiowerehiring';
+      homePageHtml;
+      homePageResponse;
+      defaultRowIndex;
+      defaultKeyBytesIndices;
+      key;
+      keyBytes;
+      animationKey;
+      constructor(homePageResponse) {
+        const {
+          html,
+          $: parsed$
+        } = this.validateResponse(homePageResponse);
+        this.homePageHtml = html;
+        this.homePageResponse = parsed$;
+      }
+      async init() {
+        const [ rowIndex, keyIndices ] = await this.getIndices();
+        this.defaultRowIndex = rowIndex;
+        this.defaultKeyBytesIndices = keyIndices;
+        this.key = this.getKey();
+        this.keyBytes = this.getKeyBytes(this.key);
+        this.animationKey = this.getAnimationKey(this.keyBytes);
+      }
+      validateResponse(response) {
+        if (response && response.jquery) {
+          return {
+            html: response.prop('outerHTML') || '',
+            $: response
+          };
+        }
+        let htmlContent = '';
+        if (response?.data) {
+          htmlContent = response.data;
+        } else if (response?.content) {
+          htmlContent = response.content.toString();
+        } else {
+          throw new Error('Invalid response object');
+        }
+        return {
+          html: htmlContent,
+          $: $($.parseHTML(htmlContent))
+        };
+      }
+      async getIndices() {
+        const onDemandMatch = ON_DEMAND_FILE_REGEX.exec(this.homePageHtml);
+        const keyByteIndices = [];
+        if (onDemandMatch) {
+          const url = `https://abs.twimg.com/responsive-web/client-web/ondemand.s.${onDemandMatch[2]}a.js`;
+          try {
+            const {
+              data
+            } = await axiosGM.get(url);
+            const matches = data.matchAll(INDICES_REGEX);
+            for (const match of matches) {
+              keyByteIndices.push(parseInt(match[1], 10));
+            }
+          } catch (error) {
+            console.error('Failed to fetch ondemand file:', error);
+          }
+        }
+        if (keyByteIndices.length < 4) {
+          throw new Error('Couldn\'t get KEY_BYTE indices');
+        }
+        return [ keyByteIndices[0], keyByteIndices.slice(1, 4) ];
+      }
+      getKey() {
+        const element = this.homePageResponse.find('meta[name="twitter-site-verification"]').first();
+        if (!element.length) {
+          throw new Error('Couldn\'t get key from the page source');
+        }
+        return element.attr('content') || '';
+      }
+      getKeyBytes(key) {
+        return Array.from(node_modules_buffer.hp.from(key, 'base64'));
+      }
+      getFrames() {
+        return this.homePageResponse.find('[id^="loading-x-anim"]');
+      }
+      get2DArray(keyBytes) {
+        const frames = this.getFrames();
+        const frameIndex = keyBytes[5] % 4;
+        const targetFrame = frames.eq(frameIndex);
+        const pathElement = targetFrame.children().eq(0).children().eq(1);
+        const dAttribute = pathElement.attr('d') || '';
+        const pathSegments = dAttribute.slice(9).split('C');
+        return pathSegments.map(segment => {
+          const cleaned = segment.replace(/[^\d]+/g, ' ').trim().split(/\s+/);
+          return cleaned.map(str => {
+            const num = parseInt(str, 10);
+            return isNaN(num) ? 0 : num;
+          }).filter(num => num !== 0);
+        });
+      }
+      solve(value, minVal, maxVal, rounding) {
+        const result = value * (maxVal - minVal) / 255 + minVal;
+        return rounding ? Math.floor(result) : Number(result.toFixed(2));
+      }
+      animate(frameRow, targetTime) {
+        const fromColor = [ ...frameRow.slice(0, 3), 1 ];
+        const toColor = [ ...frameRow.slice(3, 6), 1 ];
+        const fromRotation = [ 0 ];
+        const toRotation = [ this.solve(frameRow[6], 60, 360, true) ];
+        const curves = frameRow.slice(7).map((val, idx) => this.solve(val, isOdd(idx) ? -1 : 0, 1, false));
+        const cubic = new Cubic(curves);
+        const val = cubic.getValue(targetTime);
+        const color = interpolate(fromColor, toColor, val).map(vv => Math.max(vv, 0));
+        const rotation = interpolate(fromRotation, toRotation, val);
+        const matrix = convertRotationToMatrix(rotation[0]);
+        const strArr = [ ...color.slice(0, 3).map(vv => Math.round(vv).toString(16).padStart(2, '0')), ...matrix.map(vv => {
+          const absVal = Math.abs(Number(vv.toFixed(2)));
+          const hex = floatToHex(absVal);
+          return hex.startsWith('.') ? `0${hex}` : hex;
+        }), '0', '0' ];
+        return strArr.join('').replace(/[.-]/g, '');
+      }
+      getAnimationKey(keyBytes) {
+        const totalTime = 4096;
+        const rowIndex = keyBytes[this.defaultRowIndex] % 16;
+        const frameTime = this.defaultKeyBytesIndices.map(ii => keyBytes[ii] % 16).reduce((aa, bb) => aa * bb, 1);
+        const arr = this.get2DArray(keyBytes);
+        const targetTime = frameTime / totalTime;
+        return this.animate(arr[rowIndex], targetTime);
+      }
+      generateTransactionId(method, path, timeNow) {
+        const timestamp = timeNow ?? Math.floor((Date.now() - 16829244e5) / 1e3);
+        const timeBytes = [ timestamp >> 24 & 255, timestamp >> 16 & 255, timestamp >> 8 & 255, timestamp & 255 ];
+        const hashInput = `${method}!${path}!${timestamp}${ClientTransaction.DEFAULT_KEYWORD}${this.animationKey}`;
+        const hash = node_modules_buffer.hp.from(sha256.sha256.arrayBuffer(hashInput));
+        const hashBytes = Array.from(hash.slice(0, 16));
+        const randomNum = Math.floor(Math.random() * 256);
+        const bytesArray = [ ...this.keyBytes, ...timeBytes, ...hashBytes, ClientTransaction.ADDITIONAL_RANDOM_NUMBER ];
+        const xorBytes = bytesArray.map(bb => bb ^ randomNum);
+        return base64Encode(node_modules_buffer.hp.from([ randomNum, ...xorBytes ])).replace(/=+$/, '');
+      }
+    }
+    const headers = {
+      Authority: 'x.com',
+      'Accept-Language': 'en-US,en;q=0.9',
+      'Cache-Control': 'no-cache',
+      Referer: 'https://x.com',
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36',
+      'X-Twitter-Active-User': 'yes',
+      'X-Twitter-Client-Language': 'en'
+    };
+    const session = axiosGM.create({
+      headers: headers,
+      timeout: 1e4
+    });
+    const getTID = async (method, path, attempts = 0) => {
+      const maxAttempts = 3;
+      const retryDelay = 5e3;
+      while (attempts < maxAttempts) {
+        try {
+          const response = await handleXMigration(session);
+          const ct = new ClientTransaction(response);
+          await ct.init();
+          return ct.generateTransactionId(method, path);
+        } catch (error) {
+          attempts += 1;
+          console.error(`Error in main process (attempt ${attempts}):`, error);
+          if (attempts < maxAttempts) {
+            console.log(`Retrying in ${retryDelay / 1e3} seconds...`);
+            await new Promise(resolve => setTimeout(resolve, retryDelay));
+          } else {
+            console.error('Max retry attempts reached. Returning empty string.');
+            return '';
+          }
+        }
+      }
+      return '';
+    };
+    const main = getTID;
     class Twitter extends social_Social {
       tasks;
       whiteList;
@@ -3102,7 +5945,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               'Content-Type': 'application/x-www-form-urlencoded',
               'x-csrf-token': this.#auth.ct0,
               'X-Twitter-Auth-Type': 'OAuth2Session',
-              'X-Twitter-Active-User': 'yes'
+              'X-Twitter-Active-User': 'yes',
+              'x-client-transaction-id': await main('POST', `/i/api/1.1/friendships/${doTask ? 'create' : 'destroy'}.json`)
             },
             responseType: 'json',
             data: $.param({
@@ -3177,7 +6021,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               referer: `https://x.com/${name}`,
               'x-csrf-token': this.#auth.ct0,
               'X-Twitter-Auth-Type': 'OAuth2Session',
-              'X-Twitter-Active-User': 'yes'
+              'X-Twitter-Active-User': 'yes',
+              'x-client-transaction-id': await main('GET', '/i/api/graphql/mCbpQvZAw6zu_4PvuAUVVQ/UserByScreenName' + `?variables=%7B%22screen_name%22%3A%22${name}%22%2C%22withSafetyModeUserFields%22%3Atrue%2C%22withSuperFollowsUserFields%22%3Atrue%7D`)
             },
             responseType: 'json'
           });
@@ -3238,9 +6083,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             headers: {
               authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
               'Content-Type': 'application/json',
+              origin: 'https://x.com',
+              referer: `https://x.com/opquests/status/${retweetId}`,
               'x-csrf-token': this.#auth.ct0,
               'X-Twitter-Auth-Type': 'OAuth2Session',
-              'X-Twitter-Active-User': 'yes'
+              'X-Twitter-Active-User': 'yes',
+              'x-client-transaction-id': await main('POST', `/i/api/graphql/${doTask ? 'ojPdsZsimiJrUGLR1sjUtA/CreateRetweet' : 'iQtK4dl5hBmXewYZuEOKVw/DeleteRetweet'}`)
             },
             data: `{"variables":{"tweet_id":"${retweetId}","dark_request":false},"queryId":"${doTask ? 'ojPdsZsimiJrUGLR1sjUtA' : 'iQtK4dl5hBmXewYZuEOKVw'}"}`,
             responseType: 'json'
@@ -7212,8 +10060,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           const {
             result,
             statusText,
-            status,
-            data
+            status
           } = await tools_httpRequest({
             url: 'https://freeanywhere.net/php/task_site_visit_done.php',
             method: 'POST',
@@ -7267,20 +10114,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
-      #getGiveawayId() {
-        try {
-          const giveawayId = new URLSearchParams(window.location.search).get('n');
-          if (giveawayId) {
-            this.giveawayId = giveawayId;
-            return true;
-          }
-          scripts_echoLog({}).error(i18n('getFailed', 'GiveawayId'));
-          return false;
-        } catch (error) {
-          throwError(error, 'FreeAnyWhere.getGiveawayId');
-          return false;
-        }
-      }
       async #verify(task) {
         try {
           const logStatus = scripts_echoLog({
@@ -7312,45 +10145,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         } catch (error) {
           throwError(error, 'Freeanywhere.verify');
-          return false;
-        }
-      }
-      async #checkLeftKey() {
-        try {
-          if (!globalOptions.other.checkLeftKey) {
-            return true;
-          }
-          debug('检测剩余Key');
-          const {
-            data
-          } = await tools_httpRequest({
-            url: 'https://freeanywhere.net/api/v1/widget/?format=json',
-            method: 'GET',
-            dataType: 'json',
-            headers: {
-              authorization: `Token ${window.localStorage.getItem('token')}`
-            }
-          });
-          if (data?.response?.giveaways.find(giveaway => `${giveaway?.id}` === this.giveawayId)) {
-            return true;
-          }
-          await external_Swal_default().fire({
-            icon: 'warning',
-            title: i18n('notice'),
-            text: i18n('noKeysLeft'),
-            confirmButtonText: i18n('confirm'),
-            cancelButtonText: i18n('cancel'),
-            showCancelButton: true
-          }).then(({
-            value
-          }) => {
-            if (value) {
-              window.close();
-            }
-          });
-          return true;
-        } catch (error) {
-          throwError(error, 'Giveawaysu.checkLeftKey');
           return false;
         }
       }
@@ -9312,6 +12106,10 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         wishlistLinks: [],
         followLinks: [],
         curatorLikeLinks: []
+      },
+      twitter: {
+        userLinks: [],
+        retweetLinks: []
       }
     };
     class Opquests extends website_Website {
@@ -9396,6 +12194,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               }
             } else if (/store\.steampowered\.com\/(publisher|developer|curator)\//.test(link) && /follow/gim.test(taskDes)) {
               this.undoneTasks.steam.curatorLikeLinks.push(link);
+            } else if (link.includes('//x.com/') && /follow/gim.test(taskDes)) {
+              this.undoneTasks.twitter.userLinks.push(link);
+            } else if (link.includes('//x.com/') && link.includes('status') && /Repost/gim.test(taskDes)) {
+              this.undoneTasks.twitter.retweetLinks.push(link);
+            } else if (/clash.gg/.test(link)) {
+              scripts_echoLog({}).warning(`${i18n('unSupporttedTaskType')}: ${taskDes}(${link})`);
             } else {
               scripts_echoLog({}).warning(`${i18n('unKnownTaskType')}: ${taskDes}(${link})`);
             }
@@ -11428,7 +14232,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         });
       }
       console.log('%c%s', 'color:#1bbe1a', 'Auto-Task[Load]: 脚本加载完成');
-      const [ v1, v2 ] = GM_info.version.split('.');
+      const [ v1, v2 ] = GM_info.version?.split('.') || [];
       if (!(parseInt(v1, 10) >= 5 && parseInt(v2, 10) >= 2)) {
         scripts_echoLog({}).error(i18n('versionNotMatched'));
       }

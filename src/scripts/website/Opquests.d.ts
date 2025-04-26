@@ -13,6 +13,10 @@ interface oqSocialTasks {
     followLinks: Array<string>
     curatorLikeLinks: Array<string>
   }
+  twitter: {
+    userLinks: Array<string>
+    retweetLinks: Array<string>
+  }
 }
 interface qpqTaskInfo {
   token: string

@@ -65,6 +65,7 @@
 // @connect            login.steampowered.com
 // @connect            twitter.com
 // @connect            x.com
+// @connect            abs.twimg.com
 // @connect            api.twitter.com
 // @connect            youtube.com
 // @connect            www.youtube.com
@@ -99,10 +100,12 @@
 // @require            https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js
 // @require            https://cdn.jsdelivr.net/npm/regenerator-runtime@0.13.5/runtime.min.js
 // @require            https://cdn.jsdelivr.net/npm/js-sha1@0.6.0/src/sha1.min.js
+// @require            https://cdn.jsdelivr.net/npm/js-sha256@0.11.0/src/sha256.min.js
 // @require            https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js
 // @resource           style https://cdn.jsdelivr.net/npm/sweetalert2@11.3.5/dist/sweetalert2.min.css
 // @require            https://cdn.jsdelivr.net/npm/keyboardjs@2.6.4/dist/keyboard.min.js
 // @require            https://cdn.jsdelivr.net/npm/dayjs@1.10.7/dayjs.min.js
+// @require            https://bundle.run/buffer@6.0.3
 
 // @noframes
 // ==/UserScript==

@@ -265,7 +265,7 @@ const loadScript = async () => {
   console.log('%c%s', 'color:#1bbe1a', 'Auto-Task[Load]: 脚本加载完成');
 
   // 将 GM_info.version 拆分为主版本号和次版本号
-  const [v1, v2] = GM_info.version.split('.');
+  const [v1, v2] = GM_info.version?.split('.') || [];
   // 检查主版本号是否大于等于 5 且次版本号是否大于等于 2
   if (!(parseInt(v1, 10) >= 5 && parseInt(v2, 10) >= 2)) {
     // 如果版本不匹配，则输出错误信息
@@ -394,9 +394,9 @@ if (window.location.hostname === 'discord.com') {
 } else {
   // 检查当前域名是否为 'key-hub.eu'
   if (window.location.hostname === 'key-hub.eu') {
-    // 如果是，则设置 unsafeWindow 对象的 keyhubtracker 属性为 1
+    // @ts-ignore
     unsafeWindow.keyhubtracker = 1;
-    // 初始化 unsafeWindow 对象的 gaData 属性为一个空对象
+    // @ts-ignore
     unsafeWindow.gaData = {};
   }
 

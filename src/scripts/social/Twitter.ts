@@ -14,6 +14,7 @@ import httpRequest from '../tools/httpRequest';
 import { unique, delay } from '../tools/tools';
 import __ from '../tools/i18n';
 import { globalOptions } from '../globalOptions';
+import getTID from './TID/main';
 /**
  * Twitter类用于处理与Twitter相关的任务，包括关注/取关用户和转推/取消转推推文。
  *
@@ -263,7 +264,8 @@ class Twitter extends Social {
           'Content-Type': 'application/x-www-form-urlencoded',
           'x-csrf-token': this.#auth.ct0 as string,
           'X-Twitter-Auth-Type': 'OAuth2Session',
-          'X-Twitter-Active-User': 'yes'
+          'X-Twitter-Active-User': 'yes',
+          'x-client-transaction-id': await getTID('POST', `/i/api/1.1/friendships/${doTask ? 'create' : 'destroy'}.json`)
         },
         responseType: 'json',
         /* eslint-disable camelcase */
@@ -351,7 +353,9 @@ class Twitter extends Social {
           referer: `https://x.com/${name}`,
           'x-csrf-token': this.#auth.ct0 as string,
           'X-Twitter-Auth-Type': 'OAuth2Session',
-          'X-Twitter-Active-User': 'yes'
+          'X-Twitter-Active-User': 'yes',
+          'x-client-transaction-id': await getTID('GET', '/i/api/graphql/mCbpQvZAw6zu_4PvuAUVVQ/UserByScreenName' +
+            `?variables=%7B%22screen_name%22%3A%22${name}%22%2C%22withSafetyModeUserFields%22%3Atrue%2C%22withSuperFollowsUserFields%22%3Atrue%7D`)
         },
         responseType: 'json'
       });
@@ -418,9 +422,12 @@ class Twitter extends Social {
         headers: {
           authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
           'Content-Type': 'application/json',
+          origin: 'https://x.com',
+          referer: `https://x.com/opquests/status/${retweetId}`,
           'x-csrf-token': this.#auth.ct0 as string,
           'X-Twitter-Auth-Type': 'OAuth2Session',
-          'X-Twitter-Active-User': 'yes'
+          'X-Twitter-Active-User': 'yes',
+          'x-client-transaction-id': await getTID('POST', `/i/api/graphql/${doTask ? 'ojPdsZsimiJrUGLR1sjUtA/CreateRetweet' : 'iQtK4dl5hBmXewYZuEOKVw/DeleteRetweet'}`)
         },
         data: `{"variables":{"tweet_id":"${retweetId}","dark_request":false},"queryId":"${doTask ? 'ojPdsZsimiJrUGLR1sjUtA' : 'iQtK4dl5hBmXewYZuEOKVw'}"}`,
         responseType: 'json'

@@ -239,6 +239,7 @@ class Discord extends Social {
       return await new Promise((resolve) => {
         const newTab = GM_openInTab('https://discord.com/channels/@me',
           { active: true, insert: true, setParent: true });
+        // @ts-ignore
         newTab.name = 'ATv4_discordAuth';
         newTab.onclose = async () => {
           const auth = GM_getValue<auth>('discordAuth')?.auth;

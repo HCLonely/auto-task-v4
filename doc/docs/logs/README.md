@@ -5,6 +5,13 @@ lang: zh-CN
 
 ## V4.7
 
+### V4.7.4
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.7.4)
+
+- 修复: 重新支持X/Twitter([#44](https://github.com/HCLonely/auto-task-v4/issues/44))
+- 优化: 部分日志文本
+
 ### V4.7.3
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.7.3)

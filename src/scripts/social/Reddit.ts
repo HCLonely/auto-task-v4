@@ -141,6 +141,7 @@ class Reddit extends Social {
       return await new Promise((resolve) => {
         const newTab = GM_openInTab('https://www.reddit.com/',
           { active: true, insert: true, setParent: true });
+        // @ts-ignore
         newTab.name = 'ATv4_redditAuth';
         newTab.onclose = async () => {
           logStatus.success();

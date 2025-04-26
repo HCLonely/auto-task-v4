@@ -282,6 +282,7 @@ class Twitch extends Social {
       return await new Promise((resolve) => {
         const newTab = GM_openInTab('https://www.twitch.tv/',
           { active: true, insert: true, setParent: true });
+        // @ts-ignore
         newTab.name = 'ATv4_twitchAuth';
         newTab.onclose = async () => {
           const auth = GM_getValue<auth>('twitchAuth');

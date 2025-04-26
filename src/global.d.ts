@@ -7,9 +7,6 @@
  */
 
 declare global {
-  const unsafeWindow: {
-    [name: string]: any
-  };
 
   interface Array<T> {
     at(index: number): T | undefined;
@@ -44,7 +41,7 @@ declare global {
     redirect?: 'follow' | 'error' | 'manual'
   }
   interface MonkeyXhrDetails extends MonkeyXhrBasicDetails {
-    onabort?: (response: MonkeyXhrResponse) => void
+    onabort?: () => void
     onerror?: (response: MonkeyXhrResponse) => void
     onloadstart?: (response: MonkeyXhrResponse) => void
     onprogress?: (response: MonkeyXhrResponse) => void
@@ -187,58 +184,10 @@ declare global {
       'run-at': string
     }
   }
-  /* eslint-disable camelcase */
-  const GM_info: gmInfo;
-  function GM_xmlhttpRequest(details: MonkeyXhrDetails): { abort: () => void }
-  function GM_addStyle(style: string): HTMLElement
-  function GM_setValue(name: string, value: any): void
-  function GM_getValue<T>(name: string, defaultValue?: T): undefined | T
-  function GM_listValues(): Array<string>
-  function GM_deleteValue(name: string): void
-  function GM_registerMenuCommand(name: string, callback: () => void): void
-  function GM_setClipboard(text: string, type?: string): void
-  function GM_getResourceText(name: string): string
-  function GM_openInTab(url: string, options?: {
-    active?: boolean
-    insert?: boolean
-    setParent?: boolean
-    incognito?: boolean
-  }): {
-    close: () => void
-    onclose: () => void
-    focus: () => void
-    closed: boolean
-    name: string
-    }
+
   function GM_addValueChangeListener<T>(key: string, callback: (key: string, old_value: T, new_value: T, remote: boolean) => void): number
   function GM_removeValueChangeListener(listenerId: number): void
-  const GM_cookie: {
-    list(details: {
-      url?: string
-      domain?: string
-      name?: string
-      path?: string
-      partitionKey?: {
-        topLevelSite?: string
-      }
-    }, callback?: (cookies: Array<{
-      domain: string
-      firstPartyDomain?: string
-      partitionKey?: {
-        topLevelSite?: string
-      }
-      hostOnly: boolean
-      httpOnly: boolean
-      name: string
-      path: string
-      sameSite: string
-      secure: boolean
-      session: boolean
-      value: string
-    }>, error: string | null) => void): void
-  };
 
-  /* eslint-enable camelcase */
   function sha1(value: string): string
 
   interface commonObject {

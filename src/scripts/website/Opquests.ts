@@ -24,6 +24,10 @@ const defaultTasks: oqSocialTasks = {
     wishlistLinks: [],
     followLinks: [],
     curatorLikeLinks: []
+  },
+  twitter: {
+    userLinks: [],
+    retweetLinks: []
   }
 };
 
@@ -226,6 +230,12 @@ class Opquests extends Website {
           }
         } else if (/store\.steampowered\.com\/(publisher|developer|curator)\//.test(link) && /follow/gim.test(taskDes)) {
           this.undoneTasks.steam.curatorLikeLinks.push(link);
+        } else if (link.includes('//x.com/') && /follow/gim.test(taskDes)) {
+          this.undoneTasks.twitter.userLinks.push(link);
+        } else if (link.includes('//x.com/') && link.includes('status') && /Repost/gim.test(taskDes)) {
+          this.undoneTasks.twitter.retweetLinks.push(link);
+        } else if (/clash.gg/.test(link)) {
+          echoLog({}).warning(`${__('unSupporttedTaskType')}: ${taskDes}(${link})`);
         } else {
           echoLog({}).warning(`${__('unKnownTaskType')}: ${taskDes}(${link})`);
         }

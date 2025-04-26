@@ -569,6 +569,7 @@ class Steam extends Social {
         GM_deleteValue('steamStoreAuth');
         GM_setValue('ATv4_updateStoreAuth', true);
         const newTab = GM_openInTab('https://store.steampowered.com/', { active: true, setParent: true });
+        // @ts-ignore
         newTab.name = 'ATv4_updateStoreAuth';
         const listenerId = GM_addValueChangeListener<auth|null>('steamStoreAuth', (key, oldValue, newValue) => {
           GM_removeValueChangeListener(listenerId);
@@ -618,6 +619,7 @@ class Steam extends Social {
         GM_deleteValue('steamCommunityAuth');
         GM_setValue('ATv4_updateCommunityAuth', true);
         const newTab = GM_openInTab('https://steamcommunity.com/my', { active: true, setParent: true });
+        // @ts-ignore
         newTab.name = 'ATv4_updateCommunityAuth';
         const listenerId = GM_addValueChangeListener<auth | null>('steamCommunityAuth', (key, oldValue, newValue) => {
           GM_removeValueChangeListener(listenerId);

@@ -116,6 +116,8 @@ module.exports = {
     sweetalert2: 'Swal',
     'js-cookie': 'Cookies',
     keyboardjs: 'keyboardJS',
-    dayjs: 'dayjs'
+    dayjs: 'dayjs',
+    sha256: 'js-sha256',
+    Buffer: 'buffer'
   }
 };

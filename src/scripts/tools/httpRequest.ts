@@ -31,8 +31,8 @@ const httpRequest = async (options: httpRequestOptions, times = 0): Promise<http
           ontimeout(data) {
             resolve({ result: 'Error', statusText: 'Timeout', status: 601, data, options });
           },
-          onabort(data) {
-            resolve({ result: 'Error', statusText: 'Aborted', status: 602, data, options });
+          onabort() {
+            resolve({ result: 'Error', statusText: 'Aborted', status: 602, data: undefined, options });
           },
           onerror(data) {
             resolve({ result: 'Error', statusText: 'Error', status: 603, data, options });
@@ -73,6 +73,7 @@ const httpRequest = async (options: httpRequestOptions, times = 0): Promise<http
           }
         }, ...options
       };
+      // @ts-ignore
       GM_xmlhttpRequest(requestObj);
     });
     if (window.DEBUG) console.log('%cAuto-Task[httpRequest]:', 'color:blue', JSON.stringify(result));

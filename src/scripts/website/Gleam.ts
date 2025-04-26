@@ -145,8 +145,10 @@ class Gleam extends Website {
    */
   before(): void {
     try {
+    // @ts-ignore
       unsafeWindow.confirm = () => { };
       unsafeWindow.alert = () => { };
+      // @ts-ignore
       unsafeWindow.prompt = () => { };
     } catch (error) {
       throwError(error as Error, 'Gleam.before');
@@ -424,8 +426,8 @@ class Gleam extends Website {
       echoLog({ text: `${__('verifyingTask')}...` });
 
       const tasks = $('.entry-content .entry-method');
-      // eslint-disable-next-line no-underscore-dangle
-      unsafeWindow._OxA = '_OxA';
+      // @ts-ignore
+      unsafeWindow._OxA = '_OxA'; // eslint-disable-line no-underscore-dangle
       for (const task of tasks) {
         if ($('[campaign-key="campaign.key"]').length > 0) { // 检测人机验证
           return echoLog({ text: __('campaign') });
@@ -449,10 +451,11 @@ class Gleam extends Website {
             $element.attr('href', href as string);
           }
         }
-
+        // @ts-ignore
         unsafeWindow.$hookTimer?.setSpeed(1000);
         const visitBtn = $task.find('.expandable').find('span:contains(more seconds),button:contains(more seconds)')
           .filter(':visible');
+        // @ts-ignore
         if (visitBtn.length > 0 && unsafeWindow.$hookTimer) {
           const newTab = GM_openInTab('', { active: true });
           // const newTab = window.open('', '_blank');
@@ -462,6 +465,7 @@ class Gleam extends Website {
           window.focus();
         }
         await delay(3000);
+        // @ts-ignore
         unsafeWindow.$hookTimer?.setSpeed(1);
 
         const expandInfo = $task.find('.expandable');

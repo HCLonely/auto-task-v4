@@ -64,7 +64,7 @@ const data = {
   verifyAuth: '正在验证 %0 凭证...',
   closePageNotice: '如果此页面没有自动关闭，请自行关闭本页面。',
   errorReport: '检测到脚本报错，是否前往反馈BUG？',
-  visitingLink: '正在访问链接: ',
+  visitingLink: '正在访问链接...',
   doTask: '做任务',
   undoTask: '撤销任务',
   verifyTask: '验证任务',

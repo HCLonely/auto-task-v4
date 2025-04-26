@@ -103,6 +103,9 @@ module.exports = {
   },
   externals: {
     sweetalert2: 'Swal',
-    'js-cookie': 'Cookies'
+    'js-cookie': 'Cookies',
+    dayjs: 'dayjs',
+    sha256: 'js-sha256',
+    Buffer: 'buffer'
   }
 };

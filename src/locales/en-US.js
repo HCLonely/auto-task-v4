@@ -65,7 +65,7 @@ const data = {
   verifyAuth: 'Verifying %0 token...',
   closePageNotice: 'f this page does not close automatically, please close this page yourself.',
   errorReport: 'A script error is detected, do you want to report the BUG?',
-  visitingLink: 'Visiting link: ',
+  visitingLink: 'Visiting link ...',
   doTask: 'DoTask',
   undoTask: 'UndoTask',
   verifyTask: 'Verify',
