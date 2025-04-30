@@ -1,9 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.7.4",
+  "version": "4.7.5",
   "change": [
-    "修复: 重新支持X/Twitter(#44)",
-    "优化: 部分日志文本"
+    "修复: X/Twitter返回404(#45)"
   ],
   "description": "赠Key站自动任务脚本",
   "engines": {

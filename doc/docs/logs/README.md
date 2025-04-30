@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.7
 
+### V4.7.5
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.7.5)
+
+- 修复: X/Twitter返回404([#45](https://github.com/HCLonely/auto-task-v4/issues/45))
+
 ### V4.7.4
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.7.4)

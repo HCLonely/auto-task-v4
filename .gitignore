@@ -6,5 +6,6 @@ stats.json
 temp
 test/
 
-TID
+TID/
+XTID/
 *.LICENSE.txt

@@ -14,7 +14,7 @@ import httpRequest from '../tools/httpRequest';
 import { unique, delay } from '../tools/tools';
 import __ from '../tools/i18n';
 import { globalOptions } from '../globalOptions';
-import getTID from './TID/main';
+import { createSession } from './XTID/main';
 /**
  * Twitter类用于处理与Twitter相关的任务，包括关注/取关用户和转推/取消转推推文。
  *
@@ -88,6 +88,9 @@ class Twitter extends Social {
   #auth: auth = GM_getValue<auth>('twitterAuth') || {};
   #cache: cache = GM_getValue<cache>('twitterCache') || {};
   #initialized = false;
+  #session!: {
+    get: (method: string, path: string) => Promise<string>,
+  };
 
   /**
    * 创建一个Twitter实例。
@@ -135,6 +138,7 @@ class Twitter extends Social {
         }
         return false;
       }
+      this.#session = await createSession();
       const isVerified = await this.#verifyAuth();
       if (isVerified) {
         echoLog({}).success(__('initSuccess', 'Twitter'));
@@ -265,7 +269,7 @@ class Twitter extends Social {
           'x-csrf-token': this.#auth.ct0 as string,
           'X-Twitter-Auth-Type': 'OAuth2Session',
           'X-Twitter-Active-User': 'yes',
-          'x-client-transaction-id': await getTID('POST', `/i/api/1.1/friendships/${doTask ? 'create' : 'destroy'}.json`)
+          'x-client-transaction-id': await this.#session.get('POST', `/i/api/1.1/friendships/${doTask ? 'create' : 'destroy'}.json`)
         },
         responseType: 'json',
         /* eslint-disable camelcase */
@@ -354,7 +358,7 @@ class Twitter extends Social {
           'x-csrf-token': this.#auth.ct0 as string,
           'X-Twitter-Auth-Type': 'OAuth2Session',
           'X-Twitter-Active-User': 'yes',
-          'x-client-transaction-id': await getTID('GET', '/i/api/graphql/mCbpQvZAw6zu_4PvuAUVVQ/UserByScreenName' +
+          'x-client-transaction-id': await this.#session.get('GET', '/i/api/graphql/mCbpQvZAw6zu_4PvuAUVVQ/UserByScreenName' +
             `?variables=%7B%22screen_name%22%3A%22${name}%22%2C%22withSafetyModeUserFields%22%3Atrue%2C%22withSuperFollowsUserFields%22%3Atrue%7D`)
         },
         responseType: 'json'
@@ -423,17 +427,21 @@ class Twitter extends Social {
           authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
           'Content-Type': 'application/json',
           origin: 'https://x.com',
-          referer: `https://x.com/opquests/status/${retweetId}`,
+          referer: 'https://x.com/home',
           'x-csrf-token': this.#auth.ct0 as string,
           'X-Twitter-Auth-Type': 'OAuth2Session',
           'X-Twitter-Active-User': 'yes',
-          'x-client-transaction-id': await getTID('POST', `/i/api/graphql/${doTask ? 'ojPdsZsimiJrUGLR1sjUtA/CreateRetweet' : 'iQtK4dl5hBmXewYZuEOKVw/DeleteRetweet'}`)
+          'x-client-transaction-id': await this.#session.get('POST', `/i/api/graphql/${doTask ? 'ojPdsZsimiJrUGLR1sjUtA/CreateRetweet' : 'iQtK4dl5hBmXewYZuEOKVw/DeleteRetweet'}`)
         },
-        data: `{"variables":{"tweet_id":"${retweetId}","dark_request":false},"queryId":"${doTask ? 'ojPdsZsimiJrUGLR1sjUtA' : 'iQtK4dl5hBmXewYZuEOKVw'}"}`,
+        data: `{"variables":{"${doTask ? '' : 'source_'}tweet_id":"${retweetId}","dark_request":false},"queryId":"${doTask ? 'ojPdsZsimiJrUGLR1sjUtA' : 'iQtK4dl5hBmXewYZuEOKVw'}"}`,
         responseType: 'json'
       });
       if (result === 'Success') {
         if (data?.status === 200 || (data?.status === 403 && data.response?.errors?.[0]?.code === 327)) {
+          if (data.response?.errors) {
+            logStatus.error(`Error:${data.response?.errors?.[0]?.message}`);
+            return false;
+          }
           logStatus.success();
           if (doTask) this.tasks.retweets = unique([...this.tasks.retweets, retweetId]);
           return true;
@@ -544,4 +552,8 @@ class Twitter extends Social {
     }
   }
 }
+
+// @ts-ignore
+// unsafeWindow.Twitter = Twitter;
+
 export default Twitter;

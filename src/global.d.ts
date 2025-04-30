@@ -6,7 +6,13 @@
  * @FilePath     : /auto-task-new/src/global.d.ts
  */
 
+import ClientTransaction from './scripts/social/TID/transaction';
 declare global {
+
+  interface GlobalThis {
+    Xresponse: undefined | JQuery;
+    XctX: ClientTransaction;
+  }
 
   interface Array<T> {
     at(index: number): T | undefined;

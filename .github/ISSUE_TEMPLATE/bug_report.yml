@@ -7,6 +7,8 @@ body:
       label: 提交BUG前请先阅读以下内容
       description: Please read the following before submitting a bug.
       options:
+        - label: 我尝试了多次确认问题可以复现 | I tried several times to confirm that the problem can be reproduced.
+          required: true
         - label: 我已经将脚本更新到了[最新版](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4.user.js) | I have updated this script to the [latest version](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4.user.js).
           required: true
         - label: 我尝试过使用[兼容版](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4.compatibility.user.js)但没有解决 | I have updated this script to the [compatible version](https://github.com/HCLonely/auto-task-new/raw/main/dist/auto-task-v4.compatibility.user.js) but not solved.

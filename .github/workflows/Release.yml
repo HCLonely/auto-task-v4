@@ -21,11 +21,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.7.4
-          name: 4.7.4
-          body: |-
-            - 修复: 重新支持X/Twitter(#44)
-            - 优化: 部分日志文本
+          tag_name: v4.7.5
+          name: 4.7.5
+          body: '- 修复: X/Twitter返回404(#45)'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js
