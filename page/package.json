@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.7.5",
+  "version": "4.7.6",
   "change": [
-    "修复: X/Twitter返回404(#45)"
+    "修复: GiveeClue首次识别Steam任务重定向至登录链接(#50)"
   ],
   "description": "赠Key站自动任务脚本",
   "engines": {

@@ -173,7 +173,7 @@ class GiveeClub extends GiveawaySu {
             return resolve(true);
           }
 
-          getRedirectLink(taskDes.attr('href')).then((taskLink) => {
+          getRedirectLink(taskDes.attr('href'), true).then((taskLink) => {
             if (!taskLink) {
               return resolve(false);
             }

@@ -52,14 +52,15 @@ interface redirectLinksCache {
  *
  * @throws {Error} 如果在获取重定向链接的过程中发生错误，将抛出错误。
  */
-const getRedirectLink = async (link: string | undefined): Promise<string | null> => {
+const getRedirectLink = async (link: string | undefined, redirectOnce: boolean = false): Promise<string | null> => {
   try {
     if (!link) return null;
     const redirectLinksCache = GM_getValue<redirectLinksCache>('redirectLinks') || {};
     if (redirectLinksCache[link]) redirectLinksCache[link];
     return await httpRequest({
       url: link,
-      method: 'GET'
+      method: 'GET',
+      redirect: redirectOnce ? 'manual' : 'follow'
     }).then(({ data }) => {
       if (data?.finalUrl) {
         redirectLinksCache[link] = data.finalUrl;

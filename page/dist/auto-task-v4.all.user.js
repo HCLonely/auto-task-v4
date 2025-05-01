@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.7.5
+// @version            4.7.6
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1377,7 +1377,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         resolve(true);
       }, time);
     });
-    const getRedirectLink = async link => {
+    const getRedirectLink = async (link, redirectOnce = false) => {
       try {
         if (!link) {
           return null;
@@ -1388,7 +1388,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         }
         return await tools_httpRequest({
           url: link,
-          method: 'GET'
+          method: 'GET',
+          redirect: redirectOnce ? 'manual' : 'follow'
         }).then(({
           data
         }) => {
@@ -8896,7 +8897,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               if (taskIcon.includes('ban') || /AdBlock/i.test(taskName) || taskIcon.includes('envelope') || taskFinished) {
                 return resolve(true);
               }
-              getRedirectLink(taskDes.attr('href')).then(taskLink => {
+              getRedirectLink(taskDes.attr('href'), true).then(taskLink => {
                 if (!taskLink) {
                   return resolve(false);
                 }

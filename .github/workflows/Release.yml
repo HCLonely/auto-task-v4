@@ -21,9 +21,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.7.5
-          name: 4.7.5
-          body: '- 修复: X/Twitter返回404(#45)'
+          tag_name: v4.7.6
+          name: 4.7.6
+          body: '- 修复: GiveeClue首次识别Steam任务重定向至登录链接(#50)'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js
