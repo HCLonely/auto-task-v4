@@ -1,8 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.7.6",
+  "version": "4.7.7",
   "change": [
-    "修复: GiveeClue首次识别Steam任务重定向至登录链接(#50)"
+    "修复: 部分非标准Steam群组链接处理错误"
   ],
   "description": "赠Key站自动任务脚本",
   "engines": {

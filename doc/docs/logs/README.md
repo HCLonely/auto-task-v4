@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.7
 
+### V4.7.7
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.7.7)
+
+- 修复: 部分非标准Steam群组链接处理错误
+
 ### V4.7.6
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.7.6)

@@ -2419,7 +2419,7 @@ class Steam extends Social {
       ) {
         echoLog({ type: 'globalOptionsSkip', text: 'steam.groups' });
       } else {
-        const realGroups = this.getRealParams('groups', groupLinks, doTask, (link) => link.match(/groups\/(.+)\/?/)?.[1]);
+        const realGroups = this.getRealParams('groups', groupLinks, doTask, (link) => link.match(/groups\/(.+)\/?/)?.[1]?.split('/')?.[0]);
         if (realGroups.length > 0) {
           for (const group of realGroups) {
             if (doTask) {

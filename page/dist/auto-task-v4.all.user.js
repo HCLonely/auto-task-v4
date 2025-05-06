@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.7.6
+// @version            4.7.7
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -7000,7 +7000,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               text: 'steam.groups'
             });
           } else {
-            const realGroups = this.getRealParams('groups', groupLinks, doTask, link => link.match(/groups\/(.+)\/?/)?.[1]);
+            const realGroups = this.getRealParams('groups', groupLinks, doTask, link => link.match(/groups\/(.+)\/?/)?.[1]?.split('/')?.[0]);
             if (realGroups.length > 0) {
               for (const group of realGroups) {
                 if (doTask) {
