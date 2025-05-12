@@ -329,6 +329,7 @@ const data = {
   tgTaskNotice: '检测到Telegram任务，需要手动完成',
 
   // opquests
-  confirmingTask: '正在跳过警告页面...'
+  confirmingTask: '正在跳过警告页面...',
+  unSupporttedTaskType: '不支持的任务类型'
 };
 export default data;

@@ -5,6 +5,13 @@ lang: zh-CN
 
 ## V4.7
 
+### V4.7.8
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.7.8)
+
+- 修复: Twitter转推失败
+- 优化: 部分说明文本
+
 ### V4.7.7
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.7.7)

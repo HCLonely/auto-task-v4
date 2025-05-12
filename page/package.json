@@ -1,8 +1,9 @@
 {
   "name": "auto-task-v4",
-  "version": "4.7.7",
+  "version": "4.7.8",
   "change": [
-    "修复: 部分非标准Steam群组链接处理错误"
+    "修复: Twitter转推失败",
+    "优化: 部分说明文本"
   ],
   "description": "赠Key站自动任务脚本",
   "engines": {

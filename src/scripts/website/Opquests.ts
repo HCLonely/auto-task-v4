@@ -234,7 +234,7 @@ class Opquests extends Website {
           this.undoneTasks.twitter.userLinks.push(link);
         } else if (link.includes('//x.com/') && link.includes('status') && /Repost/gim.test(taskDes)) {
           this.undoneTasks.twitter.retweetLinks.push(link);
-        } else if (/clash.gg/.test(link)) {
+        } else if (/clash\.gg/.test(link)) {
           echoLog({}).warning(`${__('unSupporttedTaskType')}: ${taskDes}(${link})`);
         } else {
           echoLog({}).warning(`${__('unKnownTaskType')}: ${taskDes}(${link})`);

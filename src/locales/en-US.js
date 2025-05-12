@@ -349,6 +349,7 @@ const data = {
   tgTaskNotice: 'The telegram task is checked, need to do it yourself!',
 
   // opquests
-  confirmingTask: 'Confirming task...'
+  confirmingTask: 'Confirming task...',
+  unSupporttedTaskType: 'Unsupportted task type'
 };
 export default data;

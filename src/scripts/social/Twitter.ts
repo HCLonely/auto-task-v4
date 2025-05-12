@@ -438,7 +438,7 @@ class Twitter extends Social {
       });
       if (result === 'Success') {
         if (data?.status === 200 || (data?.status === 403 && data.response?.errors?.[0]?.code === 327)) {
-          if (data.response?.errors) {
+          if (data.response?.errors && data.response?.errors?.[0]?.code !== 327) {
             logStatus.error(`Error:${data.response?.errors?.[0]?.message}`);
             return false;
           }
