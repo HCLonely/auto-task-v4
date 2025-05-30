@@ -21,11 +21,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: false
-          tag_name: v4.7.9
-          name: 4.7.9
-          body: |-
-            - 修复: Twitter获取csrf token失败(45)
-            - 新增: 通过ASF挂游戏时长
+          tag_name: v4.7.10
+          name: 4.7.10
+          body: '- 修复: Steam挂时长时间识别错误'
           files: |-
             dist/auto-task-v4-for-giveawaysu.user.js
             dist/auto-task-v4.compatibility.user.js

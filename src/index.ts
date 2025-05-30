@@ -2,7 +2,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2025-05-30 10:33:20
+ * @LastEditTime : 2025-05-30 12:33:39
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-v4/src/index.ts
  * @Description  : 入口文件
@@ -268,8 +268,8 @@ const loadScript = async () => {
   // 检测Steam ASF挂游戏时长&提醒
   const stopPlayTime = GM_getValue<number>('stopPlayTime', 0) || 0;
   // 计算当前时间超出停止游戏时间的分钟数
-  const stopPlayTimeMinutes = Math.floor((stopPlayTime - Date.now()) / 60000);
-  if (stopPlayTime > Date.now()) {
+  const stopPlayTimeMinutes = Math.floor((Date.now() - stopPlayTime) / 60000);
+  if (stopPlayTime > 0 && stopPlayTime < Date.now()) {
     // 如果当前时间小于停止游戏时间，则弹出提示框，提醒用户停止游戏
     Swal.fire({
       title: __('stopPlayTimeTitle'),
@@ -281,6 +281,7 @@ const loadScript = async () => {
       const steamASF = new SteamASF();
       if (await steamASF.init()) {
         if (await steamASF.stopPlayGames()) {
+          // 打开任务连接
           GM_setValue('stopPlayTime', 0);
         }
       }

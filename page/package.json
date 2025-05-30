@@ -1,9 +1,8 @@
 {
   "name": "auto-task-v4",
-  "version": "4.7.9",
+  "version": "4.7.10",
   "change": [
-    "修复: Twitter获取csrf token失败(45)",
-    "新增: 通过ASF挂游戏时长"
+    "修复: Steam挂时长时间识别错误"
   ],
   "description": "赠Key站自动任务脚本",
   "engines": {

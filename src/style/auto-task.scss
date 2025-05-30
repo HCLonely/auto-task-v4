@@ -149,6 +149,10 @@
 .swal2-modal {
   width: 70% !important;
   max-width: 1000px !important;
+
+  #swal2-title {
+    text-align: center !important;
+  }
 }
 
 body.auto-task-options {

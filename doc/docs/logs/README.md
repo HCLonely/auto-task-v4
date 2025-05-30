@@ -5,6 +5,12 @@ lang: zh-CN
 
 ## V4.7
 
+### V4.7.10
+
+[Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.7.10)
+
+- 修复: Steam挂时长时间识别错误
+
 ### V4.7.9
 
 [Release](https://github.com/HCLonely/auto-task-v4/releases/tag/v4.7.9)

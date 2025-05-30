@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2025-05-30 11:15:42
+ * @LastEditTime : 2025-05-30 12:39:07
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-v4/src/scripts/social/SteamASF.ts
  * @Description  : steam ASF相关功能
@@ -64,11 +64,11 @@ import { globalOptions } from '../globalOptions';
  * @param {string} id - Steam游戏的AppId。
  * @returns {Promise<boolean>} - 返回一个Promise，表示请求操作的结果。
  *
- * @method playTime - 请求指定Steam游戏的游玩时间。
+ * @method playGames - 请求指定Steam游戏的游玩时间。
  * @param {string} ids - Steam游戏的AppId。
  * @returns {Promise<boolean>} - 返回一个Promise，表示请求操作的结果。
  *
- * @method stopPlayTime - 停止指定Steam游戏的游玩时间。
+ * @method stopPlayGames - 停止指定Steam游戏的游玩时间。
  * @returns {Promise<boolean>} - 返回一个Promise，表示停止操作的结果。
  */
 class SteamASF {
