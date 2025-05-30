@@ -2,7 +2,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:44:54
- * @LastEditTime : 2024-09-07 14:51:45
+ * @LastEditTime : 2025-05-30 10:33:20
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-v4/src/index.ts
  * @Description  : 入口文件
@@ -20,6 +20,7 @@ import keyboardJS from 'keyboardjs';
 // import syncOptions from './scripts/dataSync';
 import updateChecker from './scripts/updateChecker';
 import echoLog from './scripts/echoLog';
+import SteamASF from './scripts/social/SteamASF';
 
 window.STYLE = GM_addStyle(style + GM_getResourceText('style'));
 window.DEBUG = !!globalOptions.other?.debug;
@@ -115,23 +116,23 @@ const loadScript = async () => {
   // 向页面的主体中添加自动任务信息和按钮的 HTML 结构
   $('body').append(`
     <div id="auto-task-info"
-         style="display:${globalOptions.other.defaultShowLog ? 'block' : 'none'};
+        style="display:${globalOptions.other.defaultShowLog ? 'block' : 'none'};
                 ${globalOptions.position.logSideX}:${globalOptions.position.logDistance.split(',')[0]}px;
                 ${globalOptions.position.logSideY}:${globalOptions.position.logDistance.split(',')[1]}px;">
     </div>
     <div id="auto-task-buttons"
-         style="display:${globalOptions.other.defaultShowButton ? 'block' : 'none'};
+        style="display:${globalOptions.other.defaultShowButton ? 'block' : 'none'};
                 ${globalOptions.position.buttonSideX}:${globalOptions.position.buttonDistance.split(',')[0]}px;
                 ${globalOptions.position.buttonSideY}:${globalOptions.position.buttonDistance.split(',')[1]}px;">
     </div>
     <div class="show-button-div"
-         style="display:${globalOptions.other.defaultShowButton ? 'none' : 'block'};
+        style="display:${globalOptions.other.defaultShowButton ? 'none' : 'block'};
                 ${globalOptions.position.showButtonSideX}:${globalOptions.position.showButtonDistance.split(',')[0]}px;
                 ${globalOptions.position.showButtonSideY}:${globalOptions.position.showButtonDistance.split(',')[1]}px;">
       <a class="auto-task-website-btn"
-         href="javascript:void(0);"
-         target="_self"
-         title="${__('showButton')}"> </a>
+        href="javascript:void(0);"
+        target="_self"
+        title="${__('showButton')}"> </a>
     </div>
   `);
 
@@ -263,6 +264,28 @@ const loadScript = async () => {
   }
 
   console.log('%c%s', 'color:#1bbe1a', 'Auto-Task[Load]: 脚本加载完成');
+
+  // 检测Steam ASF挂游戏时长&提醒
+  const stopPlayTime = GM_getValue<number>('stopPlayTime', 0) || 0;
+  // 计算当前时间超出停止游戏时间的分钟数
+  const stopPlayTimeMinutes = Math.floor((stopPlayTime - Date.now()) / 60000);
+  if (stopPlayTime > Date.now()) {
+    // 如果当前时间小于停止游戏时间，则弹出提示框，提醒用户停止游戏
+    Swal.fire({
+      title: __('stopPlayTimeTitle'),
+      text: __('stopPlayTimeText', stopPlayTimeMinutes.toString()),
+      icon: 'warning',
+      confirmButtonText: __('confirm')
+    }).then(async () => {
+      // 用户点击确认后，清除停止游戏时间
+      const steamASF = new SteamASF();
+      if (await steamASF.init()) {
+        if (await steamASF.stopPlayGames()) {
+          GM_setValue('stopPlayTime', 0);
+        }
+      }
+    });
+  }
 
   // 将 GM_info.version 拆分为主版本号和次版本号
   const [v1, v2] = GM_info.version?.split('.') || [];

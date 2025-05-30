@@ -36,6 +36,7 @@ declare interface steamTasksParam {
   announcements?: Array<string>
   licenseLinks?: Array<string>
   playtestLinks?: Array<string>
+  playTimeLinks?: Array<string>
 }
 declare interface storeTokenParam {
   steamID: string

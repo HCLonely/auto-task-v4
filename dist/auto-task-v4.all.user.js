@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name               auto-task-v4
 // @namespace          auto-task-v4
-// @version            4.7.8
+// @version            4.7.9
 // @description        自动完成 Freeanywhere，Giveawaysu，GiveeClub，Givekey，Gleam，Indiedb，keyhub，OpiumPulses，Opquests，SweepWidget 等网站的任务。
 // @description:en     Automatically complete the tasks of FreeAnyWhere, GiveawaySu, GiveeClub, Givekey, Gleam, Indiedb, keyhub, OpiumPulses, Opquests, SweepWidget websites.
 // @author             HCLonely
@@ -1549,7 +1549,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           workshopVotes: true,
           announcements: true,
           licenses: true,
-          playtests: true
+          playtests: true,
+          playTime: true
         }
       },
       undoTask: {
@@ -1583,7 +1584,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           follows: true,
           forums: true,
           workshops: true,
-          curators: true
+          curators: true,
+          playTime: true
         }
       },
       ASF: {
@@ -1879,6 +1881,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       steamStore: 'Steam商店',
       licenses: '入库免费游戏',
       playtests: '请求访问权限',
+      playTime: '挂时长',
       needLoginSteamStore: '请先<a href="https://store.steampowered.com/login/" target="_blank">登录Steam商店</a>',
       needLoginSteamCommunity: '请先<a href="https://steamcommunity.com/login/home/" target="_blank">登录Steam社区</a>',
       joiningSteamGroup: '正在加入Steam组',
@@ -1920,7 +1923,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       owned: '已拥有',
       redirect: '重定向',
       noSubid: '无法获取，跳过',
+      noASFInstance: '未启用ASF',
       initingASF: '正在初始化ASF...',
+      playingGames: '正在挂游戏时长[%0]...',
+      stoppingPlayGames: '正在停止挂游戏时长...',
+      stopPlayTimeTitle: 'Steam游戏挂机时长满足，是否结束挂机？',
+      stopPlayTimeText: '挂机已超时：%0 分钟',
       servers: '服务器',
       joiningDiscordServer: '正在加入Discord服务器',
       leavingDiscordServer: '正在退出Discord服务器',
@@ -2210,7 +2218,12 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       owned: 'Owned',
       redirect: 'Redirect',
       noSubid: 'skip due to unrecognized',
+      noASFInstance: 'ASF is not enabled',
       initingASF: 'Initing ASF...',
+      playingGames: 'Playing games [%0]...',
+      stoppingPlayGames: 'Stopping play games...',
+      stopPlayTimeTitle: 'The Steam game idle time has finished. Do you want to end it?',
+      stopPlayTimeText: 'Time out: %0 minutes',
       servers: 'Server',
       joiningDiscordServer: 'Joining Discord Server',
       leavingDiscordServer: 'Leaving Discord Server',
@@ -3507,7 +3520,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
               url: 'https://x.com/settings/account'
             }, async (cookies, error) => {
               if (!error) {
-                const [ ct0, isLogin ] = cookies.map(cookie => [ 'ct0', 'twid' ].includes(cookie.name) ? cookie.value : null).filter(cookie => cookie);
+                const ct0 = cookies.find(cookie => cookie.name === 'ct0')?.value;
+                const isLogin = cookies.find(cookie => cookie.name === 'twid')?.value;
                 if (isLogin && ct0) {
                   GM_setValue('twitterAuth', {
                     ct0: ct0
@@ -5126,6 +5140,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       async addLicense(id) {
         try {
           const [ type, ids ] = id.split('-');
+          const idsArr = ids.split(',');
           if (type === 'appid') {
             const logStatus = scripts_echoLog({
               type: 'addingFreeLicense',
@@ -5139,7 +5154,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             } = await tools_httpRequest({
               ...this.#asfOptions,
               data: JSON.stringify({
-                Command: `!addlicense ${this.#botName} app/${ids}`
+                Command: `!addlicense ${this.#botName} ${idsArr.map(id => `app/${id}`).join(',')}`
               })
             });
             if (result === 'Success') {
@@ -5153,7 +5168,6 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             logStatus.error(`${result}:${statusText}(${status})`);
             return false;
           } else if (type === 'subid') {
-            const idsArr = ids.split(',');
             const logStatus = scripts_echoLog({
               type: 'addingFreeLicenseSubid',
               text: ids
@@ -5222,7 +5236,70 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           logStatus.error(`${result}:${statusText}(${status})`);
           return false;
         } catch (error) {
-          throwError(error, 'Steam.requestPlayTestAccess');
+          throwError(error, 'SteamASF.requestPlayTestAccess');
+          return false;
+        }
+      }
+      async playGames(ids) {
+        try {
+          await this.addLicense(`appid-${ids}`);
+          const logStatus = scripts_echoLog({
+            text: i18n('playingGames', ids)
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            ...this.#asfOptions,
+            data: JSON.stringify({
+              Command: `!play ${this.#botName} ${ids}`
+            })
+          });
+          if (result === 'Success') {
+            if (data?.status === 200 && [ '正在运行' ].find(text => data.response?.Result?.includes(text))) {
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${data?.response?.Result || data?.response?.Message || data?.statusText}(${data?.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'SteamASF.playGames');
+          return false;
+        }
+      }
+      async stopPlayGames() {
+        try {
+          const logStatus = scripts_echoLog({
+            text: i18n('stoppingPlayGames')
+          });
+          const {
+            result,
+            statusText,
+            status,
+            data
+          } = await tools_httpRequest({
+            ...this.#asfOptions,
+            data: JSON.stringify({
+              Command: `!reset ${this.#botName}`
+            })
+          });
+          if (result === 'Success') {
+            if (data?.status === 200 && [ '完成' ].find(text => data.response?.Result?.includes(text))) {
+              logStatus.success();
+              return true;
+            }
+            logStatus.error(`Error:${data?.response?.Result || data?.response?.Message || data?.statusText}(${data?.status})`);
+            return false;
+          }
+          logStatus.error(`${result}:${statusText}(${status})`);
+          return false;
+        } catch (error) {
+          throwError(error, 'SteamASF.stopPlayGames');
           return false;
         }
       }
@@ -5262,7 +5339,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           curatorLikes: [],
           announcements: [],
           licenses: [],
-          playtests: []
+          playtests: [],
+          playTime: []
         };
         this.tasks = defaultTasksTemplate;
         this.whiteList = {
@@ -6996,6 +7074,31 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
           return false;
         }
       }
+      async #playGames(ids, playTime, doTask = true) {
+        try {
+          if (playTime <= 0) {
+            return true;
+          }
+          if (!this.#ASF) {
+            scripts_echoLog({}).warning(i18n('noASFInstance'));
+            return false;
+          }
+          if (!doTask) {
+            return await this.#ASF.stopPlayGames();
+          }
+          const result = await this.#ASF.playGames(ids);
+          if (!result) {
+            return false;
+          }
+          const stopPlayTime = Date.now() + (playTime + 10) * 60 * 1e3;
+          const stopPlayTimeOld = GM_getValue('stopPlayTime', 0) || 0;
+          GM_setValue('stopPlayTime', stopPlayTime > stopPlayTimeOld ? stopPlayTime : stopPlayTimeOld);
+          return true;
+        } catch (error) {
+          throwError(error, 'Steam.playGames');
+          return false;
+        }
+      }
       async toggle({
         doTask = true,
         groupLinks = [],
@@ -7009,7 +7112,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         curatorLikeLinks = [],
         announcementLinks = [],
         licenseLinks = [],
-        playtestLinks = []
+        playtestLinks = [],
+        playTimeLinks = []
       }) {
         try {
           if ([ ...groupLinks, ...officialGroupLinks, ...forumLinks, ...workshopLinks, ...workshopVoteLinks ].length > 0 && !this.#communityInitialized) {
@@ -7018,7 +7122,7 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
             });
             return false;
           }
-          if ([ ...wishlistLinks, ...followLinks, ...curatorLinks, ...curatorLikeLinks, ...announcementLinks, ...licenseLinks, ...playtestLinks ].length > 0 && !this.#storeInitialized) {
+          if ([ ...wishlistLinks, ...followLinks, ...curatorLinks, ...curatorLikeLinks, ...announcementLinks, ...licenseLinks, ...playtestLinks, ...playTimeLinks ].length > 0 && !this.#storeInitialized) {
             scripts_echoLog({
               text: i18n('needInit')
             });
@@ -7091,6 +7195,27 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                 prom.push(this.#toggleFollowGame(game, doTask));
                 await delay(1e3);
               }
+            }
+          }
+          if (doTask && !globalOptions.doTask.steam.playTime || !doTask && !globalOptions.undoTask.steam.playTime) {
+            scripts_echoLog({
+              type: 'globalOptionsSkip',
+              text: 'steam.playTime'
+            });
+          } else {
+            const realGames = this.getRealParams('playTime', playTimeLinks, doTask, link => `${link.split('-')[0]}-${link.match(/app\/([\d]+)/)?.[1] || ''}`);
+            if (realGames.length > 0) {
+              let maxTime = 0;
+              const games = [];
+              for (const info of realGames) {
+                const [ time, game ] = info.split('-');
+                maxTime = Math.max(maxTime, parseInt(time, 10) || 0);
+                if ((parseInt(time, 10) || 0) > 0 && game) {
+                  games.push(game);
+                }
+              }
+              prom.push(this.#playGames(games.join(','), maxTime, doTask));
+              await delay(1e3);
             }
           }
           if (doTask && !globalOptions.doTask.steam.forums || !doTask && !globalOptions.undoTask.steam.forums) {
@@ -7789,7 +7914,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         forumLinks: [],
         announcementLinks: [],
         workshopVoteLinks: [],
-        playtestLinks: []
+        playtestLinks: [],
+        playTimeLinks: []
       },
       discord: {
         serverLinks: []
@@ -8948,6 +9074,9 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
                   this.undoneTasks.steam.curatorLikeLinks.push(taskLink);
                 } else if (/subscribe.*steam.*forum/gim.test(taskName)) {
                   this.undoneTasks.steam.forumLinks.push(taskLink);
+                } else if (taskType === 'steam.game.playtime' && /^https?:\/\/store\.steampowered\.com\/app\//.test(taskLink)) {
+                  const time = taskDes.text().match(/(\d+)(?:\.\d+)?/gim)?.[0] || '0';
+                  this.undoneTasks.steam.playTimeLinks.push(`${time}-${taskLink}`);
                 } else if (taskIcon.includes('discord')) {
                   this.undoneTasks.discord.serverLinks.push(taskLink);
                 } else if (taskIcon.includes('instagram')) {
@@ -10607,7 +10736,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         curatorLikes: [],
         announcements: [],
         licenses: [],
-        playtests: []
+        playtests: [],
+        playTime: []
       }
     };
     const link2id = async function(type) {
@@ -10658,6 +10788,8 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
          case 'steam.wishlists':
          case 'steam.follows':
          case 'steam.forums':
+         case 'steam.playtests':
+         case 'steam.playTime':
           id = link.match(/app\/([\d]+)/)?.[1] || '';
           break;
 
@@ -11775,23 +11907,23 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
       }
       $('body').append(`
     <div id="auto-task-info"
-         style="display:${globalOptions.other.defaultShowLog ? 'block' : 'none'};
+        style="display:${globalOptions.other.defaultShowLog ? 'block' : 'none'};
                 ${globalOptions.position.logSideX}:${globalOptions.position.logDistance.split(',')[0]}px;
                 ${globalOptions.position.logSideY}:${globalOptions.position.logDistance.split(',')[1]}px;">
     </div>
     <div id="auto-task-buttons"
-         style="display:${globalOptions.other.defaultShowButton ? 'block' : 'none'};
+        style="display:${globalOptions.other.defaultShowButton ? 'block' : 'none'};
                 ${globalOptions.position.buttonSideX}:${globalOptions.position.buttonDistance.split(',')[0]}px;
                 ${globalOptions.position.buttonSideY}:${globalOptions.position.buttonDistance.split(',')[1]}px;">
     </div>
     <div class="show-button-div"
-         style="display:${globalOptions.other.defaultShowButton ? 'none' : 'block'};
+        style="display:${globalOptions.other.defaultShowButton ? 'none' : 'block'};
                 ${globalOptions.position.showButtonSideX}:${globalOptions.position.showButtonDistance.split(',')[0]}px;
                 ${globalOptions.position.showButtonSideY}:${globalOptions.position.showButtonDistance.split(',')[1]}px;">
       <a class="auto-task-website-btn"
-         href="javascript:void(0);"
-         target="_self"
-         title="${i18n('showButton')}"> </a>
+        href="javascript:void(0);"
+        target="_self"
+        title="${i18n('showButton')}"> </a>
     </div>
   `);
       $('div.show-button-div').on('click', () => {
@@ -11861,6 +11993,23 @@ console.log('%c%s', 'color:blue', 'Auto-Task[Load]: 脚本开始加载');
         });
       }
       console.log('%c%s', 'color:#1bbe1a', 'Auto-Task[Load]: 脚本加载完成');
+      const stopPlayTime = GM_getValue('stopPlayTime', 0) || 0;
+      const stopPlayTimeMinutes = Math.floor((stopPlayTime - Date.now()) / 6e4);
+      if (stopPlayTime > Date.now()) {
+        external_Swal_default().fire({
+          title: i18n('stopPlayTimeTitle'),
+          text: i18n('stopPlayTimeText', stopPlayTimeMinutes.toString()),
+          icon: 'warning',
+          confirmButtonText: i18n('confirm')
+        }).then(async () => {
+          const steamASF = new social_SteamASF();
+          if (await steamASF.init()) {
+            if (await steamASF.stopPlayGames()) {
+              GM_setValue('stopPlayTime', 0);
+            }
+          }
+        });
+      }
       const [ v1, v2 ] = GM_info.version?.split('.') || [];
       if (!(parseInt(v1, 10) >= 5 && parseInt(v2, 10) >= 2)) {
         scripts_echoLog({}).error(i18n('versionNotMatched'));

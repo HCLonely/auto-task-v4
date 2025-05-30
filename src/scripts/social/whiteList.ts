@@ -1,9 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-06 13:16:38
- * @LastEditTime : 2022-02-10 12:38:07
+ * @LastEditTime : 2025-05-30 10:49:58
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/scripts/social/whiteList.ts
+ * @FilePath     : /auto-task-v4/src/scripts/social/whiteList.ts
  * @Description  : 白名单相关
  */
 
@@ -94,7 +94,8 @@ const defaultWhiteList: whiteList = {
     curatorLikes: [],
     announcements: [],
     licenses: [],
-    playtests: []
+    playtests: [],
+    playTime: []
   }
 };
 
@@ -114,6 +115,8 @@ const defaultWhiteList: whiteList = {
  *   - steam.groups
  *   - steam.wishlists
  *   - steam.follows
+ *   - steam.playtests
+ *   - steam.playTime
  *   - steam.forums
  *   - steam.workshops
  *   - steam.curators
@@ -160,6 +163,8 @@ const link2id = async function (type: string): Promise<string> {
     case 'steam.wishlists':
     case 'steam.follows':
     case 'steam.forums':
+    case 'steam.playtests':
+    case 'steam.playTime':
       id = link.match(/app\/([\d]+)/)?.[1] || '';
       break;
     case 'steam.workshops':

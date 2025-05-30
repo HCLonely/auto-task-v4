@@ -1,9 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-13 13:18:21
- * @LastEditTime : 2022-12-19 09:55:41
+ * @LastEditTime : 2025-05-30 10:21:32
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/global.d.ts
+ * @FilePath     : /auto-task-v4/src/global.d.ts
  */
 
 import ClientTransaction from './scripts/social/TID/transaction';
@@ -88,10 +88,11 @@ declare global {
     announcements?: Array<string>
     licenses?: Array<string>
     playtests?: Array<string>
+    playTime?: Array<string>
   }
   type socialType = 'discord' | 'instagram' | 'reddit' | 'steam' | 'twitch' | 'twitter' | 'vk' | 'youtube'
   type taskTypes = 'servers' | 'users' | 'reddits' | 'channels' | 'retweets' | 'likes' | 'names' | 'groups' | 'officialGroups' | 'publics' | 'walls' |
-    'wishlists' | 'follows' | 'forums' | 'workshops' | 'curators' | 'workshopVotes' | 'curatorLikes' | 'announcements' | 'licenses' | 'playtests'
+    'wishlists' | 'follows' | 'forums' | 'workshops' | 'curators' | 'workshopVotes' | 'curatorLikes' | 'announcements' | 'licenses' | 'playtests' | 'playTime'
 
   interface discordTasks {
     servers: Array<string>
@@ -115,6 +116,7 @@ declare global {
     announcements: Array<string>
     licenses: Array<string>
     playtests: Array<string>
+    playTime: Array<string>
   }
   interface twitchTasks {
     channels: Array<string>

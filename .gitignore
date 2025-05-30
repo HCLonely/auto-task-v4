@@ -5,6 +5,7 @@ stats.json
 
 temp
 test/
+test-*
 
 TID/
 XTID/

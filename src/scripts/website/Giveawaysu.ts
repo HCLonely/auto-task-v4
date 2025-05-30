@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-08 10:37:13
- * @LastEditTime : 2024-07-02 10:38:14
+ * @LastEditTime : 2025-05-30 10:44:09
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-v4/src/scripts/website/Giveawaysu.ts
  * @Description  : https://giveaway.su/
@@ -28,7 +28,8 @@ const defaultTasks: gasSocialTasks = {
     forumLinks: [],
     announcementLinks: [],
     workshopVoteLinks: [],
-    playtestLinks: []
+    playtestLinks: [],
+    playTimeLinks: []
   },
   discord: {
     serverLinks: []

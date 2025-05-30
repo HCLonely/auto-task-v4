@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-14 11:46:52
- * @LastEditTime : 2024-07-02 10:38:37
+ * @LastEditTime : 2025-05-30 11:10:47
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-v4/src/scripts/website/GiveeClub.ts
  * @Description  : https://givee.club/
@@ -193,6 +193,9 @@ class GiveeClub extends GiveawaySu {
               this.undoneTasks.steam.curatorLikeLinks.push(taskLink);
             } else if (/subscribe.*steam.*forum/gim.test(taskName)) {
               this.undoneTasks.steam.forumLinks.push(taskLink);
+            } else if (taskType === 'steam.game.playtime' && /^https?:\/\/store\.steampowered\.com\/app\//.test(taskLink)) {
+              const time = taskDes.text().match(/(\d+)(?:\.\d+)?/gim)?.[0] || '0';
+              this.undoneTasks.steam.playTimeLinks.push(`${time}-${taskLink}`);
             } else if (taskIcon.includes('discord')) { // ok
               this.undoneTasks.discord.serverLinks.push(taskLink);
             } else if (taskIcon.includes('instagram')) {

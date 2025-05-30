@@ -120,7 +120,8 @@ const defaultGlobalOptions: globalOptions = {
       workshopVotes: true,
       announcements: true,
       licenses: true,
-      playtests: true
+      playtests: true,
+      playTime: true
     }
   },
   undoTask: {
@@ -154,7 +155,8 @@ const defaultGlobalOptions: globalOptions = {
       follows: true,
       forums: true,
       workshops: true,
-      curators: true
+      curators: true,
+      playTime: true
     }
   },
   ASF: {

@@ -1,9 +1,9 @@
 {
   "name": "auto-task-v4",
-  "version": "4.7.8",
+  "version": "4.7.9",
   "change": [
-    "修复: Twitter转推失败",
-    "优化: 部分说明文本"
+    "修复: Twitter获取csrf token失败(45)",
+    "新增: 通过ASF挂游戏时长"
   ],
   "description": "赠Key站自动任务脚本",
   "engines": {

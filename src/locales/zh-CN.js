@@ -1,9 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-11-20 19:38:41
- * @LastEditTime : 2023-03-12 10:28:06
+ * @LastEditTime : 2025-05-30 10:47:00
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/locales/zh-CN.js
+ * @FilePath     : /auto-task-v4/src/locales/zh-CN.js
  * @Description  : i18n中文
  */
 const data = {
@@ -181,6 +181,7 @@ const data = {
   steamStore: 'Steam商店',
   licenses: '入库免费游戏',
   playtests: '请求访问权限',
+  playTime: '挂时长',
   needLoginSteamStore: '请先<a href="https://store.steampowered.com/login/" target="_blank">登录Steam商店</a>',
   needLoginSteamCommunity: '请先<a href="https://steamcommunity.com/login/home/" target="_blank">登录Steam社区</a>',
   joiningSteamGroup: '正在加入Steam组',
@@ -222,9 +223,14 @@ const data = {
   owned: '已拥有',
   redirect: '重定向',
   noSubid: '无法获取，跳过',
+  noASFInstance: '未启用ASF',
 
   // Steam ASF
   initingASF: '正在初始化ASF...',
+  playingGames: '正在挂游戏时长[%0]...',
+  stoppingPlayGames: '正在停止挂游戏时长...',
+  stopPlayTimeTitle: 'Steam游戏挂机时长满足，是否结束挂机？',
+  stopPlayTimeText: '挂机已超时：%0 分钟',
 
   // Discord
   servers: '服务器',

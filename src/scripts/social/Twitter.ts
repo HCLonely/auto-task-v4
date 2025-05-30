@@ -1,7 +1,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 10:36:57
- * @LastEditTime : 2024-07-02 10:38:06
+ * @LastEditTime : 2025-05-30 09:47:14
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-v4/src/scripts/social/Twitter.ts
  * @Description  : Twitter 关注/取关用户,转推/取消转推推文
@@ -204,8 +204,8 @@ class Twitter extends Social {
         // eslint-disable-next-line camelcase
         GM_cookie.list({ url: 'https://x.com/settings/account' }, async (cookies, error) => {
           if (!error) {
-            const [ct0, isLogin] = cookies.map((cookie) => (['ct0', 'twid'].includes(cookie.name) ? cookie.value : null)).filter((cookie) => cookie);
-
+            const ct0 = cookies.find((cookie) => cookie.name === 'ct0')?.value;
+            const isLogin = cookies.find((cookie) => cookie.name === 'twid')?.value;
             if (isLogin && ct0) {
               GM_setValue('twitterAuth', { ct0 });
               this.#auth = { ct0 };

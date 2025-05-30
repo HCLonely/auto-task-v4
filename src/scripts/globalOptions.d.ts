@@ -1,9 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-24 17:21:16
- * @LastEditTime : 2022-02-12 17:59:21
+ * @LastEditTime : 2025-05-30 09:50:55
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/scripts/globalOptions.d.ts
+ * @FilePath     : /auto-task-v4/src/scripts/globalOptions.d.ts
  */
 
 interface globalOptions {
@@ -43,6 +43,7 @@ interface globalOptions {
       announcements: boolean
       licenses: boolean
       playtests: boolean
+      playTime: boolean
     }
   },
   undoTask: {
@@ -77,6 +78,7 @@ interface globalOptions {
       forums: boolean
       workshops: boolean
       curators: boolean
+      playTime: boolean
     }
   },
   ASF: {

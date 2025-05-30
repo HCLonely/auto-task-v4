@@ -1,9 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-26 15:03:26
- * @LastEditTime : 2022-11-29 09:18:54
+ * @LastEditTime : 2025-05-30 11:14:43
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/scripts/echoLog.ts
+ * @FilePath     : /auto-task-v4/src/scripts/echoLog.ts
  * @Description  :
  */
 import throwError from './tools/throwError';

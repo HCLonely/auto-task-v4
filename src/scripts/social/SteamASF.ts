@@ -1,9 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2023-01-08 11:13:03
+ * @LastEditTime : 2025-05-30 11:15:42
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/scripts/social/SteamASF.ts
+ * @FilePath     : /auto-task-v4/src/scripts/social/SteamASF.ts
  * @Description  : steam ASF相关功能
  */
 
@@ -63,6 +63,13 @@ import { globalOptions } from '../globalOptions';
  * @method requestPlayTestAccess - 请求访问指定Steam游戏的试玩权限。
  * @param {string} id - Steam游戏的AppId。
  * @returns {Promise<boolean>} - 返回一个Promise，表示请求操作的结果。
+ *
+ * @method playTime - 请求指定Steam游戏的游玩时间。
+ * @param {string} ids - Steam游戏的AppId。
+ * @returns {Promise<boolean>} - 返回一个Promise，表示请求操作的结果。
+ *
+ * @method stopPlayTime - 停止指定Steam游戏的游玩时间。
+ * @returns {Promise<boolean>} - 返回一个Promise，表示停止操作的结果。
  */
 class SteamASF {
   #asfOptions!: httpRequestOptions;
@@ -515,11 +522,12 @@ class SteamASF {
   async addLicense(id: string): Promise<boolean> {
     try {
       const [type, ids] = id.split('-');
+      const idsArr = ids.split(',');
       if (type === 'appid') {
         const logStatus = echoLog({ type: 'addingFreeLicense', text: ids });
         const { result, statusText, status, data } = await httpRequest({
           ...this.#asfOptions,
-          data: JSON.stringify({ Command: `!addlicense ${this.#botName} app/${ids}` })
+          data: JSON.stringify({ Command: `!addlicense ${this.#botName} ${idsArr.map((id) => `app/${id}`).join(',')}` })
         });
         if (result === 'Success') {
           if (data?.status === 200 &&
@@ -534,8 +542,6 @@ class SteamASF {
         logStatus.error(`${result}:${statusText}(${status})`);
         return false;
       } else if (type === 'subid') {
-        const idsArr = ids.split(',');
-
         const logStatus = echoLog({ type: 'addingFreeLicenseSubid', text: ids });
         const { result, statusText, status, data } = await httpRequest({
           ...this.#asfOptions,
@@ -605,7 +611,93 @@ class SteamASF {
       logStatus.error(`${result}:${statusText}(${status})`);
       return false;
     } catch (error) {
-      throwError(error as Error, 'Steam.requestPlayTestAccess');
+      throwError(error as Error, 'SteamASF.requestPlayTestAccess');
+      return false;
+    }
+  }
+
+  /**
+   * Steam游戏挂游玩时长。
+   *
+   * @async
+   * @function playGames
+   * @param {string} ids - Steam游戏的AppId。
+   * @returns {Promise<boolean>} - 返回一个Promise，表示请求操作的结果。
+   *                              - true: 请求成功
+   *                              - false: 请求失败
+   *
+   * @description
+   * 该方法通过发送HTTP请求来挂游玩指定Steam游戏的时长。
+   * 请求的命令格式为`!play <botName> <ids>`，其中`ids`可以是多个游戏的AppId，以逗号分隔。
+   * 如果请求成功且返回结果为'Success'，并且响应状态为200且包含正在运行的状态，则返回true。
+   * 如果请求失败或返回的状态不符合预期，则记录错误信息并返回false。
+   * 如果在请求过程中发生错误，将抛出错误并返回false。
+   */
+  async playGames(ids: string): Promise<boolean> {
+    try {
+      await this.addLicense(`appid-${ids}`);
+      const logStatus = echoLog({ text: __('playingGames', ids) });
+
+      const { result, statusText, status, data } = await httpRequest({
+        ...this.#asfOptions,
+        data: JSON.stringify({ Command: `!play ${this.#botName} ${ids}` })
+      });
+      if (result === 'Success') {
+        if (data?.status === 200 &&
+          ['正在运行'].find((text) => (data.response?.Result?.includes(text))) // todo: 需要识别其他语言
+        ) {
+          logStatus.success();
+          return true;
+        }
+        logStatus.error(`Error:${data?.response?.Result || data?.response?.Message || data?.statusText}(${data?.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'SteamASF.playGames');
+      return false;
+    }
+  }
+
+  /**
+   * Steam游戏停止挂游玩时长。
+   *
+   * @async
+   * @function stopPlayGames
+   * @returns {Promise<boolean>} - 返回一个Promise，表示请求操作的结果。
+   *                              - true: 请求成功
+   *                              - false: 请求失败
+   *
+   * @description
+   * 该方法通过发送HTTP请求来停止挂游玩指定Steam游戏的时长。
+   * 请求的命令格式为`!reset <botName>`。
+   * 如果请求成功且返回结果为'Success'，并且响应状态为200且包含完成的状态，则返回true。
+   * 如果请求失败或返回的状态不符合预期，则记录错误信息并返回false。
+   * 如果在请求过程中发生错误，将抛出错误并返回false.
+   */
+  async stopPlayGames(): Promise<boolean> {
+    try {
+      const logStatus = echoLog({ text: __('stoppingPlayGames') });
+
+      const { result, statusText, status, data } = await httpRequest({
+        ...this.#asfOptions,
+        data: JSON.stringify({ Command: `!reset ${this.#botName}` })
+      });
+      if (result === 'Success') {
+        if (data?.status === 200 &&
+          ['完成'].find((text) => (data.response?.Result?.includes(text))) // todo: 需要识别其他语言
+        ) {
+          logStatus.success();
+          return true;
+        }
+        logStatus.error(`Error:${data?.response?.Result || data?.response?.Message || data?.statusText}(${data?.status})`);
+        return false;
+      }
+      logStatus.error(`${result}:${statusText}(${status})`);
+      return false;
+    } catch (error) {
+      throwError(error as Error, 'SteamASF.stopPlayGames');
       return false;
     }
   }

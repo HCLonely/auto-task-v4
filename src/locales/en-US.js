@@ -1,9 +1,9 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-12-30 17:08:27
- * @LastEditTime : 2023-03-12 10:28:32
+ * @LastEditTime : 2025-05-30 10:42:22
  * @LastEditors  : HCLonely
- * @FilePath     : /auto-task-new/src/locales/en-US.js
+ * @FilePath     : /auto-task-v4/src/locales/en-US.js
  * @Description  : i18n英文
  */
 const data = {
@@ -240,9 +240,14 @@ const data = {
   owned: 'Owned',
   redirect: 'Redirect',
   noSubid: 'skip due to unrecognized',
+  noASFInstance: 'ASF is not enabled',
 
   // Steam ASF
   initingASF: 'Initing ASF...',
+  playingGames: 'Playing games [%0]...',
+  stoppingPlayGames: 'Stopping play games...',
+  stopPlayTimeTitle: 'The Steam game idle time has finished. Do you want to end it?',
+  stopPlayTimeText: 'Time out: %0 minutes',
 
   // Discord
   servers: 'Server',

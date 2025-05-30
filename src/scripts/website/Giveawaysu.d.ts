@@ -17,6 +17,7 @@ declare interface gasSocialTasks {
     announcementLinks: Array<string>
     workshopVoteLinks: Array<string>
     playtestLinks: Array<string>
+    playTimeLinks: Array<string>
   }
   discord: {
     serverLinks: Array<string>

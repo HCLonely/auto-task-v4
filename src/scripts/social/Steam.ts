@@ -2,7 +2,7 @@
 /*
  * @Author       : HCLonely
  * @Date         : 2021-10-04 16:07:55
- * @LastEditTime : 2024-11-12 20:38:21
+ * @LastEditTime : 2025-05-30 11:12:17
  * @LastEditors  : HCLonely
  * @FilePath     : /auto-task-v4/src/scripts/social/Steam.ts
  * @Description  : steam相关功能
@@ -275,7 +275,8 @@ class Steam extends Social {
       curatorLikes: [],
       announcements: [],
       licenses: [],
-      playtests: []
+      playtests: [],
+      playTime: []
     };
     this.tasks = defaultTasksTemplate;
     this.whiteList = { ...defaultTasksTemplate, ...(GM_getValue<whiteList>('whiteList')?.steam || {}) };
@@ -2341,6 +2342,52 @@ class Steam extends Social {
   }
 
   /**
+   * Steam游戏挂游玩时长。
+   *
+   * @async
+   * @function #playGames
+   * @param {string} ids - Steam游戏的AppId, 多个id英文逗号间隔。
+   * @param {number} playTime - Steam游戏的挂机时长，单位：分钟。
+   * @param {boolean} [doTask=true] - true表示挂时长，false表示停止挂时长，默认为true。
+   * @returns {Promise<boolean>} - 返回一个Promise，表示请求操作的结果。
+   *                              - true: 请求成功
+   *                              - false: 请求失败
+   * @throws {Error} - 如果在请求过程中发生错误，将抛出错误。
+   *
+   * @description
+   * 该函数用于挂Steam游戏的游玩时长。
+   * 如果存在ASF实例，则调用ASF的`playGames`方法进行操作。
+   * 如果ASF不存在，则记录提示信息并返回false。
+   * 如果请求成功，则记录成功信息并返回true。
+   * 如果请求失败或发生错误，则记录错误信息并返回false。
+   */
+  async #playGames(ids: string, playTime: number, doTask: boolean = true): Promise<boolean> {
+    try {
+      if (playTime <= 0) {
+        return true;
+      }
+      if (!this.#ASF) {
+        echoLog({}).warning(__('noASFInstance'));
+        return false;
+      }
+      if (!doTask) {
+        return await this.#ASF.stopPlayGames();
+      }
+      const result = await this.#ASF.playGames(ids);
+      if (!result) {
+        return false;
+      }
+      const stopPlayTime = Date.now() + ((playTime + 10) * 60 * 1000);
+      const stopPlayTimeOld = GM_getValue<number>('stopPlayTime', 0)  || 0;
+      GM_setValue('stopPlayTime', stopPlayTime > stopPlayTimeOld ? stopPlayTime : stopPlayTimeOld);
+      return true;
+    } catch (error) {
+      throwError(error as Error, 'Steam.playGames');
+      return false;
+    }
+  }
+
+  /**
    * 切换Steam相关任务的执行状态。
    *
    * @async
@@ -2383,7 +2430,8 @@ class Steam extends Social {
     curatorLikeLinks = [],
     announcementLinks = [],
     licenseLinks = [],
-    playtestLinks = []
+    playtestLinks = [],
+    playTimeLinks = []
   }: {
     doTask?: boolean,
     groupLinks?: Array<string>,
@@ -2398,6 +2446,7 @@ class Steam extends Social {
     announcementLinks?: Array<string>,
     licenseLinks?: Array<string>,
     playtestLinks?: Array<string>,
+    playTimeLinks?: Array<string>
   }): Promise<boolean> {
     try {
       if ([...groupLinks, ...officialGroupLinks, ...forumLinks, ...workshopLinks, ...workshopVoteLinks].length > 0 && !this.#communityInitialized) {
@@ -2405,7 +2454,7 @@ class Steam extends Social {
         return false;
       }
       if ([
-        ...wishlistLinks, ...followLinks, ...curatorLinks, ...curatorLikeLinks, ...announcementLinks, ...licenseLinks, ...playtestLinks
+        ...wishlistLinks, ...followLinks, ...curatorLinks, ...curatorLikeLinks, ...announcementLinks, ...licenseLinks, ...playtestLinks, ...playTimeLinks
       ].length > 0 &&
           !this.#storeInitialized) {
         echoLog({ text: __('needInit') });
@@ -2482,6 +2531,28 @@ class Steam extends Social {
             prom.push(this.#toggleFollowGame(game, doTask));
             await delay(1000);
           }
+        }
+      }
+
+      if (
+        (doTask && !globalOptions.doTask.steam.playTime) ||
+        (!doTask && !globalOptions.undoTask.steam.playTime)
+      ) {
+        echoLog({ type: 'globalOptionsSkip', text: 'steam.playTime' });
+      } else {
+        const realGames = this.getRealParams('playTime', playTimeLinks, doTask, (link) => `${link.split('-')[0]}-${link.match(/app\/([\d]+)/)?.[1] || ''}`);
+        if (realGames.length > 0) { // 批量识别游戏Id，取时间最大值
+          let maxTime = 0;
+          const games = [];
+          for (const info of realGames) {
+            const [time, game] = info.split('-');
+            maxTime = Math.max(maxTime, parseInt(time, 10) || 0);
+            if ((parseInt(time, 10) || 0) > 0 && game) {
+              games.push(game);
+            }
+          }
+          prom.push(this.#playGames(games.join(','), maxTime, doTask));
+          await delay(1000);
         }
       }
 
